@@ -167,9 +167,6 @@ int conHelp();
 // Display information about the version of OpenGL we are running
 int conOpenGLInfo();
 
-// Execute external file
-int conExecFile(const char *param1);
-
 // Show the commands added from a script
 int showScriptAddedCommands();
 

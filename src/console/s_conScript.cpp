@@ -4,7 +4,7 @@
 #include "s_window.h"
 #include "s_ttfFont.h"
 #include "s_assimp.h"
-#include "scriptbuilder.h"
+#include "as_scriptbuilder.h"
 
 unsigned int		numFunctionsInScripts;
 unsigned int		numHostScriptFunctions;
@@ -53,7 +53,7 @@ typedef struct
 
 _scriptInfo     scriptInfo[] =
 {
-	{"data/scripts/conCommands.as",            "script"},
+	{"conCommands.as",            "script"},
 	{"",            ""},
 };
 
@@ -372,15 +372,15 @@ bool util_cacheFunctionIDs()
 bool sys_fileIntoMemory ( char *whichFile )
 //-------------------------------------------------------------------------------
 {
-	int64_t 		fileSize;
-	char 			fileName[128];
-	ALLEGRO_FILE*	fileHandle;
+	PHYSFS_sint64 		fileSize;
+	char 				fileName[128];
+	PHYSFS_File*		fileHandle;
 
 	strcpy ( fileName, whichFile );
 
 	printf("Opening file [ %s ] into memory\n", fileName);
 
-	fileHandle = al_fopen ( fileName, "r" );
+	fileHandle = PHYSFS_openRead(fileName);
 
 	if ( NULL == fileHandle )
 		{
@@ -388,7 +388,7 @@ bool sys_fileIntoMemory ( char *whichFile )
 			return false;
 		}
 
-	fileSize = al_fsize ( fileHandle );
+	fileSize = PHYSFS_fileLength( fileHandle );
 	con_print ( true, true, "Size of script [ %i ] - [ %s ]", fileSize, fileName );
 
 	//
@@ -408,11 +408,11 @@ bool sys_fileIntoMemory ( char *whichFile )
 			return false;
 		}
 
-	if ( al_fread ( fileHandle, ( void * ) fileLocation, ( size_t ) fileSize ) <= 0 )
+	if ( PHYSFS_read( fileHandle, ( void * ) fileLocation, ( size_t ) fileSize, 1 ) <= 0 )
 		//sys_errorFatal ( "sys_fileIntoMemory", __LINE__, ( char * ) "Read error [ %s ]", fileName );
 		return false;
 
-	al_fclose ( fileHandle );
+	PHYSFS_close( fileHandle );
 
 	fileLocation[fileSize - 1] = '\0';
 	return true;

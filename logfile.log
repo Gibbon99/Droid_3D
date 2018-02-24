@@ -17,16 +17,19 @@ OpenGL robustness strategy parsed by GLFW: none
 OpenGL context renderer string: "GeForce GT 730/PCIe/SSE2"
 OpenGL context vendor string: "NVIDIA Corporation"
 OpenGL context shading language version: "3.30 NVIDIA via Cg compiler"
-Compiled against PhysFS version 2.0.3.
-Linked against PhysFS version 2.0.3.
+Compiled against PhysFS version 3.0.1.
+Linked against PhysFS version 3.0.1.
 Packfile: Supported archive types.
 Packfile: [ ZIP ] : [ PkZip/WinZip/Info-Zip compatible ]
-Packfile: [ 7Z ] : [ LZMA (7zip) format ]
+Packfile: [ 7Z ] : [ 7zip archives ]
 Packfile: [ GRP ] : [ Build engine Groupfile format ]
 Packfile: [ PAK ] : [ Quake I/II format ]
 Packfile: [ HOG ] : [ Descent I/II HOG file format ]
 Packfile: [ MVL ] : [ Descent II Movielib format ]
 Packfile: [ WAD ] : [ DOOM engine format ]
+Packfile: [ SLB ] : [ I-War / Independence War Slab file ]
+Packfile: [ ISO ] : [ ISO9660 image file ]
+Packfile: [ VDF ] : [ Gothic I/II engine format ]
 Script: Call type [ asCALL_CDECL ]
 Script: Registered variable - [ bool quitProgram ]
 Script: Registered variable - [ int winWidth ]
@@ -67,7 +70,7 @@ Registered function [ void lib_resizeWindow(int newWidth, int newHeight) ]
 Registered function [ bool ttf_setFontName(string &in) ]
 Registered function [ bool ttf_initLibrary(int fontSize, int whichFont) ]
 Registered function [ bool ass_loadModel(int whichModel, string &in, float scaleFactor) ]
-Size of script [ 4359 ] - [ data/scripts/conCommands.as ]
+Size of script [ 4359 ] - [ conCommands.as ]
 Number of functions in script [ 3 ]
 -----------------------------------------------------------------------
 Vertex shader compiled ok - [ depthMap.vert ]

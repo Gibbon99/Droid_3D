@@ -6,6 +6,9 @@
 *.exe
 *.o
 *.so
+*.so.d
+
+Debug/
 
 # Packages #
 ############

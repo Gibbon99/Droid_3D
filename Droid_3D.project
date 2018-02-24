@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="Droid_3D" Version="10.0.0" InternalType="Console">
+  <VirtualDirectory Name="data">
+    <File Name=".gitignore"/>
+  </VirtualDirectory>
+  <Reconciliation>
+    <Regexes/>
+    <Excludepaths/>
+    <Ignorefiles/>
+    <Extensions>
+      <![CDATA[*.cpp;*.c;*.h;*.hpp;*.xrc;*.wxcp;*.fbp]]>
+    </Extensions>
+    <Topleveldir>/home/dberry/Documents/Devel/1_Current/GL3/Current/Droid_3D</Topleveldir>
+  </Reconciliation>
   <VirtualDirectory Name="hdr">
+    <VirtualDirectory Name="physfs">
+      <File Name="hdr/physfs/physfs_platforms.h"/>
+      <File Name="hdr/physfs/physfs_miniz.h"/>
+      <File Name="hdr/physfs/physfs_lzmasdk.h"/>
+      <File Name="hdr/physfs/physfs_internal.h"/>
+      <File Name="hdr/physfs/physfs_casefolding.h"/>
+      <File Name="hdr/physfs/physfs.h"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="bsp">
       <File Name="hdr/bsp/s_shaderLights.h"/>
       <File Name="hdr/bsp/s_lightMaps.h"/>
@@ -351,7 +371,6 @@
       <File Name="hdr/system/s_render.h"/>
       <File Name="hdr/system/s_frustum.h"/>
       <File Name="hdr/system/s_startup.h"/>
-      <File Name="hdr/system/orig s_camera.h"/>
       <File Name="hdr/system/s_shutdown.h"/>
       <File Name="hdr/system/s_defines.h"/>
       <File Name="hdr/system/s_runFrame.h"/>
@@ -363,6 +382,30 @@
     </VirtualDirectory>
   </VirtualDirectory>
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="physfs">
+      <File Name="src/physfs/physfs_unicode.c"/>
+      <File Name="src/physfs/physfs_platform_winrt.cpp"/>
+      <File Name="src/physfs/physfs_platform_windows.c"/>
+      <File Name="src/physfs/physfs_platform_unix.c"/>
+      <File Name="src/physfs/physfs_platform_qnx.c"/>
+      <File Name="src/physfs/physfs_platform_posix.c"/>
+      <File Name="src/physfs/physfs_platform_os2.c"/>
+      <File Name="src/physfs/physfs_platform_haiku.cpp"/>
+      <File Name="src/physfs/physfs_byteorder.c"/>
+      <File Name="src/physfs/physfs_archiver_zip.c"/>
+      <File Name="src/physfs/physfs_archiver_wad.c"/>
+      <File Name="src/physfs/physfs_archiver_vdf.c"/>
+      <File Name="src/physfs/physfs_archiver_unpacked.c"/>
+      <File Name="src/physfs/physfs_archiver_slb.c"/>
+      <File Name="src/physfs/physfs_archiver_qpak.c"/>
+      <File Name="src/physfs/physfs_archiver_mvl.c"/>
+      <File Name="src/physfs/physfs_archiver_iso9660.c"/>
+      <File Name="src/physfs/physfs_archiver_hog.c"/>
+      <File Name="src/physfs/physfs_archiver_grp.c"/>
+      <File Name="src/physfs/physfs_archiver_dir.c"/>
+      <File Name="src/physfs/physfs_archiver_7z.c"/>
+      <File Name="src/physfs/physfs.c"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="bsp">
       <File Name="src/bsp/s_loadBsp.cpp"/>
       <File Name="src/bsp/s_renderBSP.cpp"/>
@@ -384,7 +427,6 @@
       <File Name="src/console/s_conVariables.cpp"/>
       <File Name="src/console/s_conScript.cpp"/>
       <File Name="src/console/s_comHelp.cpp"/>
-      <File Name="src/console/s_comExecFile.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="openGL">
       <File Name="src/openGL/s_defRender.cpp"/>
@@ -493,6 +535,7 @@
         <IncludePath Value="hdr/libGL"/>
         <IncludePath Value="hdr/openGL"/>
         <IncludePath Value="hdr/script"/>
+        <IncludePath Value="hdr/physfs"/>
         <IncludePath Value="/usr/include/bullet"/>
         <IncludePath Value="/usr/include/freetype2"/>
       </Compiler>
@@ -503,7 +546,6 @@
         <Library Value="glload"/>
         <Library Value="rt"/>
         <Library Value="pthread"/>
-        <Library Value="physfs"/>
         <Library Value="freetype"/>
         <Library Value="AntTweakBar"/>
         <Library Value="X11"/>
@@ -513,7 +555,6 @@
         <Library Value="LinearMath"/>
         <Library Value="assimp"/>
         <Library Value="freeimage"/>
-        <Library Value="allegro"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>

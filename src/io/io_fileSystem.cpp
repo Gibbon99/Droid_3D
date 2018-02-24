@@ -1,4 +1,5 @@
 #include "s_globals.h"
+#include "physfs.h"
 
 bool        fileSystemReady = false;
 
@@ -42,7 +43,7 @@ bool io_startFileSystem()
 
 	if (PHYSFS_init(NULL) == 0)
 		{
-			io_logToFile((char *)"Error: Filesystem failed to start - [ %s ]", PHYSFS_getLastError());
+			io_logToFile((char *)"Error: Filesystem failed to start - [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			fileSystemReady = false;
 			return false;
 		}
@@ -57,7 +58,7 @@ bool io_startFileSystem()
 	// Setup directory to write if needed
 	if (0 == PHYSFS_setWriteDir ("data"))
 		{
-			io_logToFile("ERROR: Failed to set write path [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Failed to set write path [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			io_logToFile("INFO: The directory [ data ] holding all the data files is not present. Check the installation.");
 			fileSystemReady = false;
 			return false;
@@ -65,54 +66,54 @@ bool io_startFileSystem()
 
 	//
 	// Set base directory
-	if (0 == PHYSFS_addToSearchPath ("data",1))
+	if (0 == PHYSFS_mount ("data", "/", 1))
 		{
-			io_logToFile("ERROR: Failed to set search path - data [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Failed to set search path - data [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			fileSystemReady = false;
 			return false;
 		}
 
 	//
 	// Add directory for loading scripts - move to archive file
-	if (0 == PHYSFS_addToSearchPath ("data//scripts",1))
+	if (0 == PHYSFS_mount ("data//scripts","/", 1))
 		{
-			io_logToFile("ERROR: Failed to set search path - scripts [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Failed to set search path - scripts [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			fileSystemReady = false;
 			return false;
 		}
 
 	//
 	// Add directory for loading shaders - move to archive file
-	if (0 == PHYSFS_addToSearchPath ("data//shaders",1))
+	if (0 == PHYSFS_mount ("data//shaders", "/", 1))
 		{
-			io_logToFile("ERROR: Failed to set search path - shaders [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Failed to set search path - shaders [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			fileSystemReady = false;
 			return false;
 		}
 
 	//
 	// Add directory for loading textures - move to archive file
-	if (0 == PHYSFS_addToSearchPath ("data//textures",1))
+	if (0 == PHYSFS_mount ("data//textures", "/", 1))
 		{
-			io_logToFile("ERROR: Failed to set search path - shaders [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Failed to set search path - shaders [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			fileSystemReady = false;
 			return false;
 		}
 
 	//
 	// Add directory for loading old levels for tile information
-	if (0 == PHYSFS_addToSearchPath ("data//maps",1))
+	if (0 == PHYSFS_mount ("data//maps", "/", 1))
 		{
-			io_logToFile("ERROR: Failed to set search path - import [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Failed to set search path - import [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			fileSystemReady = false;
 			return false;
 		}
 
 	//
 	// Add archive file
-	if (0 == PHYSFS_addToSearchPath ("data//data.zip",1))
+	if (0 == PHYSFS_mount ("data//data.zip", "/", 1))
 		{
-			io_logToFile("ERROR: Failed to set search path - data.zip - [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Failed to set search path - data.zip - [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			fileSystemReady = false;
 			return false;
 		}
@@ -206,11 +207,11 @@ int io_getFileIntoMemory(char *fileName, char *results)
 
 	//
 	// Read contents of file into the pointer
-	int returnCode = (int)PHYSFS_read(compFile, (void *)results, (PHYSFS_uint32)fileLength, 1);
+	int returnCode = (int)PHYSFS_readBytes(compFile, (void *)results, (PHYSFS_uint32)fileLength);
 
 	if (-1 == returnCode)
 		{
-			io_logToFile("ERROR: Filesystem read failed - [ %s ]", PHYSFS_getLastError());
+			io_logToFile("ERROR: Filesystem read failed - [ %s ]", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			return -1;
 		}
 
