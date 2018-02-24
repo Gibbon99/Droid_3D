@@ -1,0 +1,201 @@
+
+1 - Create FBO textures
+2 - Create shadowmap texture
+3 - Move Camera to light position and render to shadowmap
+4 - Move Camera to eye position and render to FBO textures
+5 - Draw full screen quad looking up FBO textures and shadowmap
+
+
+One FBO instance:
+
+For shadowmap - attach shadowMap depth textureBuffer
+Render from Camera viewpoint
+
+For Light drawing
+Attach other depth buffer
+
+Global FBO
+Two depth textures
+Three color buffers
+
+
+9/12/13     - Click on voxel to highlight, click again to deslect
+10/12/13    - Fixed up TTF vertical spacing for dropping down glyphs
+11/12/13    - Cleaned up color printing in console
+            - Cleaned up printing TTF fonts, seems to be correct dropping of glyphs now
+            - Added ability set size and position of AntBar from startup script
+29/12/13	- Used Camera controlling code from Quake style camera using GLM
+
+Indexes into vert array
+
+
+
+_voxel
+
+float size
+float pos
+int type
+int texID
+
+World is defined by:
+
+X - how wide
+Y - maximum height
+Z - how long ( into the screen)
+
+Read the tiles from existing file?
+
+Project walls up to Y?
+
+Use tile graphics on each Voxel?
+
+for each voxel
+- is it in the frustrum ( do bounding box tests against groups of voxels ) - reject
+- is it behind another voxel or surrounded by other voxels on all sides - remove it from map ( reject )
+- see if the face is touching another face - remove both
+- calculate the vertices and normals for the remainder, upload to card
+
+
+or - have all voxels loaded on card - VBO.
+- pass in indexes for visible voxels
+
+Map format
+----------------
+3 dimensional array- each entry in the array is either a
+
+array[i][j][k] = array[M*L*i + L*j + k]
+
+// Malloc 3d array
+int (*a)[13][7]; // imitates 3d array with unset 3rd dimension
+                 // actually it is a pointer to 2d arrays
+
+a = (int(*)[13][7]) malloc(57*13*12*sizeof(int)); // allocates memory
+                                                  // allocates 2d array 57 times
+
+a[35][7][3] = 12; // accessing element is conventional
+
+free(a); // freeing memory
+// end malloc
+
+//---------------------------------------------------------------
+// Draw all voxels
+void drawAllVoxels()
+
+IndexPosition = x*chunkwidth*chunkheight + z*chunkheight + y
+
+//---------------------------------------------------------------
+
+for (int width = 0; width != mapWidth; width++)
+{
+  for (int height = 0; height != mapHeight; height++)
+    {
+      for (int length = 0; length != mapLength; length++)
+        {
+        position.x = width * voxelSize;
+        position.y = height * voxelSize;
+        position.z = length * voxelSize;
+
+Collision detection
+------------------------
+1 - if player is in empty space - cast ray in direction of travel - if empty - move forward - might not take into
+account width of player
+
+2 - box vs box collision - could be wider than player width
+
+3 - sphere vs box collision
+
+Moving doors
+-------------------
+Trigger area based on length and width
+
+Are doors part of the level geometry?  Door cubes should be thinner than wall voxels.
+Editor - select multiple voxels to create door - give it an ID and direction; or
+one single polygon to define a door?
+- Door texture needs to span multiple voxels
+
+Editor
+----------
+Load / Save Map - file IO
+Add/Delete/Edit voxel
+Waypoint management
+
+Map attributes
+- Light entity - dynamic - ambient level as well
+- Door entity
+- Lift entity
+- Console entity
+- Heal entity
+- Alert light entity - same as light entity but coloured
+- Player start position
+- Droid start position
+- Waypoints
+
+Voxel attributes
+- Texture
+- Destroyable
+- Door
+- Moveable ?? Push blocks ( crates ) around?
+
+
+/*-----------------------------------------------
+
+Name:    RaySphereCollision
+
+Params:  vSphereCenter - guess what it is
+	     fSphereRadius - guess what it is
+		 vA, vB - two points of ray
+
+Result:  Checks if a ray given by two points
+		 collides with sphere.
+
+/*---------------------------------------------*/
+
+bool RaySphereCollision(glm::vec3 vSphereCenter, float fSphereRadius, glm::vec3 vA, glm::vec3 vB)
+{
+    // Create the vector from end point vA to center of sphere
+    glm::vec3 vDirToSphere = vSphereCenter - vA;
+
+    // Create a normalized direction vector from end point vA to end point vB
+    glm::vec3 vLineDir = glm::normalize(vB-vA);
+
+    // Find length of line segment
+    float fLineLength = glm::distance(vA, vB);
+
+    // Using the dot product, we project the vDirToSphere onto the vector vLineDir
+    float t = glm::dot(vDirToSphere, vLineDir);
+
+    glm::vec3 vClosestPoint;
+    // If our projected distance from vA is less than or equal to 0, the closest point is vA
+    if (t <= 0.0f)
+        vClosestPoint = vA;
+    // If our projected distance from vA is greater thatn line length, closest point is vB
+    else if (t >= fLineLength)
+        vClosestPoint = vB;
+    // Otherwise calculate the point on the line using t and return it
+    else
+        vClosestPoint = vA+vLineDir*t;
+
+    // Now just check if closest point is within radius of sphere
+    return glm::distance(vSphereCenter, vClosestPoint) <= fSphereRadius;
+}
+
+
+
+----- delete this -------
+
+For the collision detection we are going to use algorithms which are mostly used in ray tracing. Lets first define a ray.
+
+A ray using vector representation is represented using a vector which denotes the start and a vector (usually normalized)
+which is the direction in which the ray travels. Essentially a ray starts from the start point and travels in the direction
+of the direction vector. So our ray equation is:
+
+PointOnRay = Raystart + t * Raydirection
+
+t is a float which takes values from [0, infinity).
+
+With 0 we get the start point and substituting other values we get the corresponding points along the ray.
+
+PointOnRay, Raystart, Raydirection, are 3D Vectors with values (x,y,z).
+
+Now we can use this ray representation and calculate the intersections with plane or cylinders.
+

@@ -1,0 +1,161 @@
+
+ 
+//------------- Setup FBO and texture -------------
+ 
+// size of the shadow map
+GLuint shadowMapSize = 1024;
+ 
+// create the shadow map
+GLint shadowMap;
+glGenTextures(1, &shadowMap);
+glBindTexture(GL_TEXTURE_2D, shadowMap);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, shadowMapSize, shadowMapSize,
+                  0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+ 
+// GL_CLAMP_TO_EDGE setups the shadow map in such a way that
+// fragments for which the shadow map is undefined
+// will get values from closest edges of the shadow map
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+ 
+// comparison mode of the shadow map
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+ 
+////////////////////////////////////////////////////
+ 
+// create framebuffer
+GLint shadowFramebuffer;
+glGenFramebuffers(1, &shadowFramebuffer);
+ 
+// attach the shadow map to framebuffer
+glBindFramebuffer(GL_DRAW_FRAMEBUFFER, shadowFramebuffer);
+glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                           GL_TEXTURE_2D, shadowMap, 0);
+ 
+// depth is stored in z-buffer to which the shadow map is attached,
+// so there is no need for any color buffers
+glDrawBuffer(GL_NONE);
+ 
+ 
+//----------------- Offset rendering for first pass only -----------
+ 
+// activate offset for polygons
+glEnable(GL_POLYGON_OFFSET_FILL);
+// offset by two units equal to smallest value of change in the shadow map
+// and offset by two units depending on the slope of the polygon
+glPolygonOffset(2.0f, 2.0f);
+ 
+ 
+ 
+ 
+ 
+// Vertex shader for first pass
+ 
+#version 330
+ 
+// attributes
+layout(location = 0) in vec3 i_position; // xyz - position
+ 
+// matrices
+uniform mat4 u_modelMat;
+uniform mat4 u_shadowViewMat;
+uniform mat4 u_shadowProjMat;
+ 
+void main(void)
+{
+    // transform to screen space
+    // shader will save z/w value to z-buffer
+    gl_Position = u_shadowProjMat * u_shadowViewMat * u_modelMat * vec4(i_position, 1);
+}
+ 
+// Fragment shader for first pass
+ 
+#version 330
+ 
+// color to framebuffer
+layout (location = 0) out vec4 resultingColor;
+ 
+void main(void)
+{
+    // fragment shader by default is obligated to output color
+    resultingColor = vec4(0, 0, 0, 1);
+}
+ 
+//-------------- Offset matrix for second pass -------------
+ 
+glm::mat4 shadowViewMat = ... // light's view matrix
+glm::mat4 shadowProjMat = ... // light's projection matrix
+ 
+// offset matrix that maps from [-1, 1] to [0, 1] range
+glm::mat4 offsetMat = glm::mat4(
+       glm::vec4(0.5f, 0.0f, 0.0f, 0.0f),
+       glm::vec4(0.0f, 0.5f, 0.0f, 0.0f),
+       glm::vec4(0.0f, 0.0f, 0.5f, 0.0f),
+       glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)
+    );
+ 
+// combination of matrices into shadowMat
+shadowMat = offsetMat * shadowProjMat * shadowViewMat;
+ 
+ 
+// Second pass Vertex shader
+ 
+#version 330
+ 
+// attributes
+layout(location = 0) in vec3 i_position; // xyz - position
+ 
+// matrices
+uniform mat4 u_modelMat;
+uniform mat4 u_viewProjectionMat;
+uniform mat4 u_shadowMat;
+ 
+// texture coordinates to the fragment shader
+// for access to the shadow map
+out vec4 o_shadowCoord;
+ 
+void main(void)
+{
+    // position of the vertex in the scene
+    vec4 worldPos = u_modelMat * vec4(i_position, 1);
+ 
+    // screen space position of the vertex from the light source's point of view
+    // plus it is mapped from range [-1, 1]
+    // to [0, 1] by shadowMat in order to be used
+    // as texture coordinates
+    o_shadowCoord = u_shadowMat * worldPos;
+ 
+    // screen space position of the vertex from camera's point of view
+    gl_Position = u_viewProjectionMat * worldPos;
+}
+ 
+// Second pass fragment shader
+ 
+#version 330
+ 
+// the shadow map from first rendering pass
+layout(location = 0) uniform sampler2DShadow u_shadowMap;
+ 
+// texture coordinates for access to the shadow map
+in vec4 o_shadowCoord;
+ 
+// color to the framebuffer
+layout(location = 0) out vec4 resultingColor;
+ 
+void main(void)
+{
+    // sampling from the shadow map
+    // textureProj() divides o_shadowCoord.xyz by o_shadowCoord.w
+    // then o_shadowCoord.xy are used as 2D texture coords to sample the shadow map
+    // o_shadowCoord.z is automatically compared to the value from the shadow map
+    float shadowFactor = textureProj(u_shadowMap, o_shadowCoord);
+ 
+    // save write or black color to the framebuffer (light/shadow)
+    resultingColor.rgb = vec3(shadowFactor);
+    resultingColor.a = 1;
+}
+ 
+
