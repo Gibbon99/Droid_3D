@@ -5,6 +5,7 @@
 #include "s_entitiesBSP.h"
 #include "s_shaderLights.h"
 #include "s_shaders.h"
+#include "s_doorsBSP.h"
 
 //------------------------------------------------------------
 //
@@ -443,7 +444,6 @@ bool bsp_loadBSP(const char *strFileName, bool verboseOutput)
 
 
 	// Setup the entities into searchable string array
-//	q3bspSetupEntities();
 
 	if (true == verboseOutput)
 		{
@@ -460,6 +460,8 @@ bool bsp_loadBSP(const char *strFileName, bool verboseOutput)
 		printf("Couldn't find player start\n");
 
 	bsp_setLightArrayData(SHADER_RENDER_BSP);
+	
+	printf("Num doors [ %i ]\n", bsp_findNumOfDoors());
 
 	// Return a success
 	return true;
