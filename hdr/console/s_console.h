@@ -3,6 +3,8 @@
 #include "s_globals.h"
 #include "s_openGL.h"
 
+#include <vector>
+
 #define CON_COMMAND_HOST		1
 #define CON_COMMAND_SCRIPT		2
 
@@ -55,18 +57,18 @@ extern _hostScriptFunctions hostVariables[];
 typedef struct
 {
 	int			type;
-	char		command[MAX_STRING_SIZE];
-	char		usage[MAX_STRING_SIZE];
-	char		scriptFunc[MAX_STRING_SIZE];
+	string		command;
+	string		usage;
+	string		scriptFunc;
 	ExternFunc	conFunc;
 } _conCommand;
 
-extern _conCommand	conCommands[NUM_MAX_CON_COMMANDS];
-extern GLint		conCurrentNumCommands;
+extern vector<_conCommand>			conCommands;
+extern int							conCurrentNumCommands;
 
 typedef struct
 {
-	char		conLine[MAX_STRING_SIZE];
+	string		conLine;
 	_glColor	conLineColor;
 } _conLine;
 
@@ -102,28 +104,28 @@ void con_printUpdate (int type, bool fileLog, const char *printText, ...);
 void con_initConsole();
 
 // Process a entered command
-void con_processCommand(char *comLine);
+void con_processCommand ( string comLine );
 
 // Push a command into the console for processing
 void con_pushCommand(char *param1);
 
 // Add a command to the console command list
-bool con_addCommand(const char *command, const char *usage, ExternFunc functionPtr);
+bool con_addCommand ( string command, string usage, ExternFunc functionPtr );
 
 // Display the current prompt
-void con_processBackspaceKey(float interploate);
+void con_processBackspaceKey ( float frameInterval );
 
 // Process the cursor
 void con_processCursor(float frameInterval);
 
 // Add a valid command to the history buffer
-void con_addHistoryCommand(char *command);
+void con_addHistoryCommand ( string command );
 
 // Pop a command from the history buffer
 void con_popHistoryCommand();
 
 // Autocompletion for console commands
-void con_completeCommand(char *lookFor);
+void con_completeCommand ( string lookFor );
 
 // Release the memory for the script file
 void con_scriptShutdown();
@@ -132,10 +134,9 @@ void con_scriptShutdown();
 void con_setColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 
 // Add a script console command to the executable list of functions
-bool sys_addScriptConsoleFunction(char *funcName, char *funcPtr);
+bool sys_addScriptConsoleFunction ( string funcName, string funcPtr, bool setParam );
 
-// Add a script function to the console commands
-bool con_addScriptCommand(int type, std::string command);
+void con_addScriptCommand ( string command, string usage, string funcPtr, bool setParam );
 
 // Execute a console command from a script
 void con_pushScriptCommand(std::string command);
@@ -145,15 +146,6 @@ void sys_scriptPrintStr(std::string *msgText, std::string *msgParam);
 
 // Execute a function from the script
 bool util_executeScriptFunction(string functionName, string funcParam );
-
-void conListVariables();
-
-void conListFunctions();
-
-void conGetVariableValue(string whichVar);
-
-// Set the value of a global script variable
-void conSetVariableValue(string whichVar, string newValue);
 
 //-----------------------------------------------------------------------------
 //
@@ -174,10 +166,12 @@ int showScriptAddedCommands();
 int conScriptExecute(const char *param1);
 
 // List the variables we can change
-bool conListVariables(const char *param1, const char *param2);
+void conListVariables();
+
+void conListFunctions();
 
 // Get the value of a single variable
-bool conGetVariable(const char *param1, const char *param2);
+void conGetVariableValue(string whichVar);
 
-// Set the value of a single variable
-bool conSetVariable(const char *param1, const char *param2);
+// Set the value of a global script variable
+void conSetVariableValue(string whichVar, string newValue);

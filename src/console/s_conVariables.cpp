@@ -241,7 +241,7 @@ void conListVariables()
 //
 // List all the functions registed with the script engine
 // TODO: Make module name a paramter to list functions from it
-void util_listFunctions()
+void conListFunctions()
 //-----------------------------------------------------------
 {
 	asUINT n;

@@ -26,38 +26,38 @@
 #define __gl_ATI_h_
 
 #ifndef APIENTRY
-	#if defined(__MINGW32__)
-		#ifndef WIN32_LEAN_AND_MEAN
-			#define WIN32_LEAN_AND_MEAN 1
-		#endif
-		#ifndef NOMINMAX
-			#define NOMINMAX
-		#endif
-		#include <windows.h>
-	#elif (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED) || defined(__BORLANDC__)
-		#ifndef WIN32_LEAN_AND_MEAN
-			#define WIN32_LEAN_AND_MEAN 1
-		#endif
-		#ifndef NOMINMAX
-			#define NOMINMAX
-		#endif
-		#include <windows.h>
-	#else
-		#define APIENTRY
-	#endif
+#if defined(__MINGW32__)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN 1
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#elif (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED) || defined(__BORLANDC__)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN 1
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#else
+#define APIENTRY
+#endif
 #endif /*APIENTRY*/
 
 #ifndef CODEGEN_FUNCPTR
-	#define CODEGEN_REMOVE_FUNCPTR
-	#if defined(_WIN32)
-		#define CODEGEN_FUNCPTR APIENTRY
-	#else
-		#define CODEGEN_FUNCPTR
-	#endif
+#define CODEGEN_REMOVE_FUNCPTR
+#if defined(_WIN32)
+#define CODEGEN_FUNCPTR APIENTRY
+#else
+#define CODEGEN_FUNCPTR
+#endif
 #endif /*CODEGEN_FUNCPTR*/
 
 #ifndef GLAPI
-	#define GLAPI extern
+#define GLAPI extern
 #endif
 
 #ifndef GL_LOAD_GEN_BASIC_OPENGL_TYPEDEFS
@@ -104,45 +104,45 @@ typedef unsigned __int64 uint64_t;
 #include <inttypes.h>
 #endif
 #endif
-	typedef unsigned int GLenum;
-	typedef unsigned char GLboolean;
-	typedef unsigned int GLbitfield;
-	typedef void GLvoid;
-	typedef signed char GLbyte;
-	typedef short GLshort;
-	typedef int GLint;
-	typedef unsigned char GLubyte;
-	typedef unsigned short GLushort;
-	typedef unsigned int GLuint;
-	typedef int GLsizei;
-	typedef float GLfloat;
-	typedef float GLclampf;
-	typedef double GLdouble;
-	typedef double GLclampd;
-	typedef char GLchar;
-	typedef char GLcharARB;
-	#ifdef __APPLE__
+typedef unsigned int GLenum;
+typedef unsigned char GLboolean;
+typedef unsigned int GLbitfield;
+typedef void GLvoid;
+typedef signed char GLbyte;
+typedef short GLshort;
+typedef int GLint;
+typedef unsigned char GLubyte;
+typedef unsigned short GLushort;
+typedef unsigned int GLuint;
+typedef int GLsizei;
+typedef float GLfloat;
+typedef float GLclampf;
+typedef double GLdouble;
+typedef double GLclampd;
+typedef char GLchar;
+typedef char GLcharARB;
+#ifdef __APPLE__
 typedef void *GLhandleARB;
 #else
 typedef unsigned int GLhandleARB;
 #endif
-		typedef unsigned short GLhalfARB;
-		typedef unsigned short GLhalf;
-		typedef GLint GLfixed;
-		typedef ptrdiff_t GLintptr;
-		typedef ptrdiff_t GLsizeiptr;
-		typedef int64_t GLint64;
-		typedef uint64_t GLuint64;
-		typedef ptrdiff_t GLintptrARB;
-		typedef ptrdiff_t GLsizeiptrARB;
-		typedef int64_t GLint64EXT;
-		typedef uint64_t GLuint64EXT;
-		typedef struct __GLsync *GLsync;
-		struct _cl_context;
-		struct _cl_event;
-		typedef void (APIENTRY *GLDEBUGPROC)(GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const void *userParam);
-		typedef void (APIENTRY *GLDEBUGPROCARB)(GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const void *userParam);
-		typedef void (APIENTRY *GLDEBUGPROCAMD)(GLuint id,GLenum category,GLenum severity,GLsizei length,const GLchar *message,void *userParam);
-		typedef unsigned short GLhalfNV;
-		typedef GLintptr GLvdpauSurfaceNV;
-		#endif /*OPENGL_GEN_TYPE_HPP*/
+typedef unsigned short GLhalfARB;
+typedef unsigned short GLhalf;
+typedef GLint GLfixed;
+typedef ptrdiff_t GLintptr;
+typedef ptrdiff_t GLsizeiptr;
+typedef int64_t GLint64;
+typedef uint64_t GLuint64;
+typedef ptrdiff_t GLintptrARB;
+typedef ptrdiff_t GLsizeiptrARB;
+typedef int64_t GLint64EXT;
+typedef uint64_t GLuint64EXT;
+typedef struct __GLsync *GLsync;
+struct _cl_context;
+struct _cl_event;
+typedef void (APIENTRY *GLDEBUGPROC)(GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const void *userParam);
+typedef void (APIENTRY *GLDEBUGPROCARB)(GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const void *userParam);
+typedef void (APIENTRY *GLDEBUGPROCAMD)(GLuint id,GLenum category,GLenum severity,GLsizei length,const GLchar *message,void *userParam);
+typedef unsigned short GLhalfNV;
+typedef GLintptr GLvdpauSurfaceNV;
+#endif /*OPENGL_GEN_TYPE_HPP*/

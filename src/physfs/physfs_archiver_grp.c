@@ -31,86 +31,87 @@
 
 static int grpLoadEntries(PHYSFS_Io *io, const PHYSFS_uint32 count, void *arc)
 {
-    PHYSFS_uint32 pos = 16 + (16 * count);  /* past sig+metadata. */
-    PHYSFS_uint32 i;
+	PHYSFS_uint32 pos = 16 + (16 * count);  /* past sig+metadata. */
+	PHYSFS_uint32 i;
 
-    for (i = 0; i < count; i++)
-    {
-        char *ptr;
-        char name[13];
-        PHYSFS_uint32 size;
-        BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, name, 12), 0);
-        BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &size, 4), 0);
+	for (i = 0; i < count; i++)
+		{
+			char *ptr;
+			char name[13];
+			PHYSFS_uint32 size;
+			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, name, 12), 0);
+			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &size, 4), 0);
 
-        name[12] = '\0';  /* name isn't null-terminated in file. */
-        if ((ptr = strchr(name, ' ')) != NULL)
-            *ptr = '\0';  /* trim extra spaces. */
+			name[12] = '\0';  /* name isn't null-terminated in file. */
 
-        size = PHYSFS_swapULE32(size);
-        BAIL_IF_ERRPASS(!UNPK_addEntry(arc, name, 0, -1, -1, pos, size), 0);
+			if ((ptr = strchr(name, ' ')) != NULL)
+				*ptr = '\0';  /* trim extra spaces. */
 
-        pos += size;
-    } /* for */
+			size = PHYSFS_swapULE32(size);
+			BAIL_IF_ERRPASS(!UNPK_addEntry(arc, name, 0, -1, -1, pos, size), 0);
 
-    return 1;
+			pos += size;
+		} /* for */
+
+	return 1;
 } /* grpLoadEntries */
 
 
 static void *GRP_openArchive(PHYSFS_Io *io, const char *name,
                              int forWriting, int *claimed)
 {
-    PHYSFS_uint8 buf[12];
-    PHYSFS_uint32 count = 0;
-    void *unpkarc = NULL;
+	PHYSFS_uint8 buf[12];
+	PHYSFS_uint32 count = 0;
+	void *unpkarc = NULL;
 
-    assert(io != NULL);  /* shouldn't ever happen. */
+	assert(io != NULL);  /* shouldn't ever happen. */
 
-    BAIL_IF(forWriting, PHYSFS_ERR_READ_ONLY, NULL);
+	BAIL_IF(forWriting, PHYSFS_ERR_READ_ONLY, NULL);
 
-    BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, buf, sizeof (buf)), NULL);
-    if (memcmp(buf, "KenSilverman", sizeof (buf)) != 0)
-        BAIL(PHYSFS_ERR_UNSUPPORTED, NULL);
+	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, buf, sizeof (buf)), NULL);
 
-    *claimed = 1;
+	if (memcmp(buf, "KenSilverman", sizeof (buf)) != 0)
+		BAIL(PHYSFS_ERR_UNSUPPORTED, NULL);
 
-    BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &count, sizeof(count)), NULL);
-    count = PHYSFS_swapULE32(count);
+	*claimed = 1;
 
-    unpkarc = UNPK_openArchive(io);
-    BAIL_IF_ERRPASS(!unpkarc, NULL);
+	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &count, sizeof(count)), NULL);
+	count = PHYSFS_swapULE32(count);
 
-    if (!grpLoadEntries(io, count, unpkarc))
-    {
-        UNPK_abandonArchive(unpkarc);
-        return NULL;
-    } /* if */
+	unpkarc = UNPK_openArchive(io);
+	BAIL_IF_ERRPASS(!unpkarc, NULL);
 
-    return unpkarc;
+	if (!grpLoadEntries(io, count, unpkarc))
+		{
+			UNPK_abandonArchive(unpkarc);
+			return NULL;
+		} /* if */
+
+	return unpkarc;
 } /* GRP_openArchive */
 
 
 const PHYSFS_Archiver __PHYSFS_Archiver_GRP =
 {
-    CURRENT_PHYSFS_ARCHIVER_API_VERSION,
-    {
-        "GRP",
-        "Build engine Groupfile format",
-        "Ryan C. Gordon <icculus@icculus.org>",
-        "https://icculus.org/physfs/",
-        0,  /* supportsSymlinks */
-    },
-    GRP_openArchive,
-    UNPK_enumerate,
-    UNPK_openRead,
-    UNPK_openWrite,
-    UNPK_openAppend,
-    UNPK_remove,
-    UNPK_mkdir,
-    UNPK_stat,
-    UNPK_closeArchive
+	CURRENT_PHYSFS_ARCHIVER_API_VERSION,
+	{
+		"GRP",
+		"Build engine Groupfile format",
+		"Ryan C. Gordon <icculus@icculus.org>",
+		"https://icculus.org/physfs/",
+		0,  /* supportsSymlinks */
+	},
+	GRP_openArchive,
+	UNPK_enumerate,
+	UNPK_openRead,
+	UNPK_openWrite,
+	UNPK_openAppend,
+	UNPK_remove,
+	UNPK_mkdir,
+	UNPK_stat,
+	UNPK_closeArchive
 };
 
 #endif  /* defined PHYSFS_SUPPORTS_GRP */
 
 /* end of physfs_archiver_grp.c ... */
-

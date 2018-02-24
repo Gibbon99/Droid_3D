@@ -14,14 +14,14 @@
 ///The core namespace for the C++ interface for the OpenGL initialization functions.
 namespace glload
 {
-	/**
-	\brief Loads all of the function pointers available.
+/**
+\brief Loads all of the function pointers available.
 
 Loads function pointers for GLX extensions.
 
-	\return A sys::LoadTest object that defines whether the loading was successful.
-	**/
-	glload::LoadTest LoadFunctions(Display *display, int screen);
+\return A sys::LoadTest object that defines whether the loading was successful.
+**/
+glload::LoadTest LoadFunctions(Display *display, int screen);
 
 
 }

@@ -9,3 +9,5 @@ bool sys_registerVariables();
 bool util_registerFunctions();
 bool util_loadAndCompileScripts();
 bool util_cacheFunctionIDs();
+
+bool sys_addScriptConsoleFunction ( string funcName, string funcPtr, bool setParam );

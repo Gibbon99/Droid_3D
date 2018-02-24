@@ -78,35 +78,39 @@ typedef unsigned __int64 uint64_t;
 #include <inttypes.h>
 #endif
 #endif
-	typedef struct __GLXFBConfigRec *GLXFBConfig;
-	typedef XID GLXContextID;
-	typedef struct __GLXcontextRec *GLXContext;
-	typedef XID GLXPixmap;
-	typedef XID GLXDrawable;
-	typedef XID GLXPbuffer;
-	typedef void (APIENTRY *__GLXextFuncPtr)(void);
-	typedef XID GLXVideoCaptureDeviceNV;
-	typedef unsigned int GLXVideoDeviceNV;
-	typedef XID GLXVideoSourceSGIX;
-	typedef struct __GLXFBConfigRec *GLXFBConfigSGIX;
-	typedef XID GLXPbufferSGIX;
-	typedef struct {
-    char    pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
-    int     networkId;
+typedef struct __GLXFBConfigRec *GLXFBConfig;
+typedef XID GLXContextID;
+typedef struct __GLXcontextRec *GLXContext;
+typedef XID GLXPixmap;
+typedef XID GLXDrawable;
+typedef XID GLXPbuffer;
+typedef void (APIENTRY *__GLXextFuncPtr)(void);
+typedef XID GLXVideoCaptureDeviceNV;
+typedef unsigned int GLXVideoDeviceNV;
+typedef XID GLXVideoSourceSGIX;
+typedef struct __GLXFBConfigRec *GLXFBConfigSGIX;
+typedef XID GLXPbufferSGIX;
+typedef struct
+{
+	char    pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
+	int     networkId;
 } GLXHyperpipeNetworkSGIX;
-	typedef struct {
-    char    pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
-    int     channel;
-    unsigned int participationType;
-    int     timeSlice;
+typedef struct
+{
+	char    pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
+	int     channel;
+	unsigned int participationType;
+	int     timeSlice;
 } GLXHyperpipeConfigSGIX;
-	typedef struct {
-    char pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
-    int srcXOrigin, srcYOrigin, srcWidth, srcHeight;
-    int destXOrigin, destYOrigin, destWidth, destHeight;
+typedef struct
+{
+	char pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
+	int srcXOrigin, srcYOrigin, srcWidth, srcHeight;
+	int destXOrigin, destYOrigin, destWidth, destHeight;
 } GLXPipeRect;
-	typedef struct {
-    char pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
-    int XOrigin, YOrigin, maxHeight, maxWidth;
+typedef struct
+{
+	char pipeName[80]; /* Should be [GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX] */
+	int XOrigin, YOrigin, maxHeight, maxWidth;
 } GLXPipeRectLimits;
-	#endif /*GLXWIN_GEN_TYPE_H*/
+#endif /*GLXWIN_GEN_TYPE_H*/

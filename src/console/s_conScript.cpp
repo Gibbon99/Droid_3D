@@ -71,7 +71,9 @@ _scriptInfo     scriptInfo[] =
 _hostScriptFunctions hostScriptFunctions[] =
 {
 	{"void printCon_AS(string &in, string &in)",            (void *)&sys_scriptPrintStr},
-	{"void addScriptCommand_AS(int action, string &in)",    (void *)con_addScriptCommand},
+
+	{"void sys_addScriptCommand(string &in, string &in, string &in, bool setParam)", ( const void * ) &con_addScriptCommand},
+
 	{"void conPushCommand_AS(string &in)",                  (void *)con_pushScriptCommand},
 	{"bool startPackFile(string &in, string &in)",          (void *)io_startFileSystem},
 	{"bool startLogFile(string &in)",                       (void *)io_startLogFile},
@@ -102,7 +104,7 @@ _scriptFunctionName     scriptFunctionName[] =
 {
 	// Name of function in script			Name we call from host
 	{0, false, "void as_addAllScriptCommands()",		"scr_addAllScriptCommands",		NULL},
-	{0, false, "void as_setGameVariables()",           "scr_setGameVariables",         NULL},
+	{0, false, "void as_setGameVariables()",			"scr_setGameVariables",         NULL},
 	{0, false, "void as_loadAllModels()",				"scr_loadAllModels",			NULL},
 	{0, false, "",						"",				NULL},
 	{0, false, "",						"",				NULL},
@@ -676,35 +678,40 @@ bool util_startScriptEngine()
 	return true;
 }
 
-/*
 //-----------------------------------------------------------------------------
 //
 // Add a script console command to the executable list of functions
-bool sys_addScriptConsoleFunction(char *funcName, char *funcPtr)
+//
+// funcName - what the console command is
+// funcPtr - which function gets called from the console command
+//
+bool sys_addScriptConsoleFunction ( string funcName, string funcPtr, bool setParam )
 //-----------------------------------------------------------------------------
 {
+	_scriptFunctionName tempScriptFunction;
 
-// TODO: Handle adding parameter value
+	tempScriptFunction.functionName = funcPtr;
+	tempScriptFunction.scriptName = funcName;
+	tempScriptFunction.fromScript = true;
+	tempScriptFunction.param1 = setParam;
 
-	con_print (CON_TEXT, true, "Script: Info: Adding script console command to list.");
-	//
-	// Next free slot
-	strcpy(scriptFunctionName[numScriptFunctions].functionName, funcPtr.c_str());
-	strcpy(scriptFunctionName[numScriptFunctions].scriptName, funcPtr.c_str());
-	//
-	// Get an ID for it
-	scriptFunctionName[numScriptFunctions].funcID = scriptEngine->GetModule (0)->GetFunctionByDecl (scriptFunctionName[numScriptFunctions].functionName);
-	if (scriptFunctionName[numScriptFunctions].funcID < 0) {
-		con_print (CON_TEXT, true, "Failed to get function ID for [ %s ] Error [ %s ]", scriptFunctionName[numScriptFunctions].scriptName, sys_getScriptError(scriptFunctionName[numScriptFunctions].funcID));
-		numScriptFunctions--;
-		return false;
-	}
-	con_print (CON_TEXT, true, "Script: Info: scriptFunction [ %s ] has ID [ %i ]", scriptFunctionName[numScriptFunctions].functionName, scriptFunctionName[numScriptFunctions].funcID);
+	tempScriptFunction.funcID = scriptEngine->GetModule ( "ModuleName" )->GetFunctionByDecl ( tempScriptFunction.functionName.c_str() );
+
+	if ( tempScriptFunction.funcID == NULL  )
+		{
+			con_print ( true, true, "Err: Failed to get function ID for [ %s ].", tempScriptFunction.functionName.c_str());
+			return false;
+		}
+
+	con_print ( true, true, "FuncID for script function [ %s ] is [ %i ]", tempScriptFunction.functionName.c_str(), tempScriptFunction.funcID );
+
+	// TODO: Handle adding parameter value
+
+	scriptFunctions.push_back ( tempScriptFunction );
 	numScriptFunctions++;
 	return true;
 }
 
-*/
 //-----------------------------------------------------------------------------
 //
 // Shutdown the scripting engine

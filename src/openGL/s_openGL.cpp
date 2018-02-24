@@ -174,20 +174,20 @@ void gl_drawScreen ( bool updateNow )
 		{
 			gl_setFontColor( conLines[i].conLineColor.red, conLines[i].conLineColor.green, conLines[i].conLineColor.blue, conLines[i].conLineColor.alpha );
 //        fontColor = conLines[i].conLineColor;
-			ttf_addText ( FONT_SMALL, 0.0f, ( conStartY - ( ( i * conFontSize ) + conFontSize ) ), "%s", conLines[i].conLine );
+			ttf_addText ( FONT_SMALL, 0.0f, ( conStartY - ( ( i * conFontSize ) + conFontSize ) ), "%s", conLines[i].conLine.c_str() );
 		}
 
 	if ( false == updateNow )
 		{
-			strcpy ( conTempLine.conLine, conCurrentLine.conLine );
+			conTempLine.conLine = conCurrentLine.conLine;
 
-			if ( 1 == conCursorIsOn )
-				strcat ( conTempLine.conLine, "[" );
+			if ( true == conCursorIsOn )
+				conTempLine.conLine += "_";
 
 			else
-				strcat ( conTempLine.conLine, " " );
+				conTempLine.conLine += " ";
 
-			ttf_addText ( FONT_SMALL, 0.0f, ( GLfloat ) ( winHeight - ( conFontSize * 2 ) ), "%s", conTempLine.conLine );
+			ttf_addText ( FONT_SMALL, 0.0f, ( GLfloat ) ( winHeight - ( conFontSize * 2 ) ), "%s", conTempLine.conLine.c_str() );
 		}
 
 	if ( true == updateNow )

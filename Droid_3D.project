@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="Droid_3D" Version="10.0.0" InternalType="Console">
   <VirtualDirectory Name="data">
+    <VirtualDirectory Name="scripts">
+      <File Name="data/scripts/conCommands.as"/>
+    </VirtualDirectory>
     <File Name=".gitignore"/>
   </VirtualDirectory>
   <Reconciliation>

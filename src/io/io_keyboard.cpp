@@ -27,7 +27,7 @@ void io_readCharCallback(GLFWwindow* window, unsigned int character)
 					{
 						if (character >= 32)
 							{
-								conCurrentLine.conLine[conCurrentCharCount] = (char)character;
+								conCurrentLine.conLine += character;
 								conCurrentCharCount++;
 							}
 					}

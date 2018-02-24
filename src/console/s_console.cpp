@@ -3,6 +3,8 @@
 #include "s_openGLWrap.h"
 
 #include <stdarg.h>
+#include <sstream>
+#include <iostream>
 
 bool         	consoleIsReady;
 bool			conCursorIsOn;
@@ -11,8 +13,9 @@ int             conFontSize;
 
 _conLine		conLines[NUM_CON_LINES];
 _conLine		conPrevCommands[NUM_MAX_CON_COMMANDS];
-_conLine		conCurrentLine;
-_conCommand		conCommands[NUM_MAX_CON_COMMANDS];
+
+vector<_conCommand>			conCommands;
+int							conCurrentNumCommands;
 
 GLuint			conCurrentCharCount;
 GLuint			conBackSpaceDown;
@@ -20,7 +23,29 @@ GLuint			conBackSpaceDown;
 _glColor     	currentConLineColor;
 GLuint			conHistoryPtr;			// Which history command are we at
 
-GLint			conCurrentNumCommands;
+_conLine		conCurrentLine;
+_conLine		conCurrentPrompt;
+
+float			conBackSpaceDelay;
+
+int		conNumInHistory = 0;
+
+//-----------------------------------------------------------------------------
+//
+// Add all the host based console commands here
+void con_addConsoleCommands()
+//-----------------------------------------------------------------------------
+{
+	con_addCommand("help",			"List out available commands",	(ExternFunc)conHelp);
+	con_addCommand("glInfo",		"Info about openGL",			(ExternFunc)conOpenGLInfo);
+	con_addCommand("listVars",		"List script variables",		(ExternFunc)conListVariables);
+	con_addCommand("listFunctions",	"List script functions",		(ExternFunc)conListFunctions);
+	con_addCommand("getVar",     	"Get the value of a variable",  (ExternFunc)conGetVariableValue);
+	con_addCommand("setVar",     	"Set the value of a variable",  (ExternFunc)conSetVariableValue);
+	con_addCommand("scShowFunc", 	"Show all script added commands",(ExternFunc)showScriptAddedCommands);
+	con_addCommand("showCounters",	"Show openGL wrap counters",   (ExternFunc)wrapShowCounters);
+//	conAddCommand("scDo",		"Execute script function",		(ExternFunc)conScriptExecute);
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -30,66 +55,52 @@ void con_initConsole()
 {
 	int i;
 
-	for (i = 0; i < NUM_CON_LINES; i++)
+	for ( i = 0; i < NUM_CON_LINES; i++ )
 		{
-			strcpy(conLines[i].conLine, "");
+			//strcpy(conLines[i].conLine, "");
+			conLines[i].conLine = "";
 			conLines[i].conLineColor.red = 1.0f;
 			conLines[i].conLineColor.green = 1.0f;
 			conLines[i].conLineColor.blue = 1.0f;
 			conLines[i].conLineColor.alpha = 1.0f;
 		}
 
-	for (i = NUM_MAX_CON_COMMANDS - 1; i != 0; i--)
-		strcpy (conPrevCommands[i].conLine, "");
+	currentConLineColor.red = 1.0f;
+	currentConLineColor.green = 1.0f;
+	currentConLineColor.blue = 1.0f;
+	currentConLineColor.alpha = 1.0f;
+
+	for ( i = NUM_MAX_CON_COMMANDS - 1; i != 0; i-- )
+		conPrevCommands[i].conLine = "";
 
 	conHistoryPtr = 0;
+	conNumInHistory = 0;
 
-	strcpy (conCurrentLine.conLine, "");
+	conCurrentPrompt.conLine = "]_";
+	conCurrentLine.conLine = "";
 
-	consoleIsReady = true;
+	conCurrentCharCount = 0;
 
-	con_setColor (1.0f, 1.0f, 1.0f, 1.0f);
-
-	con_addCommand("help",		"List out available commands",	(ExternFunc)conHelp);
-	con_addCommand("glInfo",	"Info about openGL",			(ExternFunc)conOpenGLInfo);
-//	con_addCommand("listVars",	"List accessiable variables",	(ExternFunc)conListVariables);
-//	con_addCommand("getVar",     "Get the value of a variable",  (ExternFunc)conGetVariable);
-//	con_addCommand("setVar",     "Set the value of a variable",  (ExternFunc)conSetVariable);
-//	con_addCommand("scShowFunc", "Show all script added commands",(ExternFunc)showScriptAddedCommands);
-	con_addCommand("showCounters","Show openGL wrap counters",   (ExternFunc)wrapShowCounters);
-//	conAddCommand("scDo",		"Execute script function",		(ExternFunc)conScriptExecute);
+	con_addConsoleCommands();
 }
+
 
 //-----------------------------------------------------------------------------
 //
 // Add a script function to the console commands
-bool con_addScriptCommand(int type, std::string command)
+void con_addScriptCommand ( string command, string usage, string funcPtr, bool setParam )
 //-----------------------------------------------------------------------------
 {
-	// set type to Script
-	conCommands[conCurrentNumCommands].type = CON_COMMAND_SCRIPT;
+	_conCommand			tempConCommand;
 
-	switch (type)
-		{
-			case CON_COMMAND:	// command
-				strcpy(conCommands[conCurrentNumCommands].command, command.c_str());
-				break;
+	tempConCommand.type =		CON_COMMAND_SCRIPT;
+	tempConCommand.command = 	command;
+	tempConCommand.usage = 		usage;
+	tempConCommand.scriptFunc = funcPtr;
 
-			case CON_USAGE: // Usage
-				strcpy(conCommands[conCurrentNumCommands].usage, command.c_str());
-				break;
-
-			case CON_FUNC:	// Name of function within script to run
-				strcpy(conCommands[conCurrentNumCommands].scriptFunc, command.c_str());
-//			sys_addScriptConsoleFunction(conCommands[conCurrentNumCommands].command, conCommands[conCurrentNumCommands].scriptFunc);
-				conCurrentNumCommands++;
-				break;
-
-			default:
-				return false;
-		}
-
-	return true;
+	conCommands.push_back ( tempConCommand );
+	sys_addScriptConsoleFunction ( conCommands.back().command, conCommands.back().scriptFunc, setParam );
+	conCurrentNumCommands++;
 }
 
 //-----------------------------------------------------------------------------
@@ -113,23 +124,23 @@ void con_pushScriptCommand(std::string command)
 //-----------------------------------------------------------------------------
 //
 // Autocompletion for console commands
-void con_completeCommand(char *lookFor)
+void con_completeCommand ( string lookFor )
 //-----------------------------------------------------------------------------
 {
-	char	lookForKeep[MAX_STRING_SIZE];
+	string	lookForKeep;
 
-	strcpy(lookForKeep, lookFor);
+	lookForKeep = lookFor;
 
 	//
 	// Check each of the commands
-	for (int i = 0; i != conCurrentNumCommands; i++)
+	for ( int i = 0; i != conCurrentNumCommands; i++ )
 		{
-			if (0 == strncmp (conCommands[i].command, lookForKeep, strlen(lookForKeep)))
+			if ( conCommands[i].command.find ( lookFor, 0 ) != string::npos )
 				{
-					con_printUpdate (0.0f, false, "[ %s ]", conCommands[i].command);
-					strcpy (conCurrentLine.conLine, "");
-					strcpy (conCurrentLine.conLine, conCommands[i].command);
-					conCurrentCharCount = (int)strlen(conCommands[i].command);
+					con_print ( false, true, "[ %s ]", conCommands[i].command.c_str() );
+					conCurrentLine.conLine = "";
+					conCurrentLine.conLine = conCommands[i].command;
+					conCurrentCharCount = conCommands[i].command.length();
 				}
 		}
 }
@@ -154,34 +165,30 @@ void con_processCursor(float frameInterval)
 //-----------------------------------------------------------------------------
 //
 // Display the current prompt
-void con_processBackspaceKey(float interploate)
+void con_processBackspaceKey ( float frameInterval )
 //-----------------------------------------------------------------------------
 {
 	_conLine	conTempLine;
-	static 		float	conBackSpaceDelay = 0.0f;
 
 	//
 	// Process the backspace key as it repeats
-	if (true == conBackSpaceDown)
+	if ( 1 == conBackSpaceDown )
 		{
-			conBackSpaceDelay += 150.0f * interploate;
+			conBackSpaceDelay += 30.0f * frameInterval;
 
-			if (conBackSpaceDelay > 400.0f)
+			if ( conBackSpaceDelay > 1.0f )
 				{
-					if (conCurrentCharCount > 0)
+					if ( conCurrentCharCount > 0 )
 						conCurrentCharCount--;
 
 					conBackSpaceDelay = 0.0f;
+
+					conTempLine.conLine = conCurrentLine.conLine.substr ( 0, conCurrentCharCount );
+					conCurrentLine.conLine = conTempLine.conLine;
+
+					conBackSpaceDown = 0;
 				}
 		}
-
-	//
-	// Update the conCurrentLine due to backspace repeat
-	strcpy (conTempLine.conLine, "");
-	conCurrentLine.conLine[conCurrentCharCount] = (char)NULL;
-	strcpy (conTempLine.conLine, conCurrentLine.conLine);
-	strcpy (conCurrentLine.conLine, "");
-	strcpy (conCurrentLine.conLine, conTempLine.conLine);
 }
 
 //-----------------------------------------------------------------------------
@@ -190,54 +197,58 @@ void con_processBackspaceKey(float interploate)
 void con_popHistoryCommand()
 //-----------------------------------------------------------------------------
 {
-	strcpy (conCurrentLine.conLine, conPrevCommands[conHistoryPtr].conLine);
-	conCurrentCharCount = (int)strlen(conPrevCommands[conHistoryPtr].conLine);
+	conCurrentLine.conLine = conPrevCommands[conHistoryPtr].conLine;
+	conCurrentCharCount = conPrevCommands[conHistoryPtr].conLine.length();
 }
 
 //-----------------------------------------------------------------------------
 //
 // Add a valid command to the history buffer
-void con_addHistoryCommand(char *command)
+void con_addHistoryCommand ( string command )
 //-----------------------------------------------------------------------------
 {
-	for (int i = NUM_MAX_CON_COMMANDS - 1; i != 0; i--)
+	conNumInHistory++;
+
+	if ( conNumInHistory > NUM_MAX_CON_COMMANDS )
+		conNumInHistory = NUM_MAX_CON_COMMANDS;
+
+	for ( int i = NUM_MAX_CON_COMMANDS - 1; i != 0; i-- )
 		{
-			strcpy (conPrevCommands[i].conLine, conPrevCommands[i - 1].conLine);
+			conPrevCommands[i].conLine = conPrevCommands[i - 1].conLine;
 		}
 
-	strcpy (conPrevCommands[0].conLine, (char *)command);
+	conPrevCommands[0].conLine = command;
 	conHistoryPtr = 0;
 }
 
 //-----------------------------------------------------------------------------
 //
 // Add a command to the console command list
-bool con_addCommand(const char *command, const char *usage, ExternFunc functionPtr)
+bool con_addCommand ( string command, string usage, ExternFunc functionPtr )
 //-----------------------------------------------------------------------------
 {
-	//
-	// Check for available space first
-	if (conCurrentNumCommands == NUM_MAX_CON_COMMANDS)
-		{
-			con_print (CON_TEXT, true, "Unable to add command. Command buffer is full. Limit is [ %i ]", NUM_MAX_CON_COMMANDS);
-			return false;
-		}
+	_conCommand			tempConCommand;
 
 	//
 	// Check values going in
 	//
-	if (0 == strlen(command))
+	if ( 0 == command.length() )
 		return false;
 
-	if (0 == strlen(usage))
-		strcpy (usage, (char *)"");	// redundant ??
+	if ( 0 == usage.length() )
+		usage = "";
 
 	//
 	// Next slot
-	strcpy (conCommands[conCurrentNumCommands].command, command);
-	strcpy (conCommands[conCurrentNumCommands].usage, usage);
-	conCommands[conCurrentNumCommands].conFunc = functionPtr;
-	conCommands[conCurrentNumCommands].type = CON_COMMAND_HOST;
+	//
+
+	tempConCommand.command = 		command;
+	tempConCommand.usage = 			usage;
+	tempConCommand.conFunc = 		functionPtr;
+	tempConCommand.type = 			CON_COMMAND_HOST;
+
+	conCommands.push_back ( tempConCommand );
+
 	conCurrentNumCommands++;
 
 	return true;
@@ -247,22 +258,18 @@ bool con_addCommand(const char *command, const char *usage, ExternFunc functionP
 //
 // Add a new line to the console - move all the others up
 // 0 is the new line added
-void conIncLine(char *newLine)
+void con_incLine ( string newLine )
 //-----------------------------------------------------------------------------
 {
 	int i;
 
-	if (strlen(newLine) > (MAX_STRING_SIZE - 2))
-		return;
-
-	for (i = NUM_CON_LINES - 1; i != 0; i--)
+	for ( i = NUM_CON_LINES - 1; i != 0; i-- )
 		{
-//	    printf("Copying console lines [ %i ]\n");
-			strcpy (conLines[i].conLine, conLines[i - 1].conLine);
+			conLines[i].conLine = conLines[i - 1].conLine;
 			conLines[i].conLineColor = conLines[i - 1].conLineColor;
 		}
 
-	strcpy (conLines[0].conLine, (const char *)newLine);
+	conLines[0].conLine = newLine;
 	conLines[0].conLineColor = currentConLineColor;
 }
 
@@ -302,7 +309,7 @@ void con_print (int type, bool fileLog, const char *printText, ...)
 	vsprintf(conText, printText, args);
 	va_end(args);
 
-	conIncLine(conText);
+	con_incLine(conText);
 
 	if (true == fileLog)
 		io_logToFile ("%s", conText);
@@ -332,57 +339,79 @@ void con_print (int type, bool fileLog, const char *printText, ...)
 //-----------------------------------------------------------------------------
 //
 // Process a entered command
-void con_processCommand(char *comLine)
+void con_processCommand ( string comLine )
 //-----------------------------------------------------------------------------
 {
-	int i;
-	char command[MAX_STRING_SIZE];
-	char param[MAX_STRING_SIZE];
-	char param1[MAX_STRING_SIZE];
-	bool conMatchFound = false;
+	int                 i;
+	vector<string>     	tokens;   // one command and one param
+	string              buffer;
+
+	string              command;
+	string              param;
+	string				param2;
+	bool    			conMatchFound = false;
 	//
 	// Start the string with known empty value
-	strcpy (command, "");
-	strcpy (param, "");
-	strcpy (param1, "");
-
+	command = "";
+	param = "";
 	//
 	// Get the command and any parameters
-	if (EOF == sscanf(comLine, "%s %s %s", command, param, param1))
-		return;
+	//
+	// Insert the string into a stream
+	istringstream iss ( comLine, istringstream::in );
 
 	//
-	// Set parameter to known value if it's not used
-	if (0 == strlen(param))
-		strcpy (param, "");
+	// Put each word into the vector
+	while ( iss >> buffer )
+		{
+			tokens.push_back ( buffer );
+		}
 
-	if (0 == strlen(param1))
-		strcpy(param1,"");
+	command = tokens[0];
+
+	//
+	// Make sure there is a paramater to use
+	if ( tokens.size() > 1 )
+		param = tokens[1];
+
+	else
+		param = "";
+
+	if ( tokens.size() > 2 )
+		param2 = tokens[2];
+
+	else
+		param2 = "";
 
 	//
 	// Check each of the commands
-	for (i = 0; i != conCurrentNumCommands; i++)
+	for ( i = 0; i != conCurrentNumCommands; i++ )
 		{
-			if (0 == strcmp(conCommands[i].command, command))
+			if ( conCommands[i].command == command )
 				{
-					con_addHistoryCommand(comLine);
-					conIncLine(comLine);
+					con_addHistoryCommand ( comLine );
+					con_incLine ( comLine );
 
-					if (CON_COMMAND_HOST == conCommands[i].type)
-						conCommands[i].conFunc(param, param1);
+					if ( CON_COMMAND_HOST == conCommands[i].type )
+						conCommands[i].conFunc ( param, param2 );
 
 					else
-						util_executeScriptFunction(conCommands[i].scriptFunc, "");
+						{
+							util_executeScriptFunction ( conCommands[i].command, param );
+						}
 
 					conMatchFound = true;
-					// TODO: Break out early when found ?
+					break;
 				}
 		}
 
-	if (false == conMatchFound)
-		con_print (CON_TEXT, false, "Command [ %s ] not found.", comLine);
+	if ( false == conMatchFound )
+		con_print ( false, true, "Command [ %s ] not found.", comLine.c_str() );
 
-	strcpy (conCurrentLine.conLine, "");
+	//
+	// Clear out the string so it doesn't show
+	conCurrentLine.conLine = "";
+
 	conCurrentCharCount = 0;
 }
 
@@ -411,7 +440,7 @@ void con_printUpdate (int type, bool fileLog, const char *printText, ...)
 	vsprintf(conText, printText, args);
 	va_end(args);
 
-	conIncLine(conText);
+	con_incLine(conText);
 
 	if (true == fileLog)
 		io_logToFile ("%s", conText);

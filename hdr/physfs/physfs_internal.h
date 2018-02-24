@@ -31,7 +31,7 @@
 #include <assert.h>
 
 #define __PHYSFS_COMPILE_TIME_ASSERT(name, x) \
-       typedef int __PHYSFS_compile_time_assert_##name[(x) * 2 - 1]
+	typedef int __PHYSFS_compile_time_assert_##name[(x) * 2 - 1]
 
 /* !!! FIXME: remove this when revamping stack allocation code... */
 #if defined(_MSC_VER) || defined(__MINGW32__) || defined(__WATCOMC__)
@@ -48,13 +48,13 @@ extern "C" {
 
 #ifdef __GNUC__
 #define PHYSFS_MINIMUM_GCC_VERSION(major, minor) \
-    ( ((__GNUC__ << 16) + __GNUC_MINOR__) >= (((major) << 16) + (minor)) )
+	( ((__GNUC__ << 16) + __GNUC_MINOR__) >= (((major) << 16) + (minor)) )
 #else
 #define PHYSFS_MINIMUM_GCC_VERSION(major, minor) (0)
 #endif
 
 #ifdef __cplusplus
-    /* C++ always has a real inline keyword. */
+/* C++ always has a real inline keyword. */
 #elif (defined macintosh) && !(defined __MWERKS__)
 #   define inline
 #elif (defined _MSC_VER)
@@ -148,10 +148,10 @@ int __PHYSFS_ATOMIC_DECR(int *ptrval);
 void *__PHYSFS_initSmallAlloc(void *ptr, const size_t len);
 
 #define __PHYSFS_smallAlloc(bytes) ( \
-    __PHYSFS_initSmallAlloc( \
-        (((bytes) < __PHYSFS_SMALLALLOCTHRESHOLD) ? \
-            alloca((size_t)((bytes)+sizeof(void*))) : NULL), (bytes)) \
-)
+                                     __PHYSFS_initSmallAlloc( \
+                                             (((bytes) < __PHYSFS_SMALLALLOCTHRESHOLD) ? \
+                                                     alloca((size_t)((bytes)+sizeof(void*))) : NULL), (bytes)) \
+                                   )
 
 void __PHYSFS_smallFree(void *ptr);
 
@@ -291,9 +291,9 @@ void __PHYSFS_sort(void *entries, size_t max,
  *  size_t, suitable to pass to malloc. This is kinda messy, but effective.
  */
 #define __PHYSFS_ui64FitsAddressSpace(s) ( \
-    (sizeof (PHYSFS_uint64) <= sizeof (size_t)) || \
-    ((s) < (__PHYSFS_UI64(0xFFFFFFFFFFFFFFFF) >> (64-(sizeof(size_t)*8)))) \
-)
+        (sizeof (PHYSFS_uint64) <= sizeof (size_t)) || \
+        ((s) < (__PHYSFS_UI64(0xFFFFFFFFFFFFFFFF) >> (64-(sizeof(size_t)*8)))) \
+                                         )
 
 /*
  * Like strdup(), but uses the current PhysicsFS allocator.
@@ -360,19 +360,19 @@ int UNPK_stat(void *opaque, const char *fn, PHYSFS_Stat *st);
 
 typedef struct __PHYSFS_DirTreeEntry
 {
-    char *name;                              /* Full path in archive.        */
-    struct __PHYSFS_DirTreeEntry *hashnext;  /* next item in hash bucket.    */
-    struct __PHYSFS_DirTreeEntry *children;  /* linked list of kids, if dir. */
-    struct __PHYSFS_DirTreeEntry *sibling;   /* next item in same dir.       */
-    int isdir;
+	char *name;                              /* Full path in archive.        */
+	struct __PHYSFS_DirTreeEntry *hashnext;  /* next item in hash bucket.    */
+	struct __PHYSFS_DirTreeEntry *children;  /* linked list of kids, if dir. */
+	struct __PHYSFS_DirTreeEntry *sibling;   /* next item in same dir.       */
+	int isdir;
 } __PHYSFS_DirTreeEntry;
 
 typedef struct __PHYSFS_DirTree
 {
-    __PHYSFS_DirTreeEntry *root;    /* root of directory tree.             */
-    __PHYSFS_DirTreeEntry **hash;  /* all entries hashed for fast lookup. */
-    size_t hashBuckets;            /* number of buckets in hash.          */
-    size_t entrylen;    /* size in bytes of entries (including subclass). */
+	__PHYSFS_DirTreeEntry *root;    /* root of directory tree.             */
+	__PHYSFS_DirTreeEntry **hash;  /* all entries hashed for fast lookup. */
+	size_t hashBuckets;            /* number of buckets in hash.          */
+	size_t entrylen;    /* size in bytes of entries (including subclass). */
 } __PHYSFS_DirTree;
 
 
@@ -380,8 +380,8 @@ int __PHYSFS_DirTreeInit(__PHYSFS_DirTree *dt, const size_t entrylen);
 void *__PHYSFS_DirTreeAdd(__PHYSFS_DirTree *dt, char *name, const int isdir);
 void *__PHYSFS_DirTreeFind(__PHYSFS_DirTree *dt, const char *path);
 PHYSFS_EnumerateCallbackResult __PHYSFS_DirTreeEnumerate(void *opaque,
-                              const char *dname, PHYSFS_EnumerateCallback cb,
-                              const char *origdir, void *callbackdata);
+        const char *dname, PHYSFS_EnumerateCallback cb,
+        const char *origdir, void *callbackdata);
 void __PHYSFS_DirTreeDeinit(__PHYSFS_DirTree *dt);
 
 
@@ -635,8 +635,8 @@ void *__PHYSFS_platformGetThreadID(void);
  *  be ignored.
  */
 PHYSFS_EnumerateCallbackResult __PHYSFS_platformEnumerate(const char *dirname,
-                               PHYSFS_EnumerateCallback callback,
-                               const char *origdir, void *callbackdata);
+        PHYSFS_EnumerateCallback callback,
+        const char *origdir, void *callbackdata);
 
 /*
  * Make a directory in the actual filesystem. (path) is specified in
@@ -680,12 +680,12 @@ void __PHYSFS_platformDestroyMutex(void *mutex);
 /*
  * Grab possession of a platform-specific mutex. Mutexes should be recursive;
  *  that is, the same thread should be able to call this function multiple
- *  times in a row without causing a deadlock. This function should block 
+ *  times in a row without causing a deadlock. This function should block
  *  until a thread can gain possession of the mutex.
  *
- * Return non-zero if the mutex was grabbed, zero if there was an 
- *  unrecoverable problem grabbing it (this should not be a matter of 
- *  timing out! We're talking major system errors; block until the mutex 
+ * Return non-zero if the mutex was grabbed, zero if there was an
+ *  unrecoverable problem grabbing it (this should not be a matter of
+ *  timing out! We're talking major system errors; block until the mutex
  *  is available otherwise.)
  *
  * _DO NOT_ call PHYSFS_setErrorCode() in here! Since setErrorCode calls this
@@ -695,7 +695,7 @@ void __PHYSFS_platformDestroyMutex(void *mutex);
 int __PHYSFS_platformGrabMutex(void *mutex);
 
 /*
- * Relinquish possession of the mutex when this method has been called 
+ * Relinquish possession of the mutex when this method has been called
  *  once for each time that platformGrabMutex was called. Once possession has
  *  been released, the next thread in line to grab the mutex (if any) may
  *  proceed.
@@ -717,4 +717,3 @@ void __PHYSFS_platformReleaseMutex(void *mutex);
 #endif
 
 /* end of physfs_internal.h ... */
-

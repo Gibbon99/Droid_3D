@@ -7,10 +7,10 @@
 #define __wglext_h_
 
 #ifndef WIN32_LEAN_AND_MEAN
-	#define WIN32_LEAN_AND_MEAN 1
+#define WIN32_LEAN_AND_MEAN 1
 #endif
 #ifndef NOMINMAX
-	#define NOMINMAX
+#define NOMINMAX
 #endif
 //#include <windows.h>
 
@@ -46,12 +46,13 @@ typedef double GLclampd;
 
 #endif /*GL_LOAD_GEN_BASIC_OPENGL_TYPEDEFS*/
 
-struct _GPU_DEVICE {
-    DWORD  cb;
-    CHAR   DeviceName[32];
-    CHAR   DeviceString[128];
-    DWORD  Flags;
-    RECT   rcVirtualScreen;
+struct _GPU_DEVICE
+{
+	DWORD  cb;
+	CHAR   DeviceName[32];
+	CHAR   DeviceString[128];
+	DWORD  Flags;
+	RECT   rcVirtualScreen;
 };
 DECLARE_HANDLE(HPBUFFERARB);
 DECLARE_HANDLE(HPBUFFEREXT);
