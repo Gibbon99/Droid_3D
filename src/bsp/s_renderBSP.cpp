@@ -4,6 +4,7 @@
 #include "s_shaders.h"
 #include "io_textures.h"
 #include "s_openGLWrap.h"
+#include "s_doorsBSP.h"
 #include <vector>
 
 #include "s_shaderLights.h"
@@ -658,12 +659,16 @@ void bsp_renderLevel(const glm::vec3 &vPos, int whichShader)
 
 	// Sort faces and timing here
 
+
+	bsp_drawAllDoors();
+	
+	
 	//
 	// Draw all the sorted/unsorted faces - including visible models
-
-
 	bsp_drawFacesInArray(whichShader);
 
+
+	
 	/*
 	if (GL_TRUE == renderModels)
 		bspRenderModels();		// Puts models faces into the faceArray for sorting

@@ -11,7 +11,6 @@ int conHelp()
 
 	for (i = 0; i != conCurrentNumCommands; i++)
 		{
-//			if (conCommands[i].command == "help")
 			{
 				if (conCommands[i].type == CON_COMMAND_SCRIPT)
 					{
@@ -29,6 +28,7 @@ int conHelp()
 		}
 
 	con_setColor (1.0f, 1.0f, 1.0f, 1.0f);
+	
 	return 1;
 }
 

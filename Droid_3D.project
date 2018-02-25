@@ -586,11 +586,23 @@
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no" EnableCpp14="no">
+      <Completion EnableCpp11="yes" EnableCpp14="yes">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
-        <SearchPaths/>
+        <SearchPaths>hdr/
+src/
+/usr/include
+/usr/local/include
+hdr/bsp
+hdr/console
+hdr/game
+hdr/glm
+hdr/libGL
+hdr/openGL
+hdr/physfs
+hdr/script
+hdr/system</SearchPaths>
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="gnu gcc" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">

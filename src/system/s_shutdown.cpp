@@ -25,7 +25,7 @@ void sys_shutdownToSystem()
 	bsp_freeMem();
 	bul_stopPhysics();
 	io_closeLogFile();
-	exit(EXIT_SUCCESS);
+//	exit(EXIT_SUCCESS);
 }
 
 //-----------------------------------------------

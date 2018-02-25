@@ -6,6 +6,7 @@
 #include "s_collideBSP.h"
 #include "s_varsBSP.h"
 #include "s_shaderLights.h"
+#include "s_doorsBSP.h"
 
 TwBar       *antBarGUI;
 int         antBarWidth, antBarHeight, antPosX, antPosY;
@@ -36,6 +37,8 @@ void lib_initAntBar()
 	TwAddVarRW(antBarGUI, "FPS ", TW_TYPE_INT32, &fpsPrint, NULL);
 	TwAddVarRW(antBarGUI, "Time", TW_TYPE_DOUBLE, &frameTimeTakenPrint, NULL);
 	TwAddVarRW(antBarGUI, "Skip Models", TW_TYPE_INT32, &numSkippedModels, NULL);
+	TwAddVarRW(antBarGUI, "Doors skip", TW_TYPE_INT32, &numOfDoorsNotDrawn, NULL);
+	TwAddVarRW(antBarGUI, "Doors drawn", TW_TYPE_INT32, &numOfDoorsDrawn, NULL);
 	TwAddVarRO(antBarGUI, "Collide", TW_TYPE_BOOL8, &testCollisionWithBSP, NULL);
 	TwAddVarRO(antBarGUI, "Wanted", TW_TYPE_DIR3F, &wantedCamCopy, NULL);
 	TwAddVarRO(antBarGUI, "CamPos", TW_TYPE_DIR3F, &camPosition, NULL);

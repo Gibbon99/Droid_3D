@@ -438,3 +438,51 @@ default
 	lightmapAxis ( 0.000000 0.000000 -1.000000 )
 }
 
+70 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/NULL
+	entity 13
+	castShadows 0
+	lightmapAxis ( 1.000000 0.000000 0.000000 )
+}
+
+71 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/NULL
+	entity 13
+	castShadows 0
+	lightmapAxis ( 0.000000 1.000000 0.000000 )
+}
+
+72 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/NULL
+	entity 13
+	castShadows 0
+	lightmapAxis ( 0.000000 0.000000 1.000000 )
+}
+
+73 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/NULL
+	entity 13
+	castShadows 0
+	lightmapAxis ( -1.000000 0.000000 0.000000 )
+}
+
+74 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/NULL
+	entity 13
+	castShadows 0
+	lightmapAxis ( 0.000000 -1.000000 0.000000 )
+}
+
+75 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/NULL
+	entity 13
+	castShadows 0
+	lightmapAxis ( 0.000000 0.000000 -1.000000 )
+}
+

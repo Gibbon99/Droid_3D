@@ -22,6 +22,7 @@
 #include "s_renderBSP.h"
 #include "s_lightPass.h"
 #include "s_bullet.h"
+#include "s_doorsBSP.h"
 
 GLuint mvp_loc;
 GLuint world_loc;
@@ -331,6 +332,8 @@ void updateScreen(float interpolate)
 
 				sys_renderModels(SHADER_RENDER_BSP);
 
+				bspDrawAllDoorTriggerZones();
+				
 // -------------------- End Light Position ----------------------
 
 				glUseProgram(0);

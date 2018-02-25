@@ -8,6 +8,8 @@
 #include "s_physics.h"
 #include "s_shadowMap.h"
 #include "s_bullet.h"
+#include "s_doorsBSP.h"
+
 
 //-----------------------------------------------------------------------------
 //
@@ -61,7 +63,9 @@ void gameTickRun( float interpolate )
 				bsp_processLightEffect(interpolate);
 				shadowMoveLight(interpolate);
 				gam_processBulletMovement(interpolate);
-
+				bsp_checkPlayerVsTrigger();
+				bspProcessAllDoorMovements(interpolate);
+				
 				break;
 
 			default:
