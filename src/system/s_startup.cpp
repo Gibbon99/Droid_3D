@@ -119,6 +119,7 @@ bool initAll()
 			sysErrorFatal(__FILE__, __LINE__, "Physics system failed.");
 		}
 
+
 	if (true == gl_initDefRender(winWidth, winHeight))
 		{
 			con_print(CON_INFO, true, "Forward rendering framebuffer created...");
