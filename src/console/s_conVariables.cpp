@@ -105,7 +105,7 @@ void conSetVariableValue(string whichVar, string newValue)
 
 	if (-1 == variableIndex)
 		{
-			con_print(true, false, "ERROR: Could not locate variable [ %s ]", whichVar.c_str());
+			con_print(CON_INFO, false, "ERROR: Could not locate variable [ %s ]", whichVar.c_str());
 			return;
 		}
 
@@ -123,16 +123,25 @@ void conSetVariableValue(string whichVar, string newValue)
 
 	if (varType == "int")
 		{
-			con_print(true, false, "Set varible to value [ %i ]", atoi(newValue.c_str()));
+			con_print(CON_INFO, false, "Set varible to value [ %i ]", atoi(newValue.c_str()));
 			*(int *)varPointer = atoi(newValue.c_str());
-
 		}
 
 	else if (varType == "float")
 		{
-			con_print(true, false, "Set varible to value [ %f ]", atof(newValue.c_str()));
+			con_print(CON_INFO, false, "Set varible to value [ %f ]", atof(newValue.c_str()));
 			*(float *)varPointer = atof(newValue.c_str());
 		}
+		
+	else if (varType == "bool")
+	{
+		if (newValue == "true" || newValue == "1")
+			*(bool *)varPointer = true;
+		else
+			*(bool *)varPointer = false;
+			
+		con_print(CON_INFO, false, "Set variable to value [ %s ]", newValue.c_str());
+	}
 }
 
 //-----------------------------------------------------------
@@ -147,7 +156,7 @@ void conGetVariableValue(string whichVar)
 
 	if (-1 == variableIndex)
 		{
-			con_print(true, false, "ERROR: Could not locate variable [ %s ]", whichVar.c_str());
+			con_print(CON_INFO, false, "ERROR: Could not locate variable [ %s ]", whichVar.c_str());
 			return;
 		}
 
@@ -165,21 +174,21 @@ void conGetVariableValue(string whichVar)
 
 	if (varType == "int")
 		{
-			con_print(true, false, "Value of %s %s is %i", varType.c_str(), whichVar.c_str(), *(int *)varPointer);
+			con_print(CON_INFO, false, "Value of %s %s is %i", varType.c_str(), whichVar.c_str(), *(int *)varPointer);
 			return;
 
 		}
 
 	else if (varType == "float")
 		{
-			con_print(true, false, "Value of %s %s is %5.5f", varType.c_str(), whichVar.c_str(), *(float *)varPointer);
+			con_print(CON_INFO, false, "Value of %s %s is %5.5f", varType.c_str(), whichVar.c_str(), *(float *)varPointer);
 			return;
 
 		}
 
 	else if (varType == "bool")
 		{
-			con_print(true, false, "Value of %s %s is %s", varType.c_str(), whichVar.c_str(), *(bool *)varPointer ? "true" : "false");
+			con_print(CON_INFO, false, "Value of %s %s is %s", varType.c_str(), whichVar.c_str(), *(bool *)varPointer ? "true" : "false");
 			return;
 
 		}
@@ -189,12 +198,12 @@ void conGetVariableValue(string whichVar)
 			string printString;
 
 			printString = *(string *)varPointer;
-			con_print(true, false, "Value of %s %s is %s", varType.c_str(), whichVar.c_str(), printString.c_str());
+			con_print(CON_INFO, false, "Value of %s %s is %s", varType.c_str(), whichVar.c_str(), printString.c_str());
 
 		}
 
 	else
-		con_print(true, false, "Unknown type [ %s ] for [ %s ]", varType.c_str(), whichVar.c_str());
+		con_print(CON_INFO, false, "Unknown type [ %s ] for [ %s ]", varType.c_str(), whichVar.c_str());
 }
 
 //-----------------------------------------------------------
@@ -207,7 +216,7 @@ void conListVariables()
 	asUINT n;
 
 	// List the application registered variables
-	con_print(true, false, "Application variables");
+	con_print(CON_INFO, false, "Application variables");
 
 	for( n = 0; n < (asUINT)scriptEngine->GetGlobalPropertyCount(); n++ )
 		{
@@ -219,7 +228,7 @@ void conListVariables()
 			decl += scriptEngine->GetTypeDeclaration(typeId);
 			decl += " ";
 			decl += name;
-			con_print(true, false, "[ %s ]", decl.c_str());
+			con_print(CON_INFO, false, "[ %s ]", decl.c_str());
 		}
 
 	// List the user variables in the module
@@ -228,11 +237,11 @@ void conListVariables()
 	if( mod )
 		{
 			//cout << endl;
-			con_print(true, false, "User variables");
+			con_print(CON_INFO, false, "User variables");
 
 			for( n = 0; n < (asUINT)mod->GetGlobalVarCount(); n++ )
 				{
-					con_print(true, false, "[ %s ]", mod->GetGlobalVarDeclaration(n));
+					con_print(CON_INFO, false, "[ %s ]", mod->GetGlobalVarDeclaration(n));
 				}
 		}
 }
@@ -247,7 +256,7 @@ void conListFunctions()
 	asUINT n;
 
 	// List the application registered functions
-	con_print(true, false, "Application functions");
+	con_print(CON_INFO, false, "Application functions");
 
 	for( n = 0; n < (asUINT)scriptEngine->GetGlobalFunctionCount(); n++ )
 		{
@@ -255,7 +264,7 @@ void conListFunctions()
 
 			// Skip the functions that start with _ as these are not meant to be called explicitly by the user
 			if( func->GetName()[0] != '_' )
-				con_print(true, false, "[ %s ]", func->GetDeclaration());
+				con_print(CON_INFO, false, "[ %s ]", func->GetDeclaration());
 		}
 
 	// List the user functions in the module
@@ -263,12 +272,12 @@ void conListFunctions()
 
 	if( mod )
 		{
-			con_print(true, false, "User functions");
+			con_print(CON_INFO, false, "User functions");
 
 			for( n = 0; n < (asUINT)mod->GetFunctionCount(); n++ )
 				{
 					asIScriptFunction *func = mod->GetFunctionByIndex(n);
-					con_print(true, false, "[ %s ]", func->GetDeclaration());
+					con_print(CON_INFO, false, "[ %s ]", func->GetDeclaration());
 				}
 		}
 }

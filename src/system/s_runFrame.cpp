@@ -61,7 +61,7 @@ void gameTickRun( float interpolate )
 				cam_look(camPosition, camDirection);
 
 				bsp_processLightEffect(interpolate);
-				shadowMoveLight(interpolate);
+//				shadowMoveLight(interpolate);
 				gam_processBulletMovement(interpolate);
 				bsp_checkPlayerVsTrigger();
 				bspProcessAllDoorMovements(interpolate);

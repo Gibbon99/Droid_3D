@@ -54,12 +54,9 @@ vec3 ApplyLight(int index, vec3 surfaceColor, vec3 normal, vec3 surfacePos, vec3
 {
     vec3        surfaceToLight;
     vec4        lightPosition;
-
-
-    vec3 materialSpecularColor;
+    vec3        materialSpecularColor;
 
     materialSpecularColor = vec3(1,1,1);
-
 
     lightPosition = allLights[index].position;
     vec3 transformed_normal = normal;
@@ -153,8 +150,6 @@ void main()
     vec3 surfaceToCamera = normalize(cameraPosition - position);
 
     finalColor.rgb = vec3(0);
-
-
 
     for (int index = 0; index < numLights; index++)
     {

@@ -197,7 +197,6 @@ void lt_renderFullscreenQuad(int whichShader)
 
 	if (true == showGBuffers)
 		modelMatrix = glm::translate(glm::mat4(), glm::vec3(winWidth / 4, winHeight / 4, 1.0));
-
 	else
 		modelMatrix = glm::translate(glm::mat4(), glm::vec3(0.0, 0.0, 1.0));
 

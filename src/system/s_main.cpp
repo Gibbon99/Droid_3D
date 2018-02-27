@@ -8,7 +8,7 @@
 
 //-----------------------------------------------------------------------------
 //
-// Main function - called first - SDL does the winMain
+// Main function - called first
 int main(int argc, char *argv[])
 //-----------------------------------------------------------------------------
 {

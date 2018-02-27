@@ -1,6 +1,6 @@
 #include "s_varsBSP.h"
 #include "s_entitiesBSP.h"
-#include "../../hdr/bsp/s_doorsBSP.h"
+#include "s_doorsBSP.h"
 #include "s_maths.h"
 #include "s_renderBSP.h"
 #include "s_shaders.h"
@@ -311,7 +311,7 @@ void bsp_drawAllDoors()
 				{
 					case COMPLETE_OUT:
 						numOfDoorsNotDrawn++;
-						return;
+						break;
 
 					case COMPLETE_IN:
 					case INTERSECT:
@@ -369,12 +369,8 @@ bool bsp_checkPlayerVsTrigger()
 					case INTERSECT:
 						if (bspCheckPointDoorCollision(camPosition, i) > -1)
 							{
-								printf("Inside trigger area\n");
 								bspStartModelMoveDoor(i, DOOR_STATE_OPENING);
 							}
-
-						else
-							printf("NOT in trigger area\n");
 				}
 		}
 }

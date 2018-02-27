@@ -224,6 +224,7 @@ void updateScreen(float interpolate)
 	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
 	glViewport(0, 0, winWidth, winHeight);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	//
 	// Get memory to hold vertex and char information
 	ttf_startText();
@@ -239,7 +240,7 @@ void updateScreen(float interpolate)
 				gl_set2DMode();
 
 				gl_setFontColor(0.7f, 0.7f, 0.0f, 0.5);
-				ttf_addText (FONT_SMALL, 0.0f, 0.0f, "BMP FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
+				ttf_addText (FONT_SMALL, 50.0f, winHeight - 16, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
 
 				gl_setFontColor(1.0f, 0.0f, 1.0f, 1.0f);
 				gl_drawScreen(false);
@@ -286,7 +287,7 @@ void updateScreen(float interpolate)
 			break;
 
 			case MODE_GAME:
-				lib_setMouseCursor(true);
+				lib_setMouseCursor(false);
 				glDepthMask(true);
 				glClearDepth(1.0f);
 				//
@@ -297,22 +298,20 @@ void updateScreen(float interpolate)
 				// Disable blending
 				wrapglDisable(GL_BLEND);
 
-
 //        sys_renderToShadowMap(SHADER_COLOR);
 
+//				sys_renderToFBO();
 
-				sys_renderToFBO();
+//				if (true == showGBuffers)
+//					gl_showGBuffers();
 
-				if (true == showGBuffers)
-					gl_showGBuffers();
+//				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-				gl_bindForReading();
+//				gl_bindForReading();
 
 //        lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
 
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 //------------------- Show Light Position --------------------
 				wrapglEnable(GL_DEPTH_TEST);
@@ -323,12 +322,13 @@ void updateScreen(float interpolate)
 				if (true == g_debugLightPos)
 					{
 						for (int i = 0; i != numOfLights; i++)
-							drawLightPos(SHADER_COLOR, allLights[i].position);
+//							drawLightPos(SHADER_COLOR, allLights[i].position);
 
-						drawDebugLine( allLights[0].position, gl_lightDir(), allLights[0].position, DRAW_LINE, 1000, true, 1.0f );
+						drawDebugLine( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
 					}
 
-				bsp_renderLevel(cam_getPosition(), SHADER_RENDER_BSP);
+//				if (false == showGBuffers)
+					bsp_renderLevel(cam_getPosition(), SHADER_RENDER_BSP);
 
 				sys_renderModels(SHADER_RENDER_BSP);
 
@@ -338,21 +338,24 @@ void updateScreen(float interpolate)
 
 				glUseProgram(0);
 
-
+/*
 				if (false == drawWireframe)
 					{
 						bul_enableDebug(drawWireframe);
 
 					}
-
 				else
 					{
 						bul_enableDebug(drawWireframe);
 					}
-
+*/
 				gl_getAllGLErrors (NULL, __func__, __LINE__);
 
 				TwDraw();
+				
+				gl_setFontColor(0.7f, 0.7f, 0.0f, 1.0);
+				ttf_addText (FONT_SMALL, 0.0f, 0.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
+
 				break;
 
 			default:

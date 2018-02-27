@@ -161,8 +161,8 @@ void drawLightPos(int whichShader, glm::vec3 position)
 			//
 			// unbind the VAO
 			glBindVertexArray(0);
-// TODO (dberry#1#): Change to true
-			initDone = false;
+
+			initDone = true;
 		}
 
 	gl_set3DMode();

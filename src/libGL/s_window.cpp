@@ -37,7 +37,6 @@ void lib_setMouseCursor(bool showMouse)
 {
 	if (true == showMouse)
 		glfwSetInputMode	(mainWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
 	else
 		glfwSetInputMode	(mainWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 }
