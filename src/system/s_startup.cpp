@@ -134,7 +134,7 @@ bool initAll()
 //            sys_shutdownToSystem();
 		}
 
-
+/*
 	if (true == gl_initShadowMap(winWidth, winHeight))
 		{
 			gl_unbindWriteShadowMap();
@@ -147,7 +147,7 @@ bool initAll()
 			con_print(CON_ERROR, true, "Shadow mapping framebuffer failed.");
 			sysErrorFatal(__FILE__, __LINE__, "Shadow mapping framebuffer failed.");
 		}
-
+*/
 	bsp_loadBSP("cube.bsp", true);
 
 	lib_initAntBar();

@@ -300,18 +300,18 @@ void updateScreen(float interpolate)
 
 //        sys_renderToShadowMap(SHADER_COLOR);
 
-//				sys_renderToFBO();
+				sys_renderToFBO();
 
-//				if (true == showGBuffers)
-//					gl_showGBuffers();
+				if (true == showGBuffers)
+					gl_showGBuffers();
 
-//				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-//				gl_bindForReading();
+				gl_bindForReading();
 
-//        lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
+				lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
 
-//				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 //------------------- Show Light Position --------------------
 				wrapglEnable(GL_DEPTH_TEST);
@@ -322,17 +322,18 @@ void updateScreen(float interpolate)
 				if (true == g_debugLightPos)
 					{
 						for (int i = 0; i != numOfLights; i++)
-//							drawLightPos(SHADER_COLOR, allLights[i].position);
-
-						drawDebugLine( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
+						{
+							drawLightPos(SHADER_COLOR, allLights[i].position);
+							drawDebugLine( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );						
+						}
 					}
 
 //				if (false == showGBuffers)
-					bsp_renderLevel(cam_getPosition(), SHADER_RENDER_BSP);
+//					bsp_renderLevel(cam_getPosition(), SHADER_RENDER_BSP);
 
-				sys_renderModels(SHADER_RENDER_BSP);
+//				sys_renderModels(SHADER_RENDER_BSP);
 
-				bspDrawAllDoorTriggerZones();
+//				bspDrawAllDoorTriggerZones();
 				
 // -------------------- End Light Position ----------------------
 

@@ -219,9 +219,11 @@ void gl_showGBuffers()
 	// Bottom right
 // Shadowmap depth disabled here
 
+/*
 	lt_renderDepthQuad(SHADER_DEPTHMAP);
 	gl_setFontColor(0.0, 0.0, 0.0, 1.0);
 	ttf_addText(FONT_SMALL, halfWidth, winHeight - 40.0f, "SHADOWMAP");
+*/
 
 	GL_ASSERT(glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0));
 }

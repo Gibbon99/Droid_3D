@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="Droid_3D" Version="10.0.0" InternalType="Console">
   <VirtualDirectory Name="data">
+    <VirtualDirectory Name="shaders">
+      <File Name="data/shaders/ttfFont.vert"/>
+      <File Name="data/shaders/ttfFont.frag"/>
+      <File Name="data/shaders/shadowMap.vert"/>
+      <File Name="data/shaders/shadowMap.frag"/>
+      <File Name="data/shaders/renderBSP.vert"/>
+      <File Name="data/shaders/renderBSP.frag"/>
+      <File Name="data/shaders/pointLight.vert"/>
+      <File Name="data/shaders/pointLight.frag"/>
+      <File Name="data/shaders/physicsDebug.vert"/>
+      <File Name="data/shaders/physicsDebug.frag"/>
+      <File Name="data/shaders/lightPass (copy).frag"/>
+      <File Name="data/shaders/lightPass.vert"/>
+      <File Name="data/shaders/lightPass.frag"/>
+      <File Name="data/shaders/justColor.vert"/>
+      <File Name="data/shaders/justColor.frag"/>
+      <File Name="data/shaders/geometry_pass.vert"/>
+      <File Name="data/shaders/geometry_pass.frag"/>
+      <File Name="data/shaders/depthMap.vert"/>
+      <File Name="data/shaders/depthMap.frag"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="scripts">
       <File Name="data/scripts/conCommands.as"/>
     </VirtualDirectory>
