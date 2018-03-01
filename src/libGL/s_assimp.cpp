@@ -96,14 +96,15 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	if (false == meshModels[whichModel].loaded)
 		return;
 
+/*		// overwriting geomotary shader?
 	if (true == g_debugBoundingBox)
 		debug_showBoundingBox(meshModels[whichModel].boundingBox, pos, scaleBy);
+*/
 
 	//
 	// Work out translation and scale matrix
 	if (-1.0f == scaleBy)
 		scaleFactor = meshModels[whichModel].scaleFactor;
-
 	else
 		scaleFactor = scaleBy;
 
@@ -113,7 +114,7 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	// Adjust the size and position of the mesh
 	scaleMatrix = glm::scale(glm::translate(modelMatrix, pos), glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 	//
-	// Translate model bounding box for texting against frustrum
+	// Translate model bounding box for testing against frustrum
 	minSize = scaleMatrix * glm::vec4(meshModels[whichModel].boundingBox.minSize, 1.0);
 	maxSize = scaleMatrix * glm::vec4(meshModels[whichModel].boundingBox.maxSize, 1.0);
 
@@ -128,10 +129,8 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	GL_ASSERT(glBindVertexArray(meshModels[whichModel].vao_ID));
 	GL_ASSERT(glUseProgram(shaderProgram[whichShader].programID));
 
+	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_viewProjectionMat"), 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_modelMat"), 1, false, glm::value_ptr(scaleMatrix) ));
-
-	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "m_worldToCameraViewMatrix"), 1, false, glm::value_ptr(scaleMatrix)));
-
 	GL_ASSERT(glUniformMatrix3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_normalMatrix"), 1, false, glm::value_ptr(glm::inverseTranspose(glm::mat3(scaleMatrix)))) );
 	//
 	// Always use vertex information
@@ -139,7 +138,7 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
 
-	if (shaderProgram[whichShader].inNormalsID > 0)
+//	if (shaderProgram[whichShader].inNormalsID > 0)
 		{
 			//
 			// Use Normal information
@@ -148,7 +147,7 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 			GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET(0)));
 		}
 
-	if (shaderProgram[whichShader].inTextureCoordsID > 0)
+//	if (shaderProgram[whichShader].inTextureCoordsID > 0)
 		{
 			//
 			// Use Texture coordinate information
@@ -168,15 +167,7 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	GL_ASSERT(glDrawElements(GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL));
 
 	glBindVertexArray(0);
-//    glUseProgram(0);
-}
-
-//-----------------------------------------------------------------------------
-//
-// Create bounding box from model data - need to scale by draw scale size
-void add_getBoundingBox()
-{
-
+    glUseProgram(0);
 }
 
 //-----------------------------------------------------------------------------
@@ -275,6 +266,9 @@ void ass_uploadMesh(aiMesh *mesh, int whichModel, int whichMesh)
 
 	if(mesh->HasNormals())
 		{
+			
+			con_print(CON_INFO, true, "Model [ %i ] contains normals", whichModel);
+			
 			float *normals = new float[mesh->mNumVertices * 3];
 
 			for(int i = 0; i < mesh->mNumVertices; ++i)

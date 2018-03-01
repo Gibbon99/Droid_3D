@@ -28,6 +28,7 @@ _shaderProgram                shaderProgram[] =             // holds all the inf
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "lightPass.vert",       "lightPass.frag"},
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "pointLight.vert",      "pointLight.frag"},
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "renderBSP.vert",       "renderBSP.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "deferredRendering.vert",       "deferredRendering.frag"},
 };
 
 //-----------------------------------------------------------------------------

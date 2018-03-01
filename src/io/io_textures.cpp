@@ -33,7 +33,7 @@ _Texture     *texturesLoaded = NULL;        // Unknown number of textures to be 
 
 _textureNames		textureNames[] =  	// holds all the information about a texture
 {
-	{"wall_2"},
+	{"wall"},
 	{"triax_tracks"},
 	{"alltiles"},
 };

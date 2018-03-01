@@ -539,6 +539,9 @@ void ttf_displayText(int whichFont)
 	GLint *vertIndexes;
 	GLsizei *vertNumber;
 
+//
+// TODO: Stop doing this each frame
+//
 	vertNumber = (GLsizei *)malloc(sizeof(GLsizei) * memCharCount);
 	vertIndexes = (GLint *)malloc(sizeof(GLint) * memCharCount);
 

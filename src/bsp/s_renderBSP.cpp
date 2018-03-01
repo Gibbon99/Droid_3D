@@ -596,7 +596,10 @@ void bsp_drawFacesInArray(int whichShader)
 
 	GL_ASSERT(glUseProgram(shaderProgram[whichShader].programID));
 
-	bsp_sendLightArrayToShader(whichShader);
+//
+//  Only removed for testing - needed to "light" the data
+//
+//	bsp_sendLightArrayToShader(whichShader);
 
 	GL_CHECK(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "materialSpecularColor"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0))));
 	GL_CHECK(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID,  "materialShininess"), 0.0f));

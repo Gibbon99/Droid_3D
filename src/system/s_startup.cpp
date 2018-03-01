@@ -151,6 +151,8 @@ bool initAll()
 	bsp_loadBSP("cube.bsp", true);
 
 	lib_initAntBar();
-
+	
+	gl_registerDebugCallback();
+	
 	return true;
 }

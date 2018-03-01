@@ -87,16 +87,16 @@ bool gl_initDefRender(int screenWidth, int screenHeight)
 	// Create the gbuffer textures
 	GL_ASSERT(glGenTextures(GBUFFER_NUM_TEXTURES, id_textures));
 	//
-	// Create the textures for color, position, normal
-	gl_createGBufTex(GL_TEXTURE0, GL_RGBA16F, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],    GL_RGBA, screenWidth, screenHeight, GL_FLOAT);   // Color
-	gl_createGBufTex(GL_TEXTURE1, GL_RGBA16F, id_textures[GBUFFER_TEXTURE_TYPE_POSITION],   GL_RGB, screenWidth, screenHeight, GL_FLOAT);   // Position
-	gl_createGBufTex(GL_TEXTURE2, GL_RGBA16F, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],     GL_RGB, screenWidth, screenHeight, GL_FLOAT);   // Normal
+	// Create the textures for position, normal, color
+	gl_createGBufTex(GL_TEXTURE0, GL_RGBA32F, id_textures[GBUFFER_TEXTURE_TYPE_POSITION],   GL_RGB, screenWidth, screenHeight, GL_FLOAT);   // Position
+	gl_createGBufTex(GL_TEXTURE1, GL_RGBA16F, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],     GL_RGB, screenWidth, screenHeight, GL_FLOAT);   // Normal
+	gl_createGBufTex(GL_TEXTURE2, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],    GL_RGBA, screenWidth, screenHeight, GL_FLOAT);   // Color / Texture / Diffuse
 	//
 	// Attach the textures to the framebuffer
-	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE], 0));
-	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], 0));
-	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL], 0));
-
+	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], 0));
+	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL], 0));
+	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE], 0));
+	
 	GLenum DrawBuffers[] = { GL_COLOR_ATTACHMENT0,
 	                         GL_COLOR_ATTACHMENT1,
 	                         GL_COLOR_ATTACHMENT2,
@@ -114,7 +114,10 @@ bool gl_initDefRender(int screenWidth, int screenHeight)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, screenWidth, screenHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
 	//
 	// Attach the depth texture to the FBO
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, id_depthTexture, 0);
+
+//
+// Test
+//	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, id_depthTexture, 0);
 
 	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
@@ -191,8 +194,6 @@ void gl_stopDefRender()
 void gl_showGBuffers()
 //-----------------------------------------------------------------------------
 {
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
 	gl_bindForReading();
 
 	GLint halfWidth = winWidth / 2.0f;

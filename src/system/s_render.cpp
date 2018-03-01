@@ -196,21 +196,13 @@ void sys_renderToFBO()
 	gl_bindForWriting();
 	//
 	// Clear FBO - not main visible framebuffer
+	glClearColor(0.1f, 0.1f, 0.0f, 0.0f);
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//
-	// Use shader to write to bound textures
-	GL_CHECK(glUseProgram(shaderProgram[SHADER_GEOMETRY_PASS].programID));
 
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_GEOMETRY_PASS].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+//	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_GEOMETRY_PASS].modelMat, 1, false, glm::value_ptr(modelMatrix)));	
+//	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_GEOMETRY_PASS].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 //    GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_GEOMETRY_PASS].programID, "u_shadowMat"), 1, false, glm::value_ptr(shadowMat)));
 
-//    bsp_renderLevel(cam_getPosition(), SHADER_GEOMETRY_PASS);
-
-	sys_renderModels(SHADER_GEOMETRY_PASS);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	glUseProgram(0);
 }
 
 //-----------------------------------------------------------------------------
@@ -299,21 +291,43 @@ void updateScreen(float interpolate)
 				wrapglDisable(GL_BLEND);
 
 //        sys_renderToShadowMap(SHADER_COLOR);
+#define USE_DEF_RENDER
+//#define USE_NORMAL_RENDER
 
+#ifdef USE_DEF_RENDER
 				sys_renderToFBO();
+				
+//				bsp_renderLevel(cam_getPosition(), SHADER_GEOMETRY_PASS);
+
+//				sys_renderModels(SHADER_GEOMETRY_PASS);
+ass_renderMesh(MODEL_CRATE, SHADER_GEOMETRY_PASS, cam_getPosition(), 0.5f);
+
+			//	bsp_sendLightArrayToShader(SHADER_GEOMETRY_PASS);
+
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+				glUseProgram(0);
+				
+				showGBuffers = true;
 
 				if (true == showGBuffers)
 					gl_showGBuffers();
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 				gl_bindForReading();
 
 				lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				
+ass_renderMesh(MODEL_CRATE, SHADER_TTF_FONT, cam_getPosition() - vec3(0, 100, 0), 0.5f);
 
-//------------------- Show Light Position --------------------
+
+
+#endif
+//-------------------Draw BSP with shader lighting --------------------
+ 
+#ifdef USE_NORMAL_RENDER
 				wrapglEnable(GL_DEPTH_TEST);
 				wrapglDisable(GL_CULL_FACE);
 
@@ -328,15 +342,16 @@ void updateScreen(float interpolate)
 						}
 					}
 
-//				if (false == showGBuffers)
-//					bsp_renderLevel(cam_getPosition(), SHADER_RENDER_BSP);
+				bsp_renderLevel(cam_getPosition(), SHADER_RENDER_BSP);
 
-//				sys_renderModels(SHADER_RENDER_BSP);
+				sys_renderModels(SHADER_RENDER_BSP);
 
-//				bspDrawAllDoorTriggerZones();
+				bsp_sendLightArrayToShader(SHADER_RENDER_BSP);
+
+				bspDrawAllDoorTriggerZones();
 				
-// -------------------- End Light Position ----------------------
-
+// -------------------- End Draw BSP with shader lighting ----------------------
+#endif
 				glUseProgram(0);
 
 /*
@@ -355,7 +370,7 @@ void updateScreen(float interpolate)
 				TwDraw();
 				
 				gl_setFontColor(0.7f, 0.7f, 0.0f, 1.0);
-				ttf_addText (FONT_SMALL, 0.0f, 0.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
+				ttf_addText (FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
 
 				break;
 

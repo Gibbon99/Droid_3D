@@ -234,6 +234,8 @@ void main()
     }
 
     outColor.rgb *= shadowIntensity; //vec3(shadowIntensity, 0, 0);
+	
+	outColor.rgb = vec3(0.0f, 1.0f, 0.0f);
 }
 
 
