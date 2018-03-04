@@ -7,7 +7,7 @@
 
 enum GBUFFER_TEXTURE_TYPE
 {
-	GBUFFER_TEXTURE_TYPE_POSITION,
+	GBUFFER_TEXTURE_TYPE_POSITION = 0,
 
 	GBUFFER_TEXTURE_TYPE_NORMAL,
 	
@@ -15,6 +15,8 @@ enum GBUFFER_TEXTURE_TYPE
 //    GBUFFER_TEXTURE_TYPE_TEXCOORD,
 	GBUFFER_NUM_TEXTURES
 };
+
+extern GLuint          id_textures[];
 
 // Clean up FBO and allocated GBuffers
 void gl_stopDefRender();

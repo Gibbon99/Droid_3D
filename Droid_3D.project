@@ -14,7 +14,6 @@
       <File Name="data/shaders/pointLight.frag"/>
       <File Name="data/shaders/physicsDebug.vert"/>
       <File Name="data/shaders/physicsDebug.frag"/>
-      <File Name="data/shaders/lightPass (copy).frag"/>
       <File Name="data/shaders/lightPass.vert"/>
       <File Name="data/shaders/lightPass.frag"/>
       <File Name="data/shaders/justColor.vert"/>
@@ -669,4 +668,6 @@ hdr/system</SearchPaths>
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>

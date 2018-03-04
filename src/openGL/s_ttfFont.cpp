@@ -534,7 +534,10 @@ void ttf_displayText(int whichFont)
 //
 // Load the matrixes into the vertex shader
 	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].modelMat, 1, false, glm::value_ptr(modelMatrix)));
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+//	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+//
+// viewMatrix is causing flickering on the 3d screen
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * glm::mat4())));	
 
 	GLint *vertIndexes;
 	GLsizei *vertNumber;

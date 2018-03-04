@@ -140,6 +140,8 @@ static void libGetMousePosCallback(GLFWwindow* window, double xpos, double ypos)
 				// Get the difference in movements
 				freelookMouseX = (winWidth / 2 - xpos);
 				freelookMouseY = (winHeight / 2 - ypos);
+				
+				printf("[ %4.2f : %4.2f ]\n", xpos, ypos);
 
 				//
 				// Reset back to the middle of the screen

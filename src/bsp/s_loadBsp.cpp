@@ -262,7 +262,7 @@ bool bsp_loadBSP(const char *strFileName, bool verboseOutput)
 			m_pFaces[i].vNormal.y = m_pFaces[i].vNormal.z;
 			m_pFaces[i].vNormal.z = -temp;
 
-			con_print(CON_INFO, true, "Face [ %i ] effects [ %i ]", i, m_pFaces[i].effect);
+//			con_print(CON_INFO, true, "Face [ %i ] effects [ %i ]", i, m_pFaces[i].effect);
 		}
 
 	// Seek to the position in the file that stores the texture information

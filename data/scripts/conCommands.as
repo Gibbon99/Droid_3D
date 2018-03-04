@@ -24,7 +24,7 @@ void as_setGameVariables()
 	winHeight = 600;
 	//
 	// Freelook mouse speed
-	mouseSpeed = 0.001f;
+	mouseSpeed = 0.01f;
 	//
 	// Player acceleration
 	acceleration = 0.5f;

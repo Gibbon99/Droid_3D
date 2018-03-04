@@ -155,8 +155,8 @@ bool bsp_setupEntities()
 								{
 									strcpy(entityList[tokenCounter].tokenName, result);
 
-									if (true == verbose)
-										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenName [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenName);
+//									if (true == verbose)
+//										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenName [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenName);
 
 									useTokenValue = true;
 
@@ -166,8 +166,8 @@ bool bsp_setupEntities()
 								{
 									strcpy(entityList[tokenCounter].tokenValue, result);
 
-									if (true == verbose)
-										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenValue [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenValue);
+//									if (true == verbose)
+//										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenValue [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenValue);
 
 									useTokenValue = false;
 									tokenCounter++;
@@ -187,7 +187,7 @@ bool bsp_setupEntities()
 		{
 			for (i = 0; i != g_numEntityKeys / 2; i++)
 				{
-					con_print (CON_INFO, true, "Token [ %i ] Name [ %s ] Value [ %s ]", entityList[i].setID, entityList[i].tokenName, entityList[i].tokenValue);
+//					con_print (CON_INFO, true, "Token [ %i ] Name [ %s ] Value [ %s ]", entityList[i].setID, entityList[i].tokenName, entityList[i].tokenValue);
 				}
 		}
 

@@ -165,15 +165,8 @@ void drawDebugLine( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, int
 			GL_CHECK(glEnableVertexAttribArray ( shaderProgram[SHADER_COLOR].inVertsID ));
 		}
 
-//    if (-1.0f == scaleBy)
-//        scaleFactor = meshModels[whichModel].scaleFactor;
-//    else
-//        scaleFactor = ;
-
 	glm::mat4   scaleMatrix;
 	int whichMesh = 0;
-	//
-	// Adjust the size and position of the mesh
 	//
 	// Adjust the size and position of the mesh
 	scaleMatrix = glm::scale(glm::translate(modelMatrix, pos), glm::vec3(scaleBy, scaleBy, scaleBy));
@@ -246,7 +239,6 @@ void gl_set2DMode()
 //-----------------------------------------------------------------------------
 {
 	projMatrix = ortho<float> ( 0.0, winWidth, winHeight, 0.0, 1.0, -1.0 );
-	viewMatrix = glm::mat4();
 }
 
 //-----------------------------------------------------------------------------
@@ -255,10 +247,7 @@ void gl_set2DMode()
 void gl_set3DMode()
 //-----------------------------------------------------------------------------
 {
-//    projMatrix = glm::perspective ( 60.0f, 4.0f / 3.0f, 0.01f, 1000.0f );
 	projMatrix = glm::perspective ( 60.0f, (float)winWidth / (float)winHeight, 0.01f, 1000.0f ); // *** These values are also in the depthMap.frag
-//    modelMatrix = glm::mat4();
-//    viewMatrix = glm::mat4();
 }
 
 

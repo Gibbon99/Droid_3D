@@ -1,30 +1,17 @@
 #version 330
 
-uniform mat4 u_viewProjectionMat;
-uniform mat4 u_modelMat;
-uniform mat4 u_shadowMat;
+layout(location = 0) in vec3 inPosition;
 
-in 	vec3 inPosition;
-in  vec2 inTextureCoords;
-in  vec3 inNormal;
+out vec4 fsPos;
 
-out vec3 fragVert;
-out vec2 fragTexCoord;
-out vec3 fragNormal;
-out vec4 o_shadowCoord;
+uniform mat4 	uVp;
+uniform float 	uLightRadius;
+uniform vec3 	uLightPosition;
 
-void main(void)
+void main()
 {
-    fragTexCoord    = inTextureCoords;
-    fragNormal      = inNormal;
-    fragVert        = inPosition;
+	vec4 pos = uVp * vec4((inPosition * uLightRadius) + uLightPosition, 1.0);
 
-    // screen space position of the vertex from the light source's point of view
-    // plus it is mapped from range [-1, 1]
-    // to [0, 1] by shadowMat in order to be used
-    // as texture coordinates
-    o_shadowCoord = u_shadowMat * u_modelMat * vec4(inPosition, 1);;
-
-    // screen space position of the vertex from camera's point of view
-    gl_Position    = u_viewProjectionMat * u_modelMat * vec4(inPosition, 1.0);
+	gl_Position = pos;
+	fsPos = pos;
 }

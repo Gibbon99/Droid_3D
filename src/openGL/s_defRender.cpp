@@ -45,32 +45,21 @@ void gl_bindForReading()
 //-----------------------------------------------------------------------------
 {
 	GL_CHECK(glBindFramebuffer(GL_READ_FRAMEBUFFER, defRender_FBO));
-
-	/*
-	GL_ASSERT(glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0));
-
-	for (unsigned int i = 0 ; i < ARRAY_SIZE_IN_ELEMENTS(id_textures); i++)
-	    {
-	        wrapglBindTexture(GL_TEXTURE0 + i, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE + i]);
-	    }
-	    */
 }
 
 //-----------------------------------------------------------------------------
 //
 // Create the GBuffer
-void gl_createGBufTex( GLenum texUnit, GLenum internalFormat, GLuint &texid, GLenum format, GLuint width, GLuint height, GLenum dataType )
+void gl_createGBufTex( GLenum texUnit, GLenum format, GLuint &texid, GLuint width, GLuint height )
 //-----------------------------------------------------------------------------
 {
-	GL_ASSERT(glActiveTexture(texUnit));
-	GL_ASSERT(glGenTextures(1, &texid));
-	GL_ASSERT(glBindTexture(GL_TEXTURE_2D, texid));
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    GL_ASSERT(glActiveTexture(texUnit));
+    GL_ASSERT(glGenTextures(1, &texid));
+    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, texid));
+    GL_ASSERT(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_FLOAT, NULL));
 
-	GL_ASSERT(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, dataType, NULL));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
 //-----------------------------------------------------------------------------
@@ -79,82 +68,77 @@ void gl_createGBufTex( GLenum texUnit, GLenum internalFormat, GLuint &texid, GLe
 bool gl_initDefRender(int screenWidth, int screenHeight)
 //-----------------------------------------------------------------------------
 {
-	ZERO_MEM(id_textures);
-	// Create the FBO
-	GL_CHECK(glGenFramebuffers(1, &defRender_FBO));
-	GL_CHECK(glBindFramebuffer(GL_FRAMEBUFFER, defRender_FBO));
-	//
-	// Create the gbuffer textures
-	GL_ASSERT(glGenTextures(GBUFFER_NUM_TEXTURES, id_textures));
-	//
-	// Create the textures for position, normal, color
-	gl_createGBufTex(GL_TEXTURE0, GL_RGBA32F, id_textures[GBUFFER_TEXTURE_TYPE_POSITION],   GL_RGB, screenWidth, screenHeight, GL_FLOAT);   // Position
-	gl_createGBufTex(GL_TEXTURE1, GL_RGBA16F, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],     GL_RGB, screenWidth, screenHeight, GL_FLOAT);   // Normal
-	gl_createGBufTex(GL_TEXTURE2, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],    GL_RGBA, screenWidth, screenHeight, GL_FLOAT);   // Color / Texture / Diffuse
-	//
-	// Attach the textures to the framebuffer
-	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], 0));
-	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL], 0));
-	GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE], 0));
-	
-	GLenum DrawBuffers[] = { GL_COLOR_ATTACHMENT0,
-	                         GL_COLOR_ATTACHMENT1,
-	                         GL_COLOR_ATTACHMENT2,
-	                       };
+    ZERO_MEM(id_textures);
+    // Create the FBO
+    GL_CHECK(glGenFramebuffers(1, &defRender_FBO));
 
-	GL_CHECK(glDrawBuffers(GBUFFER_NUM_TEXTURES, DrawBuffers));
-	//
-	// Create depthTexture - uses GL_DEPTH instead of RGB color
-	glGenTextures(1, &id_depthTexture);
-	glBindTexture(GL_TEXTURE_2D, id_depthTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    GL_CHECK(glBindFramebuffer(GL_FRAMEBUFFER, defRender_FBO));
+    //
+    // Create the gbuffer textures and depth texture
+    GL_ASSERT(glGenTextures(GBUFFER_NUM_TEXTURES, id_textures));
+
+    GL_ASSERT(glGenTextures(1, &id_depthTexture));
+    //
+    // Create the textures for position, normal and color
+    gl_createGBufTex(GL_TEXTURE1, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], screenWidth, screenHeight);  // Position
+    gl_createGBufTex(GL_TEXTURE2, GL_RGB,  id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],   screenWidth, screenHeight);  // Normal
+    gl_createGBufTex(GL_TEXTURE0, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],  screenWidth, screenHeight);  // Color
+    //
+    // Create depthTexture - uses GL_DEPTH instead of RGB color
+    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, id_depthTexture));
+    GL_ASSERT(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, screenWidth, screenHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, screenWidth, screenHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
-	//
-	// Attach the depth texture to the FBO
+    GL_CHECK(glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, id_depthTexture, 0));
+    //
+    // Attach the textures to the framebuffer
+    GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], 0));
+    GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL], 0));
+    GL_ASSERT(glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE], 0));
+    GL_ASSERT(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,  GL_RENDERBUFFER, id_depthTexture));
+	
+    GLenum DrawBuffers[] = { GL_COLOR_ATTACHMENT0,
+                             GL_COLOR_ATTACHMENT1,
+                             GL_COLOR_ATTACHMENT2,
+                           };
 
-//
-// Test
-//	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, id_depthTexture, 0);
+    GL_CHECK(glDrawBuffers(GBUFFER_NUM_TEXTURES, DrawBuffers));
 
-	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
-	if (Status != GL_FRAMEBUFFER_COMPLETE)
-		{
-			switch (Status)
-				{
-					case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-						printf("Not all framebuffer attachment points are framebuffer attachment complete. This means that at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached.\n");
-						break;
+    if (Status != GL_FRAMEBUFFER_COMPLETE)
+        {
+            switch (Status)
+                {
+                case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+                    printf("Not all framebuffer attachment points are framebuffer attachment complete. This means that at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached.\n");
+                    break;
 
-					case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
-						printf("Not all attached images have the same width and height.\n");
-						break;
+                case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+                    printf("Not all attached images have the same width and height.\n");
+                    break;
 
-					case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-						printf("No images are attached to the framebuffer.\n");
-						break;
+                case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+                    printf("No images are attached to the framebuffer.\n");
+                    break;
 
-					case GL_FRAMEBUFFER_UNSUPPORTED:
-						printf("The combination of internal formats of the attached images violates an implementation-dependent set of restrictions.\n");
-						break;
-				}
+                case GL_FRAMEBUFFER_UNSUPPORTED:
+                    printf("The combination of internal formats of the attached images violates an implementation-dependent set of restrictions.\n");
+                    break;
+                }
+            con_print(CON_ERROR, true, "Error: Failed to create GBuffers - status [ 0x%x ]", Status);
+            //
+            // restore default FBO
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            return false;
+        }
 
-			con_print(CON_ERROR, true, "Error: Failed to create GBuffers - status [ 0x%x ]", Status);
-			//
-			// restore default FBO
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			return false;
-		}
+    // restore default FBO
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	// restore default FBO
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-//    printFramebufferInfo();
-
-	return true;
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -218,15 +202,9 @@ void gl_showGBuffers()
 	ttf_addText(FONT_SMALL, halfWidth, 5.0f, "NORMALS");
 	//
 	// Bottom right
-// Shadowmap depth disabled here
-
-/*
-	lt_renderDepthQuad(SHADER_DEPTHMAP);
-	gl_setFontColor(0.0, 0.0, 0.0, 1.0);
-	ttf_addText(FONT_SMALL, halfWidth, winHeight - 40.0f, "SHADOWMAP");
-*/
-
-	GL_ASSERT(glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0));
+    lt_renderDepthQuad(SHADER_DEPTHMAP);
+    gl_setFontColor(1.0, 1.0, 0.0, 1.0);
+    ttf_addText(FONT_SMALL, halfWidth, winHeight - 40.0f, "DEPTH");
 }
 
 
@@ -446,8 +424,8 @@ std::string getTextureParameters(GLuint id)
 	formatName = convertInternalFormatToString(format);
 
 	std::string ss;
-//    ss << width << "x" << height << ", " << formatName;
 	ss = formatName;
+	
 	return ss;
 }
 
@@ -472,8 +450,8 @@ std::string getRenderbufferParameters(GLuint id)
 	formatName = convertInternalFormatToString(format);
 
 	std::string ss;
-//    ss << width << "x" << height << ", " << formatName;
 	ss = formatName;
+	
 	return ss;
 }
 
@@ -484,9 +462,6 @@ std::string getRenderbufferParameters(GLuint id)
 void printFramebufferInfo()
 //-----------------------------------------------------------------------------
 {
-
-//    return;
-
 
 	con_print(CON_INFO, true, "===== FBO STATUS =====");
 

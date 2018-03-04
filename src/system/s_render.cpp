@@ -48,45 +48,6 @@ glm::mat4 shadowProjMat;
 bool        drawWireframe = false;
 bool        showGBuffers = false;
 
-GLfloat cube_colors[] =
-{
-	0.6, 0.6, 0.6, 0.5,
-	0.6, 0.6, 0.6, 0.5,
-	0.6, 0.6, 0.6, 0.5,
-	0.6, 0.6, 0.6, 0.5,
-};
-
-#define GROUND_SIZE 50.0
-
-GLfloat cubeVertsBig[] =
-{
-	-GROUND_SIZE,  0.0,  GROUND_SIZE,
-	-GROUND_SIZE,  0.0, -GROUND_SIZE,
-	GROUND_SIZE,  0.0, -GROUND_SIZE,
-	GROUND_SIZE,  0.0,  GROUND_SIZE,
-};
-
-GLfloat groundTexCoords[] =
-{
-	0.0, 0.0,
-	0.0, 1.0,
-	1.0, 1.0,
-	1.0, 0.0,
-};
-
-unsigned int faceIndex[] =
-{
-	0,1,2,0,2,3,
-	4,5,6,4,6,7,
-	2,5,4,2,4,3,
-	2,1,6,2,5,6,
-	0,6,1,0,7,6,
-	3,0,7,3,7,4
-};
-
-glm::vec3   verts[8];
-glm::vec4   colors[8];
-
 //-----------------------------------------------------------------------------
 //
 // Render all the models - pass in shader to use
@@ -98,9 +59,6 @@ void sys_renderModels(int whichShader)
 	// Reset counter
 	numSkippedModels = 0;
 
-	GL_CHECK(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "materialSpecularColor"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0))));
-	GL_CHECK(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID,  "materialShininess"), 200.0f));
-
 	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(10.0, 15.0, 50.0), 0.3f);
 	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(-40.0, 15.0, 60.0), 0.3f);
 	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(-80.0, 15.0, 70.0), 0.3f);
@@ -110,18 +68,13 @@ void sys_renderModels(int whichShader)
 
 	gam_drawBullets(whichShader);
 
-
-//    ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(-50.0, -280.0, -100.0), 5.0f);
-
 	switch (whichShader)
 		{
 			case SHADER_SHADOWMAP:
 			case SHADER_POINT_LIGHT:
 				glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID, "materialShininess"),1000.0f);
-//        ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(-50.0, -280.0, -100.0), 5.0f);
 				break;
 		}
-
 }
 
 //-----------------------------------------------------------------------------
@@ -170,8 +123,6 @@ void sys_renderToShadowMap(int whichShader)
 
 	sys_renderModels(whichShader);
 
-//           testDrawVoxel(SHADER_COLOR);
-
 	glDisable(GL_POLYGON_OFFSET_FILL);
 	gl_stopShadowMap();
 	glUseProgram(0);
@@ -185,24 +136,28 @@ void sys_renderToShadowMap(int whichShader)
 void sys_renderToFBO()
 //-----------------------------------------------------------------------------
 {
-	static bool debugOnce = false;
-
+	glDepthMask(true);
+	glClearDepth(1.0f);
+	//
+	// Enable depth test
+	wrapglEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	
+	//
+	// Disable blending
+	wrapglDisable(GL_BLEND);
+	wrapglDisable(GL_CULL_FACE);
+	
 	gl_set3DMode();
-	modelMatrix = mat4();
-
-	cam_look(camPosition, camDirection);
-	//
-	// Bind FBO for writing
+	
 	gl_bindForWriting();
-	//
-	// Clear FBO - not main visible framebuffer
-	glClearColor(0.1f, 0.1f, 0.0f, 0.0f);
+	
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-//	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_GEOMETRY_PASS].modelMat, 1, false, glm::value_ptr(modelMatrix)));	
-//	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_GEOMETRY_PASS].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
-//    GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_GEOMETRY_PASS].programID, "u_shadowMat"), 1, false, glm::value_ptr(shadowMat)));
-
+	
+	GL_CHECK(glUseProgram(shaderProgram[SHADER_GEOMETRY_PASS].programID));
+	
+	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_GEOMETRY_PASS].programID, "u_viewProjectionMat"), 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+	
 }
 
 //-----------------------------------------------------------------------------
@@ -213,7 +168,7 @@ void updateScreen(float interpolate)
 {
 //    char profileText[64];
 
-	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glViewport(0, 0, winWidth, winHeight);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -227,7 +182,7 @@ void updateScreen(float interpolate)
 			{
 
 				lib_setMouseCursor(true);
-//        PROFILE("Frame");
+        PROFILE("Frame");
 
 				gl_set2DMode();
 
@@ -239,7 +194,7 @@ void updateScreen(float interpolate)
 
 				// Draw GUI
 				{
-//            PROFILE("GUI");
+            PROFILE("GUI");
 					char        antParams[32];
 					sprintf(antParams, "Frame size='%i %i'", antBarWidth, antBarHeight);
 					TwDefine(antParams); // resize bar
@@ -248,7 +203,9 @@ void updateScreen(float interpolate)
 					TwDefine(antParams); // position bar
 					TwDraw();
 				}
-				/*
+				
+				
+#ifdef SHOW_PROFILE_STATS
 				std::string s = VSProfileLib::DumpLevels();
 
 				char tempString[128];
@@ -272,66 +229,34 @@ void updateScreen(float interpolate)
 				                ttf_addText(0, 450, posY + (conFontSize * yCount), tempString);
 				            }
 				        }
-				*/
-			}
-
-
+#endif
+			}	// end of case
 			break;
 
 			case MODE_GAME:
 				lib_setMouseCursor(false);
-				glDepthMask(true);
-				glClearDepth(1.0f);
-				//
-				// Enable depth test
-				wrapglEnable(GL_DEPTH_TEST);
-				glDepthFunc(GL_LEQUAL);
-				//
-				// Disable blending
-				wrapglDisable(GL_BLEND);
-
-//        sys_renderToShadowMap(SHADER_COLOR);
-#define USE_DEF_RENDER
-//#define USE_NORMAL_RENDER
-
-#ifdef USE_DEF_RENDER
-				sys_renderToFBO();
 				
-//				bsp_renderLevel(cam_getPosition(), SHADER_GEOMETRY_PASS);
+				sys_renderToFBO();
 
-//				sys_renderModels(SHADER_GEOMETRY_PASS);
-ass_renderMesh(MODEL_CRATE, SHADER_GEOMETRY_PASS, cam_getPosition(), 0.5f);
+				bsp_renderLevel(cam_getPosition(), SHADER_GEOMETRY_PASS);
 
-			//	bsp_sendLightArrayToShader(SHADER_GEOMETRY_PASS);
+				bspDrawAllDoorTriggerZones();
+
+				sys_renderModels(SHADER_GEOMETRY_PASS);
+
+				ass_renderMesh(MODEL_CRATE, SHADER_GEOMETRY_PASS, vec3(144.0f, 64.0f, 8.0f), 0.5f);
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 				glUseProgram(0);
 				
-				showGBuffers = true;
-
 				if (true == showGBuffers)
 					gl_showGBuffers();
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-				gl_bindForReading();
+				glUseProgram(0);
 
-				lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
-
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-				
-ass_renderMesh(MODEL_CRATE, SHADER_TTF_FONT, cam_getPosition() - vec3(0, 100, 0), 0.5f);
-
-
-
-#endif
-//-------------------Draw BSP with shader lighting --------------------
- 
-#ifdef USE_NORMAL_RENDER
-				wrapglEnable(GL_DEPTH_TEST);
-				wrapglDisable(GL_CULL_FACE);
-
-				g_debugLightPos = true;
+//				wrapglEnable(GL_DEPTH_TEST);
+//				wrapglDisable(GL_CULL_FACE);
 
 				if (true == g_debugLightPos)
 					{
@@ -342,32 +267,14 @@ ass_renderMesh(MODEL_CRATE, SHADER_TTF_FONT, cam_getPosition() - vec3(0, 100, 0)
 						}
 					}
 
-				bsp_renderLevel(cam_getPosition(), SHADER_RENDER_BSP);
+//				bsp_sendLightArrayToShader(SHADER_RENDER_BSP);
 
-				sys_renderModels(SHADER_RENDER_BSP);
+//				TwDraw();
+				gl_set2DMode();
+				lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
 
-				bsp_sendLightArrayToShader(SHADER_RENDER_BSP);
-
-				bspDrawAllDoorTriggerZones();
-				
-// -------------------- End Draw BSP with shader lighting ----------------------
-#endif
-				glUseProgram(0);
-
-/*
-				if (false == drawWireframe)
-					{
-						bul_enableDebug(drawWireframe);
-
-					}
-				else
-					{
-						bul_enableDebug(drawWireframe);
-					}
-*/
-				gl_getAllGLErrors (NULL, __func__, __LINE__);
-
-				TwDraw();
+gl_set3DMode();
+				lt_renderPointLights();
 				
 				gl_setFontColor(0.7f, 0.7f, 0.0f, 1.0);
 				ttf_addText (FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
@@ -384,5 +291,4 @@ ass_renderMesh(MODEL_CRATE, SHADER_TTF_FONT, cam_getPosition() - vec3(0, 100, 0)
 	ttf_displayText(FONT_SMALL);
 
 	lib_swapBuffers();
-	glfwPollEvents();
 }

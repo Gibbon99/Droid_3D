@@ -12,5 +12,5 @@ void main(void)
 {
 	texCoord0 = inTextureCoords;
 
-    gl_Position = u_viewProjectionMat * u_modelMat * vec4(inPosition, 1.0);
+    gl_Position = u_viewProjectionMat * vec4(inPosition, 1.0);
 }

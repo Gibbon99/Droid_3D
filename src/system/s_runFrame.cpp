@@ -27,10 +27,8 @@ void gameTickRun( float interpolate )
 				break;
 
 			case MODE_GAME:
-
+				glfwPollEvents();
 //                cam_update( interpolate );
-				cam_setViewByMouse( freelookMouseX, freelookMouseY );
-
 //                cam_moveTo( wantedCamPosition );      // Handle BSP collision event here - modify wantedCamPosition if required
 
 //cameraLockedToPhysics = true;
@@ -59,7 +57,9 @@ void gameTickRun( float interpolate )
 
 				cam_look(camPosition, camDirection);
 
-				bsp_processLightEffect(interpolate);
+				cam_setViewByMouse( freelookMouseX, freelookMouseY );
+				
+//				bsp_processLightEffect(interpolate);
 //				shadowMoveLight(interpolate);
 				gam_processBulletMovement(interpolate);
 				bsp_checkPlayerVsTrigger();

@@ -1,21 +1,23 @@
 #version 330
 
-#define MAX_LIGHTS 10
+//#define MAX_LIGHTS 10
 
-uniform sampler2D   tDiffuse;
 uniform sampler2D   tPosition;
 uniform sampler2D   tNormals;
-uniform sampler2D   tShadowMap;
-uniform sampler2D   tDepthMap;
+uniform sampler2D   tDiffuse;
 
-uniform vec3        cameraPosition;
+/*
+//uniform sampler2D   tShadowMap;
+//uniform sampler2D   tDepthMap;
 
-uniform mat4        cameraToLight;
+//uniform vec3        cameraPosition;
 
-uniform float       materialShininess;
-uniform vec3        materialSpecularColor;
+//uniform mat4        cameraToLight;
 
-uniform int numLights;
+//uniform float       materialShininess;
+//uniform vec3        materialSpecularColor;
+
+//uniform int numLights;
 
 uniform struct Light
 {
@@ -27,11 +29,12 @@ uniform struct Light
     vec3     coneDirection;
 } allLights[MAX_LIGHTS];
 
+ * */
 in vec2     fragTexCoord0;
 
 out vec4    outColor;
-vec4        ShadowCoord;
-
+//vec4        ShadowCoord;
+/*
 //-----------------------------------------------------------------------------
 //
 // Debug depth texture
@@ -197,45 +200,19 @@ vec3 ApplyLight(int index, vec3 surfaceColor, vec3 normal, vec3 surfacePos, vec3
     //linear color (color before gamma correction)
     return ambient + attenuation*(diffuse + specular);
 }
-
+*/
 
 void main()
 {
     vec3 normal =       texture(tNormals,   fragTexCoord0.xy).rgb;
     vec4 color   =      texture(tDiffuse,   fragTexCoord0.xy);
     vec3 position =     texture(tPosition,  fragTexCoord0.xy).rgb;
-    vec3 surfaceToCamera = normalize(cameraPosition - position);
 
-    outColor = vec4(0);
+    outColor.rgb = texture2D(tDiffuse, fragTexCoord0).rgb;
 
-    for (int index = 0; index < 4; index++)
-    {
-        outColor.rgb += ApplyLight(index, color.rgb, normal, position, surfaceToCamera);
-    }
-    //
-    // Gamma correction
-    vec3 gamma = vec3(1.0/2.2);
-    outColor.rgb = vec3(pow(outColor.rgb, gamma)) * 4;
-
-    return;
-
-    //
-    // Shadows
-    bool shadow = readShadowMap();
-    float shadowIntensity = 1.0;
-
-    if (true == shadow)
-    {
-        shadowIntensity = 0.5; //getShadowFactor();
-    }
-    else
-    {
-        shadowIntensity = 1.0;
-    }
-
-    outColor.rgb *= shadowIntensity; //vec3(shadowIntensity, 0, 0);
+    vec3 gamma = vec3(1.0/0.8);
 	
-	outColor.rgb = vec3(0.0f, 1.0f, 0.0f);
+    outColor.rgb = vec3(pow(outColor.rgb, gamma)) * 4;
 }
 
 

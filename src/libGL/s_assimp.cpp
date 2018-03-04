@@ -96,10 +96,9 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	if (false == meshModels[whichModel].loaded)
 		return;
 
-/*		// overwriting geomotary shader?
+		// overwriting shader?
 	if (true == g_debugBoundingBox)
 		debug_showBoundingBox(meshModels[whichModel].boundingBox, pos, scaleBy);
-*/
 
 	//
 	// Work out translation and scale matrix
@@ -129,25 +128,27 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	GL_ASSERT(glBindVertexArray(meshModels[whichModel].vao_ID));
 	GL_ASSERT(glUseProgram(shaderProgram[whichShader].programID));
 
-	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_viewProjectionMat"), 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+
+//	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_viewProjectionMat"), 1, false, glm::value_ptr(viewMatrix * projMatrix)));
 	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_modelMat"), 1, false, glm::value_ptr(scaleMatrix) ));
-	GL_ASSERT(glUniformMatrix3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_normalMatrix"), 1, false, glm::value_ptr(glm::inverseTranspose(glm::mat3(scaleMatrix)))) );
+//	GL_ASSERT(glUniformMatrix3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_normalMatrix"), 1, false, glm::value_ptr(glm::inverseTranspose(glm::mat3(scaleMatrix)))) );
+
 	//
 	// Always use vertex information
 	GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER]));
 	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
 
-//	if (shaderProgram[whichShader].inNormalsID > 0)
+	if (shaderProgram[whichShader].inNormalsID > 0)
 		{
 			//
 			// Use Normal information
 			GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER]));
 			GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
-			GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET(0)));
+			GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 )));
 		}
 
-//	if (shaderProgram[whichShader].inTextureCoordsID > 0)
+	if (shaderProgram[whichShader].inTextureCoordsID > 0)
 		{
 			//
 			// Use Texture coordinate information
@@ -157,12 +158,7 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 		}
 
 	wrapglBindTexture(GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID);
-	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
-	//
-	// Disable second texture
-	wrapglBindTexture(GL_TEXTURE1, 0);
-	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1));
-	glDisableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1);
+//	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
 
 	GL_ASSERT(glDrawElements(GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL));
 

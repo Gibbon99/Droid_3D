@@ -4,33 +4,23 @@ in vec3 WorldPos0;
 in vec3 Normal0;
 in vec2 TexCoord0;
 
-out vec4 DiffuseOut;
-out vec3 WorldPosOut;
-out vec4 NormalOut;
-
-out vec4 fragColor;
+layout (location=0) out vec3 WorldPosOut;
+layout (location=1) out vec3 NormalOut;
+layout (location=2) out vec3 DiffuseOut;
 
 uniform sampler2D inTexture0;
+//uniform sampler2D inTexture1;
 
 void main()
 {
     //
-    // Diffuse - texture image
-	DiffuseOut      = texture(inTexture0, TexCoord0).rgba;
-	
-	DiffuseOut.rgba = vec4(200.5f, 0.0f, 0.0f, 0.5f);
-
-    //
     // Position within the world
-	WorldPosOut     = WorldPos0.xyz;
+	WorldPosOut     = WorldPos0;
     //
     // Normals for the model
-    NormalOut       = vec4(Normal0, 0);
-//    NormalOut.xyz       = (Normal0 + vec3(0.0)) * 0.5;
-//	NormalOut.w = 0.0;
-//	TexCoordOut     = vec3(TexCoord0, 0.0);
+	NormalOut       = normalize(Normal0);
+    //
+    // Diffuse - texture image
+	DiffuseOut      = texture2D(inTexture0, TexCoord0).xyz;
+
 }
-
-
- // w-component: 1 for positions and 0 for vectors
-

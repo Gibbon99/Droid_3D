@@ -1,4 +1,5 @@
 #include "s_globals.h"
+#include "s_vsProfileLib.h"
 #include "s_varsBSP.h"
 #include "s_maths.h"
 #include "s_shaders.h"
@@ -281,6 +282,9 @@ void bsp_createFaceGPUInfo(tBSPFace *ptrFace)
 void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 //-----------------------------------------------------------------------------
 {
+	
+//	PROFILE("BSP");
+	
 #define SLOW_WAY 1
 
 #ifdef SLOW_WAY
@@ -295,28 +299,29 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 	// position
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID,3, GL_FLOAT,GL_FALSE, stride, offsetof(_myVertex, position) ));
+		// Normals
+	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
+	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(_myVertex, normals)));
 	//
 	// Texture coordinates
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
 	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof(_myVertex, texCoords)));
 	//
 	// Lightmap coordinates
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
-	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, false, stride, offsetof(_myVertex, lightmapCoords)));
+//	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
+//	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, false, stride, offsetof(_myVertex, lightmapCoords)));
 	//
-	// Normals
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
-	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(_myVertex, normals)));
 
 	//
 	// Enable attribute to hold vertex information
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
+	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));	
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
+//	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
+	
 
-	wrapglBindTexture(GL_TEXTURE1, m_lightmaps[0]);
-	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1));
+//	wrapglBindTexture(GL_TEXTURE1, m_lightmaps[0]);
+//	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1));
 
 //    GL_CHECK(glDrawElements(GL_TRIANGLES, ptrFace->numMeshVerts, GL_UNSIGNED_INT, 0));
 
@@ -338,20 +343,21 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, stride, (offsetof(tBSPVertex, vPosition))));
 
+	// Normals
+	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
+	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(tBSPVertex, vNormal)));
+
 	// Texture coords
 	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
 	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof(tBSPVertex, vTextureCoord)));
 
 	// Lightmap coords - not used in shader yet
-	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
-	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, false, stride, offsetof(tBSPVertex, vLightmapCoord)));
+//	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
+//	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, false, stride, offsetof(tBSPVertex, vLightmapCoord)));
 
-	// Normals
-	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
-	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(tBSPVertex, vNormal)));
 
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+//	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
+//	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 
 	GL_ASSERT(glDrawElementsBaseVertex(GL_TRIANGLES, ptrFace->numMeshVerts, GL_UNSIGNED_INT, (const GLvoid *)ptrFace->startMeshVertIndex, ptrFace->startVertIndex));
 
@@ -601,16 +607,16 @@ void bsp_drawFacesInArray(int whichShader)
 //
 //	bsp_sendLightArrayToShader(whichShader);
 
-	GL_CHECK(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "materialSpecularColor"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0))));
-	GL_CHECK(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID,  "materialShininess"), 0.0f));
+//	GL_CHECK(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "materialSpecularColor"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0))));
+//	GL_CHECK(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID,  "materialShininess"), 0.0f));
 
-	glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "cameraPosition"), 1, glm::value_ptr(camPosition));
-	glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "projMatrix"), 1, glm::value_ptr(viewMatrix));
+//	glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "cameraPosition"), 1, glm::value_ptr(camPosition));
+//	glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "projMatrix"), 1, glm::value_ptr(viewMatrix));
 
 	wrapglBindTexture(GL_TEXTURE0, texturesLoaded[TEX_WALL].texID);
-	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
+//	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
 
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+//	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 
 	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_modelMat"), 1, false, glm::value_ptr(modelMatrix) ));
 
