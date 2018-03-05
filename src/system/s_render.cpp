@@ -244,7 +244,7 @@ void updateScreen(float interpolate)
 
 				sys_renderModels(SHADER_GEOMETRY_PASS);
 
-				ass_renderMesh(MODEL_CRATE, SHADER_GEOMETRY_PASS, vec3(144.0f, 64.0f, 8.0f), 0.5f);
+//				ass_renderMesh(MODEL_CRATE, SHADER_GEOMETRY_PASS, vec3(144.0f, 64.0f, 8.0f), 0.5f);
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				glUseProgram(0);
@@ -255,8 +255,17 @@ void updateScreen(float interpolate)
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				glUseProgram(0);
 
-//				wrapglEnable(GL_DEPTH_TEST);
-//				wrapglDisable(GL_CULL_FACE);
+				wrapglEnable(GL_DEPTH_TEST);
+				wrapglDisable(GL_CULL_FACE);
+				
+				if (false == showGBuffers)
+				{
+					gl_bindForReading();
+					lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
+					
+					lt_renderPointLights();
+				}
+					
 
 				if (true == g_debugLightPos)
 					{
@@ -270,11 +279,8 @@ void updateScreen(float interpolate)
 //				bsp_sendLightArrayToShader(SHADER_RENDER_BSP);
 
 //				TwDraw();
-				gl_set2DMode();
-				lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
 
-gl_set3DMode();
-				lt_renderPointLights();
+				
 				
 				gl_setFontColor(0.7f, 0.7f, 0.0f, 1.0);
 				ttf_addText (FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);

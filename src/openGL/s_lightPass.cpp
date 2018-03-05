@@ -49,7 +49,7 @@ void lt_renderPointLights()
 	// Enable alpha blending. So that the rendered point lights are added to the framebuffer.
 	//
 	GL_CHECK(glDisable(GL_DEPTH_TEST));
-	GL_CHECK(glEnable(GL_BLEND));
+//	GL_CHECK(glEnable(GL_BLEND));
 	GL_CHECK(glBlendFunc(GL_ONE, GL_ONE));
 
 	// We render only the inner faces of the light sphere.
@@ -77,7 +77,8 @@ void lt_renderPointLights()
 
 	GL_CHECK(glUniform3f(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uCameraPos"), camPosition.x, camPosition.y, camPosition.z));
 
-	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uVp"), 1, GL_FALSE, glm::value_ptr(viewMatrix * projMatrix)));
+	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "u_viewProjectionMat"), 1, GL_FALSE, glm::value_ptr(projMatrix * viewMatrix)));
+	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "u_modelMat"), 1, GL_FALSE, glm::value_ptr(modelMatrix) ));
 
 	// We render every point light as a light sphere. And this light sphere is added onto the framebuffer
 	// with additive alpha blending.
@@ -102,7 +103,9 @@ void lt_renderPointLights()
 
 			GL_CHECK(glUniform3f(lightPosID, allLights[i].position.x, allLights[i].position.y, allLights[i].position.z));
 // might be xyz
-			GL_CHECK(glUniform3f(colorPosID, allLights[i].color.x, allLights[i].color.y, allLights[i].color.z));
+			//GL_CHECK(glUniform3f(colorPosID, allLights[i].color.x, allLights[i].color.y, allLights[i].color.z));
+			
+			GL_CHECK(glUniform3f(colorPosID, 200.0f, 0.0f, 0.0f));
 
 			GL_CHECK(glDrawElements(GL_TRIANGLES, lightSphereIndexCount, GL_UNSIGNED_INT, 0));
 		}
@@ -163,6 +166,8 @@ void lt_createLightSphere()
 		}
 
 	lightSphereIndexCount = indices.size();
+	
+	con_print(CON_INFO, true, "lightSphereIndexCount [ %i ]", lightSphereIndexCount);
 
 	// upload geometry to GPU.
 	GL_CHECK(glGenBuffers(1, &lightSpherePositionVbo));
@@ -173,10 +178,10 @@ void lt_createLightSphere()
 	GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightSphereIndexVbo));
 	GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*indices.size(), indices.data(), GL_STATIC_DRAW));
 
-//	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
-//	GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
+	GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
-glBindVertexArray(0);
+	glBindVertexArray(0);
 }
 
 //-----------------------------------------------------------------------------
@@ -219,108 +224,89 @@ void lt_beginLightPass()
 void lt_renderFullscreenQuad(int whichShader)
 //-----------------------------------------------------------------------------
 {
-
-	GLfloat quadVerts[] =
-	{
-
-		0.0,						0.0,
-		(float)winWidth / 2.0f,   	0.0,
-		(float)winWidth / 2.0f,   	(float)winHeight / 2.0f,
-		0.0,						(float)winHeight / 2.0f,
-	};
-
+	
+	glm::vec2			quadVerts[4];
+	GLuint				vao;
+	GLuint				buffers[2];
+	int					faceCount = 2;
+	
+	static GLuint vboQuadTex;
+	
+	quadVerts[0].x = -1.0f;
+	quadVerts[0].y = -1.0f;
+	
+	quadVerts[1].x = 1.0;
+	quadVerts[1].y = -1.0f;
+	
+	quadVerts[2].x = -1.0;
+	quadVerts[2].y = 1.0;
+	
+	quadVerts[3].x = 1.0f;
+	quadVerts[3].y = 1.0;
+	
 	GLfloat quadTexCoords[] =
 	{
-		0.0,      1.0,
-		1.0,      1.0,
-		1.0,      0.0,
-		0.0,      0.0,
+		0.0, 0.0,
+		1.0, 0.0,
+		0.0, 1.0,
+		1.0, 1.0,
 	};
+	
+	// create the VAO
+	GL_ASSERT(glGenVertexArrays(1, &vao));
+	GL_CHECK(glBindVertexArray(vao));
 
-	static bool initDone = false;
-	static GLuint vboQuad, vboQuadTex, vaoQuad;
+	// Create buffers for the vertex data
+	GL_ASSERT(glGenBuffers(2, buffers));
 
-	if (true == showGBuffers)
-		{
-			quadVerts[2] = winWidth / 2;
-			quadVerts[4] = winWidth / 2;
-			quadVerts[5] = winHeight / 2;
-			quadVerts[7] = winHeight / 2;
-
-		}
-
-	else
-		{
-			quadVerts[2] = winWidth;
-			quadVerts[4] = winWidth;
-			quadVerts[5] = winHeight;
-			quadVerts[7] = winHeight;
-		}
-
-	if (false == initDone)
-		{
-			//
-			// Enable the shader program
-			GL_CHECK(glUseProgram(shaderProgram[whichShader].programID));
-
-			GL_ASSERT(glGenVertexArrays(1, &vaoQuad));
-			GL_CHECK(glBindVertexArray(vaoQuad));
-
-			GL_ASSERT(glGenBuffers(1, &vboQuad));
-			//
-			// Use Vertices
-			GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vboQuad));
-			GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof (GLfloat) * 8, &quadVerts, GL_STATIC_DRAW));
-			GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
-			GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
-			//GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
-
-			GL_ASSERT(glGenBuffers(1, &vboQuadTex));
-			//
-			// Use texture coords
-			GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vboQuadTex));
-			GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof (GLfloat) * 8, &quadTexCoords, GL_STATIC_DRAW));
-			GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-			GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
-			GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
-
-			initDone = true;
-		}
-
-	//
-	// Use the program to make the attributes available
 	GL_CHECK(glUseProgram(shaderProgram[whichShader].programID));
 
-	wrapglBindTexture(GL_TEXTURE0, gl_returnTexID(GBUFFER_TEXTURE_TYPE_DIFFUSE));
-	GL_CHECK(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
+	// Vertex coordinates buffer
+	GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, buffers[0]));
+	GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof(quadVerts), quadVerts, GL_STATIC_DRAW));
+	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
+	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0)));
 
-	if (true == showGBuffers)
-		modelMatrix = glm::translate(glm::mat4(), glm::vec3(winWidth / 4, winHeight / 4, 1.0));
-
-	else
-		modelMatrix = glm::translate(glm::mat4(), glm::vec3(0.0, 0.0, 1.0));
+	GL_ASSERT(glGenBuffers(1, &vboQuadTex));
+	//
+	// Use texture coords
+	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vboQuadTex));
+	GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof (quadTexCoords), &quadTexCoords, GL_STATIC_DRAW));
+	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
+	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
+	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
+	
+	modelMatrix = glm::mat4();
 
 	//
-	// Load the matrixes into the vertex shader
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * glm::mat4() )));
+	// Bind texture if it's not already bound as current texture
+	GL_CHECK(glActiveTexture(GL_TEXTURE0 + 0));
+	GL_CHECK(glBindTexture(GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION]));
+	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "tPosition"), 0));
 
-	GL_CHECK(glBindVertexArray(vaoQuad));
+	GL_CHECK(glActiveTexture(GL_TEXTURE0 + 1));
+	GL_CHECK(glBindTexture(GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL]));
+	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "tNormals"), 1));
+
+	GL_CHECK(glActiveTexture(GL_TEXTURE0 + 2));
+	GL_CHECK(glBindTexture(GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE]));
+	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "tDiffuse"), 2));
+
+
+	GL_CHECK(glUniform3f(glGetUniformLocation(shaderProgram[whichShader].programID, "cameraPosition"), camPosition.x, camPosition.y, camPosition.z));
+	
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
+
+	//
+	// Enable attribute to hold vertex information
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-	//
-	// Draw a triangle
-	GL_CHECK(glDrawArrays(GL_TRIANGLE_FAN, 0, 4));
-
-	glDisableVertexAttribArray(shaderProgram[whichShader].inVertsID);
-	glDisableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID);
-
-	glBindVertexArray(0);
+	
+	GL_CHECK(glDrawArrays(GL_TRIANGLE_STRIP, 0, 4));
+	
 	glUseProgram(0);
-
-	gl_set3DMode();
+	glBindVertexArray(0);
 }
-
 
 //-----------------------------------------------------------------------------
 //

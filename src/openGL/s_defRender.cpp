@@ -80,9 +80,9 @@ bool gl_initDefRender(int screenWidth, int screenHeight)
     GL_ASSERT(glGenTextures(1, &id_depthTexture));
     //
     // Create the textures for position, normal and color
-    gl_createGBufTex(GL_TEXTURE1, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], screenWidth, screenHeight);  // Position
-    gl_createGBufTex(GL_TEXTURE2, GL_RGB,  id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],   screenWidth, screenHeight);  // Normal
-    gl_createGBufTex(GL_TEXTURE0, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],  screenWidth, screenHeight);  // Color
+    gl_createGBufTex(GL_TEXTURE0, GL_RGB,  id_textures[GBUFFER_TEXTURE_TYPE_POSITION], screenWidth, screenHeight);  // Position
+    gl_createGBufTex(GL_TEXTURE1, GL_RGB,  id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],   screenWidth, screenHeight);  // Normal
+    gl_createGBufTex(GL_TEXTURE2, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],  screenWidth, screenHeight);  // Color
     //
     // Create depthTexture - uses GL_DEPTH instead of RGB color
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, id_depthTexture));
