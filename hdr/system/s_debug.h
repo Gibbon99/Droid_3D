@@ -3,7 +3,6 @@
 #include "s_assimp.h"
 
 extern bool     verboseLogging;
-extern int      voxelCount;
 
 // Show debug information
 void showDebugInfo();

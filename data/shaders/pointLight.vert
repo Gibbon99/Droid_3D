@@ -17,4 +17,7 @@ void main()
 	gl_Position = pos;
 
 	fsPos = pos;
+	
+	vec4 worldPos   = u_modelMat * vec4(inPosition, 1.0);
+//	gl_Position    	= u_viewProjectionMat * worldPos;
 }

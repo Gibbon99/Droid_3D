@@ -299,7 +299,7 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 	// position
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID,3, GL_FLOAT,GL_FALSE, stride, offsetof(_myVertex, position) ));
-		// Normals
+	// Normals
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
 	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(_myVertex, normals)));
 	//

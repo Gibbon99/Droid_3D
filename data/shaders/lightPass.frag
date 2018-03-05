@@ -248,5 +248,5 @@ void main()
 
 //	outColor.rgb = texture(tDiffuse, fragTexCoord0).rgb;
 
-//	outColor = vec4(0.5, 1.0, 0.3, 1.0);
+	outColor = vec4(0.5, 1.0, 0.3, 1.0);
 }

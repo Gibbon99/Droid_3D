@@ -19,6 +19,8 @@ void gameTickRun( float interpolate )
 {
 	glm::vec3   vel;
 
+	glfwPollEvents();
+				
 	switch ( currentMode )
 		{
 			case MODE_CONSOLE:
@@ -27,7 +29,7 @@ void gameTickRun( float interpolate )
 				break;
 
 			case MODE_GAME:
-				glfwPollEvents();
+
 //                cam_update( interpolate );
 //                cam_moveTo( wantedCamPosition );      // Handle BSP collision event here - modify wantedCamPosition if required
 

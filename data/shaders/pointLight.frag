@@ -12,7 +12,7 @@ uniform float uLightRadius;
 uniform vec3 uLightPosition;
 uniform vec3 uLightColor;
 
-uniform vec3 uCameraPos;
+uniform vec3 cameraPosition;
 
 void main()
 {
@@ -30,13 +30,13 @@ void main()
 	float lightDist = length(lightToPosVector);  // position from light.
 	vec3 l = -lightToPosVector / (lightDist);
 
-			// implement fake z-test. If too far from light center, then 0.
+	// implement fake z-test. If too far from light center, then 0.
 	float ztest = step(0.0, uLightRadius - lightDist);
 
 			// light attenuation.
 	float d = lightDist / uLightRadius;
 	float attenuation = 1.0 - d;
-	vec3 v = normalize(uCameraPos - pos);
+	vec3 v = normalize(cameraPosition - pos);
 	vec3 h = normalize(l + v);
 
 	vec3 color =
@@ -50,5 +50,5 @@ void main()
 
 	outColor = vec4(color, 1.0); // done!
 	
-	outColor = vec4(1.0f, 0.0f, 0.0f, 0.0f);
+//	outColor = vec4(1.0f, 0.0f, 0.0f, 0.0f);
 }

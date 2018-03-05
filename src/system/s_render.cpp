@@ -255,15 +255,15 @@ void updateScreen(float interpolate)
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				glUseProgram(0);
 
-				wrapglEnable(GL_DEPTH_TEST);
-				wrapglDisable(GL_CULL_FACE);
+//				wrapglEnable(GL_DEPTH_TEST);
+//				wrapglDisable(GL_CULL_FACE);
 				
 				if (false == showGBuffers)
 				{
 					gl_bindForReading();
 					lt_renderFullscreenQuad(SHADER_DIR_LIGHT);
 					
-					lt_renderPointLights();
+					lt_renderPointLights(SHADER_POINT_LIGHT);
 				}
 					
 
@@ -272,15 +272,13 @@ void updateScreen(float interpolate)
 						for (int i = 0; i != numOfLights; i++)
 						{
 							drawLightPos(SHADER_COLOR, allLights[i].position);
-							drawDebugLine( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );						
+							drawDebugLine( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
 						}
 					}
 
 //				bsp_sendLightArrayToShader(SHADER_RENDER_BSP);
 
 //				TwDraw();
-
-				
 				
 				gl_setFontColor(0.7f, 0.7f, 0.0f, 1.0);
 				ttf_addText (FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);

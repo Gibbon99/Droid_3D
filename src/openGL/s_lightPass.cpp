@@ -34,7 +34,7 @@ GLuint lightSphereVAO;
 //-----------------------------------------------------------------------------
 //
 // Render all the ligth spheres into the GBuffer
-void lt_renderPointLights()
+void lt_renderPointLights(int whichShader)
 //-----------------------------------------------------------------------------
 {
 	if (false == lightSphereCreated)
@@ -48,58 +48,67 @@ void lt_renderPointLights()
 	// We will be doing our own depth testing in frag shader, so disable depth testing.
 	// Enable alpha blending. So that the rendered point lights are added to the framebuffer.
 	//
-	GL_CHECK(glDisable(GL_DEPTH_TEST));
+//	GL_CHECK(glDisable(GL_DEPTH_TEST));
 //	GL_CHECK(glEnable(GL_BLEND));
-	GL_CHECK(glBlendFunc(GL_ONE, GL_ONE));
+//	GL_CHECK(glBlendFunc(GL_ONE, GL_ONE));
 
 	// We render only the inner faces of the light sphere.
 	// In other words, we render the back-faces and not the front-faces of the sphere.
 	// If we render the front-faces, the lighting of the light sphere disappears if
 	// we are inside the sphere, which is weird. But by rendering the back-faces instead,
 	// we solve this problem.
-	GL_CHECK(glFrontFace(GL_CW));
+//	GL_CHECK(glFrontFace(GL_CW));
 
+	GL_CHECK(glUseProgram(shaderProgram[whichShader].programID));
+	
 	glBindVertexArray(lightSphereVAO);
 
-	GL_CHECK(glUseProgram(shaderProgram[SHADER_POINT_LIGHT].programID));
-
-	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uPositionTex"), 0));
+	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uPositionTex"), 0));
 	GL_CHECK(glActiveTexture(GL_TEXTURE0 + 0));
 	GL_CHECK(glBindTexture(GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION]));
 
-	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uNormalTex"), 1));
+	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uNormalTex"), 1));
 	GL_CHECK(glActiveTexture(GL_TEXTURE0 + 1));
 	GL_CHECK(glBindTexture(GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL]));
 
-	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uDiffuseTex"), 2));
+	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uDiffuseTex"), 2));
 	GL_CHECK(glActiveTexture(GL_TEXTURE0 + 2));
 	GL_CHECK(glBindTexture(GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE]));
 
-	GL_CHECK(glUniform3f(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uCameraPos"), camPosition.x, camPosition.y, camPosition.z));
+	GL_CHECK(glUniform3f(glGetUniformLocation(shaderProgram[whichShader].programID, "cameraPosition"), camPosition.x, camPosition.y, camPosition.z));
 
-	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "u_viewProjectionMat"), 1, GL_FALSE, glm::value_ptr(projMatrix * viewMatrix)));
-	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "u_modelMat"), 1, GL_FALSE, glm::value_ptr(modelMatrix) ));
+	gl_set3DMode();
+	cam_look(camPosition, camDirection);
+	modelMatrix = glm::mat4();
+	
+	glm::mat4 scaleMatrix;
+	
+	scaleMatrix = glm::scale(glm::vec3(2.0, 2.0, 2.0));
+	
+	
+	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_viewProjectionMat"), 1, GL_FALSE, glm::value_ptr(projMatrix * viewMatrix)));
+	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_modelMat"), 1, GL_FALSE, glm::value_ptr(glm::mat4()) ));
 
 	// We render every point light as a light sphere. And this light sphere is added onto the framebuffer
+	
 	// with additive alpha blending.
 	
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[SHADER_POINT_LIGHT].inVertsID));
-	
+	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, lightSpherePositionVbo));
+	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0)));
 	
-	GL_CHECK(glVertexAttribPointer(shaderProgram[SHADER_POINT_LIGHT].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0)));
 
 	GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightSphereIndexVbo));
 	
 	for (int i = 0; i < numOfLights; i++)
 		{
 
-			GLuint lightPosID = glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uLightPosition");
-			GLuint colorPosID = glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uLightColor");
+			GLuint lightPosID = glGetUniformLocation(shaderProgram[whichShader].programID, "uLightPosition");
+			GLuint colorPosID = glGetUniformLocation(shaderProgram[whichShader].programID, "uLightColor");
 			
 			allLights[i].attenuation *= 100.0f;
 			
-			GL_CHECK(glUniform1f(glGetUniformLocation(shaderProgram[SHADER_POINT_LIGHT].programID, "uLightRadius"), allLights[i].attenuation));
+			GL_CHECK(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID, "uLightRadius"), allLights[i].attenuation));
 
 			GL_CHECK(glUniform3f(lightPosID, allLights[i].position.x, allLights[i].position.y, allLights[i].position.z));
 // might be xyz
@@ -276,7 +285,7 @@ void lt_renderFullscreenQuad(int whichShader)
 	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
 	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	
-	modelMatrix = glm::mat4();
+//	modelMatrix = glm::mat4();
 
 	//
 	// Bind texture if it's not already bound as current texture

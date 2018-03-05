@@ -10,7 +10,6 @@
 #include "s_assimp.h"
 
 bool    verboseLogging = false;
-int     voxelCount = 0;
 
 //------------------------------------------------------------------
 //
@@ -19,7 +18,7 @@ void showDebugInfo()
 //------------------------------------------------------------------
 {
 //    gl_setFontColor(1.0f, 1.0f, 1.0f, 0.5);
-	ttf_addText (FONT_SMALL, 0.0f, 25.0f, "Voxels [ %i ] BMP FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", voxelCount, fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
+	ttf_addText (FONT_SMALL, 0.0f, 25.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);
 
 //    gl_setFontColor(1.0f, 1.0f, 1.0f, 1.0f);
 //    ttf_printString(FONT_SMALL, 0.0f, 50.0f, "rayDir    [ %3.3f - %3.3f - %3.3f ]", clickRayDirection.x, clickRayDirection.y, clickRayDirection.z);

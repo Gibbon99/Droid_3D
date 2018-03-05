@@ -17,7 +17,7 @@ void lt_beginLightPass();
 void lt_renderDepthQuad(int whichShader);
 
 // Render all the ligth spheres into the GBuffer
-void lt_renderPointLights();
+void lt_renderPointLights(int whichShader);
 
 // Create simple UV-sphere to represent point light
 void lt_createLightSphere();
