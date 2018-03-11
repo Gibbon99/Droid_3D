@@ -393,6 +393,7 @@
       <File Name="hdr/script/as_compiler.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="system">
+      <File Name="hdr/system/s_leakDetector.h"/>
       <File Name="hdr/system/s_render.h"/>
       <File Name="hdr/system/s_frustum.h"/>
       <File Name="hdr/system/s_startup.h"/>
@@ -523,6 +524,7 @@
       <File Name="src/script/as_scriptarray.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="system">
+      <File Name="src/system/s_leakDetector.cpp"/>
       <File Name="src/system/s_timing.cpp"/>
       <File Name="src/system/s_startup.cpp"/>
       <File Name="src/system/s_main.cpp"/>

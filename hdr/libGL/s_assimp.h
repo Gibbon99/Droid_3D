@@ -10,6 +10,7 @@ enum
 	MODEL_CRATE,
 	MODEL_TANK,
 	MODEL_TANK_WHEELS,
+	MODEL_SPHERE,
 	NUM_MODELS
 };
 
@@ -26,7 +27,7 @@ extern bool     g_debugBoundingBox;
 //
 // Pass in -1.0f to scaleBy to use setting from model loading
 //
-void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy);
+void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy, glm::vec3 lightColor);
 
 // Get all the information out of the mesh and upload to GPU
 void ass_uploadMesh(aiMesh *mesh);

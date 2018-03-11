@@ -8,8 +8,10 @@
 #include "s_physics.h"
 #include "s_maths.h"
 #include <vector>
+#include "s_defRender.h"
 
 //#include <ProcessHelper.h>
+class id_textures;
 Assimp::Importer    importer;
 int     numSkippedModels = 0;
 
@@ -34,6 +36,8 @@ typedef struct
 typedef struct
 {
 	bool                loaded;
+	bool				hasNormals;
+	bool				hasTextures;
 	int                 numMeshes;
 	int                 numMaterials;
 	GLuint              vao_ID;
@@ -86,10 +90,10 @@ void ass_loadModelTextures()
 //
 // Pass in -1.0f to scaleBy to use setting from model loading
 //
-void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy)
+void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy, glm::vec3 lightColor)
 //-----------------------------------------------------------------------------
 {
-	GLfloat     scaleFactor;
+	GLfloat     	scaleFactor;
 	glm::vec4       minSize;
 	glm::vec4       maxSize;
 
@@ -108,10 +112,17 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 		scaleFactor = scaleBy;
 
 	glm::mat4   scaleMatrix;
+	
+	scaleMatrix = glm::mat4();
+	modelMatrix = glm::mat4();
+	
 	int whichMesh = 0;
 	//
 	// Adjust the size and position of the mesh
-	scaleMatrix = glm::scale(glm::translate(modelMatrix, pos), glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	scaleMatrix = glm::translate(glm::mat4(), pos);
+	scaleMatrix = glm::scale(scaleMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	
+//	scaleMatrix = glm::scale(glm::translate(modelMatrix, pos), glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 	//
 	// Translate model bounding box for testing against frustrum
 	minSize = scaleMatrix * glm::vec4(meshModels[whichModel].boundingBox.minSize, 1.0);
@@ -129,17 +140,39 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	GL_ASSERT(glUseProgram(shaderProgram[whichShader].programID));
 
 
-//	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_viewProjectionMat"), 1, false, glm::value_ptr(viewMatrix * projMatrix)));
+	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_viewProjectionMat"), 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 	GL_ASSERT(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_modelMat"), 1, false, glm::value_ptr(scaleMatrix) ));
-//	GL_ASSERT(glUniformMatrix3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_normalMatrix"), 1, false, glm::value_ptr(glm::inverseTranspose(glm::mat3(scaleMatrix)))) );
+	GL_ASSERT(glUniformMatrix3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_normalMatrix"), 1, false, glm::value_ptr(glm::inverseTranspose(glm::mat3(scaleMatrix)))) );
 
+	if (MODEL_SPHERE == whichModel)
+	{
+		GL_ASSERT(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID, "uLightRadius"), scaleBy));
+		GL_ASSERT(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "uLightColor"), 1, glm::value_ptr(lightColor)));
+		GL_ASSERT(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "uLightPosition"), 1, glm::value_ptr(pos)));
+
+		GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uPositionTex"), 0));
+		wrapglBindTexture(GL_TEXTURE0 + 0, id_textures[GBUFFER_TEXTURE_TYPE_POSITION]);
+
+		GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uNormalTex"), 1));
+		wrapglBindTexture(GL_TEXTURE0 + 1, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL]);
+
+		GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uDiffuseTex"), 2));
+		wrapglBindTexture(GL_TEXTURE0 + 2, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE]);
+		
+		GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uDepthTex"), 3));
+		wrapglBindTexture(GL_TEXTURE0 + 3, id_depthTexture);
+		
+
+		GL_CHECK(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "cameraPosition"), 1, glm::value_ptr(camPosition)));
+	}
+	
 	//
 	// Always use vertex information
 	GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER]));
 	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
 
-	if (shaderProgram[whichShader].inNormalsID > 0)
+	if (meshModels[whichModel].hasNormals == true)
 		{
 			//
 			// Use Normal information
@@ -148,17 +181,19 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 			GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 )));
 		}
 
-	if (shaderProgram[whichShader].inTextureCoordsID > 0)
+	if (meshModels[whichModel].hasTextures == true)
 		{
 			//
 			// Use Texture coordinate information
 			GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER]));
 			GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
 			GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET( 0 ) ));
+			
+			wrapglBindTexture(GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID);
 		}
 
-	wrapglBindTexture(GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID);
-//	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
+
+	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
 
 	GL_ASSERT(glDrawElements(GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL));
 
@@ -239,6 +274,7 @@ void ass_uploadMesh(aiMesh *mesh, int whichModel, int whichMesh)
 			delete vertices;
 		}
 
+	meshModels[whichModel].hasTextures = false;
 	if(mesh->HasTextureCoords(0))
 		{
 			float *texCoords = new float[mesh->mNumVertices * 2];
@@ -255,11 +291,11 @@ void ass_uploadMesh(aiMesh *mesh, int whichModel, int whichMesh)
 
 //            GL_CHECK(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL));
 //            GL_CHECK(glEnableVertexAttribArray (1));
-
+			meshModels[whichModel].hasTextures = true;
 			delete texCoords;
 		}
 
-
+	meshModels[whichModel].hasNormals = false;
 	if(mesh->HasNormals())
 		{
 			
@@ -280,7 +316,7 @@ void ass_uploadMesh(aiMesh *mesh, int whichModel, int whichMesh)
 
 //            GL_CHECK(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, NULL));
 //            GL_CHECK(glEnableVertexAttribArray (2));
-
+			meshModels[whichModel].hasNormals = true;
 			delete normals;
 		}
 

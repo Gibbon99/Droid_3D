@@ -8,6 +8,7 @@
 #include "io_textures.h"
 #include "s_loadBsp.h"
 #include "s_shaderLights.h"
+#include "s_leakDetector.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -25,6 +26,7 @@ void sys_shutdownToSystem()
 	bsp_freeMem();
 	bul_stopPhysics();
 	io_closeLogFile();
+	sys_reportMemLeak("leakReport.txt");
 //	exit(EXIT_SUCCESS);
 }
 

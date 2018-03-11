@@ -71,3 +71,6 @@ bool bsp_checkPlayerVsTrigger();
 // Process the movements of all doors
 void bspProcessAllDoorMovements(float interpolate);
 
+// Free door memory
+void bspFreeDoorMemory();
+

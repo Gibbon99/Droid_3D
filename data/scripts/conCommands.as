@@ -12,7 +12,9 @@ const int   TEXT_DRAW_ARRAY    = 1;
 const int   MODEL_CRATE = 0;
 const int   MODEL_TANK = 1;
 const int   MODEL_TANK_WHEELS = 2;
-const int   MODEL_BSP = 3;
+const int	MODEL_SPHERE = 3;
+const int   MODEL_BSP = 4;
+
 
 //-----------------------------------------------------------------------------
 //
@@ -119,9 +121,10 @@ bool as_conCommandOpenGLVer()
 void as_loadAllModels()
 //-----------------------------------------------------------------------------
 {
-	ass_loadModel(MODEL_CRATE, 			"data/models/crate01.3ds",  		0.3f);
+	ass_loadModel(MODEL_CRATE, 			"data/models/crate01.3ds",  		0.8f);
 	ass_loadModel(MODEL_TANK, 			"data/models/triax_tracks.md2",  	0.3f);
 	ass_loadModel(MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2",  	0.3f);
+	ass_loadModel(MODEL_SPHERE,			"data/models/sphere2.obj",			0.4f);
 }
 
 //-----------------------------------------------------------------------------

@@ -16,7 +16,8 @@ enum GBUFFER_TEXTURE_TYPE
 	GBUFFER_NUM_TEXTURES
 };
 
-extern GLuint          id_textures[];
+extern GLuint			id_textures[];
+extern GLuint			id_depthTexture;
 
 // Clean up FBO and allocated GBuffers
 void gl_stopDefRender();

@@ -138,7 +138,7 @@ void drawLightPos(int whichShader, glm::vec3 position)
 	if (false == initDone)
 		{
 
-			testGenerateVertsShadow(2.0f, position);
+			testGenerateVertsShadow(5.0f, position);
 
 			// create the VAO
 			GL_ASSERT(glGenVertexArrays(1, &vao));

@@ -24,6 +24,9 @@ float               *vertBuffer = NULL;    // Make global
 float               *textureBuffer = NULL;
 float               *colorBuffer = NULL;
 
+GLint 				*vertIndexes = NULL;
+GLsizei 			*vertNumber = NULL;
+	
 GLuint              g_glyphVAO_ID;
 GLuint              g_vertVBO_ID;
 GLuint              g_texVBO_ID;
@@ -182,6 +185,8 @@ void ttf_freeTextMemory()
 	free(textureBuffer);
 	free(vertBuffer);
 	free(colorBuffer);
+	free(vertIndexes);
+	free(vertNumber);
 }
 
 //----------------------------------------------------------------------------
@@ -196,6 +201,34 @@ void ttf_startText()
 // Allocate enough memory for a character to cover the screen
 // (winWidth / fontSize) * (winHeight / fontSize)
 
+//
+// TODO: Stop doing this each frame
+//
+if (NULL == vertNumber)
+{
+	vertNumber = (GLsizei *)malloc(sizeof(GLsizei) * memCharSize);
+	vertIndexes = (GLint *)malloc(sizeof(GLint) * memCharSize);
+
+	if ((NULL == vertIndexes) || (NULL == vertNumber))
+		{
+			io_logToFile("Memory error : vertIndexes");
+			sys_shutdownToSystem();
+		}
+		
+			int indexCount = 4;
+
+	vertIndexes[0] = 0;
+	
+	for (int i = 0; i != memCharSize; i++)
+		{
+			vertIndexes[i] = indexCount * i;
+			vertNumber[i] = 4;
+		}
+}
+
+
+	
+	
 	if (NULL == textureBuffer)
 		{
 			textureBuffer = (float *)malloc((sizeof(float) * NUM_VERTS) * memCharSize);
@@ -539,31 +572,6 @@ void ttf_displayText(int whichFont)
 // viewMatrix is causing flickering on the 3d screen
 	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * glm::mat4())));	
 
-	GLint *vertIndexes;
-	GLsizei *vertNumber;
-
-//
-// TODO: Stop doing this each frame
-//
-	vertNumber = (GLsizei *)malloc(sizeof(GLsizei) * memCharCount);
-	vertIndexes = (GLint *)malloc(sizeof(GLint) * memCharCount);
-
-	if ((NULL == vertIndexes) || (NULL == vertNumber))
-		{
-			io_logToFile("Memory error : vertIndexes");
-			sys_shutdownToSystem();
-		}
-
-	int indexCount = 4;
-
-	vertIndexes[0] = 0;
-
-	for (int i = 0; i != memCharCount; i++)
-		{
-			vertIndexes[i] = indexCount * i;
-			vertNumber[i] = 4;
-		}
-
 	{
 //        PROFILE("glMultiDrawArrays");
 		switch (renderText)
@@ -582,9 +590,6 @@ void ttf_displayText(int whichFont)
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-	free(vertNumber);
-	free(vertIndexes);
 
 	wrapglDisable(GL_BLEND);
 

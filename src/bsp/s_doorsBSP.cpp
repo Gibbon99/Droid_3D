@@ -206,6 +206,19 @@ int bsp_findNumOfDoors()
 
 //-----------------------------------------------------------------------------
 //
+// Free door memory
+void bspFreeDoorMemory()
+//-----------------------------------------------------------------------------
+{
+	for (int i = 0; i != numOfDoors; i++)
+	{
+	free(doorModels[i].originalVertPos);
+	free(doorModels[i].sourceIndexPos);
+	}
+}
+
+//-----------------------------------------------------------------------------
+//
 // Show the door trigger area
 void bspDrawDoorTriggerZone(int whichModel, int whichShader)
 //-----------------------------------------------------------------------------

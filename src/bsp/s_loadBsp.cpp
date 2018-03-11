@@ -146,6 +146,8 @@ void bsp_freeMem()
 
 	if (sortedFaces)
 		free(sortedFaces);
+		
+	bspFreeDoorMemory();
 }
 
 

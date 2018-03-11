@@ -59,12 +59,12 @@ void sys_renderModels(int whichShader)
 	// Reset counter
 	numSkippedModels = 0;
 
-	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(10.0, 15.0, 50.0), 0.3f);
-	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(-40.0, 15.0, 60.0), 0.3f);
-	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(-80.0, 15.0, 70.0), 0.3f);
-	ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(50.0, 25.0, -10.0), 0.1f);
-	ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(40.0, 25.0, -30.0), 0.1f);
-	ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(30.0, 25.0, -50.0), 0.1f);
+	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(10.0, 35.0, 50.0), 0.3f, glm::vec3());
+	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(50.0, 35.0, 100.0), 0.3f, glm::vec3());
+	ass_renderMesh(MODEL_TANK,  whichShader, glm::vec3(90.0, 35.0, 150.0), 0.3f, glm::vec3());
+	ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(-150.0, 40.0, 10.0), 0.1f, glm::vec3());
+	ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(-180.0, 50.0, 30.0), 0.1f, glm::vec3());
+	ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(-210.0, 60.0, 50.0), 0.1f, glm::vec3());
 
 	gam_drawBullets(whichShader);
 
@@ -244,8 +244,19 @@ void updateScreen(float interpolate)
 
 				sys_renderModels(SHADER_GEOMETRY_PASS);
 
+//lt_renderPointLights(SHADER_GEOMETRY_PASS);
+
 //				ass_renderMesh(MODEL_CRATE, SHADER_GEOMETRY_PASS, vec3(144.0f, 64.0f, 8.0f), 0.5f);
 
+//				if (true == g_debugLightPos)
+					{
+						for (int i = 0; i != numOfLights; i++)
+						{
+							drawLightPos(SHADER_COLOR, allLights[i].position);
+							drawDebugLine( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
+						}
+					}
+					
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				glUseProgram(0);
 				
@@ -255,8 +266,8 @@ void updateScreen(float interpolate)
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				glUseProgram(0);
 
-//				wrapglEnable(GL_DEPTH_TEST);
-//				wrapglDisable(GL_CULL_FACE);
+				wrapglEnable(GL_DEPTH_TEST);
+				wrapglDisable(GL_CULL_FACE);
 				
 				if (false == showGBuffers)
 				{
@@ -265,20 +276,10 @@ void updateScreen(float interpolate)
 					
 					lt_renderPointLights(SHADER_POINT_LIGHT);
 				}
-					
-
-				if (true == g_debugLightPos)
-					{
-						for (int i = 0; i != numOfLights; i++)
-						{
-							drawLightPos(SHADER_COLOR, allLights[i].position);
-							drawDebugLine( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
-						}
-					}
 
 //				bsp_sendLightArrayToShader(SHADER_RENDER_BSP);
 
-//				TwDraw();
+				TwDraw();
 				
 				gl_setFontColor(0.7f, 0.7f, 0.0f, 1.0);
 				ttf_addText (FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint);

@@ -171,9 +171,9 @@ void drawDebugLine( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, int
 	// Adjust the size and position of the mesh
 	scaleMatrix = glm::scale(glm::translate(modelMatrix, pos), glm::vec3(scaleBy, scaleBy, scaleBy));
 
-	gl_set3DMode();
-	cam_look(camPosition, camDirection);
-	modelMatrix = glm::mat4();
+//	gl_set3DMode();
+//	cam_look(camPosition, camDirection);
+//	modelMatrix = glm::mat4();
 
 	GL_CHECK(glUseProgram(shaderProgram[SHADER_COLOR].programID));
 

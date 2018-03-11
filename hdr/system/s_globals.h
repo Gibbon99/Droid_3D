@@ -5,6 +5,7 @@
 #include <physfs.h>
 #include <allegro5/allegro5.h>
 
+#include "s_leakDetector.h"
 #include "../glload/gl_3_2.h"
 #include "../glload/gl_load.h"
 

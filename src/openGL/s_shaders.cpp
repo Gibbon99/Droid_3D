@@ -225,7 +225,6 @@ bool gl_setShaderVars(int whichShader)
 				break;
 
 			case SHADER_DIR_LIGHT:
-				lt_initShaderValues(whichShader);
 				break;
 
 			case SHADER_GEOMETRY_PASS:

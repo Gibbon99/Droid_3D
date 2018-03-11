@@ -13,13 +13,11 @@ out vec3 WorldPos0;
 
 void main()
 {
-    vec4 worldPos   = u_modelMat * vec4(inPosition, 1.0);
-
-    TexCoord0		= inTextureCoords;
+	TexCoord0		= inTextureCoords;
 
 	Normal0 		= vec4(inNormal, 0.0).xyz;
 
 	WorldPos0      	= (u_modelMat * vec4(inPosition, 1.0)).xyz;
-	
-	gl_Position    	= u_viewProjectionMat * worldPos;
+
+	gl_Position    	= u_viewProjectionMat * u_modelMat * vec4(inPosition, 1.0f);
 }

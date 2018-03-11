@@ -22,5 +22,4 @@ void main()
     //
     // Diffuse - texture image
 	DiffuseOut      = texture2D(inTexture0, TexCoord0).xyz;
-
 }

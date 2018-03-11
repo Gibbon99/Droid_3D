@@ -16,7 +16,7 @@ float               globalGammaFactor;
 uint                globalAmbientID;
 uint                globalGammaFactorID;
 
-bool                g_debugLightPos;
+bool                g_debugLightPos = true;
 
 //-------------------------------------------------------------------------------
 //
@@ -112,6 +112,11 @@ void bsp_setLightArrayData(int whichShader)
 			// Lights color
 			if (bsp_findEntityInfo("myLight", "myColor", &allLights[i].color, false, allLights[i].entitySetID, VAR_TYPE_VEC3) < 0)
 				{
+					
+					allLights[i].color.r /= 255;
+					allLights[i].color.g /= 255;
+					allLights[i].color.b /= 255;
+					
 					con_print(CON_ERROR, true, "Error looking for light entity color value - not found. [ %i ]", i);
 				}
 

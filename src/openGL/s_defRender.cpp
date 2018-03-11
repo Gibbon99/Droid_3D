@@ -50,13 +50,16 @@ void gl_bindForReading()
 //-----------------------------------------------------------------------------
 //
 // Create the GBuffer
-void gl_createGBufTex( GLenum texUnit, GLenum format, GLuint &texid, GLuint width, GLuint height )
+void gl_createGBufTex( GLenum texUnit, GLenum internalFormat, GLuint &texid, GLuint width, GLuint height, GLenum format )
 //-----------------------------------------------------------------------------
 {
     GL_ASSERT(glActiveTexture(texUnit));
     GL_ASSERT(glGenTextures(1, &texid));
-    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, texid));
-    GL_ASSERT(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_FLOAT, NULL));
+	
+	wrapglBindTexture(texUnit, texid);
+	
+//    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, texid));
+    GL_ASSERT(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, NULL));
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -80,9 +83,9 @@ bool gl_initDefRender(int screenWidth, int screenHeight)
     GL_ASSERT(glGenTextures(1, &id_depthTexture));
     //
     // Create the textures for position, normal and color
-    gl_createGBufTex(GL_TEXTURE0, GL_RGB,  id_textures[GBUFFER_TEXTURE_TYPE_POSITION], screenWidth, screenHeight);  // Position
-    gl_createGBufTex(GL_TEXTURE1, GL_RGB,  id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],   screenWidth, screenHeight);  // Normal
-    gl_createGBufTex(GL_TEXTURE2, GL_RGBA, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],  screenWidth, screenHeight);  // Color
+    gl_createGBufTex(GL_TEXTURE0, GL_RGBA32F,  	id_textures[GBUFFER_TEXTURE_TYPE_POSITION], screenWidth, screenHeight, GL_RGBA);  // Position
+    gl_createGBufTex(GL_TEXTURE1, GL_RGBA16F,  	id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],   screenWidth, screenHeight, GL_RGBA);  // Normal
+    gl_createGBufTex(GL_TEXTURE2, GL_RGBA8, 	id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],  screenWidth, screenHeight, GL_RGBA);  // Color
     //
     // Create depthTexture - uses GL_DEPTH instead of RGB color
     GL_ASSERT(glBindTexture(GL_TEXTURE_2D, id_depthTexture));
@@ -415,11 +418,11 @@ std::string getTextureParameters(GLuint id)
 
 	int width, height, format;
 	std::string formatName;
-	glBindTexture(GL_TEXTURE_2D, id);
+	GL_CHECK(glBindTexture(GL_TEXTURE_2D, id));
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);            // get texture width
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);          // get texture height
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &format); // get texture internal format
-	glBindTexture(GL_TEXTURE_2D, 0);
+	GL_CHECK(glBindTexture(GL_TEXTURE_2D, 0));
 
 	formatName = convertInternalFormatToString(format);
 

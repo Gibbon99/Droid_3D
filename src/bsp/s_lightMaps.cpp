@@ -69,7 +69,7 @@ void bsp_createLightmapTexture(unsigned int &texture, byte *pImageBits, int widt
 
 	GL_ASSERT(glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits));
 
-	glBindTexture(GL_TEXTURE0, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	con_print(CON_INFO, true, "Lightmap ID [ %i ] created.", texture);
 

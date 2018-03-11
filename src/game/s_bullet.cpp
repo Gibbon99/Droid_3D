@@ -57,7 +57,8 @@ bool bul_checkWorldCollide(int whichBullet)
 void gam_drawBullet(glm::vec3 position, int whichShader)
 //----------------------------------------------------------------
 {
-	ass_renderMesh(MODEL_CRATE, whichShader, position, 0.1f);
+//	ass_renderMesh(MODEL_CRATE, whichShader, position, 0.1f, glm::vec3(1.0f, 0.0f, 0.0f));
+	ass_renderMesh(MODEL_SPHERE, whichShader, position, 40.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
 }
 

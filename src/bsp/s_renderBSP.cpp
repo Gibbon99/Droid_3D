@@ -317,8 +317,7 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));	
 	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-//	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
-	
+//	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));	
 
 //	wrapglBindTexture(GL_TEXTURE1, m_lightmaps[0]);
 //	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1));
@@ -326,7 +325,6 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 //    GL_CHECK(glDrawElements(GL_TRIANGLES, ptrFace->numMeshVerts, GL_UNSIGNED_INT, 0));
 
 	glDrawArrays(GL_TRIANGLES, 0, vertIndexCounter);
-
 
 #else
 
@@ -599,26 +597,12 @@ void bsp_drawFacesInArray(int whichShader)
 	// Generate indexArray ID
 	GL_CHECK(glGenBuffers(1, &elementArrayID));
 
-
 	GL_ASSERT(glUseProgram(shaderProgram[whichShader].programID));
 
-//
-//  Only removed for testing - needed to "light" the data
-//
-//	bsp_sendLightArrayToShader(whichShader);
-
-//	GL_CHECK(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "materialSpecularColor"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0))));
-//	GL_CHECK(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID,  "materialShininess"), 0.0f));
-
-//	glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "cameraPosition"), 1, glm::value_ptr(camPosition));
-//	glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "projMatrix"), 1, glm::value_ptr(viewMatrix));
-
 	wrapglBindTexture(GL_TEXTURE0, texturesLoaded[TEX_WALL].texID);
-//	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
 
-//	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
-
-	GL_CHECK(glUniformMatrix4fv(glGetUniformLocation(shaderProgram[whichShader].programID, "u_modelMat"), 1, false, glm::value_ptr(modelMatrix) ));
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
 
 	vertIndexCounter = 0;
 	vertex.clear();
