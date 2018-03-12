@@ -12,3 +12,6 @@ void lt_renderDepthQuad(int whichShader);
 
 // Render all the ligth spheres into the GBuffer
 void lt_renderPointLights(int whichShader);
+
+// Draw position of the light
+void drawLightPos(int whichShader, glm::vec3 position);

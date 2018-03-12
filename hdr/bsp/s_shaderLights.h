@@ -10,6 +10,7 @@
 
 typedef struct
 {
+	bool		active;
 	int         type;
 	int         effect;
 	int         entitySetID;
@@ -20,8 +21,8 @@ typedef struct
 	float       coneAngle;
 	glm::vec3   coneDirection;
 	int         typeID;
-	int        posID;
-	int        colorID;
+	int        	posID;
+	int        	colorID;
 	uint        attenuationID;
 	uint        ambientCoefficientID;
 	uint        coneAngleID;
@@ -51,10 +52,12 @@ void bsp_freeLightArray();
 int bsp_findNumOfLights();
 
 // Populate light array with values from BSP
-void bsp_setLightArrayData(int whichShader);
-
-// Send data from light array into the shader
-void bsp_sendLightArrayToShader(int whichShader);
+void bsp_setLightArrayData();
 
 // Process any effects that the light may have
 int bsp_processLightEffect(float interpolate);
+
+// Add a new light - usually dynamic
+//
+// Return pointer to new light index
+int bsp_addNewLight(glm::vec3 color, int effect, int type);

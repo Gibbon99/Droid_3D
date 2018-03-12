@@ -51,6 +51,7 @@ int bsp_findNumOfLights()
 	// Set values to known for testing later
 	for (int i = 0; i != numOfLights + MAX_NUM_BULLETS; i++)
 		{
+			tempLight.active = false;
 			tempLight.entitySetID = bsp_getEntitySetID("myLight", true);
 			tempLight.posID = 0;
 			tempLight.colorID = 0;
@@ -66,7 +67,7 @@ int bsp_findNumOfLights()
 //-------------------------------------------------------------------------------
 //
 // Populate light array with values from BSP
-void bsp_setLightArrayData(int whichShader)
+void bsp_setLightArrayData()
 //-------------------------------------------------------------------------------
 {
 	char        tempString[MAX_STRING_SIZE];
@@ -78,9 +79,6 @@ void bsp_setLightArrayData(int whichShader)
 	if (numOfLights == 0)
 		return;
 
-	globalAmbientID =     glGetUniformLocation(shaderProgram[whichShader].programID, "globalAmbient");
-	globalGammaFactorID = glGetUniformLocation(shaderProgram[whichShader].programID, "globalGammaFactor");
-
 	for (int i = 0; i < numOfLights + MAX_NUM_BULLETS; i++)  	// Need to assign shader uniform for all possible lights
 		{
 			//
@@ -89,6 +87,10 @@ void bsp_setLightArrayData(int whichShader)
 				{
 					con_print(CON_ERROR, true, "Error looking for light entity type value - not found. [ %i ]", i);
 				}
+			else
+			{
+				allLights[i].active = true;
+			}
 
 			allLights[i].type = tempVar.x;
 
@@ -154,27 +156,6 @@ void bsp_setLightArrayData(int whichShader)
 					con_print(CON_ERROR, true, "Error looking for light entity coneDirection value - not found. [ %i ]", i);
 				}
 
-			sprintf(tempString, "allLights[%i].type", i);
-			allLights[i].typeID = glGetUniformLocation(shaderProgram[whichShader].programID, tempString);
-
-			sprintf(tempString, "allLights[%i].position", i);
-			allLights[i].posID = glGetUniformLocation(shaderProgram[whichShader].programID, tempString);
-
-			sprintf(tempString, "allLights[%i].intensities", i);
-			allLights[i].colorID = glGetUniformLocation(shaderProgram[whichShader].programID, tempString);
-
-			sprintf(tempString, "allLights[%i].attenuation", i);
-			allLights[i].attenuationID = glGetUniformLocation(shaderProgram[whichShader].programID, tempString);
-
-			sprintf(tempString, "allLights[%i].ambientCoefficient", i);
-			allLights[i].ambientCoefficientID = glGetUniformLocation(shaderProgram[whichShader].programID, tempString);
-
-			sprintf(tempString, "allLights[%i].coneAngle", i);
-			allLights[i].coneAngleID = glGetUniformLocation(shaderProgram[whichShader].programID, tempString);
-
-			sprintf(tempString, "allLights[%i].coneDirection", i);
-			allLights[i].coneDirectionID = glGetUniformLocation(shaderProgram[whichShader].programID, tempString);
-
 			switch(allLights[i].effect)
 				{
 					case EFFECT_NONE:
@@ -185,6 +166,10 @@ void bsp_setLightArrayData(int whichShader)
 						break;
 				}
 
+		}
+		for (int i = numOfLights; i < numOfLights + MAX_NUM_BULLETS; i++)
+		{
+			allLights[i].active = false;
 		}
 }
 
@@ -229,46 +214,23 @@ int bsp_processLightEffect(float interpolate)
 
 //-------------------------------------------------------------------------------
 //
-// Send data from light array into the shader
-void bsp_sendLightArrayToShader(int whichShader)
+// Add a new light - usually dynamic
+//
+// Return pointer to new light index
+int bsp_addNewLight(glm::vec3 color, int effect, int type)
 //-------------------------------------------------------------------------------
 {
-	int i = 0;
-
-	GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID,  "numLights"), numOfLights + numActiveBullets));
-
-	GL_CHECK(glUniform1f(globalAmbientID, globalAmbient));
-	GL_CHECK(glUniform1f(globalGammaFactorID, globalGammaFactor));
-
-	for (i = 0; i < numOfLights; i++)
+	for (int i = numOfLights; i != numOfLights + MAX_NUM_BULLETS; i++)
+	{
+		if (false == allLights[i].active)
 		{
-			GL_CHECK(glUniform1i(allLights[i].typeID, allLights[i].type));
-
-			if (LIGHT_SPOTLIGHT == allLights[i].type)
-				{
-					GL_CHECK(glUniform1f(allLights[i].coneAngleID, allLights[i].coneAngle));
-					GL_CHECK(glUniform3fv(allLights[i].coneDirectionID, 1, glm::value_ptr(glm::vec4(allLights[i].coneDirection, 1.0))));
-				}
-
-			GL_CHECK(glUniform4fv(allLights[i].posID,   1, glm::value_ptr(glm::vec4(allLights[i].position, 1.0))));
-			GL_CHECK(glUniform3fv(allLights[i].colorID, 1, glm::value_ptr(glm::vec3(allLights[i].color))));
-			GL_CHECK(glUniform1f(allLights[i].attenuationID, allLights[i].attenuation));
-			GL_CHECK(glUniform1f(allLights[i].ambientCoefficientID, allLights[i].ambientCoefficient));
+			allLights[i].active = true;
+			allLights[i].color = color;
+			allLights[i].effect = LIGHT_POINT;
+			allLights[i].type = LIGHT_POINT;
+			allLights[i].attenuation = 0.260f;
+			return i;
 		}
-
-	if (numActiveBullets > 0)
-		{
-			for (int j = 0; j < MAX_NUM_BULLETS; j++)
-				{
-					if (true == bullet[j].active)
-						{
-							GL_CHECK(glUniform1i(allLights[i].typeID, LIGHT_POINT));
-							GL_CHECK(glUniform4fv(allLights[i].posID,   1, glm::value_ptr(glm::vec4(bullet[j].position, 1.0))));
-							GL_CHECK(glUniform3fv(allLights[i].colorID, 1, glm::value_ptr(glm::vec3(200.0, 10.0, 10.0))));
-							GL_CHECK(glUniform1f(allLights[i].attenuationID, 0.25f));
-							GL_CHECK(glUniform1f(allLights[i].ambientCoefficientID, 10.0f));
-							i++;
-						}
-				}
-		}
-}
+	}
+	return -1;	// No slots available
+} 

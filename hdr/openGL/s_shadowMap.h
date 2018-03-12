@@ -41,6 +41,3 @@ void gl_getShadowMapVariables(int whichShader);
 
 // Setup GLSL variables for lighting
 void gl_setShadowMapVars(int whichShader, glm::mat4 v_matrixPass);
-
-// Draw position of the light
-void drawLightPos(int whichShader, glm::vec3 position);

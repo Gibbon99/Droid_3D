@@ -67,14 +67,6 @@ void sys_renderModels(int whichShader)
 	ass_renderMesh(MODEL_CRATE, whichShader, glm::vec3(-210.0, 60.0, 50.0), 0.1f, glm::vec3());
 
 	gam_drawBullets(whichShader);
-
-	switch (whichShader)
-		{
-			case SHADER_SHADOWMAP:
-			case SHADER_POINT_LIGHT:
-				glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID, "materialShininess"),1000.0f);
-				break;
-		}
 }
 
 //-----------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 #include "s_shaders.h"
 #include "s_collideBSP.h"
 #include "s_bullet.h"
+#include "s_shaderLights.h"
 
 _bullet             bullet[MAX_NUM_BULLETS];
 
@@ -57,8 +58,8 @@ bool bul_checkWorldCollide(int whichBullet)
 void gam_drawBullet(glm::vec3 position, int whichShader)
 //----------------------------------------------------------------
 {
-//	ass_renderMesh(MODEL_CRATE, whichShader, position, 0.1f, glm::vec3(1.0f, 0.0f, 0.0f));
-	ass_renderMesh(MODEL_SPHERE, whichShader, position, 40.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	ass_renderMesh(MODEL_CRATE, whichShader, position, 0.05f, glm::vec3(1.0f, 0.0f, 0.0f));
+//	ass_renderMesh(MODEL_SPHERE, whichShader, position, 40.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
 }
 
@@ -88,9 +89,13 @@ void gam_processBulletMovement(GLfloat interpolate)
 			if (true == bullet[i].active)
 				{
 					bullet[i].position += (bullet[i].direction * (bullet[i].speed * interpolate));
+					if (bullet[i].lightIndex != -1)
+						allLights[bullet[i].lightIndex].position = bullet[i].position;
 
 					if (false == bul_checkWorldCollide(i))
 						{
+							allLights[bullet[i].lightIndex].active = false;
+							bullet[i].lightIndex = -1;	// Just in case
 							bullet[i].active = false;
 							numActiveBullets--;
 						}
@@ -113,6 +118,8 @@ void gam_createBullet(glm::vec3 direction, glm::vec3 position, GLfloat speed)
 					bullet[i].speed = speed;
 					bullet[i].direction = direction - position;
 					bullet[i].position = position;
+					
+					bullet[i].lightIndex = bsp_addNewLight(glm::vec3(255.0f, 0.0f, 0.0f), LIGHT_POINT, LIGHT_POINT);
 					return;
 				}
 		}

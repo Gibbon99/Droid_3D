@@ -10,6 +10,7 @@ typedef struct
 	glm::vec3       position;
 	glm::vec3       destination;
 	GLfloat         speed;
+	int				lightIndex;
 } _bullet;
 
 extern _bullet             bullet[];

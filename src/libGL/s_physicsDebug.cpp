@@ -88,7 +88,7 @@ void bul_drawDebugLines(vector<GLDebugDrawer::LINE> & lines)
 
 	//
 	// Enable the shader program
-	glUseProgram( shaderProgram[SHADER_PHYSIC_DEBUG].programID );
+	glUseProgram( shaderProgram[SHADER_COLOR].programID );
 
 	glGenVertexArrays( 1, &lineVAO );
 	glBindVertexArray( lineVAO );
@@ -97,23 +97,23 @@ void bul_drawDebugLines(vector<GLDebugDrawer::LINE> & lines)
 	glGenBuffers( 1, &lineVBO );
 	glBindBuffer( GL_ARRAY_BUFFER, lineVBO );		// Allocate space and upload from CPU to GPU
 	glBufferData( GL_ARRAY_BUFFER, vertices.size() * 6, &vertices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(shaderProgram[SHADER_PHYSIC_DEBUG].inVertsID);
-	glVertexAttribPointer(shaderProgram[SHADER_PHYSIC_DEBUG].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET( 0 ));
+	glEnableVertexAttribArray(shaderProgram[SHADER_COLOR].inVertsID);
+	glVertexAttribPointer(shaderProgram[SHADER_COLOR].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET( 0 ));
 	//
 	// Use Colors
 	glGenBuffers(1, &vboLineColors);
 	glBindBuffer(GL_ARRAY_BUFFER, vboLineColors);
 	glBufferData(GL_ARRAY_BUFFER, color.size() * 6, &color[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(shaderProgram[SHADER_PHYSIC_DEBUG].inColorID);
-	glVertexAttribPointer(shaderProgram[SHADER_PHYSIC_DEBUG].inColorID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET( 0 ) );	// R G B
+	glEnableVertexAttribArray(shaderProgram[SHADER_COLOR].inColorID);
+	glVertexAttribPointer(shaderProgram[SHADER_COLOR].inColorID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET( 0 ) );	// R G B
 	//
 	// Calculate matrix and upload to shader
 //    glm::mat4   mvpMatrix = projMatrix * viewMatrix * modelMatrix;
 
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_PHYSIC_DEBUG].modelMat, 1, false, glm::value_ptr(modelMatrix)));
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_PHYSIC_DEBUG].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_COLOR].modelMat, 1, false, glm::value_ptr(modelMatrix)));
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_COLOR].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 
-//    glUniformMatrix4fv(shaderProgram[SHADER_PHYSIC_DEBUG].MVPLocation, 1, false, glm::value_ptr(mvpMatrix));
+//    glUniformMatrix4fv(shaderProgram[SHADER_COLOR].MVPLocation, 1, false, glm::value_ptr(mvpMatrix));
 	//
 	// Draw debug lines
 	glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, (void*)&(indices[0]));

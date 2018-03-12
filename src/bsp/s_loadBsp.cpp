@@ -461,7 +461,7 @@ bool bsp_loadBSP(const char *strFileName, bool verboseOutput)
 	if (-1 == bsp_placeCameraAtEntity("info_player_start"))
 		printf("Couldn't find player start\n");
 
-	bsp_setLightArrayData(SHADER_RENDER_BSP);
+	bsp_setLightArrayData();
 	
 	printf("Num doors [ %i ]\n", bsp_findNumOfDoors());
 

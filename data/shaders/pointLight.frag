@@ -31,7 +31,6 @@ void main()
 
 	vec3 lightToPosVector = pos.xyz - uLightPosition;
 	float lightDist = length(lightToPosVector);  // position from light.
-	vec3 l = -lightToPosVector / (lightDist);
 
 	// implement fake z-test. If too far from light center, then 0.
 	float ztest = step(0.0, uLightRadius - lightDist);
@@ -42,25 +41,5 @@ void main()
 	
 	attenuation /= 10.0f;
 	
-	outColor = vec4(albedo.xyz * uLightColor, 0.5f) * attenuation;
-	
-	outColor = vec4(uLightColor * attenuation, 0.1f);
-	
-	return;
-	
-	vec3 v = normalize(cameraPosition - pos);
-	vec3 h = normalize(l + v);
-
-	vec3 color =
-			// diffuse
-	uLightColor * albedo.xyz * max(0.0, dot(n.xyz, l));
-			// specular
-//	uLightColor * 0.4 * pow(max(0.0, dot(h, n)), 12.0);
-
-			// finally ztest and attenuation.
-	color *= ztest * attenuation;
-
-	outColor = vec4(color, 1.0); // done!
-	
-//	outColor = vec4(1.0f, 0.0f, 0.0f, 0.0f);
+	outColor = vec4(albedo, 0.40f ) * vec4(uLightColor * attenuation, 0.9f);
 }

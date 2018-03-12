@@ -101,8 +101,8 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 		return;
 
 		// overwriting shader?
-	if (true == g_debugBoundingBox)
-		debug_showBoundingBox(meshModels[whichModel].boundingBox, pos, scaleBy);
+//	if (true == g_debugBoundingBox)
+//		debug_showBoundingBox(meshModels[whichModel].boundingBox, pos, scaleBy);
 
 	//
 	// Work out translation and scale matrix
@@ -121,8 +121,6 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 	// Adjust the size and position of the mesh
 	scaleMatrix = glm::translate(glm::mat4(), pos);
 	scaleMatrix = glm::scale(scaleMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
-	
-//	scaleMatrix = glm::scale(glm::translate(modelMatrix, pos), glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 	//
 	// Translate model bounding box for testing against frustrum
 	minSize = scaleMatrix * glm::vec4(meshModels[whichModel].boundingBox.minSize, 1.0);
@@ -146,6 +144,7 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 
 	if (MODEL_SPHERE == whichModel)
 	{
+		
 		GL_ASSERT(glUniform1f(glGetUniformLocation(shaderProgram[whichShader].programID, "uLightRadius"), scaleBy));
 		GL_ASSERT(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "uLightColor"), 1, glm::value_ptr(lightColor)));
 		GL_ASSERT(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "uLightPosition"), 1, glm::value_ptr(pos)));
@@ -161,7 +160,7 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 		
 		GL_CHECK(glUniform1i(glGetUniformLocation(shaderProgram[whichShader].programID, "uDepthTex"), 3));
 		wrapglBindTexture(GL_TEXTURE0 + 3, id_depthTexture);
-		
+	
 
 		GL_CHECK(glUniform3fv(glGetUniformLocation(shaderProgram[whichShader].programID, "cameraPosition"), 1, glm::value_ptr(camPosition)));
 	}
@@ -191,9 +190,6 @@ void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scal
 			
 			wrapglBindTexture(GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID);
 		}
-
-
-	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
 
 	GL_ASSERT(glDrawElements(GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL));
 

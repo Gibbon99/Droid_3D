@@ -13,7 +13,8 @@ const int   MODEL_CRATE = 0;
 const int   MODEL_TANK = 1;
 const int   MODEL_TANK_WHEELS = 2;
 const int	MODEL_SPHERE = 3;
-const int   MODEL_BSP = 4;
+const int	MODEL_CONE = 4;
+const int   MODEL_BSP = 5;
 
 
 //-----------------------------------------------------------------------------
@@ -125,6 +126,7 @@ void as_loadAllModels()
 	ass_loadModel(MODEL_TANK, 			"data/models/triax_tracks.md2",  	0.3f);
 	ass_loadModel(MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2",  	0.3f);
 	ass_loadModel(MODEL_SPHERE,			"data/models/sphere2.obj",			0.4f);
+	ass_loadModel(MODEL_CONE,			"data/models/cone.dae",				0.5f);
 }
 
 //-----------------------------------------------------------------------------

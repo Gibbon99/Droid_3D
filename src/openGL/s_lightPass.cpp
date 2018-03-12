@@ -31,6 +31,18 @@ GLuint lightSphereIndexVbo;
 GLuint lightSphereIndexCount;
 GLuint lightSphereVAO;
 
+glm::vec3   cubeVerts[8];
+
+unsigned int faceIndexShadow[] =
+{
+	0,1,2,0,2,3,
+	4,5,6,4,6,7,
+	2,5,4,2,4,3,
+	2,1,6,2,5,6,
+	0,6,1,0,7,6,
+	3,0,7,3,7,4
+};
+
 //-----------------------------------------------------------------------------
 //
 // Render all the ligth spheres into the GBuffer
@@ -53,9 +65,13 @@ void lt_renderPointLights(int whichShader)
 	// we solve this problem.
 	GL_CHECK(glFrontFace(GL_CW));
 	
-		for (int i = 0; i < numOfLights; i++)
+		for (int i = 0; i < numOfLights + MAX_NUM_BULLETS; i++)
 		{
-			ass_renderMesh(MODEL_SPHERE,  whichShader, allLights[i].position, allLights[i].attenuation * 100, allLights[i].color);
+			if (allLights[i].active == true)
+			{
+				printf("[ %i ] - attenuation [ %3.3f ]\n", i, allLights[i].attenuation);
+				ass_renderMesh(MODEL_SPHERE,  whichShader, allLights[i].position, allLights[i].attenuation * 100, allLights[i].color);
+			}
 		}
 
 	GL_CHECK(glEnable(GL_DEPTH_TEST));
@@ -242,4 +258,100 @@ void lt_renderDepthQuad(int whichShader)
 	glUseProgram(0);
 
 	gl_set3DMode();
+}
+
+
+//-----------------------------------------------------------------------------
+//
+// Generate verts for a cube
+void generateCubeVerts(float cubeSize, glm::vec3 position)
+//-----------------------------------------------------------------------------
+{
+	float halfSize = cubeSize / 2;
+
+	cubeVerts[0].x = position[0] - halfSize;
+	cubeVerts[0].y = position[1] + halfSize;
+	cubeVerts[0].z = position[2] - halfSize;
+	cubeVerts[1].x = position[0] - halfSize;
+	cubeVerts[1].y = position[1] - halfSize;
+	cubeVerts[1].z = position[2] - halfSize;
+	cubeVerts[2].x = position[0] + halfSize;
+	cubeVerts[2].y = position[1] - halfSize;
+	cubeVerts[2].z = position[2] - halfSize;
+	cubeVerts[3].x = position[0] + halfSize;
+	cubeVerts[3].y = position[1] + halfSize;
+	cubeVerts[3].z = position[2] - halfSize;
+
+	cubeVerts[4].x = position[0] + halfSize;
+	cubeVerts[4].y = position[1] + halfSize;
+	cubeVerts[4].z = position[2] + halfSize;
+	cubeVerts[5].x = position[0] + halfSize;
+	cubeVerts[5].y = position[1] + halfSize;
+	cubeVerts[5].z = position[2] + halfSize;
+	cubeVerts[6].x = position[0] - halfSize;
+	cubeVerts[6].y = position[1] - halfSize;
+	cubeVerts[6].z = position[2] + halfSize;
+	cubeVerts[7].x = position[0] - halfSize;
+	cubeVerts[7].y = position[1] + halfSize;
+	cubeVerts[7].z = position[2] + halfSize;
+}
+
+//-----------------------------------------------------------------------------
+//
+// Draw position of the light
+void drawLightPos(int whichShader, glm::vec3 position)
+//-----------------------------------------------------------------------------
+{
+	static GLuint           vao;
+	int                     faceCount = 12;
+	static GLuint           buffers[2];
+	static bool             initDone = false;
+
+	if (false == initDone)
+		{
+			generateCubeVerts(5.0f, position);
+
+			// create the VAO
+			GL_ASSERT(glGenVertexArrays(1, &vao));
+			GL_CHECK(glBindVertexArray(vao));
+			//
+			// create buffers for our vertex data
+			GL_ASSERT(glGenBuffers(2, buffers));
+
+			GL_CHECK(glUseProgram(shaderProgram[whichShader].programID));
+			//
+			//vertex coordinates buffer
+			GL_ASSERT(glBindBuffer(GL_ARRAY_BUFFER, buffers[0]));
+			GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVerts), cubeVerts, GL_STATIC_DRAW));
+			GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
+			GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID,3,GL_FLOAT,GL_FALSE,0,BUFFER_OFFSET(0)));
+			//
+			//index buffer
+			GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]));
+			GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(faceIndexShadow), faceIndexShadow, GL_STATIC_DRAW));
+			//
+			// unbind the VAO
+			glBindVertexArray(0);
+
+			initDone = true;
+		}
+
+//	gl_set3DMode();
+//	cam_look(camPosition, camDirection);
+	modelMatrix = glm::mat4();
+
+	GL_CHECK(glUseProgram(shaderProgram[whichShader].programID));
+
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
+	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
+
+	GL_CHECK(glBindVertexArray(vao));
+	//
+	// Enable attribute to hold vertex information
+	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
+
+	GL_CHECK(glDrawElements(GL_TRIANGLES, faceCount*3, GL_UNSIGNED_INT, 0));
+
+	glUseProgram(0);
+	glBindVertexArray(0);
 }
