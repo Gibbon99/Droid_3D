@@ -47,6 +47,7 @@
       <File Name="hdr/physfs/physfs.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="bsp">
+      <File Name="hdr/bsp/s_convertBSP.h"/>
       <File Name="hdr/bsp/s_shaderLights.h"/>
       <File Name="hdr/bsp/s_lightMaps.h"/>
       <File Name="hdr/bsp/s_loadBsp.h"/>
@@ -433,6 +434,7 @@
       <File Name="src/physfs/physfs.c"/>
     </VirtualDirectory>
     <VirtualDirectory Name="bsp">
+      <File Name="src/bsp/s_convertBSP.cpp"/>
       <File Name="src/bsp/s_loadBsp.cpp"/>
       <File Name="src/bsp/s_renderBSP.cpp"/>
       <File Name="src/bsp/s_lightMaps.cpp"/>

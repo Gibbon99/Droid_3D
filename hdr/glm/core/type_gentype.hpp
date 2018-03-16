@@ -76,11 +76,11 @@ public:
 
 	value_const_pointer value_address() const
 	{
-		return value_pointer(this);
+		return value_pointer ( this );
 	}
 	value_pointer value_address()
 	{
-		return value_pointer(this);
+		return value_pointer ( this );
 	}
 
 	//protected:

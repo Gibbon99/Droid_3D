@@ -56,11 +56,11 @@ public:
 	asCGarbageCollector();
 	~asCGarbageCollector();
 
-	int    GarbageCollect(asDWORD flags, asUINT iterations);
-	void   GetStatistics(asUINT *currentSize, asUINT *totalDestroyed, asUINT *totalDetected, asUINT *newObjects, asUINT *totalNewDestroyed) const;
-	void   GCEnumCallback(void *reference);
-	int    AddScriptObjectToGC(void *obj, asCObjectType *objType);
-	int    GetObjectInGC(asUINT idx, asUINT *seqNbr, void **obj, asITypeInfo **type);
+	int    GarbageCollect ( asDWORD flags, asUINT iterations );
+	void   GetStatistics ( asUINT *currentSize, asUINT *totalDestroyed, asUINT *totalDetected, asUINT *newObjects, asUINT *totalNewDestroyed ) const;
+	void   GCEnumCallback ( void *reference );
+	int    AddScriptObjectToGC ( void *obj, asCObjectType *objType );
+	int    GetObjectInGC ( asUINT idx, asUINT *seqNbr, void **obj, asITypeInfo **type );
 
 	int    ReportAndReleaseUndestroyedObjects();
 
@@ -108,11 +108,11 @@ protected:
 	int            DestroyNewGarbage();
 	int            DestroyOldGarbage();
 	int            IdentifyGarbageWithCyclicRefs();
-	asSObjTypePair GetNewObjectAtIdx(int idx);
-	asSObjTypePair GetOldObjectAtIdx(int idx);
-	void           RemoveNewObjectAtIdx(int idx);
-	void           RemoveOldObjectAtIdx(int idx);
-	void           MoveObjectToOldList(int idx);
+	asSObjTypePair GetNewObjectAtIdx ( int idx );
+	asSObjTypePair GetOldObjectAtIdx ( int idx );
+	void           RemoveNewObjectAtIdx ( int idx );
+	void           RemoveOldObjectAtIdx ( int idx );
+	void           MoveObjectToOldList ( int idx );
 	void           MoveAllObjectsToOldList();
 
 	// Holds all the objects known by the garbage collector
@@ -142,13 +142,13 @@ protected:
 	bool                               isProcessing;
 
 	// We'll keep a pool of nodes to avoid allocating memory all the time
-	asSMapNode_t            *GetNode(void *obj, asSIntTypePair it);
-	void                     ReturnNode(asSMapNode_t *node);
+	asSMapNode_t            *GetNode ( void *obj, asSIntTypePair it );
+	void                     ReturnNode ( asSMapNode_t *node );
 	asCArray<asSMapNode_t*>  freeNodes;
 
 	// Critical section for multithreaded access
-	DECLARECRITICALSECTION(gcCritical)   // Used for adding/removing objects
-	DECLARECRITICALSECTION(gcCollecting) // Used for processing
+	DECLARECRITICALSECTION ( gcCritical ) // Used for adding/removing objects
+	DECLARECRITICALSECTION ( gcCollecting ) // Used for processing
 };
 
 END_AS_NAMESPACE

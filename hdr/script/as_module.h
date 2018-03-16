@@ -99,74 +99,74 @@ class asCModule : public asIScriptModule
 //--------------------------------------------
 public:
 	virtual asIScriptEngine *GetEngine() const;
-	virtual void             SetName(const char *name);
+	virtual void             SetName ( const char *name );
 	virtual const char      *GetName() const;
 	virtual void             Discard();
 
 	// Compilation
-	virtual int         AddScriptSection(const char *name, const char *code, size_t codeLength, int lineOffset);
+	virtual int         AddScriptSection ( const char *name, const char *code, size_t codeLength, int lineOffset );
 	virtual int         Build();
-	virtual int         CompileFunction(const char *sectionName, const char *code, int lineOffset, asDWORD reserved, asIScriptFunction **outFunc);
-	virtual int         CompileGlobalVar(const char *sectionName, const char *code, int lineOffset);
-	virtual asDWORD     SetAccessMask(asDWORD accessMask);
-	virtual int         SetDefaultNamespace(const char *nameSpace);
+	virtual int         CompileFunction ( const char *sectionName, const char *code, int lineOffset, asDWORD reserved, asIScriptFunction **outFunc );
+	virtual int         CompileGlobalVar ( const char *sectionName, const char *code, int lineOffset );
+	virtual asDWORD     SetAccessMask ( asDWORD accessMask );
+	virtual int         SetDefaultNamespace ( const char *nameSpace );
 	virtual const char *GetDefaultNamespace() const;
 
 	// Script functions
 	virtual asUINT             GetFunctionCount() const;
-	virtual asIScriptFunction *GetFunctionByIndex(asUINT index) const;
-	virtual asIScriptFunction *GetFunctionByDecl(const char *decl) const;
-	virtual asIScriptFunction *GetFunctionByName(const char *name) const;
-	virtual int                RemoveFunction(asIScriptFunction *func);
+	virtual asIScriptFunction *GetFunctionByIndex ( asUINT index ) const;
+	virtual asIScriptFunction *GetFunctionByDecl ( const char *decl ) const;
+	virtual asIScriptFunction *GetFunctionByName ( const char *name ) const;
+	virtual int                RemoveFunction ( asIScriptFunction *func );
 
 	// Script global variables
 	// TODO: interface: Should be called InitGlobalVars, and should have a bool to reset in case already initialized
-	virtual int         ResetGlobalVars(asIScriptContext *ctx);
+	virtual int         ResetGlobalVars ( asIScriptContext *ctx );
 	virtual asUINT      GetGlobalVarCount() const;
-	virtual int         GetGlobalVarIndexByName(const char *name) const;
-	virtual int         GetGlobalVarIndexByDecl(const char *decl) const;
-	virtual const char *GetGlobalVarDeclaration(asUINT index, bool includeNamespace) const;
-	virtual int         GetGlobalVar(asUINT index, const char **name, const char **nameSpace, int *typeId, bool *isConst) const;
-	virtual void       *GetAddressOfGlobalVar(asUINT index);
-	virtual int         RemoveGlobalVar(asUINT index);
+	virtual int         GetGlobalVarIndexByName ( const char *name ) const;
+	virtual int         GetGlobalVarIndexByDecl ( const char *decl ) const;
+	virtual const char *GetGlobalVarDeclaration ( asUINT index, bool includeNamespace ) const;
+	virtual int         GetGlobalVar ( asUINT index, const char **name, const char **nameSpace, int *typeId, bool *isConst ) const;
+	virtual void       *GetAddressOfGlobalVar ( asUINT index );
+	virtual int         RemoveGlobalVar ( asUINT index );
 
 	// Type identification
 	virtual asUINT         GetObjectTypeCount() const;
-	virtual asITypeInfo   *GetObjectTypeByIndex(asUINT index) const;
-	virtual int            GetTypeIdByDecl(const char *decl) const;
-	virtual asITypeInfo   *GetTypeInfoByName(const char *name) const;
-	virtual asITypeInfo   *GetTypeInfoByDecl(const char *decl) const;
+	virtual asITypeInfo   *GetObjectTypeByIndex ( asUINT index ) const;
+	virtual int            GetTypeIdByDecl ( const char *decl ) const;
+	virtual asITypeInfo   *GetTypeInfoByName ( const char *name ) const;
+	virtual asITypeInfo   *GetTypeInfoByDecl ( const char *decl ) const;
 
 	// Enums
 	virtual asUINT       GetEnumCount() const;
-	virtual asITypeInfo *GetEnumByIndex(asUINT index) const;
+	virtual asITypeInfo *GetEnumByIndex ( asUINT index ) const;
 
 	// Typedefs
 	virtual asUINT       GetTypedefCount() const;
-	virtual asITypeInfo *GetTypedefByIndex(asUINT index) const;
+	virtual asITypeInfo *GetTypedefByIndex ( asUINT index ) const;
 
 	// Dynamic binding between modules
 	virtual asUINT      GetImportedFunctionCount() const;
-	virtual int         GetImportedFunctionIndexByDecl(const char *decl) const;
-	virtual const char *GetImportedFunctionDeclaration(asUINT importIndex) const;
-	virtual const char *GetImportedFunctionSourceModule(asUINT importIndex) const;
-	virtual int         BindImportedFunction(asUINT index, asIScriptFunction *func);
-	virtual int         UnbindImportedFunction(asUINT importIndex);
+	virtual int         GetImportedFunctionIndexByDecl ( const char *decl ) const;
+	virtual const char *GetImportedFunctionDeclaration ( asUINT importIndex ) const;
+	virtual const char *GetImportedFunctionSourceModule ( asUINT importIndex ) const;
+	virtual int         BindImportedFunction ( asUINT index, asIScriptFunction *func );
+	virtual int         UnbindImportedFunction ( asUINT importIndex );
 	virtual int         BindAllImportedFunctions();
 	virtual int         UnbindAllImportedFunctions();
 
 	// Bytecode Saving/Loading
-	virtual int SaveByteCode(asIBinaryStream *out, bool stripDebugInfo) const;
-	virtual int LoadByteCode(asIBinaryStream *in, bool *wasDebugInfoStripped);
+	virtual int SaveByteCode ( asIBinaryStream *out, bool stripDebugInfo ) const;
+	virtual int LoadByteCode ( asIBinaryStream *in, bool *wasDebugInfoStripped );
 
 	// User data
-	virtual void *SetUserData(void *data, asPWORD type);
-	virtual void *GetUserData(asPWORD type) const;
+	virtual void *SetUserData ( void *data, asPWORD type );
+	virtual void *GetUserData ( asPWORD type ) const;
 
 //-----------------------------------------------
 // Internal
 //-----------------------------------------------
-	asCModule(const char *name, asCScriptEngine *engine);
+	asCModule ( const char *name, asCScriptEngine *engine );
 	~asCModule();
 
 //protected:
@@ -178,26 +178,26 @@ public:
 
 	void InternalReset();
 	bool IsEmpty() const;
-	bool HasExternalReferences(bool shuttingDown);
+	bool HasExternalReferences ( bool shuttingDown );
 
-	int  CallInit(asIScriptContext *ctx);
+	int  CallInit ( asIScriptContext *ctx );
 	void CallExit();
 
 	void JITCompile();
 
 #ifndef AS_NO_COMPILER
-	int  AddScriptFunction(int sectionIdx, int declaredAt, int id, const asCString &name, const asCDataType &returnType, const asCArray<asCDataType> &params, const asCArray<asCString> &paramNames, const asCArray<asETypeModifiers> &inOutFlags, const asCArray<asCString *> &defaultArgs, bool isInterface, asCObjectType *objType = 0, bool isGlobalFunction = false, asSFunctionTraits funcTraits = asSFunctionTraits(), asSNameSpace *ns = 0);
-	int  AddScriptFunction(asCScriptFunction *func);
-	int  AddImportedFunction(int id, const asCString &name, const asCDataType &returnType, const asCArray<asCDataType> &params, const asCArray<asETypeModifiers> &inOutFlags, const asCArray<asCString *> &defaultArgs, asSNameSpace *ns, const asCString &moduleName);
-	int  AddFuncDef(const asCString &name, asSNameSpace *ns, asCObjectType *parent);
+	int  AddScriptFunction ( int sectionIdx, int declaredAt, int id, const asCString &name, const asCDataType &returnType, const asCArray<asCDataType> &params, const asCArray<asCString> &paramNames, const asCArray<asETypeModifiers> &inOutFlags, const asCArray<asCString *> &defaultArgs, bool isInterface, asCObjectType *objType = 0, bool isGlobalFunction = false, asSFunctionTraits funcTraits = asSFunctionTraits(), asSNameSpace *ns = 0 );
+	int  AddScriptFunction ( asCScriptFunction *func );
+	int  AddImportedFunction ( int id, const asCString &name, const asCDataType &returnType, const asCArray<asCDataType> &params, const asCArray<asETypeModifiers> &inOutFlags, const asCArray<asCString *> &defaultArgs, asSNameSpace *ns, const asCString &moduleName );
+	int  AddFuncDef ( const asCString &name, asSNameSpace *ns, asCObjectType *parent );
 #endif
 
 	int                GetNextImportedFunctionId();
-	asCScriptFunction *GetImportedFunction(int funcId) const;
-	asCTypeInfo       *GetType(const char *type, asSNameSpace *ns);
-	asCObjectType     *GetObjectType(const char *type, asSNameSpace *ns);
-	asCGlobalProperty *AllocateGlobalProperty(const char *name, const asCDataType &dt, asSNameSpace *ns);
-	void               UninitializeGlobalProp(asCGlobalProperty *prop);
+	asCScriptFunction *GetImportedFunction ( int funcId ) const;
+	asCTypeInfo       *GetType ( const char *type, asSNameSpace *ns );
+	asCObjectType     *GetObjectType ( const char *type, asSNameSpace *ns );
+	asCGlobalProperty *AllocateGlobalProperty ( const char *name, const asCDataType &dt, asSNameSpace *ns );
+	void               UninitializeGlobalProp ( asCGlobalProperty *prop );
 
 	asCString name;
 

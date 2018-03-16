@@ -28,13 +28,13 @@ extern bool     g_debugBoundingBox;
 //
 // Pass in -1.0f to scaleBy to use setting from model loading
 //
-void ass_renderMesh(int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy, glm::vec3 lightColor);
+void ass_renderMesh ( int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy, glm::vec3 lightColor );
 
 // Get all the information out of the mesh and upload to GPU
-void ass_uploadMesh(aiMesh *mesh);
+void ass_uploadMesh ( aiMesh *mesh );
 
 // Load a asset model for rendering
-bool ass_loadModel(int whichModel,std::string fileName, float scaleFactor);
+bool ass_loadModel ( int whichModel,std::string fileName, float scaleFactor );
 
 // Load all the textures for each of the models
 void ass_loadModelTextures();

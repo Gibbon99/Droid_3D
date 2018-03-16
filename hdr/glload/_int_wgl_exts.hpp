@@ -319,22 +319,22 @@ enum
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSetStereoEmitterState3DL)(HDC hDC, UINT uState);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSetStereoEmitterState3DL ) ( HDC hDC, UINT uState );
 }
 
 extern _detail::Proc_wglSetStereoEmitterState3DL SetStereoEmitterState3DL;
 
 namespace _detail
 {
-typedef VOID (CODEGEN_FUNCPTR * Proc_wglBlitContextFramebufferAMD)(HGLRC dstCtx, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
-typedef HGLRC (CODEGEN_FUNCPTR * Proc_wglCreateAssociatedContextAMD)(UINT id);
-typedef HGLRC (CODEGEN_FUNCPTR * Proc_wglCreateAssociatedContextAttribsAMD)(UINT id, HGLRC hShareContext, const int * attribList);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDeleteAssociatedContextAMD)(HGLRC hglrc);
-typedef UINT (CODEGEN_FUNCPTR * Proc_wglGetContextGPUIDAMD)(HGLRC hglrc);
-typedef HGLRC (CODEGEN_FUNCPTR * Proc_wglGetCurrentAssociatedContextAMD)();
-typedef UINT (CODEGEN_FUNCPTR * Proc_wglGetGPUIDsAMD)(UINT maxCount, UINT * ids);
-typedef INT (CODEGEN_FUNCPTR * Proc_wglGetGPUInfoAMD)(UINT id, int property, GLenum dataType, UINT size, void * data);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglMakeAssociatedContextCurrentAMD)(HGLRC hglrc);
+typedef VOID ( CODEGEN_FUNCPTR * Proc_wglBlitContextFramebufferAMD ) ( HGLRC dstCtx, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter );
+typedef HGLRC ( CODEGEN_FUNCPTR * Proc_wglCreateAssociatedContextAMD ) ( UINT id );
+typedef HGLRC ( CODEGEN_FUNCPTR * Proc_wglCreateAssociatedContextAttribsAMD ) ( UINT id, HGLRC hShareContext, const int * attribList );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDeleteAssociatedContextAMD ) ( HGLRC hglrc );
+typedef UINT ( CODEGEN_FUNCPTR * Proc_wglGetContextGPUIDAMD ) ( HGLRC hglrc );
+typedef HGLRC ( CODEGEN_FUNCPTR * Proc_wglGetCurrentAssociatedContextAMD ) ();
+typedef UINT ( CODEGEN_FUNCPTR * Proc_wglGetGPUIDsAMD ) ( UINT maxCount, UINT * ids );
+typedef INT ( CODEGEN_FUNCPTR * Proc_wglGetGPUInfoAMD ) ( UINT id, int property, GLenum dataType, UINT size, void * data );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglMakeAssociatedContextCurrentAMD ) ( HGLRC hglrc );
 }
 
 extern _detail::Proc_wglBlitContextFramebufferAMD BlitContextFramebufferAMD;
@@ -349,10 +349,10 @@ extern _detail::Proc_wglMakeAssociatedContextCurrentAMD MakeAssociatedContextCur
 
 namespace _detail
 {
-typedef HANDLE (CODEGEN_FUNCPTR * Proc_wglCreateBufferRegionARB)(HDC hDC, int iLayerPlane, UINT uType);
-typedef VOID (CODEGEN_FUNCPTR * Proc_wglDeleteBufferRegionARB)(HANDLE hRegion);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglRestoreBufferRegionARB)(HANDLE hRegion, int x, int y, int width, int height, int xSrc, int ySrc);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSaveBufferRegionARB)(HANDLE hRegion, int x, int y, int width, int height);
+typedef HANDLE ( CODEGEN_FUNCPTR * Proc_wglCreateBufferRegionARB ) ( HDC hDC, int iLayerPlane, UINT uType );
+typedef VOID ( CODEGEN_FUNCPTR * Proc_wglDeleteBufferRegionARB ) ( HANDLE hRegion );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglRestoreBufferRegionARB ) ( HANDLE hRegion, int x, int y, int width, int height, int xSrc, int ySrc );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSaveBufferRegionARB ) ( HANDLE hRegion, int x, int y, int width, int height );
 }
 
 extern _detail::Proc_wglCreateBufferRegionARB CreateBufferRegionARB;
@@ -362,22 +362,22 @@ extern _detail::Proc_wglSaveBufferRegionARB SaveBufferRegionARB;
 
 namespace _detail
 {
-typedef HGLRC (CODEGEN_FUNCPTR * Proc_wglCreateContextAttribsARB)(HDC hDC, HGLRC hShareContext, const int * attribList);
+typedef HGLRC ( CODEGEN_FUNCPTR * Proc_wglCreateContextAttribsARB ) ( HDC hDC, HGLRC hShareContext, const int * attribList );
 }
 
 extern _detail::Proc_wglCreateContextAttribsARB CreateContextAttribsARB;
 
 namespace _detail
 {
-typedef const char * (CODEGEN_FUNCPTR * Proc_wglGetExtensionsStringARB)(HDC hdc);
+typedef const char * ( CODEGEN_FUNCPTR * Proc_wglGetExtensionsStringARB ) ( HDC hdc );
 }
 
 extern _detail::Proc_wglGetExtensionsStringARB GetExtensionsStringARB;
 
 namespace _detail
 {
-typedef HDC (CODEGEN_FUNCPTR * Proc_wglGetCurrentReadDCARB)();
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglMakeContextCurrentARB)(HDC hDrawDC, HDC hReadDC, HGLRC hglrc);
+typedef HDC ( CODEGEN_FUNCPTR * Proc_wglGetCurrentReadDCARB ) ();
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglMakeContextCurrentARB ) ( HDC hDrawDC, HDC hReadDC, HGLRC hglrc );
 }
 
 extern _detail::Proc_wglGetCurrentReadDCARB GetCurrentReadDCARB;
@@ -385,11 +385,11 @@ extern _detail::Proc_wglMakeContextCurrentARB MakeContextCurrentARB;
 
 namespace _detail
 {
-typedef HPBUFFERARB (CODEGEN_FUNCPTR * Proc_wglCreatePbufferARB)(HDC hDC, int iPixelFormat, int iWidth, int iHeight, const int * piAttribList);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDestroyPbufferARB)(HPBUFFERARB hPbuffer);
-typedef HDC (CODEGEN_FUNCPTR * Proc_wglGetPbufferDCARB)(HPBUFFERARB hPbuffer);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryPbufferARB)(HPBUFFERARB hPbuffer, int iAttribute, int * piValue);
-typedef int (CODEGEN_FUNCPTR * Proc_wglReleasePbufferDCARB)(HPBUFFERARB hPbuffer, HDC hDC);
+typedef HPBUFFERARB ( CODEGEN_FUNCPTR * Proc_wglCreatePbufferARB ) ( HDC hDC, int iPixelFormat, int iWidth, int iHeight, const int * piAttribList );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDestroyPbufferARB ) ( HPBUFFERARB hPbuffer );
+typedef HDC ( CODEGEN_FUNCPTR * Proc_wglGetPbufferDCARB ) ( HPBUFFERARB hPbuffer );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryPbufferARB ) ( HPBUFFERARB hPbuffer, int iAttribute, int * piValue );
+typedef int ( CODEGEN_FUNCPTR * Proc_wglReleasePbufferDCARB ) ( HPBUFFERARB hPbuffer, HDC hDC );
 }
 
 extern _detail::Proc_wglCreatePbufferARB CreatePbufferARB;
@@ -400,9 +400,9 @@ extern _detail::Proc_wglReleasePbufferDCARB ReleasePbufferDCARB;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglChoosePixelFormatARB)(HDC hdc, const int * piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int * piFormats, UINT * nNumFormats);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribfvARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int * piAttributes, FLOAT * pfValues);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int * piAttributes, int * piValues);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglChoosePixelFormatARB ) ( HDC hdc, const int * piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int * piFormats, UINT * nNumFormats );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribfvARB ) ( HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int * piAttributes, FLOAT * pfValues );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribivARB ) ( HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int * piAttributes, int * piValues );
 }
 
 extern _detail::Proc_wglChoosePixelFormatARB ChoosePixelFormatARB;
@@ -411,9 +411,9 @@ extern _detail::Proc_wglGetPixelFormatAttribivARB GetPixelFormatAttribivARB;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglBindTexImageARB)(HPBUFFERARB hPbuffer, int iBuffer);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglReleaseTexImageARB)(HPBUFFERARB hPbuffer, int iBuffer);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSetPbufferAttribARB)(HPBUFFERARB hPbuffer, const int * piAttribList);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglBindTexImageARB ) ( HPBUFFERARB hPbuffer, int iBuffer );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglReleaseTexImageARB ) ( HPBUFFERARB hPbuffer, int iBuffer );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSetPbufferAttribARB ) ( HPBUFFERARB hPbuffer, const int * piAttribList );
 }
 
 extern _detail::Proc_wglBindTexImageARB BindTexImageARB;
@@ -422,10 +422,10 @@ extern _detail::Proc_wglSetPbufferAttribARB SetPbufferAttribARB;
 
 namespace _detail
 {
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_wglBindDisplayColorTableEXT)(GLushort id);
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_wglCreateDisplayColorTableEXT)(GLushort id);
-typedef VOID (CODEGEN_FUNCPTR * Proc_wglDestroyDisplayColorTableEXT)(GLushort id);
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_wglLoadDisplayColorTableEXT)(const GLushort * table, GLuint length);
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_wglBindDisplayColorTableEXT ) ( GLushort id );
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_wglCreateDisplayColorTableEXT ) ( GLushort id );
+typedef VOID ( CODEGEN_FUNCPTR * Proc_wglDestroyDisplayColorTableEXT ) ( GLushort id );
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_wglLoadDisplayColorTableEXT ) ( const GLushort * table, GLuint length );
 }
 
 extern _detail::Proc_wglBindDisplayColorTableEXT BindDisplayColorTableEXT;
@@ -435,15 +435,15 @@ extern _detail::Proc_wglLoadDisplayColorTableEXT LoadDisplayColorTableEXT;
 
 namespace _detail
 {
-typedef const char * (CODEGEN_FUNCPTR * Proc_wglGetExtensionsStringEXT)();
+typedef const char * ( CODEGEN_FUNCPTR * Proc_wglGetExtensionsStringEXT ) ();
 }
 
 extern _detail::Proc_wglGetExtensionsStringEXT GetExtensionsStringEXT;
 
 namespace _detail
 {
-typedef HDC (CODEGEN_FUNCPTR * Proc_wglGetCurrentReadDCEXT)();
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglMakeContextCurrentEXT)(HDC hDrawDC, HDC hReadDC, HGLRC hglrc);
+typedef HDC ( CODEGEN_FUNCPTR * Proc_wglGetCurrentReadDCEXT ) ();
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglMakeContextCurrentEXT ) ( HDC hDrawDC, HDC hReadDC, HGLRC hglrc );
 }
 
 extern _detail::Proc_wglGetCurrentReadDCEXT GetCurrentReadDCEXT;
@@ -451,11 +451,11 @@ extern _detail::Proc_wglMakeContextCurrentEXT MakeContextCurrentEXT;
 
 namespace _detail
 {
-typedef HPBUFFEREXT (CODEGEN_FUNCPTR * Proc_wglCreatePbufferEXT)(HDC hDC, int iPixelFormat, int iWidth, int iHeight, const int * piAttribList);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDestroyPbufferEXT)(HPBUFFEREXT hPbuffer);
-typedef HDC (CODEGEN_FUNCPTR * Proc_wglGetPbufferDCEXT)(HPBUFFEREXT hPbuffer);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryPbufferEXT)(HPBUFFEREXT hPbuffer, int iAttribute, int * piValue);
-typedef int (CODEGEN_FUNCPTR * Proc_wglReleasePbufferDCEXT)(HPBUFFEREXT hPbuffer, HDC hDC);
+typedef HPBUFFEREXT ( CODEGEN_FUNCPTR * Proc_wglCreatePbufferEXT ) ( HDC hDC, int iPixelFormat, int iWidth, int iHeight, const int * piAttribList );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDestroyPbufferEXT ) ( HPBUFFEREXT hPbuffer );
+typedef HDC ( CODEGEN_FUNCPTR * Proc_wglGetPbufferDCEXT ) ( HPBUFFEREXT hPbuffer );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryPbufferEXT ) ( HPBUFFEREXT hPbuffer, int iAttribute, int * piValue );
+typedef int ( CODEGEN_FUNCPTR * Proc_wglReleasePbufferDCEXT ) ( HPBUFFEREXT hPbuffer, HDC hDC );
 }
 
 extern _detail::Proc_wglCreatePbufferEXT CreatePbufferEXT;
@@ -466,9 +466,9 @@ extern _detail::Proc_wglReleasePbufferDCEXT ReleasePbufferDCEXT;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglChoosePixelFormatEXT)(HDC hdc, const int * piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int * piFormats, UINT * nNumFormats);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribfvEXT)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, int * piAttributes, FLOAT * pfValues);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribivEXT)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, int * piAttributes, int * piValues);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglChoosePixelFormatEXT ) ( HDC hdc, const int * piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int * piFormats, UINT * nNumFormats );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribfvEXT ) ( HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, int * piAttributes, FLOAT * pfValues );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetPixelFormatAttribivEXT ) ( HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, int * piAttributes, int * piValues );
 }
 
 extern _detail::Proc_wglChoosePixelFormatEXT ChoosePixelFormatEXT;
@@ -477,8 +477,8 @@ extern _detail::Proc_wglGetPixelFormatAttribivEXT GetPixelFormatAttribivEXT;
 
 namespace _detail
 {
-typedef int (CODEGEN_FUNCPTR * Proc_wglGetSwapIntervalEXT)();
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSwapIntervalEXT)(int interval);
+typedef int ( CODEGEN_FUNCPTR * Proc_wglGetSwapIntervalEXT ) ();
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSwapIntervalEXT ) ( int interval );
 }
 
 extern _detail::Proc_wglGetSwapIntervalEXT GetSwapIntervalEXT;
@@ -486,8 +486,8 @@ extern _detail::Proc_wglSwapIntervalEXT SwapIntervalEXT;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetDigitalVideoParametersI3D)(HDC hDC, int iAttribute, int * piValue);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSetDigitalVideoParametersI3D)(HDC hDC, int iAttribute, const int * piValue);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetDigitalVideoParametersI3D ) ( HDC hDC, int iAttribute, int * piValue );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSetDigitalVideoParametersI3D ) ( HDC hDC, int iAttribute, const int * piValue );
 }
 
 extern _detail::Proc_wglGetDigitalVideoParametersI3D GetDigitalVideoParametersI3D;
@@ -495,10 +495,10 @@ extern _detail::Proc_wglSetDigitalVideoParametersI3D SetDigitalVideoParametersI3
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetGammaTableI3D)(HDC hDC, int iEntries, USHORT * puRed, USHORT * puGreen, USHORT * puBlue);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetGammaTableParametersI3D)(HDC hDC, int iAttribute, int * piValue);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSetGammaTableI3D)(HDC hDC, int iEntries, const USHORT * puRed, const USHORT * puGreen, const USHORT * puBlue);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSetGammaTableParametersI3D)(HDC hDC, int iAttribute, const int * piValue);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetGammaTableI3D ) ( HDC hDC, int iEntries, USHORT * puRed, USHORT * puGreen, USHORT * puBlue );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetGammaTableParametersI3D ) ( HDC hDC, int iAttribute, int * piValue );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSetGammaTableI3D ) ( HDC hDC, int iEntries, const USHORT * puRed, const USHORT * puGreen, const USHORT * puBlue );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSetGammaTableParametersI3D ) ( HDC hDC, int iAttribute, const int * piValue );
 }
 
 extern _detail::Proc_wglGetGammaTableI3D GetGammaTableI3D;
@@ -508,18 +508,18 @@ extern _detail::Proc_wglSetGammaTableParametersI3D SetGammaTableParametersI3D;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDisableGenlockI3D)(HDC hDC);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglEnableGenlockI3D)(HDC hDC);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGenlockSampleRateI3D)(HDC hDC, UINT uRate);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGenlockSourceDelayI3D)(HDC hDC, UINT uDelay);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGenlockSourceEdgeI3D)(HDC hDC, UINT uEdge);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGenlockSourceI3D)(HDC hDC, UINT uSource);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetGenlockSampleRateI3D)(HDC hDC, UINT * uRate);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetGenlockSourceDelayI3D)(HDC hDC, UINT * uDelay);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetGenlockSourceEdgeI3D)(HDC hDC, UINT * uEdge);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetGenlockSourceI3D)(HDC hDC, UINT * uSource);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglIsEnabledGenlockI3D)(HDC hDC, BOOL * pFlag);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryGenlockMaxSourceDelayI3D)(HDC hDC, UINT * uMaxLineDelay, UINT * uMaxPixelDelay);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDisableGenlockI3D ) ( HDC hDC );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglEnableGenlockI3D ) ( HDC hDC );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGenlockSampleRateI3D ) ( HDC hDC, UINT uRate );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGenlockSourceDelayI3D ) ( HDC hDC, UINT uDelay );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGenlockSourceEdgeI3D ) ( HDC hDC, UINT uEdge );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGenlockSourceI3D ) ( HDC hDC, UINT uSource );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetGenlockSampleRateI3D ) ( HDC hDC, UINT * uRate );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetGenlockSourceDelayI3D ) ( HDC hDC, UINT * uDelay );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetGenlockSourceEdgeI3D ) ( HDC hDC, UINT * uEdge );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetGenlockSourceI3D ) ( HDC hDC, UINT * uSource );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglIsEnabledGenlockI3D ) ( HDC hDC, BOOL * pFlag );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryGenlockMaxSourceDelayI3D ) ( HDC hDC, UINT * uMaxLineDelay, UINT * uMaxPixelDelay );
 }
 
 extern _detail::Proc_wglDisableGenlockI3D DisableGenlockI3D;
@@ -537,10 +537,10 @@ extern _detail::Proc_wglQueryGenlockMaxSourceDelayI3D QueryGenlockMaxSourceDelay
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglAssociateImageBufferEventsI3D)(HDC hDC, const HANDLE * pEvent, const LPVOID * pAddress, const DWORD * pSize, UINT count);
-typedef LPVOID (CODEGEN_FUNCPTR * Proc_wglCreateImageBufferI3D)(HDC hDC, DWORD dwSize, UINT uFlags);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDestroyImageBufferI3D)(HDC hDC, LPVOID pAddress);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglReleaseImageBufferEventsI3D)(HDC hDC, const LPVOID * pAddress, UINT count);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglAssociateImageBufferEventsI3D ) ( HDC hDC, const HANDLE * pEvent, const LPVOID * pAddress, const DWORD * pSize, UINT count );
+typedef LPVOID ( CODEGEN_FUNCPTR * Proc_wglCreateImageBufferI3D ) ( HDC hDC, DWORD dwSize, UINT uFlags );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDestroyImageBufferI3D ) ( HDC hDC, LPVOID pAddress );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglReleaseImageBufferEventsI3D ) ( HDC hDC, const LPVOID * pAddress, UINT count );
 }
 
 extern _detail::Proc_wglAssociateImageBufferEventsI3D AssociateImageBufferEventsI3D;
@@ -550,10 +550,10 @@ extern _detail::Proc_wglReleaseImageBufferEventsI3D ReleaseImageBufferEventsI3D;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDisableFrameLockI3D)();
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglEnableFrameLockI3D)();
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglIsEnabledFrameLockI3D)(BOOL * pFlag);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryFrameLockMasterI3D)(BOOL * pFlag);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDisableFrameLockI3D ) ();
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglEnableFrameLockI3D ) ();
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglIsEnabledFrameLockI3D ) ( BOOL * pFlag );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryFrameLockMasterI3D ) ( BOOL * pFlag );
 }
 
 extern _detail::Proc_wglDisableFrameLockI3D DisableFrameLockI3D;
@@ -563,10 +563,10 @@ extern _detail::Proc_wglQueryFrameLockMasterI3D QueryFrameLockMasterI3D;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglBeginFrameTrackingI3D)();
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglEndFrameTrackingI3D)();
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetFrameUsageI3D)(float * pUsage);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryFrameTrackingI3D)(DWORD * pFrameCount, DWORD * pMissedFrames, float * pLastMissedUsage);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglBeginFrameTrackingI3D ) ();
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglEndFrameTrackingI3D ) ();
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetFrameUsageI3D ) ( float * pUsage );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryFrameTrackingI3D ) ( DWORD * pFrameCount, DWORD * pMissedFrames, float * pLastMissedUsage );
 }
 
 extern _detail::Proc_wglBeginFrameTrackingI3D BeginFrameTrackingI3D;
@@ -576,14 +576,14 @@ extern _detail::Proc_wglQueryFrameTrackingI3D QueryFrameTrackingI3D;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDXCloseDeviceNV)(HANDLE hDevice);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDXLockObjectsNV)(HANDLE hDevice, GLint count, HANDLE * hObjects);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDXObjectAccessNV)(HANDLE hObject, GLenum access);
-typedef HANDLE (CODEGEN_FUNCPTR * Proc_wglDXOpenDeviceNV)(void * dxDevice);
-typedef HANDLE (CODEGEN_FUNCPTR * Proc_wglDXRegisterObjectNV)(HANDLE hDevice, void * dxObject, GLuint name, GLenum type, GLenum access);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDXSetResourceShareHandleNV)(void * dxObject, HANDLE shareHandle);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDXUnlockObjectsNV)(HANDLE hDevice, GLint count, HANDLE * hObjects);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDXUnregisterObjectNV)(HANDLE hDevice, HANDLE hObject);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDXCloseDeviceNV ) ( HANDLE hDevice );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDXLockObjectsNV ) ( HANDLE hDevice, GLint count, HANDLE * hObjects );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDXObjectAccessNV ) ( HANDLE hObject, GLenum access );
+typedef HANDLE ( CODEGEN_FUNCPTR * Proc_wglDXOpenDeviceNV ) ( void * dxDevice );
+typedef HANDLE ( CODEGEN_FUNCPTR * Proc_wglDXRegisterObjectNV ) ( HANDLE hDevice, void * dxObject, GLuint name, GLenum type, GLenum access );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDXSetResourceShareHandleNV ) ( void * dxObject, HANDLE shareHandle );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDXUnlockObjectsNV ) ( HANDLE hDevice, GLint count, HANDLE * hObjects );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDXUnregisterObjectNV ) ( HANDLE hDevice, HANDLE hObject );
 }
 
 extern _detail::Proc_wglDXCloseDeviceNV DXCloseDeviceNV;
@@ -597,18 +597,18 @@ extern _detail::Proc_wglDXUnregisterObjectNV DXUnregisterObjectNV;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglCopyImageSubDataNV)(HGLRC hSrcRC, GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, HGLRC hDstRC, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglCopyImageSubDataNV ) ( HGLRC hSrcRC, GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, HGLRC hDstRC, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth );
 }
 
 extern _detail::Proc_wglCopyImageSubDataNV CopyImageSubDataNV;
 
 namespace _detail
 {
-typedef HDC (CODEGEN_FUNCPTR * Proc_wglCreateAffinityDCNV)(const HGPUNV * phGpuList);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglDeleteDCNV)(HDC hdc);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglEnumGpuDevicesNV)(HGPUNV hGpu, UINT iDeviceIndex, PGPU_DEVICE lpGpuDevice);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglEnumGpusFromAffinityDCNV)(HDC hAffinityDC, UINT iGpuIndex, HGPUNV * hGpu);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglEnumGpusNV)(UINT iGpuIndex, HGPUNV * phGpu);
+typedef HDC ( CODEGEN_FUNCPTR * Proc_wglCreateAffinityDCNV ) ( const HGPUNV * phGpuList );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglDeleteDCNV ) ( HDC hdc );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglEnumGpuDevicesNV ) ( HGPUNV hGpu, UINT iDeviceIndex, PGPU_DEVICE lpGpuDevice );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglEnumGpusFromAffinityDCNV ) ( HDC hAffinityDC, UINT iGpuIndex, HGPUNV * hGpu );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglEnumGpusNV ) ( UINT iGpuIndex, HGPUNV * phGpu );
 }
 
 extern _detail::Proc_wglCreateAffinityDCNV CreateAffinityDCNV;
@@ -619,9 +619,9 @@ extern _detail::Proc_wglEnumGpusNV EnumGpusNV;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglBindVideoDeviceNV)(HDC hDC, unsigned int uVideoSlot, HVIDEOOUTPUTDEVICENV hVideoDevice, const int * piAttribList);
-typedef int (CODEGEN_FUNCPTR * Proc_wglEnumerateVideoDevicesNV)(HDC hDC, HVIDEOOUTPUTDEVICENV * phDeviceList);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryCurrentContextNV)(int iAttribute, int * piValue);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglBindVideoDeviceNV ) ( HDC hDC, unsigned int uVideoSlot, HVIDEOOUTPUTDEVICENV hVideoDevice, const int * piAttribList );
+typedef int ( CODEGEN_FUNCPTR * Proc_wglEnumerateVideoDevicesNV ) ( HDC hDC, HVIDEOOUTPUTDEVICENV * phDeviceList );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryCurrentContextNV ) ( int iAttribute, int * piValue );
 }
 
 extern _detail::Proc_wglBindVideoDeviceNV BindVideoDeviceNV;
@@ -630,12 +630,12 @@ extern _detail::Proc_wglQueryCurrentContextNV QueryCurrentContextNV;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglBindSwapBarrierNV)(GLuint group, GLuint barrier);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglJoinSwapGroupNV)(HDC hDC, GLuint group);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryFrameCountNV)(HDC hDC, GLuint * count);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryMaxSwapGroupsNV)(HDC hDC, GLuint * maxGroups, GLuint * maxBarriers);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQuerySwapGroupNV)(HDC hDC, GLuint * group, GLuint * barrier);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglResetFrameCountNV)(HDC hDC);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglBindSwapBarrierNV ) ( GLuint group, GLuint barrier );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglJoinSwapGroupNV ) ( HDC hDC, GLuint group );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryFrameCountNV ) ( HDC hDC, GLuint * count );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryMaxSwapGroupsNV ) ( HDC hDC, GLuint * maxGroups, GLuint * maxBarriers );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQuerySwapGroupNV ) ( HDC hDC, GLuint * group, GLuint * barrier );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglResetFrameCountNV ) ( HDC hDC );
 }
 
 extern _detail::Proc_wglBindSwapBarrierNV BindSwapBarrierNV;
@@ -647,8 +647,8 @@ extern _detail::Proc_wglResetFrameCountNV ResetFrameCountNV;
 
 namespace _detail
 {
-typedef void * (CODEGEN_FUNCPTR * Proc_wglAllocateMemoryNV)(GLsizei size, GLfloat readfreq, GLfloat writefreq, GLfloat priority);
-typedef void (CODEGEN_FUNCPTR * Proc_wglFreeMemoryNV)(void * pointer);
+typedef void * ( CODEGEN_FUNCPTR * Proc_wglAllocateMemoryNV ) ( GLsizei size, GLfloat readfreq, GLfloat writefreq, GLfloat priority );
+typedef void ( CODEGEN_FUNCPTR * Proc_wglFreeMemoryNV ) ( void * pointer );
 }
 
 extern _detail::Proc_wglAllocateMemoryNV AllocateMemoryNV;
@@ -656,11 +656,11 @@ extern _detail::Proc_wglFreeMemoryNV FreeMemoryNV;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglBindVideoCaptureDeviceNV)(UINT uVideoSlot, HVIDEOINPUTDEVICENV hDevice);
-typedef UINT (CODEGEN_FUNCPTR * Proc_wglEnumerateVideoCaptureDevicesNV)(HDC hDc, HVIDEOINPUTDEVICENV * phDeviceList);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglLockVideoCaptureDeviceNV)(HDC hDc, HVIDEOINPUTDEVICENV hDevice);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglQueryVideoCaptureDeviceNV)(HDC hDc, HVIDEOINPUTDEVICENV hDevice, int iAttribute, int * piValue);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglReleaseVideoCaptureDeviceNV)(HDC hDc, HVIDEOINPUTDEVICENV hDevice);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglBindVideoCaptureDeviceNV ) ( UINT uVideoSlot, HVIDEOINPUTDEVICENV hDevice );
+typedef UINT ( CODEGEN_FUNCPTR * Proc_wglEnumerateVideoCaptureDevicesNV ) ( HDC hDc, HVIDEOINPUTDEVICENV * phDeviceList );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglLockVideoCaptureDeviceNV ) ( HDC hDc, HVIDEOINPUTDEVICENV hDevice );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglQueryVideoCaptureDeviceNV ) ( HDC hDc, HVIDEOINPUTDEVICENV hDevice, int iAttribute, int * piValue );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglReleaseVideoCaptureDeviceNV ) ( HDC hDc, HVIDEOINPUTDEVICENV hDevice );
 }
 
 extern _detail::Proc_wglBindVideoCaptureDeviceNV BindVideoCaptureDeviceNV;
@@ -671,12 +671,12 @@ extern _detail::Proc_wglReleaseVideoCaptureDeviceNV ReleaseVideoCaptureDeviceNV;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglBindVideoImageNV)(HPVIDEODEV hVideoDevice, HPBUFFERARB hPbuffer, int iVideoBuffer);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetVideoDeviceNV)(HDC hDC, int numDevices, HPVIDEODEV * hVideoDevice);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetVideoInfoNV)(HPVIDEODEV hpVideoDevice, unsigned long * pulCounterOutputPbuffer, unsigned long * pulCounterOutputVideo);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglReleaseVideoDeviceNV)(HPVIDEODEV hVideoDevice);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglReleaseVideoImageNV)(HPBUFFERARB hPbuffer, int iVideoBuffer);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglSendPbufferToVideoNV)(HPBUFFERARB hPbuffer, int iBufferType, unsigned long * pulCounterPbuffer, BOOL bBlock);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglBindVideoImageNV ) ( HPVIDEODEV hVideoDevice, HPBUFFERARB hPbuffer, int iVideoBuffer );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetVideoDeviceNV ) ( HDC hDC, int numDevices, HPVIDEODEV * hVideoDevice );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetVideoInfoNV ) ( HPVIDEODEV hpVideoDevice, unsigned long * pulCounterOutputPbuffer, unsigned long * pulCounterOutputVideo );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglReleaseVideoDeviceNV ) ( HPVIDEODEV hVideoDevice );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglReleaseVideoImageNV ) ( HPBUFFERARB hPbuffer, int iVideoBuffer );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglSendPbufferToVideoNV ) ( HPBUFFERARB hPbuffer, int iBufferType, unsigned long * pulCounterPbuffer, BOOL bBlock );
 }
 
 extern _detail::Proc_wglBindVideoImageNV BindVideoImageNV;
@@ -688,12 +688,12 @@ extern _detail::Proc_wglSendPbufferToVideoNV SendPbufferToVideoNV;
 
 namespace _detail
 {
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetMscRateOML)(HDC hdc, INT32 * numerator, INT32 * denominator);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglGetSyncValuesOML)(HDC hdc, INT64 * ust, INT64 * msc, INT64 * sbc);
-typedef INT64 (CODEGEN_FUNCPTR * Proc_wglSwapBuffersMscOML)(HDC hdc, INT64 target_msc, INT64 divisor, INT64 remainder);
-typedef INT64 (CODEGEN_FUNCPTR * Proc_wglSwapLayerBuffersMscOML)(HDC hdc, int fuPlanes, INT64 target_msc, INT64 divisor, INT64 remainder);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglWaitForMscOML)(HDC hdc, INT64 target_msc, INT64 divisor, INT64 remainder, INT64 * ust, INT64 * msc, INT64 * sbc);
-typedef BOOL (CODEGEN_FUNCPTR * Proc_wglWaitForSbcOML)(HDC hdc, INT64 target_sbc, INT64 * ust, INT64 * msc, INT64 * sbc);
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetMscRateOML ) ( HDC hdc, INT32 * numerator, INT32 * denominator );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglGetSyncValuesOML ) ( HDC hdc, INT64 * ust, INT64 * msc, INT64 * sbc );
+typedef INT64 ( CODEGEN_FUNCPTR * Proc_wglSwapBuffersMscOML ) ( HDC hdc, INT64 target_msc, INT64 divisor, INT64 remainder );
+typedef INT64 ( CODEGEN_FUNCPTR * Proc_wglSwapLayerBuffersMscOML ) ( HDC hdc, int fuPlanes, INT64 target_msc, INT64 divisor, INT64 remainder );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglWaitForMscOML ) ( HDC hdc, INT64 target_msc, INT64 divisor, INT64 remainder, INT64 * ust, INT64 * msc, INT64 * sbc );
+typedef BOOL ( CODEGEN_FUNCPTR * Proc_wglWaitForSbcOML ) ( HDC hdc, INT64 target_sbc, INT64 * ust, INT64 * msc, INT64 * sbc );
 }
 
 extern _detail::Proc_wglGetMscRateOML GetMscRateOML;

@@ -551,38 +551,38 @@ extern int glext_WIN_specular_fog;
 #define GL_SEPARABLE_2D 0x8012
 #define GL_TABLE_TOO_LARGE 0x8031
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORSUBTABLEPROC)(GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORTABLEPROC)(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * table);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERFVPROC)(GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERIVPROC)(GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER1DPROC)(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * image);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER2DPROC)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * image);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFPROC)(GLenum target, GLenum pname, GLfloat params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFVPROC)(GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIPROC)(GLenum target, GLenum pname, GLint params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIVPROC)(GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCOLORSUBTABLEPROC)(GLenum target, GLsizei start, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCOLORTABLEPROC)(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER1DPROC)(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER2DPROC)(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPROC)(GLenum target, GLenum format, GLenum type, GLvoid * table);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERFVPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERIVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONFILTERPROC)(GLenum target, GLenum format, GLenum type, GLvoid * image);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERFVPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERIVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPROC)(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERFVPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERIVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMINMAXPROC)(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERFVPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERIVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSEPARABLEFILTERPROC)(GLenum target, GLenum format, GLenum type, GLvoid * row, GLvoid * column, GLvoid * span);
-typedef void (CODEGEN_FUNCPTR * PFNGLHISTOGRAMPROC)(GLenum target, GLsizei width, GLenum internalformat, GLboolean sink);
-typedef void (CODEGEN_FUNCPTR * PFNGLMINMAXPROC)(GLenum target, GLenum internalformat, GLboolean sink);
-typedef void (CODEGEN_FUNCPTR * PFNGLRESETHISTOGRAMPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLRESETMINMAXPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLSEPARABLEFILTER2DPROC)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * row, const GLvoid * column);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORSUBTABLEPROC ) ( GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORTABLEPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * table );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERFVPROC ) ( GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERIVPROC ) ( GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER1DPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * image );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER2DPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * image );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFPROC ) ( GLenum target, GLenum pname, GLfloat params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFVPROC ) ( GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIPROC ) ( GLenum target, GLenum pname, GLint params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIVPROC ) ( GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCOLORSUBTABLEPROC ) ( GLenum target, GLsizei start, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCOLORTABLEPROC ) ( GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER1DPROC ) ( GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER2DPROC ) ( GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPROC ) ( GLenum target, GLenum format, GLenum type, GLvoid * table );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERFVPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERIVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONFILTERPROC ) ( GLenum target, GLenum format, GLenum type, GLvoid * image );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERFVPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERIVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPROC ) ( GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERFVPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERIVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMINMAXPROC ) ( GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERFVPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERIVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSEPARABLEFILTERPROC ) ( GLenum target, GLenum format, GLenum type, GLvoid * row, GLvoid * column, GLvoid * span );
+typedef void ( CODEGEN_FUNCPTR * PFNGLHISTOGRAMPROC ) ( GLenum target, GLsizei width, GLenum internalformat, GLboolean sink );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMINMAXPROC ) ( GLenum target, GLenum internalformat, GLboolean sink );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRESETHISTOGRAMPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRESETMINMAXPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSEPARABLEFILTER2DPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * row, const GLvoid * column );
 
 extern PFNGLCOLORSUBTABLEPROC _funcptr_glColorSubTable;
 #define glColorSubTable _funcptr_glColorSubTable
@@ -651,10 +651,10 @@ extern PFNGLSEPARABLEFILTER2DPROC _funcptr_glSeparableFilter2D;
 
 #define GL_VERTEX_ARRAY_BINDING 0x85B5
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDVERTEXARRAYPROC)(GLuint ren_array);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEVERTEXARRAYSPROC)(GLsizei n, const GLuint * arrays);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENVERTEXARRAYSPROC)(GLsizei n, GLuint * arrays);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISVERTEXARRAYPROC)(GLuint ren_array);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDVERTEXARRAYPROC ) ( GLuint ren_array );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEVERTEXARRAYSPROC ) ( GLsizei n, const GLuint * arrays );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENVERTEXARRAYSPROC ) ( GLsizei n, GLuint * arrays );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISVERTEXARRAYPROC ) ( GLuint ren_array );
 
 extern PFNGLBINDVERTEXARRAYPROC _funcptr_glBindVertexArray;
 #define glBindVertexArray _funcptr_glBindVertexArray
@@ -700,8 +700,8 @@ extern PFNGLISVERTEXARRAYPROC _funcptr_glIsVertexArray;
 #define GL_MAP_UNSYNCHRONIZED_BIT 0x0020
 #define GL_MAP_WRITE_BIT 0x0002
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHMAPPEDBUFFERRANGEPROC)(GLenum target, GLintptr offset, GLsizeiptr length);
-typedef void * (CODEGEN_FUNCPTR * PFNGLMAPBUFFERRANGEPROC)(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHMAPPEDBUFFERRANGEPROC ) ( GLenum target, GLintptr offset, GLsizeiptr length );
+typedef void * ( CODEGEN_FUNCPTR * PFNGLMAPBUFFERRANGEPROC ) ( GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access );
 
 extern PFNGLFLUSHMAPPEDBUFFERRANGEPROC _funcptr_glFlushMappedBufferRange;
 #define glFlushMappedBufferRange _funcptr_glFlushMappedBufferRange
@@ -793,26 +793,26 @@ extern PFNGLMAPBUFFERRANGEPROC _funcptr_glMapBufferRange;
 #define GL_UNSIGNED_INT_24_8 0x84FA
 #define GL_UNSIGNED_NORMALIZED 0x8C17
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDFRAMEBUFFERPROC)(GLenum target, GLuint framebuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDRENDERBUFFERPROC)(GLenum target, GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLITFRAMEBUFFERPROC)(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLCHECKFRAMEBUFFERSTATUSPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEFRAMEBUFFERSPROC)(GLsizei n, const GLuint * framebuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETERENDERBUFFERSPROC)(GLsizei n, const GLuint * renderbuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERRENDERBUFFERPROC)(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE1DPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE2DPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE3DPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURELAYERPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENFRAMEBUFFERSPROC)(GLsizei n, GLuint * framebuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENRENDERBUFFERSPROC)(GLsizei n, GLuint * renderbuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENERATEMIPMAPPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)(GLenum target, GLenum attachment, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETRENDERBUFFERPARAMETERIVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISFRAMEBUFFERPROC)(GLuint framebuffer);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISRENDERBUFFERPROC)(GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEPROC)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC)(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDFRAMEBUFFERPROC ) ( GLenum target, GLuint framebuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDRENDERBUFFERPROC ) ( GLenum target, GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLITFRAMEBUFFERPROC ) ( GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter );
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLCHECKFRAMEBUFFERSTATUSPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEFRAMEBUFFERSPROC ) ( GLsizei n, const GLuint * framebuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETERENDERBUFFERSPROC ) ( GLsizei n, const GLuint * renderbuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERRENDERBUFFERPROC ) ( GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE1DPROC ) ( GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE2DPROC ) ( GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE3DPROC ) ( GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURELAYERPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENFRAMEBUFFERSPROC ) ( GLsizei n, GLuint * framebuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENRENDERBUFFERSPROC ) ( GLsizei n, GLuint * renderbuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENERATEMIPMAPPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC ) ( GLenum target, GLenum attachment, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETRENDERBUFFERPARAMETERIVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISFRAMEBUFFERPROC ) ( GLuint framebuffer );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISRENDERBUFFERPROC ) ( GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC ) ( GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height );
 
 extern PFNGLBINDFRAMEBUFFERPROC _funcptr_glBindFramebuffer;
 #define glBindFramebuffer _funcptr_glBindFramebuffer
@@ -893,13 +893,13 @@ extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC _funcptr_glRenderbufferStorageMul
 #define GL_UNIFORM_SIZE 0x8A38
 #define GL_UNIFORM_TYPE 0x8A37
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC)(GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformBlockName);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMBLOCKIVPROC)(GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMNAMEPROC)(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformName);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMSIVPROC)(GLuint program, GLsizei uniformCount, const GLuint * uniformIndices, GLenum pname, GLint * params);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGETUNIFORMBLOCKINDEXPROC)(GLuint program, const GLchar * uniformBlockName);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMINDICESPROC)(GLuint program, GLsizei uniformCount, const GLchar *const* uniformNames, GLuint * uniformIndices);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMBLOCKBINDINGPROC)(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC ) ( GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformBlockName );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMBLOCKIVPROC ) ( GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMNAMEPROC ) ( GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformName );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMSIVPROC ) ( GLuint program, GLsizei uniformCount, const GLuint * uniformIndices, GLenum pname, GLint * params );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMBLOCKINDEXPROC ) ( GLuint program, const GLchar * uniformBlockName );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMINDICESPROC ) ( GLuint program, GLsizei uniformCount, const GLchar *const* uniformNames, GLuint * uniformIndices );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMBLOCKBINDINGPROC ) ( GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding );
 
 extern PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC _funcptr_glGetActiveUniformBlockName;
 #define glGetActiveUniformBlockName _funcptr_glGetActiveUniformBlockName
@@ -921,17 +921,17 @@ extern PFNGLUNIFORMBLOCKBINDINGPROC _funcptr_glUniformBlockBinding;
 #define GL_COPY_WRITE_BUFFER 0x8F37
 #define GL_COPY_WRITE_BUFFER_BINDING 0x8F37
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYBUFFERSUBDATAPROC)(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYBUFFERSUBDATAPROC ) ( GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size );
 
 extern PFNGLCOPYBUFFERSUBDATAPROC _funcptr_glCopyBufferSubData;
 #define glCopyBufferSubData _funcptr_glCopyBufferSubData
 
 #define GL_DEPTH_CLAMP 0x864F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSBASEVERTEXPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei instancecount, GLint basevertex);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC)(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC)(GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei drawcount, const GLint * basevertex);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSBASEVERTEXPROC ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei instancecount, GLint basevertex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC ) ( GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC ) ( GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei drawcount, const GLint * basevertex );
 
 extern PFNGLDRAWELEMENTSBASEVERTEXPROC _funcptr_glDrawElementsBaseVertex;
 #define glDrawElementsBaseVertex _funcptr_glDrawElementsBaseVertex
@@ -947,7 +947,7 @@ extern PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC _funcptr_glMultiDrawElementsBaseVert
 #define GL_PROVOKING_VERTEX 0x8E4F
 #define GL_QUADS_FOLLOW_PROVOKING_VERTEX_CONVENTION 0x8E4C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPROVOKINGVERTEXPROC)(GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROVOKINGVERTEXPROC ) ( GLenum mode );
 
 extern PFNGLPROVOKINGVERTEXPROC _funcptr_glProvokingVertex;
 #define glProvokingVertex _funcptr_glProvokingVertex
@@ -970,13 +970,13 @@ extern PFNGLPROVOKINGVERTEXPROC _funcptr_glProvokingVertex;
 #define GL_UNSIGNALED 0x9118
 #define GL_WAIT_FAILED 0x911D
 
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLCLIENTWAITSYNCPROC)(GLsync sync, GLbitfield flags, GLuint64 timeout);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETESYNCPROC)(GLsync sync);
-typedef GLsync (CODEGEN_FUNCPTR * PFNGLFENCESYNCPROC)(GLenum condition, GLbitfield flags);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTEGER64VPROC)(GLenum pname, GLint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSYNCIVPROC)(GLsync sync, GLenum pname, GLsizei bufSize, GLsizei * length, GLint * values);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISSYNCPROC)(GLsync sync);
-typedef void (CODEGEN_FUNCPTR * PFNGLWAITSYNCPROC)(GLsync sync, GLbitfield flags, GLuint64 timeout);
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLCLIENTWAITSYNCPROC ) ( GLsync sync, GLbitfield flags, GLuint64 timeout );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETESYNCPROC ) ( GLsync sync );
+typedef GLsync ( CODEGEN_FUNCPTR * PFNGLFENCESYNCPROC ) ( GLenum condition, GLbitfield flags );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTEGER64VPROC ) ( GLenum pname, GLint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSYNCIVPROC ) ( GLsync sync, GLenum pname, GLsizei bufSize, GLsizei * length, GLint * values );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISSYNCPROC ) ( GLsync sync );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWAITSYNCPROC ) ( GLsync sync, GLbitfield flags, GLuint64 timeout );
 
 extern PFNGLCLIENTWAITSYNCPROC _funcptr_glClientWaitSync;
 #define glClientWaitSync _funcptr_glClientWaitSync
@@ -1015,10 +1015,10 @@ extern PFNGLWAITSYNCPROC _funcptr_glWaitSync;
 #define GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE 0x910A
 #define GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY 0x910D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTISAMPLEFVPROC)(GLenum pname, GLuint index, GLfloat * val);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEMASKIPROC)(GLuint index, GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE2DMULTISAMPLEPROC)(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DMULTISAMPLEPROC)(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTISAMPLEFVPROC ) ( GLenum pname, GLuint index, GLfloat * val );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEMASKIPROC ) ( GLuint index, GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE2DMULTISAMPLEPROC ) ( GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DMULTISAMPLEPROC ) ( GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations );
 
 extern PFNGLGETMULTISAMPLEFVPROC _funcptr_glGetMultisamplefv;
 #define glGetMultisamplefv _funcptr_glGetMultisamplefv
@@ -1042,9 +1042,9 @@ extern PFNGLTEXIMAGE3DMULTISAMPLEPROC _funcptr_glTexImage3DMultisample;
 #define GL_TIMESTAMP 0x8E28
 #define GL_TIME_ELAPSED 0x88BF
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTI64VPROC)(GLuint id, GLenum pname, GLint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUI64VPROC)(GLuint id, GLenum pname, GLuint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLQUERYCOUNTERPROC)(GLuint id, GLenum target);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTI64VPROC ) ( GLuint id, GLenum pname, GLint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUI64VPROC ) ( GLuint id, GLenum pname, GLuint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLQUERYCOUNTERPROC ) ( GLuint id, GLenum target );
 
 extern PFNGLGETQUERYOBJECTI64VPROC _funcptr_glGetQueryObjecti64v;
 #define glGetQueryObjecti64v _funcptr_glGetQueryObjecti64v
@@ -1056,44 +1056,44 @@ extern PFNGLQUERYCOUNTERPROC _funcptr_glQueryCounter;
 #define GL_INT_2_10_10_10_REV 0x8D9F
 #define GL_UNSIGNED_INT_2_10_10_10_REV 0x8368
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORP3UIPROC)(GLenum type, GLuint color);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORP3UIVPROC)(GLenum type, const GLuint * color);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORP4UIPROC)(GLenum type, GLuint color);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORP4UIVPROC)(GLenum type, const GLuint * color);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP1UIPROC)(GLenum texture, GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP1UIVPROC)(GLenum texture, GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP2UIPROC)(GLenum texture, GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP2UIVPROC)(GLenum texture, GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP3UIPROC)(GLenum texture, GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP3UIVPROC)(GLenum texture, GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP4UIPROC)(GLenum texture, GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP4UIVPROC)(GLenum texture, GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALP3UIPROC)(GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALP3UIVPROC)(GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORP3UIPROC)(GLenum type, GLuint color);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORP3UIVPROC)(GLenum type, const GLuint * color);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP1UIPROC)(GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP1UIVPROC)(GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP2UIPROC)(GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP2UIVPROC)(GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP3UIPROC)(GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP3UIVPROC)(GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP4UIPROC)(GLenum type, GLuint coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDP4UIVPROC)(GLenum type, const GLuint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXP2UIPROC)(GLenum type, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXP2UIVPROC)(GLenum type, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXP3UIPROC)(GLenum type, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXP3UIVPROC)(GLenum type, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXP4UIPROC)(GLenum type, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXP4UIVPROC)(GLenum type, const GLuint * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORP3UIPROC ) ( GLenum type, GLuint color );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORP3UIVPROC ) ( GLenum type, const GLuint * color );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORP4UIPROC ) ( GLenum type, GLuint color );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORP4UIVPROC ) ( GLenum type, const GLuint * color );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP1UIPROC ) ( GLenum texture, GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP1UIVPROC ) ( GLenum texture, GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP2UIPROC ) ( GLenum texture, GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP2UIVPROC ) ( GLenum texture, GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP3UIPROC ) ( GLenum texture, GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP3UIVPROC ) ( GLenum texture, GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP4UIPROC ) ( GLenum texture, GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDP4UIVPROC ) ( GLenum texture, GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALP3UIPROC ) ( GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALP3UIVPROC ) ( GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORP3UIPROC ) ( GLenum type, GLuint color );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORP3UIVPROC ) ( GLenum type, const GLuint * color );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP1UIPROC ) ( GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP1UIVPROC ) ( GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP2UIPROC ) ( GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP2UIVPROC ) ( GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP3UIPROC ) ( GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP3UIVPROC ) ( GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP4UIPROC ) ( GLenum type, GLuint coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDP4UIVPROC ) ( GLenum type, const GLuint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXP2UIPROC ) ( GLenum type, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXP2UIVPROC ) ( GLenum type, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXP3UIPROC ) ( GLenum type, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXP3UIVPROC ) ( GLenum type, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXP4UIPROC ) ( GLenum type, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXP4UIVPROC ) ( GLenum type, const GLuint * value );
 
 extern PFNGLCOLORP3UIPROC _funcptr_glColorP3ui;
 #define glColorP3ui _funcptr_glColorP3ui
@@ -1178,8 +1178,8 @@ extern PFNGLVERTEXP4UIVPROC _funcptr_glVertexP4uiv;
 #define GL_SRC1_ALPHA 0x8589
 #define GL_SRC1_COLOR 0x88F9
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDFRAGDATALOCATIONINDEXEDPROC)(GLuint program, GLuint colorNumber, GLuint index, const GLchar * name);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETFRAGDATAINDEXPROC)(GLuint program, const GLchar * name);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDFRAGDATALOCATIONINDEXEDPROC ) ( GLuint program, GLuint colorNumber, GLuint index, const GLchar * name );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETFRAGDATAINDEXPROC ) ( GLuint program, const GLchar * name );
 
 extern PFNGLBINDFRAGDATALOCATIONINDEXEDPROC _funcptr_glBindFragDataLocationIndexed;
 #define glBindFragDataLocationIndexed _funcptr_glBindFragDataLocationIndexed
@@ -1190,20 +1190,20 @@ extern PFNGLGETFRAGDATAINDEXPROC _funcptr_glGetFragDataIndex;
 
 #define GL_SAMPLER_BINDING 0x8919
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDSAMPLERPROC)(GLuint unit, GLuint sampler);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETESAMPLERSPROC)(GLsizei count, const GLuint * samplers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENSAMPLERSPROC)(GLsizei count, GLuint * samplers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIIVPROC)(GLuint sampler, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIUIVPROC)(GLuint sampler, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERFVPROC)(GLuint sampler, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIVPROC)(GLuint sampler, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISSAMPLERPROC)(GLuint sampler);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIIVPROC)(GLuint sampler, GLenum pname, const GLint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIUIVPROC)(GLuint sampler, GLenum pname, const GLuint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFPROC)(GLuint sampler, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFVPROC)(GLuint sampler, GLenum pname, const GLfloat * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIPROC)(GLuint sampler, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIVPROC)(GLuint sampler, GLenum pname, const GLint * param);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDSAMPLERPROC ) ( GLuint unit, GLuint sampler );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETESAMPLERSPROC ) ( GLsizei count, const GLuint * samplers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENSAMPLERSPROC ) ( GLsizei count, GLuint * samplers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIIVPROC ) ( GLuint sampler, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIUIVPROC ) ( GLuint sampler, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERFVPROC ) ( GLuint sampler, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIVPROC ) ( GLuint sampler, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISSAMPLERPROC ) ( GLuint sampler );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIIVPROC ) ( GLuint sampler, GLenum pname, const GLint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIUIVPROC ) ( GLuint sampler, GLenum pname, const GLuint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFPROC ) ( GLuint sampler, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFVPROC ) ( GLuint sampler, GLenum pname, const GLfloat * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIPROC ) ( GLuint sampler, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIVPROC ) ( GLuint sampler, GLenum pname, const GLint * param );
 
 extern PFNGLBINDSAMPLERPROC _funcptr_glBindSampler;
 #define glBindSampler _funcptr_glBindSampler
@@ -1237,8 +1237,8 @@ extern PFNGLSAMPLERPARAMETERIVPROC _funcptr_glSamplerParameteriv;
 #define GL_DRAW_INDIRECT_BUFFER 0x8F3F
 #define GL_DRAW_INDIRECT_BUFFER_BINDING 0x8F43
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINDIRECTPROC)(GLenum mode, const GLvoid * indirect);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINDIRECTPROC)(GLenum mode, GLenum type, const GLvoid * indirect);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINDIRECTPROC ) ( GLenum mode, const GLvoid * indirect );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINDIRECTPROC ) ( GLenum mode, GLenum type, const GLvoid * indirect );
 
 extern PFNGLDRAWARRAYSINDIRECTPROC _funcptr_glDrawArraysIndirect;
 #define glDrawArraysIndirect _funcptr_glDrawArraysIndirect
@@ -1266,24 +1266,24 @@ extern PFNGLDRAWELEMENTSINDIRECTPROC _funcptr_glDrawElementsIndirect;
 #define GL_DOUBLE_VEC3 0x8FFD
 #define GL_DOUBLE_VEC4 0x8FFE
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMDVPROC)(GLuint program, GLint location, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1DPROC)(GLint location, GLdouble x);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1DVPROC)(GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2DPROC)(GLint location, GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2DVPROC)(GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3DPROC)(GLint location, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3DVPROC)(GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4DPROC)(GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4DVPROC)(GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X3DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X4DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X2DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X4DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X2DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X3DVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMDVPROC ) ( GLuint program, GLint location, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1DPROC ) ( GLint location, GLdouble x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1DVPROC ) ( GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2DPROC ) ( GLint location, GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2DVPROC ) ( GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3DPROC ) ( GLint location, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3DVPROC ) ( GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4DPROC ) ( GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4DVPROC ) ( GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X3DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X4DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X2DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X4DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X2DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X3DVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
 
 extern PFNGLGETUNIFORMDVPROC _funcptr_glGetUniformdv;
 #define glGetUniformdv _funcptr_glGetUniformdv
@@ -1334,14 +1334,14 @@ extern PFNGLUNIFORMMATRIX4X3DVPROC _funcptr_glUniformMatrix4x3dv;
 #define GL_UNIFORM_NAME_LENGTH 0x8A39
 #define GL_UNIFORM_SIZE 0x8A38
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVESUBROUTINENAMEPROC)(GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei * length, GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVESUBROUTINEUNIFORMNAMEPROC)(GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei * length, GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVESUBROUTINEUNIFORMIVPROC)(GLuint program, GLenum shadertype, GLuint index, GLenum pname, GLint * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTAGEIVPROC)(GLuint program, GLenum shadertype, GLenum pname, GLint * values);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGETSUBROUTINEINDEXPROC)(GLuint program, GLenum shadertype, const GLchar * name);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETSUBROUTINEUNIFORMLOCATIONPROC)(GLuint program, GLenum shadertype, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMSUBROUTINEUIVPROC)(GLenum shadertype, GLint location, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMSUBROUTINESUIVPROC)(GLenum shadertype, GLsizei count, const GLuint * indices);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVESUBROUTINENAMEPROC ) ( GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei * length, GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVESUBROUTINEUNIFORMNAMEPROC ) ( GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei * length, GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVESUBROUTINEUNIFORMIVPROC ) ( GLuint program, GLenum shadertype, GLuint index, GLenum pname, GLint * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTAGEIVPROC ) ( GLuint program, GLenum shadertype, GLenum pname, GLint * values );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGETSUBROUTINEINDEXPROC ) ( GLuint program, GLenum shadertype, const GLchar * name );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETSUBROUTINEUNIFORMLOCATIONPROC ) ( GLuint program, GLenum shadertype, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMSUBROUTINEUIVPROC ) ( GLenum shadertype, GLint location, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMSUBROUTINESUIVPROC ) ( GLenum shadertype, GLsizei count, const GLuint * indices );
 
 extern PFNGLGETACTIVESUBROUTINENAMEPROC _funcptr_glGetActiveSubroutineName;
 #define glGetActiveSubroutineName _funcptr_glGetActiveSubroutineName
@@ -1398,8 +1398,8 @@ extern PFNGLUNIFORMSUBROUTINESUIVPROC _funcptr_glUniformSubroutinesuiv;
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER 0x84F0
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_EVALUATION_SHADER 0x84F1
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPATCHPARAMETERFVPROC)(GLenum pname, const GLfloat * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATCHPARAMETERIPROC)(GLenum pname, GLint value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATCHPARAMETERFVPROC ) ( GLenum pname, const GLfloat * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATCHPARAMETERIPROC ) ( GLenum pname, GLint value );
 
 extern PFNGLPATCHPARAMETERFVPROC _funcptr_glPatchParameterfv;
 #define glPatchParameterfv _funcptr_glPatchParameterfv
@@ -1413,13 +1413,13 @@ extern PFNGLPATCHPARAMETERIPROC _funcptr_glPatchParameteri;
 #define GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED 0x8E23
 #define GL_TRANSFORM_FEEDBACK_PAUSED 0x8E23
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDTRANSFORMFEEDBACKPROC)(GLenum target, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETETRANSFORMFEEDBACKSPROC)(GLsizei n, const GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKPROC)(GLenum mode, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENTRANSFORMFEEDBACKSPROC)(GLsizei n, GLuint * ids);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISTRANSFORMFEEDBACKPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLPAUSETRANSFORMFEEDBACKPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLRESUMETRANSFORMFEEDBACKPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDTRANSFORMFEEDBACKPROC ) ( GLenum target, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETETRANSFORMFEEDBACKSPROC ) ( GLsizei n, const GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKPROC ) ( GLenum mode, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENTRANSFORMFEEDBACKSPROC ) ( GLsizei n, GLuint * ids );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISTRANSFORMFEEDBACKPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPAUSETRANSFORMFEEDBACKPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLRESUMETRANSFORMFEEDBACKPROC ) ();
 
 extern PFNGLBINDTRANSFORMFEEDBACKPROC _funcptr_glBindTransformFeedback;
 #define glBindTransformFeedback _funcptr_glBindTransformFeedback
@@ -1439,10 +1439,10 @@ extern PFNGLRESUMETRANSFORMFEEDBACKPROC _funcptr_glResumeTransformFeedback;
 #define GL_MAX_TRANSFORM_FEEDBACK_BUFFERS 0x8E70
 #define GL_MAX_VERTEX_STREAMS 0x8E71
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINQUERYINDEXEDPROC)(GLenum target, GLuint index, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC)(GLenum mode, GLuint id, GLuint stream);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDQUERYINDEXEDPROC)(GLenum target, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYINDEXEDIVPROC)(GLenum target, GLuint index, GLenum pname, GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINQUERYINDEXEDPROC ) ( GLenum target, GLuint index, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC ) ( GLenum mode, GLuint id, GLuint stream );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDQUERYINDEXEDPROC ) ( GLenum target, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYINDEXEDIVPROC ) ( GLenum target, GLuint index, GLenum pname, GLint * params );
 
 extern PFNGLBEGINQUERYINDEXEDPROC _funcptr_glBeginQueryIndexed;
 #define glBeginQueryIndexed _funcptr_glBeginQueryIndexed
@@ -1470,11 +1470,11 @@ extern PFNGLGETQUERYINDEXEDIVPROC _funcptr_glGetQueryIndexediv;
 #define GL_SHADER_BINARY_FORMATS 0x8DF8
 #define GL_SHADER_COMPILER 0x8DFA
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARDEPTHFPROC)(GLfloat d);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHRANGEFPROC)(GLfloat n, GLfloat f);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSHADERPRECISIONFORMATPROC)(GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision);
-typedef void (CODEGEN_FUNCPTR * PFNGLRELEASESHADERCOMPILERPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLSHADERBINARYPROC)(GLsizei count, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARDEPTHFPROC ) ( GLfloat d );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHRANGEFPROC ) ( GLfloat n, GLfloat f );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSHADERPRECISIONFORMATPROC ) ( GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRELEASESHADERCOMPILERPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLSHADERBINARYPROC ) ( GLsizei count, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length );
 
 extern PFNGLCLEARDEPTHFPROC _funcptr_glClearDepthf;
 #define glClearDepthf _funcptr_glClearDepthf
@@ -1492,9 +1492,9 @@ extern PFNGLSHADERBINARYPROC _funcptr_glShaderBinary;
 #define GL_PROGRAM_BINARY_LENGTH 0x8741
 #define GL_PROGRAM_BINARY_RETRIEVABLE_HINT 0x8257
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMBINARYPROC)(GLuint program, GLsizei bufSize, GLsizei * length, GLenum * binaryFormat, GLvoid * binary);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMBINARYPROC)(GLuint program, GLenum binaryFormat, const GLvoid * binary, GLsizei length);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERIPROC)(GLuint program, GLenum pname, GLint value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMBINARYPROC ) ( GLuint program, GLsizei bufSize, GLsizei * length, GLenum * binaryFormat, GLvoid * binary );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMBINARYPROC ) ( GLuint program, GLenum binaryFormat, const GLvoid * binary, GLsizei length );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERIPROC ) ( GLuint program, GLenum pname, GLint value );
 
 extern PFNGLGETPROGRAMBINARYPROC _funcptr_glGetProgramBinary;
 #define glGetProgramBinary _funcptr_glGetProgramBinary
@@ -1513,66 +1513,66 @@ extern PFNGLPROGRAMPARAMETERIPROC _funcptr_glProgramParameteri;
 #define GL_TESS_EVALUATION_SHADER_BIT 0x00000010
 #define GL_VERTEX_SHADER_BIT 0x00000001
 
-typedef void (CODEGEN_FUNCPTR * PFNGLACTIVESHADERPROGRAMPROC)(GLuint pipeline, GLuint program);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDPROGRAMPIPELINEPROC)(GLuint pipeline);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLCREATESHADERPROGRAMVPROC)(GLenum type, GLsizei count, const GLchar *const* strings);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMPIPELINESPROC)(GLsizei n, const GLuint * pipelines);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENPROGRAMPIPELINESPROC)(GLsizei n, GLuint * pipelines);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMPIPELINEINFOLOGPROC)(GLuint pipeline, GLsizei bufSize, GLsizei * length, GLchar * infoLog);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMPIPELINEIVPROC)(GLuint pipeline, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISPROGRAMPIPELINEPROC)(GLuint pipeline);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DPROC)(GLuint program, GLint location, GLdouble v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DVPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FPROC)(GLuint program, GLint location, GLfloat v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FVPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IPROC)(GLuint program, GLint location, GLint v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IVPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIPROC)(GLuint program, GLint location, GLuint v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIVPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DPROC)(GLuint program, GLint location, GLdouble v0, GLdouble v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DVPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FPROC)(GLuint program, GLint location, GLfloat v0, GLfloat v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FVPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IPROC)(GLuint program, GLint location, GLint v0, GLint v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IVPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIPROC)(GLuint program, GLint location, GLuint v0, GLuint v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIVPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DPROC)(GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DVPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FPROC)(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FVPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IPROC)(GLuint program, GLint location, GLint v0, GLint v1, GLint v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IVPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIPROC)(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIVPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DPROC)(GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DVPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FPROC)(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FVPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IPROC)(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IVPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIPROC)(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIVPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3DVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUSEPROGRAMSTAGESPROC)(GLuint pipeline, GLbitfield stages, GLuint program);
-typedef void (CODEGEN_FUNCPTR * PFNGLVALIDATEPROGRAMPIPELINEPROC)(GLuint pipeline);
+typedef void ( CODEGEN_FUNCPTR * PFNGLACTIVESHADERPROGRAMPROC ) ( GLuint pipeline, GLuint program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDPROGRAMPIPELINEPROC ) ( GLuint pipeline );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLCREATESHADERPROGRAMVPROC ) ( GLenum type, GLsizei count, const GLchar *const* strings );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMPIPELINESPROC ) ( GLsizei n, const GLuint * pipelines );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENPROGRAMPIPELINESPROC ) ( GLsizei n, GLuint * pipelines );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMPIPELINEINFOLOGPROC ) ( GLuint pipeline, GLsizei bufSize, GLsizei * length, GLchar * infoLog );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMPIPELINEIVPROC ) ( GLuint pipeline, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISPROGRAMPIPELINEPROC ) ( GLuint pipeline );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DPROC ) ( GLuint program, GLint location, GLdouble v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DVPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FPROC ) ( GLuint program, GLint location, GLfloat v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FVPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IPROC ) ( GLuint program, GLint location, GLint v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIPROC ) ( GLuint program, GLint location, GLuint v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DPROC ) ( GLuint program, GLint location, GLdouble v0, GLdouble v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DVPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FPROC ) ( GLuint program, GLint location, GLfloat v0, GLfloat v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FVPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IPROC ) ( GLuint program, GLint location, GLint v0, GLint v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIPROC ) ( GLuint program, GLint location, GLuint v0, GLuint v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DPROC ) ( GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DVPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FPROC ) ( GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FVPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IPROC ) ( GLuint program, GLint location, GLint v0, GLint v1, GLint v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIPROC ) ( GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DPROC ) ( GLuint program, GLint location, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DVPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FPROC ) ( GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FVPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IPROC ) ( GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIPROC ) ( GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3DVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUSEPROGRAMSTAGESPROC ) ( GLuint pipeline, GLbitfield stages, GLuint program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVALIDATEPROGRAMPIPELINEPROC ) ( GLuint pipeline );
 
 extern PFNGLACTIVESHADERPROGRAMPROC _funcptr_glActiveShaderProgram;
 #define glActiveShaderProgram _funcptr_glActiveShaderProgram
@@ -1709,16 +1709,16 @@ extern PFNGLVALIDATEPROGRAMPIPELINEPROC _funcptr_glValidateProgramPipeline;
 #define GL_DOUBLE_VEC4 0x8FFE
 #define GL_RGB32I 0x8D83
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLDVPROC)(GLuint index, GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DPROC)(GLuint index, GLdouble x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DPROC)(GLuint index, GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLPOINTERPROC)(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLDVPROC ) ( GLuint index, GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DPROC ) ( GLuint index, GLdouble x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DPROC ) ( GLuint index, GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLPOINTERPROC ) ( GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
 
 extern PFNGLGETVERTEXATTRIBLDVPROC _funcptr_glGetVertexAttribLdv;
 #define glGetVertexAttribLdv _funcptr_glGetVertexAttribLdv
@@ -1755,16 +1755,16 @@ extern PFNGLVERTEXATTRIBLPOINTERPROC _funcptr_glVertexAttribLPointer;
 #define GL_VIEWPORT_INDEX_PROVOKING_VERTEX 0x825F
 #define GL_VIEWPORT_SUBPIXEL_BITS 0x825C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHRANGEARRAYVPROC)(GLuint first, GLsizei count, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHRANGEINDEXEDPROC)(GLuint index, GLdouble n, GLdouble f);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETDOUBLEI_VPROC)(GLenum target, GLuint index, GLdouble * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFLOATI_VPROC)(GLenum target, GLuint index, GLfloat * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLSCISSORARRAYVPROC)(GLuint first, GLsizei count, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSCISSORINDEXEDPROC)(GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLSCISSORINDEXEDVPROC)(GLuint index, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVIEWPORTARRAYVPROC)(GLuint first, GLsizei count, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVIEWPORTINDEXEDFPROC)(GLuint index, GLfloat x, GLfloat y, GLfloat w, GLfloat h);
-typedef void (CODEGEN_FUNCPTR * PFNGLVIEWPORTINDEXEDFVPROC)(GLuint index, const GLfloat * v);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHRANGEARRAYVPROC ) ( GLuint first, GLsizei count, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHRANGEINDEXEDPROC ) ( GLuint index, GLdouble n, GLdouble f );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETDOUBLEI_VPROC ) ( GLenum target, GLuint index, GLdouble * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFLOATI_VPROC ) ( GLenum target, GLuint index, GLfloat * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSCISSORARRAYVPROC ) ( GLuint first, GLsizei count, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSCISSORINDEXEDPROC ) ( GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSCISSORINDEXEDVPROC ) ( GLuint index, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVIEWPORTARRAYVPROC ) ( GLuint first, GLsizei count, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVIEWPORTINDEXEDFPROC ) ( GLuint index, GLfloat x, GLfloat y, GLfloat w, GLfloat h );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVIEWPORTINDEXEDFVPROC ) ( GLuint index, const GLfloat * v );
 
 extern PFNGLDEPTHRANGEARRAYVPROC _funcptr_glDepthRangeArrayv;
 #define glDepthRangeArrayv _funcptr_glDepthRangeArrayv
@@ -1787,9 +1787,9 @@ extern PFNGLVIEWPORTINDEXEDFPROC _funcptr_glViewportIndexedf;
 extern PFNGLVIEWPORTINDEXEDFVPROC _funcptr_glViewportIndexedfv;
 #define glViewportIndexedfv _funcptr_glViewportIndexedfv
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC)(GLenum mode, GLint first, GLsizei count, GLsizei instancecount, GLuint baseinstance);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC)(GLenum mode, GLsizei count, GLenum type, const void * indices, GLsizei instancecount, GLuint baseinstance);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC)(GLenum mode, GLsizei count, GLenum type, const void * indices, GLsizei instancecount, GLint basevertex, GLuint baseinstance);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC ) ( GLenum mode, GLint first, GLsizei count, GLsizei instancecount, GLuint baseinstance );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC ) ( GLenum mode, GLsizei count, GLenum type, const void * indices, GLsizei instancecount, GLuint baseinstance );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC ) ( GLenum mode, GLsizei count, GLenum type, const void * indices, GLsizei instancecount, GLint basevertex, GLuint baseinstance );
 
 extern PFNGLDRAWARRAYSINSTANCEDBASEINSTANCEPROC _funcptr_glDrawArraysInstancedBaseInstance;
 #define glDrawArraysInstancedBaseInstance _funcptr_glDrawArraysInstancedBaseInstance
@@ -1798,8 +1798,8 @@ extern PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC _funcptr_glDrawElementsInstanc
 extern PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXBASEINSTANCEPROC _funcptr_glDrawElementsInstancedBaseVertexBaseInstance;
 #define glDrawElementsInstancedBaseVertexBaseInstance _funcptr_glDrawElementsInstancedBaseVertexBaseInstance
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC)(GLenum mode, GLuint id, GLsizei instancecount);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC)(GLenum mode, GLuint id, GLuint stream, GLsizei instancecount);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC ) ( GLenum mode, GLuint id, GLsizei instancecount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC ) ( GLenum mode, GLuint id, GLuint stream, GLsizei instancecount );
 
 extern PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC _funcptr_glDrawTransformFeedbackInstanced;
 #define glDrawTransformFeedbackInstanced _funcptr_glDrawTransformFeedbackInstanced
@@ -1817,7 +1817,7 @@ extern PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC _funcptr_glDrawTransformFee
 
 #define GL_NUM_SAMPLE_COUNTS 0x9380
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTERNALFORMATIVPROC)(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTERNALFORMATIVPROC ) ( GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint * params );
 
 extern PFNGLGETINTERNALFORMATIVPROC _funcptr_glGetInternalformativ;
 #define glGetInternalformativ _funcptr_glGetInternalformativ
@@ -1854,7 +1854,7 @@ extern PFNGLGETINTERNALFORMATIVPROC _funcptr_glGetInternalformativ;
 #define GL_UNIFORM_ATOMIC_COUNTER_BUFFER_INDEX 0x92DA
 #define GL_UNSIGNED_INT_ATOMIC_COUNTER 0x92DB
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC)(GLuint program, GLuint bufferIndex, GLenum pname, GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC ) ( GLuint program, GLuint bufferIndex, GLenum pname, GLint * params );
 
 extern PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC _funcptr_glGetActiveAtomicCounterBufferiv;
 #define glGetActiveAtomicCounterBufferiv _funcptr_glGetActiveAtomicCounterBufferiv
@@ -1924,8 +1924,8 @@ extern PFNGLGETACTIVEATOMICCOUNTERBUFFERIVPROC _funcptr_glGetActiveAtomicCounter
 #define GL_UNSIGNED_INT_IMAGE_CUBE_MAP_ARRAY 0x906A
 #define GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT 0x00000001
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDIMAGETEXTUREPROC)(GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
-typedef void (CODEGEN_FUNCPTR * PFNGLMEMORYBARRIERPROC)(GLbitfield barriers);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDIMAGETEXTUREPROC ) ( GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMEMORYBARRIERPROC ) ( GLbitfield barriers );
 
 extern PFNGLBINDIMAGETEXTUREPROC _funcptr_glBindImageTexture;
 #define glBindImageTexture _funcptr_glBindImageTexture
@@ -1934,9 +1934,9 @@ extern PFNGLMEMORYBARRIERPROC _funcptr_glMemoryBarrier;
 
 #define GL_TEXTURE_IMMUTABLE_FORMAT 0x912F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSTORAGE1DPROC)(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSTORAGE2DPROC)(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSTORAGE3DPROC)(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSTORAGE1DPROC ) ( GLenum target, GLsizei levels, GLenum internalformat, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSTORAGE2DPROC ) ( GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSTORAGE3DPROC ) ( GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth );
 
 extern PFNGLTEXSTORAGE1DPROC _funcptr_glTexStorage1D;
 #define glTexStorage1D _funcptr_glTexStorage1D
@@ -1987,17 +1987,17 @@ extern PFNGLTEXSTORAGE3DPROC _funcptr_glTexStorage3D;
 #define GL_STACK_UNDERFLOW 0x0504
 #define GL_VERTEX_ARRAY 0x8074
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECALLBACKPROC)(GLDEBUGPROC callback, const void * userParam);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECONTROLPROC)(GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint * ids, GLboolean enabled);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEINSERTPROC)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * buf);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGETDEBUGMESSAGELOGPROC)(GLuint count, GLsizei bufsize, GLenum * sources, GLenum * types, GLuint * ids, GLenum * severities, GLsizei * lengths, GLchar * messageLog);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOBJECTLABELPROC)(GLenum identifier, GLuint name, GLsizei bufSize, GLsizei * length, GLchar * label);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOBJECTPTRLABELPROC)(const void * ptr, GLsizei bufSize, GLsizei * length, GLchar * label);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPOINTERVPROC)(GLenum pname, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * PFNGLOBJECTLABELPROC)(GLenum identifier, GLuint name, GLsizei length, const GLchar * label);
-typedef void (CODEGEN_FUNCPTR * PFNGLOBJECTPTRLABELPROC)(const void * ptr, GLsizei length, const GLchar * label);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOPDEBUGGROUPPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLPUSHDEBUGGROUPPROC)(GLenum source, GLuint id, GLsizei length, const GLchar * message);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECALLBACKPROC ) ( GLDEBUGPROC callback, const void * userParam );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECONTROLPROC ) ( GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint * ids, GLboolean enabled );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEINSERTPROC ) ( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * buf );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGETDEBUGMESSAGELOGPROC ) ( GLuint count, GLsizei bufsize, GLenum * sources, GLenum * types, GLuint * ids, GLenum * severities, GLsizei * lengths, GLchar * messageLog );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOBJECTLABELPROC ) ( GLenum identifier, GLuint name, GLsizei bufSize, GLsizei * length, GLchar * label );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOBJECTPTRLABELPROC ) ( const void * ptr, GLsizei bufSize, GLsizei * length, GLchar * label );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPOINTERVPROC ) ( GLenum pname, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLOBJECTLABELPROC ) ( GLenum identifier, GLuint name, GLsizei length, const GLchar * label );
+typedef void ( CODEGEN_FUNCPTR * PFNGLOBJECTPTRLABELPROC ) ( const void * ptr, GLsizei length, const GLchar * label );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOPDEBUGGROUPPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLPUSHDEBUGGROUPPROC ) ( GLenum source, GLuint id, GLsizei length, const GLchar * message );
 
 extern PFNGLDEBUGMESSAGECALLBACKPROC _funcptr_glDebugMessageCallback;
 #define glDebugMessageCallback _funcptr_glDebugMessageCallback
@@ -2022,8 +2022,8 @@ extern PFNGLPOPDEBUGGROUPPROC _funcptr_glPopDebugGroup;
 extern PFNGLPUSHDEBUGGROUPPROC _funcptr_glPushDebugGroup;
 #define glPushDebugGroup _funcptr_glPushDebugGroup
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARBUFFERDATAPROC)(GLenum target, GLenum internalformat, GLenum format, GLenum type, const void * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARBUFFERSUBDATAPROC)(GLenum target, GLenum internalformat, GLintptr offset, GLsizeiptr size, GLenum format, GLenum type, const void * data);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARBUFFERDATAPROC ) ( GLenum target, GLenum internalformat, GLenum format, GLenum type, const void * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARBUFFERSUBDATAPROC ) ( GLenum target, GLenum internalformat, GLintptr offset, GLsizeiptr size, GLenum format, GLenum type, const void * data );
 
 extern PFNGLCLEARBUFFERDATAPROC _funcptr_glClearBufferData;
 #define glClearBufferData _funcptr_glClearBufferData
@@ -2049,15 +2049,15 @@ extern PFNGLCLEARBUFFERSUBDATAPROC _funcptr_glClearBufferSubData;
 #define GL_MAX_COMPUTE_WORK_GROUP_SIZE 0x91BF
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_COMPUTE_SHADER 0x90EC
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDISPATCHCOMPUTEPROC)(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISPATCHCOMPUTEINDIRECTPROC)(GLintptr indirect);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISPATCHCOMPUTEPROC ) ( GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISPATCHCOMPUTEINDIRECTPROC ) ( GLintptr indirect );
 
 extern PFNGLDISPATCHCOMPUTEPROC _funcptr_glDispatchCompute;
 #define glDispatchCompute _funcptr_glDispatchCompute
 extern PFNGLDISPATCHCOMPUTEINDIRECTPROC _funcptr_glDispatchComputeIndirect;
 #define glDispatchComputeIndirect _funcptr_glDispatchComputeIndirect
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYIMAGESUBDATAPROC)(GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYIMAGESUBDATAPROC ) ( GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth );
 
 extern PFNGLCOPYIMAGESUBDATAPROC _funcptr_glCopyImageSubData;
 #define glCopyImageSubData _funcptr_glCopyImageSubData
@@ -2088,8 +2088,8 @@ extern PFNGLCOPYIMAGESUBDATAPROC _funcptr_glCopyImageSubData;
 #define GL_MAX_FRAMEBUFFER_SAMPLES 0x9318
 #define GL_MAX_FRAMEBUFFER_WIDTH 0x9315
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERPARAMETERIPROC)(GLenum target, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERPARAMETERIVPROC)(GLenum target, GLenum pname, GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERPARAMETERIPROC ) ( GLenum target, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERPARAMETERIVPROC ) ( GLenum target, GLenum pname, GLint * params );
 
 extern PFNGLFRAMEBUFFERPARAMETERIPROC _funcptr_glFramebufferParameteri;
 #define glFramebufferParameteri _funcptr_glFramebufferParameteri
@@ -2212,17 +2212,17 @@ extern PFNGLGETFRAMEBUFFERPARAMETERIVPROC _funcptr_glGetFramebufferParameteriv;
 #define GL_VIEW_CLASS_S3TC_DXT5_RGBA 0x82CF
 #define GL_VIEW_COMPATIBILITY_CLASS 0x82B6
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTERNALFORMATI64VPROC)(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint64 * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTERNALFORMATI64VPROC ) ( GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint64 * params );
 
 extern PFNGLGETINTERNALFORMATI64VPROC _funcptr_glGetInternalformati64v;
 #define glGetInternalformati64v _funcptr_glGetInternalformati64v
 
-typedef void (CODEGEN_FUNCPTR * PFNGLINVALIDATEBUFFERDATAPROC)(GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLINVALIDATEBUFFERSUBDATAPROC)(GLuint buffer, GLintptr offset, GLsizeiptr length);
-typedef void (CODEGEN_FUNCPTR * PFNGLINVALIDATEFRAMEBUFFERPROC)(GLenum target, GLsizei numAttachments, const GLenum * attachments);
-typedef void (CODEGEN_FUNCPTR * PFNGLINVALIDATESUBFRAMEBUFFERPROC)(GLenum target, GLsizei numAttachments, const GLenum * attachments, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLINVALIDATETEXIMAGEPROC)(GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLINVALIDATETEXSUBIMAGEPROC)(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth);
+typedef void ( CODEGEN_FUNCPTR * PFNGLINVALIDATEBUFFERDATAPROC ) ( GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINVALIDATEBUFFERSUBDATAPROC ) ( GLuint buffer, GLintptr offset, GLsizeiptr length );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINVALIDATEFRAMEBUFFERPROC ) ( GLenum target, GLsizei numAttachments, const GLenum * attachments );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINVALIDATESUBFRAMEBUFFERPROC ) ( GLenum target, GLsizei numAttachments, const GLenum * attachments, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINVALIDATETEXIMAGEPROC ) ( GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINVALIDATETEXSUBIMAGEPROC ) ( GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth );
 
 extern PFNGLINVALIDATEBUFFERDATAPROC _funcptr_glInvalidateBufferData;
 #define glInvalidateBufferData _funcptr_glInvalidateBufferData
@@ -2237,8 +2237,8 @@ extern PFNGLINVALIDATETEXIMAGEPROC _funcptr_glInvalidateTexImage;
 extern PFNGLINVALIDATETEXSUBIMAGEPROC _funcptr_glInvalidateTexSubImage;
 #define glInvalidateTexSubImage _funcptr_glInvalidateTexSubImage
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTPROC)(GLenum mode, const void * indirect, GLsizei drawcount, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTPROC)(GLenum mode, GLenum type, const void * indirect, GLsizei drawcount, GLsizei stride);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTPROC ) ( GLenum mode, const void * indirect, GLsizei drawcount, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTPROC ) ( GLenum mode, GLenum type, const void * indirect, GLsizei drawcount, GLsizei stride );
 
 extern PFNGLMULTIDRAWARRAYSINDIRECTPROC _funcptr_glMultiDrawArraysIndirect;
 #define glMultiDrawArraysIndirect _funcptr_glMultiDrawArraysIndirect
@@ -2296,12 +2296,12 @@ extern PFNGLMULTIDRAWELEMENTSINDIRECTPROC _funcptr_glMultiDrawElementsIndirect;
 #define GL_VERTEX_SUBROUTINE 0x92E8
 #define GL_VERTEX_SUBROUTINE_UNIFORM 0x92EE
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMINTERFACEIVPROC)(GLuint program, GLenum programInterface, GLenum pname, GLint * params);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCEINDEXPROC)(GLuint program, GLenum programInterface, const GLchar * name);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCELOCATIONPROC)(GLuint program, GLenum programInterface, const GLchar * name);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCELOCATIONINDEXPROC)(GLuint program, GLenum programInterface, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCENAMEPROC)(GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei * length, GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCEIVPROC)(GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, const GLenum * props, GLsizei bufSize, GLsizei * length, GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMINTERFACEIVPROC ) ( GLuint program, GLenum programInterface, GLenum pname, GLint * params );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCEINDEXPROC ) ( GLuint program, GLenum programInterface, const GLchar * name );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCELOCATIONPROC ) ( GLuint program, GLenum programInterface, const GLchar * name );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCELOCATIONINDEXPROC ) ( GLuint program, GLenum programInterface, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCENAMEPROC ) ( GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei * length, GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMRESOURCEIVPROC ) ( GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, const GLenum * props, GLsizei bufSize, GLsizei * length, GLint * params );
 
 extern PFNGLGETPROGRAMINTERFACEIVPROC _funcptr_glGetProgramInterfaceiv;
 #define glGetProgramInterfaceiv _funcptr_glGetProgramInterfaceiv
@@ -2334,7 +2334,7 @@ extern PFNGLGETPROGRAMRESOURCEIVPROC _funcptr_glGetProgramResourceiv;
 #define GL_SHADER_STORAGE_BUFFER_SIZE 0x90D5
 #define GL_SHADER_STORAGE_BUFFER_START 0x90D4
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSHADERSTORAGEBLOCKBINDINGPROC)(GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSHADERSTORAGEBLOCKBINDINGPROC ) ( GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding );
 
 extern PFNGLSHADERSTORAGEBLOCKBINDINGPROC _funcptr_glShaderStorageBlockBinding;
 #define glShaderStorageBlockBinding _funcptr_glShaderStorageBlockBinding
@@ -2345,13 +2345,13 @@ extern PFNGLSHADERSTORAGEBLOCKBINDINGPROC _funcptr_glShaderStorageBlockBinding;
 #define GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT 0x919F
 #define GL_TEXTURE_BUFFER_SIZE 0x919E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXBUFFERRANGEPROC)(GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXBUFFERRANGEPROC ) ( GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size );
 
 extern PFNGLTEXBUFFERRANGEPROC _funcptr_glTexBufferRange;
 #define glTexBufferRange _funcptr_glTexBufferRange
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSTORAGE2DMULTISAMPLEPROC)(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSTORAGE3DMULTISAMPLEPROC)(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSTORAGE2DMULTISAMPLEPROC ) ( GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSTORAGE3DMULTISAMPLEPROC ) ( GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations );
 
 extern PFNGLTEXSTORAGE2DMULTISAMPLEPROC _funcptr_glTexStorage2DMultisample;
 #define glTexStorage2DMultisample _funcptr_glTexStorage2DMultisample
@@ -2364,7 +2364,7 @@ extern PFNGLTEXSTORAGE3DMULTISAMPLEPROC _funcptr_glTexStorage3DMultisample;
 #define GL_TEXTURE_VIEW_NUM_LAYERS 0x82DE
 #define GL_TEXTURE_VIEW_NUM_LEVELS 0x82DC
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREVIEWPROC)(GLuint texture, GLenum target, GLuint origtexture, GLenum internalformat, GLuint minlevel, GLuint numlevels, GLuint minlayer, GLuint numlayers);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREVIEWPROC ) ( GLuint texture, GLenum target, GLuint origtexture, GLenum internalformat, GLuint minlevel, GLuint numlevels, GLuint minlayer, GLuint numlayers );
 
 extern PFNGLTEXTUREVIEWPROC _funcptr_glTextureView;
 #define glTextureView _funcptr_glTextureView
@@ -2377,12 +2377,12 @@ extern PFNGLTEXTUREVIEWPROC _funcptr_glTextureView;
 #define GL_VERTEX_BINDING_OFFSET 0x82D7
 #define GL_VERTEX_BINDING_STRIDE 0x82D8
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDVERTEXBUFFERPROC)(GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBBINDINGPROC)(GLuint attribindex, GLuint bindingindex);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBFORMATPROC)(GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBIFORMATPROC)(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLFORMATPROC)(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXBINDINGDIVISORPROC)(GLuint bindingindex, GLuint divisor);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDVERTEXBUFFERPROC ) ( GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBBINDINGPROC ) ( GLuint attribindex, GLuint bindingindex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBFORMATPROC ) ( GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBIFORMATPROC ) ( GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLFORMATPROC ) ( GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXBINDINGDIVISORPROC ) ( GLuint bindingindex, GLuint divisor );
 
 extern PFNGLBINDVERTEXBUFFERPROC _funcptr_glBindVertexBuffer;
 #define glBindVertexBuffer _funcptr_glBindVertexBuffer
@@ -2407,15 +2407,15 @@ extern PFNGLVERTEXBINDINGDIVISORPROC _funcptr_glVertexBindingDivisor;
 #define GL_MAP_READ_BIT 0x0001
 #define GL_MAP_WRITE_BIT 0x0002
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBUFFERSTORAGEPROC)(GLenum target, GLsizeiptr size, const void * data, GLbitfield flags);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBUFFERSTORAGEPROC ) ( GLenum target, GLsizeiptr size, const void * data, GLbitfield flags );
 
 extern PFNGLBUFFERSTORAGEPROC _funcptr_glBufferStorage;
 #define glBufferStorage _funcptr_glBufferStorage
 
 #define GL_CLEAR_TEXTURE 0x9365
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARTEXIMAGEPROC)(GLuint texture, GLint level, GLenum format, GLenum type, const void * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARTEXSUBIMAGEPROC)(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void * data);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARTEXIMAGEPROC ) ( GLuint texture, GLint level, GLenum format, GLenum type, const void * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARTEXSUBIMAGEPROC ) ( GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void * data );
 
 extern PFNGLCLEARTEXIMAGEPROC _funcptr_glClearTexImage;
 #define glClearTexImage _funcptr_glClearTexImage
@@ -2427,12 +2427,12 @@ extern PFNGLCLEARTEXSUBIMAGEPROC _funcptr_glClearTexSubImage;
 #define GL_TRANSFORM_FEEDBACK_BUFFER_INDEX 0x934B
 #define GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE 0x934C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERSBASEPROC)(GLenum target, GLuint first, GLsizei count, const GLuint * buffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERSRANGEPROC)(GLenum target, GLuint first, GLsizei count, const GLuint * buffers, const GLintptr * offsets, const GLsizeiptr * sizes);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDIMAGETEXTURESPROC)(GLuint first, GLsizei count, const GLuint * textures);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDSAMPLERSPROC)(GLuint first, GLsizei count, const GLuint * samplers);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDTEXTURESPROC)(GLuint first, GLsizei count, const GLuint * textures);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDVERTEXBUFFERSPROC)(GLuint first, GLsizei count, const GLuint * buffers, const GLintptr * offsets, const GLsizei * strides);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERSBASEPROC ) ( GLenum target, GLuint first, GLsizei count, const GLuint * buffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERSRANGEPROC ) ( GLenum target, GLuint first, GLsizei count, const GLuint * buffers, const GLintptr * offsets, const GLsizeiptr * sizes );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDIMAGETEXTURESPROC ) ( GLuint first, GLsizei count, const GLuint * textures );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDSAMPLERSPROC ) ( GLuint first, GLsizei count, const GLuint * samplers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDTEXTURESPROC ) ( GLuint first, GLsizei count, const GLuint * textures );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDVERTEXBUFFERSPROC ) ( GLuint first, GLsizei count, const GLuint * buffers, const GLintptr * offsets, const GLsizei * strides );
 
 extern PFNGLBINDBUFFERSBASEPROC _funcptr_glBindBuffersBase;
 #define glBindBuffersBase _funcptr_glBindBuffersBase
@@ -2464,7 +2464,7 @@ extern PFNGLBINDVERTEXBUFFERSPROC _funcptr_glBindVertexBuffers;
 #define GL_SAMPLES_3DFX 0x86B4
 #define GL_SAMPLE_BUFFERS_3DFX 0x86B3
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTBUFFERMASK3DFXPROC)(GLuint mask);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTBUFFERMASK3DFXPROC ) ( GLuint mask );
 
 extern PFNGLTBUFFERMASK3DFXPROC _funcptr_glTbufferMask3DFX;
 #define glTbufferMask3DFX _funcptr_glTbufferMask3DFX
@@ -2490,10 +2490,10 @@ extern PFNGLTBUFFERMASK3DFXPROC _funcptr_glTbufferMask3DFX;
 #define GL_MAX_DEBUG_LOGGED_MESSAGES_AMD 0x9144
 #define GL_MAX_DEBUG_MESSAGE_LENGTH_AMD 0x9143
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECALLBACKAMDPROC)(GLDEBUGPROCAMD callback, void * userParam);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEENABLEAMDPROC)(GLenum category, GLenum severity, GLsizei count, const GLuint * ids, GLboolean enabled);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEINSERTAMDPROC)(GLenum category, GLenum severity, GLuint id, GLsizei length, const GLchar * buf);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGETDEBUGMESSAGELOGAMDPROC)(GLuint count, GLsizei bufsize, GLenum * categories, GLuint * severities, GLuint * ids, GLsizei * lengths, GLchar * message);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECALLBACKAMDPROC ) ( GLDEBUGPROCAMD callback, void * userParam );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEENABLEAMDPROC ) ( GLenum category, GLenum severity, GLsizei count, const GLuint * ids, GLboolean enabled );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEINSERTAMDPROC ) ( GLenum category, GLenum severity, GLuint id, GLsizei length, const GLchar * buf );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGETDEBUGMESSAGELOGAMDPROC ) ( GLuint count, GLsizei bufsize, GLenum * categories, GLuint * severities, GLuint * ids, GLsizei * lengths, GLchar * message );
 
 extern PFNGLDEBUGMESSAGECALLBACKAMDPROC _funcptr_glDebugMessageCallbackAMD;
 #define glDebugMessageCallbackAMD _funcptr_glDebugMessageCallbackAMD
@@ -2507,10 +2507,10 @@ extern PFNGLGETDEBUGMESSAGELOGAMDPROC _funcptr_glGetDebugMessageLogAMD;
 #define GL_DEPTH_CLAMP_FAR_AMD 0x901F
 #define GL_DEPTH_CLAMP_NEAR_AMD 0x901E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONINDEXEDAMDPROC)(GLuint buf, GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONSEPARATEINDEXEDAMDPROC)(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDFUNCINDEXEDAMDPROC)(GLuint buf, GLenum src, GLenum dst);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEINDEXEDAMDPROC)(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONINDEXEDAMDPROC ) ( GLuint buf, GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONSEPARATEINDEXEDAMDPROC ) ( GLuint buf, GLenum modeRGB, GLenum modeAlpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDFUNCINDEXEDAMDPROC ) ( GLuint buf, GLenum src, GLenum dst );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEINDEXEDAMDPROC ) ( GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha );
 
 extern PFNGLBLENDEQUATIONINDEXEDAMDPROC _funcptr_glBlendEquationIndexedAMD;
 #define glBlendEquationIndexedAMD _funcptr_glBlendEquationIndexedAMD
@@ -2531,13 +2531,13 @@ extern PFNGLBLENDFUNCSEPARATEINDEXEDAMDPROC _funcptr_glBlendFuncSeparateIndexedA
 #define GL_VERTEX_ELEMENT_SWIZZLE_AMD 0x91A4
 #define GL_VERTEX_ID_SWIZZLE_AMD 0x91A5
 
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBPARAMETERIAMDPROC)(GLuint index, GLenum pname, GLint param);
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBPARAMETERIAMDPROC ) ( GLuint index, GLenum pname, GLint param );
 
 extern PFNGLVERTEXATTRIBPARAMETERIAMDPROC _funcptr_glVertexAttribParameteriAMD;
 #define glVertexAttribParameteriAMD _funcptr_glVertexAttribParameteriAMD
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTAMDPROC)(GLenum mode, const GLvoid * indirect, GLsizei primcount, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTAMDPROC)(GLenum mode, GLenum type, const GLvoid * indirect, GLsizei primcount, GLsizei stride);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTAMDPROC ) ( GLenum mode, const GLvoid * indirect, GLsizei primcount, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTAMDPROC ) ( GLenum mode, GLenum type, const GLvoid * indirect, GLsizei primcount, GLsizei stride );
 
 extern PFNGLMULTIDRAWARRAYSINDIRECTAMDPROC _funcptr_glMultiDrawArraysIndirectAMD;
 #define glMultiDrawArraysIndirectAMD _funcptr_glMultiDrawArraysIndirectAMD
@@ -2550,9 +2550,9 @@ extern PFNGLMULTIDRAWELEMENTSINDIRECTAMDPROC _funcptr_glMultiDrawElementsIndirec
 #define GL_SAMPLER_OBJECT_AMD 0x9155
 #define GL_VERTEX_ARRAY_OBJECT_AMD 0x9154
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETENAMESAMDPROC)(GLenum identifier, GLuint num, const GLuint * names);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENNAMESAMDPROC)(GLenum identifier, GLuint num, GLuint * names);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISNAMEAMDPROC)(GLenum identifier, GLuint name);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETENAMESAMDPROC ) ( GLenum identifier, GLuint num, const GLuint * names );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENNAMESAMDPROC ) ( GLenum identifier, GLuint num, GLuint * names );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISNAMEAMDPROC ) ( GLenum identifier, GLuint name );
 
 extern PFNGLDELETENAMESAMDPROC _funcptr_glDeleteNamesAMD;
 #define glDeleteNamesAMD _funcptr_glDeleteNamesAMD
@@ -2569,17 +2569,17 @@ extern PFNGLISNAMEAMDPROC _funcptr_glIsNameAMD;
 #define GL_PERFMON_RESULT_SIZE_AMD 0x8BC5
 #define GL_UNSIGNED_INT64_AMD 0x8BC2
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINPERFMONITORAMDPROC)(GLuint monitor);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEPERFMONITORSAMDPROC)(GLsizei n, GLuint * monitors);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDPERFMONITORAMDPROC)(GLuint monitor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENPERFMONITORSAMDPROC)(GLsizei n, GLuint * monitors);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERDATAAMDPROC)(GLuint monitor, GLenum pname, GLsizei dataSize, GLuint * data, GLint * bytesWritten);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERINFOAMDPROC)(GLuint group, GLuint counter, GLenum pname, GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERSTRINGAMDPROC)(GLuint group, GLuint counter, GLsizei bufSize, GLsizei * length, GLchar * counterString);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERSAMDPROC)(GLuint group, GLint * numCounters, GLint * maxActiveCounters, GLsizei counterSize, GLuint * counters);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPERFMONITORGROUPSTRINGAMDPROC)(GLuint group, GLsizei bufSize, GLsizei * length, GLchar * groupString);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPERFMONITORGROUPSAMDPROC)(GLint * numGroups, GLsizei groupsSize, GLuint * groups);
-typedef void (CODEGEN_FUNCPTR * PFNGLSELECTPERFMONITORCOUNTERSAMDPROC)(GLuint monitor, GLboolean enable, GLuint group, GLint numCounters, GLuint * counterList);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINPERFMONITORAMDPROC ) ( GLuint monitor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEPERFMONITORSAMDPROC ) ( GLsizei n, GLuint * monitors );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDPERFMONITORAMDPROC ) ( GLuint monitor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENPERFMONITORSAMDPROC ) ( GLsizei n, GLuint * monitors );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERDATAAMDPROC ) ( GLuint monitor, GLenum pname, GLsizei dataSize, GLuint * data, GLint * bytesWritten );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERINFOAMDPROC ) ( GLuint group, GLuint counter, GLenum pname, GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERSTRINGAMDPROC ) ( GLuint group, GLuint counter, GLsizei bufSize, GLsizei * length, GLchar * counterString );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPERFMONITORCOUNTERSAMDPROC ) ( GLuint group, GLint * numCounters, GLint * maxActiveCounters, GLsizei counterSize, GLuint * counters );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPERFMONITORGROUPSTRINGAMDPROC ) ( GLuint group, GLsizei bufSize, GLsizei * length, GLchar * groupString );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPERFMONITORGROUPSAMDPROC ) ( GLint * numGroups, GLsizei groupsSize, GLuint * groups );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSELECTPERFMONITORCOUNTERSAMDPROC ) ( GLuint monitor, GLboolean enable, GLuint group, GLint numCounters, GLuint * counterList );
 
 extern PFNGLBEGINPERFMONITORAMDPROC _funcptr_glBeginPerfMonitorAMD;
 #define glBeginPerfMonitorAMD _funcptr_glBeginPerfMonitorAMD
@@ -2612,7 +2612,7 @@ extern PFNGLSELECTPERFMONITORCOUNTERSAMDPROC _funcptr_glSelectPerfMonitorCounter
 
 #define GL_SUBSAMPLE_DISTANCE_AMD 0x883F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSETMULTISAMPLEFVAMDPROC)(GLenum pname, GLuint index, const GLfloat * val);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSETMULTISAMPLEFVAMDPROC ) ( GLenum pname, GLuint index, const GLfloat * val );
 
 extern PFNGLSETMULTISAMPLEFVAMDPROC _funcptr_glSetMultisamplefvAMD;
 #define glSetMultisamplefvAMD _funcptr_glSetMultisamplefvAMD
@@ -2629,8 +2629,8 @@ extern PFNGLSETMULTISAMPLEFVAMDPROC _funcptr_glSetMultisamplefvAMD;
 #define GL_VIRTUAL_PAGE_SIZE_Y_AMD 0x9196
 #define GL_VIRTUAL_PAGE_SIZE_Z_AMD 0x9197
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSTORAGESPARSEAMDPROC)(GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGESPARSEAMDPROC)(GLuint texture, GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSTORAGESPARSEAMDPROC ) ( GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGESPARSEAMDPROC ) ( GLuint texture, GLenum target, GLenum internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLsizei layers, GLbitfield flags );
 
 extern PFNGLTEXSTORAGESPARSEAMDPROC _funcptr_glTexStorageSparseAMD;
 #define glTexStorageSparseAMD _funcptr_glTexStorageSparseAMD
@@ -2642,7 +2642,7 @@ extern PFNGLTEXTURESTORAGESPARSEAMDPROC _funcptr_glTextureStorageSparseAMD;
 #define GL_STENCIL_BACK_OP_VALUE_AMD 0x874D
 #define GL_STENCIL_OP_VALUE_AMD 0x874C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILOPVALUEAMDPROC)(GLenum face, GLuint value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILOPVALUEAMDPROC ) ( GLenum face, GLuint value );
 
 extern PFNGLSTENCILOPVALUEAMDPROC _funcptr_glStencilOpValueAMD;
 #define glStencilOpValueAMD _funcptr_glStencilOpValueAMD
@@ -2655,8 +2655,8 @@ extern PFNGLSTENCILOPVALUEAMDPROC _funcptr_glStencilOpValueAMD;
 #define GL_TESSELLATION_MODE_AMD 0x9004
 #define GL_UNSIGNED_INT_SAMPLER_BUFFER_AMD 0x9003
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTESSELLATIONFACTORAMDPROC)(GLfloat factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLTESSELLATIONMODEAMDPROC)(GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTESSELLATIONFACTORAMDPROC ) ( GLfloat factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTESSELLATIONMODEAMDPROC ) ( GLenum mode );
 
 extern PFNGLTESSELLATIONFACTORAMDPROC _funcptr_glTessellationFactorAMD;
 #define glTessellationFactorAMD _funcptr_glTessellationFactorAMD
@@ -2671,11 +2671,11 @@ extern PFNGLTESSELLATIONMODEAMDPROC _funcptr_glTessellationModeAMD;
 #define GL_ELEMENT_ARRAY_POINTER_APPLE 0x8A0E
 #define GL_ELEMENT_ARRAY_TYPE_APPLE 0x8A0D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTARRAYAPPLEPROC)(GLenum mode, GLint first, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTARRAYAPPLEPROC)(GLenum mode, GLuint start, GLuint end, GLint first, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * PFNGLELEMENTPOINTERAPPLEPROC)(GLenum type, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTARRAYAPPLEPROC)(GLenum mode, const GLint * first, const GLsizei * count, GLsizei primcount);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWRANGEELEMENTARRAYAPPLEPROC)(GLenum mode, GLuint start, GLuint end, const GLint * first, const GLsizei * count, GLsizei primcount);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTARRAYAPPLEPROC ) ( GLenum mode, GLint first, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTARRAYAPPLEPROC ) ( GLenum mode, GLuint start, GLuint end, GLint first, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLELEMENTPOINTERAPPLEPROC ) ( GLenum type, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTARRAYAPPLEPROC ) ( GLenum mode, const GLint * first, const GLsizei * count, GLsizei primcount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWRANGEELEMENTARRAYAPPLEPROC ) ( GLenum mode, GLuint start, GLuint end, const GLint * first, const GLsizei * count, GLsizei primcount );
 
 extern PFNGLDRAWELEMENTARRAYAPPLEPROC _funcptr_glDrawElementArrayAPPLE;
 #define glDrawElementArrayAPPLE _funcptr_glDrawElementArrayAPPLE
@@ -2691,14 +2691,14 @@ extern PFNGLMULTIDRAWRANGEELEMENTARRAYAPPLEPROC _funcptr_glMultiDrawRangeElement
 #define GL_DRAW_PIXELS_APPLE 0x8A0A
 #define GL_FENCE_APPLE 0x8A0B
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEFENCESAPPLEPROC)(GLsizei n, const GLuint * fences);
-typedef void (CODEGEN_FUNCPTR * PFNGLFINISHFENCEAPPLEPROC)(GLuint fence);
-typedef void (CODEGEN_FUNCPTR * PFNGLFINISHOBJECTAPPLEPROC)(GLenum object, GLint name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENFENCESAPPLEPROC)(GLsizei n, GLuint * fences);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISFENCEAPPLEPROC)(GLuint fence);
-typedef void (CODEGEN_FUNCPTR * PFNGLSETFENCEAPPLEPROC)(GLuint fence);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLTESTFENCEAPPLEPROC)(GLuint fence);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLTESTOBJECTAPPLEPROC)(GLenum object, GLuint name);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEFENCESAPPLEPROC ) ( GLsizei n, const GLuint * fences );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFINISHFENCEAPPLEPROC ) ( GLuint fence );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFINISHOBJECTAPPLEPROC ) ( GLenum object, GLint name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENFENCESAPPLEPROC ) ( GLsizei n, GLuint * fences );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISFENCEAPPLEPROC ) ( GLuint fence );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSETFENCEAPPLEPROC ) ( GLuint fence );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLTESTFENCEAPPLEPROC ) ( GLuint fence );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLTESTOBJECTAPPLEPROC ) ( GLenum object, GLuint name );
 
 extern PFNGLDELETEFENCESAPPLEPROC _funcptr_glDeleteFencesAPPLE;
 #define glDeleteFencesAPPLE _funcptr_glDeleteFencesAPPLE
@@ -2735,8 +2735,8 @@ extern PFNGLTESTOBJECTAPPLEPROC _funcptr_glTestObjectAPPLE;
 #define GL_BUFFER_FLUSHING_UNMAP_APPLE 0x8A13
 #define GL_BUFFER_SERIALIZED_MODIFY_APPLE 0x8A12
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBUFFERPARAMETERIAPPLEPROC)(GLenum target, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHMAPPEDBUFFERRANGEAPPLEPROC)(GLenum target, GLintptr offset, GLsizeiptr size);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBUFFERPARAMETERIAPPLEPROC ) ( GLenum target, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHMAPPEDBUFFERRANGEAPPLEPROC ) ( GLenum target, GLintptr offset, GLsizeiptr size );
 
 extern PFNGLBUFFERPARAMETERIAPPLEPROC _funcptr_glBufferParameteriAPPLE;
 #define glBufferParameteriAPPLE _funcptr_glBufferParameteriAPPLE
@@ -2750,9 +2750,9 @@ extern PFNGLFLUSHMAPPEDBUFFERRANGEAPPLEPROC _funcptr_glFlushMappedBufferRangeAPP
 #define GL_UNDEFINED_APPLE 0x8A1C
 #define GL_VOLATILE_APPLE 0x8A1A
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOBJECTPARAMETERIVAPPLEPROC)(GLenum objectType, GLuint name, GLenum pname, GLint * params);
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLOBJECTPURGEABLEAPPLEPROC)(GLenum objectType, GLuint name, GLenum option);
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLOBJECTUNPURGEABLEAPPLEPROC)(GLenum objectType, GLuint name, GLenum option);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOBJECTPARAMETERIVAPPLEPROC ) ( GLenum objectType, GLuint name, GLenum pname, GLint * params );
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLOBJECTPURGEABLEAPPLEPROC ) ( GLenum objectType, GLuint name, GLenum option );
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLOBJECTUNPURGEABLEAPPLEPROC ) ( GLenum objectType, GLuint name, GLenum option );
 
 extern PFNGLGETOBJECTPARAMETERIVAPPLEPROC _funcptr_glGetObjectParameterivAPPLE;
 #define glGetObjectParameterivAPPLE _funcptr_glGetObjectParameterivAPPLE
@@ -2777,8 +2777,8 @@ extern PFNGLOBJECTUNPURGEABLEAPPLEPROC _funcptr_glObjectUnpurgeableAPPLE;
 #define GL_TEXTURE_RANGE_POINTER_APPLE 0x85B8
 #define GL_TEXTURE_STORAGE_HINT_APPLE 0x85BC
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERPOINTERVAPPLEPROC)(GLenum target, GLenum pname, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURERANGEAPPLEPROC)(GLenum target, GLsizei length, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERPOINTERVAPPLEPROC ) ( GLenum target, GLenum pname, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURERANGEAPPLEPROC ) ( GLenum target, GLsizei length, const GLvoid * pointer );
 
 extern PFNGLGETTEXPARAMETERPOINTERVAPPLEPROC _funcptr_glGetTexParameterPointervAPPLE;
 #define glGetTexParameterPointervAPPLE _funcptr_glGetTexParameterPointervAPPLE
@@ -2789,10 +2789,10 @@ extern PFNGLTEXTURERANGEAPPLEPROC _funcptr_glTextureRangeAPPLE;
 
 #define GL_VERTEX_ARRAY_BINDING_APPLE 0x85B5
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDVERTEXARRAYAPPLEPROC)(GLuint ren_array);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEVERTEXARRAYSAPPLEPROC)(GLsizei n, const GLuint * arrays);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENVERTEXARRAYSAPPLEPROC)(GLsizei n, GLuint * arrays);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISVERTEXARRAYAPPLEPROC)(GLuint ren_array);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDVERTEXARRAYAPPLEPROC ) ( GLuint ren_array );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEVERTEXARRAYSAPPLEPROC ) ( GLsizei n, const GLuint * arrays );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENVERTEXARRAYSAPPLEPROC ) ( GLsizei n, GLuint * arrays );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISVERTEXARRAYAPPLEPROC ) ( GLuint ren_array );
 
 extern PFNGLBINDVERTEXARRAYAPPLEPROC _funcptr_glBindVertexArrayAPPLE;
 #define glBindVertexArrayAPPLE _funcptr_glBindVertexArrayAPPLE
@@ -2811,9 +2811,9 @@ extern PFNGLISVERTEXARRAYAPPLEPROC _funcptr_glIsVertexArrayAPPLE;
 #define GL_VERTEX_ARRAY_RANGE_POINTER_APPLE 0x8521
 #define GL_VERTEX_ARRAY_STORAGE_HINT_APPLE 0x851F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHVERTEXARRAYRANGEAPPLEPROC)(GLsizei length, GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYPARAMETERIAPPLEPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYRANGEAPPLEPROC)(GLsizei length, GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHVERTEXARRAYRANGEAPPLEPROC ) ( GLsizei length, GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYPARAMETERIAPPLEPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYRANGEAPPLEPROC ) ( GLsizei length, GLvoid * pointer );
 
 extern PFNGLFLUSHVERTEXARRAYRANGEAPPLEPROC _funcptr_glFlushVertexArrayRangeAPPLE;
 #define glFlushVertexArrayRangeAPPLE _funcptr_glFlushVertexArrayRangeAPPLE
@@ -2833,13 +2833,13 @@ extern PFNGLVERTEXARRAYRANGEAPPLEPROC _funcptr_glVertexArrayRangeAPPLE;
 #define GL_VERTEX_ATTRIB_MAP2_ORDER_APPLE 0x8A08
 #define GL_VERTEX_ATTRIB_MAP2_SIZE_APPLE 0x8A06
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXATTRIBAPPLEPROC)(GLuint index, GLenum pname);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLEVERTEXATTRIBAPPLEPROC)(GLuint index, GLenum pname);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISVERTEXATTRIBENABLEDAPPLEPROC)(GLuint index, GLenum pname);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB1DAPPLEPROC)(GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB1FAPPLEPROC)(GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB2DAPPLEPROC)(GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB2FAPPLEPROC)(GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat * points);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXATTRIBAPPLEPROC ) ( GLuint index, GLenum pname );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLEVERTEXATTRIBAPPLEPROC ) ( GLuint index, GLenum pname );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISVERTEXATTRIBENABLEDAPPLEPROC ) ( GLuint index, GLenum pname );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB1DAPPLEPROC ) ( GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB1FAPPLEPROC ) ( GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB2DAPPLEPROC ) ( GLuint index, GLuint size, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPVERTEXATTRIB2FAPPLEPROC ) ( GLuint index, GLuint size, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat * points );
 
 extern PFNGLDISABLEVERTEXATTRIBAPPLEPROC _funcptr_glDisableVertexAttribAPPLE;
 #define glDisableVertexAttribAPPLE _funcptr_glDisableVertexAttribAPPLE
@@ -2862,22 +2862,22 @@ extern PFNGLMAPVERTEXATTRIB2FAPPLEPROC _funcptr_glMapVertexAttrib2fAPPLE;
 
 #define GL_UNSIGNED_INT64_ARB 0x140F
 
-typedef GLuint64 (CODEGEN_FUNCPTR * PFNGLGETIMAGEHANDLEARBPROC)(GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum format);
-typedef GLuint64 (CODEGEN_FUNCPTR * PFNGLGETTEXTUREHANDLEARBPROC)(GLuint texture);
-typedef GLuint64 (CODEGEN_FUNCPTR * PFNGLGETTEXTURESAMPLERHANDLEARBPROC)(GLuint texture, GLuint sampler);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLUI64VARBPROC)(GLuint index, GLenum pname, GLuint64EXT * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISIMAGEHANDLERESIDENTARBPROC)(GLuint64 handle);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISTEXTUREHANDLERESIDENTARBPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLENONRESIDENTARBPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLERESIDENTARBPROC)(GLuint64 handle, GLenum access);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLENONRESIDENTARBPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLERESIDENTARBPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64ARBPROC)(GLuint program, GLint location, GLuint64 value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64VARBPROC)(GLuint program, GLint location, GLsizei count, const GLuint64 * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64ARBPROC)(GLint location, GLuint64 value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64VARBPROC)(GLint location, GLsizei count, const GLuint64 * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64ARBPROC)(GLuint index, GLuint64EXT x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64VARBPROC)(GLuint index, const GLuint64EXT * v);
+typedef GLuint64 ( CODEGEN_FUNCPTR * PFNGLGETIMAGEHANDLEARBPROC ) ( GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum format );
+typedef GLuint64 ( CODEGEN_FUNCPTR * PFNGLGETTEXTUREHANDLEARBPROC ) ( GLuint texture );
+typedef GLuint64 ( CODEGEN_FUNCPTR * PFNGLGETTEXTURESAMPLERHANDLEARBPROC ) ( GLuint texture, GLuint sampler );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLUI64VARBPROC ) ( GLuint index, GLenum pname, GLuint64EXT * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISIMAGEHANDLERESIDENTARBPROC ) ( GLuint64 handle );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISTEXTUREHANDLERESIDENTARBPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLENONRESIDENTARBPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLERESIDENTARBPROC ) ( GLuint64 handle, GLenum access );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLENONRESIDENTARBPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLERESIDENTARBPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64ARBPROC ) ( GLuint program, GLint location, GLuint64 value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64VARBPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint64 * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64ARBPROC ) ( GLint location, GLuint64 value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64VARBPROC ) ( GLint location, GLsizei count, const GLuint64 * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64ARBPROC ) ( GLuint index, GLuint64EXT x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64VARBPROC ) ( GLuint index, const GLuint64EXT * v );
 
 extern PFNGLGETIMAGEHANDLEARBPROC _funcptr_glGetImageHandleARB;
 #define glGetImageHandleARB _funcptr_glGetImageHandleARB
@@ -2915,7 +2915,7 @@ extern PFNGLVERTEXATTRIBL1UI64VARBPROC _funcptr_glVertexAttribL1ui64vARB;
 #define GL_SYNC_CL_EVENT_ARB 0x8240
 #define GL_SYNC_CL_EVENT_COMPLETE_ARB 0x8241
 
-typedef GLsync (CODEGEN_FUNCPTR * PFNGLCREATESYNCFROMCLEVENTARBPROC)(struct _cl_context * context, struct _cl_event * event, GLbitfield flags);
+typedef GLsync ( CODEGEN_FUNCPTR * PFNGLCREATESYNCFROMCLEVENTARBPROC ) ( struct _cl_context * context, struct _cl_event * event, GLbitfield flags );
 
 extern PFNGLCREATESYNCFROMCLEVENTARBPROC _funcptr_glCreateSyncFromCLeventARB;
 #define glCreateSyncFromCLeventARB _funcptr_glCreateSyncFromCLeventARB
@@ -2926,7 +2926,7 @@ extern PFNGLCREATESYNCFROMCLEVENTARBPROC _funcptr_glCreateSyncFromCLeventARB;
 #define GL_FIXED_ONLY_ARB 0x891D
 #define GL_RGBA_FLOAT_MODE_ARB 0x8820
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLAMPCOLORARBPROC)(GLenum target, GLenum clamp);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLAMPCOLORARBPROC ) ( GLenum target, GLenum clamp );
 
 extern PFNGLCLAMPCOLORARBPROC _funcptr_glClampColorARB;
 #define glClampColorARB _funcptr_glClampColorARB
@@ -2936,7 +2936,7 @@ extern PFNGLCLAMPCOLORARBPROC _funcptr_glClampColorARB;
 #define GL_MAX_COMPUTE_VARIABLE_GROUP_INVOCATIONS_ARB 0x9344
 #define GL_MAX_COMPUTE_VARIABLE_GROUP_SIZE_ARB 0x9345
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDISPATCHCOMPUTEGROUPSIZEARBPROC)(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, GLuint group_size_x, GLuint group_size_y, GLuint group_size_z);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISPATCHCOMPUTEGROUPSIZEARBPROC ) ( GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, GLuint group_size_x, GLuint group_size_y, GLuint group_size_z );
 
 extern PFNGLDISPATCHCOMPUTEGROUPSIZEARBPROC _funcptr_glDispatchComputeGroupSizeARB;
 #define glDispatchComputeGroupSizeARB _funcptr_glDispatchComputeGroupSizeARB
@@ -2964,10 +2964,10 @@ extern PFNGLDISPATCHCOMPUTEGROUPSIZEARBPROC _funcptr_glDispatchComputeGroupSizeA
 #define GL_MAX_DEBUG_LOGGED_MESSAGES_ARB 0x9144
 #define GL_MAX_DEBUG_MESSAGE_LENGTH_ARB 0x9143
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECALLBACKARBPROC)(GLDEBUGPROCARB callback, const void * userParam);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECONTROLARBPROC)(GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint * ids, GLboolean enabled);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEINSERTARBPROC)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * buf);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGETDEBUGMESSAGELOGARBPROC)(GLuint count, GLsizei bufsize, GLenum * sources, GLenum * types, GLuint * ids, GLenum * severities, GLsizei * lengths, GLchar * messageLog);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECALLBACKARBPROC ) ( GLDEBUGPROCARB callback, const void * userParam );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGECONTROLARBPROC ) ( GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint * ids, GLboolean enabled );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEBUGMESSAGEINSERTARBPROC ) ( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * buf );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGETDEBUGMESSAGELOGARBPROC ) ( GLuint count, GLsizei bufsize, GLenum * sources, GLenum * types, GLuint * ids, GLenum * severities, GLsizei * lengths, GLchar * messageLog );
 
 extern PFNGLDEBUGMESSAGECALLBACKARBPROC _funcptr_glDebugMessageCallbackARB;
 #define glDebugMessageCallbackARB _funcptr_glDebugMessageCallbackARB
@@ -3002,15 +3002,15 @@ extern PFNGLGETDEBUGMESSAGELOGARBPROC _funcptr_glGetDebugMessageLogARB;
 #define GL_DRAW_BUFFER9_ARB 0x882E
 #define GL_MAX_DRAW_BUFFERS_ARB 0x8824
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWBUFFERSARBPROC)(GLsizei n, const GLenum * bufs);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWBUFFERSARBPROC ) ( GLsizei n, const GLenum * bufs );
 
 extern PFNGLDRAWBUFFERSARBPROC _funcptr_glDrawBuffersARB;
 #define glDrawBuffersARB _funcptr_glDrawBuffersARB
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONSEPARATEIARBPROC)(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONIARBPROC)(GLuint buf, GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEIARBPROC)(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDFUNCIARBPROC)(GLuint buf, GLenum src, GLenum dst);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONSEPARATEIARBPROC ) ( GLuint buf, GLenum modeRGB, GLenum modeAlpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONIARBPROC ) ( GLuint buf, GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEIARBPROC ) ( GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDFUNCIARBPROC ) ( GLuint buf, GLenum src, GLenum dst );
 
 extern PFNGLBLENDEQUATIONSEPARATEIARBPROC _funcptr_glBlendEquationSeparateiARB;
 #define glBlendEquationSeparateiARB _funcptr_glBlendEquationSeparateiARB
@@ -3021,8 +3021,8 @@ extern PFNGLBLENDFUNCSEPARATEIARBPROC _funcptr_glBlendFuncSeparateiARB;
 extern PFNGLBLENDFUNCIARBPROC _funcptr_glBlendFunciARB;
 #define glBlendFunciARB _funcptr_glBlendFunciARB
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINSTANCEDARBPROC)(GLenum mode, GLint first, GLsizei count, GLsizei primcount);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDARBPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINSTANCEDARBPROC ) ( GLenum mode, GLint first, GLsizei count, GLsizei primcount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDARBPROC ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount );
 
 extern PFNGLDRAWARRAYSINSTANCEDARBPROC _funcptr_glDrawArraysInstancedARB;
 #define glDrawArraysInstancedARB _funcptr_glDrawArraysInstancedARB
@@ -3108,25 +3108,25 @@ extern PFNGLDRAWELEMENTSINSTANCEDARBPROC _funcptr_glDrawElementsInstancedARB;
 #define GL_PROGRAM_UNDER_NATIVE_LIMITS_ARB 0x88B6
 #define GL_TRANSPOSE_CURRENT_MATRIX_ARB 0x88B7
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDPROGRAMARBPROC)(GLenum target, GLuint program);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMSARBPROC)(GLsizei n, const GLuint * programs);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENPROGRAMSARBPROC)(GLsizei n, GLuint * programs);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERDVARBPROC)(GLenum target, GLuint index, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERFVARBPROC)(GLenum target, GLuint index, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERDVARBPROC)(GLenum target, GLuint index, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERFVARBPROC)(GLenum target, GLuint index, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTRINGARBPROC)(GLenum target, GLenum pname, GLvoid * string);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMIVARBPROC)(GLenum target, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISPROGRAMARBPROC)(GLuint program);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DARBPROC)(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DVARBPROC)(GLenum target, GLuint index, const GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FARBPROC)(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FVARBPROC)(GLenum target, GLuint index, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DARBPROC)(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DVARBPROC)(GLenum target, GLuint index, const GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FARBPROC)(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FVARBPROC)(GLenum target, GLuint index, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMSTRINGARBPROC)(GLenum target, GLenum format, GLsizei len, const GLvoid * string);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDPROGRAMARBPROC ) ( GLenum target, GLuint program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMSARBPROC ) ( GLsizei n, const GLuint * programs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENPROGRAMSARBPROC ) ( GLsizei n, GLuint * programs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERDVARBPROC ) ( GLenum target, GLuint index, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERFVARBPROC ) ( GLenum target, GLuint index, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERDVARBPROC ) ( GLenum target, GLuint index, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERFVARBPROC ) ( GLenum target, GLuint index, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTRINGARBPROC ) ( GLenum target, GLenum pname, GLvoid * string );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMIVARBPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISPROGRAMARBPROC ) ( GLuint program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DARBPROC ) ( GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DVARBPROC ) ( GLenum target, GLuint index, const GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FARBPROC ) ( GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FVARBPROC ) ( GLenum target, GLuint index, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DARBPROC ) ( GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DVARBPROC ) ( GLenum target, GLuint index, const GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FARBPROC ) ( GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FVARBPROC ) ( GLenum target, GLuint index, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMSTRINGARBPROC ) ( GLenum target, GLenum format, GLsizei len, const GLvoid * string );
 
 extern PFNGLBINDPROGRAMARBPROC _funcptr_glBindProgramARB;
 #define glBindProgramARB _funcptr_glBindProgramARB
@@ -3192,10 +3192,10 @@ extern PFNGLPROGRAMSTRINGARBPROC _funcptr_glProgramStringARB;
 #define GL_TRIANGLES_ADJACENCY_ARB 0x000C
 #define GL_TRIANGLE_STRIP_ADJACENCY_ARB 0x000D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREARBPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREFACEARBPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURELAYERARBPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERIARBPROC)(GLuint program, GLenum pname, GLint value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREARBPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREFACEARBPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURELAYERARBPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERIARBPROC ) ( GLuint program, GLenum pname, GLint value );
 
 extern PFNGLFRAMEBUFFERTEXTUREARBPROC _funcptr_glFramebufferTextureARB;
 #define glFramebufferTextureARB _funcptr_glFramebufferTextureARB
@@ -3211,8 +3211,8 @@ extern PFNGLPROGRAMPARAMETERIARBPROC _funcptr_glProgramParameteriARB;
 #define GL_PARAMETER_BUFFER_ARB 0x80EE
 #define GL_PARAMETER_BUFFER_BINDING_ARB 0x80EF
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTCOUNTARBPROC)(GLenum mode, GLintptr indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTARBPROC)(GLenum mode, GLenum type, GLintptr indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTCOUNTARBPROC ) ( GLenum mode, GLintptr indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTARBPROC ) ( GLenum mode, GLenum type, GLintptr indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride );
 
 extern PFNGLMULTIDRAWARRAYSINDIRECTCOUNTARBPROC _funcptr_glMultiDrawArraysIndirectCountARB;
 #define glMultiDrawArraysIndirectCountARB _funcptr_glMultiDrawArraysIndirectCountARB
@@ -3221,7 +3221,7 @@ extern PFNGLMULTIDRAWELEMENTSINDIRECTCOUNTARBPROC _funcptr_glMultiDrawElementsIn
 
 #define GL_VERTEX_ATTRIB_ARRAY_DIVISOR_ARB 0x88FE
 
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBDIVISORARBPROC)(GLuint index, GLuint divisor);
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBDIVISORARBPROC ) ( GLuint index, GLuint divisor );
 
 extern PFNGLVERTEXATTRIBDIVISORARBPROC _funcptr_glVertexAttribDivisorARB;
 #define glVertexAttribDivisorARB _funcptr_glVertexAttribDivisorARB
@@ -3237,11 +3237,11 @@ extern PFNGLVERTEXATTRIBDIVISORARBPROC _funcptr_glVertexAttribDivisorARB;
 #define GL_MAX_MATRIX_PALETTE_STACK_DEPTH_ARB 0x8841
 #define GL_MAX_PALETTE_MATRICES_ARB 0x8842
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCURRENTPALETTEMATRIXARBPROC)(GLint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXINDEXPOINTERARBPROC)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXINDEXUBVARBPROC)(GLint size, const GLubyte * indices);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXINDEXUIVARBPROC)(GLint size, const GLuint * indices);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXINDEXUSVARBPROC)(GLint size, const GLushort * indices);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCURRENTPALETTEMATRIXARBPROC ) ( GLint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXINDEXPOINTERARBPROC ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXINDEXUBVARBPROC ) ( GLint size, const GLubyte * indices );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXINDEXUIVARBPROC ) ( GLint size, const GLuint * indices );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXINDEXUSVARBPROC ) ( GLint size, const GLushort * indices );
 
 extern PFNGLCURRENTPALETTEMATRIXARBPROC _funcptr_glCurrentPaletteMatrixARB;
 #define glCurrentPaletteMatrixARB _funcptr_glCurrentPaletteMatrixARB
@@ -3264,7 +3264,7 @@ extern PFNGLMATRIXINDEXUSVARBPROC _funcptr_glMatrixIndexusvARB;
 #define GL_SAMPLE_COVERAGE_INVERT_ARB 0x80AB
 #define GL_SAMPLE_COVERAGE_VALUE_ARB 0x80AA
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLECOVERAGEARBPROC)(GLfloat value, GLboolean invert);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLECOVERAGEARBPROC ) ( GLfloat value, GLboolean invert );
 
 extern PFNGLSAMPLECOVERAGEARBPROC _funcptr_glSampleCoverageARB;
 #define glSampleCoverageARB _funcptr_glSampleCoverageARB
@@ -3305,40 +3305,40 @@ extern PFNGLSAMPLECOVERAGEARBPROC _funcptr_glSampleCoverageARB;
 #define GL_TEXTURE8_ARB 0x84C8
 #define GL_TEXTURE9_ARB 0x84C9
 
-typedef void (CODEGEN_FUNCPTR * PFNGLACTIVETEXTUREARBPROC)(GLenum texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLIENTACTIVETEXTUREARBPROC)(GLenum texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1DARBPROC)(GLenum target, GLdouble s);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1DVARBPROC)(GLenum target, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1FARBPROC)(GLenum target, GLfloat s);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1FVARBPROC)(GLenum target, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1IARBPROC)(GLenum target, GLint s);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1IVARBPROC)(GLenum target, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1SARBPROC)(GLenum target, GLshort s);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1SVARBPROC)(GLenum target, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2DARBPROC)(GLenum target, GLdouble s, GLdouble t);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2DVARBPROC)(GLenum target, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2FARBPROC)(GLenum target, GLfloat s, GLfloat t);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2FVARBPROC)(GLenum target, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2IARBPROC)(GLenum target, GLint s, GLint t);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2IVARBPROC)(GLenum target, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2SARBPROC)(GLenum target, GLshort s, GLshort t);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2SVARBPROC)(GLenum target, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3DARBPROC)(GLenum target, GLdouble s, GLdouble t, GLdouble r);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3DVARBPROC)(GLenum target, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3FARBPROC)(GLenum target, GLfloat s, GLfloat t, GLfloat r);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3FVARBPROC)(GLenum target, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3IARBPROC)(GLenum target, GLint s, GLint t, GLint r);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3IVARBPROC)(GLenum target, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3SARBPROC)(GLenum target, GLshort s, GLshort t, GLshort r);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3SVARBPROC)(GLenum target, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4DARBPROC)(GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4DVARBPROC)(GLenum target, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4FARBPROC)(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4FVARBPROC)(GLenum target, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4IARBPROC)(GLenum target, GLint s, GLint t, GLint r, GLint q);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4IVARBPROC)(GLenum target, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4SARBPROC)(GLenum target, GLshort s, GLshort t, GLshort r, GLshort q);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4SVARBPROC)(GLenum target, const GLshort * v);
+typedef void ( CODEGEN_FUNCPTR * PFNGLACTIVETEXTUREARBPROC ) ( GLenum texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLIENTACTIVETEXTUREARBPROC ) ( GLenum texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1DARBPROC ) ( GLenum target, GLdouble s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1DVARBPROC ) ( GLenum target, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1FARBPROC ) ( GLenum target, GLfloat s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1FVARBPROC ) ( GLenum target, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1IARBPROC ) ( GLenum target, GLint s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1IVARBPROC ) ( GLenum target, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1SARBPROC ) ( GLenum target, GLshort s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1SVARBPROC ) ( GLenum target, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2DARBPROC ) ( GLenum target, GLdouble s, GLdouble t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2DVARBPROC ) ( GLenum target, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2FARBPROC ) ( GLenum target, GLfloat s, GLfloat t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2FVARBPROC ) ( GLenum target, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2IARBPROC ) ( GLenum target, GLint s, GLint t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2IVARBPROC ) ( GLenum target, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2SARBPROC ) ( GLenum target, GLshort s, GLshort t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2SVARBPROC ) ( GLenum target, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3DARBPROC ) ( GLenum target, GLdouble s, GLdouble t, GLdouble r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3DVARBPROC ) ( GLenum target, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3FARBPROC ) ( GLenum target, GLfloat s, GLfloat t, GLfloat r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3FVARBPROC ) ( GLenum target, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3IARBPROC ) ( GLenum target, GLint s, GLint t, GLint r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3IVARBPROC ) ( GLenum target, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3SARBPROC ) ( GLenum target, GLshort s, GLshort t, GLshort r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3SVARBPROC ) ( GLenum target, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4DARBPROC ) ( GLenum target, GLdouble s, GLdouble t, GLdouble r, GLdouble q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4DVARBPROC ) ( GLenum target, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4FARBPROC ) ( GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4FVARBPROC ) ( GLenum target, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4IARBPROC ) ( GLenum target, GLint s, GLint t, GLint r, GLint q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4IVARBPROC ) ( GLenum target, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4SARBPROC ) ( GLenum target, GLshort s, GLshort t, GLshort r, GLshort q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4SVARBPROC ) ( GLenum target, const GLshort * v );
 
 extern PFNGLACTIVETEXTUREARBPROC _funcptr_glActiveTextureARB;
 #define glActiveTextureARB _funcptr_glActiveTextureARB
@@ -3415,14 +3415,14 @@ extern PFNGLMULTITEXCOORD4SVARBPROC _funcptr_glMultiTexCoord4svARB;
 #define GL_QUERY_RESULT_AVAILABLE_ARB 0x8867
 #define GL_SAMPLES_PASSED_ARB 0x8914
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINQUERYARBPROC)(GLenum target, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEQUERIESARBPROC)(GLsizei n, const GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDQUERYARBPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENQUERIESARBPROC)(GLsizei n, GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTIVARBPROC)(GLuint id, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUIVARBPROC)(GLuint id, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYIVARBPROC)(GLenum target, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISQUERYARBPROC)(GLuint id);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINQUERYARBPROC ) ( GLenum target, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEQUERIESARBPROC ) ( GLsizei n, const GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDQUERYARBPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENQUERIESARBPROC ) ( GLsizei n, GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTIVARBPROC ) ( GLuint id, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUIVARBPROC ) ( GLuint id, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYIVARBPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISQUERYARBPROC ) ( GLuint id );
 
 extern PFNGLBEGINQUERYARBPROC _funcptr_glBeginQueryARB;
 #define glBeginQueryARB _funcptr_glBeginQueryARB
@@ -3451,8 +3451,8 @@ extern PFNGLISQUERYARBPROC _funcptr_glIsQueryARB;
 #define GL_POINT_SIZE_MAX_ARB 0x8127
 #define GL_POINT_SIZE_MIN_ARB 0x8126
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFARBPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVARBPROC)(GLenum pname, const GLfloat * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFARBPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVARBPROC ) ( GLenum pname, const GLfloat * params );
 
 extern PFNGLPOINTPARAMETERFARBPROC _funcptr_glPointParameterfARB;
 #define glPointParameterfARB _funcptr_glPointParameterfARB
@@ -3471,26 +3471,26 @@ extern PFNGLPOINTPARAMETERFVARBPROC _funcptr_glPointParameterfvARB;
 #define GL_RESET_NOTIFICATION_STRATEGY_ARB 0x8256
 #define GL_UNKNOWN_CONTEXT_RESET_ARB 0x8255
 
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLGETGRAPHICSRESETSTATUSARBPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNCOLORTABLEARBPROC)(GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid * table);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNCOMPRESSEDTEXIMAGEARBPROC)(GLenum target, GLint lod, GLsizei bufSize, GLvoid * img);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNCONVOLUTIONFILTERARBPROC)(GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid * image);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNHISTOGRAMARBPROC)(GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNMAPDVARBPROC)(GLenum target, GLenum query, GLsizei bufSize, GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNMAPFVARBPROC)(GLenum target, GLenum query, GLsizei bufSize, GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNMAPIVARBPROC)(GLenum target, GLenum query, GLsizei bufSize, GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNMINMAXARBPROC)(GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNPIXELMAPFVARBPROC)(GLenum map, GLsizei bufSize, GLfloat * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNPIXELMAPUIVARBPROC)(GLenum map, GLsizei bufSize, GLuint * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNPIXELMAPUSVARBPROC)(GLenum map, GLsizei bufSize, GLushort * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNPOLYGONSTIPPLEARBPROC)(GLsizei bufSize, GLubyte * pattern);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNSEPARABLEFILTERARBPROC)(GLenum target, GLenum format, GLenum type, GLsizei rowBufSize, GLvoid * row, GLsizei columnBufSize, GLvoid * column, GLvoid * span);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNTEXIMAGEARBPROC)(GLenum target, GLint level, GLenum format, GLenum type, GLsizei bufSize, GLvoid * img);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNUNIFORMDVARBPROC)(GLuint program, GLint location, GLsizei bufSize, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNUNIFORMFVARBPROC)(GLuint program, GLint location, GLsizei bufSize, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNUNIFORMIVARBPROC)(GLuint program, GLint location, GLsizei bufSize, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNUNIFORMUIVARBPROC)(GLuint program, GLint location, GLsizei bufSize, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLREADNPIXELSARBPROC)(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLsizei bufSize, GLvoid * data);
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLGETGRAPHICSRESETSTATUSARBPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNCOLORTABLEARBPROC ) ( GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid * table );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNCOMPRESSEDTEXIMAGEARBPROC ) ( GLenum target, GLint lod, GLsizei bufSize, GLvoid * img );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNCONVOLUTIONFILTERARBPROC ) ( GLenum target, GLenum format, GLenum type, GLsizei bufSize, GLvoid * image );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNHISTOGRAMARBPROC ) ( GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNMAPDVARBPROC ) ( GLenum target, GLenum query, GLsizei bufSize, GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNMAPFVARBPROC ) ( GLenum target, GLenum query, GLsizei bufSize, GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNMAPIVARBPROC ) ( GLenum target, GLenum query, GLsizei bufSize, GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNMINMAXARBPROC ) ( GLenum target, GLboolean reset, GLenum format, GLenum type, GLsizei bufSize, GLvoid * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNPIXELMAPFVARBPROC ) ( GLenum map, GLsizei bufSize, GLfloat * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNPIXELMAPUIVARBPROC ) ( GLenum map, GLsizei bufSize, GLuint * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNPIXELMAPUSVARBPROC ) ( GLenum map, GLsizei bufSize, GLushort * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNPOLYGONSTIPPLEARBPROC ) ( GLsizei bufSize, GLubyte * pattern );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNSEPARABLEFILTERARBPROC ) ( GLenum target, GLenum format, GLenum type, GLsizei rowBufSize, GLvoid * row, GLsizei columnBufSize, GLvoid * column, GLvoid * span );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNTEXIMAGEARBPROC ) ( GLenum target, GLint level, GLenum format, GLenum type, GLsizei bufSize, GLvoid * img );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNUNIFORMDVARBPROC ) ( GLuint program, GLint location, GLsizei bufSize, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNUNIFORMFVARBPROC ) ( GLuint program, GLint location, GLsizei bufSize, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNUNIFORMIVARBPROC ) ( GLuint program, GLint location, GLsizei bufSize, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNUNIFORMUIVARBPROC ) ( GLuint program, GLint location, GLsizei bufSize, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREADNPIXELSARBPROC ) ( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLsizei bufSize, GLvoid * data );
 
 extern PFNGLGETGRAPHICSRESETSTATUSARBPROC _funcptr_glGetGraphicsResetStatusARB;
 #define glGetGraphicsResetStatusARB _funcptr_glGetGraphicsResetStatusARB
@@ -3536,7 +3536,7 @@ extern PFNGLREADNPIXELSARBPROC _funcptr_glReadnPixelsARB;
 #define GL_MIN_SAMPLE_SHADING_VALUE_ARB 0x8C37
 #define GL_SAMPLE_SHADING_ARB 0x8C36
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMINSAMPLESHADINGARBPROC)(GLfloat value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMINSAMPLESHADINGARBPROC ) ( GLfloat value );
 
 extern PFNGLMINSAMPLESHADINGARBPROC _funcptr_glMinSampleShadingARB;
 #define glMinSampleShadingARB _funcptr_glMinSampleShadingARB
@@ -3578,45 +3578,45 @@ extern PFNGLMINSAMPLESHADINGARBPROC _funcptr_glMinSampleShadingARB;
 #define GL_SAMPLER_CUBE_ARB 0x8B60
 #define GL_SHADER_OBJECT_ARB 0x8B48
 
-typedef void (CODEGEN_FUNCPTR * PFNGLATTACHOBJECTARBPROC)(GLhandleARB containerObj, GLhandleARB obj);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPILESHADERARBPROC)(GLhandleARB shaderObj);
-typedef GLhandleARB (CODEGEN_FUNCPTR * PFNGLCREATEPROGRAMOBJECTARBPROC)();
-typedef GLhandleARB (CODEGEN_FUNCPTR * PFNGLCREATESHADEROBJECTARBPROC)(GLenum shaderType);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEOBJECTARBPROC)(GLhandleARB obj);
-typedef void (CODEGEN_FUNCPTR * PFNGLDETACHOBJECTARBPROC)(GLhandleARB containerObj, GLhandleARB attachedObj);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMARBPROC)(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei * length, GLint * size, GLenum * type, GLcharARB * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETATTACHEDOBJECTSARBPROC)(GLhandleARB containerObj, GLsizei maxCount, GLsizei * count, GLhandleARB * obj);
-typedef GLhandleARB (CODEGEN_FUNCPTR * PFNGLGETHANDLEARBPROC)(GLenum pname);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINFOLOGARBPROC)(GLhandleARB obj, GLsizei maxLength, GLsizei * length, GLcharARB * infoLog);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOBJECTPARAMETERFVARBPROC)(GLhandleARB obj, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOBJECTPARAMETERIVARBPROC)(GLhandleARB obj, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSHADERSOURCEARBPROC)(GLhandleARB obj, GLsizei maxLength, GLsizei * length, GLcharARB * source);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETUNIFORMLOCATIONARBPROC)(GLhandleARB programObj, const GLcharARB * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMFVARBPROC)(GLhandleARB programObj, GLint location, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMIVARBPROC)(GLhandleARB programObj, GLint location, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLLINKPROGRAMARBPROC)(GLhandleARB programObj);
-typedef void (CODEGEN_FUNCPTR * PFNGLSHADERSOURCEARBPROC)(GLhandleARB shaderObj, GLsizei count, const GLcharARB ** string, const GLint * length);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1FARBPROC)(GLint location, GLfloat v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1FVARBPROC)(GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1IARBPROC)(GLint location, GLint v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1IVARBPROC)(GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2FARBPROC)(GLint location, GLfloat v0, GLfloat v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2FVARBPROC)(GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2IARBPROC)(GLint location, GLint v0, GLint v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2IVARBPROC)(GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3FARBPROC)(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3FVARBPROC)(GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3IARBPROC)(GLint location, GLint v0, GLint v1, GLint v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3IVARBPROC)(GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4FARBPROC)(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4FVARBPROC)(GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4IARBPROC)(GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4IVARBPROC)(GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2FVARBPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3FVARBPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4FVARBPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUSEPROGRAMOBJECTARBPROC)(GLhandleARB programObj);
-typedef void (CODEGEN_FUNCPTR * PFNGLVALIDATEPROGRAMARBPROC)(GLhandleARB programObj);
+typedef void ( CODEGEN_FUNCPTR * PFNGLATTACHOBJECTARBPROC ) ( GLhandleARB containerObj, GLhandleARB obj );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPILESHADERARBPROC ) ( GLhandleARB shaderObj );
+typedef GLhandleARB ( CODEGEN_FUNCPTR * PFNGLCREATEPROGRAMOBJECTARBPROC ) ();
+typedef GLhandleARB ( CODEGEN_FUNCPTR * PFNGLCREATESHADEROBJECTARBPROC ) ( GLenum shaderType );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEOBJECTARBPROC ) ( GLhandleARB obj );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDETACHOBJECTARBPROC ) ( GLhandleARB containerObj, GLhandleARB attachedObj );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEUNIFORMARBPROC ) ( GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei * length, GLint * size, GLenum * type, GLcharARB * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETATTACHEDOBJECTSARBPROC ) ( GLhandleARB containerObj, GLsizei maxCount, GLsizei * count, GLhandleARB * obj );
+typedef GLhandleARB ( CODEGEN_FUNCPTR * PFNGLGETHANDLEARBPROC ) ( GLenum pname );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINFOLOGARBPROC ) ( GLhandleARB obj, GLsizei maxLength, GLsizei * length, GLcharARB * infoLog );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOBJECTPARAMETERFVARBPROC ) ( GLhandleARB obj, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOBJECTPARAMETERIVARBPROC ) ( GLhandleARB obj, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSHADERSOURCEARBPROC ) ( GLhandleARB obj, GLsizei maxLength, GLsizei * length, GLcharARB * source );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMLOCATIONARBPROC ) ( GLhandleARB programObj, const GLcharARB * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMFVARBPROC ) ( GLhandleARB programObj, GLint location, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMIVARBPROC ) ( GLhandleARB programObj, GLint location, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLINKPROGRAMARBPROC ) ( GLhandleARB programObj );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSHADERSOURCEARBPROC ) ( GLhandleARB shaderObj, GLsizei count, const GLcharARB ** string, const GLint * length );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1FARBPROC ) ( GLint location, GLfloat v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1FVARBPROC ) ( GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1IARBPROC ) ( GLint location, GLint v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1IVARBPROC ) ( GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2FARBPROC ) ( GLint location, GLfloat v0, GLfloat v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2FVARBPROC ) ( GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2IARBPROC ) ( GLint location, GLint v0, GLint v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2IVARBPROC ) ( GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3FARBPROC ) ( GLint location, GLfloat v0, GLfloat v1, GLfloat v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3FVARBPROC ) ( GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3IARBPROC ) ( GLint location, GLint v0, GLint v1, GLint v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3IVARBPROC ) ( GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4FARBPROC ) ( GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4FVARBPROC ) ( GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4IARBPROC ) ( GLint location, GLint v0, GLint v1, GLint v2, GLint v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4IVARBPROC ) ( GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2FVARBPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3FVARBPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4FVARBPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUSEPROGRAMOBJECTARBPROC ) ( GLhandleARB programObj );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVALIDATEPROGRAMARBPROC ) ( GLhandleARB programObj );
 
 extern PFNGLATTACHOBJECTARBPROC _funcptr_glAttachObjectARB;
 #define glAttachObjectARB _funcptr_glAttachObjectARB
@@ -3703,12 +3703,12 @@ extern PFNGLVALIDATEPROGRAMARBPROC _funcptr_glValidateProgramARB;
 #define GL_NAMED_STRING_TYPE_ARB 0x8DEA
 #define GL_SHADER_INCLUDE_ARB 0x8DAE
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPILESHADERINCLUDEARBPROC)(GLuint shader, GLsizei count, const GLchar *const* path, const GLint * length);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETENAMEDSTRINGARBPROC)(GLint namelen, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDSTRINGARBPROC)(GLint namelen, const GLchar * name, GLsizei bufSize, GLint * stringlen, GLchar * string);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDSTRINGIVARBPROC)(GLint namelen, const GLchar * name, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISNAMEDSTRINGARBPROC)(GLint namelen, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDSTRINGARBPROC)(GLenum type, GLint namelen, const GLchar * name, GLint stringlen, const GLchar * string);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPILESHADERINCLUDEARBPROC ) ( GLuint shader, GLsizei count, const GLchar *const* path, const GLint * length );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETENAMEDSTRINGARBPROC ) ( GLint namelen, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDSTRINGARBPROC ) ( GLint namelen, const GLchar * name, GLsizei bufSize, GLint * stringlen, GLchar * string );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDSTRINGIVARBPROC ) ( GLint namelen, const GLchar * name, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISNAMEDSTRINGARBPROC ) ( GLint namelen, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDSTRINGARBPROC ) ( GLenum type, GLint namelen, const GLchar * name, GLint stringlen, const GLchar * string );
 
 extern PFNGLCOMPILESHADERINCLUDEARBPROC _funcptr_glCompileShaderIncludeARB;
 #define glCompileShaderIncludeARB _funcptr_glCompileShaderIncludeARB
@@ -3741,7 +3741,7 @@ extern PFNGLNAMEDSTRINGARBPROC _funcptr_glNamedStringARB;
 #define GL_VIRTUAL_PAGE_SIZE_Y_ARB 0x9196
 #define GL_VIRTUAL_PAGE_SIZE_Z_ARB 0x9197
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXPAGECOMMITMENTARBPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLboolean resident);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXPAGECOMMITMENTARBPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLboolean resident );
 
 extern PFNGLTEXPAGECOMMITMENTARBPROC _funcptr_glTexPageCommitmentARB;
 #define glTexPageCommitmentARB _funcptr_glTexPageCommitmentARB
@@ -3754,7 +3754,7 @@ extern PFNGLTEXPAGECOMMITMENTARBPROC _funcptr_glTexPageCommitmentARB;
 #define GL_TEXTURE_BUFFER_DATA_STORE_BINDING_ARB 0x8C2D
 #define GL_TEXTURE_BUFFER_FORMAT_ARB 0x8C2E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXBUFFERARBPROC)(GLenum target, GLenum internalformat, GLuint buffer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXBUFFERARBPROC ) ( GLenum target, GLenum internalformat, GLuint buffer );
 
 extern PFNGLTEXBUFFERARBPROC _funcptr_glTexBufferARB;
 #define glTexBufferARB _funcptr_glTexBufferARB
@@ -3775,13 +3775,13 @@ extern PFNGLTEXBUFFERARBPROC _funcptr_glTexBufferARB;
 #define GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB 0x86A0
 #define GL_TEXTURE_COMPRESSION_HINT_ARB 0x84EF
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE1DARBPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE2DARBPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE3DARBPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE1DARBPROC)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE2DARBPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE3DARBPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDTEXIMAGEARBPROC)(GLenum target, GLint level, GLvoid * img);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE1DARBPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE2DARBPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE3DARBPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE1DARBPROC ) ( GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE2DARBPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE3DARBPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDTEXIMAGEARBPROC ) ( GLenum target, GLint level, GLvoid * img );
 
 extern PFNGLCOMPRESSEDTEXIMAGE1DARBPROC _funcptr_glCompressedTexImage1DARB;
 #define glCompressedTexImage1DARB _funcptr_glCompressedTexImage1DARB
@@ -3887,10 +3887,10 @@ extern PFNGLGETCOMPRESSEDTEXIMAGEARBPROC _funcptr_glGetCompressedTexImageARB;
 #define GL_TRANSPOSE_PROJECTION_MATRIX_ARB 0x84E4
 #define GL_TRANSPOSE_TEXTURE_MATRIX_ARB 0x84E5
 
-typedef void (CODEGEN_FUNCPTR * PFNGLLOADTRANSPOSEMATRIXDARBPROC)(const GLdouble * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLLOADTRANSPOSEMATRIXFARBPROC)(const GLfloat * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTTRANSPOSEMATRIXDARBPROC)(const GLdouble * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTTRANSPOSEMATRIXFARBPROC)(const GLfloat * m);
+typedef void ( CODEGEN_FUNCPTR * PFNGLLOADTRANSPOSEMATRIXDARBPROC ) ( const GLdouble * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLOADTRANSPOSEMATRIXFARBPROC ) ( const GLfloat * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTTRANSPOSEMATRIXDARBPROC ) ( const GLdouble * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTTRANSPOSEMATRIXFARBPROC ) ( const GLfloat * m );
 
 extern PFNGLLOADTRANSPOSEMATRIXDARBPROC _funcptr_glLoadTransposeMatrixdARB;
 #define glLoadTransposeMatrixdARB _funcptr_glLoadTransposeMatrixdARB
@@ -3944,16 +3944,16 @@ extern PFNGLMULTTRANSPOSEMATRIXFARBPROC _funcptr_glMultTransposeMatrixfARB;
 #define GL_WEIGHT_ARRAY_TYPE_ARB 0x86A9
 #define GL_WEIGHT_SUM_UNITY_ARB 0x86A6
 
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXBLENDARBPROC)(GLint count);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTPOINTERARBPROC)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTBVARBPROC)(GLint size, const GLbyte * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTDVARBPROC)(GLint size, const GLdouble * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTFVARBPROC)(GLint size, const GLfloat * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTIVARBPROC)(GLint size, const GLint * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTSVARBPROC)(GLint size, const GLshort * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTUBVARBPROC)(GLint size, const GLubyte * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTUIVARBPROC)(GLint size, const GLuint * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTUSVARBPROC)(GLint size, const GLushort * weights);
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXBLENDARBPROC ) ( GLint count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTPOINTERARBPROC ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTBVARBPROC ) ( GLint size, const GLbyte * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTDVARBPROC ) ( GLint size, const GLdouble * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTFVARBPROC ) ( GLint size, const GLfloat * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTIVARBPROC ) ( GLint size, const GLint * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTSVARBPROC ) ( GLint size, const GLshort * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTUBVARBPROC ) ( GLint size, const GLubyte * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTUIVARBPROC ) ( GLint size, const GLuint * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTUSVARBPROC ) ( GLint size, const GLushort * weights );
 
 extern PFNGLVERTEXBLENDARBPROC _funcptr_glVertexBlendARB;
 #define glVertexBlendARB _funcptr_glVertexBlendARB
@@ -4008,17 +4008,17 @@ extern PFNGLWEIGHTUSVARBPROC _funcptr_glWeightusvARB;
 #define GL_WEIGHT_ARRAY_BUFFER_BINDING_ARB 0x889E
 #define GL_WRITE_ONLY_ARB 0x88B9
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERARBPROC)(GLenum target, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLBUFFERDATAARBPROC)(GLenum target, GLsizeiptrARB size, const GLvoid * data, GLenum usage);
-typedef void (CODEGEN_FUNCPTR * PFNGLBUFFERSUBDATAARBPROC)(GLenum target, GLintptrARB offset, GLsizeiptrARB size, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEBUFFERSARBPROC)(GLsizei n, const GLuint * buffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENBUFFERSARBPROC)(GLsizei n, GLuint * buffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERIVARBPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERPOINTERVARBPROC)(GLenum target, GLenum pname, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERSUBDATAARBPROC)(GLenum target, GLintptrARB offset, GLsizeiptrARB size, GLvoid * data);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISBUFFERARBPROC)(GLuint buffer);
-typedef void * (CODEGEN_FUNCPTR * PFNGLMAPBUFFERARBPROC)(GLenum target, GLenum access);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLUNMAPBUFFERARBPROC)(GLenum target);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERARBPROC ) ( GLenum target, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBUFFERDATAARBPROC ) ( GLenum target, GLsizeiptrARB size, const GLvoid * data, GLenum usage );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBUFFERSUBDATAARBPROC ) ( GLenum target, GLintptrARB offset, GLsizeiptrARB size, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEBUFFERSARBPROC ) ( GLsizei n, const GLuint * buffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENBUFFERSARBPROC ) ( GLsizei n, GLuint * buffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERIVARBPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERPOINTERVARBPROC ) ( GLenum target, GLenum pname, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERSUBDATAARBPROC ) ( GLenum target, GLintptrARB offset, GLsizeiptrARB size, GLvoid * data );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISBUFFERARBPROC ) ( GLuint buffer );
+typedef void * ( CODEGEN_FUNCPTR * PFNGLMAPBUFFERARBPROC ) ( GLenum target, GLenum access );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLUNMAPBUFFERARBPROC ) ( GLenum target );
 
 extern PFNGLBINDBUFFERARBPROC _funcptr_glBindBufferARB;
 #define glBindBufferARB _funcptr_glBindBufferARB
@@ -4123,68 +4123,68 @@ extern PFNGLUNMAPBUFFERARBPROC _funcptr_glUnmapBufferARB;
 #define GL_VERTEX_PROGRAM_POINT_SIZE_ARB 0x8642
 #define GL_VERTEX_PROGRAM_TWO_SIDE_ARB 0x8643
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDPROGRAMARBPROC)(GLenum target, GLuint program);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMSARBPROC)(GLsizei n, const GLuint * programs);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXATTRIBARRAYARBPROC)(GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLEVERTEXATTRIBARRAYARBPROC)(GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENPROGRAMSARBPROC)(GLsizei n, GLuint * programs);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERDVARBPROC)(GLenum target, GLuint index, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERFVARBPROC)(GLenum target, GLuint index, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERDVARBPROC)(GLenum target, GLuint index, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERFVARBPROC)(GLenum target, GLuint index, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTRINGARBPROC)(GLenum target, GLenum pname, GLvoid * string);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMIVARBPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBPOINTERVARBPROC)(GLuint index, GLenum pname, GLvoid ** pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBDVARBPROC)(GLuint index, GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBFVARBPROC)(GLuint index, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIVARBPROC)(GLuint index, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISPROGRAMARBPROC)(GLuint program);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DARBPROC)(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DVARBPROC)(GLenum target, GLuint index, const GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FARBPROC)(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FVARBPROC)(GLenum target, GLuint index, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DARBPROC)(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DVARBPROC)(GLenum target, GLuint index, const GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FARBPROC)(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FVARBPROC)(GLenum target, GLuint index, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMSTRINGARBPROC)(GLenum target, GLenum format, GLsizei len, const GLvoid * string);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DARBPROC)(GLuint index, GLdouble x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DVARBPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FARBPROC)(GLuint index, GLfloat x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FVARBPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SARBPROC)(GLuint index, GLshort x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SVARBPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DARBPROC)(GLuint index, GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DVARBPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FARBPROC)(GLuint index, GLfloat x, GLfloat y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FVARBPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SARBPROC)(GLuint index, GLshort x, GLshort y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SVARBPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DARBPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DVARBPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FARBPROC)(GLuint index, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FVARBPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SARBPROC)(GLuint index, GLshort x, GLshort y, GLshort z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SVARBPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NBVARBPROC)(GLuint index, const GLbyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NIVARBPROC)(GLuint index, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NSVARBPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUBARBPROC)(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUBVARBPROC)(GLuint index, const GLubyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUIVARBPROC)(GLuint index, const GLuint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUSVARBPROC)(GLuint index, const GLushort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4BVARBPROC)(GLuint index, const GLbyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DARBPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DVARBPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FARBPROC)(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FVARBPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4IVARBPROC)(GLuint index, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SARBPROC)(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SVARBPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UBVARBPROC)(GLuint index, const GLubyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UIVARBPROC)(GLuint index, const GLuint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4USVARBPROC)(GLuint index, const GLushort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBPOINTERARBPROC)(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDPROGRAMARBPROC ) ( GLenum target, GLuint program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMSARBPROC ) ( GLsizei n, const GLuint * programs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXATTRIBARRAYARBPROC ) ( GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLEVERTEXATTRIBARRAYARBPROC ) ( GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENPROGRAMSARBPROC ) ( GLsizei n, GLuint * programs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERDVARBPROC ) ( GLenum target, GLuint index, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERFVARBPROC ) ( GLenum target, GLuint index, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERDVARBPROC ) ( GLenum target, GLuint index, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERFVARBPROC ) ( GLenum target, GLuint index, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTRINGARBPROC ) ( GLenum target, GLenum pname, GLvoid * string );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMIVARBPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBPOINTERVARBPROC ) ( GLuint index, GLenum pname, GLvoid ** pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBDVARBPROC ) ( GLuint index, GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBFVARBPROC ) ( GLuint index, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIVARBPROC ) ( GLuint index, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISPROGRAMARBPROC ) ( GLuint program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DARBPROC ) ( GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4DVARBPROC ) ( GLenum target, GLuint index, const GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FARBPROC ) ( GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETER4FVARBPROC ) ( GLenum target, GLuint index, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DARBPROC ) ( GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4DVARBPROC ) ( GLenum target, GLuint index, const GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FARBPROC ) ( GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETER4FVARBPROC ) ( GLenum target, GLuint index, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMSTRINGARBPROC ) ( GLenum target, GLenum format, GLsizei len, const GLvoid * string );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DARBPROC ) ( GLuint index, GLdouble x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DVARBPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FARBPROC ) ( GLuint index, GLfloat x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FVARBPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SARBPROC ) ( GLuint index, GLshort x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SVARBPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DARBPROC ) ( GLuint index, GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DVARBPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FARBPROC ) ( GLuint index, GLfloat x, GLfloat y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FVARBPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SARBPROC ) ( GLuint index, GLshort x, GLshort y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SVARBPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DARBPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DVARBPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FARBPROC ) ( GLuint index, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FVARBPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SARBPROC ) ( GLuint index, GLshort x, GLshort y, GLshort z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SVARBPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NBVARBPROC ) ( GLuint index, const GLbyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NIVARBPROC ) ( GLuint index, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NSVARBPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUBARBPROC ) ( GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUBVARBPROC ) ( GLuint index, const GLubyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUIVARBPROC ) ( GLuint index, const GLuint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4NUSVARBPROC ) ( GLuint index, const GLushort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4BVARBPROC ) ( GLuint index, const GLbyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DARBPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DVARBPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FARBPROC ) ( GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FVARBPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4IVARBPROC ) ( GLuint index, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SARBPROC ) ( GLuint index, GLshort x, GLshort y, GLshort z, GLshort w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SVARBPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UBVARBPROC ) ( GLuint index, const GLubyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UIVARBPROC ) ( GLuint index, const GLuint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4USVARBPROC ) ( GLuint index, const GLushort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBPOINTERARBPROC ) ( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer );
 
 extern PFNGLBINDPROGRAMARBPROC _funcptr_glBindProgramARB;
 #define glBindProgramARB _funcptr_glBindProgramARB
@@ -4319,9 +4319,9 @@ extern PFNGLVERTEXATTRIBPOINTERARBPROC _funcptr_glVertexAttribPointerARB;
 #define GL_OBJECT_ACTIVE_ATTRIBUTE_MAX_LENGTH_ARB 0x8B8A
 #define GL_VERTEX_SHADER_ARB 0x8B31
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDATTRIBLOCATIONARBPROC)(GLhandleARB programObj, GLuint index, const GLcharARB * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEATTRIBARBPROC)(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei * length, GLint * size, GLenum * type, GLcharARB * name);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETATTRIBLOCATIONARBPROC)(GLhandleARB programObj, const GLcharARB * name);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDATTRIBLOCATIONARBPROC ) ( GLhandleARB programObj, GLuint index, const GLcharARB * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEATTRIBARBPROC ) ( GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei * length, GLint * size, GLenum * type, GLcharARB * name );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETATTRIBLOCATIONARBPROC ) ( GLhandleARB programObj, const GLcharARB * name );
 
 extern PFNGLBINDATTRIBLOCATIONARBPROC _funcptr_glBindAttribLocationARB;
 #define glBindAttribLocationARB _funcptr_glBindAttribLocationARB
@@ -4330,22 +4330,22 @@ extern PFNGLGETACTIVEATTRIBARBPROC _funcptr_glGetActiveAttribARB;
 extern PFNGLGETATTRIBLOCATIONARBPROC _funcptr_glGetAttribLocationARB;
 #define glGetAttribLocationARB _funcptr_glGetAttribLocationARB
 
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DARBPROC)(GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DVARBPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FARBPROC)(GLfloat x, GLfloat y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FVARBPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IARBPROC)(GLint x, GLint y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IVARBPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SARBPROC)(GLshort x, GLshort y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SVARBPROC)(const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DARBPROC)(GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DVARBPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FARBPROC)(GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FVARBPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IARBPROC)(GLint x, GLint y, GLint z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IVARBPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SARBPROC)(GLshort x, GLshort y, GLshort z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SVARBPROC)(const GLshort * v);
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DARBPROC ) ( GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DVARBPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FARBPROC ) ( GLfloat x, GLfloat y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FVARBPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IARBPROC ) ( GLint x, GLint y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IVARBPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SARBPROC ) ( GLshort x, GLshort y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SVARBPROC ) ( const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DARBPROC ) ( GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DVARBPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FARBPROC ) ( GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FVARBPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IARBPROC ) ( GLint x, GLint y, GLint z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IVARBPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SARBPROC ) ( GLshort x, GLshort y, GLshort z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SVARBPROC ) ( const GLshort * v );
 
 extern PFNGLWINDOWPOS2DARBPROC _funcptr_glWindowPos2dARB;
 #define glWindowPos2dARB _funcptr_glWindowPos2dARB
@@ -4398,7 +4398,7 @@ extern PFNGLWINDOWPOS3SVARBPROC _funcptr_glWindowPos3svARB;
 #define GL_DRAW_BUFFER9_ATI 0x882E
 #define GL_MAX_DRAW_BUFFERS_ATI 0x8824
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWBUFFERSATIPROC)(GLsizei n, const GLenum * bufs);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWBUFFERSATIPROC ) ( GLsizei n, const GLenum * bufs );
 
 extern PFNGLDRAWBUFFERSATIPROC _funcptr_glDrawBuffersATI;
 #define glDrawBuffersATI _funcptr_glDrawBuffersATI
@@ -4407,9 +4407,9 @@ extern PFNGLDRAWBUFFERSATIPROC _funcptr_glDrawBuffersATI;
 #define GL_ELEMENT_ARRAY_POINTER_ATI 0x876A
 #define GL_ELEMENT_ARRAY_TYPE_ATI 0x8769
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTARRAYATIPROC)(GLenum mode, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTARRAYATIPROC)(GLenum mode, GLuint start, GLuint end, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * PFNGLELEMENTPOINTERATIPROC)(GLenum type, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTARRAYATIPROC ) ( GLenum mode, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTARRAYATIPROC ) ( GLenum mode, GLuint start, GLuint end, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLELEMENTPOINTERATIPROC ) ( GLenum type, const GLvoid * pointer );
 
 extern PFNGLDRAWELEMENTARRAYATIPROC _funcptr_glDrawElementArrayATI;
 #define glDrawElementArrayATI _funcptr_glDrawElementArrayATI
@@ -4427,10 +4427,10 @@ extern PFNGLELEMENTPOINTERATIPROC _funcptr_glElementPointerATI;
 #define GL_DU8DV8_ATI 0x877A
 #define GL_DUDV_ATI 0x8779
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXBUMPPARAMETERFVATIPROC)(GLenum pname, GLfloat * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXBUMPPARAMETERIVATIPROC)(GLenum pname, GLint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXBUMPPARAMETERFVATIPROC)(GLenum pname, const GLfloat * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXBUMPPARAMETERIVATIPROC)(GLenum pname, const GLint * param);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXBUMPPARAMETERFVATIPROC ) ( GLenum pname, GLfloat * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXBUMPPARAMETERIVATIPROC ) ( GLenum pname, GLint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXBUMPPARAMETERFVATIPROC ) ( GLenum pname, const GLfloat * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXBUMPPARAMETERIVATIPROC ) ( GLenum pname, const GLint * param );
 
 extern PFNGLGETTEXBUMPPARAMETERFVATIPROC _funcptr_glGetTexBumpParameterfvATI;
 #define glGetTexBumpParameterfvATI _funcptr_glGetTexBumpParameterfvATI
@@ -4546,20 +4546,20 @@ extern PFNGLTEXBUMPPARAMETERIVATIPROC _funcptr_glTexBumpParameterivATI;
 #define GL_SWIZZLE_STR_ATI 0x8976
 #define GL_SWIZZLE_STR_DR_ATI 0x8978
 
-typedef void (CODEGEN_FUNCPTR * PFNGLALPHAFRAGMENTOP1ATIPROC)(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod);
-typedef void (CODEGEN_FUNCPTR * PFNGLALPHAFRAGMENTOP2ATIPROC)(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod);
-typedef void (CODEGEN_FUNCPTR * PFNGLALPHAFRAGMENTOP3ATIPROC)(GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod);
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINFRAGMENTSHADERATIPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDFRAGMENTSHADERATIPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORFRAGMENTOP1ATIPROC)(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORFRAGMENTOP2ATIPROC)(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORFRAGMENTOP3ATIPROC)(GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEFRAGMENTSHADERATIPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDFRAGMENTSHADERATIPROC)();
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGENFRAGMENTSHADERSATIPROC)(GLuint range);
-typedef void (CODEGEN_FUNCPTR * PFNGLPASSTEXCOORDATIPROC)(GLuint dst, GLuint coord, GLenum swizzle);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEMAPATIPROC)(GLuint dst, GLuint interp, GLenum swizzle);
-typedef void (CODEGEN_FUNCPTR * PFNGLSETFRAGMENTSHADERCONSTANTATIPROC)(GLuint dst, const GLfloat * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLALPHAFRAGMENTOP1ATIPROC ) ( GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod );
+typedef void ( CODEGEN_FUNCPTR * PFNGLALPHAFRAGMENTOP2ATIPROC ) ( GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod );
+typedef void ( CODEGEN_FUNCPTR * PFNGLALPHAFRAGMENTOP3ATIPROC ) ( GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINFRAGMENTSHADERATIPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDFRAGMENTSHADERATIPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORFRAGMENTOP1ATIPROC ) ( GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORFRAGMENTOP2ATIPROC ) ( GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORFRAGMENTOP3ATIPROC ) ( GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEFRAGMENTSHADERATIPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDFRAGMENTSHADERATIPROC ) ();
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGENFRAGMENTSHADERSATIPROC ) ( GLuint range );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPASSTEXCOORDATIPROC ) ( GLuint dst, GLuint coord, GLenum swizzle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEMAPATIPROC ) ( GLuint dst, GLuint interp, GLenum swizzle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSETFRAGMENTSHADERCONSTANTATIPROC ) ( GLuint dst, const GLfloat * value );
 
 extern PFNGLALPHAFRAGMENTOP1ATIPROC _funcptr_glAlphaFragmentOp1ATI;
 #define glAlphaFragmentOp1ATI _funcptr_glAlphaFragmentOp1ATI
@@ -4590,8 +4590,8 @@ extern PFNGLSAMPLEMAPATIPROC _funcptr_glSampleMapATI;
 extern PFNGLSETFRAGMENTSHADERCONSTANTATIPROC _funcptr_glSetFragmentShaderConstantATI;
 #define glSetFragmentShaderConstantATI _funcptr_glSetFragmentShaderConstantATI
 
-typedef void * (CODEGEN_FUNCPTR * PFNGLMAPOBJECTBUFFERATIPROC)(GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNMAPOBJECTBUFFERATIPROC)(GLuint buffer);
+typedef void * ( CODEGEN_FUNCPTR * PFNGLMAPOBJECTBUFFERATIPROC ) ( GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNMAPOBJECTBUFFERATIPROC ) ( GLuint buffer );
 
 extern PFNGLMAPOBJECTBUFFERATIPROC _funcptr_glMapObjectBufferATI;
 #define glMapObjectBufferATI _funcptr_glMapObjectBufferATI
@@ -4615,8 +4615,8 @@ extern PFNGLUNMAPOBJECTBUFFERATIPROC _funcptr_glUnmapObjectBufferATI;
 #define GL_PN_TRIANGLES_POINT_MODE_LINEAR_ATI 0x87F5
 #define GL_PN_TRIANGLES_TESSELATION_LEVEL_ATI 0x87F4
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPNTRIANGLESFATIPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPNTRIANGLESIATIPROC)(GLenum pname, GLint param);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPNTRIANGLESFATIPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPNTRIANGLESIATIPROC ) ( GLenum pname, GLint param );
 
 extern PFNGLPNTRIANGLESFATIPROC _funcptr_glPNTrianglesfATI;
 #define glPNTrianglesfATI _funcptr_glPNTrianglesfATI
@@ -4628,8 +4628,8 @@ extern PFNGLPNTRIANGLESIATIPROC _funcptr_glPNTrianglesiATI;
 #define GL_STENCIL_BACK_PASS_DEPTH_FAIL_ATI 0x8802
 #define GL_STENCIL_BACK_PASS_DEPTH_PASS_ATI 0x8803
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILFUNCSEPARATEATIPROC)(GLenum frontfunc, GLenum backfunc, GLint ref, GLuint mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILOPSEPARATEATIPROC)(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILFUNCSEPARATEATIPROC ) ( GLenum frontfunc, GLenum backfunc, GLint ref, GLuint mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILOPSEPARATEATIPROC ) ( GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass );
 
 extern PFNGLSTENCILFUNCSEPARATEATIPROC _funcptr_glStencilFuncSeparateATI;
 #define glStencilFuncSeparateATI _funcptr_glStencilFuncSeparateATI
@@ -4667,18 +4667,18 @@ extern PFNGLSTENCILOPSEPARATEATIPROC _funcptr_glStencilOpSeparateATI;
 #define GL_PRESERVE_ATI 0x8762
 #define GL_STATIC_ATI 0x8760
 
-typedef void (CODEGEN_FUNCPTR * PFNGLARRAYOBJECTATIPROC)(GLenum ren_array, GLint size, GLenum type, GLsizei stride, GLuint buffer, GLuint offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLFREEOBJECTBUFFERATIPROC)(GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETARRAYOBJECTFVATIPROC)(GLenum ren_array, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETARRAYOBJECTIVATIPROC)(GLenum ren_array, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOBJECTBUFFERFVATIPROC)(GLuint buffer, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOBJECTBUFFERIVATIPROC)(GLuint buffer, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVARIANTARRAYOBJECTFVATIPROC)(GLuint id, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVARIANTARRAYOBJECTIVATIPROC)(GLuint id, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISOBJECTBUFFERATIPROC)(GLuint buffer);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLNEWOBJECTBUFFERATIPROC)(GLsizei size, const GLvoid * pointer, GLenum usage);
-typedef void (CODEGEN_FUNCPTR * PFNGLUPDATEOBJECTBUFFERATIPROC)(GLuint buffer, GLuint offset, GLsizei size, const GLvoid * pointer, GLenum preserve);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTARRAYOBJECTATIPROC)(GLuint id, GLenum type, GLsizei stride, GLuint buffer, GLuint offset);
+typedef void ( CODEGEN_FUNCPTR * PFNGLARRAYOBJECTATIPROC ) ( GLenum ren_array, GLint size, GLenum type, GLsizei stride, GLuint buffer, GLuint offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFREEOBJECTBUFFERATIPROC ) ( GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETARRAYOBJECTFVATIPROC ) ( GLenum ren_array, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETARRAYOBJECTIVATIPROC ) ( GLenum ren_array, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOBJECTBUFFERFVATIPROC ) ( GLuint buffer, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOBJECTBUFFERIVATIPROC ) ( GLuint buffer, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVARIANTARRAYOBJECTFVATIPROC ) ( GLuint id, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVARIANTARRAYOBJECTIVATIPROC ) ( GLuint id, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISOBJECTBUFFERATIPROC ) ( GLuint buffer );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLNEWOBJECTBUFFERATIPROC ) ( GLsizei size, const GLvoid * pointer, GLenum usage );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUPDATEOBJECTBUFFERATIPROC ) ( GLuint buffer, GLuint offset, GLsizei size, const GLvoid * pointer, GLenum preserve );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTARRAYOBJECTATIPROC ) ( GLuint id, GLenum type, GLsizei stride, GLuint buffer, GLuint offset );
 
 extern PFNGLARRAYOBJECTATIPROC _funcptr_glArrayObjectATI;
 #define glArrayObjectATI _funcptr_glArrayObjectATI
@@ -4705,9 +4705,9 @@ extern PFNGLUPDATEOBJECTBUFFERATIPROC _funcptr_glUpdateObjectBufferATI;
 extern PFNGLVARIANTARRAYOBJECTATIPROC _funcptr_glVariantArrayObjectATI;
 #define glVariantArrayObjectATI _funcptr_glVariantArrayObjectATI
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBARRAYOBJECTFVATIPROC)(GLuint index, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBARRAYOBJECTIVATIPROC)(GLuint index, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBARRAYOBJECTATIPROC)(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLuint buffer, GLuint offset);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBARRAYOBJECTFVATIPROC ) ( GLuint index, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBARRAYOBJECTIVATIPROC ) ( GLuint index, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBARRAYOBJECTATIPROC ) ( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLuint buffer, GLuint offset );
 
 extern PFNGLGETVERTEXATTRIBARRAYOBJECTFVATIPROC _funcptr_glGetVertexAttribArrayObjectfvATI;
 #define glGetVertexAttribArrayObjectfvATI _funcptr_glGetVertexAttribArrayObjectfvATI
@@ -4727,51 +4727,51 @@ extern PFNGLVERTEXATTRIBARRAYOBJECTATIPROC _funcptr_glVertexAttribArrayObjectATI
 #define GL_VERTEX_STREAM6_ATI 0x8772
 #define GL_VERTEX_STREAM7_ATI 0x8773
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLIENTACTIVEVERTEXSTREAMATIPROC)(GLenum stream);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3BATIPROC)(GLenum stream, GLbyte nx, GLbyte ny, GLbyte nz);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3BVATIPROC)(GLenum stream, const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3DATIPROC)(GLenum stream, GLdouble nx, GLdouble ny, GLdouble nz);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3DVATIPROC)(GLenum stream, const GLdouble * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3FATIPROC)(GLenum stream, GLfloat nx, GLfloat ny, GLfloat nz);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3FVATIPROC)(GLenum stream, const GLfloat * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3IATIPROC)(GLenum stream, GLint nx, GLint ny, GLint nz);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3IVATIPROC)(GLenum stream, const GLint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3SATIPROC)(GLenum stream, GLshort nx, GLshort ny, GLshort nz);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3SVATIPROC)(GLenum stream, const GLshort * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXBLENDENVFATIPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXBLENDENVIATIPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1DATIPROC)(GLenum stream, GLdouble x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1DVATIPROC)(GLenum stream, const GLdouble * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1FATIPROC)(GLenum stream, GLfloat x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1FVATIPROC)(GLenum stream, const GLfloat * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1IATIPROC)(GLenum stream, GLint x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1IVATIPROC)(GLenum stream, const GLint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1SATIPROC)(GLenum stream, GLshort x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1SVATIPROC)(GLenum stream, const GLshort * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2DATIPROC)(GLenum stream, GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2DVATIPROC)(GLenum stream, const GLdouble * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2FATIPROC)(GLenum stream, GLfloat x, GLfloat y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2FVATIPROC)(GLenum stream, const GLfloat * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2IATIPROC)(GLenum stream, GLint x, GLint y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2IVATIPROC)(GLenum stream, const GLint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2SATIPROC)(GLenum stream, GLshort x, GLshort y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2SVATIPROC)(GLenum stream, const GLshort * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3DATIPROC)(GLenum stream, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3DVATIPROC)(GLenum stream, const GLdouble * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3FATIPROC)(GLenum stream, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3FVATIPROC)(GLenum stream, const GLfloat * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3IATIPROC)(GLenum stream, GLint x, GLint y, GLint z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3IVATIPROC)(GLenum stream, const GLint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3SATIPROC)(GLenum stream, GLshort x, GLshort y, GLshort z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3SVATIPROC)(GLenum stream, const GLshort * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4DATIPROC)(GLenum stream, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4DVATIPROC)(GLenum stream, const GLdouble * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4FATIPROC)(GLenum stream, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4FVATIPROC)(GLenum stream, const GLfloat * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4IATIPROC)(GLenum stream, GLint x, GLint y, GLint z, GLint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4IVATIPROC)(GLenum stream, const GLint * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4SATIPROC)(GLenum stream, GLshort x, GLshort y, GLshort z, GLshort w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4SVATIPROC)(GLenum stream, const GLshort * coords);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLIENTACTIVEVERTEXSTREAMATIPROC ) ( GLenum stream );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3BATIPROC ) ( GLenum stream, GLbyte nx, GLbyte ny, GLbyte nz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3BVATIPROC ) ( GLenum stream, const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3DATIPROC ) ( GLenum stream, GLdouble nx, GLdouble ny, GLdouble nz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3DVATIPROC ) ( GLenum stream, const GLdouble * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3FATIPROC ) ( GLenum stream, GLfloat nx, GLfloat ny, GLfloat nz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3FVATIPROC ) ( GLenum stream, const GLfloat * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3IATIPROC ) ( GLenum stream, GLint nx, GLint ny, GLint nz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3IVATIPROC ) ( GLenum stream, const GLint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3SATIPROC ) ( GLenum stream, GLshort nx, GLshort ny, GLshort nz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALSTREAM3SVATIPROC ) ( GLenum stream, const GLshort * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXBLENDENVFATIPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXBLENDENVIATIPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1DATIPROC ) ( GLenum stream, GLdouble x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1DVATIPROC ) ( GLenum stream, const GLdouble * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1FATIPROC ) ( GLenum stream, GLfloat x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1FVATIPROC ) ( GLenum stream, const GLfloat * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1IATIPROC ) ( GLenum stream, GLint x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1IVATIPROC ) ( GLenum stream, const GLint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1SATIPROC ) ( GLenum stream, GLshort x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM1SVATIPROC ) ( GLenum stream, const GLshort * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2DATIPROC ) ( GLenum stream, GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2DVATIPROC ) ( GLenum stream, const GLdouble * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2FATIPROC ) ( GLenum stream, GLfloat x, GLfloat y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2FVATIPROC ) ( GLenum stream, const GLfloat * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2IATIPROC ) ( GLenum stream, GLint x, GLint y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2IVATIPROC ) ( GLenum stream, const GLint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2SATIPROC ) ( GLenum stream, GLshort x, GLshort y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM2SVATIPROC ) ( GLenum stream, const GLshort * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3DATIPROC ) ( GLenum stream, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3DVATIPROC ) ( GLenum stream, const GLdouble * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3FATIPROC ) ( GLenum stream, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3FVATIPROC ) ( GLenum stream, const GLfloat * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3IATIPROC ) ( GLenum stream, GLint x, GLint y, GLint z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3IVATIPROC ) ( GLenum stream, const GLint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3SATIPROC ) ( GLenum stream, GLshort x, GLshort y, GLshort z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM3SVATIPROC ) ( GLenum stream, const GLshort * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4DATIPROC ) ( GLenum stream, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4DVATIPROC ) ( GLenum stream, const GLdouble * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4FATIPROC ) ( GLenum stream, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4FVATIPROC ) ( GLenum stream, const GLfloat * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4IATIPROC ) ( GLenum stream, GLint x, GLint y, GLint z, GLint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4IVATIPROC ) ( GLenum stream, const GLint * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4SATIPROC ) ( GLenum stream, GLshort x, GLshort y, GLshort z, GLshort w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXSTREAM4SVATIPROC ) ( GLenum stream, const GLshort * coords );
 
 extern PFNGLCLIENTACTIVEVERTEXSTREAMATIPROC _funcptr_glClientActiveVertexStreamATI;
 #define glClientActiveVertexStreamATI _funcptr_glClientActiveVertexStreamATI
@@ -4881,9 +4881,9 @@ extern PFNGLVERTEXSTREAM4SVATIPROC _funcptr_glVertexStream4svATI;
 #define GL_UNIFORM_BUFFER_BINDING_EXT 0x8DEF
 #define GL_UNIFORM_BUFFER_EXT 0x8DEE
 
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETUNIFORMBUFFERSIZEEXTPROC)(GLuint program, GLint location);
-typedef GLintptr (CODEGEN_FUNCPTR * PFNGLGETUNIFORMOFFSETEXTPROC)(GLuint program, GLint location);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMBUFFEREXTPROC)(GLuint program, GLint location, GLuint buffer);
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMBUFFERSIZEEXTPROC ) ( GLuint program, GLint location );
+typedef GLintptr ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMOFFSETEXTPROC ) ( GLuint program, GLint location );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMBUFFEREXTPROC ) ( GLuint program, GLint location, GLuint buffer );
 
 extern PFNGLGETUNIFORMBUFFERSIZEEXTPROC _funcptr_glGetUniformBufferSizeEXT;
 #define glGetUniformBufferSizeEXT _funcptr_glGetUniformBufferSizeEXT
@@ -4898,7 +4898,7 @@ extern PFNGLUNIFORMBUFFEREXTPROC _funcptr_glUniformBufferEXT;
 #define GL_ONE_MINUS_CONSTANT_ALPHA_EXT 0x8004
 #define GL_ONE_MINUS_CONSTANT_COLOR_EXT 0x8002
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDCOLOREXTPROC)(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDCOLOREXTPROC ) ( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha );
 
 extern PFNGLBLENDCOLOREXTPROC _funcptr_glBlendColorEXT;
 #define glBlendColorEXT _funcptr_glBlendColorEXT
@@ -4906,7 +4906,7 @@ extern PFNGLBLENDCOLOREXTPROC _funcptr_glBlendColorEXT;
 #define GL_BLEND_EQUATION_ALPHA_EXT 0x883D
 #define GL_BLEND_EQUATION_RGB_EXT 0x8009
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONSEPARATEEXTPROC)(GLenum modeRGB, GLenum modeAlpha);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONSEPARATEEXTPROC ) ( GLenum modeRGB, GLenum modeAlpha );
 
 extern PFNGLBLENDEQUATIONSEPARATEEXTPROC _funcptr_glBlendEquationSeparateEXT;
 #define glBlendEquationSeparateEXT _funcptr_glBlendEquationSeparateEXT
@@ -4916,7 +4916,7 @@ extern PFNGLBLENDEQUATIONSEPARATEEXTPROC _funcptr_glBlendEquationSeparateEXT;
 #define GL_BLEND_SRC_ALPHA_EXT 0x80CB
 #define GL_BLEND_SRC_RGB_EXT 0x80C9
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEEXTPROC)(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEEXTPROC ) ( GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha );
 
 extern PFNGLBLENDFUNCSEPARATEEXTPROC _funcptr_glBlendFuncSeparateEXT;
 #define glBlendFuncSeparateEXT _funcptr_glBlendFuncSeparateEXT
@@ -4926,7 +4926,7 @@ extern PFNGLBLENDFUNCSEPARATEEXTPROC _funcptr_glBlendFuncSeparateEXT;
 #define GL_MAX_EXT 0x8008
 #define GL_MIN_EXT 0x8007
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONEXTPROC)(GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONEXTPROC ) ( GLenum mode );
 
 extern PFNGLBLENDEQUATIONEXTPROC _funcptr_glBlendEquationEXT;
 #define glBlendEquationEXT _funcptr_glBlendEquationEXT
@@ -4941,8 +4941,8 @@ extern PFNGLBLENDEQUATIONEXTPROC _funcptr_glBlendEquationEXT;
 #define GL_PACK_CMYK_HINT_EXT 0x800E
 #define GL_UNPACK_CMYK_HINT_EXT 0x800F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORSUBTABLEEXTPROC)(GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCOLORSUBTABLEEXTPROC)(GLenum target, GLsizei start, GLint x, GLint y, GLsizei width);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORSUBTABLEEXTPROC ) ( GLenum target, GLsizei start, GLsizei count, GLenum format, GLenum type, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCOLORSUBTABLEEXTPROC ) ( GLenum target, GLsizei start, GLint x, GLint y, GLsizei width );
 
 extern PFNGLCOLORSUBTABLEEXTPROC _funcptr_glColorSubTableEXT;
 #define glColorSubTableEXT _funcptr_glColorSubTableEXT
@@ -4952,8 +4952,8 @@ extern PFNGLCOPYCOLORSUBTABLEEXTPROC _funcptr_glCopyColorSubTableEXT;
 #define GL_ARRAY_ELEMENT_LOCK_COUNT_EXT 0x81A9
 #define GL_ARRAY_ELEMENT_LOCK_FIRST_EXT 0x81A8
 
-typedef void (CODEGEN_FUNCPTR * PFNGLLOCKARRAYSEXTPROC)(GLint first, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNLOCKARRAYSEXTPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLLOCKARRAYSEXTPROC ) ( GLint first, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNLOCKARRAYSEXTPROC ) ();
 
 extern PFNGLLOCKARRAYSEXTPROC _funcptr_glLockArraysEXT;
 #define glLockArraysEXT _funcptr_glLockArraysEXT
@@ -4981,19 +4981,19 @@ extern PFNGLUNLOCKARRAYSEXTPROC _funcptr_glUnlockArraysEXT;
 #define GL_REDUCE_EXT 0x8016
 #define GL_SEPARABLE_2D_EXT 0x8012
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER1DEXTPROC)(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * image);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER2DEXTPROC)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * image);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFEXTPROC)(GLenum target, GLenum pname, GLfloat params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFVEXTPROC)(GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIEXTPROC)(GLenum target, GLenum pname, GLint params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIVEXTPROC)(GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER1DEXTPROC)(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER2DEXTPROC)(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONFILTEREXTPROC)(GLenum target, GLenum format, GLenum type, GLvoid * image);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERFVEXTPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERIVEXTPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSEPARABLEFILTEREXTPROC)(GLenum target, GLenum format, GLenum type, GLvoid * row, GLvoid * column, GLvoid * span);
-typedef void (CODEGEN_FUNCPTR * PFNGLSEPARABLEFILTER2DEXTPROC)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * row, const GLvoid * column);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER1DEXTPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * image );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONFILTER2DEXTPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * image );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFEXTPROC ) ( GLenum target, GLenum pname, GLfloat params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERFVEXTPROC ) ( GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIEXTPROC ) ( GLenum target, GLenum pname, GLint params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER1DEXTPROC ) ( GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCONVOLUTIONFILTER2DEXTPROC ) ( GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONFILTEREXTPROC ) ( GLenum target, GLenum format, GLenum type, GLvoid * image );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERFVEXTPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSEPARABLEFILTEREXTPROC ) ( GLenum target, GLenum format, GLenum type, GLvoid * row, GLvoid * column, GLvoid * span );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSEPARABLEFILTER2DEXTPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * row, const GLvoid * column );
 
 extern PFNGLCONVOLUTIONFILTER1DEXTPROC _funcptr_glConvolutionFilter1DEXT;
 #define glConvolutionFilter1DEXT _funcptr_glConvolutionFilter1DEXT
@@ -5037,28 +5037,28 @@ extern PFNGLSEPARABLEFILTER2DEXTPROC _funcptr_glSeparableFilter2DEXT;
 #define GL_TANGENT_ARRAY_STRIDE_EXT 0x843F
 #define GL_TANGENT_ARRAY_TYPE_EXT 0x843E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3BEXTPROC)(GLbyte bx, GLbyte by, GLbyte bz);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3BVEXTPROC)(const GLbyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3DEXTPROC)(GLdouble bx, GLdouble by, GLdouble bz);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3DVEXTPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3FEXTPROC)(GLfloat bx, GLfloat by, GLfloat bz);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3FVEXTPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3IEXTPROC)(GLint bx, GLint by, GLint bz);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3IVEXTPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3SEXTPROC)(GLshort bx, GLshort by, GLshort bz);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMAL3SVEXTPROC)(const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINORMALPOINTEREXTPROC)(GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3BEXTPROC)(GLbyte tx, GLbyte ty, GLbyte tz);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3BVEXTPROC)(const GLbyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3DEXTPROC)(GLdouble tx, GLdouble ty, GLdouble tz);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3DVEXTPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3FEXTPROC)(GLfloat tx, GLfloat ty, GLfloat tz);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3FVEXTPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3IEXTPROC)(GLint tx, GLint ty, GLint tz);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3IVEXTPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3SEXTPROC)(GLshort tx, GLshort ty, GLshort tz);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENT3SVEXTPROC)(const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTANGENTPOINTEREXTPROC)(GLenum type, GLsizei stride, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3BEXTPROC ) ( GLbyte bx, GLbyte by, GLbyte bz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3BVEXTPROC ) ( const GLbyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3DEXTPROC ) ( GLdouble bx, GLdouble by, GLdouble bz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3DVEXTPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3FEXTPROC ) ( GLfloat bx, GLfloat by, GLfloat bz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3FVEXTPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3IEXTPROC ) ( GLint bx, GLint by, GLint bz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3IVEXTPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3SEXTPROC ) ( GLshort bx, GLshort by, GLshort bz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMAL3SVEXTPROC ) ( const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINORMALPOINTEREXTPROC ) ( GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3BEXTPROC ) ( GLbyte tx, GLbyte ty, GLbyte tz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3BVEXTPROC ) ( const GLbyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3DEXTPROC ) ( GLdouble tx, GLdouble ty, GLdouble tz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3DVEXTPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3FEXTPROC ) ( GLfloat tx, GLfloat ty, GLfloat tz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3FVEXTPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3IEXTPROC ) ( GLint tx, GLint ty, GLint tz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3IVEXTPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3SEXTPROC ) ( GLshort tx, GLshort ty, GLshort tz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENT3SVEXTPROC ) ( const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTANGENTPOINTEREXTPROC ) ( GLenum type, GLsizei stride, const GLvoid * pointer );
 
 extern PFNGLBINORMAL3BEXTPROC _funcptr_glBinormal3bEXT;
 #define glBinormal3bEXT _funcptr_glBinormal3bEXT
@@ -5105,11 +5105,11 @@ extern PFNGLTANGENT3SVEXTPROC _funcptr_glTangent3svEXT;
 extern PFNGLTANGENTPOINTEREXTPROC _funcptr_glTangentPointerEXT;
 #define glTangentPointerEXT _funcptr_glTangentPointerEXT
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE1DEXTPROC)(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE2DEXTPROC)(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE1DEXTPROC)(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE2DEXTPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE3DEXTPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE1DEXTPROC ) ( GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE2DEXTPROC ) ( GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE1DEXTPROC ) ( GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE2DEXTPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE3DEXTPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height );
 
 extern PFNGLCOPYTEXIMAGE1DEXTPROC _funcptr_glCopyTexImage1DEXT;
 #define glCopyTexImage1DEXT _funcptr_glCopyTexImage1DEXT
@@ -5126,8 +5126,8 @@ extern PFNGLCOPYTEXSUBIMAGE3DEXTPROC _funcptr_glCopyTexSubImage3DEXT;
 #define GL_CULL_VERTEX_EYE_POSITION_EXT 0x81AB
 #define GL_CULL_VERTEX_OBJECT_POSITION_EXT 0x81AC
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCULLPARAMETERDVEXTPROC)(GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCULLPARAMETERFVEXTPROC)(GLenum pname, GLfloat * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCULLPARAMETERDVEXTPROC ) ( GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCULLPARAMETERFVEXTPROC ) ( GLenum pname, GLfloat * params );
 
 extern PFNGLCULLPARAMETERDVEXTPROC _funcptr_glCullParameterdvEXT;
 #define glCullParameterdvEXT _funcptr_glCullParameterdvEXT
@@ -5137,7 +5137,7 @@ extern PFNGLCULLPARAMETERFVEXTPROC _funcptr_glCullParameterfvEXT;
 #define GL_DEPTH_BOUNDS_EXT 0x8891
 #define GL_DEPTH_BOUNDS_TEST_EXT 0x8890
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHBOUNDSEXTPROC)(GLclampd zmin, GLclampd zmax);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHBOUNDSEXTPROC ) ( GLclampd zmin, GLclampd zmax );
 
 extern PFNGLDEPTHBOUNDSEXTPROC _funcptr_glDepthBoundsEXT;
 #define glDepthBoundsEXT _funcptr_glDepthBoundsEXT
@@ -5146,259 +5146,259 @@ extern PFNGLDEPTHBOUNDSEXTPROC _funcptr_glDepthBoundsEXT;
 #define GL_PROGRAM_MATRIX_STACK_DEPTH_EXT 0x8E2F
 #define GL_TRANSPOSE_PROGRAM_MATRIX_EXT 0x8E2E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDMULTITEXTUREEXTPROC)(GLenum texunit, GLenum target, GLuint texture);
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLCHECKNAMEDFRAMEBUFFERSTATUSEXTPROC)(GLuint framebuffer, GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARNAMEDBUFFERDATAEXTPROC)(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, const void * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARNAMEDBUFFERSUBDATAEXTPROC)(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, GLsizeiptr offset, GLsizeiptr size, const void * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLIENTATTRIBDEFAULTEXTPROC)(GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXIMAGE1DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXIMAGE2DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXSUBIMAGE1DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXSUBIMAGE2DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXSUBIMAGE3DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTUREIMAGE1DEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTUREIMAGE2DEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTUREIMAGE3DEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTURESUBIMAGE1DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTURESUBIMAGE2DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTURESUBIMAGE3DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * bits);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXIMAGE1DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXIMAGE2DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXSUBIMAGE1DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXSUBIMAGE2DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXSUBIMAGE3DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXTUREIMAGE1DEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXTUREIMAGE2DEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXTURESUBIMAGE1DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXTURESUBIMAGE2DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXTURESUBIMAGE3DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLECLIENTSTATEINDEXEDEXTPROC)(GLenum ren_array, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLECLIENTSTATEIEXTPROC)(GLenum ren_array, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLEINDEXEDEXTPROC)(GLenum target, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXARRAYATTRIBEXTPROC)(GLuint vaobj, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXARRAYEXTPROC)(GLuint vaobj, GLenum ren_array);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLECLIENTSTATEINDEXEDEXTPROC)(GLenum ren_array, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLECLIENTSTATEIEXTPROC)(GLenum ren_array, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLEINDEXEDEXTPROC)(GLenum target, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLEVERTEXARRAYATTRIBEXTPROC)(GLuint vaobj, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLEVERTEXARRAYEXTPROC)(GLuint vaobj, GLenum ren_array);
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHMAPPEDNAMEDBUFFERRANGEEXTPROC)(GLuint buffer, GLintptr offset, GLsizeiptr length);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERDRAWBUFFEREXTPROC)(GLuint framebuffer, GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERDRAWBUFFERSEXTPROC)(GLuint framebuffer, GLsizei n, const GLenum * bufs);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERREADBUFFEREXTPROC)(GLuint framebuffer, GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENERATEMULTITEXMIPMAPEXTPROC)(GLenum texunit, GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENERATETEXTUREMIPMAPEXTPROC)(GLuint texture, GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBOOLEANINDEXEDVEXTPROC)(GLenum target, GLuint index, GLboolean * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDMULTITEXIMAGEEXTPROC)(GLenum texunit, GLenum target, GLint lod, GLvoid * img);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDTEXTUREIMAGEEXTPROC)(GLuint texture, GLenum target, GLint lod, GLvoid * img);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETDOUBLEINDEXEDVEXTPROC)(GLenum target, GLuint index, GLdouble * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETDOUBLEI_VEXTPROC)(GLenum pname, GLuint index, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFLOATINDEXEDVEXTPROC)(GLenum target, GLuint index, GLfloat * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFLOATI_VEXTPROC)(GLenum pname, GLuint index, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERPARAMETERIVEXTPROC)(GLuint framebuffer, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTEGERINDEXEDVEXTPROC)(GLenum target, GLuint index, GLint * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXENVFVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXENVIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXGENDVEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXGENFVEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXGENIVEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXIMAGEEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXLEVELPARAMETERFVEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXLEVELPARAMETERIVEXTPROC)(GLenum texunit, GLenum target, GLint level, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERIIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERIUIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERFVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERPARAMETERIVEXTPROC)(GLuint buffer, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERPOINTERVEXTPROC)(GLuint buffer, GLenum pname, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERSUBDATAEXTPROC)(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)(GLuint framebuffer, GLenum attachment, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDFRAMEBUFFERPARAMETERIVEXTPROC)(GLuint framebuffer, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERIIVEXTPROC)(GLuint program, GLenum target, GLuint index, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERIUIVEXTPROC)(GLuint program, GLenum target, GLuint index, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERDVEXTPROC)(GLuint program, GLenum target, GLuint index, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERFVEXTPROC)(GLuint program, GLenum target, GLuint index, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMSTRINGEXTPROC)(GLuint program, GLenum target, GLenum pname, GLvoid * string);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMIVEXTPROC)(GLuint program, GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDRENDERBUFFERPARAMETERIVEXTPROC)(GLuint renderbuffer, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPOINTERINDEXEDVEXTPROC)(GLenum target, GLuint index, GLvoid ** data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPOINTERI_VEXTPROC)(GLenum pname, GLuint index, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXTUREIMAGEEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXTURELEVELPARAMETERFVEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXTURELEVELPARAMETERIVEXTPROC)(GLuint texture, GLenum target, GLint level, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERIIVEXTPROC)(GLuint texture, GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERIUIVEXTPROC)(GLuint texture, GLenum target, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERFVEXTPROC)(GLuint texture, GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERIVEXTPROC)(GLuint texture, GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYINTEGERI_VEXTPROC)(GLuint vaobj, GLuint index, GLenum pname, GLint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYINTEGERVEXTPROC)(GLuint vaobj, GLenum pname, GLint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYPOINTERI_VEXTPROC)(GLuint vaobj, GLuint index, GLenum pname, GLvoid ** param);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYPOINTERVEXTPROC)(GLuint vaobj, GLenum pname, GLvoid ** param);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISENABLEDINDEXEDEXTPROC)(GLenum target, GLuint index);
-typedef void * (CODEGEN_FUNCPTR * PFNGLMAPNAMEDBUFFEREXTPROC)(GLuint buffer, GLenum access);
-typedef void * (CODEGEN_FUNCPTR * PFNGLMAPNAMEDBUFFERRANGEEXTPROC)(GLuint buffer, GLintptr offset, GLsizeiptr length, GLbitfield access);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXFRUSTUMEXTPROC)(GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXLOADIDENTITYEXTPROC)(GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXLOADTRANSPOSEDEXTPROC)(GLenum mode, const GLdouble * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXLOADTRANSPOSEFEXTPROC)(GLenum mode, const GLfloat * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXLOADDEXTPROC)(GLenum mode, const GLdouble * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXLOADFEXTPROC)(GLenum mode, const GLfloat * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXMULTTRANSPOSEDEXTPROC)(GLenum mode, const GLdouble * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXMULTTRANSPOSEFEXTPROC)(GLenum mode, const GLfloat * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXMULTDEXTPROC)(GLenum mode, const GLdouble * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXMULTFEXTPROC)(GLenum mode, const GLfloat * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXORTHOEXTPROC)(GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXPOPEXTPROC)(GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXPUSHEXTPROC)(GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXROTATEDEXTPROC)(GLenum mode, GLdouble angle, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXROTATEFEXTPROC)(GLenum mode, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXSCALEDEXTPROC)(GLenum mode, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXSCALEFEXTPROC)(GLenum mode, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXTRANSLATEDEXTPROC)(GLenum mode, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATRIXTRANSLATEFEXTPROC)(GLenum mode, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXBUFFEREXTPROC)(GLenum texunit, GLenum target, GLenum internalformat, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDPOINTEREXTPROC)(GLenum texunit, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXENVFEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXENVFVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXENVIEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXENVIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXGENDEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, GLdouble param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXGENDVEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, const GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXGENFEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXGENFVEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXGENIEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXGENIVEXTPROC)(GLenum texunit, GLenum coord, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXIMAGE1DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXIMAGE2DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXIMAGE3DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIUIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERFEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERFVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIEXTPROC)(GLenum texunit, GLenum target, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIVEXTPROC)(GLenum texunit, GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXRENDERBUFFEREXTPROC)(GLenum texunit, GLenum target, GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXSUBIMAGE1DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXSUBIMAGE2DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXSUBIMAGE3DEXTPROC)(GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDBUFFERDATAEXTPROC)(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDBUFFERSUBDATAEXTPROC)(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDCOPYBUFFERSUBDATAEXTPROC)(GLuint readBuffer, GLuint writeBuffer, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERPARAMETERIEXTPROC)(GLuint framebuffer, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERRENDERBUFFEREXTPROC)(GLuint framebuffer, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURE1DEXTPROC)(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURE2DEXTPROC)(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURE3DEXTPROC)(GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTUREEXTPROC)(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTUREFACEEXTPROC)(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLenum face);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURELAYEREXTPROC)(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLint layer);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4DEXTPROC)(GLuint program, GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4DVEXTPROC)(GLuint program, GLenum target, GLuint index, const GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4FEXTPROC)(GLuint program, GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4FVEXTPROC)(GLuint program, GLenum target, GLuint index, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4IEXTPROC)(GLuint program, GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4IVEXTPROC)(GLuint program, GLenum target, GLuint index, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4UIEXTPROC)(GLuint program, GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4UIVEXTPROC)(GLuint program, GLenum target, GLuint index, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERS4FVEXTPROC)(GLuint program, GLenum target, GLuint index, GLsizei count, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC)(GLuint program, GLenum target, GLuint index, GLsizei count, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERSI4UIVEXTPROC)(GLuint program, GLenum target, GLuint index, GLsizei count, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMSTRINGEXTPROC)(GLuint program, GLenum target, GLenum format, GLsizei len, const GLvoid * string);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDRENDERBUFFERSTORAGEEXTPROC)(GLuint renderbuffer, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLECOVERAGEEXTPROC)(GLuint renderbuffer, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC)(GLuint renderbuffer, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DEXTPROC)(GLuint program, GLint location, GLdouble x);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FEXTPROC)(GLuint program, GLint location, GLfloat v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IEXTPROC)(GLuint program, GLint location, GLint v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIEXTPROC)(GLuint program, GLint location, GLuint v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DEXTPROC)(GLuint program, GLint location, GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FEXTPROC)(GLuint program, GLint location, GLfloat v0, GLfloat v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IEXTPROC)(GLuint program, GLint location, GLint v0, GLint v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIEXTPROC)(GLuint program, GLint location, GLuint v0, GLuint v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DEXTPROC)(GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FEXTPROC)(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IEXTPROC)(GLuint program, GLint location, GLint v0, GLint v1, GLint v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIEXTPROC)(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DEXTPROC)(GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FEXTPROC)(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IEXTPROC)(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIEXTPROC)(GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIVEXTPROC)(GLuint program, GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3DVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3FVEXTPROC)(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPUSHCLIENTATTRIBDEFAULTEXTPROC)(GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREBUFFEREXTPROC)(GLuint texture, GLenum target, GLenum internalformat, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREBUFFERRANGEEXTPROC)(GLuint texture, GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE1DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE2DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE3DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREPAGECOMMITMENTEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLboolean resident);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIIVEXTPROC)(GLuint texture, GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIUIVEXTPROC)(GLuint texture, GLenum target, GLenum pname, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERFEXTPROC)(GLuint texture, GLenum target, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERFVEXTPROC)(GLuint texture, GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIEXTPROC)(GLuint texture, GLenum target, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIVEXTPROC)(GLuint texture, GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURERENDERBUFFEREXTPROC)(GLuint texture, GLenum target, GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE1DEXTPROC)(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE2DEXTPROC)(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE2DMULTISAMPLEEXTPROC)(GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE3DEXTPROC)(GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE3DMULTISAMPLEEXTPROC)(GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESUBIMAGE1DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESUBIMAGE2DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURESUBIMAGE3DEXTPROC)(GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLUNMAPNAMEDBUFFEREXTPROC)(GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYBINDVERTEXBUFFEREXTPROC)(GLuint vaobj, GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYCOLOROFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYEDGEFLAGOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYFOGCOORDOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYINDEXOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYMULTITEXCOORDOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLenum texunit, GLint size, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYNORMALOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYSECONDARYCOLOROFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYTEXCOORDOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBBINDINGEXTPROC)(GLuint vaobj, GLuint attribindex, GLuint bindingindex);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBFORMATEXTPROC)(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBIFORMATEXTPROC)(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBIOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBLFORMATEXTPROC)(GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBLOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXBINDINGDIVISOREXTPROC)(GLuint vaobj, GLuint bindingindex, GLuint divisor);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXOFFSETEXTPROC)(GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDMULTITEXTUREEXTPROC ) ( GLenum texunit, GLenum target, GLuint texture );
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLCHECKNAMEDFRAMEBUFFERSTATUSEXTPROC ) ( GLuint framebuffer, GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARNAMEDBUFFERDATAEXTPROC ) ( GLuint buffer, GLenum internalformat, GLenum format, GLenum type, const void * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARNAMEDBUFFERSUBDATAEXTPROC ) ( GLuint buffer, GLenum internalformat, GLenum format, GLenum type, GLsizeiptr offset, GLsizeiptr size, const void * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLIENTATTRIBDEFAULTEXTPROC ) ( GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXIMAGE1DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXIMAGE2DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXSUBIMAGE1DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXSUBIMAGE2DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDMULTITEXSUBIMAGE3DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTUREIMAGE1DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTUREIMAGE2DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTUREIMAGE3DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTURESUBIMAGE1DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTURESUBIMAGE2DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXTURESUBIMAGE3DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * bits );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXIMAGE1DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXIMAGE2DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXSUBIMAGE1DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXSUBIMAGE2DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYMULTITEXSUBIMAGE3DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXTUREIMAGE1DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXTUREIMAGE2DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXTURESUBIMAGE1DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXTURESUBIMAGE2DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXTURESUBIMAGE3DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLECLIENTSTATEINDEXEDEXTPROC ) ( GLenum ren_array, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLECLIENTSTATEIEXTPROC ) ( GLenum ren_array, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLEINDEXEDEXTPROC ) ( GLenum target, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXARRAYATTRIBEXTPROC ) ( GLuint vaobj, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLEVERTEXARRAYEXTPROC ) ( GLuint vaobj, GLenum ren_array );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLECLIENTSTATEINDEXEDEXTPROC ) ( GLenum ren_array, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLECLIENTSTATEIEXTPROC ) ( GLenum ren_array, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLEINDEXEDEXTPROC ) ( GLenum target, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLEVERTEXARRAYATTRIBEXTPROC ) ( GLuint vaobj, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLEVERTEXARRAYEXTPROC ) ( GLuint vaobj, GLenum ren_array );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHMAPPEDNAMEDBUFFERRANGEEXTPROC ) ( GLuint buffer, GLintptr offset, GLsizeiptr length );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERDRAWBUFFEREXTPROC ) ( GLuint framebuffer, GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERDRAWBUFFERSEXTPROC ) ( GLuint framebuffer, GLsizei n, const GLenum * bufs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERREADBUFFEREXTPROC ) ( GLuint framebuffer, GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENERATEMULTITEXMIPMAPEXTPROC ) ( GLenum texunit, GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENERATETEXTUREMIPMAPEXTPROC ) ( GLuint texture, GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBOOLEANINDEXEDVEXTPROC ) ( GLenum target, GLuint index, GLboolean * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDMULTITEXIMAGEEXTPROC ) ( GLenum texunit, GLenum target, GLint lod, GLvoid * img );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDTEXTUREIMAGEEXTPROC ) ( GLuint texture, GLenum target, GLint lod, GLvoid * img );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETDOUBLEINDEXEDVEXTPROC ) ( GLenum target, GLuint index, GLdouble * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETDOUBLEI_VEXTPROC ) ( GLenum pname, GLuint index, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFLOATINDEXEDVEXTPROC ) ( GLenum target, GLuint index, GLfloat * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFLOATI_VEXTPROC ) ( GLenum pname, GLuint index, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERPARAMETERIVEXTPROC ) ( GLuint framebuffer, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTEGERINDEXEDVEXTPROC ) ( GLenum target, GLuint index, GLint * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXENVFVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXENVIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXGENDVEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXGENFVEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXGENIVEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXIMAGEEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXLEVELPARAMETERFVEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXLEVELPARAMETERIVEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERIIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERIUIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERFVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTITEXPARAMETERIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERPARAMETERIVEXTPROC ) ( GLuint buffer, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERPOINTERVEXTPROC ) ( GLuint buffer, GLenum pname, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERSUBDATAEXTPROC ) ( GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC ) ( GLuint framebuffer, GLenum attachment, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDFRAMEBUFFERPARAMETERIVEXTPROC ) ( GLuint framebuffer, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERIIVEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERIUIVEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERDVEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMLOCALPARAMETERFVEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMSTRINGEXTPROC ) ( GLuint program, GLenum target, GLenum pname, GLvoid * string );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDPROGRAMIVEXTPROC ) ( GLuint program, GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDRENDERBUFFERPARAMETERIVEXTPROC ) ( GLuint renderbuffer, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPOINTERINDEXEDVEXTPROC ) ( GLenum target, GLuint index, GLvoid ** data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPOINTERI_VEXTPROC ) ( GLenum pname, GLuint index, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXTUREIMAGEEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXTURELEVELPARAMETERFVEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXTURELEVELPARAMETERIVEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERIIVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERIUIVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERFVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXTUREPARAMETERIVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYINTEGERI_VEXTPROC ) ( GLuint vaobj, GLuint index, GLenum pname, GLint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYINTEGERVEXTPROC ) ( GLuint vaobj, GLenum pname, GLint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYPOINTERI_VEXTPROC ) ( GLuint vaobj, GLuint index, GLenum pname, GLvoid ** param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXARRAYPOINTERVEXTPROC ) ( GLuint vaobj, GLenum pname, GLvoid ** param );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISENABLEDINDEXEDEXTPROC ) ( GLenum target, GLuint index );
+typedef void * ( CODEGEN_FUNCPTR * PFNGLMAPNAMEDBUFFEREXTPROC ) ( GLuint buffer, GLenum access );
+typedef void * ( CODEGEN_FUNCPTR * PFNGLMAPNAMEDBUFFERRANGEEXTPROC ) ( GLuint buffer, GLintptr offset, GLsizeiptr length, GLbitfield access );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXFRUSTUMEXTPROC ) ( GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXLOADIDENTITYEXTPROC ) ( GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXLOADTRANSPOSEDEXTPROC ) ( GLenum mode, const GLdouble * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXLOADTRANSPOSEFEXTPROC ) ( GLenum mode, const GLfloat * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXLOADDEXTPROC ) ( GLenum mode, const GLdouble * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXLOADFEXTPROC ) ( GLenum mode, const GLfloat * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXMULTTRANSPOSEDEXTPROC ) ( GLenum mode, const GLdouble * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXMULTTRANSPOSEFEXTPROC ) ( GLenum mode, const GLfloat * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXMULTDEXTPROC ) ( GLenum mode, const GLdouble * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXMULTFEXTPROC ) ( GLenum mode, const GLfloat * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXORTHOEXTPROC ) ( GLenum mode, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXPOPEXTPROC ) ( GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXPUSHEXTPROC ) ( GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXROTATEDEXTPROC ) ( GLenum mode, GLdouble angle, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXROTATEFEXTPROC ) ( GLenum mode, GLfloat angle, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXSCALEDEXTPROC ) ( GLenum mode, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXSCALEFEXTPROC ) ( GLenum mode, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXTRANSLATEDEXTPROC ) ( GLenum mode, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATRIXTRANSLATEFEXTPROC ) ( GLenum mode, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXBUFFEREXTPROC ) ( GLenum texunit, GLenum target, GLenum internalformat, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORDPOINTEREXTPROC ) ( GLenum texunit, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXENVFEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXENVFVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXENVIEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXENVIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXGENDEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, GLdouble param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXGENDVEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, const GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXGENFEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXGENFVEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXGENIEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXGENIVEXTPROC ) ( GLenum texunit, GLenum coord, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXIMAGE1DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXIMAGE2DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXIMAGE3DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIUIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERFEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERFVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXPARAMETERIVEXTPROC ) ( GLenum texunit, GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXRENDERBUFFEREXTPROC ) ( GLenum texunit, GLenum target, GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXSUBIMAGE1DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXSUBIMAGE2DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXSUBIMAGE3DEXTPROC ) ( GLenum texunit, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDBUFFERDATAEXTPROC ) ( GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDBUFFERSUBDATAEXTPROC ) ( GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDCOPYBUFFERSUBDATAEXTPROC ) ( GLuint readBuffer, GLuint writeBuffer, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERPARAMETERIEXTPROC ) ( GLuint framebuffer, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERRENDERBUFFEREXTPROC ) ( GLuint framebuffer, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURE1DEXTPROC ) ( GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURE2DEXTPROC ) ( GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURE3DEXTPROC ) ( GLuint framebuffer, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTUREEXTPROC ) ( GLuint framebuffer, GLenum attachment, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTUREFACEEXTPROC ) ( GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLenum face );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDFRAMEBUFFERTEXTURELAYEREXTPROC ) ( GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLint layer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4DEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4DVEXTPROC ) ( GLuint program, GLenum target, GLuint index, const GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4FEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETER4FVEXTPROC ) ( GLuint program, GLenum target, GLuint index, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4IEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4IVEXTPROC ) ( GLuint program, GLenum target, GLuint index, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4UIEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERI4UIVEXTPROC ) ( GLuint program, GLenum target, GLuint index, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERS4FVEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLsizei count, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLsizei count, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMLOCALPARAMETERSI4UIVEXTPROC ) ( GLuint program, GLenum target, GLuint index, GLsizei count, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDPROGRAMSTRINGEXTPROC ) ( GLuint program, GLenum target, GLenum format, GLsizei len, const GLvoid * string );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDRENDERBUFFERSTORAGEEXTPROC ) ( GLuint renderbuffer, GLenum internalformat, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLECOVERAGEEXTPROC ) ( GLuint renderbuffer, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNAMEDRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC ) ( GLuint renderbuffer, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DEXTPROC ) ( GLuint program, GLint location, GLdouble x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FEXTPROC ) ( GLuint program, GLint location, GLfloat v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IEXTPROC ) ( GLuint program, GLint location, GLint v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1IVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIEXTPROC ) ( GLuint program, GLint location, GLuint v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UIVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DEXTPROC ) ( GLuint program, GLint location, GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FEXTPROC ) ( GLuint program, GLint location, GLfloat v0, GLfloat v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IEXTPROC ) ( GLuint program, GLint location, GLint v0, GLint v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2IVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIEXTPROC ) ( GLuint program, GLint location, GLuint v0, GLuint v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UIVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DEXTPROC ) ( GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FEXTPROC ) ( GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IEXTPROC ) ( GLuint program, GLint location, GLint v0, GLint v1, GLint v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3IVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIEXTPROC ) ( GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UIVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DEXTPROC ) ( GLuint program, GLint location, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FEXTPROC ) ( GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IEXTPROC ) ( GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4IVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIEXTPROC ) ( GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UIVEXTPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X3FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX2X4FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX3X4FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X2FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3DVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLdouble * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMMATRIX4X3FVEXTPROC ) ( GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPUSHCLIENTATTRIBDEFAULTEXTPROC ) ( GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREBUFFEREXTPROC ) ( GLuint texture, GLenum target, GLenum internalformat, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREBUFFERRANGEEXTPROC ) ( GLuint texture, GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE1DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE2DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE3DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREPAGECOMMITMENTEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLboolean resident );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIIVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIUIVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERFEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERFVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREPARAMETERIVEXTPROC ) ( GLuint texture, GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURERENDERBUFFEREXTPROC ) ( GLuint texture, GLenum target, GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE1DEXTPROC ) ( GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE2DEXTPROC ) ( GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE2DMULTISAMPLEEXTPROC ) ( GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE3DEXTPROC ) ( GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESTORAGE3DMULTISAMPLEEXTPROC ) ( GLuint texture, GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESUBIMAGE1DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESUBIMAGE2DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURESUBIMAGE3DEXTPROC ) ( GLuint texture, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLUNMAPNAMEDBUFFEREXTPROC ) ( GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYBINDVERTEXBUFFEREXTPROC ) ( GLuint vaobj, GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYCOLOROFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYEDGEFLAGOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYFOGCOORDOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYINDEXOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYMULTITEXCOORDOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLenum texunit, GLint size, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYNORMALOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYSECONDARYCOLOROFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYTEXCOORDOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBBINDINGEXTPROC ) ( GLuint vaobj, GLuint attribindex, GLuint bindingindex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBFORMATEXTPROC ) ( GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBIFORMATEXTPROC ) ( GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBIOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBLFORMATEXTPROC ) ( GLuint vaobj, GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBLOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXATTRIBOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXBINDINGDIVISOREXTPROC ) ( GLuint vaobj, GLuint bindingindex, GLuint divisor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYVERTEXOFFSETEXTPROC ) ( GLuint vaobj, GLuint buffer, GLint size, GLenum type, GLsizei stride, GLintptr offset );
 
 extern PFNGLBINDMULTITEXTUREEXTPROC _funcptr_glBindMultiTextureEXT;
 #define glBindMultiTextureEXT _funcptr_glBindMultiTextureEXT
@@ -5907,12 +5907,12 @@ extern PFNGLVERTEXARRAYVERTEXBINDINGDIVISOREXTPROC _funcptr_glVertexArrayVertexB
 extern PFNGLVERTEXARRAYVERTEXOFFSETEXTPROC _funcptr_glVertexArrayVertexOffsetEXT;
 #define glVertexArrayVertexOffsetEXT _funcptr_glVertexArrayVertexOffsetEXT
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORMASKINDEXEDEXTPROC)(GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLEINDEXEDEXTPROC)(GLenum target, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLEINDEXEDEXTPROC)(GLenum target, GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBOOLEANINDEXEDVEXTPROC)(GLenum target, GLuint index, GLboolean * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTEGERINDEXEDVEXTPROC)(GLenum target, GLuint index, GLint * data);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISENABLEDINDEXEDEXTPROC)(GLenum target, GLuint index);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORMASKINDEXEDEXTPROC ) ( GLuint index, GLboolean r, GLboolean g, GLboolean b, GLboolean a );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLEINDEXEDEXTPROC ) ( GLenum target, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLEINDEXEDEXTPROC ) ( GLenum target, GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBOOLEANINDEXEDVEXTPROC ) ( GLenum target, GLuint index, GLboolean * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTEGERINDEXEDVEXTPROC ) ( GLenum target, GLuint index, GLint * data );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISENABLEDINDEXEDEXTPROC ) ( GLenum target, GLuint index );
 
 extern PFNGLCOLORMASKINDEXEDEXTPROC _funcptr_glColorMaskIndexedEXT;
 #define glColorMaskIndexedEXT _funcptr_glColorMaskIndexedEXT
@@ -5927,8 +5927,8 @@ extern PFNGLGETINTEGERINDEXEDVEXTPROC _funcptr_glGetIntegerIndexedvEXT;
 extern PFNGLISENABLEDINDEXEDEXTPROC _funcptr_glIsEnabledIndexedEXT;
 #define glIsEnabledIndexedEXT _funcptr_glIsEnabledIndexedEXT
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINSTANCEDEXTPROC)(GLenum mode, GLint start, GLsizei count, GLsizei primcount);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDEXTPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWARRAYSINSTANCEDEXTPROC ) ( GLenum mode, GLint start, GLsizei count, GLsizei primcount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDEXTPROC ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount );
 
 extern PFNGLDRAWARRAYSINSTANCEDEXTPROC _funcptr_glDrawArraysInstancedEXT;
 #define glDrawArraysInstancedEXT _funcptr_glDrawArraysInstancedEXT
@@ -5938,7 +5938,7 @@ extern PFNGLDRAWELEMENTSINSTANCEDEXTPROC _funcptr_glDrawElementsInstancedEXT;
 #define GL_MAX_ELEMENTS_INDICES_EXT 0x80E9
 #define GL_MAX_ELEMENTS_VERTICES_EXT 0x80E8
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSEXTPROC)(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSEXTPROC ) ( GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices );
 
 extern PFNGLDRAWRANGEELEMENTSEXTPROC _funcptr_glDrawRangeElementsEXT;
 #define glDrawRangeElementsEXT _funcptr_glDrawRangeElementsEXT
@@ -5952,11 +5952,11 @@ extern PFNGLDRAWRANGEELEMENTSEXTPROC _funcptr_glDrawRangeElementsEXT;
 #define GL_FOG_COORDINATE_SOURCE_EXT 0x8450
 #define GL_FRAGMENT_DEPTH_EXT 0x8452
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDPOINTEREXTPROC)(GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDDEXTPROC)(GLdouble coord);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDDVEXTPROC)(const GLdouble * coord);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDFEXTPROC)(GLfloat coord);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDFVEXTPROC)(const GLfloat * coord);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDPOINTEREXTPROC ) ( GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDDEXTPROC ) ( GLdouble coord );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDDVEXTPROC ) ( const GLdouble * coord );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDFEXTPROC ) ( GLfloat coord );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDFVEXTPROC ) ( const GLfloat * coord );
 
 extern PFNGLFOGCOORDPOINTEREXTPROC _funcptr_glFogCoordPointerEXT;
 #define glFogCoordPointerEXT _funcptr_glFogCoordPointerEXT
@@ -5974,7 +5974,7 @@ extern PFNGLFOGCOORDFVEXTPROC _funcptr_glFogCoordfvEXT;
 #define GL_READ_FRAMEBUFFER_BINDING_EXT 0x8CAA
 #define GL_READ_FRAMEBUFFER_EXT 0x8CA8
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLITFRAMEBUFFEREXTPROC)(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLITFRAMEBUFFEREXTPROC ) ( GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter );
 
 extern PFNGLBLITFRAMEBUFFEREXTPROC _funcptr_glBlitFramebufferEXT;
 #define glBlitFramebufferEXT _funcptr_glBlitFramebufferEXT
@@ -5983,7 +5983,7 @@ extern PFNGLBLITFRAMEBUFFEREXTPROC _funcptr_glBlitFramebufferEXT;
 #define GL_MAX_SAMPLES_EXT 0x8D57
 #define GL_RENDERBUFFER_SAMPLES_EXT 0x8CAB
 
-typedef void (CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC)(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void ( CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC ) ( GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height );
 
 extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC _funcptr_glRenderbufferStorageMultisampleEXT;
 #define glRenderbufferStorageMultisampleEXT _funcptr_glRenderbufferStorageMultisampleEXT
@@ -6043,23 +6043,23 @@ extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC _funcptr_glRenderbufferStorage
 #define GL_STENCIL_INDEX4_EXT 0x8D47
 #define GL_STENCIL_INDEX8_EXT 0x8D48
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDFRAMEBUFFEREXTPROC)(GLenum target, GLuint framebuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDRENDERBUFFEREXTPROC)(GLenum target, GLuint renderbuffer);
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEFRAMEBUFFERSEXTPROC)(GLsizei n, const GLuint * framebuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETERENDERBUFFERSEXTPROC)(GLsizei n, const GLuint * renderbuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC)(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE1DEXTPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE3DEXTPROC)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENFRAMEBUFFERSEXTPROC)(GLsizei n, GLuint * framebuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENRENDERBUFFERSEXTPROC)(GLsizei n, GLuint * renderbuffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENERATEMIPMAPEXTPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)(GLenum target, GLenum attachment, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC)(GLenum target, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISFRAMEBUFFEREXTPROC)(GLuint framebuffer);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISRENDERBUFFEREXTPROC)(GLuint renderbuffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEEXTPROC)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDFRAMEBUFFEREXTPROC ) ( GLenum target, GLuint framebuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDRENDERBUFFEREXTPROC ) ( GLenum target, GLuint renderbuffer );
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEFRAMEBUFFERSEXTPROC ) ( GLsizei n, const GLuint * framebuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETERENDERBUFFERSEXTPROC ) ( GLsizei n, const GLuint * renderbuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC ) ( GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE1DEXTPROC ) ( GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE2DEXTPROC ) ( GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURE3DEXTPROC ) ( GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENFRAMEBUFFERSEXTPROC ) ( GLsizei n, GLuint * framebuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENRENDERBUFFERSEXTPROC ) ( GLsizei n, GLuint * renderbuffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENERATEMIPMAPEXTPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC ) ( GLenum target, GLenum attachment, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISFRAMEBUFFEREXTPROC ) ( GLuint framebuffer );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISRENDERBUFFEREXTPROC ) ( GLuint renderbuffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEEXTPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLsizei height );
 
 extern PFNGLBINDFRAMEBUFFEREXTPROC _funcptr_glBindFramebufferEXT;
 #define glBindFramebufferEXT _funcptr_glBindFramebufferEXT
@@ -6120,13 +6120,13 @@ extern PFNGLRENDERBUFFERSTORAGEEXTPROC _funcptr_glRenderbufferStorageEXT;
 #define GL_TRIANGLES_ADJACENCY_EXT 0x000C
 #define GL_TRIANGLE_STRIP_ADJACENCY_EXT 0x000D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERIEXTPROC)(GLuint program, GLenum pname, GLint value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERIEXTPROC ) ( GLuint program, GLenum pname, GLint value );
 
 extern PFNGLPROGRAMPARAMETERIEXTPROC _funcptr_glProgramParameteriEXT;
 #define glProgramParameteriEXT _funcptr_glProgramParameteriEXT
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERS4FVEXTPROC)(GLenum target, GLuint index, GLsizei count, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERS4FVEXTPROC)(GLenum target, GLuint index, GLsizei count, const GLfloat * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERS4FVEXTPROC ) ( GLenum target, GLuint index, GLsizei count, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERS4FVEXTPROC ) ( GLenum target, GLuint index, GLsizei count, const GLfloat * params );
 
 extern PFNGLPROGRAMENVPARAMETERS4FVEXTPROC _funcptr_glProgramEnvParameters4fvEXT;
 #define glProgramEnvParameters4fvEXT _funcptr_glProgramEnvParameters4fvEXT
@@ -6162,17 +6162,17 @@ extern PFNGLPROGRAMLOCALPARAMETERS4FVEXTPROC _funcptr_glProgramLocalParameters4f
 #define GL_UNSIGNED_INT_VEC4_EXT 0x8DC8
 #define GL_VERTEX_ATTRIB_ARRAY_INTEGER_EXT 0x88FD
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDFRAGDATALOCATIONEXTPROC)(GLuint program, GLuint color, const GLchar * name);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETFRAGDATALOCATIONEXTPROC)(GLuint program, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMUIVEXTPROC)(GLuint program, GLint location, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1UIEXTPROC)(GLint location, GLuint v0);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1UIVEXTPROC)(GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2UIEXTPROC)(GLint location, GLuint v0, GLuint v1);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2UIVEXTPROC)(GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3UIEXTPROC)(GLint location, GLuint v0, GLuint v1, GLuint v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3UIVEXTPROC)(GLint location, GLsizei count, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4UIEXTPROC)(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4UIVEXTPROC)(GLint location, GLsizei count, const GLuint * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDFRAGDATALOCATIONEXTPROC ) ( GLuint program, GLuint color, const GLchar * name );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETFRAGDATALOCATIONEXTPROC ) ( GLuint program, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMUIVEXTPROC ) ( GLuint program, GLint location, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1UIEXTPROC ) ( GLint location, GLuint v0 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1UIVEXTPROC ) ( GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2UIEXTPROC ) ( GLint location, GLuint v0, GLuint v1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2UIVEXTPROC ) ( GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3UIEXTPROC ) ( GLint location, GLuint v0, GLuint v1, GLuint v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3UIVEXTPROC ) ( GLint location, GLsizei count, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4UIEXTPROC ) ( GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4UIVEXTPROC ) ( GLint location, GLsizei count, const GLuint * value );
 
 extern PFNGLBINDFRAGDATALOCATIONEXTPROC _funcptr_glBindFragDataLocationEXT;
 #define glBindFragDataLocationEXT _funcptr_glBindFragDataLocationEXT
@@ -6212,16 +6212,16 @@ extern PFNGLUNIFORM4UIVEXTPROC _funcptr_glUniform4uivEXT;
 #define GL_PROXY_HISTOGRAM_EXT 0x8025
 #define GL_TABLE_TOO_LARGE_EXT 0x8031
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMEXTPROC)(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERFVEXTPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERIVEXTPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMINMAXEXTPROC)(GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERFVEXTPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERIVEXTPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLHISTOGRAMEXTPROC)(GLenum target, GLsizei width, GLenum internalformat, GLboolean sink);
-typedef void (CODEGEN_FUNCPTR * PFNGLMINMAXEXTPROC)(GLenum target, GLenum internalformat, GLboolean sink);
-typedef void (CODEGEN_FUNCPTR * PFNGLRESETHISTOGRAMEXTPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLRESETMINMAXEXTPROC)(GLenum target);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMEXTPROC ) ( GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERFVEXTPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMINMAXEXTPROC ) ( GLenum target, GLboolean reset, GLenum format, GLenum type, GLvoid * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERFVEXTPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMINMAXPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLHISTOGRAMEXTPROC ) ( GLenum target, GLsizei width, GLenum internalformat, GLboolean sink );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMINMAXEXTPROC ) ( GLenum target, GLenum internalformat, GLboolean sink );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRESETHISTOGRAMEXTPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRESETMINMAXEXTPROC ) ( GLenum target );
 
 extern PFNGLGETHISTOGRAMEXTPROC _funcptr_glGetHistogramEXT;
 #define glGetHistogramEXT _funcptr_glGetHistogramEXT
@@ -6257,7 +6257,7 @@ extern PFNGLRESETMINMAXEXTPROC _funcptr_glResetMinmaxEXT;
 #define GL_INDEX_TEST_FUNC_EXT 0x81B6
 #define GL_INDEX_TEST_REF_EXT 0x81B7
 
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXFUNCEXTPROC)(GLenum func, GLclampf ref);
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXFUNCEXTPROC ) ( GLenum func, GLclampf ref );
 
 extern PFNGLINDEXFUNCEXTPROC _funcptr_glIndexFuncEXT;
 #define glIndexFuncEXT _funcptr_glIndexFuncEXT
@@ -6266,7 +6266,7 @@ extern PFNGLINDEXFUNCEXTPROC _funcptr_glIndexFuncEXT;
 #define GL_INDEX_MATERIAL_FACE_EXT 0x81BA
 #define GL_INDEX_MATERIAL_PARAMETER_EXT 0x81B9
 
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXMATERIALEXTPROC)(GLenum face, GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXMATERIALEXTPROC ) ( GLenum face, GLenum mode );
 
 extern PFNGLINDEXMATERIALEXTPROC _funcptr_glIndexMaterialEXT;
 #define glIndexMaterialEXT _funcptr_glIndexMaterialEXT
@@ -6282,9 +6282,9 @@ extern PFNGLINDEXMATERIALEXTPROC _funcptr_glIndexMaterialEXT;
 #define GL_TEXTURE_MATERIAL_FACE_EXT 0x8351
 #define GL_TEXTURE_MATERIAL_PARAMETER_EXT 0x8352
 
-typedef void (CODEGEN_FUNCPTR * PFNGLAPPLYTEXTUREEXTPROC)(GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURELIGHTEXTPROC)(GLenum pname);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREMATERIALEXTPROC)(GLenum face, GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLAPPLYTEXTUREEXTPROC ) ( GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURELIGHTEXTPROC ) ( GLenum pname );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREMATERIALEXTPROC ) ( GLenum face, GLenum mode );
 
 extern PFNGLAPPLYTEXTUREEXTPROC _funcptr_glApplyTextureEXT;
 #define glApplyTextureEXT _funcptr_glApplyTextureEXT
@@ -6293,8 +6293,8 @@ extern PFNGLTEXTURELIGHTEXTPROC _funcptr_glTextureLightEXT;
 extern PFNGLTEXTUREMATERIALEXTPROC _funcptr_glTextureMaterialEXT;
 #define glTextureMaterialEXT _funcptr_glTextureMaterialEXT
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSEXTPROC)(GLenum mode, const GLint * first, const GLsizei * count, GLsizei primcount);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSEXTPROC)(GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei primcount);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSEXTPROC ) ( GLenum mode, const GLint * first, const GLsizei * count, GLsizei primcount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSEXTPROC ) ( GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei primcount );
 
 extern PFNGLMULTIDRAWARRAYSEXTPROC _funcptr_glMultiDrawArraysEXT;
 #define glMultiDrawArraysEXT _funcptr_glMultiDrawArraysEXT
@@ -6319,8 +6319,8 @@ extern PFNGLMULTIDRAWELEMENTSEXTPROC _funcptr_glMultiDrawElementsEXT;
 #define GL_SAMPLE_MASK_VALUE_EXT 0x80AA
 #define GL_SAMPLE_PATTERN_EXT 0x80AC
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEMASKEXTPROC)(GLclampf value, GLboolean invert);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEPATTERNEXTPROC)(GLenum pattern);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEMASKEXTPROC ) ( GLclampf value, GLboolean invert );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEPATTERNEXTPROC ) ( GLenum pattern );
 
 extern PFNGLSAMPLEMASKEXTPROC _funcptr_glSampleMaskEXT;
 #define glSampleMaskEXT _funcptr_glSampleMaskEXT
@@ -6350,10 +6350,10 @@ extern PFNGLSAMPLEPATTERNEXTPROC _funcptr_glSamplePatternEXT;
 #define GL_COLOR_INDEX8_EXT 0x80E5
 #define GL_TEXTURE_INDEX_SIZE_EXT 0x80ED
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORTABLEEXTPROC)(GLenum target, GLenum internalFormat, GLsizei width, GLenum format, GLenum type, const GLvoid * table);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEEXTPROC)(GLenum target, GLenum format, GLenum type, GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERFVEXTPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERIVEXTPROC)(GLenum target, GLenum pname, GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORTABLEEXTPROC ) ( GLenum target, GLenum internalFormat, GLsizei width, GLenum format, GLenum type, const GLvoid * table );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEEXTPROC ) ( GLenum target, GLenum format, GLenum type, GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERFVEXTPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, GLint * params );
 
 extern PFNGLCOLORTABLEEXTPROC _funcptr_glColorTableEXT;
 #define glColorTableEXT _funcptr_glColorTableEXT
@@ -6379,12 +6379,12 @@ extern PFNGLGETCOLORTABLEPARAMETERIVEXTPROC _funcptr_glGetColorTableParameterivE
 #define GL_PIXEL_TRANSFORM_2D_MATRIX_EXT 0x8338
 #define GL_PIXEL_TRANSFORM_2D_STACK_DEPTH_EXT 0x8336
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPIXELTRANSFORMPARAMETERFVEXTPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPIXELTRANSFORMPARAMETERIVEXTPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERFEXTPROC)(GLenum target, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERFVEXTPROC)(GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERIEXTPROC)(GLenum target, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERIVEXTPROC)(GLenum target, GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPIXELTRANSFORMPARAMETERFVEXTPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPIXELTRANSFORMPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERFEXTPROC ) ( GLenum target, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERFVEXTPROC ) ( GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERIEXTPROC ) ( GLenum target, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTRANSFORMPARAMETERIVEXTPROC ) ( GLenum target, GLenum pname, const GLint * params );
 
 extern PFNGLGETPIXELTRANSFORMPARAMETERFVEXTPROC _funcptr_glGetPixelTransformParameterfvEXT;
 #define glGetPixelTransformParameterfvEXT _funcptr_glGetPixelTransformParameterfvEXT
@@ -6404,8 +6404,8 @@ extern PFNGLPIXELTRANSFORMPARAMETERIVEXTPROC _funcptr_glPixelTransformParameteri
 #define GL_POINT_SIZE_MAX_EXT 0x8127
 #define GL_POINT_SIZE_MIN_EXT 0x8126
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFEXTPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVEXTPROC)(GLenum pname, const GLfloat * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFEXTPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVEXTPROC ) ( GLenum pname, const GLfloat * params );
 
 extern PFNGLPOINTPARAMETERFEXTPROC _funcptr_glPointParameterfEXT;
 #define glPointParameterfEXT _funcptr_glPointParameterfEXT
@@ -6416,7 +6416,7 @@ extern PFNGLPOINTPARAMETERFVEXTPROC _funcptr_glPointParameterfvEXT;
 #define GL_POLYGON_OFFSET_EXT 0x8037
 #define GL_POLYGON_OFFSET_FACTOR_EXT 0x8038
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPOLYGONOFFSETEXTPROC)(GLfloat factor, GLfloat bias);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOLYGONOFFSETEXTPROC ) ( GLfloat factor, GLfloat bias );
 
 extern PFNGLPOLYGONOFFSETEXTPROC _funcptr_glPolygonOffsetEXT;
 #define glPolygonOffsetEXT _funcptr_glPolygonOffsetEXT
@@ -6426,7 +6426,7 @@ extern PFNGLPOLYGONOFFSETEXTPROC _funcptr_glPolygonOffsetEXT;
 #define GL_PROVOKING_VERTEX_EXT 0x8E4F
 #define GL_QUADS_FOLLOW_PROVOKING_VERTEX_CONVENTION_EXT 0x8E4C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPROVOKINGVERTEXEXTPROC)(GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROVOKINGVERTEXEXTPROC ) ( GLenum mode );
 
 extern PFNGLPROVOKINGVERTEXEXTPROC _funcptr_glProvokingVertexEXT;
 #define glProvokingVertexEXT _funcptr_glProvokingVertexEXT
@@ -6441,23 +6441,23 @@ extern PFNGLPROVOKINGVERTEXEXTPROC _funcptr_glProvokingVertexEXT;
 #define GL_SECONDARY_COLOR_ARRAY_STRIDE_EXT 0x845C
 #define GL_SECONDARY_COLOR_ARRAY_TYPE_EXT 0x845B
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3BEXTPROC)(GLbyte red, GLbyte green, GLbyte blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3BVEXTPROC)(const GLbyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3DEXTPROC)(GLdouble red, GLdouble green, GLdouble blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3DVEXTPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3FEXTPROC)(GLfloat red, GLfloat green, GLfloat blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3FVEXTPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3IEXTPROC)(GLint red, GLint green, GLint blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3IVEXTPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3SEXTPROC)(GLshort red, GLshort green, GLshort blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3SVEXTPROC)(const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UBEXTPROC)(GLubyte red, GLubyte green, GLubyte blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UBVEXTPROC)(const GLubyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UIEXTPROC)(GLuint red, GLuint green, GLuint blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UIVEXTPROC)(const GLuint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3USEXTPROC)(GLushort red, GLushort green, GLushort blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3USVEXTPROC)(const GLushort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORPOINTEREXTPROC)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3BEXTPROC ) ( GLbyte red, GLbyte green, GLbyte blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3BVEXTPROC ) ( const GLbyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3DEXTPROC ) ( GLdouble red, GLdouble green, GLdouble blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3DVEXTPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3FEXTPROC ) ( GLfloat red, GLfloat green, GLfloat blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3FVEXTPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3IEXTPROC ) ( GLint red, GLint green, GLint blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3IVEXTPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3SEXTPROC ) ( GLshort red, GLshort green, GLshort blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3SVEXTPROC ) ( const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UBEXTPROC ) ( GLubyte red, GLubyte green, GLubyte blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UBVEXTPROC ) ( const GLubyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UIEXTPROC ) ( GLuint red, GLuint green, GLuint blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3UIVEXTPROC ) ( const GLuint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3USEXTPROC ) ( GLushort red, GLushort green, GLushort blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3USVEXTPROC ) ( const GLushort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORPOINTEREXTPROC ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
 
 extern PFNGLSECONDARYCOLOR3BEXTPROC _funcptr_glSecondaryColor3bEXT;
 #define glSecondaryColor3bEXT _funcptr_glSecondaryColor3bEXT
@@ -6496,9 +6496,9 @@ extern PFNGLSECONDARYCOLORPOINTEREXTPROC _funcptr_glSecondaryColorPointerEXT;
 
 #define GL_ACTIVE_PROGRAM_EXT 0x8B8D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLACTIVEPROGRAMEXTPROC)(GLuint program);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLCREATESHADERPROGRAMEXTPROC)(GLenum type, const GLchar * string);
-typedef void (CODEGEN_FUNCPTR * PFNGLUSESHADERPROGRAMEXTPROC)(GLenum type, GLuint program);
+typedef void ( CODEGEN_FUNCPTR * PFNGLACTIVEPROGRAMEXTPROC ) ( GLuint program );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLCREATESHADERPROGRAMEXTPROC ) ( GLenum type, const GLchar * string );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUSESHADERPROGRAMEXTPROC ) ( GLenum type, GLuint program );
 
 extern PFNGLACTIVEPROGRAMEXTPROC _funcptr_glActiveProgramEXT;
 #define glActiveProgramEXT _funcptr_glActiveProgramEXT
@@ -6567,8 +6567,8 @@ extern PFNGLUSESHADERPROGRAMEXTPROC _funcptr_glUseShaderProgramEXT;
 #define GL_UNSIGNED_INT_IMAGE_CUBE_MAP_ARRAY_EXT 0x906A
 #define GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT_EXT 0x00000001
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDIMAGETEXTUREEXTPROC)(GLuint index, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLint format);
-typedef void (CODEGEN_FUNCPTR * PFNGLMEMORYBARRIEREXTPROC)(GLbitfield barriers);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDIMAGETEXTUREEXTPROC ) ( GLuint index, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLint format );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMEMORYBARRIEREXTPROC ) ( GLbitfield barriers );
 
 extern PFNGLBINDIMAGETEXTUREEXTPROC _funcptr_glBindImageTextureEXT;
 #define glBindImageTextureEXT _funcptr_glBindImageTextureEXT
@@ -6580,7 +6580,7 @@ extern PFNGLMEMORYBARRIEREXTPROC _funcptr_glMemoryBarrierEXT;
 #define GL_STENCIL_CLEAR_TAG_VALUE_EXT 0x88F3
 #define GL_STENCIL_TAG_BITS_EXT 0x88F2
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILCLEARTAGEXTPROC)(GLsizei stencilTagBits, GLuint stencilClearTag);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILCLEARTAGEXTPROC ) ( GLsizei stencilTagBits, GLuint stencilClearTag );
 
 extern PFNGLSTENCILCLEARTAGEXTPROC _funcptr_glStencilClearTagEXT;
 #define glStencilClearTagEXT _funcptr_glStencilClearTagEXT
@@ -6588,7 +6588,7 @@ extern PFNGLSTENCILCLEARTAGEXTPROC _funcptr_glStencilClearTagEXT;
 #define GL_ACTIVE_STENCIL_FACE_EXT 0x8911
 #define GL_STENCIL_TEST_TWO_SIDE_EXT 0x8910
 
-typedef void (CODEGEN_FUNCPTR * PFNGLACTIVESTENCILFACEEXTPROC)(GLenum face);
+typedef void ( CODEGEN_FUNCPTR * PFNGLACTIVESTENCILFACEEXTPROC ) ( GLenum face );
 
 extern PFNGLACTIVESTENCILFACEEXTPROC _funcptr_glActiveStencilFaceEXT;
 #define glActiveStencilFaceEXT _funcptr_glActiveStencilFaceEXT
@@ -6596,8 +6596,8 @@ extern PFNGLACTIVESTENCILFACEEXTPROC _funcptr_glActiveStencilFaceEXT;
 #define GL_DECR_WRAP_EXT 0x8508
 #define GL_INCR_WRAP_EXT 0x8507
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE1DEXTPROC)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE2DEXTPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE1DEXTPROC ) ( GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE2DEXTPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels );
 
 extern PFNGLTEXSUBIMAGE1DEXTPROC _funcptr_glTexSubImage1DEXT;
 #define glTexSubImage1DEXT _funcptr_glTexSubImage1DEXT
@@ -6658,8 +6658,8 @@ extern PFNGLTEXSUBIMAGE2DEXTPROC _funcptr_glTexSubImage2DEXT;
 #define GL_UNPACK_IMAGE_HEIGHT_EXT 0x806E
 #define GL_UNPACK_SKIP_IMAGES_EXT 0x806D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DEXTPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE3DEXTPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DEXTPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE3DEXTPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels );
 
 extern PFNGLTEXIMAGE3DEXTPROC _funcptr_glTexImage3DEXT;
 #define glTexImage3DEXT _funcptr_glTexImage3DEXT
@@ -6682,7 +6682,7 @@ extern PFNGLTEXSUBIMAGE3DEXTPROC _funcptr_glTexSubImage3DEXT;
 #define GL_TEXTURE_BUFFER_EXT 0x8C2A
 #define GL_TEXTURE_BUFFER_FORMAT_EXT 0x8C2E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXBUFFEREXTPROC)(GLenum target, GLenum internalformat, GLuint buffer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXBUFFEREXTPROC ) ( GLenum target, GLenum internalformat, GLuint buffer );
 
 extern PFNGLTEXBUFFEREXTPROC _funcptr_glTexBufferEXT;
 #define glTexBufferEXT _funcptr_glTexBufferEXT
@@ -6791,12 +6791,12 @@ extern PFNGLTEXBUFFEREXTPROC _funcptr_glTexBufferEXT;
 #define GL_RGBA_INTEGER_MODE_EXT 0x8D9E
 #define GL_RGB_INTEGER_EXT 0x8D98
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARCOLORIIEXTPROC)(GLint red, GLint green, GLint blue, GLint alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARCOLORIUIEXTPROC)(GLuint red, GLuint green, GLuint blue, GLuint alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERIIVEXTPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERIUIVEXTPROC)(GLenum target, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXPARAMETERIIVEXTPROC)(GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXPARAMETERIUIVEXTPROC)(GLenum target, GLenum pname, const GLuint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARCOLORIIEXTPROC ) ( GLint red, GLint green, GLint blue, GLint alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARCOLORIUIEXTPROC ) ( GLuint red, GLuint green, GLuint blue, GLuint alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERIIVEXTPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERIUIVEXTPROC ) ( GLenum target, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXPARAMETERIIVEXTPROC ) ( GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXPARAMETERIUIVEXTPROC ) ( GLenum target, GLenum pname, const GLuint * params );
 
 extern PFNGLCLEARCOLORIIEXTPROC _funcptr_glClearColorIiEXT;
 #define glClearColorIiEXT _funcptr_glClearColorIiEXT
@@ -6825,12 +6825,12 @@ extern PFNGLTEXPARAMETERIUIVEXTPROC _funcptr_glTexParameterIuivEXT;
 #define GL_TEXTURE_PRIORITY_EXT 0x8066
 #define GL_TEXTURE_RESIDENT_EXT 0x8067
 
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLARETEXTURESRESIDENTEXTPROC)(GLsizei n, const GLuint * textures, GLboolean * residences);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDTEXTUREEXTPROC)(GLenum target, GLuint texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETETEXTURESEXTPROC)(GLsizei n, const GLuint * textures);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENTEXTURESEXTPROC)(GLsizei n, GLuint * textures);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISTEXTUREEXTPROC)(GLuint texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLPRIORITIZETEXTURESEXTPROC)(GLsizei n, const GLuint * textures, const GLclampf * priorities);
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLARETEXTURESRESIDENTEXTPROC ) ( GLsizei n, const GLuint * textures, GLboolean * residences );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDTEXTUREEXTPROC ) ( GLenum target, GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETETEXTURESEXTPROC ) ( GLsizei n, const GLuint * textures );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENTEXTURESEXTPROC ) ( GLsizei n, GLuint * textures );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISTEXTUREEXTPROC ) ( GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPRIORITIZETEXTURESEXTPROC ) ( GLsizei n, const GLuint * textures, const GLclampf * priorities );
 
 extern PFNGLARETEXTURESRESIDENTEXTPROC _funcptr_glAreTexturesResidentEXT;
 #define glAreTexturesResidentEXT _funcptr_glAreTexturesResidentEXT
@@ -6848,7 +6848,7 @@ extern PFNGLPRIORITIZETEXTURESEXTPROC _funcptr_glPrioritizeTexturesEXT;
 #define GL_PERTURB_EXT 0x85AE
 #define GL_TEXTURE_NORMAL_EXT 0x85AF
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURENORMALEXTPROC)(GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURENORMALEXTPROC ) ( GLenum mode );
 
 extern PFNGLTEXTURENORMALEXTPROC _funcptr_glTextureNormalEXT;
 #define glTextureNormalEXT _funcptr_glTextureNormalEXT
@@ -6912,8 +6912,8 @@ extern PFNGLTEXTURENORMALEXTPROC _funcptr_glTextureNormalEXT;
 
 #define GL_TIME_ELAPSED_EXT 0x88BF
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTI64VEXTPROC)(GLuint id, GLenum pname, GLint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUI64VEXTPROC)(GLuint id, GLenum pname, GLuint64 * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTI64VEXTPROC ) ( GLuint id, GLenum pname, GLint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUI64VEXTPROC ) ( GLuint id, GLenum pname, GLuint64 * params );
 
 extern PFNGLGETQUERYOBJECTI64VEXTPROC _funcptr_glGetQueryObjecti64vEXT;
 #define glGetQueryObjecti64vEXT _funcptr_glGetQueryObjecti64vEXT
@@ -6936,13 +6936,13 @@ extern PFNGLGETQUERYOBJECTUI64VEXTPROC _funcptr_glGetQueryObjectui64vEXT;
 #define GL_TRANSFORM_FEEDBACK_VARYINGS_EXT 0x8C83
 #define GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH_EXT 0x8C76
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINTRANSFORMFEEDBACKEXTPROC)(GLenum primitiveMode);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERBASEEXTPROC)(GLenum target, GLuint index, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFEROFFSETEXTPROC)(GLenum target, GLuint index, GLuint buffer, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERRANGEEXTPROC)(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDTRANSFORMFEEDBACKEXTPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTRANSFORMFEEDBACKVARYINGEXTPROC)(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLsizei * size, GLenum * type, GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKVARYINGSEXTPROC)(GLuint program, GLsizei count, const GLchar *const* varyings, GLenum bufferMode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINTRANSFORMFEEDBACKEXTPROC ) ( GLenum primitiveMode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERBASEEXTPROC ) ( GLenum target, GLuint index, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFEROFFSETEXTPROC ) ( GLenum target, GLuint index, GLuint buffer, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERRANGEEXTPROC ) ( GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDTRANSFORMFEEDBACKEXTPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTRANSFORMFEEDBACKVARYINGEXTPROC ) ( GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLsizei * size, GLenum * type, GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKVARYINGSEXTPROC ) ( GLuint program, GLsizei count, const GLchar *const* varyings, GLenum bufferMode );
 
 extern PFNGLBEGINTRANSFORMFEEDBACKEXTPROC _funcptr_glBeginTransformFeedbackEXT;
 #define glBeginTransformFeedbackEXT _funcptr_glBeginTransformFeedbackEXT
@@ -6992,15 +6992,15 @@ extern PFNGLTRANSFORMFEEDBACKVARYINGSEXTPROC _funcptr_glTransformFeedbackVarying
 #define GL_VERTEX_ARRAY_STRIDE_EXT 0x807C
 #define GL_VERTEX_ARRAY_TYPE_EXT 0x807B
 
-typedef void (CODEGEN_FUNCPTR * PFNGLARRAYELEMENTEXTPROC)(GLint i);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORPOINTEREXTPROC)(GLint size, GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWARRAYSEXTPROC)(GLenum mode, GLint first, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * PFNGLEDGEFLAGPOINTEREXTPROC)(GLsizei stride, GLsizei count, const GLboolean * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPOINTERVEXTPROC)(GLenum pname, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXPOINTEREXTPROC)(GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALPOINTEREXTPROC)(GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTEREXTPROC)(GLint size, GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXPOINTEREXTPROC)(GLint size, GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLARRAYELEMENTEXTPROC ) ( GLint i );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORPOINTEREXTPROC ) ( GLint size, GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWARRAYSEXTPROC ) ( GLenum mode, GLint first, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEDGEFLAGPOINTEREXTPROC ) ( GLsizei stride, GLsizei count, const GLboolean * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPOINTERVEXTPROC ) ( GLenum pname, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXPOINTEREXTPROC ) ( GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALPOINTEREXTPROC ) ( GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTEREXTPROC ) ( GLint size, GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXPOINTEREXTPROC ) ( GLint size, GLenum type, GLsizei stride, GLsizei count, const GLvoid * pointer );
 
 extern PFNGLARRAYELEMENTEXTPROC _funcptr_glArrayElementEXT;
 #define glArrayElementEXT _funcptr_glArrayElementEXT
@@ -7037,16 +7037,16 @@ extern PFNGLVERTEXPOINTEREXTPROC _funcptr_glVertexPointerEXT;
 #define GL_DOUBLE_VEC3_EXT 0x8FFD
 #define GL_DOUBLE_VEC4_EXT 0x8FFE
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLDVEXTPROC)(GLuint index, GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DEXTPROC)(GLuint index, GLdouble x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DVEXTPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DEXTPROC)(GLuint index, GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DVEXTPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DEXTPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DVEXTPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DEXTPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DVEXTPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLPOINTEREXTPROC)(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLDVEXTPROC ) ( GLuint index, GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DEXTPROC ) ( GLuint index, GLdouble x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1DVEXTPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DEXTPROC ) ( GLuint index, GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2DVEXTPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DEXTPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3DVEXTPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DEXTPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4DVEXTPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLPOINTEREXTPROC ) ( GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
 
 extern PFNGLGETVERTEXATTRIBLDVEXTPROC _funcptr_glGetVertexAttribLdvEXT;
 #define glGetVertexAttribLdvEXT _funcptr_glGetVertexAttribLdvEXT
@@ -7180,48 +7180,48 @@ extern PFNGLVERTEXATTRIBLPOINTEREXTPROC _funcptr_glVertexAttribLPointerEXT;
 #define GL_ZERO_EXT 0x87DD
 #define GL_Z_EXT 0x87D7
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINVERTEXSHADEREXTPROC)();
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLBINDLIGHTPARAMETEREXTPROC)(GLenum light, GLenum value);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLBINDMATERIALPARAMETEREXTPROC)(GLenum face, GLenum value);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLBINDPARAMETEREXTPROC)(GLenum value);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLBINDTEXGENPARAMETEREXTPROC)(GLenum unit, GLenum coord, GLenum value);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLBINDTEXTUREUNITPARAMETEREXTPROC)(GLenum unit, GLenum value);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDVERTEXSHADEREXTPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEVERTEXSHADEREXTPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLEVARIANTCLIENTSTATEEXTPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLEVARIANTCLIENTSTATEEXTPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDVERTEXSHADEREXTPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLEXTRACTCOMPONENTEXTPROC)(GLuint res, GLuint src, GLuint num);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGENSYMBOLSEXTPROC)(GLenum datatype, GLenum storagetype, GLenum range, GLuint components);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGENVERTEXSHADERSEXTPROC)(GLuint range);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINVARIANTBOOLEANVEXTPROC)(GLuint id, GLenum value, GLboolean * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINVARIANTFLOATVEXTPROC)(GLuint id, GLenum value, GLfloat * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINVARIANTINTEGERVEXTPROC)(GLuint id, GLenum value, GLint * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETLOCALCONSTANTBOOLEANVEXTPROC)(GLuint id, GLenum value, GLboolean * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETLOCALCONSTANTFLOATVEXTPROC)(GLuint id, GLenum value, GLfloat * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETLOCALCONSTANTINTEGERVEXTPROC)(GLuint id, GLenum value, GLint * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVARIANTBOOLEANVEXTPROC)(GLuint id, GLenum value, GLboolean * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVARIANTFLOATVEXTPROC)(GLuint id, GLenum value, GLfloat * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVARIANTINTEGERVEXTPROC)(GLuint id, GLenum value, GLint * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVARIANTPOINTERVEXTPROC)(GLuint id, GLenum value, GLvoid ** data);
-typedef void (CODEGEN_FUNCPTR * PFNGLINSERTCOMPONENTEXTPROC)(GLuint res, GLuint src, GLuint num);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISVARIANTENABLEDEXTPROC)(GLuint id, GLenum cap);
-typedef void (CODEGEN_FUNCPTR * PFNGLSETINVARIANTEXTPROC)(GLuint id, GLenum type, const GLvoid * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLSETLOCALCONSTANTEXTPROC)(GLuint id, GLenum type, const GLvoid * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLSHADEROP1EXTPROC)(GLenum op, GLuint res, GLuint arg1);
-typedef void (CODEGEN_FUNCPTR * PFNGLSHADEROP2EXTPROC)(GLenum op, GLuint res, GLuint arg1, GLuint arg2);
-typedef void (CODEGEN_FUNCPTR * PFNGLSHADEROP3EXTPROC)(GLenum op, GLuint res, GLuint arg1, GLuint arg2, GLuint arg3);
-typedef void (CODEGEN_FUNCPTR * PFNGLSWIZZLEEXTPROC)(GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTPOINTEREXTPROC)(GLuint id, GLenum type, GLuint stride, const GLvoid * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTBVEXTPROC)(GLuint id, const GLbyte * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTDVEXTPROC)(GLuint id, const GLdouble * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTFVEXTPROC)(GLuint id, const GLfloat * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTIVEXTPROC)(GLuint id, const GLint * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTSVEXTPROC)(GLuint id, const GLshort * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTUBVEXTPROC)(GLuint id, const GLubyte * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTUIVEXTPROC)(GLuint id, const GLuint * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLVARIANTUSVEXTPROC)(GLuint id, const GLushort * addr);
-typedef void (CODEGEN_FUNCPTR * PFNGLWRITEMASKEXTPROC)(GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINVERTEXSHADEREXTPROC ) ();
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLBINDLIGHTPARAMETEREXTPROC ) ( GLenum light, GLenum value );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLBINDMATERIALPARAMETEREXTPROC ) ( GLenum face, GLenum value );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLBINDPARAMETEREXTPROC ) ( GLenum value );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLBINDTEXGENPARAMETEREXTPROC ) ( GLenum unit, GLenum coord, GLenum value );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLBINDTEXTUREUNITPARAMETEREXTPROC ) ( GLenum unit, GLenum value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDVERTEXSHADEREXTPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEVERTEXSHADEREXTPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLEVARIANTCLIENTSTATEEXTPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLEVARIANTCLIENTSTATEEXTPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDVERTEXSHADEREXTPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLEXTRACTCOMPONENTEXTPROC ) ( GLuint res, GLuint src, GLuint num );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGENSYMBOLSEXTPROC ) ( GLenum datatype, GLenum storagetype, GLenum range, GLuint components );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGENVERTEXSHADERSEXTPROC ) ( GLuint range );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINVARIANTBOOLEANVEXTPROC ) ( GLuint id, GLenum value, GLboolean * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINVARIANTFLOATVEXTPROC ) ( GLuint id, GLenum value, GLfloat * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINVARIANTINTEGERVEXTPROC ) ( GLuint id, GLenum value, GLint * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETLOCALCONSTANTBOOLEANVEXTPROC ) ( GLuint id, GLenum value, GLboolean * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETLOCALCONSTANTFLOATVEXTPROC ) ( GLuint id, GLenum value, GLfloat * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETLOCALCONSTANTINTEGERVEXTPROC ) ( GLuint id, GLenum value, GLint * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVARIANTBOOLEANVEXTPROC ) ( GLuint id, GLenum value, GLboolean * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVARIANTFLOATVEXTPROC ) ( GLuint id, GLenum value, GLfloat * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVARIANTINTEGERVEXTPROC ) ( GLuint id, GLenum value, GLint * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVARIANTPOINTERVEXTPROC ) ( GLuint id, GLenum value, GLvoid ** data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINSERTCOMPONENTEXTPROC ) ( GLuint res, GLuint src, GLuint num );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISVARIANTENABLEDEXTPROC ) ( GLuint id, GLenum cap );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSETINVARIANTEXTPROC ) ( GLuint id, GLenum type, const GLvoid * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSETLOCALCONSTANTEXTPROC ) ( GLuint id, GLenum type, const GLvoid * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSHADEROP1EXTPROC ) ( GLenum op, GLuint res, GLuint arg1 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSHADEROP2EXTPROC ) ( GLenum op, GLuint res, GLuint arg1, GLuint arg2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSHADEROP3EXTPROC ) ( GLenum op, GLuint res, GLuint arg1, GLuint arg2, GLuint arg3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSWIZZLEEXTPROC ) ( GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTPOINTEREXTPROC ) ( GLuint id, GLenum type, GLuint stride, const GLvoid * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTBVEXTPROC ) ( GLuint id, const GLbyte * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTDVEXTPROC ) ( GLuint id, const GLdouble * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTFVEXTPROC ) ( GLuint id, const GLfloat * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTIVEXTPROC ) ( GLuint id, const GLint * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTSVEXTPROC ) ( GLuint id, const GLshort * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTUBVEXTPROC ) ( GLuint id, const GLubyte * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTUIVEXTPROC ) ( GLuint id, const GLuint * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVARIANTUSVEXTPROC ) ( GLuint id, const GLushort * addr );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWRITEMASKEXTPROC ) ( GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW );
 
 extern PFNGLBEGINVERTEXSHADEREXTPROC _funcptr_glBeginVertexShaderEXT;
 #define glBeginVertexShaderEXT _funcptr_glBeginVertexShaderEXT
@@ -7322,9 +7322,9 @@ extern PFNGLWRITEMASKEXTPROC _funcptr_glWriteMaskEXT;
 #define GL_VERTEX_WEIGHT_ARRAY_STRIDE_EXT 0x850F
 #define GL_VERTEX_WEIGHT_ARRAY_TYPE_EXT 0x850E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTPOINTEREXTPROC)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTFEXTPROC)(GLfloat weight);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTFVEXTPROC)(const GLfloat * weight);
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTPOINTEREXTPROC ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTFEXTPROC ) ( GLfloat weight );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTFVEXTPROC ) ( const GLfloat * weight );
 
 extern PFNGLVERTEXWEIGHTPOINTEREXTPROC _funcptr_glVertexWeightPointerEXT;
 #define glVertexWeightPointerEXT _funcptr_glVertexWeightPointerEXT
@@ -7335,17 +7335,17 @@ extern PFNGLVERTEXWEIGHTFVEXTPROC _funcptr_glVertexWeightfvEXT;
 
 #define GL_SYNC_X11_FENCE_EXT 0x90E1
 
-typedef GLsync (CODEGEN_FUNCPTR * PFNGLIMPORTSYNCEXTPROC)(GLenum external_sync_type, GLintptr external_sync, GLbitfield flags);
+typedef GLsync ( CODEGEN_FUNCPTR * PFNGLIMPORTSYNCEXTPROC ) ( GLenum external_sync_type, GLintptr external_sync, GLbitfield flags );
 
 extern PFNGLIMPORTSYNCEXTPROC _funcptr_glImportSyncEXT;
 #define glImportSyncEXT _funcptr_glImportSyncEXT
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMETERMINATORGREMEDYPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMETERMINATORGREMEDYPROC ) ();
 
 extern PFNGLFRAMETERMINATORGREMEDYPROC _funcptr_glFrameTerminatorGREMEDY;
 #define glFrameTerminatorGREMEDY _funcptr_glFrameTerminatorGREMEDY
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSTRINGMARKERGREMEDYPROC)(GLsizei len, const GLvoid * string);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTRINGMARKERGREMEDYPROC ) ( GLsizei len, const GLvoid * string );
 
 extern PFNGLSTRINGMARKERGREMEDYPROC _funcptr_glStringMarkerGREMEDY;
 #define glStringMarkerGREMEDY _funcptr_glStringMarkerGREMEDY
@@ -7371,12 +7371,12 @@ extern PFNGLSTRINGMARKERGREMEDYPROC _funcptr_glStringMarkerGREMEDY;
 #define GL_POST_IMAGE_TRANSFORM_COLOR_TABLE_HP 0x8162
 #define GL_PROXY_POST_IMAGE_TRANSFORM_COLOR_TABLE_HP 0x8163
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETIMAGETRANSFORMPARAMETERFVHPPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETIMAGETRANSFORMPARAMETERIVHPPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERFHPPROC)(GLenum target, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERFVHPPROC)(GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERIHPPROC)(GLenum target, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERIVHPPROC)(GLenum target, GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETIMAGETRANSFORMPARAMETERFVHPPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETIMAGETRANSFORMPARAMETERIVHPPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERFHPPROC ) ( GLenum target, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERFVHPPROC ) ( GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERIHPPROC ) ( GLenum target, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLIMAGETRANSFORMPARAMETERIVHPPROC ) ( GLenum target, GLenum pname, const GLint * params );
 
 extern PFNGLGETIMAGETRANSFORMPARAMETERFVHPPROC _funcptr_glGetImageTransformParameterfvHP;
 #define glGetImageTransformParameterfvHP _funcptr_glGetImageTransformParameterfvHP
@@ -7400,8 +7400,8 @@ extern PFNGLIMAGETRANSFORMPARAMETERIVHPPROC _funcptr_glImageTransformParameteriv
 
 #define GL_CULL_VERTEX_IBM 103050
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIMODEDRAWARRAYSIBMPROC)(const GLenum * mode, const GLint * first, const GLsizei * count, GLsizei primcount, GLint modestride);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIMODEDRAWELEMENTSIBMPROC)(const GLenum * mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei primcount, GLint modestride);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIMODEDRAWARRAYSIBMPROC ) ( const GLenum * mode, const GLint * first, const GLsizei * count, GLsizei primcount, GLint modestride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIMODEDRAWELEMENTSIBMPROC ) ( const GLenum * mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei primcount, GLint modestride );
 
 extern PFNGLMULTIMODEDRAWARRAYSIBMPROC _funcptr_glMultiModeDrawArraysIBM;
 #define glMultiModeDrawArraysIBM _funcptr_glMultiModeDrawArraysIBM
@@ -7413,7 +7413,7 @@ extern PFNGLMULTIMODEDRAWELEMENTSIBMPROC _funcptr_glMultiModeDrawElementsIBM;
 #define GL_ALL_STATIC_DATA_IBM 103060
 #define GL_STATIC_VERTEX_ARRAY_IBM 103061
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHSTATICDATAIBMPROC)(GLenum target);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHSTATICDATAIBMPROC ) ( GLenum target );
 
 extern PFNGLFLUSHSTATICDATAIBMPROC _funcptr_glFlushStaticDataIBM;
 #define glFlushStaticDataIBM _funcptr_glFlushStaticDataIBM
@@ -7437,14 +7437,14 @@ extern PFNGLFLUSHSTATICDATAIBMPROC _funcptr_glFlushStaticDataIBM;
 #define GL_VERTEX_ARRAY_LIST_IBM 103070
 #define GL_VERTEX_ARRAY_LIST_STRIDE_IBM 103080
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORPOINTERLISTIBMPROC)(GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride);
-typedef void (CODEGEN_FUNCPTR * PFNGLEDGEFLAGPOINTERLISTIBMPROC)(GLint stride, const GLboolean ** pointer, GLint ptrstride);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDPOINTERLISTIBMPROC)(GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXPOINTERLISTIBMPROC)(GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALPOINTERLISTIBMPROC)(GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORPOINTERLISTIBMPROC)(GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTERLISTIBMPROC)(GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXPOINTERLISTIBMPROC)(GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORPOINTERLISTIBMPROC ) ( GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEDGEFLAGPOINTERLISTIBMPROC ) ( GLint stride, const GLboolean ** pointer, GLint ptrstride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDPOINTERLISTIBMPROC ) ( GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXPOINTERLISTIBMPROC ) ( GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALPOINTERLISTIBMPROC ) ( GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORPOINTERLISTIBMPROC ) ( GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTERLISTIBMPROC ) ( GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXPOINTERLISTIBMPROC ) ( GLint size, GLenum type, GLint stride, const GLvoid ** pointer, GLint ptrstride );
 
 extern PFNGLCOLORPOINTERLISTIBMPROC _funcptr_glColorPointerListIBM;
 #define glColorPointerListIBM _funcptr_glColorPointerListIBM
@@ -7463,7 +7463,7 @@ extern PFNGLTEXCOORDPOINTERLISTIBMPROC _funcptr_glTexCoordPointerListIBM;
 extern PFNGLVERTEXPOINTERLISTIBMPROC _funcptr_glVertexPointerListIBM;
 #define glVertexPointerListIBM _funcptr_glVertexPointerListIBM
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEINGRPROC)(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEINGRPROC ) ( GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha );
 
 extern PFNGLBLENDFUNCSEPARATEINGRPROC _funcptr_glBlendFuncSeparateINGR;
 #define glBlendFuncSeparateINGR _funcptr_glBlendFuncSeparateINGR
@@ -7484,9 +7484,9 @@ extern PFNGLBLENDFUNCSEPARATEINGRPROC _funcptr_glBlendFuncSeparateINGR;
 #define GL_LAYOUT_LINEAR_INTEL 1
 #define GL_TEXTURE_MEMORY_LAYOUT_INTEL 0x83FF
 
-typedef void * (CODEGEN_FUNCPTR * PFNGLMAPTEXTURE2DINTELPROC)(GLuint texture, GLint level, GLbitfield access, const GLint * stride, const GLenum * layout);
-typedef void (CODEGEN_FUNCPTR * PFNGLSYNCTEXTUREINTELPROC)(GLuint texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNMAPTEXTURE2DINTELPROC)(GLuint texture, GLint level);
+typedef void * ( CODEGEN_FUNCPTR * PFNGLMAPTEXTURE2DINTELPROC ) ( GLuint texture, GLint level, GLbitfield access, const GLint * stride, const GLenum * layout );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSYNCTEXTUREINTELPROC ) ( GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNMAPTEXTURE2DINTELPROC ) ( GLuint texture, GLint level );
 
 extern PFNGLMAPTEXTURE2DINTELPROC _funcptr_glMapTexture2DINTEL;
 #define glMapTexture2DINTEL _funcptr_glMapTexture2DINTEL
@@ -7501,10 +7501,10 @@ extern PFNGLUNMAPTEXTURE2DINTELPROC _funcptr_glUnmapTexture2DINTEL;
 #define GL_TEXTURE_COORD_ARRAY_PARALLEL_POINTERS_INTEL 0x83F8
 #define GL_VERTEX_ARRAY_PARALLEL_POINTERS_INTEL 0x83F5
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORPOINTERVINTELPROC)(GLint size, GLenum type, const GLvoid ** pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALPOINTERVINTELPROC)(GLenum type, const GLvoid ** pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTERVINTELPROC)(GLint size, GLenum type, const GLvoid ** pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXPOINTERVINTELPROC)(GLint size, GLenum type, const GLvoid ** pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORPOINTERVINTELPROC ) ( GLint size, GLenum type, const GLvoid ** pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALPOINTERVINTELPROC ) ( GLenum type, const GLvoid ** pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTERVINTELPROC ) ( GLint size, GLenum type, const GLvoid ** pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXPOINTERVINTELPROC ) ( GLint size, GLenum type, const GLvoid ** pointer );
 
 extern PFNGLCOLORPOINTERVINTELPROC _funcptr_glColorPointervINTEL;
 #define glColorPointervINTEL _funcptr_glColorPointervINTEL
@@ -7553,35 +7553,35 @@ extern PFNGLVERTEXPOINTERVINTELPROC _funcptr_glVertexPointervINTEL;
 
 #define GL_PACK_INVERT_MESA 0x8758
 
-typedef void (CODEGEN_FUNCPTR * PFNGLRESIZEBUFFERSMESAPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLRESIZEBUFFERSMESAPROC ) ();
 
 extern PFNGLRESIZEBUFFERSMESAPROC _funcptr_glResizeBuffersMESA;
 #define glResizeBuffersMESA _funcptr_glResizeBuffersMESA
 
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DMESAPROC)(GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DVMESAPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FMESAPROC)(GLfloat x, GLfloat y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FVMESAPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IMESAPROC)(GLint x, GLint y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IVMESAPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SMESAPROC)(GLshort x, GLshort y);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SVMESAPROC)(const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DMESAPROC)(GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DVMESAPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FMESAPROC)(GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FVMESAPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IMESAPROC)(GLint x, GLint y, GLint z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IVMESAPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SMESAPROC)(GLshort x, GLshort y, GLshort z);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SVMESAPROC)(const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4DMESAPROC)(GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4DVMESAPROC)(const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4FMESAPROC)(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4FVMESAPROC)(const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4IMESAPROC)(GLint x, GLint y, GLint z, GLint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4IVMESAPROC)(const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4SMESAPROC)(GLshort x, GLshort y, GLshort z, GLshort w);
-typedef void (CODEGEN_FUNCPTR * PFNGLWINDOWPOS4SVMESAPROC)(const GLshort * v);
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DMESAPROC ) ( GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2DVMESAPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FMESAPROC ) ( GLfloat x, GLfloat y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2FVMESAPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IMESAPROC ) ( GLint x, GLint y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2IVMESAPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SMESAPROC ) ( GLshort x, GLshort y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS2SVMESAPROC ) ( const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DMESAPROC ) ( GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3DVMESAPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FMESAPROC ) ( GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3FVMESAPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IMESAPROC ) ( GLint x, GLint y, GLint z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3IVMESAPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SMESAPROC ) ( GLshort x, GLshort y, GLshort z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS3SVMESAPROC ) ( const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4DMESAPROC ) ( GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4DVMESAPROC ) ( const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4FMESAPROC ) ( GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4FVMESAPROC ) ( const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4IMESAPROC ) ( GLint x, GLint y, GLint z, GLint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4IVMESAPROC ) ( const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4SMESAPROC ) ( GLshort x, GLshort y, GLshort z, GLshort w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWINDOWPOS4SVMESAPROC ) ( const GLshort * v );
 
 extern PFNGLWINDOWPOS2DMESAPROC _funcptr_glWindowPos2dMESA;
 #define glWindowPos2dMESA _funcptr_glWindowPos2dMESA
@@ -7636,35 +7636,35 @@ extern PFNGLWINDOWPOS4SVMESAPROC _funcptr_glWindowPos4svMESA;
 #define GL_UNSIGNED_SHORT_8_8_REV_MESA 0x85BB
 #define GL_YCBCR_MESA 0x8757
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINCONDITIONALRENDERNVXPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDCONDITIONALRENDERNVXPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINCONDITIONALRENDERNVXPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDCONDITIONALRENDERNVXPROC ) ();
 
 extern PFNGLBEGINCONDITIONALRENDERNVXPROC _funcptr_glBeginConditionalRenderNVX;
 #define glBeginConditionalRenderNVX _funcptr_glBeginConditionalRenderNVX
 extern PFNGLENDCONDITIONALRENDERNVXPROC _funcptr_glEndConditionalRenderNVX;
 #define glEndConditionalRenderNVX _funcptr_glEndConditionalRenderNVX
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTBINDLESSNVPROC)(GLenum mode, const GLvoid * indirect, GLsizei drawCount, GLsizei stride, GLint vertexBufferCount);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTBINDLESSNVPROC)(GLenum mode, GLenum type, const GLvoid * indirect, GLsizei drawCount, GLsizei stride, GLint vertexBufferCount);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSINDIRECTBINDLESSNVPROC ) ( GLenum mode, const GLvoid * indirect, GLsizei drawCount, GLsizei stride, GLint vertexBufferCount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSINDIRECTBINDLESSNVPROC ) ( GLenum mode, GLenum type, const GLvoid * indirect, GLsizei drawCount, GLsizei stride, GLint vertexBufferCount );
 
 extern PFNGLMULTIDRAWARRAYSINDIRECTBINDLESSNVPROC _funcptr_glMultiDrawArraysIndirectBindlessNV;
 #define glMultiDrawArraysIndirectBindlessNV _funcptr_glMultiDrawArraysIndirectBindlessNV
 extern PFNGLMULTIDRAWELEMENTSINDIRECTBINDLESSNVPROC _funcptr_glMultiDrawElementsIndirectBindlessNV;
 #define glMultiDrawElementsIndirectBindlessNV _funcptr_glMultiDrawElementsIndirectBindlessNV
 
-typedef GLuint64 (CODEGEN_FUNCPTR * PFNGLGETIMAGEHANDLENVPROC)(GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum format);
-typedef GLuint64 (CODEGEN_FUNCPTR * PFNGLGETTEXTUREHANDLENVPROC)(GLuint texture);
-typedef GLuint64 (CODEGEN_FUNCPTR * PFNGLGETTEXTURESAMPLERHANDLENVPROC)(GLuint texture, GLuint sampler);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISIMAGEHANDLERESIDENTNVPROC)(GLuint64 handle);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISTEXTUREHANDLERESIDENTNVPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLENONRESIDENTNVPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLERESIDENTNVPROC)(GLuint64 handle, GLenum access);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLENONRESIDENTNVPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLERESIDENTNVPROC)(GLuint64 handle);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64NVPROC)(GLuint program, GLint location, GLuint64 value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLuint64 * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64NVPROC)(GLint location, GLuint64 value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64VNVPROC)(GLint location, GLsizei count, const GLuint64 * value);
+typedef GLuint64 ( CODEGEN_FUNCPTR * PFNGLGETIMAGEHANDLENVPROC ) ( GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum format );
+typedef GLuint64 ( CODEGEN_FUNCPTR * PFNGLGETTEXTUREHANDLENVPROC ) ( GLuint texture );
+typedef GLuint64 ( CODEGEN_FUNCPTR * PFNGLGETTEXTURESAMPLERHANDLENVPROC ) ( GLuint texture, GLuint sampler );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISIMAGEHANDLERESIDENTNVPROC ) ( GLuint64 handle );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISTEXTUREHANDLERESIDENTNVPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLENONRESIDENTNVPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKEIMAGEHANDLERESIDENTNVPROC ) ( GLuint64 handle, GLenum access );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLENONRESIDENTNVPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKETEXTUREHANDLERESIDENTNVPROC ) ( GLuint64 handle );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64NVPROC ) ( GLuint program, GLint location, GLuint64 value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMHANDLEUI64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint64 * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64NVPROC ) ( GLint location, GLuint64 value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMHANDLEUI64VNVPROC ) ( GLint location, GLsizei count, const GLuint64 * value );
 
 extern PFNGLGETIMAGEHANDLENVPROC _funcptr_glGetImageHandleNV;
 #define glGetImageHandleNV _funcptr_glGetImageHandleNV
@@ -7746,8 +7746,8 @@ extern PFNGLUNIFORMHANDLEUI64VNVPROC _funcptr_glUniformHandleui64vNV;
 #define GL_XOR 0x1506
 #define GL_ZERO 0
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDBARRIERNVPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDPARAMETERINVPROC)(GLenum pname, GLint value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDBARRIERNVPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDPARAMETERINVPROC ) ( GLenum pname, GLint value );
 
 extern PFNGLBLENDBARRIERNVPROC _funcptr_glBlendBarrierNV;
 #define glBlendBarrierNV _funcptr_glBlendBarrierNV
@@ -7762,8 +7762,8 @@ extern PFNGLBLENDPARAMETERINVPROC _funcptr_glBlendParameteriNV;
 #define GL_QUERY_NO_WAIT_NV 0x8E14
 #define GL_QUERY_WAIT_NV 0x8E13
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINCONDITIONALRENDERNVPROC)(GLuint id, GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDCONDITIONALRENDERNVPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINCONDITIONALRENDERNVPROC ) ( GLuint id, GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDCONDITIONALRENDERNVPROC ) ();
 
 extern PFNGLBEGINCONDITIONALRENDERNVPROC _funcptr_glBeginConditionalRenderNV;
 #define glBeginConditionalRenderNV _funcptr_glBeginConditionalRenderNV
@@ -7773,7 +7773,7 @@ extern PFNGLENDCONDITIONALRENDERNVPROC _funcptr_glEndConditionalRenderNV;
 #define GL_DEPTH_STENCIL_TO_BGRA_NV 0x886F
 #define GL_DEPTH_STENCIL_TO_RGBA_NV 0x886E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYIMAGESUBDATANVPROC)(GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYIMAGESUBDATANVPROC ) ( GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei width, GLsizei height, GLsizei depth );
 
 extern PFNGLCOPYIMAGESUBDATANVPROC _funcptr_glCopyImageSubDataNV;
 #define glCopyImageSubDataNV _funcptr_glCopyImageSubDataNV
@@ -7786,9 +7786,9 @@ extern PFNGLCOPYIMAGESUBDATANVPROC _funcptr_glCopyImageSubDataNV;
 #define GL_DEPTH_COMPONENT32F_NV 0x8DAB
 #define GL_FLOAT_32_UNSIGNED_INT_24_8_REV_NV 0x8DAD
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARDEPTHDNVPROC)(GLdouble depth);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHBOUNDSDNVPROC)(GLdouble zmin, GLdouble zmax);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHRANGEDNVPROC)(GLdouble zNear, GLdouble zFar);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARDEPTHDNVPROC ) ( GLdouble depth );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHBOUNDSDNVPROC ) ( GLdouble zmin, GLdouble zmax );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHRANGEDNVPROC ) ( GLdouble zNear, GLdouble zFar );
 
 extern PFNGLCLEARDEPTHDNVPROC _funcptr_glClearDepthdNV;
 #define glClearDepthdNV _funcptr_glClearDepthdNV
@@ -7799,7 +7799,7 @@ extern PFNGLDEPTHRANGEDNVPROC _funcptr_glDepthRangedNV;
 
 #define GL_DEPTH_CLAMP_NV 0x864F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWTEXTURENVPROC)(GLuint texture, GLuint sampler, GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat z, GLfloat s0, GLfloat t0, GLfloat s1, GLfloat t1);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWTEXTURENVPROC ) ( GLuint texture, GLuint sampler, GLfloat x0, GLfloat y0, GLfloat x1, GLfloat y1, GLfloat z, GLfloat s0, GLfloat t0, GLfloat s1, GLfloat t1 );
 
 extern PFNGLDRAWTEXTURENVPROC _funcptr_glDrawTextureNV;
 #define glDrawTextureNV _funcptr_glDrawTextureNV
@@ -7829,15 +7829,15 @@ extern PFNGLDRAWTEXTURENVPROC _funcptr_glDrawTextureNV;
 #define GL_MAX_MAP_TESSELLATION_NV 0x86D6
 #define GL_MAX_RATIONAL_EVAL_ORDER_NV 0x86D7
 
-typedef void (CODEGEN_FUNCPTR * PFNGLEVALMAPSNVPROC)(GLenum target, GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMAPATTRIBPARAMETERFVNVPROC)(GLenum target, GLuint index, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMAPATTRIBPARAMETERIVNVPROC)(GLenum target, GLuint index, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMAPCONTROLPOINTSNVPROC)(GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLboolean packed, GLvoid * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMAPPARAMETERFVNVPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMAPPARAMETERIVNVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPCONTROLPOINTSNVPROC)(GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLint uorder, GLint vorder, GLboolean packed, const GLvoid * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPPARAMETERFVNVPROC)(GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPPARAMETERIVNVPROC)(GLenum target, GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLEVALMAPSNVPROC ) ( GLenum target, GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMAPATTRIBPARAMETERFVNVPROC ) ( GLenum target, GLuint index, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMAPATTRIBPARAMETERIVNVPROC ) ( GLenum target, GLuint index, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMAPCONTROLPOINTSNVPROC ) ( GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLboolean packed, GLvoid * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMAPPARAMETERFVNVPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMAPPARAMETERIVNVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPCONTROLPOINTSNVPROC ) ( GLenum target, GLuint index, GLenum type, GLsizei ustride, GLsizei vstride, GLint uorder, GLint vorder, GLboolean packed, const GLvoid * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPPARAMETERFVNVPROC ) ( GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPPARAMETERIVNVPROC ) ( GLenum target, GLenum pname, const GLint * params );
 
 extern PFNGLEVALMAPSNVPROC _funcptr_glEvalMapsNV;
 #define glEvalMapsNV _funcptr_glEvalMapsNV
@@ -7869,9 +7869,9 @@ extern PFNGLMAPPARAMETERIVNVPROC _funcptr_glMapParameterivNV;
 #define GL_TEXTURE_RENDERBUFFER_NV 0x8E55
 #define GL_UNSIGNED_INT_SAMPLER_RENDERBUFFER_NV 0x8E58
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTISAMPLEFVNVPROC)(GLenum pname, GLuint index, GLfloat * val);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEMASKINDEXEDNVPROC)(GLuint index, GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXRENDERBUFFERNVPROC)(GLenum target, GLuint renderbuffer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTISAMPLEFVNVPROC ) ( GLenum pname, GLuint index, GLfloat * val );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEMASKINDEXEDNVPROC ) ( GLuint index, GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXRENDERBUFFERNVPROC ) ( GLenum target, GLuint renderbuffer );
 
 extern PFNGLGETMULTISAMPLEFVNVPROC _funcptr_glGetMultisamplefvNV;
 #define glGetMultisamplefvNV _funcptr_glGetMultisamplefvNV
@@ -7884,13 +7884,13 @@ extern PFNGLTEXRENDERBUFFERNVPROC _funcptr_glTexRenderbufferNV;
 #define GL_FENCE_CONDITION_NV 0x84F4
 #define GL_FENCE_STATUS_NV 0x84F3
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEFENCESNVPROC)(GLsizei n, const GLuint * fences);
-typedef void (CODEGEN_FUNCPTR * PFNGLFINISHFENCENVPROC)(GLuint fence);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENFENCESNVPROC)(GLsizei n, GLuint * fences);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFENCEIVNVPROC)(GLuint fence, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISFENCENVPROC)(GLuint fence);
-typedef void (CODEGEN_FUNCPTR * PFNGLSETFENCENVPROC)(GLuint fence, GLenum condition);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLTESTFENCENVPROC)(GLuint fence);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEFENCESNVPROC ) ( GLsizei n, const GLuint * fences );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFINISHFENCENVPROC ) ( GLuint fence );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENFENCESNVPROC ) ( GLsizei n, GLuint * fences );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFENCEIVNVPROC ) ( GLuint fence, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISFENCENVPROC ) ( GLuint fence );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSETFENCENVPROC ) ( GLuint fence, GLenum condition );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLTESTFENCENVPROC ) ( GLuint fence );
 
 extern PFNGLDELETEFENCESNVPROC _funcptr_glDeleteFencesNV;
 #define glDeleteFencesNV _funcptr_glDeleteFencesNV
@@ -7935,12 +7935,12 @@ extern PFNGLTESTFENCENVPROC _funcptr_glTestFenceNV;
 #define GL_MAX_TEXTURE_IMAGE_UNITS_NV 0x8872
 #define GL_PROGRAM_ERROR_STRING_NV 0x8874
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMNAMEDPARAMETERDVNVPROC)(GLuint id, GLsizei len, const GLubyte * name, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMNAMEDPARAMETERFVNVPROC)(GLuint id, GLsizei len, const GLubyte * name, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4DNVPROC)(GLuint id, GLsizei len, const GLubyte * name, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4DVNVPROC)(GLuint id, GLsizei len, const GLubyte * name, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4FNVPROC)(GLuint id, GLsizei len, const GLubyte * name, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4FVNVPROC)(GLuint id, GLsizei len, const GLubyte * name, const GLfloat * v);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMNAMEDPARAMETERDVNVPROC ) ( GLuint id, GLsizei len, const GLubyte * name, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMNAMEDPARAMETERFVNVPROC ) ( GLuint id, GLsizei len, const GLubyte * name, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4DNVPROC ) ( GLuint id, GLsizei len, const GLubyte * name, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4DVNVPROC ) ( GLuint id, GLsizei len, const GLubyte * name, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4FNVPROC ) ( GLuint id, GLsizei len, const GLubyte * name, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMNAMEDPARAMETER4FVNVPROC ) ( GLuint id, GLsizei len, const GLubyte * name, const GLfloat * v );
 
 extern PFNGLGETPROGRAMNAMEDPARAMETERDVNVPROC _funcptr_glGetProgramNamedParameterdvNV;
 #define glGetProgramNamedParameterdvNV _funcptr_glGetProgramNamedParameterdvNV
@@ -7966,7 +7966,7 @@ extern PFNGLPROGRAMNAMEDPARAMETER4FVNVPROC _funcptr_glProgramNamedParameter4fvNV
 #define GL_RENDERBUFFER_COLOR_SAMPLES_NV 0x8E10
 #define GL_RENDERBUFFER_COVERAGE_SAMPLES_NV 0x8CAB
 
-typedef void (CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEMULTISAMPLECOVERAGENVPROC)(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void ( CODEGEN_FUNCPTR * PFNGLRENDERBUFFERSTORAGEMULTISAMPLECOVERAGENVPROC ) ( GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLenum internalformat, GLsizei width, GLsizei height );
 
 extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLECOVERAGENVPROC _funcptr_glRenderbufferStorageMultisampleCoverageNV;
 #define glRenderbufferStorageMultisampleCoverageNV _funcptr_glRenderbufferStorageMultisampleCoverageNV
@@ -7988,10 +7988,10 @@ extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLECOVERAGENVPROC _funcptr_glRenderbuffer
 #define GL_TRIANGLES_ADJACENCY_EXT 0x000C
 #define GL_TRIANGLE_STRIP_ADJACENCY_EXT 0x000D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREEXTPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREFACEEXTPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURELAYEREXTPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMVERTEXLIMITNVPROC)(GLenum target, GLint limit);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREEXTPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREFACEEXTPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTURELAYEREXTPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMVERTEXLIMITNVPROC ) ( GLenum target, GLint limit );
 
 extern PFNGLFRAMEBUFFERTEXTUREEXTPROC _funcptr_glFramebufferTextureEXT;
 #define glFramebufferTextureEXT _funcptr_glFramebufferTextureEXT
@@ -8011,22 +8011,22 @@ extern PFNGLPROGRAMVERTEXLIMITNVPROC _funcptr_glProgramVertexLimitNV;
 #define GL_PROGRAM_ATTRIB_COMPONENTS_NV 0x8906
 #define GL_PROGRAM_RESULT_COMPONENTS_NV 0x8907
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERIIVNVPROC)(GLenum target, GLuint index, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERIUIVNVPROC)(GLenum target, GLuint index, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERIIVNVPROC)(GLenum target, GLuint index, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC)(GLenum target, GLuint index, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4INVPROC)(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4IVNVPROC)(GLenum target, GLuint index, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4UINVPROC)(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4UIVNVPROC)(GLenum target, GLuint index, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERSI4IVNVPROC)(GLenum target, GLuint index, GLsizei count, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERSI4UIVNVPROC)(GLenum target, GLuint index, GLsizei count, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4INVPROC)(GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4IVNVPROC)(GLenum target, GLuint index, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4UINVPROC)(GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4UIVNVPROC)(GLenum target, GLuint index, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERSI4IVNVPROC)(GLenum target, GLuint index, GLsizei count, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERSI4UIVNVPROC)(GLenum target, GLuint index, GLsizei count, const GLuint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERIIVNVPROC ) ( GLenum target, GLuint index, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMENVPARAMETERIUIVNVPROC ) ( GLenum target, GLuint index, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERIIVNVPROC ) ( GLenum target, GLuint index, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC ) ( GLenum target, GLuint index, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4INVPROC ) ( GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4IVNVPROC ) ( GLenum target, GLuint index, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4UINVPROC ) ( GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERI4UIVNVPROC ) ( GLenum target, GLuint index, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERSI4IVNVPROC ) ( GLenum target, GLuint index, GLsizei count, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMENVPARAMETERSI4UIVNVPROC ) ( GLenum target, GLuint index, GLsizei count, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4INVPROC ) ( GLenum target, GLuint index, GLint x, GLint y, GLint z, GLint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4IVNVPROC ) ( GLenum target, GLuint index, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4UINVPROC ) ( GLenum target, GLuint index, GLuint x, GLuint y, GLuint z, GLuint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERI4UIVNVPROC ) ( GLenum target, GLuint index, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERSI4IVNVPROC ) ( GLenum target, GLuint index, GLsizei count, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMLOCALPARAMETERSI4UIVNVPROC ) ( GLenum target, GLuint index, GLsizei count, const GLuint * params );
 
 extern PFNGLGETPROGRAMENVPARAMETERIIVNVPROC _funcptr_glGetProgramEnvParameterIivNV;
 #define glGetProgramEnvParameterIivNV _funcptr_glGetProgramEnvParameterIivNV
@@ -8070,8 +8070,8 @@ extern PFNGLPROGRAMLOCALPARAMETERSI4UIVNVPROC _funcptr_glProgramLocalParametersI
 #define GL_MIN_FRAGMENT_INTERPOLATION_OFFSET_NV 0x8E5B
 #define GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET_NV 0x8E5E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMSUBROUTINEPARAMETERUIVNVPROC)(GLenum target, GLuint index, GLuint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMSUBROUTINEPARAMETERSUIVNVPROC)(GLenum target, GLsizei count, const GLuint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMSUBROUTINEPARAMETERUIVNVPROC ) ( GLenum target, GLuint index, GLuint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMSUBROUTINEPARAMETERSUIVNVPROC ) ( GLenum target, GLsizei count, const GLuint * params );
 
 extern PFNGLGETPROGRAMSUBROUTINEPARAMETERUIVNVPROC _funcptr_glGetProgramSubroutineParameteruivNV;
 #define glGetProgramSubroutineParameteruivNV _funcptr_glGetProgramSubroutineParameteruivNV
@@ -8108,39 +8108,39 @@ extern PFNGLPROGRAMSUBROUTINEPARAMETERSUIVNVPROC _funcptr_glProgramSubroutinePar
 #define GL_UNSIGNED_INT8_VEC3_NV 0x8FEE
 #define GL_UNSIGNED_INT8_VEC4_NV 0x8FEF
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMI64VNVPROC)(GLuint program, GLint location, GLint64EXT * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1I64NVPROC)(GLuint program, GLint location, GLint64EXT x);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1I64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UI64NVPROC)(GLuint program, GLint location, GLuint64EXT x);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UI64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2I64NVPROC)(GLuint program, GLint location, GLint64EXT x, GLint64EXT y);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2I64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UI64NVPROC)(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UI64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3I64NVPROC)(GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3I64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UI64NVPROC)(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UI64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4I64NVPROC)(GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4I64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UI64NVPROC)(GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UI64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1I64NVPROC)(GLint location, GLint64EXT x);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1I64VNVPROC)(GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1UI64NVPROC)(GLint location, GLuint64EXT x);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM1UI64VNVPROC)(GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2I64NVPROC)(GLint location, GLint64EXT x, GLint64EXT y);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2I64VNVPROC)(GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2UI64NVPROC)(GLint location, GLuint64EXT x, GLuint64EXT y);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM2UI64VNVPROC)(GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3I64NVPROC)(GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3I64VNVPROC)(GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3UI64NVPROC)(GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM3UI64VNVPROC)(GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4I64NVPROC)(GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4I64VNVPROC)(GLint location, GLsizei count, const GLint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4UI64NVPROC)(GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORM4UI64VNVPROC)(GLint location, GLsizei count, const GLuint64EXT * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMI64VNVPROC ) ( GLuint program, GLint location, GLint64EXT * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1I64NVPROC ) ( GLuint program, GLint location, GLint64EXT x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1I64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UI64NVPROC ) ( GLuint program, GLint location, GLuint64EXT x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM1UI64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2I64NVPROC ) ( GLuint program, GLint location, GLint64EXT x, GLint64EXT y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2I64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UI64NVPROC ) ( GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM2UI64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3I64NVPROC ) ( GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3I64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UI64NVPROC ) ( GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM3UI64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4I64NVPROC ) ( GLuint program, GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4I64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UI64NVPROC ) ( GLuint program, GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORM4UI64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1I64NVPROC ) ( GLint location, GLint64EXT x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1I64VNVPROC ) ( GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1UI64NVPROC ) ( GLint location, GLuint64EXT x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM1UI64VNVPROC ) ( GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2I64NVPROC ) ( GLint location, GLint64EXT x, GLint64EXT y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2I64VNVPROC ) ( GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2UI64NVPROC ) ( GLint location, GLuint64EXT x, GLuint64EXT y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM2UI64VNVPROC ) ( GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3I64NVPROC ) ( GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3I64VNVPROC ) ( GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3UI64NVPROC ) ( GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM3UI64VNVPROC ) ( GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4I64NVPROC ) ( GLint location, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4I64VNVPROC ) ( GLint location, GLsizei count, const GLint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4UI64NVPROC ) ( GLint location, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORM4UI64VNVPROC ) ( GLint location, GLsizei count, const GLuint64EXT * value );
 
 extern PFNGLGETUNIFORMI64VNVPROC _funcptr_glGetUniformi64vNV;
 #define glGetUniformi64vNV _funcptr_glGetUniformi64vNV
@@ -8211,52 +8211,52 @@ extern PFNGLUNIFORM4UI64VNVPROC _funcptr_glUniform4ui64vNV;
 
 #define GL_HALF_FLOAT_NV 0x140B
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR3HNVPROC)(GLhalfNV red, GLhalfNV green, GLhalfNV blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR3HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4HNVPROC)(GLhalfNV red, GLhalfNV green, GLhalfNV blue, GLhalfNV alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDHNVPROC)(GLhalfNV fog);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDHVNVPROC)(const GLhalfNV * fog);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1HNVPROC)(GLenum target, GLhalfNV s);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1HVNVPROC)(GLenum target, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2HNVPROC)(GLenum target, GLhalfNV s, GLhalfNV t);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2HVNVPROC)(GLenum target, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3HNVPROC)(GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3HVNVPROC)(GLenum target, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4HNVPROC)(GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4HVNVPROC)(GLenum target, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMAL3HNVPROC)(GLhalfNV nx, GLhalfNV ny, GLhalfNV nz);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMAL3HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3HNVPROC)(GLhalfNV red, GLhalfNV green, GLhalfNV blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD1HNVPROC)(GLhalfNV s);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD1HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2HNVPROC)(GLhalfNV s, GLhalfNV t);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD3HNVPROC)(GLhalfNV s, GLhalfNV t, GLhalfNV r);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD3HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4HNVPROC)(GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX2HNVPROC)(GLhalfNV x, GLhalfNV y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX2HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX3HNVPROC)(GLhalfNV x, GLhalfNV y, GLhalfNV z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX3HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX4HNVPROC)(GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX4HVNVPROC)(const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1HNVPROC)(GLuint index, GLhalfNV x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1HVNVPROC)(GLuint index, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2HNVPROC)(GLuint index, GLhalfNV x, GLhalfNV y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2HVNVPROC)(GLuint index, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3HNVPROC)(GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3HVNVPROC)(GLuint index, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4HNVPROC)(GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4HVNVPROC)(GLuint index, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1HVNVPROC)(GLuint index, GLsizei n, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2HVNVPROC)(GLuint index, GLsizei n, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3HVNVPROC)(GLuint index, GLsizei n, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4HVNVPROC)(GLuint index, GLsizei n, const GLhalfNV * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTHNVPROC)(GLhalfNV weight);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTHVNVPROC)(const GLhalfNV * weight);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR3HNVPROC ) ( GLhalfNV red, GLhalfNV green, GLhalfNV blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR3HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4HNVPROC ) ( GLhalfNV red, GLhalfNV green, GLhalfNV blue, GLhalfNV alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDHNVPROC ) ( GLhalfNV fog );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDHVNVPROC ) ( const GLhalfNV * fog );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1HNVPROC ) ( GLenum target, GLhalfNV s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1HVNVPROC ) ( GLenum target, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2HNVPROC ) ( GLenum target, GLhalfNV s, GLhalfNV t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2HVNVPROC ) ( GLenum target, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3HNVPROC ) ( GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3HVNVPROC ) ( GLenum target, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4HNVPROC ) ( GLenum target, GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4HVNVPROC ) ( GLenum target, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMAL3HNVPROC ) ( GLhalfNV nx, GLhalfNV ny, GLhalfNV nz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMAL3HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3HNVPROC ) ( GLhalfNV red, GLhalfNV green, GLhalfNV blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLOR3HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD1HNVPROC ) ( GLhalfNV s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD1HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2HNVPROC ) ( GLhalfNV s, GLhalfNV t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD3HNVPROC ) ( GLhalfNV s, GLhalfNV t, GLhalfNV r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD3HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4HNVPROC ) ( GLhalfNV s, GLhalfNV t, GLhalfNV r, GLhalfNV q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX2HNVPROC ) ( GLhalfNV x, GLhalfNV y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX2HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX3HNVPROC ) ( GLhalfNV x, GLhalfNV y, GLhalfNV z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX3HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX4HNVPROC ) ( GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX4HVNVPROC ) ( const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1HNVPROC ) ( GLuint index, GLhalfNV x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1HVNVPROC ) ( GLuint index, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2HNVPROC ) ( GLuint index, GLhalfNV x, GLhalfNV y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2HVNVPROC ) ( GLuint index, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3HNVPROC ) ( GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3HVNVPROC ) ( GLuint index, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4HNVPROC ) ( GLuint index, GLhalfNV x, GLhalfNV y, GLhalfNV z, GLhalfNV w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4HVNVPROC ) ( GLuint index, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1HVNVPROC ) ( GLuint index, GLsizei n, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2HVNVPROC ) ( GLuint index, GLsizei n, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3HVNVPROC ) ( GLuint index, GLsizei n, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4HVNVPROC ) ( GLuint index, GLsizei n, const GLhalfNV * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTHNVPROC ) ( GLhalfNV weight );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXWEIGHTHVNVPROC ) ( const GLhalfNV * weight );
 
 extern PFNGLCOLOR3HNVPROC _funcptr_glColor3hNV;
 #define glColor3hNV _funcptr_glColor3hNV
@@ -8364,13 +8364,13 @@ extern PFNGLVERTEXWEIGHTHVNVPROC _funcptr_glVertexWeighthvNV;
 #define GL_PIXEL_COUNT_AVAILABLE_NV 0x8867
 #define GL_PIXEL_COUNT_NV 0x8866
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINOCCLUSIONQUERYNVPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEOCCLUSIONQUERIESNVPROC)(GLsizei n, const GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDOCCLUSIONQUERYNVPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLGENOCCLUSIONQUERIESNVPROC)(GLsizei n, GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOCCLUSIONQUERYIVNVPROC)(GLuint id, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETOCCLUSIONQUERYUIVNVPROC)(GLuint id, GLenum pname, GLuint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISOCCLUSIONQUERYNVPROC)(GLuint id);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINOCCLUSIONQUERYNVPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEOCCLUSIONQUERIESNVPROC ) ( GLsizei n, const GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDOCCLUSIONQUERYNVPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENOCCLUSIONQUERIESNVPROC ) ( GLsizei n, GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOCCLUSIONQUERYIVNVPROC ) ( GLuint id, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETOCCLUSIONQUERYUIVNVPROC ) ( GLuint id, GLenum pname, GLuint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISOCCLUSIONQUERYNVPROC ) ( GLuint id );
 
 extern PFNGLBEGINOCCLUSIONQUERYNVPROC _funcptr_glBeginOcclusionQueryNV;
 #define glBeginOcclusionQueryNV _funcptr_glBeginOcclusionQueryNV
@@ -8396,9 +8396,9 @@ extern PFNGLISOCCLUSIONQUERYNVPROC _funcptr_glIsOcclusionQueryNV;
 #define GL_MAX_PROGRAM_PARAMETER_BUFFER_SIZE_NV 0x8DA1
 #define GL_VERTEX_PROGRAM_PARAMETER_BUFFER_NV 0x8DA2
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMBUFFERPARAMETERSIIVNVPROC)(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMBUFFERPARAMETERSIUIVNVPROC)(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, const GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMBUFFERPARAMETERSFVNVPROC)(GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, const GLfloat * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMBUFFERPARAMETERSIIVNVPROC ) ( GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMBUFFERPARAMETERSIUIVNVPROC ) ( GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, const GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMBUFFERPARAMETERSFVNVPROC ) ( GLenum target, GLuint bindingIndex, GLuint wordIndex, GLsizei count, const GLfloat * params );
 
 extern PFNGLPROGRAMBUFFERPARAMETERSIIVNVPROC _funcptr_glProgramBufferParametersIivNV;
 #define glProgramBufferParametersIivNV _funcptr_glProgramBufferParametersIivNV
@@ -8538,55 +8538,55 @@ extern PFNGLPROGRAMBUFFERPARAMETERSFVNVPROC _funcptr_glProgramBufferParametersfv
 #define GL_UTF8_NV 0x909A
 #define GL_VERTICAL_LINE_TO_NV 0x08
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYPATHNVPROC)(GLuint resultPath, GLuint srcPath);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOVERFILLPATHINSTANCEDNVPROC)(GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLenum coverMode, GLenum transformType, const GLfloat * transformValues);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOVERFILLPATHNVPROC)(GLuint path, GLenum coverMode);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOVERSTROKEPATHINSTANCEDNVPROC)(GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLenum coverMode, GLenum transformType, const GLfloat * transformValues);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOVERSTROKEPATHNVPROC)(GLuint path, GLenum coverMode);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEPATHSNVPROC)(GLuint path, GLsizei range);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGENPATHSNVPROC)(GLsizei range);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHCOLORGENFVNVPROC)(GLenum color, GLenum pname, GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHCOLORGENIVNVPROC)(GLenum color, GLenum pname, GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHCOMMANDSNVPROC)(GLuint path, GLubyte * commands);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHCOORDSNVPROC)(GLuint path, GLfloat * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHDASHARRAYNVPROC)(GLuint path, GLfloat * dashArray);
-typedef GLfloat (CODEGEN_FUNCPTR * PFNGLGETPATHLENGTHNVPROC)(GLuint path, GLsizei startSegment, GLsizei numSegments);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHMETRICRANGENVPROC)(GLbitfield metricQueryMask, GLuint firstPathName, GLsizei numPaths, GLsizei stride, GLfloat * metrics);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHMETRICSNVPROC)(GLbitfield metricQueryMask, GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLsizei stride, GLfloat * metrics);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHPARAMETERFVNVPROC)(GLuint path, GLenum pname, GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHPARAMETERIVNVPROC)(GLuint path, GLenum pname, GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHSPACINGNVPROC)(GLenum pathListMode, GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLfloat advanceScale, GLfloat kerningScale, GLenum transformType, GLfloat * returnedSpacing);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHTEXGENFVNVPROC)(GLenum texCoordSet, GLenum pname, GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPATHTEXGENIVNVPROC)(GLenum texCoordSet, GLenum pname, GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLINTERPOLATEPATHSNVPROC)(GLuint resultPath, GLuint pathA, GLuint pathB, GLfloat weight);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISPATHNVPROC)(GLuint path);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISPOINTINFILLPATHNVPROC)(GLuint path, GLuint mask, GLfloat x, GLfloat y);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISPOINTINSTROKEPATHNVPROC)(GLuint path, GLfloat x, GLfloat y);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHCOLORGENNVPROC)(GLenum color, GLenum genMode, GLenum colorFormat, const GLfloat * coeffs);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHCOMMANDSNVPROC)(GLuint path, GLsizei numCommands, const GLubyte * commands, GLsizei numCoords, GLenum coordType, const GLvoid * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHCOORDSNVPROC)(GLuint path, GLsizei numCoords, GLenum coordType, const GLvoid * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHCOVERDEPTHFUNCNVPROC)(GLenum func);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHDASHARRAYNVPROC)(GLuint path, GLsizei dashCount, const GLfloat * dashArray);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHFOGGENNVPROC)(GLenum genMode);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHGLYPHRANGENVPROC)(GLuint firstPathName, GLenum fontTarget, const GLvoid * fontName, GLbitfield fontStyle, GLuint firstGlyph, GLsizei numGlyphs, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHGLYPHSNVPROC)(GLuint firstPathName, GLenum fontTarget, const GLvoid * fontName, GLbitfield fontStyle, GLsizei numGlyphs, GLenum type, const GLvoid * charcodes, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHPARAMETERFNVPROC)(GLuint path, GLenum pname, GLfloat value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHPARAMETERFVNVPROC)(GLuint path, GLenum pname, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHPARAMETERINVPROC)(GLuint path, GLenum pname, GLint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHPARAMETERIVNVPROC)(GLuint path, GLenum pname, const GLint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHSTENCILDEPTHOFFSETNVPROC)(GLfloat factor, GLfloat units);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHSTENCILFUNCNVPROC)(GLenum func, GLint ref, GLuint mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHSTRINGNVPROC)(GLuint path, GLenum format, GLsizei length, const GLvoid * pathString);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHSUBCOMMANDSNVPROC)(GLuint path, GLsizei commandStart, GLsizei commandsToDelete, GLsizei numCommands, const GLubyte * commands, GLsizei numCoords, GLenum coordType, const GLvoid * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHSUBCOORDSNVPROC)(GLuint path, GLsizei coordStart, GLsizei numCoords, GLenum coordType, const GLvoid * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLPATHTEXGENNVPROC)(GLenum texCoordSet, GLenum genMode, GLint components, const GLfloat * coeffs);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLPOINTALONGPATHNVPROC)(GLuint path, GLsizei startSegment, GLsizei numSegments, GLfloat distance, GLfloat * x, GLfloat * y, GLfloat * tangentX, GLfloat * tangentY);
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILFILLPATHINSTANCEDNVPROC)(GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLenum fillMode, GLuint mask, GLenum transformType, const GLfloat * transformValues);
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILFILLPATHNVPROC)(GLuint path, GLenum fillMode, GLuint mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILSTROKEPATHINSTANCEDNVPROC)(GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLint reference, GLuint mask, GLenum transformType, const GLfloat * transformValues);
-typedef void (CODEGEN_FUNCPTR * PFNGLSTENCILSTROKEPATHNVPROC)(GLuint path, GLint reference, GLuint mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLTRANSFORMPATHNVPROC)(GLuint resultPath, GLuint srcPath, GLenum transformType, const GLfloat * transformValues);
-typedef void (CODEGEN_FUNCPTR * PFNGLWEIGHTPATHSNVPROC)(GLuint resultPath, GLsizei numPaths, const GLuint * paths, const GLfloat * weights);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYPATHNVPROC ) ( GLuint resultPath, GLuint srcPath );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOVERFILLPATHINSTANCEDNVPROC ) ( GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLenum coverMode, GLenum transformType, const GLfloat * transformValues );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOVERFILLPATHNVPROC ) ( GLuint path, GLenum coverMode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOVERSTROKEPATHINSTANCEDNVPROC ) ( GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLenum coverMode, GLenum transformType, const GLfloat * transformValues );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOVERSTROKEPATHNVPROC ) ( GLuint path, GLenum coverMode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEPATHSNVPROC ) ( GLuint path, GLsizei range );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGENPATHSNVPROC ) ( GLsizei range );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHCOLORGENFVNVPROC ) ( GLenum color, GLenum pname, GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHCOLORGENIVNVPROC ) ( GLenum color, GLenum pname, GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHCOMMANDSNVPROC ) ( GLuint path, GLubyte * commands );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHCOORDSNVPROC ) ( GLuint path, GLfloat * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHDASHARRAYNVPROC ) ( GLuint path, GLfloat * dashArray );
+typedef GLfloat ( CODEGEN_FUNCPTR * PFNGLGETPATHLENGTHNVPROC ) ( GLuint path, GLsizei startSegment, GLsizei numSegments );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHMETRICRANGENVPROC ) ( GLbitfield metricQueryMask, GLuint firstPathName, GLsizei numPaths, GLsizei stride, GLfloat * metrics );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHMETRICSNVPROC ) ( GLbitfield metricQueryMask, GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLsizei stride, GLfloat * metrics );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHPARAMETERFVNVPROC ) ( GLuint path, GLenum pname, GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHPARAMETERIVNVPROC ) ( GLuint path, GLenum pname, GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHSPACINGNVPROC ) ( GLenum pathListMode, GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLfloat advanceScale, GLfloat kerningScale, GLenum transformType, GLfloat * returnedSpacing );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHTEXGENFVNVPROC ) ( GLenum texCoordSet, GLenum pname, GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPATHTEXGENIVNVPROC ) ( GLenum texCoordSet, GLenum pname, GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINTERPOLATEPATHSNVPROC ) ( GLuint resultPath, GLuint pathA, GLuint pathB, GLfloat weight );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISPATHNVPROC ) ( GLuint path );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISPOINTINFILLPATHNVPROC ) ( GLuint path, GLuint mask, GLfloat x, GLfloat y );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISPOINTINSTROKEPATHNVPROC ) ( GLuint path, GLfloat x, GLfloat y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHCOLORGENNVPROC ) ( GLenum color, GLenum genMode, GLenum colorFormat, const GLfloat * coeffs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHCOMMANDSNVPROC ) ( GLuint path, GLsizei numCommands, const GLubyte * commands, GLsizei numCoords, GLenum coordType, const GLvoid * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHCOORDSNVPROC ) ( GLuint path, GLsizei numCoords, GLenum coordType, const GLvoid * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHCOVERDEPTHFUNCNVPROC ) ( GLenum func );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHDASHARRAYNVPROC ) ( GLuint path, GLsizei dashCount, const GLfloat * dashArray );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHFOGGENNVPROC ) ( GLenum genMode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHGLYPHRANGENVPROC ) ( GLuint firstPathName, GLenum fontTarget, const GLvoid * fontName, GLbitfield fontStyle, GLuint firstGlyph, GLsizei numGlyphs, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHGLYPHSNVPROC ) ( GLuint firstPathName, GLenum fontTarget, const GLvoid * fontName, GLbitfield fontStyle, GLsizei numGlyphs, GLenum type, const GLvoid * charcodes, GLenum handleMissingGlyphs, GLuint pathParameterTemplate, GLfloat emScale );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHPARAMETERFNVPROC ) ( GLuint path, GLenum pname, GLfloat value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHPARAMETERFVNVPROC ) ( GLuint path, GLenum pname, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHPARAMETERINVPROC ) ( GLuint path, GLenum pname, GLint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHPARAMETERIVNVPROC ) ( GLuint path, GLenum pname, const GLint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHSTENCILDEPTHOFFSETNVPROC ) ( GLfloat factor, GLfloat units );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHSTENCILFUNCNVPROC ) ( GLenum func, GLint ref, GLuint mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHSTRINGNVPROC ) ( GLuint path, GLenum format, GLsizei length, const GLvoid * pathString );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHSUBCOMMANDSNVPROC ) ( GLuint path, GLsizei commandStart, GLsizei commandsToDelete, GLsizei numCommands, const GLubyte * commands, GLsizei numCoords, GLenum coordType, const GLvoid * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHSUBCOORDSNVPROC ) ( GLuint path, GLsizei coordStart, GLsizei numCoords, GLenum coordType, const GLvoid * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPATHTEXGENNVPROC ) ( GLenum texCoordSet, GLenum genMode, GLint components, const GLfloat * coeffs );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLPOINTALONGPATHNVPROC ) ( GLuint path, GLsizei startSegment, GLsizei numSegments, GLfloat distance, GLfloat * x, GLfloat * y, GLfloat * tangentX, GLfloat * tangentY );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILFILLPATHINSTANCEDNVPROC ) ( GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLenum fillMode, GLuint mask, GLenum transformType, const GLfloat * transformValues );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILFILLPATHNVPROC ) ( GLuint path, GLenum fillMode, GLuint mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILSTROKEPATHINSTANCEDNVPROC ) ( GLsizei numPaths, GLenum pathNameType, const GLvoid * paths, GLuint pathBase, GLint reference, GLuint mask, GLenum transformType, const GLfloat * transformValues );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTENCILSTROKEPATHNVPROC ) ( GLuint path, GLint reference, GLuint mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTRANSFORMPATHNVPROC ) ( GLuint resultPath, GLuint srcPath, GLenum transformType, const GLfloat * transformValues );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWEIGHTPATHSNVPROC ) ( GLuint resultPath, GLsizei numPaths, const GLuint * paths, const GLfloat * weights );
 
 extern PFNGLCOPYPATHNVPROC _funcptr_glCopyPathNV;
 #define glCopyPathNV _funcptr_glCopyPathNV
@@ -8694,8 +8694,8 @@ extern PFNGLWEIGHTPATHSNVPROC _funcptr_glWeightPathsNV;
 #define GL_WRITE_PIXEL_DATA_RANGE_NV 0x8878
 #define GL_WRITE_PIXEL_DATA_RANGE_POINTER_NV 0x887C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHPIXELDATARANGENVPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELDATARANGENVPROC)(GLenum target, GLsizei length, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHPIXELDATARANGENVPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELDATARANGENVPROC ) ( GLenum target, GLsizei length, const GLvoid * pointer );
 
 extern PFNGLFLUSHPIXELDATARANGENVPROC _funcptr_glFlushPixelDataRangeNV;
 #define glFlushPixelDataRangeNV _funcptr_glFlushPixelDataRangeNV
@@ -8706,8 +8706,8 @@ extern PFNGLPIXELDATARANGENVPROC _funcptr_glPixelDataRangeNV;
 #define GL_POINT_SPRITE_NV 0x8861
 #define GL_POINT_SPRITE_R_MODE_NV 0x8863
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERINVPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERIVNVPROC)(GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERINVPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERIVNVPROC ) ( GLenum pname, const GLint * params );
 
 extern PFNGLPOINTPARAMETERINVPROC _funcptr_glPointParameteriNV;
 #define glPointParameteriNV _funcptr_glPointParameteriNV
@@ -8721,12 +8721,12 @@ extern PFNGLPOINTPARAMETERIVNVPROC _funcptr_glPointParameterivNV;
 #define GL_PRESENT_DURATION_NV 0x8E2B
 #define GL_PRESENT_TIME_NV 0x8E2A
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOI64VNVPROC)(GLuint video_slot, GLenum pname, GLint64EXT * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOIVNVPROC)(GLuint video_slot, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOUI64VNVPROC)(GLuint video_slot, GLenum pname, GLuint64EXT * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOUIVNVPROC)(GLuint video_slot, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPRESENTFRAMEDUALFILLNVPROC)(GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLenum target1, GLuint fill1, GLenum target2, GLuint fill2, GLenum target3, GLuint fill3);
-typedef void (CODEGEN_FUNCPTR * PFNGLPRESENTFRAMEKEYEDNVPROC)(GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLuint key0, GLenum target1, GLuint fill1, GLuint key1);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOI64VNVPROC ) ( GLuint video_slot, GLenum pname, GLint64EXT * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOIVNVPROC ) ( GLuint video_slot, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOUI64VNVPROC ) ( GLuint video_slot, GLenum pname, GLuint64EXT * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOUIVNVPROC ) ( GLuint video_slot, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPRESENTFRAMEDUALFILLNVPROC ) ( GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLenum target1, GLuint fill1, GLenum target2, GLuint fill2, GLenum target3, GLuint fill3 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPRESENTFRAMEKEYEDNVPROC ) ( GLuint video_slot, GLuint64EXT minPresentTime, GLuint beginPresentTimeId, GLuint presentDurationId, GLenum type, GLenum target0, GLuint fill0, GLuint key0, GLenum target1, GLuint fill1, GLuint key1 );
 
 extern PFNGLGETVIDEOI64VNVPROC _funcptr_glGetVideoi64vNV;
 #define glGetVideoi64vNV _funcptr_glGetVideoi64vNV
@@ -8744,8 +8744,8 @@ extern PFNGLPRESENTFRAMEKEYEDNVPROC _funcptr_glPresentFrameKeyedNV;
 #define GL_PRIMITIVE_RESTART_INDEX_NV 0x8559
 #define GL_PRIMITIVE_RESTART_NV 0x8558
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPRIMITIVERESTARTINDEXNVPROC)(GLuint index);
-typedef void (CODEGEN_FUNCPTR * PFNGLPRIMITIVERESTARTNVPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLPRIMITIVERESTARTINDEXNVPROC ) ( GLuint index );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPRIMITIVERESTARTNVPROC ) ();
 
 extern PFNGLPRIMITIVERESTARTINDEXNVPROC _funcptr_glPrimitiveRestartIndexNV;
 #define glPrimitiveRestartIndexNV _funcptr_glPrimitiveRestartIndexNV
@@ -8809,19 +8809,19 @@ extern PFNGLPRIMITIVERESTARTNVPROC _funcptr_glPrimitiveRestartNV;
 #define GL_VARIABLE_G_NV 0x8529
 #define GL_ZERO 0
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMBINERINPUTNVPROC)(GLenum stage, GLenum portion, GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMBINEROUTPUTNVPROC)(GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct, GLboolean cdDotProduct, GLboolean muxSum);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERFNVPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERFVNVPROC)(GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERINVPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERIVNVPROC)(GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLFINALCOMBINERINPUTNVPROC)(GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMBINERINPUTPARAMETERFVNVPROC)(GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMBINERINPUTPARAMETERIVNVPROC)(GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMBINEROUTPUTPARAMETERFVNVPROC)(GLenum stage, GLenum portion, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMBINEROUTPUTPARAMETERIVNVPROC)(GLenum stage, GLenum portion, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFINALCOMBINERINPUTPARAMETERFVNVPROC)(GLenum variable, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFINALCOMBINERINPUTPARAMETERIVNVPROC)(GLenum variable, GLenum pname, GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMBINERINPUTNVPROC ) ( GLenum stage, GLenum portion, GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMBINEROUTPUTNVPROC ) ( GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct, GLboolean cdDotProduct, GLboolean muxSum );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERFNVPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERFVNVPROC ) ( GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERINVPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMBINERPARAMETERIVNVPROC ) ( GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFINALCOMBINERINPUTNVPROC ) ( GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMBINERINPUTPARAMETERFVNVPROC ) ( GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMBINERINPUTPARAMETERIVNVPROC ) ( GLenum stage, GLenum portion, GLenum variable, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMBINEROUTPUTPARAMETERFVNVPROC ) ( GLenum stage, GLenum portion, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMBINEROUTPUTPARAMETERIVNVPROC ) ( GLenum stage, GLenum portion, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFINALCOMBINERINPUTPARAMETERFVNVPROC ) ( GLenum variable, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFINALCOMBINERINPUTPARAMETERIVNVPROC ) ( GLenum variable, GLenum pname, GLint * params );
 
 extern PFNGLCOMBINERINPUTNVPROC _funcptr_glCombinerInputNV;
 #define glCombinerInputNV _funcptr_glCombinerInputNV
@@ -8852,8 +8852,8 @@ extern PFNGLGETFINALCOMBINERINPUTPARAMETERIVNVPROC _funcptr_glGetFinalCombinerIn
 
 #define GL_PER_STAGE_CONSTANTS_NV 0x8535
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMBINERSTAGEPARAMETERFVNVPROC)(GLenum stage, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMBINERSTAGEPARAMETERFVNVPROC)(GLenum stage, GLenum pname, GLfloat * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMBINERSTAGEPARAMETERFVNVPROC ) ( GLenum stage, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMBINERSTAGEPARAMETERFVNVPROC ) ( GLenum stage, GLenum pname, GLfloat * params );
 
 extern PFNGLCOMBINERSTAGEPARAMETERFVNVPROC _funcptr_glCombinerStageParameterfvNV;
 #define glCombinerStageParameterfvNV _funcptr_glCombinerStageParameterfvNV
@@ -8864,20 +8864,20 @@ extern PFNGLGETCOMBINERSTAGEPARAMETERFVNVPROC _funcptr_glGetCombinerStageParamet
 #define GL_GPU_ADDRESS_NV 0x8F34
 #define GL_MAX_SHADER_BUFFER_ADDRESS_NV 0x8F35
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERUI64VNVPROC)(GLenum target, GLenum pname, GLuint64EXT * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTEGERUI64VNVPROC)(GLenum value, GLuint64EXT * result);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERPARAMETERUI64VNVPROC)(GLuint buffer, GLenum pname, GLuint64EXT * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETUNIFORMUI64VNVPROC)(GLuint program, GLint location, GLuint64EXT * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISBUFFERRESIDENTNVPROC)(GLenum target);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISNAMEDBUFFERRESIDENTNVPROC)(GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKEBUFFERNONRESIDENTNVPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKEBUFFERRESIDENTNVPROC)(GLenum target, GLenum access);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKENAMEDBUFFERNONRESIDENTNVPROC)(GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAKENAMEDBUFFERRESIDENTNVPROC)(GLuint buffer, GLenum access);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMUI64NVPROC)(GLuint program, GLint location, GLuint64EXT value);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMUI64VNVPROC)(GLuint program, GLint location, GLsizei count, const GLuint64EXT * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMUI64NVPROC)(GLint location, GLuint64EXT value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMUI64VNVPROC)(GLint location, GLsizei count, const GLuint64EXT * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERUI64VNVPROC ) ( GLenum target, GLenum pname, GLuint64EXT * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTEGERUI64VNVPROC ) ( GLenum value, GLuint64EXT * result );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETNAMEDBUFFERPARAMETERUI64VNVPROC ) ( GLuint buffer, GLenum pname, GLuint64EXT * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETUNIFORMUI64VNVPROC ) ( GLuint program, GLint location, GLuint64EXT * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISBUFFERRESIDENTNVPROC ) ( GLenum target );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISNAMEDBUFFERRESIDENTNVPROC ) ( GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKEBUFFERNONRESIDENTNVPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKEBUFFERRESIDENTNVPROC ) ( GLenum target, GLenum access );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKENAMEDBUFFERNONRESIDENTNVPROC ) ( GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAKENAMEDBUFFERRESIDENTNVPROC ) ( GLuint buffer, GLenum access );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMUI64NVPROC ) ( GLuint program, GLint location, GLuint64EXT value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMUNIFORMUI64VNVPROC ) ( GLuint program, GLint location, GLsizei count, const GLuint64EXT * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMUI64NVPROC ) ( GLint location, GLuint64EXT value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMUI64VNVPROC ) ( GLint location, GLsizei count, const GLuint64EXT * value );
 
 extern PFNGLGETBUFFERPARAMETERUI64VNVPROC _funcptr_glGetBufferParameterui64vNV;
 #define glGetBufferParameterui64vNV _funcptr_glGetBufferParameterui64vNV
@@ -8925,7 +8925,7 @@ extern PFNGLUNIFORMUI64VNVPROC _funcptr_glUniformui64vNV;
 #define GL_NORMAL_MAP_NV 0x8511
 #define GL_REFLECTION_MAP_NV 0x8512
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREBARRIERNVPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREBARRIERNVPROC ) ();
 
 extern PFNGLTEXTUREBARRIERNVPROC _funcptr_glTextureBarrierNV;
 #define glTextureBarrierNV _funcptr_glTextureBarrierNV
@@ -8941,12 +8941,12 @@ extern PFNGLTEXTUREBARRIERNVPROC _funcptr_glTextureBarrierNV;
 #define GL_TEXTURE_COLOR_SAMPLES_NV 0x9046
 #define GL_TEXTURE_COVERAGE_SAMPLES_NV 0x9045
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE2DMULTISAMPLECOVERAGENVPROC)(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DMULTISAMPLECOVERAGENVPROC)(GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE2DMULTISAMPLECOVERAGENVPROC)(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE2DMULTISAMPLENVPROC)(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE3DMULTISAMPLECOVERAGENVPROC)(GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE3DMULTISAMPLENVPROC)(GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE2DMULTISAMPLECOVERAGENVPROC ) ( GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DMULTISAMPLECOVERAGENVPROC ) ( GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE2DMULTISAMPLECOVERAGENVPROC ) ( GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE2DMULTISAMPLENVPROC ) ( GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLboolean fixedSampleLocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE3DMULTISAMPLECOVERAGENVPROC ) ( GLuint texture, GLenum target, GLsizei coverageSamples, GLsizei colorSamples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTUREIMAGE3DMULTISAMPLENVPROC ) ( GLuint texture, GLenum target, GLsizei samples, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedSampleLocations );
 
 extern PFNGLTEXIMAGE2DMULTISAMPLECOVERAGENVPROC _funcptr_glTexImage2DMultisampleCoverageNV;
 #define glTexImage2DMultisampleCoverageNV _funcptr_glTexImage2DMultisampleCoverageNV
@@ -9092,18 +9092,18 @@ extern PFNGLTEXTUREIMAGE3DMULTISAMPLENVPROC _funcptr_glTextureImage3DMultisample
 #define GL_TRANSFORM_FEEDBACK_VARYINGS_NV 0x8C83
 #define GL_VERTEX_ID_NV 0x8C7B
 
-typedef void (CODEGEN_FUNCPTR * PFNGLACTIVEVARYINGNVPROC)(GLuint program, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINTRANSFORMFEEDBACKNVPROC)(GLenum primitiveMode);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERBASENVPROC)(GLenum target, GLuint index, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFEROFFSETNVPROC)(GLenum target, GLuint index, GLuint buffer, GLintptr offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERRANGENVPROC)(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDTRANSFORMFEEDBACKNVPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLGETACTIVEVARYINGNVPROC)(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLsizei * size, GLenum * type, GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTRANSFORMFEEDBACKVARYINGNVPROC)(GLuint program, GLuint index, GLint * location);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETVARYINGLOCATIONNVPROC)(GLuint program, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKATTRIBSNVPROC)(GLuint count, const GLint * attribs, GLenum bufferMode);
-typedef void (CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKSTREAMATTRIBSNVPROC)(GLsizei count, const GLint * attribs, GLsizei nbuffers, const GLint * bufstreams, GLenum bufferMode);
-typedef void (CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC)(GLuint program, GLsizei count, const GLint * locations, GLenum bufferMode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLACTIVEVARYINGNVPROC ) ( GLuint program, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINTRANSFORMFEEDBACKNVPROC ) ( GLenum primitiveMode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERBASENVPROC ) ( GLenum target, GLuint index, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFEROFFSETNVPROC ) ( GLenum target, GLuint index, GLuint buffer, GLintptr offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERRANGENVPROC ) ( GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDTRANSFORMFEEDBACKNVPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETACTIVEVARYINGNVPROC ) ( GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLsizei * size, GLenum * type, GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTRANSFORMFEEDBACKVARYINGNVPROC ) ( GLuint program, GLuint index, GLint * location );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETVARYINGLOCATIONNVPROC ) ( GLuint program, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKATTRIBSNVPROC ) ( GLuint count, const GLint * attribs, GLenum bufferMode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKSTREAMATTRIBSNVPROC ) ( GLsizei count, const GLint * attribs, GLsizei nbuffers, const GLint * bufstreams, GLenum bufferMode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC ) ( GLuint program, GLsizei count, const GLint * locations, GLenum bufferMode );
 
 extern PFNGLACTIVEVARYINGNVPROC _funcptr_glActiveVaryingNV;
 #define glActiveVaryingNV _funcptr_glActiveVaryingNV
@@ -9135,13 +9135,13 @@ extern PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC _funcptr_glTransformFeedbackVaryings
 #define GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED_NV 0x8E23
 #define GL_TRANSFORM_FEEDBACK_NV 0x8E22
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDTRANSFORMFEEDBACKNVPROC)(GLenum target, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETETRANSFORMFEEDBACKSNVPROC)(GLsizei n, const GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKNVPROC)(GLenum mode, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENTRANSFORMFEEDBACKSNVPROC)(GLsizei n, GLuint * ids);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISTRANSFORMFEEDBACKNVPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLPAUSETRANSFORMFEEDBACKNVPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLRESUMETRANSFORMFEEDBACKNVPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDTRANSFORMFEEDBACKNVPROC ) ( GLenum target, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETETRANSFORMFEEDBACKSNVPROC ) ( GLsizei n, const GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWTRANSFORMFEEDBACKNVPROC ) ( GLenum mode, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENTRANSFORMFEEDBACKSNVPROC ) ( GLsizei n, GLuint * ids );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISTRANSFORMFEEDBACKNVPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPAUSETRANSFORMFEEDBACKNVPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLRESUMETRANSFORMFEEDBACKNVPROC ) ();
 
 extern PFNGLBINDTRANSFORMFEEDBACKNVPROC _funcptr_glBindTransformFeedbackNV;
 #define glBindTransformFeedbackNV _funcptr_glBindTransformFeedbackNV
@@ -9163,16 +9163,16 @@ extern PFNGLRESUMETRANSFORMFEEDBACKNVPROC _funcptr_glResumeTransformFeedbackNV;
 #define GL_SURFACE_STATE_NV 0x86EB
 #define GL_WRITE_DISCARD_NV 0x88BE
 
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUFININVPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUGETSURFACEIVNVPROC)(GLvdpauSurfaceNV surface, GLenum pname, GLsizei bufSize, GLsizei * length, GLint * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUINITNVPROC)(const GLvoid * vdpDevice, const GLvoid * getProcAddress);
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUISSURFACENVPROC)(GLvdpauSurfaceNV surface);
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUMAPSURFACESNVPROC)(GLsizei numSurfaces, const GLvdpauSurfaceNV * surfaces);
-typedef GLvdpauSurfaceNV (CODEGEN_FUNCPTR * PFNGLVDPAUREGISTEROUTPUTSURFACENVPROC)(const GLvoid * vdpSurface, GLenum target, GLsizei numTextureNames, const GLuint * textureNames);
-typedef GLvdpauSurfaceNV (CODEGEN_FUNCPTR * PFNGLVDPAUREGISTERVIDEOSURFACENVPROC)(const GLvoid * vdpSurface, GLenum target, GLsizei numTextureNames, const GLuint * textureNames);
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUSURFACEACCESSNVPROC)(GLvdpauSurfaceNV surface, GLenum access);
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUUNMAPSURFACESNVPROC)(GLsizei numSurface, const GLvdpauSurfaceNV * surfaces);
-typedef void (CODEGEN_FUNCPTR * PFNGLVDPAUUNREGISTERSURFACENVPROC)(GLvdpauSurfaceNV surface);
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUFININVPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUGETSURFACEIVNVPROC ) ( GLvdpauSurfaceNV surface, GLenum pname, GLsizei bufSize, GLsizei * length, GLint * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUINITNVPROC ) ( const GLvoid * vdpDevice, const GLvoid * getProcAddress );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUISSURFACENVPROC ) ( GLvdpauSurfaceNV surface );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUMAPSURFACESNVPROC ) ( GLsizei numSurfaces, const GLvdpauSurfaceNV * surfaces );
+typedef GLvdpauSurfaceNV ( CODEGEN_FUNCPTR * PFNGLVDPAUREGISTEROUTPUTSURFACENVPROC ) ( const GLvoid * vdpSurface, GLenum target, GLsizei numTextureNames, const GLuint * textureNames );
+typedef GLvdpauSurfaceNV ( CODEGEN_FUNCPTR * PFNGLVDPAUREGISTERVIDEOSURFACENVPROC ) ( const GLvoid * vdpSurface, GLenum target, GLsizei numTextureNames, const GLuint * textureNames );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUSURFACEACCESSNVPROC ) ( GLvdpauSurfaceNV surface, GLenum access );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUUNMAPSURFACESNVPROC ) ( GLsizei numSurface, const GLvdpauSurfaceNV * surfaces );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVDPAUUNREGISTERSURFACENVPROC ) ( GLvdpauSurfaceNV surface );
 
 extern PFNGLVDPAUFININVPROC _funcptr_glVDPAUFiniNV;
 #define glVDPAUFiniNV _funcptr_glVDPAUFiniNV
@@ -9201,8 +9201,8 @@ extern PFNGLVDPAUUNREGISTERSURFACENVPROC _funcptr_glVDPAUUnregisterSurfaceNV;
 #define GL_VERTEX_ARRAY_RANGE_POINTER_NV 0x8521
 #define GL_VERTEX_ARRAY_RANGE_VALID_NV 0x851F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHVERTEXARRAYRANGENVPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXARRAYRANGENVPROC)(GLsizei length, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHVERTEXARRAYRANGENVPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXARRAYRANGENVPROC ) ( GLsizei length, const GLvoid * pointer );
 
 extern PFNGLFLUSHVERTEXARRAYRANGENVPROC _funcptr_glFlushVertexArrayRangeNV;
 #define glFlushVertexArrayRangeNV _funcptr_glFlushVertexArrayRangeNV
@@ -9214,25 +9214,25 @@ extern PFNGLVERTEXARRAYRANGENVPROC _funcptr_glVertexArrayRangeNV;
 #define GL_INT64_NV 0x140E
 #define GL_UNSIGNED_INT64_NV 0x140F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLI64VNVPROC)(GLuint index, GLenum pname, GLint64EXT * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLUI64VNVPROC)(GLuint index, GLenum pname, GLuint64EXT * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1I64NVPROC)(GLuint index, GLint64EXT x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1I64VNVPROC)(GLuint index, const GLint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64NVPROC)(GLuint index, GLuint64EXT x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64VNVPROC)(GLuint index, const GLuint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2I64NVPROC)(GLuint index, GLint64EXT x, GLint64EXT y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2I64VNVPROC)(GLuint index, const GLint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2UI64NVPROC)(GLuint index, GLuint64EXT x, GLuint64EXT y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2UI64VNVPROC)(GLuint index, const GLuint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3I64NVPROC)(GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3I64VNVPROC)(GLuint index, const GLint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3UI64NVPROC)(GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3UI64VNVPROC)(GLuint index, const GLuint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4I64NVPROC)(GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4I64VNVPROC)(GLuint index, const GLint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4UI64NVPROC)(GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4UI64VNVPROC)(GLuint index, const GLuint64EXT * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLFORMATNVPROC)(GLuint index, GLint size, GLenum type, GLsizei stride);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLI64VNVPROC ) ( GLuint index, GLenum pname, GLint64EXT * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBLUI64VNVPROC ) ( GLuint index, GLenum pname, GLuint64EXT * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1I64NVPROC ) ( GLuint index, GLint64EXT x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1I64VNVPROC ) ( GLuint index, const GLint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64NVPROC ) ( GLuint index, GLuint64EXT x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL1UI64VNVPROC ) ( GLuint index, const GLuint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2I64NVPROC ) ( GLuint index, GLint64EXT x, GLint64EXT y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2I64VNVPROC ) ( GLuint index, const GLint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2UI64NVPROC ) ( GLuint index, GLuint64EXT x, GLuint64EXT y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL2UI64VNVPROC ) ( GLuint index, const GLuint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3I64NVPROC ) ( GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3I64VNVPROC ) ( GLuint index, const GLint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3UI64NVPROC ) ( GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL3UI64VNVPROC ) ( GLuint index, const GLuint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4I64NVPROC ) ( GLuint index, GLint64EXT x, GLint64EXT y, GLint64EXT z, GLint64EXT w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4I64VNVPROC ) ( GLuint index, const GLint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4UI64NVPROC ) ( GLuint index, GLuint64EXT x, GLuint64EXT y, GLuint64EXT z, GLuint64EXT w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBL4UI64VNVPROC ) ( GLuint index, const GLuint64EXT * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBLFORMATNVPROC ) ( GLuint index, GLint size, GLenum type, GLsizei stride );
 
 extern PFNGLGETVERTEXATTRIBLI64VNVPROC _funcptr_glGetVertexAttribLi64vNV;
 #define glGetVertexAttribLi64vNV _funcptr_glGetVertexAttribLi64vNV
@@ -9299,18 +9299,18 @@ extern PFNGLVERTEXATTRIBLFORMATNVPROC _funcptr_glVertexAttribLFormatNV;
 #define GL_VERTEX_ATTRIB_ARRAY_LENGTH_NV 0x8F2A
 #define GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV 0x8F1E
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBUFFERADDRESSRANGENVPROC)(GLenum pname, GLuint index, GLuint64EXT address, GLsizeiptr length);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORFORMATNVPROC)(GLint size, GLenum type, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLEDGEFLAGFORMATNVPROC)(GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGCOORDFORMATNVPROC)(GLenum type, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTEGERUI64I_VNVPROC)(GLenum value, GLuint index, GLuint64EXT * result);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXFORMATNVPROC)(GLenum type, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALFORMATNVPROC)(GLenum type, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORFORMATNVPROC)(GLint size, GLenum type, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDFORMATNVPROC)(GLint size, GLenum type, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBFORMATNVPROC)(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBIFORMATNVPROC)(GLuint index, GLint size, GLenum type, GLsizei stride);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXFORMATNVPROC)(GLint size, GLenum type, GLsizei stride);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBUFFERADDRESSRANGENVPROC ) ( GLenum pname, GLuint index, GLuint64EXT address, GLsizeiptr length );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORFORMATNVPROC ) ( GLint size, GLenum type, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEDGEFLAGFORMATNVPROC ) ( GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGCOORDFORMATNVPROC ) ( GLenum type, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTEGERUI64I_VNVPROC ) ( GLenum value, GLuint index, GLuint64EXT * result );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXFORMATNVPROC ) ( GLenum type, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALFORMATNVPROC ) ( GLenum type, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSECONDARYCOLORFORMATNVPROC ) ( GLint size, GLenum type, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDFORMATNVPROC ) ( GLint size, GLenum type, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBFORMATNVPROC ) ( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBIFORMATNVPROC ) ( GLuint index, GLint size, GLenum type, GLsizei stride );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXFORMATNVPROC ) ( GLint size, GLenum type, GLsizei stride );
 
 extern PFNGLBUFFERADDRESSRANGENVPROC _funcptr_glBufferAddressRangeNV;
 #define glBufferAddressRangeNV _funcptr_glBufferAddressRangeNV
@@ -9421,70 +9421,70 @@ extern PFNGLVERTEXFORMATNVPROC _funcptr_glVertexFormatNV;
 #define GL_VERTEX_PROGRAM_TWO_SIDE_NV 0x8643
 #define GL_VERTEX_STATE_PROGRAM_NV 0x8621
 
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLAREPROGRAMSRESIDENTNVPROC)(GLsizei n, const GLuint * programs, GLboolean * residences);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDPROGRAMNVPROC)(GLenum target, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMSNVPROC)(GLsizei n, const GLuint * programs);
-typedef void (CODEGEN_FUNCPTR * PFNGLEXECUTEPROGRAMNVPROC)(GLenum target, GLuint id, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENPROGRAMSNVPROC)(GLsizei n, GLuint * programs);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMPARAMETERDVNVPROC)(GLenum target, GLuint index, GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMPARAMETERFVNVPROC)(GLenum target, GLuint index, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTRINGNVPROC)(GLuint id, GLenum pname, GLubyte * program);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPROGRAMIVNVPROC)(GLuint id, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTRACKMATRIXIVNVPROC)(GLenum target, GLuint address, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBPOINTERVNVPROC)(GLuint index, GLenum pname, GLvoid ** pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBDVNVPROC)(GLuint index, GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBFVNVPROC)(GLuint index, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIVNVPROC)(GLuint index, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISPROGRAMNVPROC)(GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLLOADPROGRAMNVPROC)(GLenum target, GLuint id, GLsizei len, const GLubyte * program);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4DNVPROC)(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4DVNVPROC)(GLenum target, GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4FNVPROC)(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4FVNVPROC)(GLenum target, GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERS4DVNVPROC)(GLenum target, GLuint index, GLsizei count, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERS4FVNVPROC)(GLenum target, GLuint index, GLsizei count, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREQUESTRESIDENTPROGRAMSNVPROC)(GLsizei n, const GLuint * programs);
-typedef void (CODEGEN_FUNCPTR * PFNGLTRACKMATRIXNVPROC)(GLenum target, GLuint address, GLenum matrix, GLenum transform);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DNVPROC)(GLuint index, GLdouble x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DVNVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FNVPROC)(GLuint index, GLfloat x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FVNVPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SNVPROC)(GLuint index, GLshort x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SVNVPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DNVPROC)(GLuint index, GLdouble x, GLdouble y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DVNVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FNVPROC)(GLuint index, GLfloat x, GLfloat y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FVNVPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SNVPROC)(GLuint index, GLshort x, GLshort y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SVNVPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DNVPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DVNVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FNVPROC)(GLuint index, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FVNVPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SNVPROC)(GLuint index, GLshort x, GLshort y, GLshort z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SVNVPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DNVPROC)(GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DVNVPROC)(GLuint index, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FNVPROC)(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FVNVPROC)(GLuint index, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SNVPROC)(GLuint index, GLshort x, GLshort y, GLshort z, GLshort w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SVNVPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UBNVPROC)(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UBVNVPROC)(GLuint index, const GLubyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBPOINTERNVPROC)(GLuint index, GLint fsize, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1DVNVPROC)(GLuint index, GLsizei count, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1FVNVPROC)(GLuint index, GLsizei count, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1SVNVPROC)(GLuint index, GLsizei count, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2DVNVPROC)(GLuint index, GLsizei count, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2FVNVPROC)(GLuint index, GLsizei count, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2SVNVPROC)(GLuint index, GLsizei count, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3DVNVPROC)(GLuint index, GLsizei count, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3FVNVPROC)(GLuint index, GLsizei count, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3SVNVPROC)(GLuint index, GLsizei count, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4DVNVPROC)(GLuint index, GLsizei count, const GLdouble * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4FVNVPROC)(GLuint index, GLsizei count, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4SVNVPROC)(GLuint index, GLsizei count, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4UBVNVPROC)(GLuint index, GLsizei count, const GLubyte * v);
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLAREPROGRAMSRESIDENTNVPROC ) ( GLsizei n, const GLuint * programs, GLboolean * residences );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDPROGRAMNVPROC ) ( GLenum target, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEPROGRAMSNVPROC ) ( GLsizei n, const GLuint * programs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEXECUTEPROGRAMNVPROC ) ( GLenum target, GLuint id, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENPROGRAMSNVPROC ) ( GLsizei n, GLuint * programs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMPARAMETERDVNVPROC ) ( GLenum target, GLuint index, GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMPARAMETERFVNVPROC ) ( GLenum target, GLuint index, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMSTRINGNVPROC ) ( GLuint id, GLenum pname, GLubyte * program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPROGRAMIVNVPROC ) ( GLuint id, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTRACKMATRIXIVNVPROC ) ( GLenum target, GLuint address, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBPOINTERVNVPROC ) ( GLuint index, GLenum pname, GLvoid ** pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBDVNVPROC ) ( GLuint index, GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBFVNVPROC ) ( GLuint index, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIVNVPROC ) ( GLuint index, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISPROGRAMNVPROC ) ( GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLOADPROGRAMNVPROC ) ( GLenum target, GLuint id, GLsizei len, const GLubyte * program );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4DNVPROC ) ( GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4DVNVPROC ) ( GLenum target, GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4FNVPROC ) ( GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETER4FVNVPROC ) ( GLenum target, GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERS4DVNVPROC ) ( GLenum target, GLuint index, GLsizei count, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROGRAMPARAMETERS4FVNVPROC ) ( GLenum target, GLuint index, GLsizei count, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREQUESTRESIDENTPROGRAMSNVPROC ) ( GLsizei n, const GLuint * programs );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTRACKMATRIXNVPROC ) ( GLenum target, GLuint address, GLenum matrix, GLenum transform );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DNVPROC ) ( GLuint index, GLdouble x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1DVNVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FNVPROC ) ( GLuint index, GLfloat x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1FVNVPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SNVPROC ) ( GLuint index, GLshort x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB1SVNVPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DNVPROC ) ( GLuint index, GLdouble x, GLdouble y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2DVNVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FNVPROC ) ( GLuint index, GLfloat x, GLfloat y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2FVNVPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SNVPROC ) ( GLuint index, GLshort x, GLshort y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB2SVNVPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DNVPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3DVNVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FNVPROC ) ( GLuint index, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3FVNVPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SNVPROC ) ( GLuint index, GLshort x, GLshort y, GLshort z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB3SVNVPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DNVPROC ) ( GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4DVNVPROC ) ( GLuint index, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FNVPROC ) ( GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4FVNVPROC ) ( GLuint index, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SNVPROC ) ( GLuint index, GLshort x, GLshort y, GLshort z, GLshort w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4SVNVPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UBNVPROC ) ( GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIB4UBVNVPROC ) ( GLuint index, const GLubyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBPOINTERNVPROC ) ( GLuint index, GLint fsize, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1DVNVPROC ) ( GLuint index, GLsizei count, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1FVNVPROC ) ( GLuint index, GLsizei count, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS1SVNVPROC ) ( GLuint index, GLsizei count, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2DVNVPROC ) ( GLuint index, GLsizei count, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2FVNVPROC ) ( GLuint index, GLsizei count, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS2SVNVPROC ) ( GLuint index, GLsizei count, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3DVNVPROC ) ( GLuint index, GLsizei count, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3FVNVPROC ) ( GLuint index, GLsizei count, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS3SVNVPROC ) ( GLuint index, GLsizei count, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4DVNVPROC ) ( GLuint index, GLsizei count, const GLdouble * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4FVNVPROC ) ( GLuint index, GLsizei count, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4SVNVPROC ) ( GLuint index, GLsizei count, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBS4UBVNVPROC ) ( GLuint index, GLsizei count, const GLubyte * v );
 
 extern PFNGLAREPROGRAMSRESIDENTNVPROC _funcptr_glAreProgramsResidentNV;
 #define glAreProgramsResidentNV _funcptr_glAreProgramsResidentNV
@@ -9622,29 +9622,29 @@ extern PFNGLVERTEXATTRIBS4UBVNVPROC _funcptr_glVertexAttribs4ubvNV;
 
 #define GL_VERTEX_ATTRIB_ARRAY_INTEGER_NV 0x88FD
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIIVEXTPROC)(GLuint index, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIUIVEXTPROC)(GLuint index, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1IEXTPROC)(GLuint index, GLint x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1IVEXTPROC)(GLuint index, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1UIEXTPROC)(GLuint index, GLuint x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1UIVEXTPROC)(GLuint index, const GLuint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2IEXTPROC)(GLuint index, GLint x, GLint y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2IVEXTPROC)(GLuint index, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2UIEXTPROC)(GLuint index, GLuint x, GLuint y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2UIVEXTPROC)(GLuint index, const GLuint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3IEXTPROC)(GLuint index, GLint x, GLint y, GLint z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3IVEXTPROC)(GLuint index, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3UIEXTPROC)(GLuint index, GLuint x, GLuint y, GLuint z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3UIVEXTPROC)(GLuint index, const GLuint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4BVEXTPROC)(GLuint index, const GLbyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4IEXTPROC)(GLuint index, GLint x, GLint y, GLint z, GLint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4IVEXTPROC)(GLuint index, const GLint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4SVEXTPROC)(GLuint index, const GLshort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4UBVEXTPROC)(GLuint index, const GLubyte * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4UIEXTPROC)(GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4UIVEXTPROC)(GLuint index, const GLuint * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4USVEXTPROC)(GLuint index, const GLushort * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBIPOINTEREXTPROC)(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIIVEXTPROC ) ( GLuint index, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVERTEXATTRIBIUIVEXTPROC ) ( GLuint index, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1IEXTPROC ) ( GLuint index, GLint x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1IVEXTPROC ) ( GLuint index, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1UIEXTPROC ) ( GLuint index, GLuint x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI1UIVEXTPROC ) ( GLuint index, const GLuint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2IEXTPROC ) ( GLuint index, GLint x, GLint y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2IVEXTPROC ) ( GLuint index, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2UIEXTPROC ) ( GLuint index, GLuint x, GLuint y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI2UIVEXTPROC ) ( GLuint index, const GLuint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3IEXTPROC ) ( GLuint index, GLint x, GLint y, GLint z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3IVEXTPROC ) ( GLuint index, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3UIEXTPROC ) ( GLuint index, GLuint x, GLuint y, GLuint z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI3UIVEXTPROC ) ( GLuint index, const GLuint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4BVEXTPROC ) ( GLuint index, const GLbyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4IEXTPROC ) ( GLuint index, GLint x, GLint y, GLint z, GLint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4IVEXTPROC ) ( GLuint index, const GLint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4SVEXTPROC ) ( GLuint index, const GLshort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4UBVEXTPROC ) ( GLuint index, const GLubyte * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4UIEXTPROC ) ( GLuint index, GLuint x, GLuint y, GLuint z, GLuint w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4UIVEXTPROC ) ( GLuint index, const GLuint * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBI4USVEXTPROC ) ( GLuint index, const GLushort * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBIPOINTEREXTPROC ) ( GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
 
 extern PFNGLGETVERTEXATTRIBIIVEXTPROC _funcptr_glGetVertexAttribIivEXT;
 #define glGetVertexAttribIivEXT _funcptr_glGetVertexAttribIivEXT
@@ -9723,18 +9723,18 @@ extern PFNGLVERTEXATTRIBIPOINTEREXTPROC _funcptr_glVertexAttribIPointerEXT;
 #define GL_Z6Y10Z6CB10Z6A10Z6Y10Z6CR10Z6A10_4224_NV 0x9034
 #define GL_Z6Y10Z6CB10Z6Y10Z6CR10_422_NV 0x9033
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINVIDEOCAPTURENVPROC)(GLuint video_capture_slot);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDVIDEOCAPTURESTREAMBUFFERNVPROC)(GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLintptrARB offset);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDVIDEOCAPTURESTREAMTEXTURENVPROC)(GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLenum target, GLuint texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDVIDEOCAPTURENVPROC)(GLuint video_capture_slot);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTURESTREAMDVNVPROC)(GLuint video_capture_slot, GLuint stream, GLenum pname, GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTURESTREAMFVNVPROC)(GLuint video_capture_slot, GLuint stream, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTURESTREAMIVNVPROC)(GLuint video_capture_slot, GLuint stream, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTUREIVNVPROC)(GLuint video_capture_slot, GLenum pname, GLint * params);
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURENVPROC)(GLuint video_capture_slot, GLuint * sequence_num, GLuint64EXT * capture_time);
-typedef void (CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURESTREAMPARAMETERDVNVPROC)(GLuint video_capture_slot, GLuint stream, GLenum pname, const GLdouble * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURESTREAMPARAMETERFVNVPROC)(GLuint video_capture_slot, GLuint stream, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURESTREAMPARAMETERIVNVPROC)(GLuint video_capture_slot, GLuint stream, GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINVIDEOCAPTURENVPROC ) ( GLuint video_capture_slot );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDVIDEOCAPTURESTREAMBUFFERNVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLintptrARB offset );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDVIDEOCAPTURESTREAMTEXTURENVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum frame_region, GLenum target, GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDVIDEOCAPTURENVPROC ) ( GLuint video_capture_slot );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTURESTREAMDVNVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum pname, GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTURESTREAMFVNVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTURESTREAMIVNVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETVIDEOCAPTUREIVNVPROC ) ( GLuint video_capture_slot, GLenum pname, GLint * params );
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURENVPROC ) ( GLuint video_capture_slot, GLuint * sequence_num, GLuint64EXT * capture_time );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURESTREAMPARAMETERDVNVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum pname, const GLdouble * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURESTREAMPARAMETERFVNVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVIDEOCAPTURESTREAMPARAMETERIVNVPROC ) ( GLuint video_capture_slot, GLuint stream, GLenum pname, const GLint * params );
 
 extern PFNGLBEGINVIDEOCAPTURENVPROC _funcptr_glBeginVideoCaptureNV;
 #define glBeginVideoCaptureNV _funcptr_glBeginVideoCaptureNV
@@ -9761,28 +9761,28 @@ extern PFNGLVIDEOCAPTURESTREAMPARAMETERFVNVPROC _funcptr_glVideoCaptureStreamPar
 extern PFNGLVIDEOCAPTURESTREAMPARAMETERIVNVPROC _funcptr_glVideoCaptureStreamParameterivNV;
 #define glVideoCaptureStreamParameterivNV _funcptr_glVideoCaptureStreamParameterivNV
 
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1BOESPROC)(GLenum texture, GLbyte s);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1BVOESPROC)(GLenum texture, const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2BOESPROC)(GLenum texture, GLbyte s, GLbyte t);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2BVOESPROC)(GLenum texture, const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3BOESPROC)(GLenum texture, GLbyte s, GLbyte t, GLbyte r);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3BVOESPROC)(GLenum texture, const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4BOESPROC)(GLenum texture, GLbyte s, GLbyte t, GLbyte r, GLbyte q);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4BVOESPROC)(GLenum texture, const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD1BOESPROC)(GLbyte s);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD1BVOESPROC)(const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2BOESPROC)(GLbyte s, GLbyte t);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2BVOESPROC)(const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD3BOESPROC)(GLbyte s, GLbyte t, GLbyte r);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD3BVOESPROC)(const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4BOESPROC)(GLbyte s, GLbyte t, GLbyte r, GLbyte q);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4BVOESPROC)(const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX2BOESPROC)(GLbyte x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX2BVOESPROC)(const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX3BOESPROC)(GLbyte x, GLbyte y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX3BVOESPROC)(const GLbyte * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX4BOESPROC)(GLbyte x, GLbyte y, GLbyte z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX4BVOESPROC)(const GLbyte * coords);
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1BOESPROC ) ( GLenum texture, GLbyte s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1BVOESPROC ) ( GLenum texture, const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2BOESPROC ) ( GLenum texture, GLbyte s, GLbyte t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2BVOESPROC ) ( GLenum texture, const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3BOESPROC ) ( GLenum texture, GLbyte s, GLbyte t, GLbyte r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3BVOESPROC ) ( GLenum texture, const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4BOESPROC ) ( GLenum texture, GLbyte s, GLbyte t, GLbyte r, GLbyte q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4BVOESPROC ) ( GLenum texture, const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD1BOESPROC ) ( GLbyte s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD1BVOESPROC ) ( const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2BOESPROC ) ( GLbyte s, GLbyte t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2BVOESPROC ) ( const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD3BOESPROC ) ( GLbyte s, GLbyte t, GLbyte r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD3BVOESPROC ) ( const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4BOESPROC ) ( GLbyte s, GLbyte t, GLbyte r, GLbyte q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4BVOESPROC ) ( const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX2BOESPROC ) ( GLbyte x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX2BVOESPROC ) ( const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX3BOESPROC ) ( GLbyte x, GLbyte y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX3BVOESPROC ) ( const GLbyte * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX4BOESPROC ) ( GLbyte x, GLbyte y, GLbyte z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX4BVOESPROC ) ( const GLbyte * coords );
 
 extern PFNGLMULTITEXCOORD1BOESPROC _funcptr_glMultiTexCoord1bOES;
 #define glMultiTexCoord1bOES _funcptr_glMultiTexCoord1bOES
@@ -9842,110 +9842,110 @@ extern PFNGLVERTEX4BVOESPROC _funcptr_glVertex4bvOES;
 
 #define GL_FIXED_OES 0x140C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLACCUMXOESPROC)(GLenum op, GLfixed value);
-typedef void (CODEGEN_FUNCPTR * PFNGLALPHAFUNCXOESPROC)(GLenum func, GLfixed ref);
-typedef void (CODEGEN_FUNCPTR * PFNGLBITMAPXOESPROC)(GLsizei width, GLsizei height, GLfixed xorig, GLfixed yorig, GLfixed xmove, GLfixed ymove, const GLubyte * bitmap);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDCOLORXOESPROC)(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARACCUMXOESPROC)(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARCOLORXOESPROC)(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARDEPTHXOESPROC)(GLfixed depth);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLIPPLANEXOESPROC)(GLenum plane, const GLfixed * equation);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR3XOESPROC)(GLfixed red, GLfixed green, GLfixed blue);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR3XVOESPROC)(const GLfixed * components);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4XOESPROC)(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4XVOESPROC)(const GLfixed * components);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERXOESPROC)(GLenum target, GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERXVOESPROC)(GLenum target, GLenum pname, const GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHRANGEXOESPROC)(GLfixed n, GLfixed f);
-typedef void (CODEGEN_FUNCPTR * PFNGLEVALCOORD1XOESPROC)(GLfixed u);
-typedef void (CODEGEN_FUNCPTR * PFNGLEVALCOORD1XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLEVALCOORD2XOESPROC)(GLfixed u, GLfixed v);
-typedef void (CODEGEN_FUNCPTR * PFNGLEVALCOORD2XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLFEEDBACKBUFFERXOESPROC)(GLsizei n, GLenum type, const GLfixed * buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGXOESPROC)(GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGXVOESPROC)(GLenum pname, const GLfixed * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRUSTUMXOESPROC)(GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCLIPPLANEXOESPROC)(GLenum plane, GLfixed * equation);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERXVOESPROC)(GLenum target, GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFIXEDVOESPROC)(GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERXVOESPROC)(GLenum target, GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETLIGHTXOESPROC)(GLenum light, GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMAPXVOESPROC)(GLenum target, GLenum query, GLfixed * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMATERIALXOESPROC)(GLenum face, GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPIXELMAPXVPROC)(GLenum map, GLint size, GLfixed * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXENVXVOESPROC)(GLenum target, GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXGENXVOESPROC)(GLenum coord, GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXLEVELPARAMETERXVOESPROC)(GLenum target, GLint level, GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERXVOESPROC)(GLenum target, GLenum pname, GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXXOESPROC)(GLfixed component);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXXVOESPROC)(const GLfixed * component);
-typedef void (CODEGEN_FUNCPTR * PFNGLLIGHTMODELXOESPROC)(GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLLIGHTMODELXVOESPROC)(GLenum pname, const GLfixed * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLLIGHTXOESPROC)(GLenum light, GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLLIGHTXVOESPROC)(GLenum light, GLenum pname, const GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLLINEWIDTHXOESPROC)(GLfixed width);
-typedef void (CODEGEN_FUNCPTR * PFNGLLOADMATRIXXOESPROC)(const GLfixed * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLLOADTRANSPOSEMATRIXXOESPROC)(const GLfixed * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAP1XOESPROC)(GLenum target, GLfixed u1, GLfixed u2, GLint stride, GLint order, GLfixed points);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAP2XOESPROC)(GLenum target, GLfixed u1, GLfixed u2, GLint ustride, GLint uorder, GLfixed v1, GLfixed v2, GLint vstride, GLint vorder, GLfixed points);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPGRID1XOESPROC)(GLint n, GLfixed u1, GLfixed u2);
-typedef void (CODEGEN_FUNCPTR * PFNGLMAPGRID2XOESPROC)(GLint n, GLfixed u1, GLfixed u2, GLfixed v1, GLfixed v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATERIALXOESPROC)(GLenum face, GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMATERIALXVOESPROC)(GLenum face, GLenum pname, const GLfixed * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTMATRIXXOESPROC)(const GLfixed * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTTRANSPOSEMATRIXXOESPROC)(const GLfixed * m);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1XOESPROC)(GLenum texture, GLfixed s);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1XVOESPROC)(GLenum texture, const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2XOESPROC)(GLenum texture, GLfixed s, GLfixed t);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2XVOESPROC)(GLenum texture, const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3XOESPROC)(GLenum texture, GLfixed s, GLfixed t, GLfixed r);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3XVOESPROC)(GLenum texture, const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4XOESPROC)(GLenum texture, GLfixed s, GLfixed t, GLfixed r, GLfixed q);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4XVOESPROC)(GLenum texture, const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMAL3XOESPROC)(GLfixed nx, GLfixed ny, GLfixed nz);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMAL3XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLORTHOXOESPROC)(GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f);
-typedef void (CODEGEN_FUNCPTR * PFNGLPASSTHROUGHXOESPROC)(GLfixed token);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELMAPXPROC)(GLenum map, GLint size, const GLfixed * values);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELSTOREXPROC)(GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTRANSFERXOESPROC)(GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELZOOMXOESPROC)(GLfixed xfactor, GLfixed yfactor);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERXVOESPROC)(GLenum pname, const GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTSIZEXOESPROC)(GLfixed size);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOLYGONOFFSETXOESPROC)(GLfixed factor, GLfixed units);
-typedef void (CODEGEN_FUNCPTR * PFNGLPRIORITIZETEXTURESXOESPROC)(GLsizei n, const GLuint * textures, const GLfixed * priorities);
-typedef void (CODEGEN_FUNCPTR * PFNGLRASTERPOS2XOESPROC)(GLfixed x, GLfixed y);
-typedef void (CODEGEN_FUNCPTR * PFNGLRASTERPOS2XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLRASTERPOS3XOESPROC)(GLfixed x, GLfixed y, GLfixed z);
-typedef void (CODEGEN_FUNCPTR * PFNGLRASTERPOS3XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLRASTERPOS4XOESPROC)(GLfixed x, GLfixed y, GLfixed z, GLfixed w);
-typedef void (CODEGEN_FUNCPTR * PFNGLRASTERPOS4XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLRECTXOESPROC)(GLfixed x1, GLfixed y1, GLfixed x2, GLfixed y2);
-typedef void (CODEGEN_FUNCPTR * PFNGLRECTXVOESPROC)(const GLfixed * v1, const GLfixed * v2);
-typedef void (CODEGEN_FUNCPTR * PFNGLROTATEXOESPROC)(GLfixed angle, GLfixed x, GLfixed y, GLfixed z);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLECOVERAGEOESPROC)(GLfixed value, GLboolean invert);
-typedef void (CODEGEN_FUNCPTR * PFNGLSCALEXOESPROC)(GLfixed x, GLfixed y, GLfixed z);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD1XOESPROC)(GLfixed s);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD1XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2XOESPROC)(GLfixed s, GLfixed t);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD3XOESPROC)(GLfixed s, GLfixed t, GLfixed r);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD3XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4XOESPROC)(GLfixed s, GLfixed t, GLfixed r, GLfixed q);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXENVXOESPROC)(GLenum target, GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXENVXVOESPROC)(GLenum target, GLenum pname, const GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXGENXOESPROC)(GLenum coord, GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXGENXVOESPROC)(GLenum coord, GLenum pname, const GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXPARAMETERXOESPROC)(GLenum target, GLenum pname, GLfixed param);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXPARAMETERXVOESPROC)(GLenum target, GLenum pname, const GLfixed * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLTRANSLATEXOESPROC)(GLfixed x, GLfixed y, GLfixed z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX2XOESPROC)(GLfixed x);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX2XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX3XOESPROC)(GLfixed x, GLfixed y);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX3XVOESPROC)(const GLfixed * coords);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX4XOESPROC)(GLfixed x, GLfixed y, GLfixed z);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEX4XVOESPROC)(const GLfixed * coords);
+typedef void ( CODEGEN_FUNCPTR * PFNGLACCUMXOESPROC ) ( GLenum op, GLfixed value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLALPHAFUNCXOESPROC ) ( GLenum func, GLfixed ref );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBITMAPXOESPROC ) ( GLsizei width, GLsizei height, GLfixed xorig, GLfixed yorig, GLfixed xmove, GLfixed ymove, const GLubyte * bitmap );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDCOLORXOESPROC ) ( GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARACCUMXOESPROC ) ( GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARCOLORXOESPROC ) ( GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARDEPTHXOESPROC ) ( GLfixed depth );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLIPPLANEXOESPROC ) ( GLenum plane, const GLfixed * equation );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR3XOESPROC ) ( GLfixed red, GLfixed green, GLfixed blue );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR3XVOESPROC ) ( const GLfixed * components );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4XOESPROC ) ( GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4XVOESPROC ) ( const GLfixed * components );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERXOESPROC ) ( GLenum target, GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCONVOLUTIONPARAMETERXVOESPROC ) ( GLenum target, GLenum pname, const GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHRANGEXOESPROC ) ( GLfixed n, GLfixed f );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEVALCOORD1XOESPROC ) ( GLfixed u );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEVALCOORD1XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEVALCOORD2XOESPROC ) ( GLfixed u, GLfixed v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEVALCOORD2XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFEEDBACKBUFFERXOESPROC ) ( GLsizei n, GLenum type, const GLfixed * buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGXOESPROC ) ( GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGXVOESPROC ) ( GLenum pname, const GLfixed * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRUSTUMXOESPROC ) ( GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCLIPPLANEXOESPROC ) ( GLenum plane, GLfixed * equation );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCONVOLUTIONPARAMETERXVOESPROC ) ( GLenum target, GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFIXEDVOESPROC ) ( GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETHISTOGRAMPARAMETERXVOESPROC ) ( GLenum target, GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETLIGHTXOESPROC ) ( GLenum light, GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMAPXVOESPROC ) ( GLenum target, GLenum query, GLfixed * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMATERIALXOESPROC ) ( GLenum face, GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPIXELMAPXVPROC ) ( GLenum map, GLint size, GLfixed * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXENVXVOESPROC ) ( GLenum target, GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXGENXVOESPROC ) ( GLenum coord, GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXLEVELPARAMETERXVOESPROC ) ( GLenum target, GLint level, GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXPARAMETERXVOESPROC ) ( GLenum target, GLenum pname, GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXXOESPROC ) ( GLfixed component );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXXVOESPROC ) ( const GLfixed * component );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLIGHTMODELXOESPROC ) ( GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLIGHTMODELXVOESPROC ) ( GLenum pname, const GLfixed * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLIGHTXOESPROC ) ( GLenum light, GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLIGHTXVOESPROC ) ( GLenum light, GLenum pname, const GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLINEWIDTHXOESPROC ) ( GLfixed width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLOADMATRIXXOESPROC ) ( const GLfixed * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLOADTRANSPOSEMATRIXXOESPROC ) ( const GLfixed * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAP1XOESPROC ) ( GLenum target, GLfixed u1, GLfixed u2, GLint stride, GLint order, GLfixed points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAP2XOESPROC ) ( GLenum target, GLfixed u1, GLfixed u2, GLint ustride, GLint uorder, GLfixed v1, GLfixed v2, GLint vstride, GLint vorder, GLfixed points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPGRID1XOESPROC ) ( GLint n, GLfixed u1, GLfixed u2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMAPGRID2XOESPROC ) ( GLint n, GLfixed u1, GLfixed u2, GLfixed v1, GLfixed v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATERIALXOESPROC ) ( GLenum face, GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMATERIALXVOESPROC ) ( GLenum face, GLenum pname, const GLfixed * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTMATRIXXOESPROC ) ( const GLfixed * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTTRANSPOSEMATRIXXOESPROC ) ( const GLfixed * m );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1XOESPROC ) ( GLenum texture, GLfixed s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD1XVOESPROC ) ( GLenum texture, const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2XOESPROC ) ( GLenum texture, GLfixed s, GLfixed t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD2XVOESPROC ) ( GLenum texture, const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3XOESPROC ) ( GLenum texture, GLfixed s, GLfixed t, GLfixed r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD3XVOESPROC ) ( GLenum texture, const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4XOESPROC ) ( GLenum texture, GLfixed s, GLfixed t, GLfixed r, GLfixed q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTITEXCOORD4XVOESPROC ) ( GLenum texture, const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMAL3XOESPROC ) ( GLfixed nx, GLfixed ny, GLfixed nz );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMAL3XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLORTHOXOESPROC ) ( GLfixed l, GLfixed r, GLfixed b, GLfixed t, GLfixed n, GLfixed f );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPASSTHROUGHXOESPROC ) ( GLfixed token );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELMAPXPROC ) ( GLenum map, GLint size, const GLfixed * values );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELSTOREXPROC ) ( GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTRANSFERXOESPROC ) ( GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELZOOMXOESPROC ) ( GLfixed xfactor, GLfixed yfactor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERXVOESPROC ) ( GLenum pname, const GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTSIZEXOESPROC ) ( GLfixed size );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOLYGONOFFSETXOESPROC ) ( GLfixed factor, GLfixed units );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPRIORITIZETEXTURESXOESPROC ) ( GLsizei n, const GLuint * textures, const GLfixed * priorities );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRASTERPOS2XOESPROC ) ( GLfixed x, GLfixed y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRASTERPOS2XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRASTERPOS3XOESPROC ) ( GLfixed x, GLfixed y, GLfixed z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRASTERPOS3XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRASTERPOS4XOESPROC ) ( GLfixed x, GLfixed y, GLfixed z, GLfixed w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRASTERPOS4XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRECTXOESPROC ) ( GLfixed x1, GLfixed y1, GLfixed x2, GLfixed y2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLRECTXVOESPROC ) ( const GLfixed * v1, const GLfixed * v2 );
+typedef void ( CODEGEN_FUNCPTR * PFNGLROTATEXOESPROC ) ( GLfixed angle, GLfixed x, GLfixed y, GLfixed z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLECOVERAGEOESPROC ) ( GLfixed value, GLboolean invert );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSCALEXOESPROC ) ( GLfixed x, GLfixed y, GLfixed z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD1XOESPROC ) ( GLfixed s );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD1XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2XOESPROC ) ( GLfixed s, GLfixed t );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD3XOESPROC ) ( GLfixed s, GLfixed t, GLfixed r );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD3XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4XOESPROC ) ( GLfixed s, GLfixed t, GLfixed r, GLfixed q );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXENVXOESPROC ) ( GLenum target, GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXENVXVOESPROC ) ( GLenum target, GLenum pname, const GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXGENXOESPROC ) ( GLenum coord, GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXGENXVOESPROC ) ( GLenum coord, GLenum pname, const GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXPARAMETERXOESPROC ) ( GLenum target, GLenum pname, GLfixed param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXPARAMETERXVOESPROC ) ( GLenum target, GLenum pname, const GLfixed * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTRANSLATEXOESPROC ) ( GLfixed x, GLfixed y, GLfixed z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX2XOESPROC ) ( GLfixed x );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX2XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX3XOESPROC ) ( GLfixed x, GLfixed y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX3XVOESPROC ) ( const GLfixed * coords );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX4XOESPROC ) ( GLfixed x, GLfixed y, GLfixed z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEX4XVOESPROC ) ( const GLfixed * coords );
 
 extern PFNGLACCUMXOESPROC _funcptr_glAccumxOES;
 #define glAccumxOES _funcptr_glAccumxOES
@@ -10156,7 +10156,7 @@ extern PFNGLVERTEX4XOESPROC _funcptr_glVertex4xOES;
 extern PFNGLVERTEX4XVOESPROC _funcptr_glVertex4xvOES;
 #define glVertex4xvOES _funcptr_glVertex4xvOES
 
-typedef GLbitfield (CODEGEN_FUNCPTR * PFNGLQUERYMATRIXXOESPROC)(GLfixed * mantissa, GLint * exponent);
+typedef GLbitfield ( CODEGEN_FUNCPTR * PFNGLQUERYMATRIXXOESPROC ) ( GLfixed * mantissa, GLint * exponent );
 
 extern PFNGLQUERYMATRIXXOESPROC _funcptr_glQueryMatrixxOES;
 #define glQueryMatrixxOES _funcptr_glQueryMatrixxOES
@@ -10164,12 +10164,12 @@ extern PFNGLQUERYMATRIXXOESPROC _funcptr_glQueryMatrixxOES;
 #define GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES 0x8B9B
 #define GL_IMPLEMENTATION_COLOR_READ_TYPE_OES 0x8B9A
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCLEARDEPTHFOESPROC)(GLclampf depth);
-typedef void (CODEGEN_FUNCPTR * PFNGLCLIPPLANEFOESPROC)(GLenum plane, const GLfloat * equation);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEPTHRANGEFOESPROC)(GLclampf n, GLclampf f);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRUSTUMFOESPROC)(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCLIPPLANEFOESPROC)(GLenum plane, GLfloat * equation);
-typedef void (CODEGEN_FUNCPTR * PFNGLORTHOFOESPROC)(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLEARDEPTHFOESPROC ) ( GLclampf depth );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCLIPPLANEFOESPROC ) ( GLenum plane, const GLfloat * equation );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEPTHRANGEFOESPROC ) ( GLclampf n, GLclampf f );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRUSTUMFOESPROC ) ( GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCLIPPLANEFOESPROC ) ( GLenum plane, GLfloat * equation );
+typedef void ( CODEGEN_FUNCPTR * PFNGLORTHOFOESPROC ) ( GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f );
 
 extern PFNGLCLEARDEPTHFOESPROC _funcptr_glClearDepthfOES;
 #define glClearDepthfOES _funcptr_glClearDepthfOES
@@ -10218,7 +10218,7 @@ extern PFNGLORTHOFOESPROC _funcptr_glOrthofOES;
 #define GL_STRICT_SCISSOR_HINT_PGI 0x1A218
 #define GL_WIDE_LINE_HINT_PGI 0x1A222
 
-typedef void (CODEGEN_FUNCPTR * PFNGLHINTPGIPROC)(GLenum target, GLint mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLHINTPGIPROC ) ( GLenum target, GLint mode );
 
 extern PFNGLHINTPGIPROC _funcptr_glHintPGI;
 #define glHintPGI _funcptr_glHintPGI
@@ -10265,8 +10265,8 @@ extern PFNGLHINTPGIPROC _funcptr_glHintPGI;
 #define GL_LINEAR_DETAIL_COLOR_SGIS 0x8099
 #define GL_LINEAR_DETAIL_SGIS 0x8097
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDETAILTEXFUNCSGISPROC)(GLenum target, GLsizei n, const GLfloat * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETDETAILTEXFUNCSGISPROC)(GLenum target, GLfloat * points);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDETAILTEXFUNCSGISPROC ) ( GLenum target, GLsizei n, const GLfloat * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETDETAILTEXFUNCSGISPROC ) ( GLenum target, GLfloat * points );
 
 extern PFNGLDETAILTEXFUNCSGISPROC _funcptr_glDetailTexFuncSGIS;
 #define glDetailTexFuncSGIS _funcptr_glDetailTexFuncSGIS
@@ -10277,8 +10277,8 @@ extern PFNGLGETDETAILTEXFUNCSGISPROC _funcptr_glGetDetailTexFuncSGIS;
 #define GL_FOG_FUNC_SGIS 0x812A
 #define GL_MAX_FOG_FUNC_POINTS_SGIS 0x812C
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFOGFUNCSGISPROC)(GLsizei n, const GLfloat * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFOGFUNCSGISPROC)(GLfloat * points);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFOGFUNCSGISPROC ) ( GLsizei n, const GLfloat * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFOGFUNCSGISPROC ) ( GLfloat * points );
 
 extern PFNGLFOGFUNCSGISPROC _funcptr_glFogFuncSGIS;
 #define glFogFuncSGIS _funcptr_glFogFuncSGIS
@@ -10305,8 +10305,8 @@ extern PFNGLGETFOGFUNCSGISPROC _funcptr_glGetFogFuncSGIS;
 #define GL_SAMPLE_MASK_VALUE_SGIS 0x80AA
 #define GL_SAMPLE_PATTERN_SGIS 0x80AC
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEMASKSGISPROC)(GLclampf value, GLboolean invert);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEPATTERNSGISPROC)(GLenum pattern);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEMASKSGISPROC ) ( GLclampf value, GLboolean invert );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEPATTERNSGISPROC ) ( GLenum pattern );
 
 extern PFNGLSAMPLEMASKSGISPROC _funcptr_glSampleMaskSGIS;
 #define glSampleMaskSGIS _funcptr_glSampleMaskSGIS
@@ -10318,12 +10318,12 @@ extern PFNGLSAMPLEPATTERNSGISPROC _funcptr_glSamplePatternSGIS;
 #define GL_PIXEL_GROUP_COLOR_SGIS 0x8356
 #define GL_PIXEL_TEXTURE_SGIS 0x8353
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPIXELTEXGENPARAMETERFVSGISPROC)(GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPIXELTEXGENPARAMETERIVSGISPROC)(GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERFSGISPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERFVSGISPROC)(GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERISGISPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERIVSGISPROC)(GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPIXELTEXGENPARAMETERFVSGISPROC ) ( GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPIXELTEXGENPARAMETERIVSGISPROC ) ( GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERFSGISPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERFVSGISPROC ) ( GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERISGISPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTEXGENPARAMETERIVSGISPROC ) ( GLenum pname, const GLint * params );
 
 extern PFNGLGETPIXELTEXGENPARAMETERFVSGISPROC _funcptr_glGetPixelTexGenParameterfvSGIS;
 #define glGetPixelTexGenParameterfvSGIS _funcptr_glGetPixelTexGenParameterfvSGIS
@@ -10352,8 +10352,8 @@ extern PFNGLPIXELTEXGENPARAMETERIVSGISPROC _funcptr_glPixelTexGenParameterivSGIS
 #define GL_POINT_SIZE_MAX_SGIS 0x8127
 #define GL_POINT_SIZE_MIN_SGIS 0x8126
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFSGISPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVSGISPROC)(GLenum pname, const GLfloat * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFSGISPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVSGISPROC ) ( GLenum pname, const GLfloat * params );
 
 extern PFNGLPOINTPARAMETERFSGISPROC _funcptr_glPointParameterfSGIS;
 #define glPointParameterfSGIS _funcptr_glPointParameterfSGIS
@@ -10365,8 +10365,8 @@ extern PFNGLPOINTPARAMETERFVSGISPROC _funcptr_glPointParameterfvSGIS;
 #define GL_LINEAR_SHARPEN_SGIS 0x80AD
 #define GL_SHARPEN_TEXTURE_FUNC_POINTS_SGIS 0x80B0
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSHARPENTEXFUNCSGISPROC)(GLenum target, GLfloat * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLSHARPENTEXFUNCSGISPROC)(GLenum target, GLsizei n, const GLfloat * points);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSHARPENTEXFUNCSGISPROC ) ( GLenum target, GLfloat * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSHARPENTEXFUNCSGISPROC ) ( GLenum target, GLsizei n, const GLfloat * points );
 
 extern PFNGLGETSHARPENTEXFUNCSGISPROC _funcptr_glGetSharpenTexFuncSGIS;
 #define glGetSharpenTexFuncSGIS _funcptr_glGetSharpenTexFuncSGIS
@@ -10384,8 +10384,8 @@ extern PFNGLSHARPENTEXFUNCSGISPROC _funcptr_glSharpenTexFuncSGIS;
 #define GL_UNPACK_IMAGE_DEPTH_SGIS 0x8133
 #define GL_UNPACK_SKIP_VOLUMES_SGIS 0x8132
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE4DSGISPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE4DSGISPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint woffset, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE4DSGISPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE4DSGISPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint woffset, GLsizei width, GLsizei height, GLsizei depth, GLsizei size4d, GLenum format, GLenum type, const GLvoid * pixels );
 
 extern PFNGLTEXIMAGE4DSGISPROC _funcptr_glTexImage4DSGIS;
 #define glTexImage4DSGIS _funcptr_glTexImage4DSGIS
@@ -10396,7 +10396,7 @@ extern PFNGLTEXSUBIMAGE4DSGISPROC _funcptr_glTexSubImage4DSGIS;
 
 #define GL_TEXTURE_COLOR_WRITEMASK_SGIS 0x81EF
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXTURECOLORMASKSGISPROC)(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXTURECOLORMASKSGISPROC ) ( GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha );
 
 extern PFNGLTEXTURECOLORMASKSGISPROC _funcptr_glTextureColorMaskSGIS;
 #define glTextureColorMaskSGIS _funcptr_glTextureColorMaskSGIS
@@ -10406,8 +10406,8 @@ extern PFNGLTEXTURECOLORMASKSGISPROC _funcptr_glTextureColorMaskSGIS;
 #define GL_FILTER4_SGIS 0x8146
 #define GL_TEXTURE_FILTER4_SIZE_SGIS 0x8147
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETTEXFILTERFUNCSGISPROC)(GLenum target, GLenum filter, GLfloat * weights);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXFILTERFUNCSGISPROC)(GLenum target, GLenum filter, GLsizei n, const GLfloat * weights);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETTEXFILTERFUNCSGISPROC ) ( GLenum target, GLenum filter, GLfloat * weights );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXFILTERFUNCSGISPROC ) ( GLenum target, GLenum filter, GLsizei n, const GLfloat * weights );
 
 extern PFNGLGETTEXFILTERFUNCSGISPROC _funcptr_glGetTexFilterFuncSGIS;
 #define glGetTexFilterFuncSGIS _funcptr_glGetTexFilterFuncSGIS
@@ -10444,12 +10444,12 @@ extern PFNGLTEXFILTERFUNCSGISPROC _funcptr_glTexFilterFuncSGIS;
 
 #define GL_ASYNC_MARKER_SGIX 0x8329
 
-typedef void (CODEGEN_FUNCPTR * PFNGLASYNCMARKERSGIXPROC)(GLuint marker);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEASYNCMARKERSSGIXPROC)(GLuint marker, GLsizei range);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLFINISHASYNCSGIXPROC)(GLuint * markerp);
-typedef GLuint (CODEGEN_FUNCPTR * PFNGLGENASYNCMARKERSSGIXPROC)(GLsizei range);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISASYNCMARKERSGIXPROC)(GLuint marker);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLPOLLASYNCSGIXPROC)(GLuint * markerp);
+typedef void ( CODEGEN_FUNCPTR * PFNGLASYNCMARKERSGIXPROC ) ( GLuint marker );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEASYNCMARKERSSGIXPROC ) ( GLuint marker, GLsizei range );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLFINISHASYNCSGIXPROC ) ( GLuint * markerp );
+typedef GLuint ( CODEGEN_FUNCPTR * PFNGLGENASYNCMARKERSSGIXPROC ) ( GLsizei range );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISASYNCMARKERSGIXPROC ) ( GLuint marker );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLPOLLASYNCSGIXPROC ) ( GLuint * markerp );
 
 extern PFNGLASYNCMARKERSGIXPROC _funcptr_glAsyncMarkerSGIX;
 #define glAsyncMarkerSGIX _funcptr_glAsyncMarkerSGIX
@@ -10498,7 +10498,7 @@ extern PFNGLPOLLASYNCSGIXPROC _funcptr_glPollAsyncSGIX;
 #define GL_DEPTH_COMPONENT24_SGIX 0x81A6
 #define GL_DEPTH_COMPONENT32_SGIX 0x81A7
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFLUSHRASTERSGIXPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLFLUSHRASTERSGIXPROC ) ();
 
 extern PFNGLFLUSHRASTERSGIXPROC _funcptr_glFlushRasterSGIX;
 #define glFlushRasterSGIX _funcptr_glFlushRasterSGIX
@@ -10527,24 +10527,24 @@ extern PFNGLFLUSHRASTERSGIXPROC _funcptr_glFlushRasterSGIX;
 #define GL_MAX_ACTIVE_LIGHTS_SGIX 0x8405
 #define GL_MAX_FRAGMENT_LIGHTS_SGIX 0x8404
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTCOLORMATERIALSGIXPROC)(GLenum face, GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELFSGIXPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELFVSGIXPROC)(GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELISGIXPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELIVSGIXPROC)(GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTFSGIXPROC)(GLenum light, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTFVSGIXPROC)(GLenum light, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTISGIXPROC)(GLenum light, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTIVSGIXPROC)(GLenum light, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALFSGIXPROC)(GLenum face, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALFVSGIXPROC)(GLenum face, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALISGIXPROC)(GLenum face, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALIVSGIXPROC)(GLenum face, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAGMENTLIGHTFVSGIXPROC)(GLenum light, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAGMENTLIGHTIVSGIXPROC)(GLenum light, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAGMENTMATERIALFVSGIXPROC)(GLenum face, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETFRAGMENTMATERIALIVSGIXPROC)(GLenum face, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLLIGHTENVISGIXPROC)(GLenum pname, GLint param);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTCOLORMATERIALSGIXPROC ) ( GLenum face, GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELFSGIXPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELFVSGIXPROC ) ( GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELISGIXPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTMODELIVSGIXPROC ) ( GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTFSGIXPROC ) ( GLenum light, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTFVSGIXPROC ) ( GLenum light, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTISGIXPROC ) ( GLenum light, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTLIGHTIVSGIXPROC ) ( GLenum light, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALFSGIXPROC ) ( GLenum face, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALFVSGIXPROC ) ( GLenum face, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALISGIXPROC ) ( GLenum face, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAGMENTMATERIALIVSGIXPROC ) ( GLenum face, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAGMENTLIGHTFVSGIXPROC ) ( GLenum light, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAGMENTLIGHTIVSGIXPROC ) ( GLenum light, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAGMENTMATERIALFVSGIXPROC ) ( GLenum face, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETFRAGMENTMATERIALIVSGIXPROC ) ( GLenum face, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLIGHTENVISGIXPROC ) ( GLenum pname, GLint param );
 
 extern PFNGLFRAGMENTCOLORMATERIALSGIXPROC _funcptr_glFragmentColorMaterialSGIX;
 #define glFragmentColorMaterialSGIX _funcptr_glFragmentColorMaterialSGIX
@@ -10587,12 +10587,12 @@ extern PFNGLLIGHTENVISGIXPROC _funcptr_glLightEnviSGIX;
 #define GL_FRAMEZOOM_SGIX 0x818B
 #define GL_MAX_FRAMEZOOM_FACTOR_SGIX 0x818D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEZOOMSGIXPROC)(GLint factor);
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEZOOMSGIXPROC ) ( GLint factor );
 
 extern PFNGLFRAMEZOOMSGIXPROC _funcptr_glFrameZoomSGIX;
 #define glFrameZoomSGIX _funcptr_glFrameZoomSGIX
 
-typedef void (CODEGEN_FUNCPTR * PFNGLIGLOOINTERFACESGIXPROC)(GLenum pname, const GLvoid * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLIGLOOINTERFACESGIXPROC ) ( GLenum pname, const GLvoid * params );
 
 extern PFNGLIGLOOINTERFACESGIXPROC _funcptr_glIglooInterfaceSGIX;
 #define glIglooInterfaceSGIX _funcptr_glIglooInterfaceSGIX
@@ -10600,12 +10600,12 @@ extern PFNGLIGLOOINTERFACESGIXPROC _funcptr_glIglooInterfaceSGIX;
 #define GL_INSTRUMENT_BUFFER_POINTER_SGIX 0x8180
 #define GL_INSTRUMENT_MEASUREMENTS_SGIX 0x8181
 
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETINSTRUMENTSSGIXPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLINSTRUMENTSBUFFERSGIXPROC)(GLsizei size, GLint * buffer);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLPOLLINSTRUMENTSSGIXPROC)(GLint * marker_p);
-typedef void (CODEGEN_FUNCPTR * PFNGLREADINSTRUMENTSSGIXPROC)(GLint marker);
-typedef void (CODEGEN_FUNCPTR * PFNGLSTARTINSTRUMENTSSGIXPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLSTOPINSTRUMENTSSGIXPROC)(GLint marker);
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETINSTRUMENTSSGIXPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLINSTRUMENTSBUFFERSGIXPROC ) ( GLsizei size, GLint * buffer );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLPOLLINSTRUMENTSSGIXPROC ) ( GLint * marker_p );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREADINSTRUMENTSSGIXPROC ) ( GLint marker );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTARTINSTRUMENTSSGIXPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLSTOPINSTRUMENTSSGIXPROC ) ( GLint marker );
 
 extern PFNGLGETINSTRUMENTSSGIXPROC _funcptr_glGetInstrumentsSGIX;
 #define glGetInstrumentsSGIX _funcptr_glGetInstrumentsSGIX
@@ -10626,12 +10626,12 @@ extern PFNGLSTOPINSTRUMENTSSGIXPROC _funcptr_glStopInstrumentsSGIX;
 
 #define GL_LIST_PRIORITY_SGIX 0x8182
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGETLISTPARAMETERFVSGIXPROC)(GLuint list, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETLISTPARAMETERIVSGIXPROC)(GLuint list, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLLISTPARAMETERFSGIXPROC)(GLuint list, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLLISTPARAMETERFVSGIXPROC)(GLuint list, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLLISTPARAMETERISGIXPROC)(GLuint list, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLLISTPARAMETERIVSGIXPROC)(GLuint list, GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETLISTPARAMETERFVSGIXPROC ) ( GLuint list, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETLISTPARAMETERIVSGIXPROC ) ( GLuint list, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLISTPARAMETERFSGIXPROC ) ( GLuint list, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLISTPARAMETERFVSGIXPROC ) ( GLuint list, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLISTPARAMETERISGIXPROC ) ( GLuint list, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLISTPARAMETERIVSGIXPROC ) ( GLuint list, GLenum pname, const GLint * params );
 
 extern PFNGLGETLISTPARAMETERFVSGIXPROC _funcptr_glGetListParameterfvSGIX;
 #define glGetListParameterfvSGIX _funcptr_glGetListParameterfvSGIX
@@ -10649,7 +10649,7 @@ extern PFNGLLISTPARAMETERIVSGIXPROC _funcptr_glListParameterivSGIX;
 #define GL_PIXEL_TEX_GEN_MODE_SGIX 0x832B
 #define GL_PIXEL_TEX_GEN_SGIX 0x8139
 
-typedef void (CODEGEN_FUNCPTR * PFNGLPIXELTEXGENSGIXPROC)(GLenum mode);
+typedef void ( CODEGEN_FUNCPTR * PFNGLPIXELTEXGENSGIXPROC ) ( GLenum mode );
 
 extern PFNGLPIXELTEXGENSGIXPROC _funcptr_glPixelTexGenSGIX;
 #define glPixelTexGenSGIX _funcptr_glPixelTexGenSGIX
@@ -10670,10 +10670,10 @@ extern PFNGLPIXELTEXGENSGIXPROC _funcptr_glPixelTexGenSGIX;
 #define GL_TEXTURE_DEFORMATION_BIT_SGIX 0x00000001
 #define GL_TEXTURE_DEFORMATION_SGIX 0x8195
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDEFORMSGIXPROC)(GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEFORMATIONMAP3DSGIXPROC)(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble w1, GLdouble w2, GLint wstride, GLint worder, const GLdouble * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLDEFORMATIONMAP3FSGIXPROC)(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat w1, GLfloat w2, GLint wstride, GLint worder, const GLfloat * points);
-typedef void (CODEGEN_FUNCPTR * PFNGLLOADIDENTITYDEFORMATIONMAPSGIXPROC)(GLbitfield mask);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEFORMSGIXPROC ) ( GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEFORMATIONMAP3DSGIXPROC ) ( GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, GLdouble w1, GLdouble w2, GLint wstride, GLint worder, const GLdouble * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDEFORMATIONMAP3FSGIXPROC ) ( GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, GLfloat w1, GLfloat w2, GLint wstride, GLint worder, const GLfloat * points );
+typedef void ( CODEGEN_FUNCPTR * PFNGLLOADIDENTITYDEFORMATIONMAPSGIXPROC ) ( GLbitfield mask );
 
 extern PFNGLDEFORMSGIXPROC _funcptr_glDeformSGIX;
 #define glDeformSGIX _funcptr_glDeformSGIX
@@ -10687,7 +10687,7 @@ extern PFNGLLOADIDENTITYDEFORMATIONMAPSGIXPROC _funcptr_glLoadIdentityDeformatio
 #define GL_REFERENCE_PLANE_EQUATION_SGIX 0x817E
 #define GL_REFERENCE_PLANE_SGIX 0x817D
 
-typedef void (CODEGEN_FUNCPTR * PFNGLREFERENCEPLANESGIXPROC)(const GLdouble * equation);
+typedef void ( CODEGEN_FUNCPTR * PFNGLREFERENCEPLANESGIXPROC ) ( const GLdouble * equation );
 
 extern PFNGLREFERENCEPLANESGIXPROC _funcptr_glReferencePlaneSGIX;
 #define glReferencePlaneSGIX _funcptr_glReferencePlaneSGIX
@@ -10715,10 +10715,10 @@ extern PFNGLREFERENCEPLANESGIXPROC _funcptr_glReferencePlaneSGIX;
 #define GL_SPRITE_SGIX 0x8148
 #define GL_SPRITE_TRANSLATION_SGIX 0x814B
 
-typedef void (CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERFSGIXPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERFVSGIXPROC)(GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERISGIXPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERIVSGIXPROC)(GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERFSGIXPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERFVSGIXPROC ) ( GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERISGIXPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSPRITEPARAMETERIVSGIXPROC ) ( GLenum pname, const GLint * params );
 
 extern PFNGLSPRITEPARAMETERFSGIXPROC _funcptr_glSpriteParameterfSGIX;
 #define glSpriteParameterfSGIX _funcptr_glSpriteParameterfSGIX
@@ -10735,7 +10735,7 @@ extern PFNGLSPRITEPARAMETERIVSGIXPROC _funcptr_glSpriteParameterivSGIX;
 #define GL_PIXEL_SUBSAMPLE_4444_SGIX 0x85A2
 #define GL_UNPACK_SUBSAMPLE_RATE_SGIX 0x85A1
 
-typedef void (CODEGEN_FUNCPTR * PFNGLTAGSAMPLEBUFFERSGIXPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLTAGSAMPLEBUFFERSGIXPROC ) ();
 
 extern PFNGLTAGSAMPLEBUFFERSGIXPROC _funcptr_glTagSampleBufferSGIX;
 #define glTagSampleBufferSGIX _funcptr_glTagSampleBufferSGIX
@@ -10795,13 +10795,13 @@ extern PFNGLTAGSAMPLEBUFFERSGIXPROC _funcptr_glTagSampleBufferSGIX;
 #define GL_PROXY_POST_COLOR_MATRIX_COLOR_TABLE_SGI 0x80D5
 #define GL_PROXY_POST_CONVOLUTION_COLOR_TABLE_SGI 0x80D4
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERFVSGIPROC)(GLenum target, GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERIVSGIPROC)(GLenum target, GLenum pname, const GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORTABLESGIPROC)(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * table);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYCOLORTABLESGIPROC)(GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERFVSGIPROC)(GLenum target, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERIVSGIPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOLORTABLESGIPROC)(GLenum target, GLenum format, GLenum type, GLvoid * table);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERFVSGIPROC ) ( GLenum target, GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORTABLEPARAMETERIVSGIPROC ) ( GLenum target, GLenum pname, const GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORTABLESGIPROC ) ( GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid * table );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYCOLORTABLESGIPROC ) ( GLenum target, GLenum internalformat, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERFVSGIPROC ) ( GLenum target, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLEPARAMETERIVSGIPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOLORTABLESGIPROC ) ( GLenum target, GLenum format, GLenum type, GLvoid * table );
 
 extern PFNGLCOLORTABLEPARAMETERFVSGIPROC _funcptr_glColorTableParameterfvSGI;
 #define glColorTableParameterfvSGI _funcptr_glColorTableParameterfvSGI
@@ -10824,7 +10824,7 @@ extern PFNGLGETCOLORTABLESGIPROC _funcptr_glGetColorTableSGI;
 #define GL_TEXTURE_CONSTANT_DATA_SUNX 0x81D6
 #define GL_UNPACK_CONSTANT_DATA_SUNX 0x81D5
 
-typedef void (CODEGEN_FUNCPTR * PFNGLFINISHTEXTURESUNXPROC)();
+typedef void ( CODEGEN_FUNCPTR * PFNGLFINISHTEXTURESUNXPROC ) ();
 
 extern PFNGLFINISHTEXTURESUNXPROC _funcptr_glFinishTextureSUNX;
 #define glFinishTextureSUNX _funcptr_glFinishTextureSUNX
@@ -10834,14 +10834,14 @@ extern PFNGLFINISHTEXTURESUNXPROC _funcptr_glFinishTextureSUNX;
 #define GL_GLOBAL_ALPHA_FACTOR_SUN 0x81DA
 #define GL_GLOBAL_ALPHA_SUN 0x81D9
 
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORBSUNPROC)(GLbyte factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORDSUNPROC)(GLdouble factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORFSUNPROC)(GLfloat factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORISUNPROC)(GLint factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORSSUNPROC)(GLshort factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORUBSUNPROC)(GLubyte factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORUISUNPROC)(GLuint factor);
-typedef void (CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORUSSUNPROC)(GLushort factor);
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORBSUNPROC ) ( GLbyte factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORDSUNPROC ) ( GLdouble factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORFSUNPROC ) ( GLfloat factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORISUNPROC ) ( GLint factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORSSUNPROC ) ( GLshort factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORUBSUNPROC ) ( GLubyte factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORUISUNPROC ) ( GLuint factor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGLOBALALPHAFACTORUSSUNPROC ) ( GLushort factor );
 
 extern PFNGLGLOBALALPHAFACTORBSUNPROC _funcptr_glGlobalAlphaFactorbSUN;
 #define glGlobalAlphaFactorbSUN _funcptr_glGlobalAlphaFactorbSUN
@@ -10863,7 +10863,7 @@ extern PFNGLGLOBALALPHAFACTORUSSUNPROC _funcptr_glGlobalAlphaFactorusSUN;
 #define GL_QUAD_MESH_SUN 0x8614
 #define GL_TRIANGLE_MESH_SUN 0x8615
 
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWMESHARRAYSSUNPROC)(GLenum mode, GLint first, GLsizei count, GLsizei width);
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWMESHARRAYSSUNPROC ) ( GLenum mode, GLint first, GLsizei count, GLsizei width );
 
 extern PFNGLDRAWMESHARRAYSSUNPROC _funcptr_glDrawMeshArraysSUN;
 #define glDrawMeshArraysSUN _funcptr_glDrawMeshArraysSUN
@@ -10888,13 +10888,13 @@ extern PFNGLDRAWMESHARRAYSSUNPROC _funcptr_glDrawMeshArraysSUN;
 #define GL_RESTART_SUN 0x0001
 #define GL_TRIANGLE_LIST_SUN 0x81D7
 
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEPOINTERSUNPROC)(GLenum type, GLsizei stride, const GLvoid ** pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUBSUNPROC)(GLubyte code);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUBVSUNPROC)(const GLubyte * code);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUISUNPROC)(GLuint code);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUIVSUNPROC)(const GLuint * code);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUSSUNPROC)(GLushort code);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUSVSUNPROC)(const GLushort * code);
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEPOINTERSUNPROC ) ( GLenum type, GLsizei stride, const GLvoid ** pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUBSUNPROC ) ( GLubyte code );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUBVSUNPROC ) ( const GLubyte * code );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUISUNPROC ) ( GLuint code );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUIVSUNPROC ) ( const GLuint * code );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUSSUNPROC ) ( GLushort code );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUSVSUNPROC ) ( const GLushort * code );
 
 extern PFNGLREPLACEMENTCODEPOINTERSUNPROC _funcptr_glReplacementCodePointerSUN;
 #define glReplacementCodePointerSUN _funcptr_glReplacementCodePointerSUN
@@ -10911,46 +10911,46 @@ extern PFNGLREPLACEMENTCODEUSSUNPROC _funcptr_glReplacementCodeusSUN;
 extern PFNGLREPLACEMENTCODEUSVSUNPROC _funcptr_glReplacementCodeusvSUN;
 #define glReplacementCodeusvSUN _funcptr_glReplacementCodeusvSUN
 
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR3FVERTEX3FSUNPROC)(GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR3FVERTEX3FVSUNPROC)(const GLfloat * c, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4FNORMAL3FVERTEX3FSUNPROC)(GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4FNORMAL3FVERTEX3FVSUNPROC)(const GLfloat * c, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX2FSUNPROC)(GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX2FVSUNPROC)(const GLubyte * c, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX3FSUNPROC)(GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX3FVSUNPROC)(const GLubyte * c, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMAL3FVERTEX3FSUNPROC)(GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMAL3FVERTEX3FVSUNPROC)(const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR3FVERTEX3FSUNPROC)(GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR3FVERTEX3FVSUNPROC)(const GLuint * rc, const GLfloat * c, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FSUNPROC)(GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC)(const GLuint * rc, const GLfloat * c, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4UBVERTEX3FSUNPROC)(GLuint rc, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4UBVERTEX3FVSUNPROC)(const GLuint * rc, const GLubyte * c, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUINORMAL3FVERTEX3FSUNPROC)(GLuint rc, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUINORMAL3FVERTEX3FVSUNPROC)(const GLuint * rc, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FCOLOR4FNORMAL3FVERTEX3FSUNPROC)(GLuint rc, GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FCOLOR4FNORMAL3FVERTEX3FVSUNPROC)(const GLuint * rc, const GLfloat * tc, const GLfloat * c, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FNORMAL3FVERTEX3FSUNPROC)(GLuint rc, GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FNORMAL3FVERTEX3FVSUNPROC)(const GLuint * rc, const GLfloat * tc, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FVERTEX3FSUNPROC)(GLuint rc, GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FVERTEX3FVSUNPROC)(const GLuint * rc, const GLfloat * tc, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUIVERTEX3FSUNPROC)(GLuint rc, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUIVERTEX3FVSUNPROC)(const GLuint * rc, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR3FVERTEX3FSUNPROC)(GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR3FVERTEX3FVSUNPROC)(const GLfloat * tc, const GLfloat * c, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4FNORMAL3FVERTEX3FSUNPROC)(GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4FNORMAL3FVERTEX3FVSUNPROC)(const GLfloat * tc, const GLfloat * c, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4UBVERTEX3FSUNPROC)(GLfloat s, GLfloat t, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4UBVERTEX3FVSUNPROC)(const GLfloat * tc, const GLubyte * c, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FNORMAL3FVERTEX3FSUNPROC)(GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FNORMAL3FVERTEX3FVSUNPROC)(const GLfloat * tc, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FVERTEX3FSUNPROC)(GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD2FVERTEX3FVSUNPROC)(const GLfloat * tc, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FSUNPROC)(GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC)(const GLfloat * tc, const GLfloat * c, const GLfloat * n, const GLfloat * v);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4FVERTEX4FSUNPROC)(GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORD4FVERTEX4FVSUNPROC)(const GLfloat * tc, const GLfloat * v);
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR3FVERTEX3FSUNPROC ) ( GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR3FVERTEX3FVSUNPROC ) ( const GLfloat * c, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4FNORMAL3FVERTEX3FSUNPROC ) ( GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4FNORMAL3FVERTEX3FVSUNPROC ) ( const GLfloat * c, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX2FSUNPROC ) ( GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX2FVSUNPROC ) ( const GLubyte * c, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX3FSUNPROC ) ( GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLOR4UBVERTEX3FVSUNPROC ) ( const GLubyte * c, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMAL3FVERTEX3FSUNPROC ) ( GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMAL3FVERTEX3FVSUNPROC ) ( const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR3FVERTEX3FSUNPROC ) ( GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR3FVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLfloat * c, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FSUNPROC ) ( GLuint rc, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLfloat * c, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4UBVERTEX3FSUNPROC ) ( GLuint rc, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUICOLOR4UBVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLubyte * c, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUINORMAL3FVERTEX3FSUNPROC ) ( GLuint rc, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUINORMAL3FVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FCOLOR4FNORMAL3FVERTEX3FSUNPROC ) ( GLuint rc, GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FCOLOR4FNORMAL3FVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLfloat * tc, const GLfloat * c, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FNORMAL3FVERTEX3FSUNPROC ) ( GLuint rc, GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FNORMAL3FVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLfloat * tc, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FVERTEX3FSUNPROC ) ( GLuint rc, GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUITEXCOORD2FVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLfloat * tc, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUIVERTEX3FSUNPROC ) ( GLuint rc, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLREPLACEMENTCODEUIVERTEX3FVSUNPROC ) ( const GLuint * rc, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR3FVERTEX3FSUNPROC ) ( GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR3FVERTEX3FVSUNPROC ) ( const GLfloat * tc, const GLfloat * c, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4FNORMAL3FVERTEX3FSUNPROC ) ( GLfloat s, GLfloat t, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4FNORMAL3FVERTEX3FVSUNPROC ) ( const GLfloat * tc, const GLfloat * c, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4UBVERTEX3FSUNPROC ) ( GLfloat s, GLfloat t, GLubyte r, GLubyte g, GLubyte b, GLubyte a, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FCOLOR4UBVERTEX3FVSUNPROC ) ( const GLfloat * tc, const GLubyte * c, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FNORMAL3FVERTEX3FSUNPROC ) ( GLfloat s, GLfloat t, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FNORMAL3FVERTEX3FVSUNPROC ) ( const GLfloat * tc, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FVERTEX3FSUNPROC ) ( GLfloat s, GLfloat t, GLfloat x, GLfloat y, GLfloat z );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD2FVERTEX3FVSUNPROC ) ( const GLfloat * tc, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FSUNPROC ) ( GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat nx, GLfloat ny, GLfloat nz, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC ) ( const GLfloat * tc, const GLfloat * c, const GLfloat * n, const GLfloat * v );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4FVERTEX4FSUNPROC ) ( GLfloat s, GLfloat t, GLfloat p, GLfloat q, GLfloat x, GLfloat y, GLfloat z, GLfloat w );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORD4FVERTEX4FVSUNPROC ) ( const GLfloat * tc, const GLfloat * v );
 
 extern PFNGLCOLOR3FVERTEX3FSUNPROC _funcptr_glColor3fVertex3fSUN;
 #define glColor3fVertex3fSUN _funcptr_glColor3fVertex3fSUN

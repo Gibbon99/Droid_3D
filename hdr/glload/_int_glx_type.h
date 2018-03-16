@@ -84,7 +84,7 @@ typedef struct __GLXcontextRec *GLXContext;
 typedef XID GLXPixmap;
 typedef XID GLXDrawable;
 typedef XID GLXPbuffer;
-typedef void (APIENTRY *__GLXextFuncPtr)(void);
+typedef void ( APIENTRY *__GLXextFuncPtr ) ( void );
 typedef XID GLXVideoCaptureDeviceNV;
 typedef unsigned int GLXVideoDeviceNV;
 typedef XID GLXVideoSourceSGIX;

@@ -28,7 +28,7 @@ typedef struct
 
 typedef struct
 {
-    int             setID;				// ID number from entity list
+	int             setID;				// ID number from entity list
 	int				ptrModel;
 	int				currentState;
 	int				angle;				// Angle used for opening/closing
@@ -39,10 +39,10 @@ typedef struct
 
 	glm::vec3		minOriginal;				// Starting value for the bounding box
 	glm::vec3		maxOriginal;				// Starting value for the bounding box
-		
-    GLfloat         travelDistance;     // How far does the door move
-	
-    GLfloat         minMaxMove;         // Track movement for collision detection
+
+	GLfloat         travelDistance;     // How far does the door move
+
+	GLfloat         minMaxMove;         // Track movement for collision detection
 	GLfloat			startLocation;		// Y Axis to stop closing at
 	GLfloat			currentOffset;		// Where are we at the moment - Use the coords as an offset
 	_triggerZone	trigger;			// Area defining door trigger area
@@ -69,8 +69,7 @@ void bspDrawAllDoorTriggerZones();
 bool bsp_checkPlayerVsTrigger();
 
 // Process the movements of all doors
-void bspProcessAllDoorMovements(float interpolate);
+void bspProcessAllDoorMovements ( float interpolate );
 
 // Free door memory
 void bspFreeDoorMemory();
-

@@ -61,25 +61,25 @@ class asCDataType
 {
 public:
 	asCDataType();
-	asCDataType(const asCDataType &);
+	asCDataType ( const asCDataType & );
 	~asCDataType();
 
 	bool IsValid() const;
 
-	asCString Format(asSNameSpace *currNs, bool includeNamespace = false) const;
+	asCString Format ( asSNameSpace *currNs, bool includeNamespace = false ) const;
 
-	static asCDataType CreatePrimitive(eTokenType tt, bool isConst);
-	static asCDataType CreateType(asCTypeInfo *ti, bool isConst);
-	static asCDataType CreateAuto(bool isConst);
-	static asCDataType CreateObjectHandle(asCTypeInfo *ot, bool isConst);
+	static asCDataType CreatePrimitive ( eTokenType tt, bool isConst );
+	static asCDataType CreateType ( asCTypeInfo *ti, bool isConst );
+	static asCDataType CreateAuto ( bool isConst );
+	static asCDataType CreateObjectHandle ( asCTypeInfo *ot, bool isConst );
 	static asCDataType CreateNullHandle();
 
-	int MakeHandle(bool b, bool acceptHandleForScope = false);
-	int MakeArray(asCScriptEngine *engine, asCModule *requestingModule);
-	int MakeReference(bool b);
-	int MakeReadOnly(bool b);
-	int MakeHandleToConst(bool b);
-	void SetIfHandleThenConst(bool b)
+	int MakeHandle ( bool b, bool acceptHandleForScope = false );
+	int MakeArray ( asCScriptEngine *engine, asCModule *requestingModule );
+	int MakeReference ( bool b );
+	int MakeReadOnly ( bool b );
+	int MakeHandleToConst ( bool b );
+	void SetIfHandleThenConst ( bool b )
 	{
 		ifHandleThenConst = b;
 	}
@@ -132,19 +132,19 @@ public:
 
 	bool IsObjectConst()    const;
 
-	bool IsEqualExceptRef(const asCDataType &)             const;
-	bool IsEqualExceptRefAndConst(const asCDataType &)     const;
-	bool IsEqualExceptConst(const asCDataType &)           const;
+	bool IsEqualExceptRef ( const asCDataType & )             const;
+	bool IsEqualExceptRefAndConst ( const asCDataType & )     const;
+	bool IsEqualExceptConst ( const asCDataType & )           const;
 	bool IsNullHandle()                                    const;
 
 	bool SupportHandles() const;
 	bool CanBeInstantiated() const;
 	bool CanBeCopied() const;
 
-	bool operator ==(const asCDataType &) const;
-	bool operator !=(const asCDataType &) const;
+	bool operator == ( const asCDataType & ) const;
+	bool operator != ( const asCDataType & ) const;
 
-	asCDataType        GetSubType(asUINT subtypeIndex = 0)    const;
+	asCDataType        GetSubType ( asUINT subtypeIndex = 0 )    const;
 	eTokenType         GetTokenType()  const
 	{
 		return tokenType;
@@ -161,16 +161,16 @@ public:
 	int  GetAlignment()          const;
 #endif
 
-	void SetTokenType(eTokenType tt)
+	void SetTokenType ( eTokenType tt )
 	{
 		tokenType = tt;
 	}
-	void SetTypeInfo(asCTypeInfo *ti)
+	void SetTypeInfo ( asCTypeInfo *ti )
 	{
 		typeInfo = ti;
 	}
 
-	asCDataType &operator =(const asCDataType &);
+	asCDataType &operator = ( const asCDataType & );
 
 	asSTypeBehaviour *GetBehaviour() const;
 

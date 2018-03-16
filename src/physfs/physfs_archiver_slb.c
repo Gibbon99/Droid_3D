@@ -20,11 +20,11 @@
 
 #if PHYSFS_SUPPORTS_SLB
 
-static int slbLoadEntries(PHYSFS_Io *io, const PHYSFS_uint32 count, void *arc)
+static int slbLoadEntries ( PHYSFS_Io *io, const PHYSFS_uint32 count, void *arc )
 {
 	PHYSFS_uint32 i;
 
-	for (i = 0; i < count; i++)
+	for ( i = 0; i < count; i++ )
 		{
 			PHYSFS_uint32 pos;
 			PHYSFS_uint32 size;
@@ -33,35 +33,35 @@ static int slbLoadEntries(PHYSFS_Io *io, const PHYSFS_uint32 count, void *arc)
 			char *ptr;
 
 			/* don't include the '\' in the beginning */
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &backslash, 1), 0);
-			BAIL_IF(backslash != '\\', PHYSFS_ERR_CORRUPT, 0);
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &backslash, 1 ), 0 );
+			BAIL_IF ( backslash != '\\', PHYSFS_ERR_CORRUPT, 0 );
 
 			/* read the rest of the buffer, 63 bytes */
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &name, 63), 0);
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &name, 63 ), 0 );
 			name[63] = '\0'; /* in case the name lacks the null terminator */
 
 			/* convert backslashes */
-			for (ptr = name; *ptr; ptr++)
+			for ( ptr = name; *ptr; ptr++ )
 				{
-					if (*ptr == '\\')
+					if ( *ptr == '\\' )
 						*ptr = '/';
 				} /* for */
 
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &pos, 4), 0);
-			pos = PHYSFS_swapULE32(pos);
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &pos, 4 ), 0 );
+			pos = PHYSFS_swapULE32 ( pos );
 
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &size, 4), 0);
-			size = PHYSFS_swapULE32(size);
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &size, 4 ), 0 );
+			size = PHYSFS_swapULE32 ( size );
 
-			BAIL_IF_ERRPASS(!UNPK_addEntry(arc, name, 0, -1, -1, pos, size), 0);
+			BAIL_IF_ERRPASS ( !UNPK_addEntry ( arc, name, 0, -1, -1, pos, size ), 0 );
 		} /* for */
 
 	return 1;
 } /* slbLoadEntries */
 
 
-static void *SLB_openArchive(PHYSFS_Io *io, const char *name,
-                             int forWriting, int *claimed)
+static void *SLB_openArchive ( PHYSFS_Io *io, const char *name,
+                               int forWriting, int *claimed )
 {
 	PHYSFS_uint32 version;
 	PHYSFS_uint32 count;
@@ -75,32 +75,32 @@ static void *SLB_openArchive(PHYSFS_Io *io, const char *name,
 	   covers all meaningful cases where we would accidentally accept a non-SLB
 	   file with this archiver. */
 
-	assert(io != NULL);  /* shouldn't ever happen. */
+	assert ( io != NULL ); /* shouldn't ever happen. */
 
-	BAIL_IF(forWriting, PHYSFS_ERR_READ_ONLY, NULL);
+	BAIL_IF ( forWriting, PHYSFS_ERR_READ_ONLY, NULL );
 
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &version, sizeof (version)), NULL);
-	version = PHYSFS_swapULE32(version);
-	BAIL_IF(version != 0, PHYSFS_ERR_UNSUPPORTED, NULL);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &version, sizeof ( version ) ), NULL );
+	version = PHYSFS_swapULE32 ( version );
+	BAIL_IF ( version != 0, PHYSFS_ERR_UNSUPPORTED, NULL );
 
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &count, sizeof (count)), NULL);
-	count = PHYSFS_swapULE32(count);
-	BAIL_IF(!count, PHYSFS_ERR_UNSUPPORTED, NULL);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &count, sizeof ( count ) ), NULL );
+	count = PHYSFS_swapULE32 ( count );
+	BAIL_IF ( !count, PHYSFS_ERR_UNSUPPORTED, NULL );
 
 	/* offset of the table of contents */
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &tocPos, sizeof (tocPos)), NULL);
-	tocPos = PHYSFS_swapULE32(tocPos);
-	BAIL_IF(!tocPos, PHYSFS_ERR_UNSUPPORTED, NULL);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &tocPos, sizeof ( tocPos ) ), NULL );
+	tocPos = PHYSFS_swapULE32 ( tocPos );
+	BAIL_IF ( !tocPos, PHYSFS_ERR_UNSUPPORTED, NULL );
 
 	/* seek to the table of contents */
-	BAIL_IF_ERRPASS(!io->seek(io, tocPos), NULL);
+	BAIL_IF_ERRPASS ( !io->seek ( io, tocPos ), NULL );
 
-	unpkarc = UNPK_openArchive(io);
-	BAIL_IF_ERRPASS(!unpkarc, NULL);
+	unpkarc = UNPK_openArchive ( io );
+	BAIL_IF_ERRPASS ( !unpkarc, NULL );
 
-	if (!slbLoadEntries(io, count, unpkarc))
+	if ( !slbLoadEntries ( io, count, unpkarc ) )
 		{
-			UNPK_abandonArchive(unpkarc);
+			UNPK_abandonArchive ( unpkarc );
 			return NULL;
 		} /* if */
 

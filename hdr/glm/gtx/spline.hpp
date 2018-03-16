@@ -54,32 +54,32 @@ namespace glm
 //! Return a point from a catmull rom curve.
 //! From GLM_GTX_spline extension.
 template <typename genType>
-genType catmullRom(
+genType catmullRom (
     genType const & v1,
     genType const & v2,
     genType const & v3,
     genType const & v4,
-    typename genType::value_type const & s);
+    typename genType::value_type const & s );
 
 //! Return a point from a hermite curve.
 //! From GLM_GTX_spline extension.
 template <typename genType>
-genType hermite(
+genType hermite (
     genType const & v1,
     genType const & t1,
     genType const & v2,
     genType const & t2,
-    typename genType::value_type const & s);
+    typename genType::value_type const & s );
 
 //! Return a point from a cubic curve.
 //! From GLM_GTX_spline extension.
 template <typename genType>
-genType cubic(
+genType cubic (
     genType const & v1,
     genType const & v2,
     genType const & v3,
     genType const & v4,
-    typename genType::value_type const & s);
+    typename genType::value_type const & s );
 
 /// @}
 }//namespace glm

@@ -53,28 +53,28 @@ namespace glm
 /// Convert a color from RGB color space to YCoCg color space.
 /// @see gtx_color_space_YCoCg
 template <typename valType>
-detail::tvec3<valType> rgb2YCoCg(
-    detail::tvec3<valType> const & rgbColor);
+detail::tvec3<valType> rgb2YCoCg (
+    detail::tvec3<valType> const & rgbColor );
 
 /// Convert a color from YCoCg color space to RGB color space.
 /// @see gtx_color_space_YCoCg
 template <typename valType>
-detail::tvec3<valType> YCoCg2rgb(
-    detail::tvec3<valType> const & YCoCgColor);
+detail::tvec3<valType> YCoCg2rgb (
+    detail::tvec3<valType> const & YCoCgColor );
 
 /// Convert a color from RGB color space to YCoCgR color space.
 /// @see "YCoCg-R: A Color Space with RGB Reversibility and Low Dynamic Range"
 /// @see gtx_color_space_YCoCg
 template <typename valType>
-detail::tvec3<valType> rgb2YCoCgR(
-    detail::tvec3<valType> const & rgbColor);
+detail::tvec3<valType> rgb2YCoCgR (
+    detail::tvec3<valType> const & rgbColor );
 
 /// Convert a color from YCoCgR color space to RGB color space.
 /// @see "YCoCg-R: A Color Space with RGB Reversibility and Low Dynamic Range"
 /// @see gtx_color_space_YCoCg
 template <typename valType>
-detail::tvec3<valType> YCoCgR2rgb(
-    detail::tvec3<valType> const & YCoCgColor);
+detail::tvec3<valType> YCoCgR2rgb (
+    detail::tvec3<valType> const & YCoCgColor );
 
 /// @}
 }//namespace glm

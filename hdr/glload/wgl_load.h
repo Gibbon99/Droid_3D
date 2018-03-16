@@ -30,7 +30,7 @@ Loads function pointers for WGL extensions.
 
 \return Will return wgl_LOAD_FAILED if the loading failed entirely and nothing was loaded. Returns wgl_LOAD_SUCCEEDED if the loading process worked as planned. If it is neither, then the (return value - wgl_LOAD_SUCCEEDED) is the number of core functions that fialed to load.
 **/
-int wgl_LoadFunctions(HDC hdc);
+int wgl_LoadFunctions ( HDC hdc );
 
 
 /**@}**/

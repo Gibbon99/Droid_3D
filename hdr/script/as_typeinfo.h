@@ -82,22 +82,22 @@ public:
 	{
 		return 0;
 	}
-	bool             DerivesFrom(const asITypeInfo *objType) const
+	bool             DerivesFrom ( const asITypeInfo *objType ) const
 	{
-		UNUSED_VAR(objType);
+		UNUSED_VAR ( objType );
 		return 0;
 	}
 	asDWORD          GetFlags() const;
 	asUINT           GetSize() const;
 	int              GetTypeId() const;
-	int              GetSubTypeId(asUINT subtypeIndex = 0) const
+	int              GetSubTypeId ( asUINT subtypeIndex = 0 ) const
 	{
-		UNUSED_VAR(subtypeIndex);
+		UNUSED_VAR ( subtypeIndex );
 		return -1;
 	}
-	asITypeInfo     *GetSubType(asUINT subtypeIndex = 0) const
+	asITypeInfo     *GetSubType ( asUINT subtypeIndex = 0 ) const
 	{
-		UNUSED_VAR(subtypeIndex);
+		UNUSED_VAR ( subtypeIndex );
 		return 0;
 	}
 	asUINT           GetSubTypeCount() const
@@ -110,14 +110,14 @@ public:
 	{
 		return 0;
 	}
-	asITypeInfo     *GetInterface(asUINT index) const
+	asITypeInfo     *GetInterface ( asUINT index ) const
 	{
-		UNUSED_VAR(index);
+		UNUSED_VAR ( index );
 		return 0;
 	}
-	bool             Implements(const asITypeInfo *objType) const
+	bool             Implements ( const asITypeInfo *objType ) const
 	{
-		UNUSED_VAR(objType);
+		UNUSED_VAR ( objType );
 		return false;
 	}
 
@@ -126,14 +126,14 @@ public:
 	{
 		return 0;
 	}
-	asIScriptFunction *GetFactoryByIndex(asUINT index) const
+	asIScriptFunction *GetFactoryByIndex ( asUINT index ) const
 	{
-		UNUSED_VAR(index);
+		UNUSED_VAR ( index );
 		return 0;
 	}
-	asIScriptFunction *GetFactoryByDecl(const char *decl) const
+	asIScriptFunction *GetFactoryByDecl ( const char *decl ) const
 	{
-		UNUSED_VAR(decl);
+		UNUSED_VAR ( decl );
 		return 0;
 	}
 
@@ -142,22 +142,22 @@ public:
 	{
 		return 0;
 	}
-	asIScriptFunction *GetMethodByIndex(asUINT index, bool getVirtual) const
+	asIScriptFunction *GetMethodByIndex ( asUINT index, bool getVirtual ) const
 	{
-		UNUSED_VAR(index);
-		UNUSED_VAR(getVirtual);
+		UNUSED_VAR ( index );
+		UNUSED_VAR ( getVirtual );
 		return 0;
 	}
-	asIScriptFunction *GetMethodByName(const char *in_name, bool getVirtual) const
+	asIScriptFunction *GetMethodByName ( const char *in_name, bool getVirtual ) const
 	{
-		UNUSED_VAR(in_name);
-		UNUSED_VAR(getVirtual);
+		UNUSED_VAR ( in_name );
+		UNUSED_VAR ( getVirtual );
 		return 0;
 	}
-	asIScriptFunction *GetMethodByDecl(const char *decl, bool getVirtual) const
+	asIScriptFunction *GetMethodByDecl ( const char *decl, bool getVirtual ) const
 	{
-		UNUSED_VAR(decl);
-		UNUSED_VAR(getVirtual);
+		UNUSED_VAR ( decl );
+		UNUSED_VAR ( getVirtual );
 		return 0;
 	}
 
@@ -166,11 +166,11 @@ public:
 	{
 		return 0;
 	}
-	int         GetProperty(asUINT index, const char **name, int *typeId, bool *isPrivate, bool *isProtected, int *offset, bool *isReference, asDWORD *accessMask, int *compositeOffset, bool *isCompositeIndirect) const;
-	const char *GetPropertyDeclaration(asUINT index, bool includeNamespace = false) const
+	int         GetProperty ( asUINT index, const char **name, int *typeId, bool *isPrivate, bool *isProtected, int *offset, bool *isReference, asDWORD *accessMask, int *compositeOffset, bool *isCompositeIndirect ) const;
+	const char *GetPropertyDeclaration ( asUINT index, bool includeNamespace = false ) const
 	{
-		UNUSED_VAR(index);
-		UNUSED_VAR(includeNamespace);
+		UNUSED_VAR ( index );
+		UNUSED_VAR ( includeNamespace );
 		return 0;
 	}
 
@@ -179,10 +179,10 @@ public:
 	{
 		return 0;
 	}
-	asIScriptFunction *GetBehaviourByIndex(asUINT index, asEBehaviours *outBehaviour) const
+	asIScriptFunction *GetBehaviourByIndex ( asUINT index, asEBehaviours *outBehaviour ) const
 	{
-		UNUSED_VAR(index);
-		UNUSED_VAR(outBehaviour);
+		UNUSED_VAR ( index );
+		UNUSED_VAR ( outBehaviour );
 		return 0;
 	}
 
@@ -191,9 +191,9 @@ public:
 	{
 		return 0;
 	}
-	asITypeInfo *GetChildFuncdef(asUINT index) const
+	asITypeInfo *GetChildFuncdef ( asUINT index ) const
 	{
-		UNUSED_VAR(index);
+		UNUSED_VAR ( index );
 		return 0;
 	}
 	asITypeInfo *GetParentType() const
@@ -206,11 +206,11 @@ public:
 	{
 		return 0;
 	}
-	virtual const char *GetEnumValueByIndex(asUINT index, int *outValue) const
+	virtual const char *GetEnumValueByIndex ( asUINT index, int *outValue ) const
 	{
-		UNUSED_VAR(index);
+		UNUSED_VAR ( index );
 
-		if (outValue) *outValue = 0;
+		if ( outValue ) *outValue = 0;
 
 		return 0;
 	}
@@ -228,14 +228,14 @@ public:
 	}
 
 	// User data
-	void *SetUserData(void *data, asPWORD type);
-	void *GetUserData(asPWORD type) const;
+	void *SetUserData ( void *data, asPWORD type );
+	void *GetUserData ( asPWORD type ) const;
 
 	//===========================================
 	// Internal
 	//===========================================
 public:
-	asCTypeInfo(asCScriptEngine *engine);
+	asCTypeInfo ( asCScriptEngine *engine );
 	virtual ~asCTypeInfo();
 
 	// Keep an internal reference counter to separate references coming from
@@ -250,10 +250,10 @@ public:
 	bool IsShared() const;
 
 	// These can be safely used on null pointers (which will return null)
-	friend asCObjectType  *CastToObjectType(asCTypeInfo *);
-	friend asCEnumType    *CastToEnumType(asCTypeInfo *);
-	friend asCTypedefType *CastToTypedefType(asCTypeInfo *);
-	friend asCFuncdefType *CastToFuncdefType(asCTypeInfo *);
+	friend asCObjectType  *CastToObjectType ( asCTypeInfo * );
+	friend asCEnumType    *CastToEnumType ( asCTypeInfo * );
+	friend asCTypedefType *CastToTypedefType ( asCTypeInfo * );
+	friend asCFuncdefType *CastToFuncdefType ( asCTypeInfo * );
 
 
 	asCString                    name;
@@ -292,13 +292,13 @@ struct asSEnumValue
 class asCEnumType : public asCTypeInfo
 {
 public:
-	asCEnumType(asCScriptEngine *engine) : asCTypeInfo(engine) {}
+	asCEnumType ( asCScriptEngine *engine ) : asCTypeInfo ( engine ) {}
 	~asCEnumType();
 
 	asCArray<asSEnumValue*> enumValues;
 
 	asUINT      GetEnumValueCount() const;
-	const char *GetEnumValueByIndex(asUINT index, int *outValue) const;
+	const char *GetEnumValueByIndex ( asUINT index, int *outValue ) const;
 
 protected:
 	asCEnumType() : asCTypeInfo() {}
@@ -307,7 +307,7 @@ protected:
 class asCTypedefType : public asCTypeInfo
 {
 public:
-	asCTypedefType(asCScriptEngine *engine) : asCTypeInfo(engine) {}
+	asCTypedefType ( asCScriptEngine *engine ) : asCTypeInfo ( engine ) {}
 	~asCTypedefType();
 
 	void DestroyInternal();
@@ -323,7 +323,7 @@ protected:
 class asCFuncdefType : public asCTypeInfo
 {
 public:
-	asCFuncdefType(asCScriptEngine *engine, asCScriptFunction *func);
+	asCFuncdefType ( asCScriptEngine *engine, asCScriptFunction *func );
 	~asCFuncdefType();
 
 	asIScriptFunction *GetFuncdefSignature() const;
@@ -334,7 +334,7 @@ public:
 	asCObjectType     *parentClass; // doesn't increase refCount
 
 protected:
-	asCFuncdefType() : asCTypeInfo(), funcdef(0), parentClass(0) {}
+	asCFuncdefType() : asCTypeInfo(), funcdef ( 0 ), parentClass ( 0 ) {}
 };
 
 END_AS_NAMESPACE

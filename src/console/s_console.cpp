@@ -1,6 +1,7 @@
 #include "s_globals.h"
 #include "s_console.h"
 #include "s_openGLWrap.h"
+#include "s_ttfFont.h"
 
 #include <stdarg.h>
 #include <sstream>
@@ -36,16 +37,46 @@ int		conNumInHistory = 0;
 void con_addConsoleCommands()
 //-----------------------------------------------------------------------------
 {
-	con_addCommand("help",			"List out available commands",	(ExternFunc)conHelp);
-	con_addCommand("glInfo",		"Info about openGL",			(ExternFunc)conOpenGLInfo);
-	con_addCommand("listVars",		"List script variables",		(ExternFunc)conListVariables);
-	con_addCommand("listFunctions",	"List script functions",		(ExternFunc)conListFunctions);
-	con_addCommand("getVar",     	"Get the value of a variable",  (ExternFunc)conGetVariableValue);
-	con_addCommand("setVar",     	"Set the value of a variable",  (ExternFunc)conSetVariableValue);
-	con_addCommand("scShowFunc", 	"Show all script added commands",(ExternFunc)showScriptAddedCommands);
-	con_addCommand("showCounters",	"Show openGL wrap counters",   (ExternFunc)wrapShowCounters);
+	con_addCommand ( "help",			"List out available commands",	( ExternFunc ) conHelp );
+	con_addCommand ( "glInfo",			"Info about openGL",			( ExternFunc ) conOpenGLInfo );
+	con_addCommand ( "listVars",		"List script variables",		( ExternFunc ) conListVariables );
+	con_addCommand ( "listFunctions",	"List script functions",		( ExternFunc ) conListFunctions );
+	con_addCommand ( "getVar",     		"Get the value of a variable",  ( ExternFunc ) conGetVariableValue );
+	con_addCommand ( "setVar",     		"Set the value of a variable",  ( ExternFunc ) conSetVariableValue );
+	con_addCommand ( "scShowFunc", 		"Show all script added commands", ( ExternFunc ) showScriptAddedCommands );
+	con_addCommand ( "showCounters",	"Show openGL wrap counters",   ( ExternFunc ) wrapShowCounters );
 //	conAddCommand("scDo",		"Execute script function",		(ExternFunc)conScriptExecute);
 }
+
+
+//-----------------------------------------------------------------------------
+//
+// Draw the console screen
+void gl_drawScreen ( )
+//-----------------------------------------------------------------------------
+{
+	_conLine	conTempLine;
+	float       conStartY = 0.0f;
+
+	conStartY = winHeight - ( conFontSize * 2 );
+
+	for ( int i = 0; i != ( winHeight / conFontSize ) - 2; i++ )
+		{
+			gl_setFontColor ( conLines[i].conLineColor.red, conLines[i].conLineColor.green, conLines[i].conLineColor.blue, conLines[i].conLineColor.alpha );
+			ttf_addText ( FONT_SMALL, 0.0f, ( conStartY - ( ( i * conFontSize ) + conFontSize ) ), "%s", conLines[i].conLine.c_str() );
+		}
+
+	conTempLine.conLine = conCurrentLine.conLine;
+
+	if ( true == conCursorIsOn )
+		conTempLine.conLine += "_";
+	else
+		conTempLine.conLine += " ";
+
+	con_setColor(0.8f, 0.8f, 0.8f, 0.8f);
+	ttf_addText ( FONT_SMALL, 0.0f, ( GLfloat ) ( winHeight - ( conFontSize * 1 ) ), "%s", conTempLine.conLine.c_str() );
+}
+
 
 //-----------------------------------------------------------------------------
 //
@@ -57,7 +88,6 @@ void con_initConsole()
 
 	for ( i = 0; i < NUM_CON_LINES; i++ )
 		{
-			//strcpy(conLines[i].conLine, "");
 			conLines[i].conLine = "";
 			conLines[i].conLineColor.red = 1.0f;
 			conLines[i].conLineColor.green = 1.0f;
@@ -106,19 +136,19 @@ void con_addScriptCommand ( string command, string usage, string funcPtr, bool s
 //-----------------------------------------------------------------------------
 //
 // Push a command into the console for processing
-void con_pushCommand(char *param1)
+void con_pushCommand ( char *param1 )
 //-----------------------------------------------------------------------------
 {
-	con_processCommand(param1);
+	con_processCommand ( param1 );
 }
 
 //-----------------------------------------------------------------------------
 //
 // Execute a console command from a script
-void con_pushScriptCommand(std::string command)
+void con_pushScriptCommand ( std::string command )
 //-----------------------------------------------------------------------------
 {
-	con_processCommand((char *)command.c_str());
+	con_processCommand ( ( char * ) command.c_str() );
 }
 
 //-----------------------------------------------------------------------------
@@ -148,14 +178,14 @@ void con_completeCommand ( string lookFor )
 //-----------------------------------------------------------------------------
 //
 // Process the cursor
-void con_processCursor(float frameInterval)
+void con_processCursor ( float frameInterval )
 //-----------------------------------------------------------------------------
 {
 	static float conCursorCount = 0.0f;
 
-	conCursorCount += (GLfloat)(10.0f * frameInterval);
+	conCursorCount += ( GLfloat ) ( 10.0f * frameInterval );
 
-	if (conCursorCount > CON_CURSOR_MAX_COUNT)
+	if ( conCursorCount > CON_CURSOR_MAX_COUNT )
 		{
 			conCursorCount = 0.0f;
 			conCursorIsOn =!conCursorIsOn;
@@ -241,7 +271,6 @@ bool con_addCommand ( string command, string usage, ExternFunc functionPtr )
 	//
 	// Next slot
 	//
-
 	tempConCommand.command = 		command;
 	tempConCommand.usage = 			usage;
 	tempConCommand.conFunc = 		functionPtr;
@@ -277,68 +306,55 @@ void con_incLine ( string newLine )
 //
 // Add a line to the console
 // Pass in type to change the color
-void con_print (int type, bool fileLog, const char *printText, ...)
+void con_print ( int type, bool fileLog, const char *printText, ... )
 //-----------------------------------------------------------------------------
 {
 	va_list		args;
 	char		conText[MAX_STRING_SIZE * 2];
 
-//int i = 0;
-
-// TODO (dberry#1#): Fix up string length not working when printing entities string from loadBSP
-
-//while (*printText)
-//{
-//    printText++;
-//    i++;
-//    printf(" [ %c ]\n", printText[i]);
-//}
-
-
-//    printf("String is [ %i ] chars long\n", i);
 	//
 	// check and make sure we don't overflow our string buffer
 	//
-	if (strlen(printText) >= MAX_STRING_SIZE - 1)
-		sysErrorNormal (__FILE__, __LINE__, "String passed to console is too long", (MAX_STRING_SIZE - 1), strlen(printText) - (MAX_STRING_SIZE - 1));
+	if ( strlen ( printText ) >= MAX_STRING_SIZE - 1 )
+		sysErrorNormal ( __FILE__, __LINE__, "String passed to console is too long", ( MAX_STRING_SIZE - 1 ), strlen ( printText ) - ( MAX_STRING_SIZE - 1 ) );
 
 	//
 	// get out the passed in parameters
 	//
-	va_start(args, printText);
-	vsprintf(conText, printText, args);
-	va_end(args);
+	va_start ( args, printText );
+	vsprintf ( conText, printText, args );
+	va_end ( args );
 
-	con_incLine(conText);
+	if ( true == fileLog )
+		io_logToFile ( "Console : %s", conText );
 
-	if (true == fileLog)
-		io_logToFile ("%s", conText);
-
-	switch (type)
+	switch ( type )
 		{
-			case CON_NOCHANGE:
-				break;
+		case CON_NOCHANGE:
+			break;
 
-			case CON_TEXT:
-				con_setColor(1.0f, 1.0f, 1.0f, 1.0f);
-				break;
+		case CON_TEXT:
+			con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+			break;
 
-			case CON_INFO:
-				con_setColor(1.0f, 1.f, 0.0f, 1.0f);
-				break;
+		case CON_INFO:
+			con_setColor ( 1.0f, 1.f, 0.0f, 1.0f );
+			break;
 
-			case CON_ERROR:
-				con_setColor(1.0f, 0.0f, 0.0f, 0.0f);
-				break;
+		case CON_ERROR:
+			con_setColor ( 1.0f, 0.0f, 0.0f, 0.0f );
+			break;
 
-			default:
-				break;
+		default:
+			break;
 		}
+		
+	con_incLine ( conText );
 }
 
 //-----------------------------------------------------------------------------
 //
-// Process a entered command
+// Process an entered command
 void con_processCommand ( string comLine )
 //-----------------------------------------------------------------------------
 {
@@ -350,6 +366,9 @@ void con_processCommand ( string comLine )
 	string              param;
 	string				param2;
 	bool    			conMatchFound = false;
+	
+	if (comLine.size() == 0)
+		return;
 	//
 	// Start the string with known empty value
 	command = "";
@@ -418,62 +437,62 @@ void con_processCommand ( string comLine )
 //-----------------------------------------------------------------------------
 //
 // Add a line to the console and update the display
-void con_printUpdate (int type, bool fileLog, const char *printText, ...)
+void con_printUpdate ( int type, bool fileLog, const char *printText, ... )
 //-----------------------------------------------------------------------------
 {
 	va_list		args;
 	char		conText[MAX_STRING_SIZE];
 
-	if (false == consoleIsReady)
+	if ( false == consoleIsReady )
 		return;
 
 	//
 	// check and make sure we don't overflow our string buffer
 	//
-	if (strlen(printText) >= MAX_STRING_SIZE - 5)
-		sysErrorNormal (__FILE__, __LINE__, "String passed to logfile too long", (MAX_STRING_SIZE - 1), strlen(printText) - (MAX_STRING_SIZE - 1));
+	if ( strlen ( printText ) >= MAX_STRING_SIZE - 5 )
+		sysErrorNormal ( __FILE__, __LINE__, "String passed to logfile too long", ( MAX_STRING_SIZE - 1 ), strlen ( printText ) - ( MAX_STRING_SIZE - 1 ) );
 
 	//
 	// get out the passed in parameters
 	//
-	va_start(args, printText);
-	vsprintf(conText, printText, args);
-	va_end(args);
+	va_start ( args, printText );
+	vsprintf ( conText, printText, args );
+	va_end ( args );
 
-	con_incLine(conText);
+	con_incLine ( conText );
 
-	if (true == fileLog)
-		io_logToFile ("%s", conText);
+	if ( true == fileLog )
+		io_logToFile ( "%s", conText );
 
-	switch (type)
+	switch ( type )
 		{
-			case CON_NOCHANGE:
-				break;
+		case CON_NOCHANGE:
+			break;
 
-			case CON_TEXT:
-				con_setColor(1.0f, 1.0f, 1.0f, 1.0f);
-				break;
+		case CON_TEXT:
+			con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+			break;
 
-			case CON_INFO:
-				con_setColor(1.0f, 1.f, 0.0f, 1.0f);
-				break;
+		case CON_INFO:
+			con_setColor ( 1.0f, 1.f, 0.0f, 1.0f );
+			break;
 
-			case CON_ERROR:
-				con_setColor(1.0f, 0.0f, 0.0f, 0.0f);
-				break;
+		case CON_ERROR:
+			con_setColor ( 1.0f, 0.0f, 0.0f, 0.0f );
+			break;
 
-			default:
-				break;
+		default:
+			break;
 		}
 
-	if (currentMode == MODE_CONSOLE)
-		gl_drawScreen(true);
+	if ( currentMode == MODE_CONSOLE )
+		gl_drawScreen ( );
 }
 
 //-----------------------------------------------------------------------------
 //
 // Set the current color for printing lines to the console
-void con_setColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+void con_setColor ( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha )
 //-----------------------------------------------------------------------------
 {
 	currentConLineColor.red = red;

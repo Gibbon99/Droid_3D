@@ -56,17 +56,17 @@ namespace glm
 //! It's faster that dot(normalize(x), normalize(y)).
 //! From GLM_GTX_normalize_dot extension.
 template <typename genType>
-typename genType::value_type normalizeDot(
+typename genType::value_type normalizeDot (
     genType const & x,
-    genType const & y);
+    genType const & y );
 
 //! Normalize parameters and returns the dot product of x and y.
 //! Faster that dot(fastNormalize(x), fastNormalize(y)).
 //! From GLM_GTX_normalize_dot extension.
 template <typename genType>
-typename genType::value_type fastNormalizeDot(
+typename genType::value_type fastNormalizeDot (
     genType const & x,
-    genType const & y);
+    genType const & y );
 
 /// @}
 }//namespace glm

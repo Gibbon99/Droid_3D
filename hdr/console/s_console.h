@@ -18,7 +18,7 @@
 // needs the (...) to allow for any parameter passing without hardcoding
 // different types for different functions
 //-----------------------------------------------------------------------------
-typedef int	(*ExternFunc)(...);
+typedef int	( *ExternFunc ) ( ... );
 
 #define NUM_CON_LINES			40
 #define NUM_MAX_CON_COMMANDS	30
@@ -92,13 +92,13 @@ extern bool			conCursorIsOn;
 extern GLuint		conHistoryPtr;			// Which history command are we at
 
 // Draw the console screen
-void gl_drawScreen(GLboolean updateNow);
+void gl_drawScreen ( );
 
 // Add a line to the console
-void con_print (int type, bool fileLog, const char *printText, ...);
+void con_print ( int type, bool fileLog, const char *printText, ... );
 
 // Add a line to the console and update the display
-void con_printUpdate (int type, bool fileLog, const char *printText, ...);
+void con_printUpdate ( int type, bool fileLog, const char *printText, ... );
 
 // Init the console
 void con_initConsole();
@@ -107,7 +107,7 @@ void con_initConsole();
 void con_processCommand ( string comLine );
 
 // Push a command into the console for processing
-void con_pushCommand(char *param1);
+void con_pushCommand ( char *param1 );
 
 // Add a command to the console command list
 bool con_addCommand ( string command, string usage, ExternFunc functionPtr );
@@ -116,7 +116,7 @@ bool con_addCommand ( string command, string usage, ExternFunc functionPtr );
 void con_processBackspaceKey ( float frameInterval );
 
 // Process the cursor
-void con_processCursor(float frameInterval);
+void con_processCursor ( float frameInterval );
 
 // Add a valid command to the history buffer
 void con_addHistoryCommand ( string command );
@@ -131,7 +131,7 @@ void con_completeCommand ( string lookFor );
 void con_scriptShutdown();
 
 // Set the current color for printing lines to the console
-void con_setColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+void con_setColor ( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha );
 
 // Add a script console command to the executable list of functions
 bool sys_addScriptConsoleFunction ( string funcName, string funcPtr, bool setParam );
@@ -139,13 +139,13 @@ bool sys_addScriptConsoleFunction ( string funcName, string funcPtr, bool setPar
 void con_addScriptCommand ( string command, string usage, string funcPtr, bool setParam );
 
 // Execute a console command from a script
-void con_pushScriptCommand(std::string command);
+void con_pushScriptCommand ( std::string command );
 
 // Print to console from the scripts - String version
-void sys_scriptPrintStr(std::string *msgText, std::string *msgParam);
+void sys_scriptPrintStr ( std::string *msgText, std::string *msgParam );
 
 // Execute a function from the script
-bool util_executeScriptFunction(string functionName, string funcParam );
+bool util_executeScriptFunction ( string functionName, string funcParam );
 
 //-----------------------------------------------------------------------------
 //
@@ -163,7 +163,7 @@ int conOpenGLInfo();
 int showScriptAddedCommands();
 
 // Execute a function from the script
-int conScriptExecute(const char *param1);
+int conScriptExecute ( const char *param1 );
 
 // List the variables we can change
 void conListVariables();
@@ -171,7 +171,7 @@ void conListVariables();
 void conListFunctions();
 
 // Get the value of a single variable
-void conGetVariableValue(string whichVar);
+void conGetVariableValue ( string whichVar );
 
 // Set the value of a global script variable
-void conSetVariableValue(string whichVar, string newValue);
+void conSetVariableValue ( string whichVar, string newValue );

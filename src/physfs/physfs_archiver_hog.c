@@ -34,52 +34,52 @@
 
 #if PHYSFS_SUPPORTS_HOG
 
-static int hogLoadEntries(PHYSFS_Io *io, void *arc)
+static int hogLoadEntries ( PHYSFS_Io *io, void *arc )
 {
-	const PHYSFS_uint64 iolen = io->length(io);
+	const PHYSFS_uint64 iolen = io->length ( io );
 	PHYSFS_uint32 pos = 3;
 
-	while (pos < iolen)
+	while ( pos < iolen )
 		{
 			PHYSFS_uint32 size;
 			char name[13];
 
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, name, 13), 0);
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &size, 4), 0);
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, name, 13 ), 0 );
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &size, 4 ), 0 );
 			name[12] = '\0';  /* just in case. */
 			pos += 13 + 4;
 
-			size = PHYSFS_swapULE32(size);
-			BAIL_IF_ERRPASS(!UNPK_addEntry(arc, name, 0, -1, -1, pos, size), 0);
+			size = PHYSFS_swapULE32 ( size );
+			BAIL_IF_ERRPASS ( !UNPK_addEntry ( arc, name, 0, -1, -1, pos, size ), 0 );
 			pos += size;
 
 			/* skip over entry */
-			BAIL_IF_ERRPASS(!io->seek(io, pos), 0);
+			BAIL_IF_ERRPASS ( !io->seek ( io, pos ), 0 );
 		} /* while */
 
 	return 1;
 } /* hogLoadEntries */
 
 
-static void *HOG_openArchive(PHYSFS_Io *io, const char *name,
-                             int forWriting, int *claimed)
+static void *HOG_openArchive ( PHYSFS_Io *io, const char *name,
+                               int forWriting, int *claimed )
 {
 	PHYSFS_uint8 buf[3];
 	void *unpkarc = NULL;
 
-	assert(io != NULL);  /* shouldn't ever happen. */
-	BAIL_IF(forWriting, PHYSFS_ERR_READ_ONLY, NULL);
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, buf, 3), NULL);
-	BAIL_IF(memcmp(buf, "DHF", 3) != 0, PHYSFS_ERR_UNSUPPORTED, NULL);
+	assert ( io != NULL ); /* shouldn't ever happen. */
+	BAIL_IF ( forWriting, PHYSFS_ERR_READ_ONLY, NULL );
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, buf, 3 ), NULL );
+	BAIL_IF ( memcmp ( buf, "DHF", 3 ) != 0, PHYSFS_ERR_UNSUPPORTED, NULL );
 
 	*claimed = 1;
 
-	unpkarc = UNPK_openArchive(io);
-	BAIL_IF_ERRPASS(!unpkarc, NULL);
+	unpkarc = UNPK_openArchive ( io );
+	BAIL_IF_ERRPASS ( !unpkarc, NULL );
 
-	if (!hogLoadEntries(io, unpkarc))
+	if ( !hogLoadEntries ( io, unpkarc ) )
 		{
-			UNPK_abandonArchive(unpkarc);
+			UNPK_abandonArchive ( unpkarc );
 			return NULL;
 		} /* if */
 

@@ -50,24 +50,24 @@ struct asSNameSpaceNamePair
 	const asSNameSpace *ns;
 	asCString           name;
 
-	asSNameSpaceNamePair() : ns(0) {}
-	asSNameSpaceNamePair(const asSNameSpace *_ns, const asCString &_name) : ns(_ns), name(_name) {}
+	asSNameSpaceNamePair() : ns ( 0 ) {}
+	asSNameSpaceNamePair ( const asSNameSpace *_ns, const asCString &_name ) : ns ( _ns ), name ( _name ) {}
 
-	asSNameSpaceNamePair &operator=(const asSNameSpaceNamePair &other)
+	asSNameSpaceNamePair &operator= ( const asSNameSpaceNamePair &other )
 	{
 		ns   = other.ns;
 		name = other.name;
 		return *this;
 	}
 
-	bool operator==(const asSNameSpaceNamePair &other) const
+	bool operator== ( const asSNameSpaceNamePair &other ) const
 	{
-		return (ns == other.ns && name == other.name);
+		return ( ns == other.ns && name == other.name );
 	}
 
-	bool operator<(const asSNameSpaceNamePair &other) const
+	bool operator< ( const asSNameSpaceNamePair &other ) const
 	{
-		return (ns < other.ns || (ns == other.ns && name < other.name));
+		return ( ns < other.ns || ( ns == other.ns && name < other.name ) );
 	}
 };
 

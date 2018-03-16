@@ -332,22 +332,22 @@ enum
 
 namespace _detail
 {
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_glAreTexturesResident)(GLsizei n, const GLuint * textures, GLboolean * residences);
-typedef void (CODEGEN_FUNCPTR * Proc_glArrayElement)(GLint i);
-typedef void (CODEGEN_FUNCPTR * Proc_glColorPointer)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * Proc_glDisableClientState)(GLenum ren_array);
-typedef void (CODEGEN_FUNCPTR * Proc_glEdgeFlagPointer)(GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * Proc_glEnableClientState)(GLenum ren_array);
-typedef void (CODEGEN_FUNCPTR * Proc_glIndexPointer)(GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * Proc_glIndexub)(GLubyte c);
-typedef void (CODEGEN_FUNCPTR * Proc_glIndexubv)(const GLubyte * c);
-typedef void (CODEGEN_FUNCPTR * Proc_glInterleavedArrays)(GLenum format, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * Proc_glNormalPointer)(GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * Proc_glPopClientAttrib)();
-typedef void (CODEGEN_FUNCPTR * Proc_glPrioritizeTextures)(GLsizei n, const GLuint * textures, const GLfloat * priorities);
-typedef void (CODEGEN_FUNCPTR * Proc_glPushClientAttrib)(GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * Proc_glTexCoordPointer)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * Proc_glVertexPointer)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_glAreTexturesResident ) ( GLsizei n, const GLuint * textures, GLboolean * residences );
+typedef void ( CODEGEN_FUNCPTR * Proc_glArrayElement ) ( GLint i );
+typedef void ( CODEGEN_FUNCPTR * Proc_glColorPointer ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDisableClientState ) ( GLenum ren_array );
+typedef void ( CODEGEN_FUNCPTR * Proc_glEdgeFlagPointer ) ( GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glEnableClientState ) ( GLenum ren_array );
+typedef void ( CODEGEN_FUNCPTR * Proc_glIndexPointer ) ( GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glIndexub ) ( GLubyte c );
+typedef void ( CODEGEN_FUNCPTR * Proc_glIndexubv ) ( const GLubyte * c );
+typedef void ( CODEGEN_FUNCPTR * Proc_glInterleavedArrays ) ( GLenum format, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glNormalPointer ) ( GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glPopClientAttrib ) ();
+typedef void ( CODEGEN_FUNCPTR * Proc_glPrioritizeTextures ) ( GLsizei n, const GLuint * textures, const GLfloat * priorities );
+typedef void ( CODEGEN_FUNCPTR * Proc_glPushClientAttrib ) ( GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * Proc_glTexCoordPointer ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glVertexPointer ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
 }
 
 extern _detail::Proc_glAreTexturesResident AreTexturesResident;

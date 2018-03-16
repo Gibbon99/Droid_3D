@@ -68,7 +68,7 @@ namespace detail
 {
 /// 4-dimensional vector implemented using SIMD SEE intrinsics.
 /// \ingroup gtx_simd_vec4
-GLM_ALIGNED_STRUCT(16) fvec4SIMD
+GLM_ALIGNED_STRUCT ( 16 ) fvec4SIMD
 {
 	enum ctor{null};
 	typedef __m128 value_type;
@@ -92,48 +92,48 @@ GLM_ALIGNED_STRUCT(16) fvec4SIMD
 	// Implicit basic constructors
 
 	fvec4SIMD();
-	fvec4SIMD(__m128 const & Data);
-	fvec4SIMD(fvec4SIMD const & v);
+	fvec4SIMD ( __m128 const & Data );
+	fvec4SIMD ( fvec4SIMD const & v );
 
 	//////////////////////////////////////
 	// Explicit basic constructors
 
-	explicit fvec4SIMD(
-	    ctor);
-	explicit fvec4SIMD(
-	    float const & s);
-	explicit fvec4SIMD(
+	explicit fvec4SIMD (
+	    ctor );
+	explicit fvec4SIMD (
+	    float const & s );
+	explicit fvec4SIMD (
 	    float const & x,
 	    float const & y,
 	    float const & z,
-	    float const & w);
-	explicit fvec4SIMD(
-	    tvec4<float> const & v);
+	    float const & w );
+	explicit fvec4SIMD (
+	    tvec4<float> const & v );
 
 	////////////////////////////////////////
 	//// Convertion vector constructors
 
-	fvec4SIMD(vec2 const & v, float const & s1, float const & s2);
-	fvec4SIMD(float const & s1, vec2 const & v, float const & s2);
-	fvec4SIMD(float const & s1, float const & s2, vec2 const & v);
-	fvec4SIMD(vec3 const & v, float const & s);
-	fvec4SIMD(float const & s, vec3 const & v);
-	fvec4SIMD(vec2 const & v1, vec2 const & v2);
+	fvec4SIMD ( vec2 const & v, float const & s1, float const & s2 );
+	fvec4SIMD ( float const & s1, vec2 const & v, float const & s2 );
+	fvec4SIMD ( float const & s1, float const & s2, vec2 const & v );
+	fvec4SIMD ( vec3 const & v, float const & s );
+	fvec4SIMD ( float const & s, vec3 const & v );
+	fvec4SIMD ( vec2 const & v1, vec2 const & v2 );
 	//fvec4SIMD(ivec4SIMD const & v);
 
 	//////////////////////////////////////
 	// Unary arithmetic operators
 
-	fvec4SIMD& operator= (fvec4SIMD const & v);
-	fvec4SIMD& operator+=(fvec4SIMD const & v);
-	fvec4SIMD& operator-=(fvec4SIMD const & v);
-	fvec4SIMD& operator*=(fvec4SIMD const & v);
-	fvec4SIMD& operator/=(fvec4SIMD const & v);
+	fvec4SIMD& operator= ( fvec4SIMD const & v );
+	fvec4SIMD& operator+= ( fvec4SIMD const & v );
+	fvec4SIMD& operator-= ( fvec4SIMD const & v );
+	fvec4SIMD& operator*= ( fvec4SIMD const & v );
+	fvec4SIMD& operator/= ( fvec4SIMD const & v );
 
-	fvec4SIMD& operator+=(float const & s);
-	fvec4SIMD& operator-=(float const & s);
-	fvec4SIMD& operator*=(float const & s);
-	fvec4SIMD& operator/=(float const & s);
+	fvec4SIMD& operator+= ( float const & s );
+	fvec4SIMD& operator-= ( float const & s );
+	fvec4SIMD& operator*= ( float const & s );
+	fvec4SIMD& operator/= ( float const & s );
 
 	fvec4SIMD& operator++();
 	fvec4SIMD& operator--();
@@ -161,25 +161,25 @@ typedef glm::detail::fvec4SIMD simdVec4;
 
 //! Convert a simdVec4 to a vec4.
 //! (From GLM_GTX_simd_vec4 extension)
-detail::tvec4<float> vec4_cast(
-    detail::fvec4SIMD const & x);
+detail::tvec4<float> vec4_cast (
+    detail::fvec4SIMD const & x );
 
 //! Returns x if x >= 0; otherwise, it returns -x.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD abs(detail::fvec4SIMD const & x);
+detail::fvec4SIMD abs ( detail::fvec4SIMD const & x );
 
 //! Returns 1.0 if x > 0, 0.0 if x = 0, or -1.0 if x < 0.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD sign(detail::fvec4SIMD const & x);
+detail::fvec4SIMD sign ( detail::fvec4SIMD const & x );
 
 //! Returns a value equal to the nearest integer that is less then or equal to x.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD floor(detail::fvec4SIMD const & x);
+detail::fvec4SIMD floor ( detail::fvec4SIMD const & x );
 
 //! Returns a value equal to the nearest integer to x
 //! whose absolute value is not larger than the absolute value of x.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD trunc(detail::fvec4SIMD const & x);
+detail::fvec4SIMD trunc ( detail::fvec4SIMD const & x );
 
 //! Returns a value equal to the nearest integer to x.
 //! The fraction 0.5 will round in a direction chosen by the
@@ -187,7 +187,7 @@ detail::fvec4SIMD trunc(detail::fvec4SIMD const & x);
 //! This includes the possibility that round(x) returns the
 //! same value as roundEven(x) for all values of x.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD round(detail::fvec4SIMD const & x);
+detail::fvec4SIMD round ( detail::fvec4SIMD const & x );
 
 //! Returns a value equal to the nearest integer to x.
 //! A fractional part of 0.5 will round toward the nearest even
@@ -198,25 +198,25 @@ detail::fvec4SIMD round(detail::fvec4SIMD const & x);
 //! Returns a value equal to the nearest integer
 //! that is greater than or equal to x.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD ceil(detail::fvec4SIMD const & x);
+detail::fvec4SIMD ceil ( detail::fvec4SIMD const & x );
 
 //! Return x - floor(x).
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD fract(detail::fvec4SIMD const & x);
+detail::fvec4SIMD fract ( detail::fvec4SIMD const & x );
 
 //! Modulus. Returns x - y * floor(x / y)
 //! for each component in x using the floating point value y.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD mod(
+detail::fvec4SIMD mod (
     detail::fvec4SIMD const & x,
-    detail::fvec4SIMD const & y);
+    detail::fvec4SIMD const & y );
 
 //! Modulus. Returns x - y * floor(x / y)
 //! for each component in x using the floating point value y.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD mod(
+detail::fvec4SIMD mod (
     detail::fvec4SIMD const & x,
-    float const & y);
+    float const & y );
 
 //! Returns the fractional part of x and sets i to the integer
 //! part (as a whole number floating point value). Both the
@@ -229,36 +229,36 @@ detail::fvec4SIMD mod(
 
 //! Returns y if y < x; otherwise, it returns x.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD min(
+detail::fvec4SIMD min (
     detail::fvec4SIMD const & x,
-    detail::fvec4SIMD const & y);
+    detail::fvec4SIMD const & y );
 
-detail::fvec4SIMD min(
+detail::fvec4SIMD min (
     detail::fvec4SIMD const & x,
-    float const & y);
+    float const & y );
 
 //! Returns y if x < y; otherwise, it returns x.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD max(
+detail::fvec4SIMD max (
     detail::fvec4SIMD const & x,
-    detail::fvec4SIMD const & y);
+    detail::fvec4SIMD const & y );
 
-detail::fvec4SIMD max(
+detail::fvec4SIMD max (
     detail::fvec4SIMD const & x,
-    float const & y);
+    float const & y );
 
 //! Returns min(max(x, minVal), maxVal) for each component in x
 //! using the floating-point values minVal and maxVal.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD clamp(
+detail::fvec4SIMD clamp (
     detail::fvec4SIMD const & x,
     detail::fvec4SIMD const & minVal,
-    detail::fvec4SIMD const & maxVal);
+    detail::fvec4SIMD const & maxVal );
 
-detail::fvec4SIMD clamp(
+detail::fvec4SIMD clamp (
     detail::fvec4SIMD const & x,
     float const & minVal,
-    float const & maxVal);
+    float const & maxVal );
 
 //! \return If genTypeU is a floating scalar or vector:
 //! Returns x * (1.0 - a) + y * a, i.e., the linear blend of
@@ -285,20 +285,20 @@ detail::fvec4SIMD clamp(
 //!
 // \todo Test when 'a' is a boolean.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD mix(
+detail::fvec4SIMD mix (
     detail::fvec4SIMD const & x,
     detail::fvec4SIMD const & y,
-    detail::fvec4SIMD const & a);
+    detail::fvec4SIMD const & a );
 
 //! Returns 0.0 if x < edge, otherwise it returns 1.0.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD step(
+detail::fvec4SIMD step (
     detail::fvec4SIMD const & edge,
-    detail::fvec4SIMD const & x);
+    detail::fvec4SIMD const & x );
 
-detail::fvec4SIMD step(
+detail::fvec4SIMD step (
     float const & edge,
-    detail::fvec4SIMD const & x);
+    detail::fvec4SIMD const & x );
 
 //! Returns 0.0 if x <= edge0 and 1.0 if x >= edge1 and
 //! performs smooth Hermite interpolation between 0 and 1
@@ -310,15 +310,15 @@ detail::fvec4SIMD step(
 //! return t * t * (3 - 2 * t);
 //! Results are undefined if edge0 >= edge1.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD smoothstep(
+detail::fvec4SIMD smoothstep (
     detail::fvec4SIMD const & edge0,
     detail::fvec4SIMD const & edge1,
-    detail::fvec4SIMD const & x);
+    detail::fvec4SIMD const & x );
 
-detail::fvec4SIMD smoothstep(
+detail::fvec4SIMD smoothstep (
     float const & edge0,
     float const & edge1,
-    detail::fvec4SIMD const & x);
+    detail::fvec4SIMD const & x );
 
 //! Returns true if x holds a NaN (not a number)
 //! representation in the underlying implementation's set of
@@ -352,10 +352,10 @@ detail::fvec4SIMD smoothstep(
 
 //! Computes and returns a * b + c.
 //! (From GLM_GTX_simd_vec4 extension, common function)
-detail::fvec4SIMD fma(
+detail::fvec4SIMD fma (
     detail::fvec4SIMD const & a,
     detail::fvec4SIMD const & b,
-    detail::fvec4SIMD const & c);
+    detail::fvec4SIMD const & c );
 
 //! Splits x into a floating-point significand in the range
 //! [0.5, 1.0) and an integral exponent of two, such that:
@@ -378,129 +378,129 @@ detail::fvec4SIMD fma(
 
 //! Returns the length of x, i.e., sqrt(x * x).
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-float length(
-    detail::fvec4SIMD const & x);
+float length (
+    detail::fvec4SIMD const & x );
 
 //! Returns the length of x, i.e., sqrt(x * x).
 //! Less accurate but much faster than simdLength.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-float fastLength(
-    detail::fvec4SIMD const & x);
+float fastLength (
+    detail::fvec4SIMD const & x );
 
 //! Returns the length of x, i.e., sqrt(x * x).
 //! Slightly more accurate but much slower than simdLength.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-float niceLength(
-    detail::fvec4SIMD const & x);
+float niceLength (
+    detail::fvec4SIMD const & x );
 
 //! Returns the length of x, i.e., sqrt(x * x).
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD length4(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD length4 (
+    detail::fvec4SIMD const & x );
 
 //! Returns the length of x, i.e., sqrt(x * x).
 //! Less accurate but much faster than simdLength4.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD fastLength4(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD fastLength4 (
+    detail::fvec4SIMD const & x );
 
 //! Returns the length of x, i.e., sqrt(x * x).
 //! Slightly more accurate but much slower than simdLength4.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD niceLength4(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD niceLength4 (
+    detail::fvec4SIMD const & x );
 
 //! Returns the distance betwwen p0 and p1, i.e., length(p0 - p1).
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-float distance(
+float distance (
     detail::fvec4SIMD const & p0,
-    detail::fvec4SIMD const & p1);
+    detail::fvec4SIMD const & p1 );
 
 //! Returns the distance betwwen p0 and p1, i.e., length(p0 - p1).
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD distance4(
+detail::fvec4SIMD distance4 (
     detail::fvec4SIMD const & p0,
-    detail::fvec4SIMD const & p1);
+    detail::fvec4SIMD const & p1 );
 
 //! Returns the dot product of x and y, i.e., result = x * y.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-float simdDot(
+float simdDot (
     detail::fvec4SIMD const & x,
-    detail::fvec4SIMD const & y);
+    detail::fvec4SIMD const & y );
 
 //! Returns the dot product of x and y, i.e., result = x * y.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD dot4(
+detail::fvec4SIMD dot4 (
     detail::fvec4SIMD const & x,
-    detail::fvec4SIMD const & y);
+    detail::fvec4SIMD const & y );
 
 //! Returns the cross product of x and y.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD cross(
+detail::fvec4SIMD cross (
     detail::fvec4SIMD const & x,
-    detail::fvec4SIMD const & y);
+    detail::fvec4SIMD const & y );
 
 //! Returns a vector in the same direction as x but with length of 1.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD normalize(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD normalize (
+    detail::fvec4SIMD const & x );
 
 //! Returns a vector in the same direction as x but with length of 1.
 //! Less accurate but much faster than simdNormalize.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD fastNormalize(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD fastNormalize (
+    detail::fvec4SIMD const & x );
 
 //! If dot(Nref, I) < 0.0, return N, otherwise, return -N.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD simdFaceforward(
+detail::fvec4SIMD simdFaceforward (
     detail::fvec4SIMD const & N,
     detail::fvec4SIMD const & I,
-    detail::fvec4SIMD const & Nref);
+    detail::fvec4SIMD const & Nref );
 
 //! For the incident vector I and surface orientation N,
 //! returns the reflection direction : result = I - 2.0 * dot(N, I) * N.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD reflect(
+detail::fvec4SIMD reflect (
     detail::fvec4SIMD const & I,
-    detail::fvec4SIMD const & N);
+    detail::fvec4SIMD const & N );
 
 //! For the incident vector I and surface normal N,
 //! and the ratio of indices of refraction eta,
 //! return the refraction vector.
 //! (From GLM_GTX_simd_vec4 extension, geometry functions)
-detail::fvec4SIMD refract(
+detail::fvec4SIMD refract (
     detail::fvec4SIMD const & I,
     detail::fvec4SIMD const & N,
-    float const & eta);
+    float const & eta );
 
 //! Returns the positive square root of x.
 //! (From GLM_GTX_simd_vec4 extension, exponential function)
-detail::fvec4SIMD sqrt(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD sqrt (
+    detail::fvec4SIMD const & x );
 
 //! Returns the positive square root of x with the nicest quality but very slow.
 //! Slightly more accurate but much slower than simdSqrt.
 //! (From GLM_GTX_simd_vec4 extension, exponential function)
-detail::fvec4SIMD niceSqrt(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD niceSqrt (
+    detail::fvec4SIMD const & x );
 
 //! Returns the positive square root of x
 //! Less accurate but much faster than sqrt.
 //! (From GLM_GTX_simd_vec4 extension, exponential function)
-detail::fvec4SIMD fastSqrt(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD fastSqrt (
+    detail::fvec4SIMD const & x );
 
 //! Returns the reciprocal of the positive square root of x.
 //! (From GLM_GTX_simd_vec4 extension, exponential function)
-detail::fvec4SIMD inversesqrt(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD inversesqrt (
+    detail::fvec4SIMD const & x );
 
 //! Returns the reciprocal of the positive square root of x.
 //! Faster than inversesqrt but less accurate.
 //! (From GLM_GTX_simd_vec4 extension, exponential function)
-detail::fvec4SIMD fastInversesqrt(
-    detail::fvec4SIMD const & x);
+detail::fvec4SIMD fastInversesqrt (
+    detail::fvec4SIMD const & x );
 
 /// @}
 }//namespace glm

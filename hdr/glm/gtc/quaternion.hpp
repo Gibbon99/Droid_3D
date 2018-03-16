@@ -68,82 +68,82 @@ public:
 
 	// Constructors
 	tquat();
-	explicit tquat(
+	explicit tquat (
 	    value_type const & s,
-	    glm::detail::tvec3<T> const & v);
-	explicit tquat(
+	    glm::detail::tvec3<T> const & v );
+	explicit tquat (
 	    value_type const & w,
 	    value_type const & x,
 	    value_type const & y,
-	    value_type const & z);
+	    value_type const & z );
 
 	// Convertions
 
 	/// Build a quaternion from euler angles (pitch, yaw, roll), in radians.
-	explicit tquat(
-	    tvec3<T> const & eulerAngles);
-	explicit tquat(
-	    tmat3x3<T> const & m);
-	explicit tquat(
-	    tmat4x4<T> const & m);
+	explicit tquat (
+	    tvec3<T> const & eulerAngles );
+	explicit tquat (
+	    tmat3x3<T> const & m );
+	explicit tquat (
+	    tmat4x4<T> const & m );
 
 	// Accesses
-	value_type & operator[](int i);
-	value_type const & operator[](int i) const;
+	value_type & operator[] ( int i );
+	value_type const & operator[] ( int i ) const;
 
 	// Operators
-	tquat<T> & operator*=(value_type const & s);
-	tquat<T> & operator/=(value_type const & s);
+	tquat<T> & operator*= ( value_type const & s );
+	tquat<T> & operator/= ( value_type const & s );
 };
 
 template <typename T>
 detail::tquat<T> operator- (
-    detail::tquat<T> const & q);
+    detail::tquat<T> const & q );
 
 template <typename T>
 detail::tquat<T> operator+ (
     detail::tquat<T> const & q,
-    detail::tquat<T> const & p);
+    detail::tquat<T> const & p );
 
 template <typename T>
 detail::tquat<T> operator* (
     detail::tquat<T> const & q,
-    detail::tquat<T> const & p);
+    detail::tquat<T> const & p );
 
 template <typename T>
 detail::tvec3<T> operator* (
     detail::tquat<T> const & q,
-    detail::tvec3<T> const & v);
+    detail::tvec3<T> const & v );
 
 template <typename T>
 detail::tvec3<T> operator* (
     detail::tvec3<T> const & v,
-    detail::tquat<T> const & q);
+    detail::tquat<T> const & q );
 
 template <typename T>
 detail::tvec4<T> operator* (
     detail::tquat<T> const & q,
-    detail::tvec4<T> const & v);
+    detail::tvec4<T> const & v );
 
 template <typename T>
 detail::tvec4<T> operator* (
     detail::tvec4<T> const & v,
-    detail::tquat<T> const & q);
+    detail::tquat<T> const & q );
 
 template <typename T>
 detail::tquat<T> operator* (
     detail::tquat<T> const & q,
-    typename detail::tquat<T>::value_type const & s);
+    typename detail::tquat<T>::value_type const & s );
 
 template <typename T>
 detail::tquat<T> operator* (
     typename detail::tquat<T>::value_type const & s,
-    detail::tquat<T> const & q);
+    detail::tquat<T> const & q );
 
 template <typename T>
 detail::tquat<T> operator/ (
     detail::tquat<T> const & q,
-    typename detail::tquat<T>::value_type const & s);
+    typename detail::tquat<T>::value_type const & s );
 
 } //namespace detail
 
@@ -154,23 +154,23 @@ detail::tquat<T> operator/ (
 ///
 /// @see gtc_quaternion
 template <typename T>
-T length(
-    detail::tquat<T> const & q);
+T length (
+    detail::tquat<T> const & q );
 
 /// Returns the normalized quaternion.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> normalize(
-    detail::tquat<T> const & q);
+detail::tquat<T> normalize (
+    detail::tquat<T> const & q );
 
 /// Returns dot product of q1 and q2, i.e., q1[0] * q2[0] + q1[1] * q2[1] + ...
 ///
 /// @see gtc_quaternion
 template <typename T>
-T dot(
+T dot (
     detail::tquat<T> const & q1,
-    detail::tquat<T> const & q2);
+    detail::tquat<T> const & q2 );
 
 /// Spherical linear interpolation of two quaternions.
 /// The interpolation is oriented and the rotation is performed at constant speed.
@@ -183,10 +183,10 @@ T dot(
 /// @see gtc_quaternion
 /// @see - slerp(detail::tquat<T> const & x, detail::tquat<T> const & y, T const & a)
 template <typename T>
-detail::tquat<T> mix(
+detail::tquat<T> mix (
     detail::tquat<T> const & x,
     detail::tquat<T> const & y,
-    T const & a);
+    T const & a );
 
 /// Linear interpolation of two quaternions.
 /// The interpolation is oriented.
@@ -197,10 +197,10 @@ detail::tquat<T> mix(
 /// @tparam T Value type used to build the quaternion. Supported: half, float or double.
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> lerp(
+detail::tquat<T> lerp (
     detail::tquat<T> const & x,
     detail::tquat<T> const & y,
-    T const & a);
+    T const & a );
 
 /// Spherical linear interpolation of two quaternions.
 /// The interpolation always take the short path and the rotation is performed at constant speed.
@@ -211,24 +211,24 @@ detail::tquat<T> lerp(
 /// @tparam T Value type used to build the quaternion. Supported: half, float or double.
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> slerp(
+detail::tquat<T> slerp (
     detail::tquat<T> const & x,
     detail::tquat<T> const & y,
-    T const & a);
+    T const & a );
 
 /// Returns the q conjugate.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> conjugate(
-    detail::tquat<T> const & q);
+detail::tquat<T> conjugate (
+    detail::tquat<T> const & q );
 
 /// Returns the q inverse.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> inverse(
-    detail::tquat<T> const & q);
+detail::tquat<T> inverse (
+    detail::tquat<T> const & q );
 
 /// Rotates a quaternion from an vector of 3 components axis and an angle.
 ///
@@ -238,80 +238,80 @@ detail::tquat<T> inverse(
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> rotate(
+detail::tquat<T> rotate (
     detail::tquat<T> const & q,
     typename detail::tquat<T>::value_type const & angle,
-    detail::tvec3<T> const & axis);
+    detail::tvec3<T> const & axis );
 
 /// Returns euler angles, yitch as x, yaw as y, roll as z.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tvec3<T> eulerAngles(
-    detail::tquat<T> const & x);
+detail::tvec3<T> eulerAngles (
+    detail::tquat<T> const & x );
 
 /// Returns roll value of euler angles expressed in radians if GLM_FORCE_RADIANS is define or degrees otherwise.
 ///
 /// @see gtx_quaternion
 template <typename valType>
-valType roll(
-    detail::tquat<valType> const & x);
+valType roll (
+    detail::tquat<valType> const & x );
 
 /// Returns pitch value of euler angles expressed in radians if GLM_FORCE_RADIANS is define or degrees otherwise.
 ///
 /// @see gtx_quaternion
 template <typename valType>
-valType pitch(
-    detail::tquat<valType> const & x);
+valType pitch (
+    detail::tquat<valType> const & x );
 
 /// Returns yaw value of euler angles expressed in radians if GLM_FORCE_RADIANS is define or degrees otherwise.
 ///
 /// @see gtx_quaternion
 template <typename valType>
-valType yaw(
-    detail::tquat<valType> const & x);
+valType yaw (
+    detail::tquat<valType> const & x );
 
 /// Converts a quaternion to a 3 * 3 matrix.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tmat3x3<T> mat3_cast(
-    detail::tquat<T> const & x);
+detail::tmat3x3<T> mat3_cast (
+    detail::tquat<T> const & x );
 
 /// Converts a quaternion to a 4 * 4 matrix.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tmat4x4<T> mat4_cast(
-    detail::tquat<T> const & x);
+detail::tmat4x4<T> mat4_cast (
+    detail::tquat<T> const & x );
 
 /// Converts a 3 * 3 matrix to a quaternion.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> quat_cast(
-    detail::tmat3x3<T> const & x);
+detail::tquat<T> quat_cast (
+    detail::tmat3x3<T> const & x );
 
 /// Converts a 4 * 4 matrix to a quaternion.
 ///
 /// @see gtc_quaternion
 template <typename T>
-detail::tquat<T> quat_cast(
-    detail::tmat4x4<T> const & x);
+detail::tquat<T> quat_cast (
+    detail::tmat4x4<T> const & x );
 
 /// Returns the quaternion rotation angle.
 ///
 /// @see gtc_quaternion
 template <typename valType>
-valType angle(
-    detail::tquat<valType> const & x);
+valType angle (
+    detail::tquat<valType> const & x );
 
 /// Returns the q rotation axis.
 ///
 /// @see gtc_quaternion
 template <typename valType>
-detail::tvec3<valType> axis(
-    detail::tquat<valType> const & x);
+detail::tvec3<valType> axis (
+    detail::tquat<valType> const & x );
 
 /// Build a quaternion from an angle and a normalized axis.
 ///
@@ -322,11 +322,11 @@ detail::tvec3<valType> axis(
 ///
 /// @see gtc_quaternion
 template <typename valType>
-detail::tquat<valType> angleAxis(
+detail::tquat<valType> angleAxis (
     valType const & angle,
     valType const & x,
     valType const & y,
-    valType const & z);
+    valType const & z );
 
 /// Build a quaternion from an angle and a normalized axis.
 ///
@@ -335,9 +335,9 @@ detail::tquat<valType> angleAxis(
 ///
 /// @see gtc_quaternion
 template <typename valType>
-detail::tquat<valType> angleAxis(
+detail::tquat<valType> angleAxis (
     valType const & angle,
-    detail::tvec3<valType> const & axis);
+    detail::tvec3<valType> const & axis );
 
 /// Quaternion of floating-point numbers.
 ///

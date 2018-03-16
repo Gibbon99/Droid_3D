@@ -59,7 +59,7 @@ public:
 	int Release() const;
 
 	bool Get() const;
-	void Set(bool);
+	void Set ( bool );
 
 	void Lock() const;
 	void Unlock() const;
@@ -67,7 +67,7 @@ public:
 protected:
 	mutable asCAtomic refCount;
 	bool      value;
-	DECLARECRITICALSECTION(mutable lock)
+	DECLARECRITICALSECTION ( mutable lock )
 };
 
 class asCScriptObject : public asIScriptObject
@@ -88,39 +88,39 @@ public:
 
 	// Class properties
 	asUINT      GetPropertyCount() const;
-	int         GetPropertyTypeId(asUINT prop) const;
-	const char *GetPropertyName(asUINT prop) const;
-	void       *GetAddressOfProperty(asUINT prop);
+	int         GetPropertyTypeId ( asUINT prop ) const;
+	const char *GetPropertyName ( asUINT prop ) const;
+	void       *GetAddressOfProperty ( asUINT prop );
 
 	// Miscellaneous
 	asIScriptEngine *GetEngine() const;
-	int              CopyFrom(asIScriptObject *other);
+	int              CopyFrom ( asIScriptObject *other );
 
 	// User data
-	void *SetUserData(void *data, asPWORD type = 0);
-	void *GetUserData(asPWORD type = 0) const;
+	void *SetUserData ( void *data, asPWORD type = 0 );
+	void *GetUserData ( asPWORD type = 0 ) const;
 
 //====================================
 // Internal
 //====================================
-	asCScriptObject(asCObjectType *objType, bool doInitialize = true);
+	asCScriptObject ( asCObjectType *objType, bool doInitialize = true );
 	virtual ~asCScriptObject();
 
-	asCScriptObject &operator=(const asCScriptObject &other);
+	asCScriptObject &operator= ( const asCScriptObject &other );
 
 	// GC methods
 	void Destruct();
 	int  GetRefCount();
 	void SetFlag();
 	bool GetFlag();
-	void EnumReferences(asIScriptEngine *engine);
-	void ReleaseAllHandles(asIScriptEngine *engine);
+	void EnumReferences ( asIScriptEngine *engine );
+	void ReleaseAllHandles ( asIScriptEngine *engine );
 
 	// Used for properties
-	void *AllocateUninitializedObject(asCObjectType *objType, asCScriptEngine *engine);
-	void FreeObject(void *ptr, asCObjectType *objType, asCScriptEngine *engine);
-	void CopyObject(void *src, void *dst, asCObjectType *objType, asCScriptEngine *engine);
-	void CopyHandle(asPWORD *src, asPWORD *dst, asCObjectType *objType, asCScriptEngine *engine);
+	void *AllocateUninitializedObject ( asCObjectType *objType, asCScriptEngine *engine );
+	void FreeObject ( void *ptr, asCObjectType *objType, asCScriptEngine *engine );
+	void CopyObject ( void *src, void *dst, asCObjectType *objType, asCScriptEngine *engine );
+	void CopyHandle ( asPWORD *src, asPWORD *dst, asCObjectType *objType, asCScriptEngine *engine );
 
 	void CallDestructor();
 
@@ -142,21 +142,21 @@ protected:
 	// indirection will not affect the performance significantly.
 	struct SExtra
 	{
-		SExtra() : weakRefFlag(0) {};
+		SExtra() : weakRefFlag ( 0 ) {};
 		asCLockableSharedBool *weakRefFlag;
 		asCArray<asPWORD>      userData;
 	};
 	mutable SExtra *extra;
 };
 
-void ScriptObject_Construct(asCObjectType *objType, asCScriptObject *self);
-asCScriptObject &ScriptObject_Assignment(asCScriptObject *other, asCScriptObject *self);
+void ScriptObject_Construct ( asCObjectType *objType, asCScriptObject *self );
+asCScriptObject &ScriptObject_Assignment ( asCScriptObject *other, asCScriptObject *self );
 
-void ScriptObject_ConstructUnitialized(asCObjectType *objType, asCScriptObject *self);
+void ScriptObject_ConstructUnitialized ( asCObjectType *objType, asCScriptObject *self );
 
-void RegisterScriptObject(asCScriptEngine *engine);
+void RegisterScriptObject ( asCScriptEngine *engine );
 
-asIScriptObject *ScriptObjectFactory(const asCObjectType *objType, asCScriptEngine *engine);
+asIScriptObject *ScriptObjectFactory ( const asCObjectType *objType, asCScriptEngine *engine );
 
 END_AS_NAMESPACE
 

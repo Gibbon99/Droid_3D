@@ -55,98 +55,98 @@ namespace glm
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from an euler angle X.
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleX(
-    valType const & angleX);
+detail::tmat4x4<valType> eulerAngleX (
+    valType const & angleX );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from an euler angle Y.
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleY(
-    valType const & angleY);
+detail::tmat4x4<valType> eulerAngleY (
+    valType const & angleY );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from an euler angle Z.
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleZ(
-    valType const & angleZ);
+detail::tmat4x4<valType> eulerAngleZ (
+    valType const & angleZ );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (X * Y).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleXY(
+detail::tmat4x4<valType> eulerAngleXY (
     valType const & angleX,
-    valType const & angleY);
+    valType const & angleY );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (Y * X).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleYX(
+detail::tmat4x4<valType> eulerAngleYX (
     valType const & angleY,
-    valType const & angleX);
+    valType const & angleX );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (X * Z).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleXZ(
+detail::tmat4x4<valType> eulerAngleXZ (
     valType const & angleX,
-    valType const & angleZ);
+    valType const & angleZ );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (Z * X).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleZX(
+detail::tmat4x4<valType> eulerAngleZX (
     valType const & angleZ,
-    valType const & angleX);
+    valType const & angleX );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (Y * Z).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleYZ(
+detail::tmat4x4<valType> eulerAngleYZ (
     valType const & angleY,
-    valType const & angleZ);
+    valType const & angleZ );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (Z * Y).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleZY(
+detail::tmat4x4<valType> eulerAngleZY (
     valType const & angleZ,
-    valType const & angleY);
+    valType const & angleY );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (Y * X * Z).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> eulerAngleYXZ(
+detail::tmat4x4<valType> eulerAngleYXZ (
     valType const & yaw,
     valType const & pitch,
-    valType const & roll);
+    valType const & roll );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (Y * X * Z).
 /// @see gtx_euler_angles
 template <typename valType>
-detail::tmat4x4<valType> yawPitchRoll(
+detail::tmat4x4<valType> yawPitchRoll (
     valType const & yaw,
     valType const & pitch,
-    valType const & roll);
+    valType const & roll );
 
 /// Creates a 2D 2 * 2 rotation matrix from an euler angle.
 /// @see gtx_euler_angles
 template <typename T>
-detail::tmat2x2<T> orientate2(T const & angle);
+detail::tmat2x2<T> orientate2 ( T const & angle );
 
 /// Creates a 2D 4 * 4 homogeneous rotation matrix from an euler angle.
 /// @see gtx_euler_angles
 template <typename T>
-detail::tmat3x3<T> orientate3(T const & angle);
+detail::tmat3x3<T> orientate3 ( T const & angle );
 
 /// Creates a 3D 3 * 3 rotation matrix from euler angles (Y * X * Z).
 /// @see gtx_euler_angles
 template <typename T>
-detail::tmat3x3<T> orientate3(detail::tvec3<T> const & angles);
+detail::tmat3x3<T> orientate3 ( detail::tvec3<T> const & angles );
 
 /// Creates a 3D 4 * 4 homogeneous rotation matrix from euler angles (Y * X * Z).
 /// @see gtx_euler_angles
 template <typename T>
-detail::tmat4x4<T> orientate4(detail::tvec3<T> const & angles);
+detail::tmat4x4<T> orientate4 ( detail::tvec3<T> const & angles );
 
 /// @}
 }//namespace glm

@@ -27,4 +27,4 @@ struct sMoveData
 void bsp_checkBoxMove ( glm::vec3 Start, glm::vec3 End, glm::vec3 inputMins, glm::vec3 inputMaxs, sMoveData &localDataMoveBox );
 
 // Check sphere ( with radius ) against BSP tree
-void bsp_checkSphereMove( glm::vec3 Start, glm::vec3 End, float Radius, sMoveData &localMoveDataSphere);
+void bsp_checkSphereMove ( glm::vec3 Start, glm::vec3 End, float Radius, sMoveData &localMoveDataSphere );

@@ -76,20 +76,20 @@ BEGIN_AS_NAMESPACE
 #define _TOSTRING(x) #x
 
 // Prototypes
-asQWORD CallCDeclFunction(const asDWORD *args, int paramSize, asFUNCTION_t func);
-asQWORD CallCDeclFunctionObjLast(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func);
-asQWORD CallCDeclFunctionObjFirst(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func);
-asQWORD CallCDeclFunctionRetByRef(const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr);
-asQWORD CallCDeclFunctionRetByRefObjLast(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr);
-asQWORD CallCDeclFunctionRetByRefObjFirst(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr);
-asQWORD CallSTDCallFunction(const asDWORD *args, int paramSize, asFUNCTION_t func);
-asQWORD CallThisCallFunction(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func);
-asQWORD CallThisCallFunctionRetByRef(const void *, const asDWORD *, int, asFUNCTION_t, void *retPtr);
+asQWORD CallCDeclFunction ( const asDWORD *args, int paramSize, asFUNCTION_t func );
+asQWORD CallCDeclFunctionObjLast ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func );
+asQWORD CallCDeclFunctionObjFirst ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func );
+asQWORD CallCDeclFunctionRetByRef ( const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr );
+asQWORD CallCDeclFunctionRetByRefObjLast ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr );
+asQWORD CallCDeclFunctionRetByRefObjFirst ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr );
+asQWORD CallSTDCallFunction ( const asDWORD *args, int paramSize, asFUNCTION_t func );
+asQWORD CallThisCallFunction ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func );
+asQWORD CallThisCallFunctionRetByRef ( const void *, const asDWORD *, int, asFUNCTION_t, void *retPtr );
 
 asDWORD GetReturnedFloat();
 asQWORD GetReturnedDouble();
 
-asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/, void *secondObject)
+asQWORD CallSystemFunctionNative ( asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/, void *secondObject )
 {
 	asCScriptEngine            *engine    = context->m_engine;
 	asSSystemFunctionInterface *sysFunc   = descr->sysFuncIntf;
@@ -108,26 +108,26 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 
 	int dpos = 1;
 
-	if( isThisCallMethod &&
-	        (callConv >= ICC_THISCALL_OBJFIRST &&
-	         callConv <= ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM) )
+	if ( isThisCallMethod &&
+	        ( callConv >= ICC_THISCALL_OBJFIRST &&
+	          callConv <= ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM ) )
 		{
 			// Add the object pointer as the first parameter
-			paramBuffer[dpos++] = (asDWORD)secondObject;
+			paramBuffer[dpos++] = ( asDWORD ) secondObject;
 			paramSize++;
 		}
 
-	if( sysFunc->takesObjByVal || isThisCallMethod )
+	if ( sysFunc->takesObjByVal || isThisCallMethod )
 		{
 			int spos = 0;
 
-			for( asUINT n = 0; n < descr->parameterTypes.GetLength(); n++ )
+			for ( asUINT n = 0; n < descr->parameterTypes.GetLength(); n++ )
 				{
-					if( descr->parameterTypes[n].IsObject() && !descr->parameterTypes[n].IsObjectHandle() && !descr->parameterTypes[n].IsReference() )
+					if ( descr->parameterTypes[n].IsObject() && !descr->parameterTypes[n].IsObjectHandle() && !descr->parameterTypes[n].IsReference() )
 						{
 #ifdef COMPLEX_OBJS_PASSED_BY_REF
 
-							if( descr->parameterTypes[n].GetTypeInfo()->flags & COMPLEX_MASK )
+							if ( descr->parameterTypes[n].GetTypeInfo()->flags & COMPLEX_MASK )
 								{
 									paramBuffer[dpos++] = args[spos++];
 									paramSize++;
@@ -146,10 +146,10 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 									//            position and copy the values directly to that location. The assembler
 									//            routines then don't need to copy anything, and will just be
 									//            responsible for setting up the registers and the stack frame appropriately.
-									memcpy(&paramBuffer[dpos], *(void**)(args+spos), descr->parameterTypes[n].GetSizeInMemoryBytes());
+									memcpy ( &paramBuffer[dpos], * ( void** ) ( args+spos ), descr->parameterTypes[n].GetSizeInMemoryBytes() );
 
 									// Delete the original memory
-									engine->CallFree(*(char**)(args+spos));
+									engine->CallFree ( * ( char** ) ( args+spos ) );
 									spos++;
 									dpos += descr->parameterTypes[n].GetSizeInMemoryDWords();
 									paramSize += descr->parameterTypes[n].GetSizeInMemoryDWords();
@@ -162,7 +162,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 							// Copy the value directly
 							paramBuffer[dpos++] = args[spos++];
 
-							if( descr->parameterTypes[n].GetSizeOnStackDWords() > 1 )
+							if ( descr->parameterTypes[n].GetSizeOnStackDWords() > 1 )
 								paramBuffer[dpos++] = args[spos++];
 
 							paramSize += descr->parameterTypes[n].GetSizeOnStackDWords();
@@ -173,104 +173,104 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 			args = &paramBuffer[1];
 		}
 
-	if( isThisCallMethod &&
-	        (callConv >= ICC_THISCALL_OBJLAST &&
-	         callConv <= ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM) )
+	if ( isThisCallMethod &&
+	        ( callConv >= ICC_THISCALL_OBJLAST &&
+	          callConv <= ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM ) )
 		{
 			// Add the object pointer as the last parameter
-			paramBuffer[dpos++] = (asDWORD)secondObject;
+			paramBuffer[dpos++] = ( asDWORD ) secondObject;
 			paramSize++;
 		}
 
 	// Make the actual call
 	asFUNCTION_t func = sysFunc->func;
 
-	if( sysFunc->hostReturnInMemory )
+	if ( sysFunc->hostReturnInMemory )
 		callConv++;
 
-	switch( callConv )
+	switch ( callConv )
 		{
-			case ICC_CDECL:
-				retQW = CallCDeclFunction(args, paramSize<<2, func);
-				break;
-
-			case ICC_CDECL_RETURNINMEM:
-				retQW = CallCDeclFunctionRetByRef(args, paramSize<<2, func, retPointer);
-				break;
-
-			case ICC_STDCALL:
-				retQW = CallSTDCallFunction(args, paramSize<<2, func);
-				break;
-
-			case ICC_STDCALL_RETURNINMEM:
-				// Push the return pointer on the stack
-				paramSize++;
-				args--;
-				*(asPWORD*)args = (size_t)retPointer;
-
-				retQW = CallSTDCallFunction(args, paramSize<<2, func);
-				break;
-
-			case ICC_THISCALL:
-			case ICC_THISCALL_OBJFIRST:
-			case ICC_THISCALL_OBJLAST:
-				retQW = CallThisCallFunction(obj, args, paramSize<<2, func);
-				break;
-
-			case ICC_THISCALL_RETURNINMEM:
-			case ICC_THISCALL_OBJFIRST_RETURNINMEM:
-			case ICC_THISCALL_OBJLAST_RETURNINMEM:
-				retQW = CallThisCallFunctionRetByRef(obj, args, paramSize<<2, func, retPointer);
-				break;
-
-			case ICC_VIRTUAL_THISCALL:
-			case ICC_VIRTUAL_THISCALL_OBJFIRST:
-			case ICC_VIRTUAL_THISCALL_OBJLAST:
-			{
-				// Get virtual function table from the object pointer
-				asFUNCTION_t *vftable = *(asFUNCTION_t**)obj;
-				retQW = CallThisCallFunction(obj, args, paramSize<<2, vftable[FuncPtrToUInt(func)>>2]);
-			}
+		case ICC_CDECL:
+			retQW = CallCDeclFunction ( args, paramSize<<2, func );
 			break;
 
-			case ICC_VIRTUAL_THISCALL_RETURNINMEM:
-			case ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM:
-			case ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM:
-			{
-				// Get virtual function table from the object pointer
-				asFUNCTION_t *vftable = *(asFUNCTION_t**)obj;
-				retQW = CallThisCallFunctionRetByRef(obj, args, paramSize<<2, vftable[FuncPtrToUInt(func)>>2], retPointer);
-			}
+		case ICC_CDECL_RETURNINMEM:
+			retQW = CallCDeclFunctionRetByRef ( args, paramSize<<2, func, retPointer );
 			break;
 
-			case ICC_CDECL_OBJLAST:
-				retQW = CallCDeclFunctionObjLast(obj, args, paramSize<<2, func);
-				break;
+		case ICC_STDCALL:
+			retQW = CallSTDCallFunction ( args, paramSize<<2, func );
+			break;
 
-			case ICC_CDECL_OBJLAST_RETURNINMEM:
-				// Call the system object method as a cdecl with the obj ref as the last parameter
-				retQW = CallCDeclFunctionRetByRefObjLast(obj, args, paramSize<<2, func, retPointer);
-				break;
+		case ICC_STDCALL_RETURNINMEM:
+			// Push the return pointer on the stack
+			paramSize++;
+			args--;
+			* ( asPWORD* ) args = ( size_t ) retPointer;
 
-			case ICC_CDECL_OBJFIRST:
-				// Call the system object method as a cdecl with the obj ref as the first parameter
-				retQW = CallCDeclFunctionObjFirst(obj, args, paramSize<<2, func);
-				break;
+			retQW = CallSTDCallFunction ( args, paramSize<<2, func );
+			break;
 
-			case ICC_CDECL_OBJFIRST_RETURNINMEM:
-				// Call the system object method as a cdecl with the obj ref as the first parameter
-				retQW = CallCDeclFunctionRetByRefObjFirst(obj, args, paramSize<<2, func, retPointer);
-				break;
+		case ICC_THISCALL:
+		case ICC_THISCALL_OBJFIRST:
+		case ICC_THISCALL_OBJLAST:
+			retQW = CallThisCallFunction ( obj, args, paramSize<<2, func );
+			break;
 
-			default:
-				context->SetInternalException(TXT_INVALID_CALLING_CONVENTION);
+		case ICC_THISCALL_RETURNINMEM:
+		case ICC_THISCALL_OBJFIRST_RETURNINMEM:
+		case ICC_THISCALL_OBJLAST_RETURNINMEM:
+			retQW = CallThisCallFunctionRetByRef ( obj, args, paramSize<<2, func, retPointer );
+			break;
+
+		case ICC_VIRTUAL_THISCALL:
+		case ICC_VIRTUAL_THISCALL_OBJFIRST:
+		case ICC_VIRTUAL_THISCALL_OBJLAST:
+		{
+			// Get virtual function table from the object pointer
+			asFUNCTION_t *vftable = * ( asFUNCTION_t** ) obj;
+			retQW = CallThisCallFunction ( obj, args, paramSize<<2, vftable[FuncPtrToUInt ( func ) >>2] );
+		}
+		break;
+
+		case ICC_VIRTUAL_THISCALL_RETURNINMEM:
+		case ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM:
+		case ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM:
+		{
+			// Get virtual function table from the object pointer
+			asFUNCTION_t *vftable = * ( asFUNCTION_t** ) obj;
+			retQW = CallThisCallFunctionRetByRef ( obj, args, paramSize<<2, vftable[FuncPtrToUInt ( func ) >>2], retPointer );
+		}
+		break;
+
+		case ICC_CDECL_OBJLAST:
+			retQW = CallCDeclFunctionObjLast ( obj, args, paramSize<<2, func );
+			break;
+
+		case ICC_CDECL_OBJLAST_RETURNINMEM:
+			// Call the system object method as a cdecl with the obj ref as the last parameter
+			retQW = CallCDeclFunctionRetByRefObjLast ( obj, args, paramSize<<2, func, retPointer );
+			break;
+
+		case ICC_CDECL_OBJFIRST:
+			// Call the system object method as a cdecl with the obj ref as the first parameter
+			retQW = CallCDeclFunctionObjFirst ( obj, args, paramSize<<2, func );
+			break;
+
+		case ICC_CDECL_OBJFIRST_RETURNINMEM:
+			// Call the system object method as a cdecl with the obj ref as the first parameter
+			retQW = CallCDeclFunctionRetByRefObjFirst ( obj, args, paramSize<<2, func, retPointer );
+			break;
+
+		default:
+			context->SetInternalException ( TXT_INVALID_CALLING_CONVENTION );
 		}
 
 	// If the return is a float value we need to get the value from the FP register
-	if( sysFunc->hostReturnFloat )
+	if ( sysFunc->hostReturnFloat )
 		{
-			if( sysFunc->hostReturnSize == 1 )
-				*(asDWORD*)&retQW = GetReturnedFloat();
+			if ( sysFunc->hostReturnSize == 1 )
+				* ( asDWORD* ) &retQW = GetReturnedFloat();
 
 			else
 				retQW = GetReturnedDouble();
@@ -289,7 +289,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 #endif
 
 
-asQWORD NOINLINE CallCDeclFunction(const asDWORD *args, int paramSize, asFUNCTION_t func)
+asQWORD NOINLINE CallCDeclFunction ( const asDWORD *args, int paramSize, asFUNCTION_t func )
 {
 	volatile asQWORD retQW = 0;
 
@@ -347,9 +347,9 @@ asQWORD NOINLINE CallCDeclFunction(const asDWORD *args, int paramSize, asFUNCTIO
 
 	// I'm copying the arguments into this array where I know the exact memory layout. The address
 	// of this array will then be passed to the inline asm in the EDX register.
-	volatile asPWORD a[] = {asPWORD(args), asPWORD(paramSize), asPWORD(func)};
+	volatile asPWORD a[] = {asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ) };
 
-	asm __volatile__(
+	asm __volatile__ (
 #ifdef __OPTIMIZE__
 	    // When compiled with optimizations the stack unwind doesn't work properly,
 	    // causing exceptions to crash the application. By adding this prologue
@@ -361,7 +361,7 @@ asQWORD NOINLINE CallCDeclFunction(const asDWORD *args, int paramSize, asFUNCTIO
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -409,7 +409,7 @@ asQWORD NOINLINE CallCDeclFunction(const asDWORD *args, int paramSize, asFUNCTIO
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -418,7 +418,7 @@ asQWORD NOINLINE CallCDeclFunction(const asDWORD *args, int paramSize, asFUNCTIO
 	return retQW;
 }
 
-asQWORD NOINLINE CallCDeclFunctionObjLast(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func)
+asQWORD NOINLINE CallCDeclFunctionObjLast ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func )
 {
 	volatile asQWORD retQW = 0;
 
@@ -469,7 +469,7 @@ asQWORD NOINLINE CallCDeclFunctionObjLast(const void *obj, const asDWORD *args, 
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(obj), asPWORD(args), asPWORD(paramSize), asPWORD(func)};
+	volatile asPWORD a[] = {asPWORD ( obj ), asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -483,7 +483,7 @@ asQWORD NOINLINE CallCDeclFunctionObjLast(const void *obj, const asDWORD *args, 
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -532,7 +532,7 @@ asQWORD NOINLINE CallCDeclFunctionObjLast(const void *obj, const asDWORD *args, 
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -541,7 +541,7 @@ asQWORD NOINLINE CallCDeclFunctionObjLast(const void *obj, const asDWORD *args, 
 	return retQW;
 }
 
-asQWORD NOINLINE CallCDeclFunctionObjFirst(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func)
+asQWORD NOINLINE CallCDeclFunctionObjFirst ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func )
 {
 	volatile asQWORD retQW = 0;
 
@@ -592,7 +592,7 @@ asQWORD NOINLINE CallCDeclFunctionObjFirst(const void *obj, const asDWORD *args,
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(obj), asPWORD(args), asPWORD(paramSize), asPWORD(func)};
+	volatile asPWORD a[] = {asPWORD ( obj ), asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -606,7 +606,7 @@ asQWORD NOINLINE CallCDeclFunctionObjFirst(const void *obj, const asDWORD *args,
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -655,7 +655,7 @@ asQWORD NOINLINE CallCDeclFunctionObjFirst(const void *obj, const asDWORD *args,
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -664,7 +664,7 @@ asQWORD NOINLINE CallCDeclFunctionObjFirst(const void *obj, const asDWORD *args,
 	return retQW;
 }
 
-asQWORD NOINLINE CallCDeclFunctionRetByRefObjFirst(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr)
+asQWORD NOINLINE CallCDeclFunctionRetByRefObjFirst ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr )
 {
 	volatile asQWORD retQW = 0;
 
@@ -724,7 +724,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjFirst(const void *obj, const asDWOR
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(obj), asPWORD(args), asPWORD(paramSize), asPWORD(func), asPWORD(retPtr)};
+	volatile asPWORD a[] = {asPWORD ( obj ), asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ), asPWORD ( retPtr ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -738,7 +738,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjFirst(const void *obj, const asDWOR
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -791,7 +791,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjFirst(const void *obj, const asDWOR
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 #endif
@@ -799,7 +799,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjFirst(const void *obj, const asDWOR
 	return retQW;
 }
 
-asQWORD NOINLINE CallCDeclFunctionRetByRef(const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr)
+asQWORD NOINLINE CallCDeclFunctionRetByRef ( const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr )
 {
 	volatile asQWORD retQW = 0;
 
@@ -856,7 +856,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRef(const asDWORD *args, int paramSize, a
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(args), asPWORD(paramSize), asPWORD(func), asPWORD(retPtr)};
+	volatile asPWORD a[] = {asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ), asPWORD ( retPtr ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -870,7 +870,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRef(const asDWORD *args, int paramSize, a
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -920,7 +920,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRef(const asDWORD *args, int paramSize, a
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -929,7 +929,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRef(const asDWORD *args, int paramSize, a
 	return retQW;
 }
 
-asQWORD NOINLINE CallCDeclFunctionRetByRefObjLast(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr)
+asQWORD NOINLINE CallCDeclFunctionRetByRefObjLast ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr )
 {
 	volatile asQWORD retQW = 0;
 
@@ -987,7 +987,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjLast(const void *obj, const asDWORD
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(obj), asPWORD(args), asPWORD(paramSize), asPWORD(func), asPWORD(retPtr)};
+	volatile asPWORD a[] = {asPWORD ( obj ), asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ), asPWORD ( retPtr ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -1001,7 +1001,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjLast(const void *obj, const asDWORD
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -1054,7 +1054,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjLast(const void *obj, const asDWORD
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -1063,7 +1063,7 @@ asQWORD NOINLINE CallCDeclFunctionRetByRefObjLast(const void *obj, const asDWORD
 	return retQW;
 }
 
-asQWORD NOINLINE CallSTDCallFunction(const asDWORD *args, int paramSize, asFUNCTION_t func)
+asQWORD NOINLINE CallSTDCallFunction ( const asDWORD *args, int paramSize, asFUNCTION_t func )
 {
 	volatile asQWORD retQW = 0;
 
@@ -1109,7 +1109,7 @@ asQWORD NOINLINE CallSTDCallFunction(const asDWORD *args, int paramSize, asFUNCT
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(args), asPWORD(paramSize), asPWORD(func)};
+	volatile asPWORD a[] = {asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -1123,7 +1123,7 @@ asQWORD NOINLINE CallSTDCallFunction(const asDWORD *args, int paramSize, asFUNCT
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -1169,7 +1169,7 @@ asQWORD NOINLINE CallSTDCallFunction(const asDWORD *args, int paramSize, asFUNCT
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -1179,7 +1179,7 @@ asQWORD NOINLINE CallSTDCallFunction(const asDWORD *args, int paramSize, asFUNCT
 }
 
 
-asQWORD NOINLINE CallThisCallFunction(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func)
+asQWORD NOINLINE CallThisCallFunction ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func )
 {
 	volatile asQWORD retQW = 0;
 
@@ -1240,7 +1240,7 @@ asQWORD NOINLINE CallThisCallFunction(const void *obj, const asDWORD *args, int 
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(obj), asPWORD(args), asPWORD(paramSize), asPWORD(func)};
+	volatile asPWORD a[] = {asPWORD ( obj ), asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -1254,7 +1254,7 @@ asQWORD NOINLINE CallThisCallFunction(const void *obj, const asDWORD *args, int 
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)    "\n"
+	    _S ( CLEAR_FPU_STACK )    "\n"
 	    "pushl %%ebx            \n"
 	    "movl  %%edx, %%ebx     \n"
 
@@ -1309,7 +1309,7 @@ asQWORD NOINLINE CallThisCallFunction(const void *obj, const asDWORD *args, int 
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -1318,7 +1318,7 @@ asQWORD NOINLINE CallThisCallFunction(const void *obj, const asDWORD *args, int 
 	return retQW;
 }
 
-asQWORD NOINLINE CallThisCallFunctionRetByRef(const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr)
+asQWORD NOINLINE CallThisCallFunctionRetByRef ( const void *obj, const asDWORD *args, int paramSize, asFUNCTION_t func, void *retPtr )
 {
 	volatile asQWORD retQW = 0;
 
@@ -1387,7 +1387,7 @@ asQWORD NOINLINE CallThisCallFunctionRetByRef(const void *obj, const asDWORD *ar
 
 #elif defined ASM_AT_N_T
 
-	volatile asPWORD a[] = {asPWORD(obj), asPWORD(args), asPWORD(paramSize), asPWORD(func), asPWORD(retPtr)};
+	volatile asPWORD a[] = {asPWORD ( obj ), asPWORD ( args ), asPWORD ( paramSize ), asPWORD ( func ), asPWORD ( retPtr ) };
 
 	asm __volatile__ (
 #ifdef __OPTIMIZE__
@@ -1401,7 +1401,7 @@ asQWORD NOINLINE CallThisCallFunctionRetByRef(const void *obj, const asDWORD *ar
 	    "movl %%esp, %%ebp         \n"
 	    ".cfi_def_cfa_register ebp \n"
 #endif
-	    _S(CLEAR_FPU_STACK)   "\n"
+	    _S ( CLEAR_FPU_STACK )   "\n"
 	    "pushl %%ebx           \n"
 	    "movl  %%edx, %%ebx    \n"
 
@@ -1469,7 +1469,7 @@ asQWORD NOINLINE CallThisCallFunctionRetByRef(const void *obj, const asDWORD *ar
 	    "movl  %%eax, 0(%%ecx)  \n"
 	    "movl  %%edx, 4(%%ecx)  \n"
 	    :                           // output
-	    : "d"(a), "m"(retQW)        // input - pass pointer of args in edx, pass pointer of retQW in memory argument
+	    : "d" ( a ), "m" ( retQW )  // input - pass pointer of args in edx, pass pointer of retQW in memory argument
 	    : "%eax", "%ecx"            // clobber
 	);
 
@@ -1489,7 +1489,7 @@ asDWORD GetReturnedFloat()
 
 #elif defined ASM_AT_N_T
 
-	asm("fstps %0 \n" : "=m" (f));
+	asm ( "fstps %0 \n" : "=m" ( f ) );
 
 #endif
 
@@ -1507,7 +1507,7 @@ asQWORD GetReturnedDouble()
 
 #elif defined ASM_AT_N_T
 
-	asm("fstpl %0 \n" : "=m" (d));
+	asm ( "fstpl %0 \n" : "=m" ( d ) );
 
 #endif
 

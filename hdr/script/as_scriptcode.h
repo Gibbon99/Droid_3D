@@ -51,12 +51,12 @@ public:
 	asCScriptCode();
 	~asCScriptCode();
 
-	int SetCode(const char *name, const char *code, bool makeCopy);
-	int SetCode(const char *name, const char *code, size_t length, bool makeCopy);
+	int SetCode ( const char *name, const char *code, bool makeCopy );
+	int SetCode ( const char *name, const char *code, size_t length, bool makeCopy );
 
-	void ConvertPosToRowCol(size_t pos, int *row, int *col);
+	void ConvertPosToRowCol ( size_t pos, int *row, int *col );
 
-	bool TokenEquals(size_t pos, size_t len, const char *str);
+	bool TokenEquals ( size_t pos, size_t len, const char *str );
 
 	asCString        name;
 	char            *code;

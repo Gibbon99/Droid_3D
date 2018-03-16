@@ -61,15 +61,15 @@ extern "C" {
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_Y 0x8517
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_Z 0x8519
 
-typedef void (CODEGEN_FUNCPTR * PFNGLACTIVETEXTUREPROC)(GLenum texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE1DPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE2DPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE3DPROC)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDTEXIMAGEPROC)(GLenum target, GLint level, GLvoid * img);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLECOVERAGEPROC)(GLfloat value, GLboolean invert);
+typedef void ( CODEGEN_FUNCPTR * PFNGLACTIVETEXTUREPROC ) ( GLenum texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE1DPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE2DPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXIMAGE3DPROC ) ( GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC ) ( GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETCOMPRESSEDTEXIMAGEPROC ) ( GLenum target, GLint level, GLvoid * img );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLECOVERAGEPROC ) ( GLfloat value, GLboolean invert );
 
 extern PFNGLACTIVETEXTUREPROC _funcptr_glActiveTexture;
 #define glActiveTexture _funcptr_glActiveTexture

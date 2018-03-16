@@ -16,13 +16,13 @@ void lib_destroyWindow();
 bool lib_getVersion();
 
 // Get the mouse position
-void lib_getMousePos(double *posX, double *posY);
+void lib_getMousePos ( double *posX, double *posY );
 
 // Set the mouse position
-void lib_setMousePos(double newPosX, double newPosY);
+void lib_setMousePos ( double newPosX, double newPosY );
 
 // Resize the current displayed window
-void lib_resizeWindow(int newWidth, int newHeight);
+void lib_resizeWindow ( int newWidth, int newHeight );
 
 //
-void lib_setMouseCursor(bool showMouse);
+void lib_setMouseCursor ( bool showMouse );

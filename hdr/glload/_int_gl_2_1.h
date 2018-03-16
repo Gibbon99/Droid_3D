@@ -21,12 +21,12 @@ extern "C" {
 #define GL_SRGB8_ALPHA8 0x8C43
 #define GL_SRGB_ALPHA 0x8C42
 
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X3FVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X4FVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X2FVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X4FVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X2FVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X3FVPROC)(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X3FVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX2X4FVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X2FVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX3X4FVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X2FVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLUNIFORMMATRIX4X3FVPROC ) ( GLint location, GLsizei count, GLboolean transpose, const GLfloat * value );
 
 extern PFNGLUNIFORMMATRIX2X3FVPROC _funcptr_glUniformMatrix2x3fv;
 #define glUniformMatrix2x3fv _funcptr_glUniformMatrix2x3fv

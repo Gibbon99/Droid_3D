@@ -36,64 +36,64 @@
 
 #define QPAK_SIG 0x4B434150   /* "PACK" in ASCII. */
 
-static int qpakLoadEntries(PHYSFS_Io *io, const PHYSFS_uint32 count, void *arc)
+static int qpakLoadEntries ( PHYSFS_Io *io, const PHYSFS_uint32 count, void *arc )
 {
 	PHYSFS_uint32 i;
 
-	for (i = 0; i < count; i++)
+	for ( i = 0; i < count; i++ )
 		{
 			PHYSFS_uint32 size;
 			PHYSFS_uint32 pos;
 			char name[56];
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, name, 56), 0);
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &pos, 4), 0);
-			BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &size, 4), 0);
-			size = PHYSFS_swapULE32(size);
-			pos = PHYSFS_swapULE32(pos);
-			BAIL_IF_ERRPASS(!UNPK_addEntry(arc, name, 0, -1, -1, pos, size), 0);
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, name, 56 ), 0 );
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &pos, 4 ), 0 );
+			BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &size, 4 ), 0 );
+			size = PHYSFS_swapULE32 ( size );
+			pos = PHYSFS_swapULE32 ( pos );
+			BAIL_IF_ERRPASS ( !UNPK_addEntry ( arc, name, 0, -1, -1, pos, size ), 0 );
 		} /* for */
 
 	return 1;
 } /* qpakLoadEntries */
 
 
-static void *QPAK_openArchive(PHYSFS_Io *io, const char *name,
-                              int forWriting, int *claimed)
+static void *QPAK_openArchive ( PHYSFS_Io *io, const char *name,
+                                int forWriting, int *claimed )
 {
 	PHYSFS_uint32 val = 0;
 	PHYSFS_uint32 pos = 0;
 	PHYSFS_uint32 count = 0;
 	void *unpkarc;
 
-	assert(io != NULL);  /* shouldn't ever happen. */
+	assert ( io != NULL ); /* shouldn't ever happen. */
 
-	BAIL_IF(forWriting, PHYSFS_ERR_READ_ONLY, NULL);
+	BAIL_IF ( forWriting, PHYSFS_ERR_READ_ONLY, NULL );
 
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &val, 4), NULL);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &val, 4 ), NULL );
 
-	if (PHYSFS_swapULE32(val) != QPAK_SIG)
-		BAIL(PHYSFS_ERR_UNSUPPORTED, NULL);
+	if ( PHYSFS_swapULE32 ( val ) != QPAK_SIG )
+		BAIL ( PHYSFS_ERR_UNSUPPORTED, NULL );
 
 	*claimed = 1;
 
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &val, 4), NULL);
-	pos = PHYSFS_swapULE32(val);  /* directory table offset. */
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &val, 4 ), NULL );
+	pos = PHYSFS_swapULE32 ( val ); /* directory table offset. */
 
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &val, 4), NULL);
-	count = PHYSFS_swapULE32(val);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &val, 4 ), NULL );
+	count = PHYSFS_swapULE32 ( val );
 
 	/* corrupted archive? */
-	BAIL_IF((count % 64) != 0, PHYSFS_ERR_CORRUPT, NULL);
+	BAIL_IF ( ( count % 64 ) != 0, PHYSFS_ERR_CORRUPT, NULL );
 	count /= 64;
 
-	BAIL_IF_ERRPASS(!io->seek(io, pos), NULL);
+	BAIL_IF_ERRPASS ( !io->seek ( io, pos ), NULL );
 
-	unpkarc = UNPK_openArchive(io);
-	BAIL_IF_ERRPASS(!unpkarc, NULL);
+	unpkarc = UNPK_openArchive ( io );
+	BAIL_IF_ERRPASS ( !unpkarc, NULL );
 
-	if (!qpakLoadEntries(io, count, unpkarc))
+	if ( !qpakLoadEntries ( io, count, unpkarc ) )
 		{
-			UNPK_abandonArchive(unpkarc);
+			UNPK_abandonArchive ( unpkarc );
 			return NULL;
 		} /* if */
 

@@ -30,25 +30,25 @@ extern "C" {
 #define GL_STREAM_READ 0x88E1
 #define GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING 0x889F
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBEGINQUERYPROC)(GLenum target, GLuint id);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDBUFFERPROC)(GLenum target, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * PFNGLBUFFERDATAPROC)(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
-typedef void (CODEGEN_FUNCPTR * PFNGLBUFFERSUBDATAPROC)(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEBUFFERSPROC)(GLsizei n, const GLuint * buffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETEQUERIESPROC)(GLsizei n, const GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLENDQUERYPROC)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENBUFFERSPROC)(GLsizei n, GLuint * buffers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENQUERIESPROC)(GLsizei n, GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERIVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERPOINTERVPROC)(GLenum target, GLenum pname, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERSUBDATAPROC)(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTIVPROC)(GLuint id, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUIVPROC)(GLuint id, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYIVPROC)(GLenum target, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISBUFFERPROC)(GLuint buffer);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISQUERYPROC)(GLuint id);
-typedef void * (CODEGEN_FUNCPTR * PFNGLMAPBUFFERPROC)(GLenum target, GLenum access);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLUNMAPBUFFERPROC)(GLenum target);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBEGINQUERYPROC ) ( GLenum target, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDBUFFERPROC ) ( GLenum target, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBUFFERDATAPROC ) ( GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBUFFERSUBDATAPROC ) ( GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEBUFFERSPROC ) ( GLsizei n, const GLuint * buffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETEQUERIESPROC ) ( GLsizei n, const GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENDQUERYPROC ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENBUFFERSPROC ) ( GLsizei n, GLuint * buffers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENQUERIESPROC ) ( GLsizei n, GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERIVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERPOINTERVPROC ) ( GLenum target, GLenum pname, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERSUBDATAPROC ) ( GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTIVPROC ) ( GLuint id, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUIVPROC ) ( GLuint id, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYIVPROC ) ( GLenum target, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISBUFFERPROC ) ( GLuint buffer );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISQUERYPROC ) ( GLuint id );
+typedef void * ( CODEGEN_FUNCPTR * PFNGLMAPBUFFERPROC ) ( GLenum target, GLenum access );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLUNMAPBUFFERPROC ) ( GLenum target );
 
 extern PFNGLBEGINQUERYPROC _funcptr_glBeginQuery;
 #define glBeginQuery _funcptr_glBeginQuery

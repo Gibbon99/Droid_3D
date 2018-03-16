@@ -98,6 +98,7 @@ extern int __gl_error_code;
 #define VOXEL_SOLID     1
 
 #define PHYSICS_OBJECT_BOX      0
+#define PHYSICS_OBJECT_BSP		1
 
 #define DRAW_RAY		0
 #define DRAW_LINE		1

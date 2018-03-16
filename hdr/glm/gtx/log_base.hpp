@@ -53,9 +53,9 @@ namespace glm
 //! Logarithm for any base.
 //! From GLM_GTX_log_base.
 template <typename genType>
-genType log(
+genType log (
     genType const & x,
-    genType const & base);
+    genType const & base );
 
 /// @}
 }//namespace glm

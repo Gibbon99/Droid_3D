@@ -63,33 +63,33 @@ public:
 
 	// Arguments
 	int     GetArgCount() const;
-	int     GetArgTypeId(asUINT arg, asDWORD *flags = 0) const;
-	asBYTE  GetArgByte(asUINT arg);
-	asWORD  GetArgWord(asUINT arg);
-	asDWORD GetArgDWord(asUINT arg);
-	asQWORD GetArgQWord(asUINT arg);
-	float   GetArgFloat(asUINT arg);
-	double  GetArgDouble(asUINT arg);
-	void   *GetArgAddress(asUINT arg);
-	void   *GetArgObject(asUINT arg);
-	void   *GetAddressOfArg(asUINT arg);
+	int     GetArgTypeId ( asUINT arg, asDWORD *flags = 0 ) const;
+	asBYTE  GetArgByte ( asUINT arg );
+	asWORD  GetArgWord ( asUINT arg );
+	asDWORD GetArgDWord ( asUINT arg );
+	asQWORD GetArgQWord ( asUINT arg );
+	float   GetArgFloat ( asUINT arg );
+	double  GetArgDouble ( asUINT arg );
+	void   *GetArgAddress ( asUINT arg );
+	void   *GetArgObject ( asUINT arg );
+	void   *GetAddressOfArg ( asUINT arg );
 
 	// Return value
-	int     GetReturnTypeId(asDWORD *flags = 0) const;
-	int     SetReturnByte(asBYTE val);
-	int     SetReturnWord(asWORD val);
-	int     SetReturnDWord(asDWORD val);
-	int     SetReturnQWord(asQWORD val);
-	int     SetReturnFloat(float val);
-	int     SetReturnDouble(double val);
-	int     SetReturnAddress(void *addr);
-	int     SetReturnObject(void *obj);
+	int     GetReturnTypeId ( asDWORD *flags = 0 ) const;
+	int     SetReturnByte ( asBYTE val );
+	int     SetReturnWord ( asWORD val );
+	int     SetReturnDWord ( asDWORD val );
+	int     SetReturnQWord ( asQWORD val );
+	int     SetReturnFloat ( float val );
+	int     SetReturnDouble ( double val );
+	int     SetReturnAddress ( void *addr );
+	int     SetReturnObject ( void *obj );
 	void   *GetAddressOfReturnLocation();
 
 //------------------------
 // internal
 //-------------------------
-	asCGeneric(asCScriptEngine *engine, asCScriptFunction *sysFunction, void *currentObject, asDWORD *stackPointer);
+	asCGeneric ( asCScriptEngine *engine, asCScriptFunction *sysFunction, void *currentObject, asDWORD *stackPointer );
 	virtual ~asCGeneric();
 
 	void *GetReturnPointer();

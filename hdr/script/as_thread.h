@@ -55,11 +55,11 @@ public:
 	static asCThreadLocalData *GetLocalData();
 	static int CleanupLocalData();
 
-	static int  Prepare(asIThreadManager *externalThreadMgr);
+	static int  Prepare ( asIThreadManager *externalThreadMgr );
 	static void Unprepare();
 
 	// This read/write lock can be used by the application to provide simple synchronization
-	DECLAREREADWRITELOCK(appRWLock)
+	DECLAREREADWRITELOCK ( appRWLock )
 
 protected:
 	asCThreadManager();
@@ -76,11 +76,11 @@ protected:
 	// this as it may cause problems if the library is used in a dll.
 	// ref: http://msdn.microsoft.com/en-us/library/2s9wt68x.aspx
 	// ref: http://msdn.microsoft.com/en-us/library/9w1sdazb.aspx
-	__declspec(thread) static asCThreadLocalData *tld;
+	__declspec ( thread ) static asCThreadLocalData *tld;
 #else
 	asDWORD tlsKey;
 #endif
-	DECLARECRITICALSECTION(criticalSection)
+	DECLARECRITICALSECTION ( criticalSection )
 #else
 	asCThreadLocalData *tld;
 #endif

@@ -8,4 +8,4 @@ extern bool     verboseLogging;
 void showDebugInfo();
 
 // Draw a bounding box
-void debug_showBoundingBox(_boundingBox debugBox, glm::vec3 position, float scaleBy);
+void debug_showBoundingBox ( _boundingBox debugBox, glm::vec3 position, float scaleBy );

@@ -6,9 +6,9 @@
 int conOpenGLInfo()
 //-----------------------------------------------------------------------------
 {
-	con_print (CON_TEXT, true, "Vendor: [ %s ]", glGetString(GL_VENDOR));
-	con_print (CON_TEXT, true, "Renderer: [ %s ]", glGetString(GL_RENDERER));
-	con_print (CON_TEXT, true, "Version: [ %s ]", glGetString(GL_VERSION));
+	con_print ( CON_TEXT, true, "Vendor: [ %s ]", glGetString ( GL_VENDOR ) );
+	con_print ( CON_TEXT, true, "Renderer: [ %s ]", glGetString ( GL_RENDERER ) );
+	con_print ( CON_TEXT, true, "Version: [ %s ]", glGetString ( GL_VERSION ) );
 
 	return 1;
 };

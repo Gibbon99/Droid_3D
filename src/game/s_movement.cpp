@@ -22,7 +22,7 @@ glm::vec3   previousViewPosition;		// The view from the last movement
 //-----------------------------------------------------------------------------
 //
 // Process player movement speed
-void gam_processPlayerMovement( float interpolate )
+void gam_processPlayerMovement ( float interpolate )
 //-----------------------------------------------------------------------------
 {
 	previousCamPosition = camPosition;
@@ -53,7 +53,7 @@ void gam_processPlayerMovement( float interpolate )
 				}
 
 			cameraMoved = true;
-			cam_strafeCamera( -currentLeftSpeed);
+			cam_strafeCamera ( -currentLeftSpeed );
 		}
 
 //
@@ -81,7 +81,7 @@ void gam_processPlayerMovement( float interpolate )
 				}
 
 			cameraMoved = true;
-			cam_strafeCamera( currentRightSpeed);
+			cam_strafeCamera ( currentRightSpeed );
 		}
 
 //
@@ -109,7 +109,7 @@ void gam_processPlayerMovement( float interpolate )
 				}
 
 			cameraMoved = true;
-			cam_moveCamera( currentForwardSpeed, interpolate );
+			cam_moveCamera ( currentForwardSpeed, interpolate );
 		}
 
 //
@@ -137,7 +137,7 @@ void gam_processPlayerMovement( float interpolate )
 				}
 
 			cameraMoved = true;
-			cam_moveCamera( -currentBackwardSpeed, interpolate );
+			cam_moveCamera ( -currentBackwardSpeed, interpolate );
 		}
 
 //
@@ -154,7 +154,7 @@ void gam_processPlayerMovement( float interpolate )
 						currentForwardSpeed = 0.0f;
 
 					cameraMoved = true;
-					cam_moveCamera( currentForwardSpeed, interpolate );
+					cam_moveCamera ( currentForwardSpeed, interpolate );
 				}
 		}
 
@@ -170,7 +170,7 @@ void gam_processPlayerMovement( float interpolate )
 						currentBackwardSpeed = 0.0f;
 
 					cameraMoved = true;
-					cam_moveCamera( -currentBackwardSpeed, interpolate );
+					cam_moveCamera ( -currentBackwardSpeed, interpolate );
 				}
 		}
 
@@ -186,7 +186,7 @@ void gam_processPlayerMovement( float interpolate )
 						currentLeftSpeed = 0.0f;
 
 					cameraMoved = true;
-					cam_strafeCamera( -currentLeftSpeed);
+					cam_strafeCamera ( -currentLeftSpeed );
 				}
 		}
 
@@ -202,21 +202,21 @@ void gam_processPlayerMovement( float interpolate )
 						currentRightSpeed = 0.0f;
 
 					cameraMoved = true;
-					cam_strafeCamera( currentRightSpeed);
+					cam_strafeCamera ( currentRightSpeed );
 				}
 		}
 
-	if (true == keyUpDown)
+	if ( true == keyUpDown )
 //        gl_moveLightPos(glm::vec3(0.0, -0.1, 0.0));
-		cam_moveCameraYPos(1.0f, interpolate);
+		cam_moveCameraYPos ( 1.0f, interpolate );
 
-	if (true == keyDownDown)
+	if ( true == keyDownDown )
 //        gl_moveLightPos(glm::vec3(0.0, 0.1, 0.0));
-		cam_moveCameraYPos(-1.0f, interpolate);
+		cam_moveCameraYPos ( -1.0f, interpolate );
 
 	//
 	// Do collision with BSP mesh
-	if (true == bspCollisionDetectOn)
+	if ( true == bspCollisionDetectOn )
 		{
 			testCollisionWithBSP = false;
 			cam_resolveCollisions();
@@ -225,7 +225,7 @@ void gam_processPlayerMovement( float interpolate )
 
 	else
 		{
-			cam_moveTo(camPosition + wantedCamPosition);
+			cam_moveTo ( camPosition + wantedCamPosition );
 		}
 
 	wantedCamCopy = wantedCamPosition;

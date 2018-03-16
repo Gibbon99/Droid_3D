@@ -52,95 +52,95 @@ asCScriptCode::asCScriptCode()
 
 asCScriptCode::~asCScriptCode()
 {
-	if( !sharedCode && code )
+	if ( !sharedCode && code )
 		{
-			asDELETEARRAY(code);
+			asDELETEARRAY ( code );
 		}
 }
 
-int asCScriptCode::SetCode(const char *in_name, const char *in_code, bool in_makeCopy)
+int asCScriptCode::SetCode ( const char *in_name, const char *in_code, bool in_makeCopy )
 {
-	return SetCode(in_name, in_code, 0, in_makeCopy);
+	return SetCode ( in_name, in_code, 0, in_makeCopy );
 }
 
-int asCScriptCode::SetCode(const char *in_name, const char *in_code, size_t in_length, bool in_makeCopy)
+int asCScriptCode::SetCode ( const char *in_name, const char *in_code, size_t in_length, bool in_makeCopy )
 {
-	if( !in_code) return asINVALID_ARG;
+	if ( !in_code ) return asINVALID_ARG;
 
 	this->name = in_name ? in_name : "";
 
-	if( !sharedCode && code )
-		asDELETEARRAY(code);
+	if ( !sharedCode && code )
+		asDELETEARRAY ( code );
 
-	if( in_length == 0 )
-		in_length = strlen(in_code);
+	if ( in_length == 0 )
+		in_length = strlen ( in_code );
 
-	if( in_makeCopy )
+	if ( in_makeCopy )
 		{
 			codeLength = in_length;
 			sharedCode = false;
-			code = asNEWARRAY(char, in_length);
+			code = asNEWARRAY ( char, in_length );
 
-			if( code == 0 )
+			if ( code == 0 )
 				return asOUT_OF_MEMORY;
 
-			memcpy(code, in_code, in_length);
+			memcpy ( code, in_code, in_length );
 
 		}
 
 	else
 		{
 			codeLength = in_length;
-			code = const_cast<char*>(in_code);
+			code = const_cast<char*> ( in_code );
 			sharedCode = true;
 		}
 
 	// Find the positions of each line
-	linePositions.PushLast(0);
+	linePositions.PushLast ( 0 );
 
-	for( size_t n = 0; n < in_length; n++ )
-		if( in_code[n] == '\n' ) linePositions.PushLast(n+1);
+	for ( size_t n = 0; n < in_length; n++ )
+		if ( in_code[n] == '\n' ) linePositions.PushLast ( n+1 );
 
-	linePositions.PushLast(in_length);
+	linePositions.PushLast ( in_length );
 
 	return asSUCCESS;
 }
 
-void asCScriptCode::ConvertPosToRowCol(size_t pos, int *row, int *col)
+void asCScriptCode::ConvertPosToRowCol ( size_t pos, int *row, int *col )
 {
-	if( linePositions.GetLength() == 0 )
+	if ( linePositions.GetLength() == 0 )
 		{
-			if( row ) *row = lineOffset;
+			if ( row ) *row = lineOffset;
 
-			if( col ) *col = 1;
+			if ( col ) *col = 1;
 
 			return;
 		}
 
 	// Do a binary search in the buffer
-	int max = (int)linePositions.GetLength() - 1;
+	int max = ( int ) linePositions.GetLength() - 1;
 	int min = 0;
 	int i = max/2;
 
-	for(;;)
+	for ( ;; )
 		{
-			if( linePositions[i] < pos )
+			if ( linePositions[i] < pos )
 				{
 					// Have we found the largest number < programPosition?
-					if( min == i ) break;
+					if ( min == i ) break;
 
 					min = i;
-					i = (max + min)/2;
+					i = ( max + min ) /2;
 
 				}
 
-			else if( linePositions[i] > pos )
+			else if ( linePositions[i] > pos )
 				{
 					// Have we found the smallest number > programPoisition?
-					if( max == i ) break;
+					if ( max == i ) break;
 
 					max = i;
-					i = (max + min)/2;
+					i = ( max + min ) /2;
 
 				}
 
@@ -151,16 +151,16 @@ void asCScriptCode::ConvertPosToRowCol(size_t pos, int *row, int *col)
 				}
 		}
 
-	if( row ) *row = i + 1 + lineOffset;
+	if ( row ) *row = i + 1 + lineOffset;
 
-	if( col ) *col = (int)(pos - linePositions[i]) + 1;
+	if ( col ) *col = ( int ) ( pos - linePositions[i] ) + 1;
 }
 
-bool asCScriptCode::TokenEquals(size_t pos, size_t len, const char *str)
+bool asCScriptCode::TokenEquals ( size_t pos, size_t len, const char *str )
 {
-	if( pos + len > codeLength ) return false;
+	if ( pos + len > codeLength ) return false;
 
-	if( strncmp(code + pos, str, len) == 0 && strlen(str) == len )
+	if ( strncmp ( code + pos, str, len ) == 0 && strlen ( str ) == len )
 		return true;
 
 	return false;

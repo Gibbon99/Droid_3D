@@ -48,8 +48,8 @@ namespace glm
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/length.xml">GLSL length man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename genType>
-GLM_FUNC_DECL typename genType::value_type length(
-    genType const & x);
+GLM_FUNC_DECL typename genType::value_type length (
+    genType const & x );
 
 /// Returns the distance betwwen p0 and p1, i.e., length(p0 - p1).
 ///
@@ -58,9 +58,9 @@ GLM_FUNC_DECL typename genType::value_type length(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/distance.xml">GLSL distance man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename genType>
-GLM_FUNC_DECL typename genType::value_type distance(
+GLM_FUNC_DECL typename genType::value_type distance (
     genType const & p0,
-    genType const & p1);
+    genType const & p1 );
 
 /// Returns the dot product of x and y, i.e., result = x * y.
 ///
@@ -69,9 +69,9 @@ GLM_FUNC_DECL typename genType::value_type distance(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/dot.xml">GLSL dot man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename genType>
-GLM_FUNC_DECL typename genType::value_type dot(
+GLM_FUNC_DECL typename genType::value_type dot (
     genType const & x,
-    genType const & y);
+    genType const & y );
 
 /// Returns the cross product of x and y.
 ///
@@ -80,17 +80,17 @@ GLM_FUNC_DECL typename genType::value_type dot(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/cross.xml">GLSL cross man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename valType>
-GLM_FUNC_DECL detail::tvec3<valType> cross(
+GLM_FUNC_DECL detail::tvec3<valType> cross (
     detail::tvec3<valType> const & x,
-    detail::tvec3<valType> const & y);
+    detail::tvec3<valType> const & y );
 
 /// Returns a vector in the same direction as x but with length of 1.
 ///
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/normalize.xml">GLSL normalize man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType normalize(
-    genType const & x);
+GLM_FUNC_DECL genType normalize (
+    genType const & x );
 
 /// If dot(Nref, I) < 0.0, return N, otherwise, return -N.
 ///
@@ -99,10 +99,10 @@ GLM_FUNC_DECL genType normalize(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/faceforward.xml">GLSL faceforward man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType faceforward(
+GLM_FUNC_DECL genType faceforward (
     genType const & N,
     genType const & I,
-    genType const & Nref);
+    genType const & Nref );
 
 /// For the incident vector I and surface orientation N,
 /// returns the reflection direction : result = I - 2.0 * dot(N, I) * N.
@@ -112,9 +112,9 @@ GLM_FUNC_DECL genType faceforward(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/reflect.xml">GLSL reflect man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType reflect(
+GLM_FUNC_DECL genType reflect (
     genType const & I,
-    genType const & N);
+    genType const & N );
 
 /// For the incident vector I and surface normal N,
 /// and the ratio of indices of refraction eta,
@@ -125,10 +125,10 @@ GLM_FUNC_DECL genType reflect(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/refract.xml">GLSL refract man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.5 Geometric Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType refract(
+GLM_FUNC_DECL genType refract (
     genType const & I,
     genType const & N,
-    typename genType::value_type const & eta);
+    typename genType::value_type const & eta );
 
 /// @}
 }//namespace glm

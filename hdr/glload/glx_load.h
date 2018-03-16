@@ -30,7 +30,7 @@ Loads function pointers for GLX extensions.
 
 \return Will return glx_LOAD_FAILED if the loading failed entirely and nothing was loaded. Returns glx_LOAD_SUCCEEDED if the loading process worked as planned. If it is neither, then the (return value - glx_LOAD_SUCCEEDED) is the number of core functions that fialed to load.
 **/
-int glx_LoadFunctions(Display *display, int screen);
+int glx_LoadFunctions ( Display *display, int screen );
 
 
 /**@}**/

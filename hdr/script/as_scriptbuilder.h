@@ -45,7 +45,7 @@ class CScriptBuilder;
 // builder. The callback should call the AddSectionFromFile or AddSectionFromMemory
 // to add the included section to the script. If the include cannot be resolved
 // then the function should return a negative value to abort the compilation.
-typedef int (*INCLUDECALLBACK_t)(const char *include, const char *from, CScriptBuilder *builder, void *userParam);
+typedef int ( *INCLUDECALLBACK_t ) ( const char *include, const char *from, CScriptBuilder *builder, void *userParam );
 
 // Helper class for loading and pre-processing script files to
 // support include directives and metadata declarations
@@ -55,22 +55,22 @@ public:
 	CScriptBuilder();
 
 	// Start a new module
-	int StartNewModule(asIScriptEngine *engine, const char *moduleName);
+	int StartNewModule ( asIScriptEngine *engine, const char *moduleName );
 
 	// Load a script section from a file on disk
 	// Returns  1 if the file was included
 	//          0 if the file had already been included before
 	//         <0 on error
-	int AddSectionFromFile(const char *filename);
+	int AddSectionFromFile ( const char *filename );
 
 	// Load a script section from memory
 	// Returns  1 if the section was included
 	//          0 if a section with the same name had already been included before
 	//         <0 on error
-	int AddSectionFromMemory(const char *sectionName,
-	                         const char *scriptCode,
-	                         unsigned int scriptLength = 0,
-	                         int lineOffset = 0);
+	int AddSectionFromMemory ( const char *sectionName,
+	                           const char *scriptCode,
+	                           unsigned int scriptLength = 0,
+	                           int lineOffset = 0 );
 
 	// Build the added script sections
 	int BuildModule();
@@ -79,43 +79,43 @@ public:
 	asIScriptModule *GetModule();
 
 	// Register the callback for resolving include directive
-	void SetIncludeCallback(INCLUDECALLBACK_t callback, void *userParam);
+	void SetIncludeCallback ( INCLUDECALLBACK_t callback, void *userParam );
 
 	// Add a pre-processor define for conditional compilation
-	void DefineWord(const char *word);
+	void DefineWord ( const char *word );
 
 	// Enumerate included script sections
 	unsigned int GetSectionCount() const;
-	std::string  GetSectionName(unsigned int idx) const;
+	std::string  GetSectionName ( unsigned int idx ) const;
 
 #if AS_PROCESS_METADATA == 1
 	// Get metadata declared for classes, interfaces, and enums
-	const char *GetMetadataStringForType(int typeId);
+	const char *GetMetadataStringForType ( int typeId );
 
 	// Get metadata declared for functions
-	const char *GetMetadataStringForFunc(asIScriptFunction *func);
+	const char *GetMetadataStringForFunc ( asIScriptFunction *func );
 
 	// Get metadata declared for global variables
-	const char *GetMetadataStringForVar(int varIdx);
+	const char *GetMetadataStringForVar ( int varIdx );
 
 	// Get metadata declared for class variables
-	const char *GetMetadataStringForTypeProperty(int typeId, int varIdx);
+	const char *GetMetadataStringForTypeProperty ( int typeId, int varIdx );
 
 	// Get metadata declared for class methods
-	const char *GetMetadataStringForTypeMethod(int typeId, asIScriptFunction *method);
+	const char *GetMetadataStringForTypeMethod ( int typeId, asIScriptFunction *method );
 #endif
 
 protected:
 	void ClearAll();
 	int  Build();
-	int  ProcessScriptSection(const char *script, unsigned int length, const char *sectionname, int lineOffset);
-	int  LoadScriptSection(const char *filename);
-	bool IncludeIfNotAlreadyIncluded(const char *filename);
+	int  ProcessScriptSection ( const char *script, unsigned int length, const char *sectionname, int lineOffset );
+	int  LoadScriptSection ( const char *filename );
+	bool IncludeIfNotAlreadyIncluded ( const char *filename );
 
-	int  SkipStatement(int pos);
+	int  SkipStatement ( int pos );
 
-	int  ExcludeCode(int start);
-	void OverwriteCode(int start, int len);
+	int  ExcludeCode ( int start );
+	void OverwriteCode ( int start, int len );
 
 	asIScriptEngine           *engine;
 	asIScriptModule           *module;
@@ -125,8 +125,8 @@ protected:
 	void              *callbackParam;
 
 #if AS_PROCESS_METADATA == 1
-	int  ExtractMetadataString(int pos, std::string &outMetadata);
-	int  ExtractDeclaration(int pos, std::string &outName, std::string &outDeclaration, int &outType);
+	int  ExtractMetadataString ( int pos, std::string &outMetadata );
+	int  ExtractDeclaration ( int pos, std::string &outName, std::string &outDeclaration, int &outType );
 
 	enum METADATATYPE
 	{
@@ -140,7 +140,7 @@ protected:
 	// Temporary structure for storing metadata and declaration
 	struct SMetadataDecl
 	{
-		SMetadataDecl(std::string m, std::string n, std::string d, int t, std::string c, std::string ns) : metadata(m), name(n), declaration(d), type(t), parentClass(c), nameSpace(ns) {}
+		SMetadataDecl ( std::string m, std::string n, std::string d, int t, std::string c, std::string ns ) : metadata ( m ), name ( n ), declaration ( d ), type ( t ), parentClass ( c ), nameSpace ( ns ) {}
 		std::string metadata;
 		std::string name;
 		std::string declaration;
@@ -160,7 +160,7 @@ protected:
 	// Storage of metadata for class member declarations
 	struct SClassMetadata
 	{
-		SClassMetadata(const std::string& aName) : className(aName) {}
+		SClassMetadata ( const std::string& aName ) : className ( aName ) {}
 		std::string className;
 		std::map<int, std::string> funcMetadataMap;
 		std::map<int, std::string> varMetadataMap;
@@ -184,9 +184,9 @@ protected:
 
 	struct ci_less
 	{
-		bool operator()(const std::string &a, const std::string &b) const
+		bool operator() ( const std::string &a, const std::string &b ) const
 		{
-			return _strcmpi(a.c_str(), b.c_str()) < 0;
+			return _strcmpi ( a.c_str(), b.c_str() ) < 0;
 		}
 	};
 	std::set<std::string, ci_less> includedScripts;

@@ -44,7 +44,7 @@ vector<_myVertex>       vertex;
 vector<_myFace>         faces;
 vector<int>             arrayIndex;
 
-int stride = sizeof(_myVertex);
+int stride = sizeof ( _myVertex );
 
 /*
 
@@ -115,7 +115,7 @@ when adding new face, compare texID to existing list, and get matching index arr
 // Walk the vertex array and find the matching sets for lightmapID's
 //
 // Create an index for those faces and draw with glDrawElements pointing to the index array
-void bsp_processLightMapFaces(int whichShader)
+void bsp_processLightMapFaces ( int whichShader )
 //-----------------------------------------------------------------------------
 {
 	int indexCounter = 0;
@@ -125,78 +125,78 @@ void bsp_processLightMapFaces(int whichShader)
 
 	std::vector<_myFace>::const_iterator j;
 
-	printf("There are [ %i ] lightmaps\n", m_numOfLightmaps);
+	printf ( "There are [ %i ] lightmaps\n", m_numOfLightmaps );
 
-	for (int i = 0; i != m_numOfLightmaps; i++)
+	for ( int i = 0; i != m_numOfLightmaps; i++ )
 		{
 			arrayIndex.clear();
 			indexCounter = 0;
 			matchCounter = 0;
 			vertCounter = 0;
 
-			for (j = faces.begin(); j != faces.end(); ++j)
+			for ( j = faces.begin(); j != faces.end(); ++j )
 				{
 					checkForID = faces[indexCounter].lightmapID;    // Which ID are we looking for
 					// Do a sort by lightMapID first??
 //            printf("Pass [ %i ] index [ %i ] Check [ %i ] vs [ %i ]\n", i, checkForID,  m_lightmaps[checkForID], m_lightmaps[i]);
 
-					if (m_lightmaps[checkForID] == m_lightmaps[i])
+					if ( m_lightmaps[checkForID] == m_lightmaps[i] )
 						{
 							// Add it's index to the array
-							arrayIndex.push_back(faces[indexCounter].vertIndex - faces[indexCounter].numVerts);
+							arrayIndex.push_back ( faces[indexCounter].vertIndex - faces[indexCounter].numVerts );
 							vertCounter += faces[indexCounter].numVerts;
 							matchCounter++;
 
-							printf("Adding index [ %i ] to array\n", faces[indexCounter].vertIndex);
+							printf ( "Adding index [ %i ] to array\n", faces[indexCounter].vertIndex );
 						}
 
 					indexCounter++;
 				}
 
-			printf("There are [ %i ] faces with lightmapID [ %i ] numVerts [ %i ]\n", matchCounter, m_lightmaps[i], vertCounter);
+			printf ( "There are [ %i ] faces with lightmapID [ %i ] numVerts [ %i ]\n", matchCounter, m_lightmaps[i], vertCounter );
 
-			if (matchCounter > 0)
+			if ( matchCounter > 0 )
 				{
 					// Finished finding all the first lightmap ID's - so now draw them
 //            GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayID));
 //            GL_CHECK(glBufferData(GL_ELEMENT_ARRAY_BUFFER, matchCounter * sizeof(int), arrayIndex[0], GL_STATIC_DRAW));
 
 
-					GL_CHECK(glBindVertexArray(vao));
-					GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vbo_ID));
+					GL_CHECK ( glBindVertexArray ( vao ) );
+					GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, vbo_ID ) );
 
-					GL_CHECK(glBufferData(GL_ARRAY_BUFFER, vertIndexCounter * sizeof(_myVertex), &vertex[0], GL_STATIC_DRAW));
+					GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, vertIndexCounter * sizeof ( _myVertex ), &vertex[0], GL_STATIC_DRAW ) );
 					//
 					// position
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
-					GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID,3, GL_FLOAT,GL_FALSE, stride, offsetof(_myVertex, position) ));
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+					GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID,3, GL_FLOAT,GL_FALSE, stride, offsetof ( _myVertex, position ) ) );
 					//
 					// Texture coordinates
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-					GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof(_myVertex, texCoords)));
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+					GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof ( _myVertex, texCoords ) ) );
 					//
 					// Lightmap coordinates
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
-					GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, false, stride, offsetof(_myVertex, lightmapCoords)));
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID_1 ) );
+					GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, false, stride, offsetof ( _myVertex, lightmapCoords ) ) );
 					//
 					// Normals
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
-					GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(_myVertex, normals)));
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+					GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof ( _myVertex, normals ) ) );
 
 					//
 					// Enable attribute to hold vertex information
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
-					GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID_1 ) );
+					GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
 
 					//wrapglBindTexture(GL_TEXTURE1, texturesLoaded[TEX_WALL].texID);
-					wrapglBindTexture(GL_TEXTURE1, m_lightmaps[i]);
-					GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1));
+					wrapglBindTexture ( GL_TEXTURE1, m_lightmaps[i] );
+					GL_ASSERT ( glUniform1i ( shaderProgram[whichShader].inTextureUnit_1, 1 ) );
 
-					for (int i = 0; i != matchCounter; i++)
+					for ( int i = 0; i != matchCounter; i++ )
 						{
-							glDrawArrays(GL_TRIANGLES, arrayIndex[i], faces[arrayIndex[i]].numVerts);
+							glDrawArrays ( GL_TRIANGLES, arrayIndex[i], faces[arrayIndex[i]].numVerts );
 //                GL_CHECK(glDrawElements(GL_TRIANGLES, vertCounter, GL_UNSIGNED_INT, &arrayIndex));
 						}
 				}
@@ -205,35 +205,35 @@ void bsp_processLightMapFaces(int whichShader)
 //-----------------------------------------------------------------------------
 //
 // Display BSP data
-void bsp_debugBSPData(tBSPFace *ptrFace, int index)
+void bsp_debugBSPData ( tBSPFace *ptrFace, int index )
 //-----------------------------------------------------------------------------
 {
 	static bool debugDone = false;
 
-	if (false == debugDone)
+	if ( false == debugDone )
 		{
-			con_print(CON_INFO, true, "Num verts mesh verts [ %i ] Num, Triangles [ %i ]", ptrFace->numMeshVerts, ptrFace->numMeshVerts / 3);
+			con_print ( CON_INFO, true, "Num verts mesh verts [ %i ] Num, Triangles [ %i ]", ptrFace->numMeshVerts, ptrFace->numMeshVerts / 3 );
 
-			for (int i = 0; i != ptrFace->numMeshVerts; i++)
+			for ( int i = 0; i != ptrFace->numMeshVerts; i++ )
 				{
-					con_print(CON_INFO, true, "Face meshVertIndex [ %i ] meshVertIndex [ %i ]", ptrFace->startMeshVertIndex + i, m_pMeshIndex[ptrFace->startMeshVertIndex + i]);
-					con_print(CON_INFO, true, "VertexPos [ %i ] [ %3.3f %3.3f %3.3f ]", m_pMeshIndex[ptrFace->startMeshVertIndex + i],
-					          m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.x,
-					          m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.y,
-					          m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.z );
+					con_print ( CON_INFO, true, "Face meshVertIndex [ %i ] meshVertIndex [ %i ]", ptrFace->startMeshVertIndex + i, m_pMeshIndex[ptrFace->startMeshVertIndex + i] );
+					con_print ( CON_INFO, true, "VertexPos [ %i ] [ %3.3f %3.3f %3.3f ]", m_pMeshIndex[ptrFace->startMeshVertIndex + i],
+					            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.x,
+					            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.y,
+					            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.z );
 				}
 
-			con_print(CON_INFO, true, "Vertex information from our array - comparision");
+			con_print ( CON_INFO, true, "Vertex information from our array - comparision" );
 
 
-			con_print(CON_INFO, true, "numVerts [ %i ]", faces[sortedFaces[index].faceID].numVerts);
+			con_print ( CON_INFO, true, "numVerts [ %i ]", faces[sortedFaces[index].faceID].numVerts );
 
-			for (int i = 0; i != faces[sortedFaces[index].faceID].numVerts; i++)
+			for ( int i = 0; i != faces[sortedFaces[index].faceID].numVerts; i++ )
 				{
-					con_print(CON_INFO, true, "VertexPos [ %i ] [ %3.3f %3.3f %3.3f ]", faces[i].vertIndex,
-					          vertex[faces[i].vertIndex + i].position.x,
-					          vertex[faces[i].vertIndex + i].position.y,
-					          vertex[faces[i].vertIndex + i].position.z);
+					con_print ( CON_INFO, true, "VertexPos [ %i ] [ %3.3f %3.3f %3.3f ]", faces[i].vertIndex,
+					            vertex[faces[i].vertIndex + i].position.x,
+					            vertex[faces[i].vertIndex + i].position.y,
+					            vertex[faces[i].vertIndex + i].position.z );
 				}
 
 			debugDone = true;
@@ -243,7 +243,7 @@ void bsp_debugBSPData(tBSPFace *ptrFace, int index)
 //-----------------------------------------------------------------------------
 //
 // Create array for all the visible faces this frame
-void bsp_createFaceGPUInfo(tBSPFace *ptrFace)
+void bsp_createFaceGPUInfo ( tBSPFace *ptrFace )
 //-----------------------------------------------------------------------------
 {
 	static  int     vertIndex = 0;
@@ -252,9 +252,9 @@ void bsp_createFaceGPUInfo(tBSPFace *ptrFace)
 	_myFace         tempFace;
 
 	indexes.clear();
-	indexes.reserve(ptrFace->numMeshVerts);
+	indexes.reserve ( ptrFace->numMeshVerts );
 
-	for (int i = 0; i != ptrFace->numMeshVerts; i++)
+	for ( int i = 0; i != ptrFace->numMeshVerts; i++ )
 		{
 			indexes[i] = m_pMeshIndex[ptrFace->startMeshVertIndex + i];
 
@@ -263,7 +263,7 @@ void bsp_createFaceGPUInfo(tBSPFace *ptrFace)
 			tempVertex.lightmapCoords = m_pVerts[ptrFace->startVertIndex + indexes[i]].vLightmapCoord;
 			tempVertex.normals =        m_pVerts[ptrFace->startVertIndex + indexes[i]].vNormal;
 
-			vertex.push_back(tempVertex);
+			vertex.push_back ( tempVertex );
 		}
 
 	vertIndexCounter += ptrFace->numMeshVerts;  // Starting index
@@ -273,39 +273,39 @@ void bsp_createFaceGPUInfo(tBSPFace *ptrFace)
 	tempFace.textureID = ptrFace->textureID;
 	tempFace.lightmapID = ptrFace->lightmapID;
 
-	faces.push_back(tempFace);
+	faces.push_back ( tempFace );
 }
 
 //-----------------------------------------------------------------------------
 //
 // Actually draw the BSP face
-void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
+void bsp_renderAllFaces ( tBSPFace *ptrFace, int whichShader )
 //-----------------------------------------------------------------------------
 {
-	
+
 //	PROFILE("BSP");
-	
+
 #define SLOW_WAY 1
 
 #ifdef SLOW_WAY
 
 	// create the VAO
 
-	GL_CHECK(glBindVertexArray(vao));
-	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vbo_ID));
+	GL_CHECK ( glBindVertexArray ( vao ) );
+	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, vbo_ID ) );
 
-	GL_CHECK(glBufferData(GL_ARRAY_BUFFER, vertIndexCounter * sizeof(_myVertex), &vertex[0], GL_STATIC_DRAW));
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, vertIndexCounter * sizeof ( _myVertex ), &vertex[0], GL_STATIC_DRAW ) );
 	//
 	// position
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
-	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inVertsID,3, GL_FLOAT,GL_FALSE, stride, offsetof(_myVertex, position) ));
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+	GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID,3, GL_FLOAT,GL_FALSE, stride, offsetof ( _myVertex, position ) ) );
 	// Normals
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
-	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(_myVertex, normals)));
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+	GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof ( _myVertex, normals ) ) );
 	//
 	// Texture coordinates
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-	GL_CHECK(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof(_myVertex, texCoords)));
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+	GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof ( _myVertex, texCoords ) ) );
 	//
 	// Lightmap coordinates
 //	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
@@ -314,40 +314,40 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 
 	//
 	// Enable attribute to hold vertex information
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));	
-	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-//	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));	
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+//	GL_CHECK(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
 
 //	wrapglBindTexture(GL_TEXTURE1, m_lightmaps[0]);
 //	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1));
 
 //    GL_CHECK(glDrawElements(GL_TRIANGLES, ptrFace->numMeshVerts, GL_UNSIGNED_INT, 0));
 
-	glDrawArrays(GL_TRIANGLES, 0, vertIndexCounter);
+	glDrawArrays ( GL_TRIANGLES, 0, vertIndexCounter );
 
 #else
 
-	int stride = sizeof(tBSPVertex); // BSP Vertex, not float[3]
+	int stride = sizeof ( tBSPVertex ); // BSP Vertex, not float[3]
 
-	GL_CHECK(glUseProgram(shaderProgram[whichShader].programID));
+	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
-	GL_CHECK(glBindVertexArray(bspVAO_ID));
+	GL_CHECK ( glBindVertexArray ( bspVAO_ID ) );
 
-	GL_CHECK(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayID));
-	GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, bspVBO_VERT));
+	GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
+	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, bspVBO_VERT ) );
 
 	// Position
-	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID));
-	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, stride, (offsetof(tBSPVertex, vPosition))));
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, stride, ( offsetof ( tBSPVertex, vPosition ) ) ) );
 
 	// Normals
-	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inNormalsID));
-	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof(tBSPVertex, vNormal)));
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, stride, offsetof ( tBSPVertex, vNormal ) ) );
 
 	// Texture coords
-	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID));
-	GL_ASSERT(glVertexAttribPointer(shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof(tBSPVertex, vTextureCoord)));
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, stride, offsetof ( tBSPVertex, vTextureCoord ) ) );
 
 	// Lightmap coords - not used in shader yet
 //	GL_ASSERT(glEnableVertexAttribArray(shaderProgram[whichShader].inTextureCoordsID_1));
@@ -357,11 +357,11 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 //	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
 //	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 
-	GL_ASSERT(glDrawElementsBaseVertex(GL_TRIANGLES, ptrFace->numMeshVerts, GL_UNSIGNED_INT, (const GLvoid *)ptrFace->startMeshVertIndex, ptrFace->startVertIndex));
+	GL_ASSERT ( glDrawElementsBaseVertex ( GL_TRIANGLES, ptrFace->numMeshVerts, GL_UNSIGNED_INT, ( const GLvoid * ) ptrFace->startMeshVertIndex, ptrFace->startVertIndex ) );
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
 
-	gl_getAllGLErrors(glGetError(), __FILE__, __LINE__);
+	gl_getAllGLErrors ( glGetError(), __FILE__, __LINE__ );
 
 #endif
 }
@@ -369,14 +369,14 @@ void bsp_renderAllFaces(tBSPFace *ptrFace, int whichShader)
 //-----------------------------------------------------------------------------
 //
 // This returns the leaf the camera is in
-int bsp_findLeaf(const glm::vec3 &vPos)
+int bsp_findLeaf ( const glm::vec3 &vPos )
 //-----------------------------------------------------------------------------
 {
 	int i = 0;
 	float distance = 0.0f;
 
 	// Continue looping until we find a negative index
-	while(i >= 0)
+	while ( i >= 0 )
 		{
 			const tBSPNode&  node = m_pNodes[i];
 			const tBSPPlane& plane = m_pPlanes[node.plane];
@@ -388,7 +388,7 @@ int bsp_findLeaf(const glm::vec3 &vPos)
 			            plane.vNormal.z * vPos.z - plane.d;
 
 			// If the camera is in front of the plane
-			if(distance >= 0)
+			if ( distance >= 0 )
 				{
 					// Assign the current node to the node in front of itself
 					i = node.front;
@@ -410,17 +410,17 @@ int bsp_findLeaf(const glm::vec3 &vPos)
 //-----------------------------------------------------------------------------
 //
 //	This tells us if the "current" cluster can see the "test" cluster
-inline int bsp_isClusterVisible(int current, int test)
+inline int bsp_isClusterVisible ( int current, int test )
 //-----------------------------------------------------------------------------
 {
-	if(!m_clusters.pBitsets || current < 0) return 1;
+	if ( !m_clusters.pBitsets || current < 0 ) return 1;
 
 	// Use binary math to get the 8 bit visibility set for the current cluster
-	byte visSet = m_clusters.pBitsets[(current*m_clusters.bytesPerCluster) + (test / 8)];
+	byte visSet = m_clusters.pBitsets[ ( current*m_clusters.bytesPerCluster ) + ( test / 8 )];
 
 	// Now that we have our vector (bitset), do some bit shifting to find if
 	// the "test" cluster is visible from the "current" cluster, according to the bitset.
-	int result = visSet & (1 << ((test) & 7));
+	int result = visSet & ( 1 << ( ( test ) & 7 ) );
 
 	// Return the result ( either 1 (visible) or 0 (not visible) )
 	return ( result );
@@ -429,7 +429,7 @@ inline int bsp_isClusterVisible(int current, int test)
 //-----------------------------------------------------------------------------
 //
 // Add the faces to the unsorted face array
-void bsp_addFaceToArray(int whichFace, int leafIndex)
+void bsp_addFaceToArray ( int whichFace, int leafIndex )
 //-----------------------------------------------------------------------------
 {
 	tBSPFace		*ptrFace;
@@ -457,7 +457,7 @@ void bsp_addFaceToArray(int whichFace, int leafIndex)
 //-----------------------------------------------------------------------------
 //
 // Render the faces in this leaf if they are in the frustum
-void bsp_renderLeaf( int iLeaf, bool CheckFrustum )
+void bsp_renderLeaf ( int iLeaf, bool CheckFrustum )
 //-----------------------------------------------------------------------------
 {
 
@@ -465,23 +465,23 @@ void bsp_renderLeaf( int iLeaf, bool CheckFrustum )
 	tBSPLeaf* pLeaf = &m_pLeafs[ iLeaf ];
 
 	// perform PVS as in the previus tutorial
-	if(!bsp_isClusterVisible(g_currentCameraCluster, pLeaf->cluster))          // If the current leaf can't be seen from our cluster, go to the next leaf
+	if ( !bsp_isClusterVisible ( g_currentCameraCluster, pLeaf->cluster ) )    // If the current leaf can't be seen from our cluster, go to the next leaf
 		return;
 
-	if (CheckFrustum)
-		if(COMPLETE_OUT == sys_boxInFrustum( (float)pLeaf->min.x, (float)pLeaf->min.y, (float)pLeaf->min.z,
-		                                     (float)pLeaf->max.x, (float)pLeaf->max.y, (float)pLeaf->max.z))
+	if ( CheckFrustum )
+		if ( COMPLETE_OUT == sys_boxInFrustum ( ( float ) pLeaf->min.x, ( float ) pLeaf->min.y, ( float ) pLeaf->min.z,
+		                                        ( float ) pLeaf->max.x, ( float ) pLeaf->max.y, ( float ) pLeaf->max.z ) )
 			return;
 
 	int faceCount = pLeaf->numOfLeafFaces;
 
 	// Loop through and render all of the faces in this leaf
-	while(faceCount--)
+	while ( faceCount-- )
 		{
 			// Grab the current face index from our leaf faces array
 			int faceIndex = m_pLeafFaces[pLeaf->leafface + faceCount];
 
-			if(m_pFaces[faceIndex].type != FACE_POLYGON)
+			if ( m_pFaces[faceIndex].type != FACE_POLYGON )
 				{
 //			conPrint (GL_TRUE, "Found non polygon face [ %i ]", m_pFaces[faceIndex].type);
 					continue;
@@ -489,12 +489,12 @@ void bsp_renderLeaf( int iLeaf, bool CheckFrustum )
 
 			// Since many faces are duplicated in other leafs, we need to
 			// make sure this face already hasn't been drawn.
-			if(!m_FacesDrawn.On(faceIndex))
+			if ( !m_FacesDrawn.On ( faceIndex ) )
 				{
 					// Set this face as drawn and render it
-					m_FacesDrawn.Set(faceIndex);
+					m_FacesDrawn.Set ( faceIndex );
 					// bspRenderFace(faceIndex);
-					bsp_addFaceToArray(faceIndex, iLeaf);
+					bsp_addFaceToArray ( faceIndex, iLeaf );
 					numFacesDrawn++;
 
 				}
@@ -507,7 +507,7 @@ void bsp_renderLeaf( int iLeaf, bool CheckFrustum )
 //-----------------------------------------------------------------------------
 //
 // This function checks against the frustum and sorts leafs front to back
-void bsp_renderTree( int Node, bool CheckFrustum )
+void bsp_renderTree ( int Node, bool CheckFrustum )
 //-----------------------------------------------------------------------------
 {
 
@@ -519,28 +519,28 @@ void bsp_renderTree( int Node, bool CheckFrustum )
 	// if the node we came from is COMPLETE_IN then CheckFrustum will hold false and we
 	// won't check this node against the frustum because we know we are COMPLETE_IN the
 	// frustum
-	if (CheckFrustum)
+	if ( CheckFrustum )
 		{
 			// CheckFrustum = true so our node parent was intersecting the frustum and so
 			// he have to continue checking this one
-			switch (sys_boxInFrustum( (float)pNode->min.x, (float)pNode->min.y, (float)pNode->min.z, (float)pNode->max.x, (float)pNode->max.y, (float)pNode->max.z))
+			switch ( sys_boxInFrustum ( ( float ) pNode->min.x, ( float ) pNode->min.y, ( float ) pNode->min.z, ( float ) pNode->max.x, ( float ) pNode->max.y, ( float ) pNode->max.z ) )
 				{
-					case COMPLETE_OUT:
-						numLeafsNotDrawn++;
-						return;
+				case COMPLETE_OUT:
+					numLeafsNotDrawn++;
+					return;
 
-					// if this one is complete_out, stop analysing this branch
-					// all leaf that come from this node are also complete_out
+				// if this one is complete_out, stop analysing this branch
+				// all leaf that come from this node are also complete_out
 
-					case COMPLETE_IN:
-						CheckFrustum = false;
-						numLeafsDrawn++;
-						break;
-						// if we are complete_in, Set CheckFrustum to false to not
-						// check frustum on any of my childs, CheckFrustum will be used
-						// to call my children
+				case COMPLETE_IN:
+					CheckFrustum = false;
+					numLeafsDrawn++;
+					break;
+					// if we are complete_in, Set CheckFrustum to false to not
+					// check frustum on any of my childs, CheckFrustum will be used
+					// to call my children
 
-						// if intersecting continue as usual, test all my children against the frustum
+					// if intersecting continue as usual, test all my children against the frustum
 				}
 		}
 
@@ -551,28 +551,28 @@ void bsp_renderTree( int Node, bool CheckFrustum )
 	// We will render leafs in a front to back order
 
 	// If the camera position is in front the plane
-	if ( (plane->vNormal.x * g_cameraPosition.x + plane->vNormal.y * g_cameraPosition.y + plane->vNormal.z * g_cameraPosition.z -  plane->d  > 0) )
+	if ( ( plane->vNormal.x * g_cameraPosition.x + plane->vNormal.y * g_cameraPosition.y + plane->vNormal.z * g_cameraPosition.z -  plane->d  > 0 ) )
 		{
-			if (pNode->front>=0)  bsp_renderTree( pNode->front, CheckFrustum );
+			if ( pNode->front>=0 )  bsp_renderTree ( pNode->front, CheckFrustum );
 
-			else bsp_renderLeaf( ~pNode->front, CheckFrustum );
+			else bsp_renderLeaf ( ~pNode->front, CheckFrustum );
 
 			// now that we render or leaf and nodes that are in front of the plane,
 			// go with the BACK ones
-			if (pNode->back>=0) bsp_renderTree( pNode->back, CheckFrustum);
+			if ( pNode->back>=0 ) bsp_renderTree ( pNode->back, CheckFrustum );
 
-			else bsp_renderLeaf( ~pNode->back, CheckFrustum );
+			else bsp_renderLeaf ( ~pNode->back, CheckFrustum );
 		}// else if is CameraPostion is back of the partition plane, draw back to front
 
 	else
 		{
-			if (pNode->back>=0) bsp_renderTree( pNode->back, CheckFrustum );
+			if ( pNode->back>=0 ) bsp_renderTree ( pNode->back, CheckFrustum );
 
-			else bsp_renderLeaf( ~pNode->back, CheckFrustum );
+			else bsp_renderLeaf ( ~pNode->back, CheckFrustum );
 
-			if (pNode->front>=0)  bsp_renderTree( pNode->front, CheckFrustum );
+			if ( pNode->front>=0 )  bsp_renderTree ( pNode->front, CheckFrustum );
 
-			else bsp_renderLeaf( ~pNode->front, CheckFrustum );
+			else bsp_renderLeaf ( ~pNode->front, CheckFrustum );
 		}
 }
 
@@ -580,7 +580,7 @@ void bsp_renderTree( int Node, bool CheckFrustum )
 //-----------------------------------------------------------------------------
 //
 // Draw the face array - can be sorted or in raw order from BSP
-void bsp_drawFacesInArray(int whichShader)
+void bsp_drawFacesInArray ( int whichShader )
 //-----------------------------------------------------------------------------
 {
 	tBSPFace		*ptrFace;
@@ -590,42 +590,42 @@ void bsp_drawFacesInArray(int whichShader)
 
 	//
 	// create buffers for our vertex data
-	GL_ASSERT(glGenBuffers(1, &vbo_ID));
-	GL_ASSERT(glGenVertexArrays(1, &vao));
+	GL_ASSERT ( glGenBuffers ( 1, &vbo_ID ) );
+	GL_ASSERT ( glGenVertexArrays ( 1, &vao ) );
 
 	//
 	// Generate indexArray ID
-	GL_CHECK(glGenBuffers(1, &elementArrayID));
+	GL_CHECK ( glGenBuffers ( 1, &elementArrayID ) );
 
-	GL_ASSERT(glUseProgram(shaderProgram[whichShader].programID));
+	GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
-	wrapglBindTexture(GL_TEXTURE0, texturesLoaded[TEX_WALL].texID);
+	wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[TEX_WALL].texID );
 
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr(modelMatrix)));
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
 
 	vertIndexCounter = 0;
 	vertex.clear();
 	faces.clear();
 
-	for (int i = 0; i != sortCurrentFaceCount; i++)
+	for ( int i = 0; i != sortCurrentFaceCount; i++ )
 		{
 			ptrFace = &m_pFaces[sortedFaces[i].faceID];
 
-			bsp_createFaceGPUInfo(ptrFace);
+			bsp_createFaceGPUInfo ( ptrFace );
 //        bspTextureSortOrNot(ptrFace);
 
 //        doLightmapsOrNot(ptrFace);
 		}
 
-	bsp_renderAllFaces(ptrFace, whichShader);
+	bsp_renderAllFaces ( ptrFace, whichShader );
 //  bsp_processLightMapFaces(whichShader);
 }
 
 //-----------------------------------------------------------------------------
 //
 //	Goes through all of the faces and draws them if the type is FACE_POLYGON
-void bsp_renderLevel(const glm::vec3 &vPos, int whichShader)
+void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
 //-----------------------------------------------------------------------------
 {
 	glm::vec3		drawAtModel;
@@ -644,24 +644,24 @@ void bsp_renderLevel(const glm::vec3 &vPos, int whichShader)
 	// because of the stack overload
 
 	g_cameraPosition = vPos;
-	int leafIndex = bsp_findLeaf( g_cameraPosition );
+	int leafIndex = bsp_findLeaf ( g_cameraPosition );
 	g_currentCameraCluster = m_pLeafs[leafIndex].cluster;
 
 	// Start adding faces to faceArray from the tree from the Root (Node 0 ) and start checking the frustum (true)
-	bsp_renderTree( 0, true );
+	bsp_renderTree ( 0, true );
 
 	// Sort faces and timing here
 
 
 	bsp_drawAllDoors();
-	
-	
+
+
 	//
 	// Draw all the sorted/unsorted faces - including visible models
-	bsp_drawFacesInArray(whichShader);
+	bsp_drawFacesInArray ( whichShader );
 
 
-	
+
 	/*
 	if (GL_TRUE == renderModels)
 		bspRenderModels();		// Puts models faces into the faceArray for sorting

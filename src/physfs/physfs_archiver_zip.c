@@ -119,57 +119,57 @@ typedef struct
 #define ZIP_GENERAL_BITS_IGNORE_LOCAL_HEADER  (1 << 3)
 
 /* support for "traditional" PKWARE encryption. */
-static int zip_entry_is_tradional_crypto(const ZIPentry *entry)
+static int zip_entry_is_tradional_crypto ( const ZIPentry *entry )
 {
-	return (entry->general_bits & ZIP_GENERAL_BITS_TRADITIONAL_CRYPTO) != 0;
+	return ( entry->general_bits & ZIP_GENERAL_BITS_TRADITIONAL_CRYPTO ) != 0;
 } /* zip_entry_is_traditional_crypto */
 
-static int zip_entry_ignore_local_header(const ZIPentry *entry)
+static int zip_entry_ignore_local_header ( const ZIPentry *entry )
 {
-	return (entry->general_bits & ZIP_GENERAL_BITS_IGNORE_LOCAL_HEADER) != 0;
+	return ( entry->general_bits & ZIP_GENERAL_BITS_IGNORE_LOCAL_HEADER ) != 0;
 } /* zip_entry_is_traditional_crypto */
 
-static PHYSFS_uint32 zip_crypto_crc32(const PHYSFS_uint32 crc, const PHYSFS_uint8 val)
+static PHYSFS_uint32 zip_crypto_crc32 ( const PHYSFS_uint32 crc, const PHYSFS_uint8 val )
 {
 	int i;
-	PHYSFS_uint32 xorval = (crc ^ ((PHYSFS_uint32) val)) & 0xFF;
+	PHYSFS_uint32 xorval = ( crc ^ ( ( PHYSFS_uint32 ) val ) ) & 0xFF;
 
-	for (i = 0; i < 8; i++)
-		xorval = ((xorval & 1) ? (0xEDB88320 ^ (xorval >> 1)) : (xorval >> 1));
+	for ( i = 0; i < 8; i++ )
+		xorval = ( ( xorval & 1 ) ? ( 0xEDB88320 ^ ( xorval >> 1 ) ) : ( xorval >> 1 ) );
 
-	return xorval ^ (crc >> 8);
+	return xorval ^ ( crc >> 8 );
 } /* zip_crc32 */
 
-static void zip_update_crypto_keys(PHYSFS_uint32 *keys, const PHYSFS_uint8 val)
+static void zip_update_crypto_keys ( PHYSFS_uint32 *keys, const PHYSFS_uint8 val )
 {
-	keys[0] = zip_crypto_crc32(keys[0], val);
-	keys[1] = keys[1] + (keys[0] & 0x000000FF);
-	keys[1] = (keys[1] * 134775813) + 1;
-	keys[2] = zip_crypto_crc32(keys[2], (PHYSFS_uint8) ((keys[1] >> 24) & 0xFF));
+	keys[0] = zip_crypto_crc32 ( keys[0], val );
+	keys[1] = keys[1] + ( keys[0] & 0x000000FF );
+	keys[1] = ( keys[1] * 134775813 ) + 1;
+	keys[2] = zip_crypto_crc32 ( keys[2], ( PHYSFS_uint8 ) ( ( keys[1] >> 24 ) & 0xFF ) );
 } /* zip_update_crypto_keys */
 
-static PHYSFS_uint8 zip_decrypt_byte(const PHYSFS_uint32 *keys)
+static PHYSFS_uint8 zip_decrypt_byte ( const PHYSFS_uint32 *keys )
 {
 	const PHYSFS_uint16 tmp = keys[2] | 2;
-	return (PHYSFS_uint8) ((tmp * (tmp ^ 1)) >> 8);
+	return ( PHYSFS_uint8 ) ( ( tmp * ( tmp ^ 1 ) ) >> 8 );
 } /* zip_decrypt_byte */
 
-static PHYSFS_sint64 zip_read_decrypt(ZIPfileinfo *finfo, void *buf, PHYSFS_uint64 len)
+static PHYSFS_sint64 zip_read_decrypt ( ZIPfileinfo *finfo, void *buf, PHYSFS_uint64 len )
 {
 	PHYSFS_Io *io = finfo->io;
-	const PHYSFS_sint64 br = io->read(io, buf, len);
+	const PHYSFS_sint64 br = io->read ( io, buf, len );
 
 	/* Decompression the new data if necessary. */
-	if (zip_entry_is_tradional_crypto(finfo->entry) && (br > 0))
+	if ( zip_entry_is_tradional_crypto ( finfo->entry ) && ( br > 0 ) )
 		{
 			PHYSFS_uint32 *keys = finfo->crypto_keys;
-			PHYSFS_uint8 *ptr = (PHYSFS_uint8 *) buf;
+			PHYSFS_uint8 *ptr = ( PHYSFS_uint8 * ) buf;
 			PHYSFS_sint64 i;
 
-			for (i = 0; i < br; i++, ptr++)
+			for ( i = 0; i < br; i++, ptr++ )
 				{
-					const PHYSFS_uint8 ch = *ptr ^ zip_decrypt_byte(keys);
-					zip_update_crypto_keys(keys, ch);
+					const PHYSFS_uint8 ch = *ptr ^ zip_decrypt_byte ( keys );
+					zip_update_crypto_keys ( keys, ch );
 					*ptr = ch;
 				} /* for */
 		} /* if  */
@@ -177,7 +177,7 @@ static PHYSFS_sint64 zip_read_decrypt(ZIPfileinfo *finfo, void *buf, PHYSFS_uint
 	return br;
 } /* zip_read_decrypt */
 
-static int zip_prep_crypto_keys(ZIPfileinfo *finfo, const PHYSFS_uint8 *crypto_header, const PHYSFS_uint8 *password)
+static int zip_prep_crypto_keys ( ZIPfileinfo *finfo, const PHYSFS_uint8 *crypto_header, const PHYSFS_uint8 *password )
 {
 	/* It doesn't appear to be documented in PKWare's APPNOTE.TXT, but you
 	   need to use a different byte in the header to verify the password
@@ -186,8 +186,8 @@ static int zip_prep_crypto_keys(ZIPfileinfo *finfo, const PHYSFS_uint8 *crypto_h
 
 	PHYSFS_uint32 *keys = finfo->crypto_keys;
 	const ZIPentry *entry = finfo->entry;
-	const int usedate = zip_entry_ignore_local_header(entry);
-	const PHYSFS_uint8 verifier = (PHYSFS_uint8) ((usedate ? (entry->dos_mod_time >> 8) : (entry->crc >> 24)) & 0xFF);
+	const int usedate = zip_entry_ignore_local_header ( entry );
+	const PHYSFS_uint8 verifier = ( PHYSFS_uint8 ) ( ( usedate ? ( entry->dos_mod_time >> 8 ) : ( entry->crc >> 24 ) ) & 0xFF );
 	PHYSFS_uint8 finalbyte = 0;
 	int i = 0;
 
@@ -196,22 +196,22 @@ static int zip_prep_crypto_keys(ZIPfileinfo *finfo, const PHYSFS_uint8 *crypto_h
 	keys[1] = 591751049;
 	keys[2] = 878082192;
 
-	while (*password)
-		zip_update_crypto_keys(keys, *(password++));
+	while ( *password )
+		zip_update_crypto_keys ( keys, * ( password++ ) );
 
-	for (i = 0; i < 12; i++)
+	for ( i = 0; i < 12; i++ )
 		{
-			const PHYSFS_uint8 c = crypto_header[i] ^ zip_decrypt_byte(keys);
-			zip_update_crypto_keys(keys, c);
+			const PHYSFS_uint8 c = crypto_header[i] ^ zip_decrypt_byte ( keys );
+			zip_update_crypto_keys ( keys, c );
 			finalbyte = c;
 		} /* for */
 
 	/* you have a 1/256 chance of passing this test incorrectly. :/ */
-	if (finalbyte != verifier)
-		BAIL(PHYSFS_ERR_BAD_PASSWORD, 0);
+	if ( finalbyte != verifier )
+		BAIL ( PHYSFS_ERR_BAD_PASSWORD, 0 );
 
 	/* save the initial vector for seeking purposes. Not secure!! */
-	memcpy(finfo->initial_crypto_keys, finfo->crypto_keys, 12);
+	memcpy ( finfo->initial_crypto_keys, finfo->crypto_keys, 12 );
 	return 1;
 } /* zip_prep_crypto_keys */
 
@@ -219,50 +219,50 @@ static int zip_prep_crypto_keys(ZIPfileinfo *finfo, const PHYSFS_uint8 *crypto_h
 /*
  * Bridge physfs allocation functions to zlib's format...
  */
-static voidpf zlibPhysfsAlloc(voidpf opaque, uInt items, uInt size)
+static voidpf zlibPhysfsAlloc ( voidpf opaque, uInt items, uInt size )
 {
-	return ((PHYSFS_Allocator *) opaque)->Malloc(items * size);
+	return ( ( PHYSFS_Allocator * ) opaque )->Malloc ( items * size );
 } /* zlibPhysfsAlloc */
 
 /*
  * Bridge physfs allocation functions to zlib's format...
  */
-static void zlibPhysfsFree(voidpf opaque, voidpf address)
+static void zlibPhysfsFree ( voidpf opaque, voidpf address )
 {
-	((PHYSFS_Allocator *) opaque)->Free(address);
+	( ( PHYSFS_Allocator * ) opaque )->Free ( address );
 } /* zlibPhysfsFree */
 
 
 /*
  * Construct a new z_stream to a sane state.
  */
-static void initializeZStream(z_stream *pstr)
+static void initializeZStream ( z_stream *pstr )
 {
-	memset(pstr, '\0', sizeof (z_stream));
+	memset ( pstr, '\0', sizeof ( z_stream ) );
 	pstr->zalloc = zlibPhysfsAlloc;
 	pstr->zfree = zlibPhysfsFree;
 	pstr->opaque = &allocator;
 } /* initializeZStream */
 
 
-static PHYSFS_ErrorCode zlib_error_code(int rc)
+static PHYSFS_ErrorCode zlib_error_code ( int rc )
 {
-	switch (rc)
+	switch ( rc )
 		{
-			case Z_OK:
-				return PHYSFS_ERR_OK;  /* not an error. */
+		case Z_OK:
+			return PHYSFS_ERR_OK;  /* not an error. */
 
-			case Z_STREAM_END:
-				return PHYSFS_ERR_OK; /* not an error. */
+		case Z_STREAM_END:
+			return PHYSFS_ERR_OK; /* not an error. */
 
-			case Z_ERRNO:
-				return PHYSFS_ERR_IO;
+		case Z_ERRNO:
+			return PHYSFS_ERR_IO;
 
-			case Z_MEM_ERROR:
-				return PHYSFS_ERR_OUT_OF_MEMORY;
+		case Z_MEM_ERROR:
+			return PHYSFS_ERR_OUT_OF_MEMORY;
 
-			default:
-				return PHYSFS_ERR_CORRUPT;
+		default:
+			return PHYSFS_ERR_CORRUPT;
 		} /* switch */
 } /* zlib_error_string */
 
@@ -270,31 +270,31 @@ static PHYSFS_ErrorCode zlib_error_code(int rc)
 /*
  * Wrap all zlib calls in this, so the physfs error state is set appropriately.
  */
-static int zlib_err(const int rc)
+static int zlib_err ( const int rc )
 {
-	PHYSFS_setErrorCode(zlib_error_code(rc));
+	PHYSFS_setErrorCode ( zlib_error_code ( rc ) );
 	return rc;
 } /* zlib_err */
 
 /*
  * Read an unsigned 64-bit int and swap to native byte order.
  */
-static int readui64(PHYSFS_Io *io, PHYSFS_uint64 *val)
+static int readui64 ( PHYSFS_Io *io, PHYSFS_uint64 *val )
 {
 	PHYSFS_uint64 v;
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &v, sizeof (v)), 0);
-	*val = PHYSFS_swapULE64(v);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &v, sizeof ( v ) ), 0 );
+	*val = PHYSFS_swapULE64 ( v );
 	return 1;
 } /* readui64 */
 
 /*
  * Read an unsigned 32-bit int and swap to native byte order.
  */
-static int readui32(PHYSFS_Io *io, PHYSFS_uint32 *val)
+static int readui32 ( PHYSFS_Io *io, PHYSFS_uint32 *val )
 {
 	PHYSFS_uint32 v;
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &v, sizeof (v)), 0);
-	*val = PHYSFS_swapULE32(v);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &v, sizeof ( v ) ), 0 );
+	*val = PHYSFS_swapULE32 ( v );
 	return 1;
 } /* readui32 */
 
@@ -302,105 +302,105 @@ static int readui32(PHYSFS_Io *io, PHYSFS_uint32 *val)
 /*
  * Read an unsigned 16-bit int and swap to native byte order.
  */
-static int readui16(PHYSFS_Io *io, PHYSFS_uint16 *val)
+static int readui16 ( PHYSFS_Io *io, PHYSFS_uint16 *val )
 {
 	PHYSFS_uint16 v;
-	BAIL_IF_ERRPASS(!__PHYSFS_readAll(io, &v, sizeof (v)), 0);
-	*val = PHYSFS_swapULE16(v);
+	BAIL_IF_ERRPASS ( !__PHYSFS_readAll ( io, &v, sizeof ( v ) ), 0 );
+	*val = PHYSFS_swapULE16 ( v );
 	return 1;
 } /* readui16 */
 
 
-static PHYSFS_sint64 ZIP_read(PHYSFS_Io *_io, void *buf, PHYSFS_uint64 len)
+static PHYSFS_sint64 ZIP_read ( PHYSFS_Io *_io, void *buf, PHYSFS_uint64 len )
 {
-	ZIPfileinfo *finfo = (ZIPfileinfo *) _io->opaque;
+	ZIPfileinfo *finfo = ( ZIPfileinfo * ) _io->opaque;
 	ZIPentry *entry = finfo->entry;
 	PHYSFS_sint64 retval = 0;
-	PHYSFS_sint64 maxread = (PHYSFS_sint64) len;
+	PHYSFS_sint64 maxread = ( PHYSFS_sint64 ) len;
 	PHYSFS_sint64 avail = entry->uncompressed_size -
 	                      finfo->uncompressed_position;
 
-	if (avail < maxread)
+	if ( avail < maxread )
 		maxread = avail;
 
-	BAIL_IF_ERRPASS(maxread == 0, 0);    /* quick rejection. */
+	BAIL_IF_ERRPASS ( maxread == 0, 0 ); /* quick rejection. */
 
-	if (entry->compression_method == COMPMETH_NONE)
-		retval = zip_read_decrypt(finfo, buf, maxread);
+	if ( entry->compression_method == COMPMETH_NONE )
+		retval = zip_read_decrypt ( finfo, buf, maxread );
 
 	else
 		{
 			finfo->stream.next_out = buf;
-			finfo->stream.avail_out = (uInt) maxread;
+			finfo->stream.avail_out = ( uInt ) maxread;
 
-			while (retval < maxread)
+			while ( retval < maxread )
 				{
-					const PHYSFS_uint32 before = (PHYSFS_uint32) finfo->stream.total_out;
+					const PHYSFS_uint32 before = ( PHYSFS_uint32 ) finfo->stream.total_out;
 					int rc;
 
-					if (finfo->stream.avail_in == 0)
+					if ( finfo->stream.avail_in == 0 )
 						{
 							PHYSFS_sint64 br;
 
 							br = entry->compressed_size - finfo->compressed_position;
 
-							if (br > 0)
+							if ( br > 0 )
 								{
-									if (br > ZIP_READBUFSIZE)
+									if ( br > ZIP_READBUFSIZE )
 										br = ZIP_READBUFSIZE;
 
-									br = zip_read_decrypt(finfo, finfo->buffer, (PHYSFS_uint64) br);
+									br = zip_read_decrypt ( finfo, finfo->buffer, ( PHYSFS_uint64 ) br );
 
-									if (br <= 0)
+									if ( br <= 0 )
 										break;
 
-									finfo->compressed_position += (PHYSFS_uint32) br;
+									finfo->compressed_position += ( PHYSFS_uint32 ) br;
 									finfo->stream.next_in = finfo->buffer;
-									finfo->stream.avail_in = (unsigned int) br;
+									finfo->stream.avail_in = ( unsigned int ) br;
 								} /* if */
 						} /* if */
 
-					rc = zlib_err(inflate(&finfo->stream, Z_SYNC_FLUSH));
-					retval += (finfo->stream.total_out - before);
+					rc = zlib_err ( inflate ( &finfo->stream, Z_SYNC_FLUSH ) );
+					retval += ( finfo->stream.total_out - before );
 
-					if (rc != Z_OK)
+					if ( rc != Z_OK )
 						break;
 				} /* while */
 		} /* else */
 
-	if (retval > 0)
-		finfo->uncompressed_position += (PHYSFS_uint32) retval;
+	if ( retval > 0 )
+		finfo->uncompressed_position += ( PHYSFS_uint32 ) retval;
 
 	return retval;
 } /* ZIP_read */
 
 
-static PHYSFS_sint64 ZIP_write(PHYSFS_Io *io, const void *b, PHYSFS_uint64 len)
+static PHYSFS_sint64 ZIP_write ( PHYSFS_Io *io, const void *b, PHYSFS_uint64 len )
 {
-	BAIL(PHYSFS_ERR_READ_ONLY, -1);
+	BAIL ( PHYSFS_ERR_READ_ONLY, -1 );
 } /* ZIP_write */
 
 
-static PHYSFS_sint64 ZIP_tell(PHYSFS_Io *io)
+static PHYSFS_sint64 ZIP_tell ( PHYSFS_Io *io )
 {
-	return ((ZIPfileinfo *) io->opaque)->uncompressed_position;
+	return ( ( ZIPfileinfo * ) io->opaque )->uncompressed_position;
 } /* ZIP_tell */
 
 
-static int ZIP_seek(PHYSFS_Io *_io, PHYSFS_uint64 offset)
+static int ZIP_seek ( PHYSFS_Io *_io, PHYSFS_uint64 offset )
 {
-	ZIPfileinfo *finfo = (ZIPfileinfo *) _io->opaque;
+	ZIPfileinfo *finfo = ( ZIPfileinfo * ) _io->opaque;
 	ZIPentry *entry = finfo->entry;
 	PHYSFS_Io *io = finfo->io;
-	const int encrypted = zip_entry_is_tradional_crypto(entry);
+	const int encrypted = zip_entry_is_tradional_crypto ( entry );
 
-	BAIL_IF(offset > entry->uncompressed_size, PHYSFS_ERR_PAST_EOF, 0);
+	BAIL_IF ( offset > entry->uncompressed_size, PHYSFS_ERR_PAST_EOF, 0 );
 
-	if (!encrypted && (entry->compression_method == COMPMETH_NONE))
+	if ( !encrypted && ( entry->compression_method == COMPMETH_NONE ) )
 		{
 			PHYSFS_sint64 newpos = offset + entry->offset;
-			BAIL_IF_ERRPASS(!io->seek(io, newpos), 0);
-			finfo->uncompressed_position = (PHYSFS_uint32) offset;
+			BAIL_IF_ERRPASS ( !io->seek ( io, newpos ), 0 );
+			finfo->uncompressed_position = ( PHYSFS_uint32 ) offset;
 		} /* if */
 
 	else
@@ -411,37 +411,37 @@ static int ZIP_seek(PHYSFS_Io *_io, PHYSFS_uint64 offset)
 			 *  the offset we need. If seeking forward, we still need to
 			 *  decode, but we don't rewind first.
 			 */
-			if (offset < finfo->uncompressed_position)
+			if ( offset < finfo->uncompressed_position )
 				{
 					/* we do a copy so state is sane if inflateInit2() fails. */
 					z_stream str;
-					initializeZStream(&str);
+					initializeZStream ( &str );
 
-					if (zlib_err(inflateInit2(&str, -MAX_WBITS)) != Z_OK)
+					if ( zlib_err ( inflateInit2 ( &str, -MAX_WBITS ) ) != Z_OK )
 						return 0;
 
-					if (!io->seek(io, entry->offset + (encrypted ? 12 : 0)))
+					if ( !io->seek ( io, entry->offset + ( encrypted ? 12 : 0 ) ) )
 						return 0;
 
-					inflateEnd(&finfo->stream);
-					memcpy(&finfo->stream, &str, sizeof (z_stream));
+					inflateEnd ( &finfo->stream );
+					memcpy ( &finfo->stream, &str, sizeof ( z_stream ) );
 					finfo->uncompressed_position = finfo->compressed_position = 0;
 
-					if (encrypted)
-						memcpy(finfo->crypto_keys, finfo->initial_crypto_keys, 12);
+					if ( encrypted )
+						memcpy ( finfo->crypto_keys, finfo->initial_crypto_keys, 12 );
 				} /* if */
 
-			while (finfo->uncompressed_position != offset)
+			while ( finfo->uncompressed_position != offset )
 				{
 					PHYSFS_uint8 buf[512];
 					PHYSFS_uint32 maxread;
 
-					maxread = (PHYSFS_uint32) (offset - finfo->uncompressed_position);
+					maxread = ( PHYSFS_uint32 ) ( offset - finfo->uncompressed_position );
 
-					if (maxread > sizeof (buf))
-						maxread = sizeof (buf);
+					if ( maxread > sizeof ( buf ) )
+						maxread = sizeof ( buf );
 
-					if (ZIP_read(_io, buf, maxread) != maxread)
+					if ( ZIP_read ( _io, buf, maxread ) != maxread )
 						return 0;
 				} /* while */
 		} /* else */
@@ -450,83 +450,83 @@ static int ZIP_seek(PHYSFS_Io *_io, PHYSFS_uint64 offset)
 } /* ZIP_seek */
 
 
-static PHYSFS_sint64 ZIP_length(PHYSFS_Io *io)
+static PHYSFS_sint64 ZIP_length ( PHYSFS_Io *io )
 {
-	const ZIPfileinfo *finfo = (ZIPfileinfo *) io->opaque;
-	return (PHYSFS_sint64) finfo->entry->uncompressed_size;
+	const ZIPfileinfo *finfo = ( ZIPfileinfo * ) io->opaque;
+	return ( PHYSFS_sint64 ) finfo->entry->uncompressed_size;
 } /* ZIP_length */
 
 
-static PHYSFS_Io *zip_get_io(PHYSFS_Io *io, ZIPinfo *inf, ZIPentry *entry);
+static PHYSFS_Io *zip_get_io ( PHYSFS_Io *io, ZIPinfo *inf, ZIPentry *entry );
 
-static PHYSFS_Io *ZIP_duplicate(PHYSFS_Io *io)
+static PHYSFS_Io *ZIP_duplicate ( PHYSFS_Io *io )
 {
-	ZIPfileinfo *origfinfo = (ZIPfileinfo *) io->opaque;
-	PHYSFS_Io *retval = (PHYSFS_Io *) allocator.Malloc(sizeof (PHYSFS_Io));
-	ZIPfileinfo *finfo = (ZIPfileinfo *) allocator.Malloc(sizeof (ZIPfileinfo));
-	GOTO_IF(!retval, PHYSFS_ERR_OUT_OF_MEMORY, failed);
-	GOTO_IF(!finfo, PHYSFS_ERR_OUT_OF_MEMORY, failed);
-	memset(finfo, '\0', sizeof (*finfo));
+	ZIPfileinfo *origfinfo = ( ZIPfileinfo * ) io->opaque;
+	PHYSFS_Io *retval = ( PHYSFS_Io * ) allocator.Malloc ( sizeof ( PHYSFS_Io ) );
+	ZIPfileinfo *finfo = ( ZIPfileinfo * ) allocator.Malloc ( sizeof ( ZIPfileinfo ) );
+	GOTO_IF ( !retval, PHYSFS_ERR_OUT_OF_MEMORY, failed );
+	GOTO_IF ( !finfo, PHYSFS_ERR_OUT_OF_MEMORY, failed );
+	memset ( finfo, '\0', sizeof ( *finfo ) );
 
 	finfo->entry = origfinfo->entry;
-	finfo->io = zip_get_io(origfinfo->io, NULL, finfo->entry);
-	GOTO_IF_ERRPASS(!finfo->io, failed);
+	finfo->io = zip_get_io ( origfinfo->io, NULL, finfo->entry );
+	GOTO_IF_ERRPASS ( !finfo->io, failed );
 
-	initializeZStream(&finfo->stream);
+	initializeZStream ( &finfo->stream );
 
-	if (finfo->entry->compression_method != COMPMETH_NONE)
+	if ( finfo->entry->compression_method != COMPMETH_NONE )
 		{
-			finfo->buffer = (PHYSFS_uint8 *) allocator.Malloc(ZIP_READBUFSIZE);
-			GOTO_IF(!finfo->buffer, PHYSFS_ERR_OUT_OF_MEMORY, failed);
+			finfo->buffer = ( PHYSFS_uint8 * ) allocator.Malloc ( ZIP_READBUFSIZE );
+			GOTO_IF ( !finfo->buffer, PHYSFS_ERR_OUT_OF_MEMORY, failed );
 
-			if (zlib_err(inflateInit2(&finfo->stream, -MAX_WBITS)) != Z_OK)
+			if ( zlib_err ( inflateInit2 ( &finfo->stream, -MAX_WBITS ) ) != Z_OK )
 				goto failed;
 		} /* if */
 
-	memcpy(retval, io, sizeof (PHYSFS_Io));
+	memcpy ( retval, io, sizeof ( PHYSFS_Io ) );
 	retval->opaque = finfo;
 	return retval;
 
 failed:
 
-	if (finfo != NULL)
+	if ( finfo != NULL )
 		{
-			if (finfo->io != NULL)
-				finfo->io->destroy(finfo->io);
+			if ( finfo->io != NULL )
+				finfo->io->destroy ( finfo->io );
 
-			if (finfo->buffer != NULL)
+			if ( finfo->buffer != NULL )
 				{
-					allocator.Free(finfo->buffer);
-					inflateEnd(&finfo->stream);
+					allocator.Free ( finfo->buffer );
+					inflateEnd ( &finfo->stream );
 				} /* if */
 
-			allocator.Free(finfo);
+			allocator.Free ( finfo );
 		} /* if */
 
-	if (retval != NULL)
-		allocator.Free(retval);
+	if ( retval != NULL )
+		allocator.Free ( retval );
 
 	return NULL;
 } /* ZIP_duplicate */
 
-static int ZIP_flush(PHYSFS_Io *io)
+static int ZIP_flush ( PHYSFS_Io *io )
 {
 	return 1;  /* no write support. */
 }
 
-static void ZIP_destroy(PHYSFS_Io *io)
+static void ZIP_destroy ( PHYSFS_Io *io )
 {
-	ZIPfileinfo *finfo = (ZIPfileinfo *) io->opaque;
-	finfo->io->destroy(finfo->io);
+	ZIPfileinfo *finfo = ( ZIPfileinfo * ) io->opaque;
+	finfo->io->destroy ( finfo->io );
 
-	if (finfo->entry->compression_method != COMPMETH_NONE)
-		inflateEnd(&finfo->stream);
+	if ( finfo->entry->compression_method != COMPMETH_NONE )
+		inflateEnd ( &finfo->stream );
 
-	if (finfo->buffer != NULL)
-		allocator.Free(finfo->buffer);
+	if ( finfo->buffer != NULL )
+		allocator.Free ( finfo->buffer );
 
-	allocator.Free(finfo);
-	allocator.Free(io);
+	allocator.Free ( finfo );
+	allocator.Free ( io );
 } /* ZIP_destroy */
 
 
@@ -545,7 +545,7 @@ static const PHYSFS_Io ZIP_Io =
 
 
 
-static PHYSFS_sint64 zip_find_end_of_central_dir(PHYSFS_Io *io, PHYSFS_sint64 *len)
+static PHYSFS_sint64 zip_find_end_of_central_dir ( PHYSFS_Io *io, PHYSFS_sint64 *len )
 {
 	PHYSFS_uint8 buf[256];
 	PHYSFS_uint8 extra[4] = { 0, 0, 0, 0 };
@@ -556,8 +556,8 @@ static PHYSFS_sint64 zip_find_end_of_central_dir(PHYSFS_Io *io, PHYSFS_sint64 *l
 	PHYSFS_sint32 totalread = 0;
 	int found = 0;
 
-	filelen = io->length(io);
-	BAIL_IF_ERRPASS(filelen == -1, -1);
+	filelen = io->length ( io );
+	BAIL_IF_ERRPASS ( filelen == -1, -1 );
 
 	/*
 	 * Jump to the end of the file and start reading backwards.
@@ -571,73 +571,73 @@ static PHYSFS_sint64 zip_find_end_of_central_dir(PHYSFS_Io *io, PHYSFS_sint64 *l
 	 *  and call it a corrupted zipfile.
 	 */
 
-	if (sizeof (buf) < filelen)
+	if ( sizeof ( buf ) < filelen )
 		{
-			filepos = filelen - sizeof (buf);
-			maxread = sizeof (buf);
+			filepos = filelen - sizeof ( buf );
+			maxread = sizeof ( buf );
 		} /* if */
 
 	else
 		{
 			filepos = 0;
-			maxread = (PHYSFS_uint32) filelen;
+			maxread = ( PHYSFS_uint32 ) filelen;
 		} /* else */
 
-	while ((totalread < filelen) && (totalread < 65557))
+	while ( ( totalread < filelen ) && ( totalread < 65557 ) )
 		{
-			BAIL_IF_ERRPASS(!io->seek(io, filepos), -1);
+			BAIL_IF_ERRPASS ( !io->seek ( io, filepos ), -1 );
 
 			/* make sure we catch a signature between buffers. */
-			if (totalread != 0)
+			if ( totalread != 0 )
 				{
-					if (!__PHYSFS_readAll(io, buf, maxread - 4))
+					if ( !__PHYSFS_readAll ( io, buf, maxread - 4 ) )
 						return -1;
 
-					memcpy(&buf[maxread - 4], &extra, sizeof (extra));
+					memcpy ( &buf[maxread - 4], &extra, sizeof ( extra ) );
 					totalread += maxread - 4;
 				} /* if */
 
 			else
 				{
-					if (!__PHYSFS_readAll(io, buf, maxread))
+					if ( !__PHYSFS_readAll ( io, buf, maxread ) )
 						return -1;
 
 					totalread += maxread;
 				} /* else */
 
-			memcpy(&extra, buf, sizeof (extra));
+			memcpy ( &extra, buf, sizeof ( extra ) );
 
-			for (i = maxread - 4; i > 0; i--)
+			for ( i = maxread - 4; i > 0; i-- )
 				{
-					if ((buf[i + 0] == 0x50) &&
-					        (buf[i + 1] == 0x4B) &&
-					        (buf[i + 2] == 0x05) &&
-					        (buf[i + 3] == 0x06) )
+					if ( ( buf[i + 0] == 0x50 ) &&
+					        ( buf[i + 1] == 0x4B ) &&
+					        ( buf[i + 2] == 0x05 ) &&
+					        ( buf[i + 3] == 0x06 ) )
 						{
 							found = 1;  /* that's the signature! */
 							break;
 						} /* if */
 				} /* for */
 
-			if (found)
+			if ( found )
 				break;
 
-			filepos -= (maxread - 4);
+			filepos -= ( maxread - 4 );
 
-			if (filepos < 0)
+			if ( filepos < 0 )
 				filepos = 0;
 		} /* while */
 
-	BAIL_IF(!found, PHYSFS_ERR_UNSUPPORTED, -1);
+	BAIL_IF ( !found, PHYSFS_ERR_UNSUPPORTED, -1 );
 
-	if (len != NULL)
+	if ( len != NULL )
 		*len = filelen;
 
-	return (filepos + i);
+	return ( filepos + i );
 } /* zip_find_end_of_central_dir */
 
 
-static int isZip(PHYSFS_Io *io)
+static int isZip ( PHYSFS_Io *io )
 {
 	PHYSFS_uint32 sig = 0;
 	int retval = 0;
@@ -646,18 +646,18 @@ static int isZip(PHYSFS_Io *io)
 	 * The first thing in a zip file might be the signature of the
 	 *  first local file record, so it makes for a quick determination.
 	 */
-	if (readui32(io, &sig))
+	if ( readui32 ( io, &sig ) )
 		{
-			retval = (sig == ZIP_LOCAL_FILE_SIG);
+			retval = ( sig == ZIP_LOCAL_FILE_SIG );
 
-			if (!retval)
+			if ( !retval )
 				{
 					/*
 					 * No sig...might be a ZIP with data at the start
 					 *  (a self-extracting executable, etc), so we'll have to do
 					 *  it the hard way...
 					 */
-					retval = (zip_find_end_of_central_dir(io, NULL) != -1);
+					retval = ( zip_find_end_of_central_dir ( io, NULL ) != -1 );
 				} /* if */
 		} /* if */
 
@@ -666,15 +666,15 @@ static int isZip(PHYSFS_Io *io)
 
 
 /* Convert paths from old, buggy DOS zippers... */
-static void zip_convert_dos_path(const PHYSFS_uint16 entryversion, char *path)
+static void zip_convert_dos_path ( const PHYSFS_uint16 entryversion, char *path )
 {
-	const PHYSFS_uint8 hosttype = (PHYSFS_uint8) ((entryversion >> 8) & 0xFF);
+	const PHYSFS_uint8 hosttype = ( PHYSFS_uint8 ) ( ( entryversion >> 8 ) & 0xFF );
 
-	if (hosttype == 0)  /* FS_FAT_ */
+	if ( hosttype == 0 ) /* FS_FAT_ */
 		{
-			while (*path)
+			while ( *path )
 				{
-					if (*path == '\\')
+					if ( *path == '\\' )
 						*path = '/';
 
 					path++;
@@ -683,45 +683,45 @@ static void zip_convert_dos_path(const PHYSFS_uint16 entryversion, char *path)
 } /* zip_convert_dos_path */
 
 
-static void zip_expand_symlink_path(char *path)
+static void zip_expand_symlink_path ( char *path )
 {
 	char *ptr = path;
 	char *prevptr = path;
 
-	while (1)
+	while ( 1 )
 		{
-			ptr = strchr(ptr, '/');
+			ptr = strchr ( ptr, '/' );
 
-			if (ptr == NULL)
+			if ( ptr == NULL )
 				break;
 
-			if (*(ptr + 1) == '.')
+			if ( * ( ptr + 1 ) == '.' )
 				{
-					if (*(ptr + 2) == '/')
+					if ( * ( ptr + 2 ) == '/' )
 						{
 							/* current dir in middle of string: ditch it. */
-							memmove(ptr, ptr + 2, strlen(ptr + 2) + 1);
+							memmove ( ptr, ptr + 2, strlen ( ptr + 2 ) + 1 );
 						} /* else if */
 
-					else if (*(ptr + 2) == '\0')
+					else if ( * ( ptr + 2 ) == '\0' )
 						{
 							/* current dir at end of string: ditch it. */
 							*ptr = '\0';
 						} /* else if */
 
-					else if (*(ptr + 2) == '.')
+					else if ( * ( ptr + 2 ) == '.' )
 						{
-							if (*(ptr + 3) == '/')
+							if ( * ( ptr + 3 ) == '/' )
 								{
 									/* parent dir in middle: move back one, if possible. */
-									memmove(prevptr, ptr + 4, strlen(ptr + 4) + 1);
+									memmove ( prevptr, ptr + 4, strlen ( ptr + 4 ) + 1 );
 									ptr = prevptr;
 
-									while (prevptr != path)
+									while ( prevptr != path )
 										{
 											prevptr--;
 
-											if (*prevptr == '/')
+											if ( *prevptr == '/' )
 												{
 													prevptr++;
 													break;
@@ -729,7 +729,7 @@ static void zip_expand_symlink_path(char *path)
 										} /* while */
 								} /* if */
 
-							if (*(ptr + 3) == '\0')
+							if ( * ( ptr + 3 ) == '\0' )
 								{
 									/* parent dir at end: move back one, if possible. */
 									*prevptr = '\0';
@@ -746,13 +746,13 @@ static void zip_expand_symlink_path(char *path)
 } /* zip_expand_symlink_path */
 
 
-static inline ZIPentry *zip_find_entry(ZIPinfo *info, const char *path)
+static inline ZIPentry *zip_find_entry ( ZIPinfo *info, const char *path )
 {
-	return (ZIPentry *) __PHYSFS_DirTreeFind(&info->tree, path);
+	return ( ZIPentry * ) __PHYSFS_DirTreeFind ( &info->tree, path );
 } /* zip_find_entry */
 
 /* (forward reference: zip_follow_symlink and zip_resolve call each other.) */
-static int zip_resolve(PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry);
+static int zip_resolve ( PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry );
 
 /*
  * Look for the entry named by (path). If it exists, resolve it, and return
@@ -760,21 +760,21 @@ static int zip_resolve(PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry);
  *  hit a real file and then return a pointer to the final non-symlink entry.
  *  If there's a problem, return NULL.
  */
-static ZIPentry *zip_follow_symlink(PHYSFS_Io *io, ZIPinfo *info, char *path)
+static ZIPentry *zip_follow_symlink ( PHYSFS_Io *io, ZIPinfo *info, char *path )
 {
 	ZIPentry *entry;
 
-	zip_expand_symlink_path(path);
-	entry = zip_find_entry(info, path);
+	zip_expand_symlink_path ( path );
+	entry = zip_find_entry ( info, path );
 
-	if (entry != NULL)
+	if ( entry != NULL )
 		{
-			if (!zip_resolve(io, info, entry))  /* recursive! */
+			if ( !zip_resolve ( io, info, entry ) ) /* recursive! */
 				entry = NULL;
 
 			else
 				{
-					if (entry->symlink != NULL)
+					if ( entry->symlink != NULL )
 						entry = entry->symlink;
 				} /* else */
 		} /* if */
@@ -783,9 +783,9 @@ static ZIPentry *zip_follow_symlink(PHYSFS_Io *io, ZIPinfo *info, char *path)
 } /* zip_follow_symlink */
 
 
-static int zip_resolve_symlink(PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry)
+static int zip_resolve_symlink ( PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry )
 {
-	const size_t size = (size_t) entry->uncompressed_size;
+	const size_t size = ( size_t ) entry->uncompressed_size;
 	char *path = NULL;
 	int rc = 0;
 
@@ -795,61 +795,61 @@ static int zip_resolve_symlink(PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry)
 	 *  follow it.
 	 */
 
-	BAIL_IF_ERRPASS(!io->seek(io, entry->offset), 0);
+	BAIL_IF_ERRPASS ( !io->seek ( io, entry->offset ), 0 );
 
-	path = (char *) __PHYSFS_smallAlloc(size + 1);
-	BAIL_IF(!path, PHYSFS_ERR_OUT_OF_MEMORY, 0);
+	path = ( char * ) __PHYSFS_smallAlloc ( size + 1 );
+	BAIL_IF ( !path, PHYSFS_ERR_OUT_OF_MEMORY, 0 );
 
-	if (entry->compression_method == COMPMETH_NONE)
-		rc = __PHYSFS_readAll(io, path, size);
+	if ( entry->compression_method == COMPMETH_NONE )
+		rc = __PHYSFS_readAll ( io, path, size );
 
 	else  /* symlink target path is compressed... */
 		{
 			z_stream stream;
-			const size_t complen = (size_t) entry->compressed_size;
-			PHYSFS_uint8 *compressed = (PHYSFS_uint8*) __PHYSFS_smallAlloc(complen);
+			const size_t complen = ( size_t ) entry->compressed_size;
+			PHYSFS_uint8 *compressed = ( PHYSFS_uint8* ) __PHYSFS_smallAlloc ( complen );
 
-			if (compressed != NULL)
+			if ( compressed != NULL )
 				{
-					if (__PHYSFS_readAll(io, compressed, complen))
+					if ( __PHYSFS_readAll ( io, compressed, complen ) )
 						{
-							initializeZStream(&stream);
+							initializeZStream ( &stream );
 							stream.next_in = compressed;
-							stream.avail_in = (unsigned int) complen;
-							stream.next_out = (unsigned char *) path;
-							stream.avail_out = (unsigned int) size;
+							stream.avail_in = ( unsigned int ) complen;
+							stream.next_out = ( unsigned char * ) path;
+							stream.avail_out = ( unsigned int ) size;
 
-							if (zlib_err(inflateInit2(&stream, -MAX_WBITS)) == Z_OK)
+							if ( zlib_err ( inflateInit2 ( &stream, -MAX_WBITS ) ) == Z_OK )
 								{
-									rc = zlib_err(inflate(&stream, Z_FINISH));
-									inflateEnd(&stream);
+									rc = zlib_err ( inflate ( &stream, Z_FINISH ) );
+									inflateEnd ( &stream );
 
 									/* both are acceptable outcomes... */
-									rc = ((rc == Z_OK) || (rc == Z_STREAM_END));
+									rc = ( ( rc == Z_OK ) || ( rc == Z_STREAM_END ) );
 								} /* if */
 						} /* if */
 
-					__PHYSFS_smallFree(compressed);
+					__PHYSFS_smallFree ( compressed );
 				} /* if */
 		} /* else */
 
-	if (rc)
+	if ( rc )
 		{
 			path[entry->uncompressed_size] = '\0';    /* null-terminate it. */
-			zip_convert_dos_path(entry->version, path);
-			entry->symlink = zip_follow_symlink(io, info, path);
+			zip_convert_dos_path ( entry->version, path );
+			entry->symlink = zip_follow_symlink ( io, info, path );
 		} /* else */
 
-	__PHYSFS_smallFree(path);
+	__PHYSFS_smallFree ( path );
 
-	return (entry->symlink != NULL);
+	return ( entry->symlink != NULL );
 } /* zip_resolve_symlink */
 
 
 /*
  * Parse the local file header of an entry, and update entry->offset.
  */
-static int zip_parse_local(PHYSFS_Io *io, ZIPentry *entry)
+static int zip_parse_local ( PHYSFS_Io *io, ZIPentry *entry )
 {
 	PHYSFS_uint32 ui32;
 	PHYSFS_uint16 ui16;
@@ -869,48 +869,48 @@ static int zip_parse_local(PHYSFS_Io *io, ZIPentry *entry)
 	   !!! FIXME:  which is probably true for Jar files, fwiw, but we don't
 	   !!! FIXME:  care about these values anyhow. */
 
-	BAIL_IF_ERRPASS(!io->seek(io, entry->offset), 0);
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 != ZIP_LOCAL_FILE_SIG, PHYSFS_ERR_CORRUPT, 0);
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
-	BAIL_IF(ui16 != entry->version_needed, PHYSFS_ERR_CORRUPT, 0);
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);  /* general bits. */
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
-	BAIL_IF(ui16 != entry->compression_method, PHYSFS_ERR_CORRUPT, 0);
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);  /* date/time */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 && (ui32 != entry->crc), PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !io->seek ( io, entry->offset ), 0 );
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 != ZIP_LOCAL_FILE_SIG, PHYSFS_ERR_CORRUPT, 0 );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
+	BAIL_IF ( ui16 != entry->version_needed, PHYSFS_ERR_CORRUPT, 0 );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 ); /* general bits. */
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
+	BAIL_IF ( ui16 != entry->compression_method, PHYSFS_ERR_CORRUPT, 0 );
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 ); /* date/time */
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 && ( ui32 != entry->crc ), PHYSFS_ERR_CORRUPT, 0 );
 
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 && (ui32 != 0xFFFFFFFF) &&
-	        (ui32 != entry->compressed_size), PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 && ( ui32 != 0xFFFFFFFF ) &&
+	          ( ui32 != entry->compressed_size ), PHYSFS_ERR_CORRUPT, 0 );
 
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 && (ui32 != 0xFFFFFFFF) &&
-	        (ui32 != entry->uncompressed_size), PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 && ( ui32 != 0xFFFFFFFF ) &&
+	          ( ui32 != entry->uncompressed_size ), PHYSFS_ERR_CORRUPT, 0 );
 
-	BAIL_IF_ERRPASS(!readui16(io, &fnamelen), 0);
-	BAIL_IF_ERRPASS(!readui16(io, &extralen), 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &fnamelen ), 0 );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &extralen ), 0 );
 
 	entry->offset += fnamelen + extralen + 30;
 	return 1;
 } /* zip_parse_local */
 
 
-static int zip_resolve(PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry)
+static int zip_resolve ( PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry )
 {
 	int retval = 1;
 	const ZipResolveType resolve_type = entry->resolved;
 
-	if (resolve_type == ZIP_DIRECTORY)
+	if ( resolve_type == ZIP_DIRECTORY )
 		return 1;   /* we're good. */
 
 	/* Don't bother if we've failed to resolve this entry before. */
-	BAIL_IF(resolve_type == ZIP_BROKEN_FILE, PHYSFS_ERR_CORRUPT, 0);
-	BAIL_IF(resolve_type == ZIP_BROKEN_SYMLINK, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF ( resolve_type == ZIP_BROKEN_FILE, PHYSFS_ERR_CORRUPT, 0 );
+	BAIL_IF ( resolve_type == ZIP_BROKEN_SYMLINK, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* uhoh...infinite symlink loop! */
-	BAIL_IF(resolve_type == ZIP_RESOLVING, PHYSFS_ERR_SYMLINK_LOOP, 0);
+	BAIL_IF ( resolve_type == ZIP_RESOLVING, PHYSFS_ERR_SYMLINK_LOOP, 0 );
 
 	/*
 	 * We fix up the offset to point to the actual data on the
@@ -919,116 +919,116 @@ static int zip_resolve(PHYSFS_Io *io, ZIPinfo *info, ZIPentry *entry)
 	 *  need to check the local file header...not just for corruption,
 	 *  but since it stores offset info the central directory does not.
 	 */
-	if (resolve_type != ZIP_RESOLVED)
+	if ( resolve_type != ZIP_RESOLVED )
 		{
-			if (entry->tree.isdir)  /* an ancestor dir that DirTree filled in? */
+			if ( entry->tree.isdir ) /* an ancestor dir that DirTree filled in? */
 				{
 					entry->resolved = ZIP_DIRECTORY;
 					return 1;
 				} /* if */
 
-			retval = zip_parse_local(io, entry);
+			retval = zip_parse_local ( io, entry );
 
-			if (retval)
+			if ( retval )
 				{
 					/*
 					 * If it's a symlink, find the original file. This will cause
 					 *  resolution of other entries (other symlinks and, eventually,
 					 *  the real file) if all goes well.
 					 */
-					if (resolve_type == ZIP_UNRESOLVED_SYMLINK)
-						retval = zip_resolve_symlink(io, info, entry);
+					if ( resolve_type == ZIP_UNRESOLVED_SYMLINK )
+						retval = zip_resolve_symlink ( io, info, entry );
 				} /* if */
 
-			if (resolve_type == ZIP_UNRESOLVED_SYMLINK)
-				entry->resolved = ((retval) ? ZIP_RESOLVED : ZIP_BROKEN_SYMLINK);
+			if ( resolve_type == ZIP_UNRESOLVED_SYMLINK )
+				entry->resolved = ( ( retval ) ? ZIP_RESOLVED : ZIP_BROKEN_SYMLINK );
 
-			else if (resolve_type == ZIP_UNRESOLVED_FILE)
-				entry->resolved = ((retval) ? ZIP_RESOLVED : ZIP_BROKEN_FILE);
+			else if ( resolve_type == ZIP_UNRESOLVED_FILE )
+				entry->resolved = ( ( retval ) ? ZIP_RESOLVED : ZIP_BROKEN_FILE );
 		} /* if */
 
 	return retval;
 } /* zip_resolve */
 
 
-static int zip_entry_is_symlink(const ZIPentry *entry)
+static int zip_entry_is_symlink ( const ZIPentry *entry )
 {
-	return ((entry->resolved == ZIP_UNRESOLVED_SYMLINK) ||
-	        (entry->resolved == ZIP_BROKEN_SYMLINK) ||
-	        (entry->symlink));
+	return ( ( entry->resolved == ZIP_UNRESOLVED_SYMLINK ) ||
+	         ( entry->resolved == ZIP_BROKEN_SYMLINK ) ||
+	         ( entry->symlink ) );
 } /* zip_entry_is_symlink */
 
 
-static int zip_version_does_symlinks(PHYSFS_uint32 version)
+static int zip_version_does_symlinks ( PHYSFS_uint32 version )
 {
 	int retval = 0;
-	PHYSFS_uint8 hosttype = (PHYSFS_uint8) ((version >> 8) & 0xFF);
+	PHYSFS_uint8 hosttype = ( PHYSFS_uint8 ) ( ( version >> 8 ) & 0xFF );
 
-	switch (hosttype)
+	switch ( hosttype )
 		{
-			/*
-			 * These are the platforms that can NOT build an archive with
-			 *  symlinks, according to the Info-ZIP project.
-			 */
-			case 0:  /* FS_FAT_  */
-			case 1:  /* AMIGA_   */
-			case 2:  /* VMS_     */
-			case 4:  /* VM_CSM_  */
-			case 6:  /* FS_HPFS_ */
-			case 11: /* FS_NTFS_ */
-			case 14: /* FS_VFAT_ */
-			case 13: /* ACORN_   */
-			case 15: /* MVS_     */
-			case 18: /* THEOS_   */
-				break;  /* do nothing. */
+		/*
+		 * These are the platforms that can NOT build an archive with
+		 *  symlinks, according to the Info-ZIP project.
+		 */
+		case 0:  /* FS_FAT_  */
+		case 1:  /* AMIGA_   */
+		case 2:  /* VMS_     */
+		case 4:  /* VM_CSM_  */
+		case 6:  /* FS_HPFS_ */
+		case 11: /* FS_NTFS_ */
+		case 14: /* FS_VFAT_ */
+		case 13: /* ACORN_   */
+		case 15: /* MVS_     */
+		case 18: /* THEOS_   */
+			break;  /* do nothing. */
 
-			default:  /* assume the rest to be unix-like. */
-				retval = 1;
-				break;
+		default:  /* assume the rest to be unix-like. */
+			retval = 1;
+			break;
 		} /* switch */
 
 	return retval;
 } /* zip_version_does_symlinks */
 
 
-static inline int zip_has_symlink_attr(const ZIPentry *entry,
-                                       const PHYSFS_uint32 extern_attr)
+static inline int zip_has_symlink_attr ( const ZIPentry *entry,
+        const PHYSFS_uint32 extern_attr )
 {
-	PHYSFS_uint16 xattr = ((extern_attr >> 16) & 0xFFFF);
-	return ( (zip_version_does_symlinks(entry->version)) &&
-	         (entry->uncompressed_size > 0) &&
-	         ((xattr & UNIX_FILETYPE_MASK) == UNIX_FILETYPE_SYMLINK) );
+	PHYSFS_uint16 xattr = ( ( extern_attr >> 16 ) & 0xFFFF );
+	return ( ( zip_version_does_symlinks ( entry->version ) ) &&
+	         ( entry->uncompressed_size > 0 ) &&
+	         ( ( xattr & UNIX_FILETYPE_MASK ) == UNIX_FILETYPE_SYMLINK ) );
 } /* zip_has_symlink_attr */
 
 
-static PHYSFS_sint64 zip_dos_time_to_physfs_time(PHYSFS_uint32 dostime)
+static PHYSFS_sint64 zip_dos_time_to_physfs_time ( PHYSFS_uint32 dostime )
 {
 	PHYSFS_uint32 dosdate;
 	struct tm unixtime;
-	memset(&unixtime, '\0', sizeof (unixtime));
+	memset ( &unixtime, '\0', sizeof ( unixtime ) );
 
-	dosdate = (PHYSFS_uint32) ((dostime >> 16) & 0xFFFF);
+	dosdate = ( PHYSFS_uint32 ) ( ( dostime >> 16 ) & 0xFFFF );
 	dostime &= 0xFFFF;
 
 	/* dissect date */
-	unixtime.tm_year = ((dosdate >> 9) & 0x7F) + 80;
-	unixtime.tm_mon  = ((dosdate >> 5) & 0x0F) - 1;
-	unixtime.tm_mday = ((dosdate     ) & 0x1F);
+	unixtime.tm_year = ( ( dosdate >> 9 ) & 0x7F ) + 80;
+	unixtime.tm_mon  = ( ( dosdate >> 5 ) & 0x0F ) - 1;
+	unixtime.tm_mday = ( ( dosdate     ) & 0x1F );
 
 	/* dissect time */
-	unixtime.tm_hour = ((dostime >> 11) & 0x1F);
-	unixtime.tm_min  = ((dostime >>  5) & 0x3F);
-	unixtime.tm_sec  = ((dostime <<  1) & 0x3E);
+	unixtime.tm_hour = ( ( dostime >> 11 ) & 0x1F );
+	unixtime.tm_min  = ( ( dostime >>  5 ) & 0x3F );
+	unixtime.tm_sec  = ( ( dostime <<  1 ) & 0x3E );
 
 	/* let mktime calculate daylight savings time. */
 	unixtime.tm_isdst = -1;
 
-	return ((PHYSFS_sint64) mktime(&unixtime));
+	return ( ( PHYSFS_sint64 ) mktime ( &unixtime ) );
 } /* zip_dos_time_to_physfs_time */
 
 
-static ZIPentry *zip_load_entry(ZIPinfo *info, const int zip64,
-                                const PHYSFS_uint64 ofs_fixup)
+static ZIPentry *zip_load_entry ( ZIPinfo *info, const int zip64,
+                                  const PHYSFS_uint64 ofs_fixup )
 {
 	PHYSFS_Io *io = info->io;
 	ZIPentry entry;
@@ -1044,43 +1044,43 @@ static ZIPentry *zip_load_entry(ZIPinfo *info, const int zip64,
 	int isdir = 0;
 
 	/* sanity check with central directory signature... */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), NULL);
-	BAIL_IF(ui32 != ZIP_CENTRAL_DIR_SIG, PHYSFS_ERR_CORRUPT, NULL);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), NULL );
+	BAIL_IF ( ui32 != ZIP_CENTRAL_DIR_SIG, PHYSFS_ERR_CORRUPT, NULL );
 
-	memset(&entry, '\0', sizeof (entry));
+	memset ( &entry, '\0', sizeof ( entry ) );
 
 	/* Get the pertinent parts of the record... */
-	BAIL_IF_ERRPASS(!readui16(io, &entry.version), NULL);
-	BAIL_IF_ERRPASS(!readui16(io, &entry.version_needed), NULL);
-	BAIL_IF_ERRPASS(!readui16(io, &entry.general_bits), NULL);  /* general bits */
-	BAIL_IF_ERRPASS(!readui16(io, &entry.compression_method), NULL);
-	BAIL_IF_ERRPASS(!readui32(io, &entry.dos_mod_time), NULL);
-	entry.last_mod_time = zip_dos_time_to_physfs_time(entry.dos_mod_time);
-	BAIL_IF_ERRPASS(!readui32(io, &entry.crc), NULL);
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), NULL);
-	entry.compressed_size = (PHYSFS_uint64) ui32;
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), NULL);
-	entry.uncompressed_size = (PHYSFS_uint64) ui32;
-	BAIL_IF_ERRPASS(!readui16(io, &fnamelen), NULL);
-	BAIL_IF_ERRPASS(!readui16(io, &extralen), NULL);
-	BAIL_IF_ERRPASS(!readui16(io, &commentlen), NULL);
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), NULL);
-	starting_disk = (PHYSFS_uint32) ui16;
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), NULL);  /* internal file attribs */
-	BAIL_IF_ERRPASS(!readui32(io, &external_attr), NULL);
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), NULL);
-	offset = (PHYSFS_uint64) ui32;
+	BAIL_IF_ERRPASS ( !readui16 ( io, &entry.version ), NULL );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &entry.version_needed ), NULL );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &entry.general_bits ), NULL ); /* general bits */
+	BAIL_IF_ERRPASS ( !readui16 ( io, &entry.compression_method ), NULL );
+	BAIL_IF_ERRPASS ( !readui32 ( io, &entry.dos_mod_time ), NULL );
+	entry.last_mod_time = zip_dos_time_to_physfs_time ( entry.dos_mod_time );
+	BAIL_IF_ERRPASS ( !readui32 ( io, &entry.crc ), NULL );
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), NULL );
+	entry.compressed_size = ( PHYSFS_uint64 ) ui32;
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), NULL );
+	entry.uncompressed_size = ( PHYSFS_uint64 ) ui32;
+	BAIL_IF_ERRPASS ( !readui16 ( io, &fnamelen ), NULL );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &extralen ), NULL );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &commentlen ), NULL );
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), NULL );
+	starting_disk = ( PHYSFS_uint32 ) ui16;
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), NULL ); /* internal file attribs */
+	BAIL_IF_ERRPASS ( !readui32 ( io, &external_attr ), NULL );
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), NULL );
+	offset = ( PHYSFS_uint64 ) ui32;
 
-	name = (char *) __PHYSFS_smallAlloc(fnamelen + 1);
-	BAIL_IF(!name, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+	name = ( char * ) __PHYSFS_smallAlloc ( fnamelen + 1 );
+	BAIL_IF ( !name, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 
-	if (!__PHYSFS_readAll(io, name, fnamelen))
+	if ( !__PHYSFS_readAll ( io, name, fnamelen ) )
 		{
-			__PHYSFS_smallFree(name);
+			__PHYSFS_smallFree ( name );
 			return NULL;
 		} /* if */
 
-	if (name[fnamelen - 1] == '/')
+	if ( name[fnamelen - 1] == '/' )
 		{
 			name[fnamelen - 1] = '\0';
 			isdir = 1;
@@ -1088,59 +1088,59 @@ static ZIPentry *zip_load_entry(ZIPinfo *info, const int zip64,
 
 	name[fnamelen] = '\0';  /* null-terminate the filename. */
 
-	zip_convert_dos_path(entry.version, name);
+	zip_convert_dos_path ( entry.version, name );
 
-	retval = (ZIPentry *) __PHYSFS_DirTreeAdd(&info->tree, name, isdir);
-	__PHYSFS_smallFree(name);
+	retval = ( ZIPentry * ) __PHYSFS_DirTreeAdd ( &info->tree, name, isdir );
+	__PHYSFS_smallFree ( name );
 
-	BAIL_IF(!retval, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+	BAIL_IF ( !retval, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 
 	/* It's okay to BAIL without freeing retval, because it's stored in the
 	   __PHYSFS_DirTree and will be freed later anyhow. */
-	BAIL_IF(retval->last_mod_time != 0, PHYSFS_ERR_CORRUPT, NULL); /* dupe? */
+	BAIL_IF ( retval->last_mod_time != 0, PHYSFS_ERR_CORRUPT, NULL ); /* dupe? */
 
 	/* Move the data we already read into place in the official object. */
-	memcpy(((PHYSFS_uint8 *) retval) + sizeof (__PHYSFS_DirTreeEntry),
-	       ((PHYSFS_uint8 *) &entry) + sizeof (__PHYSFS_DirTreeEntry),
-	       sizeof (*retval) - sizeof (__PHYSFS_DirTreeEntry));
+	memcpy ( ( ( PHYSFS_uint8 * ) retval ) + sizeof ( __PHYSFS_DirTreeEntry ),
+	         ( ( PHYSFS_uint8 * ) &entry ) + sizeof ( __PHYSFS_DirTreeEntry ),
+	         sizeof ( *retval ) - sizeof ( __PHYSFS_DirTreeEntry ) );
 
 	retval->symlink = NULL;  /* will be resolved later, if necessary. */
 
-	if (isdir)
+	if ( isdir )
 		retval->resolved = ZIP_DIRECTORY;
 
 	else
 		{
-			retval->resolved = (zip_has_symlink_attr(retval, external_attr)) ?
+			retval->resolved = ( zip_has_symlink_attr ( retval, external_attr ) ) ?
 			                   ZIP_UNRESOLVED_SYMLINK : ZIP_UNRESOLVED_FILE;
 		} /* else */
 
-	si64 = io->tell(io);
-	BAIL_IF_ERRPASS(si64 == -1, NULL);
+	si64 = io->tell ( io );
+	BAIL_IF_ERRPASS ( si64 == -1, NULL );
 
 	/* If the actual sizes didn't fit in 32-bits, look for the Zip64
 	    extended information extra field... */
-	if ( (zip64) &&
-	        ((offset == 0xFFFFFFFF) ||
-	         (starting_disk == 0xFFFFFFFF) ||
-	         (retval->compressed_size == 0xFFFFFFFF) ||
-	         (retval->uncompressed_size == 0xFFFFFFFF)) )
+	if ( ( zip64 ) &&
+	        ( ( offset == 0xFFFFFFFF ) ||
+	          ( starting_disk == 0xFFFFFFFF ) ||
+	          ( retval->compressed_size == 0xFFFFFFFF ) ||
+	          ( retval->uncompressed_size == 0xFFFFFFFF ) ) )
 		{
 			int found = 0;
 			PHYSFS_uint16 sig = 0;
 			PHYSFS_uint16 len = 0;
 
-			while (extralen > 4)
+			while ( extralen > 4 )
 				{
-					BAIL_IF_ERRPASS(!readui16(io, &sig), NULL);
-					BAIL_IF_ERRPASS(!readui16(io, &len), NULL);
+					BAIL_IF_ERRPASS ( !readui16 ( io, &sig ), NULL );
+					BAIL_IF_ERRPASS ( !readui16 ( io, &len ), NULL );
 
 					si64 += 4 + len;
 					extralen -= 4 + len;
 
-					if (sig != ZIP64_EXTENDED_INFO_EXTRA_FIELD_SIG)
+					if ( sig != ZIP64_EXTENDED_INFO_EXTRA_FIELD_SIG )
 						{
-							BAIL_IF_ERRPASS(!io->seek(io, si64), NULL);
+							BAIL_IF_ERRPASS ( !io->seek ( io, si64 ), NULL );
 							continue;
 						} /* if */
 
@@ -1148,68 +1148,68 @@ static ZIPentry *zip_load_entry(ZIPinfo *info, const int zip64,
 					break;
 				} /* while */
 
-			BAIL_IF(!found, PHYSFS_ERR_CORRUPT, NULL);
+			BAIL_IF ( !found, PHYSFS_ERR_CORRUPT, NULL );
 
-			if (retval->uncompressed_size == 0xFFFFFFFF)
+			if ( retval->uncompressed_size == 0xFFFFFFFF )
 				{
-					BAIL_IF(len < 8, PHYSFS_ERR_CORRUPT, NULL);
-					BAIL_IF_ERRPASS(!readui64(io, &retval->uncompressed_size), NULL);
+					BAIL_IF ( len < 8, PHYSFS_ERR_CORRUPT, NULL );
+					BAIL_IF_ERRPASS ( !readui64 ( io, &retval->uncompressed_size ), NULL );
 					len -= 8;
 				} /* if */
 
-			if (retval->compressed_size == 0xFFFFFFFF)
+			if ( retval->compressed_size == 0xFFFFFFFF )
 				{
-					BAIL_IF(len < 8, PHYSFS_ERR_CORRUPT, NULL);
-					BAIL_IF_ERRPASS(!readui64(io, &retval->compressed_size), NULL);
+					BAIL_IF ( len < 8, PHYSFS_ERR_CORRUPT, NULL );
+					BAIL_IF_ERRPASS ( !readui64 ( io, &retval->compressed_size ), NULL );
 					len -= 8;
 				} /* if */
 
-			if (offset == 0xFFFFFFFF)
+			if ( offset == 0xFFFFFFFF )
 				{
-					BAIL_IF(len < 8, PHYSFS_ERR_CORRUPT, NULL);
-					BAIL_IF_ERRPASS(!readui64(io, &offset), NULL);
+					BAIL_IF ( len < 8, PHYSFS_ERR_CORRUPT, NULL );
+					BAIL_IF_ERRPASS ( !readui64 ( io, &offset ), NULL );
 					len -= 8;
 				} /* if */
 
-			if (starting_disk == 0xFFFFFFFF)
+			if ( starting_disk == 0xFFFFFFFF )
 				{
-					BAIL_IF(len < 8, PHYSFS_ERR_CORRUPT, NULL);
-					BAIL_IF_ERRPASS(!readui32(io, &starting_disk), NULL);
+					BAIL_IF ( len < 8, PHYSFS_ERR_CORRUPT, NULL );
+					BAIL_IF_ERRPASS ( !readui32 ( io, &starting_disk ), NULL );
 					len -= 4;
 				} /* if */
 
-			BAIL_IF(len != 0, PHYSFS_ERR_CORRUPT, NULL);
+			BAIL_IF ( len != 0, PHYSFS_ERR_CORRUPT, NULL );
 		} /* if */
 
-	BAIL_IF(starting_disk != 0, PHYSFS_ERR_CORRUPT, NULL);
+	BAIL_IF ( starting_disk != 0, PHYSFS_ERR_CORRUPT, NULL );
 
 	retval->offset = offset + ofs_fixup;
 
 	/* seek to the start of the next entry in the central directory... */
-	BAIL_IF_ERRPASS(!io->seek(io, si64 + extralen + commentlen), NULL);
+	BAIL_IF_ERRPASS ( !io->seek ( io, si64 + extralen + commentlen ), NULL );
 
 	return retval;  /* success. */
 } /* zip_load_entry */
 
 
 /* This leaves things allocated on error; the caller will clean up the mess. */
-static int zip_load_entries(ZIPinfo *info,
-                            const PHYSFS_uint64 data_ofs,
-                            const PHYSFS_uint64 central_ofs,
-                            const PHYSFS_uint64 entry_count)
+static int zip_load_entries ( ZIPinfo *info,
+                              const PHYSFS_uint64 data_ofs,
+                              const PHYSFS_uint64 central_ofs,
+                              const PHYSFS_uint64 entry_count )
 {
 	PHYSFS_Io *io = info->io;
 	const int zip64 = info->zip64;
 	PHYSFS_uint64 i;
 
-	BAIL_IF_ERRPASS(!io->seek(io, central_ofs), 0);
+	BAIL_IF_ERRPASS ( !io->seek ( io, central_ofs ), 0 );
 
-	for (i = 0; i < entry_count; i++)
+	for ( i = 0; i < entry_count; i++ )
 		{
-			ZIPentry *entry = zip_load_entry(info, zip64, data_ofs);
-			BAIL_IF_ERRPASS(!entry, 0);
+			ZIPentry *entry = zip_load_entry ( info, zip64, data_ofs );
+			BAIL_IF_ERRPASS ( !entry, 0 );
 
-			if (zip_entry_is_tradional_crypto(entry))
+			if ( zip_entry_is_tradional_crypto ( entry ) )
 				info->has_crypto = 1;
 		} /* for */
 
@@ -1217,9 +1217,9 @@ static int zip_load_entries(ZIPinfo *info,
 } /* zip_load_entries */
 
 
-static PHYSFS_sint64 zip64_find_end_of_central_dir(PHYSFS_Io *io,
+static PHYSFS_sint64 zip64_find_end_of_central_dir ( PHYSFS_Io *io,
         PHYSFS_sint64 _pos,
-        PHYSFS_uint64 offset)
+        PHYSFS_uint64 offset )
 {
 	/*
 	 * Naturally, the offset is useless to us; it is the offset from the
@@ -1237,83 +1237,83 @@ static PHYSFS_sint64 zip64_find_end_of_central_dir(PHYSFS_Io *io,
 	 */
 
 	PHYSFS_uint32 ui32;
-	const PHYSFS_uint64 pos = (PHYSFS_uint64) _pos;
+	const PHYSFS_uint64 pos = ( PHYSFS_uint64 ) _pos;
 
-	assert(_pos > 0);
+	assert ( _pos > 0 );
 
 	/* Try offset specified in the Zip64 end of central directory locator. */
 	/* This works if the entire PHYSFS_Io is the zip file. */
-	BAIL_IF_ERRPASS(!io->seek(io, offset), -1);
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), -1);
+	BAIL_IF_ERRPASS ( !io->seek ( io, offset ), -1 );
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), -1 );
 
-	if (ui32 == ZIP64_END_OF_CENTRAL_DIR_SIG)
+	if ( ui32 == ZIP64_END_OF_CENTRAL_DIR_SIG )
 		return offset;
 
 	/* Try 56 bytes before the Zip64 end of central directory locator. */
 	/* This works if the record isn't variable length and is version 1. */
-	if (pos > 56)
+	if ( pos > 56 )
 		{
-			BAIL_IF_ERRPASS(!io->seek(io, pos-56), -1);
-			BAIL_IF_ERRPASS(!readui32(io, &ui32), -1);
+			BAIL_IF_ERRPASS ( !io->seek ( io, pos-56 ), -1 );
+			BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), -1 );
 
-			if (ui32 == ZIP64_END_OF_CENTRAL_DIR_SIG)
+			if ( ui32 == ZIP64_END_OF_CENTRAL_DIR_SIG )
 				return pos-56;
 		} /* if */
 
 	/* Try 84 bytes before the Zip64 end of central directory locator. */
 	/* This works if the record isn't variable length and is version 2. */
-	if (pos > 84)
+	if ( pos > 84 )
 		{
-			BAIL_IF_ERRPASS(!io->seek(io, pos-84), -1);
-			BAIL_IF_ERRPASS(!readui32(io, &ui32), -1);
+			BAIL_IF_ERRPASS ( !io->seek ( io, pos-84 ), -1 );
+			BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), -1 );
 
-			if (ui32 == ZIP64_END_OF_CENTRAL_DIR_SIG)
+			if ( ui32 == ZIP64_END_OF_CENTRAL_DIR_SIG )
 				return pos-84;
 		} /* if */
 
 	/* Ok, brute force: we know it's between (offset) and (pos) somewhere. */
 	/*  Just try moving back at most 256k. Oh well. */
-	if ((offset < pos) && (pos > 4))
+	if ( ( offset < pos ) && ( pos > 4 ) )
 		{
 			const size_t maxbuflen = 256 * 1024;
-			size_t len = (size_t) (pos - offset);
+			size_t len = ( size_t ) ( pos - offset );
 			PHYSFS_uint8 *buf = NULL;
 			PHYSFS_sint32 i;
 
-			if (len > maxbuflen)
+			if ( len > maxbuflen )
 				len = maxbuflen;
 
-			buf = (PHYSFS_uint8 *) __PHYSFS_smallAlloc(len);
-			BAIL_IF(!buf, PHYSFS_ERR_OUT_OF_MEMORY, -1);
+			buf = ( PHYSFS_uint8 * ) __PHYSFS_smallAlloc ( len );
+			BAIL_IF ( !buf, PHYSFS_ERR_OUT_OF_MEMORY, -1 );
 
-			if (!io->seek(io, pos - len) || !__PHYSFS_readAll(io, buf, len))
+			if ( !io->seek ( io, pos - len ) || !__PHYSFS_readAll ( io, buf, len ) )
 				{
-					__PHYSFS_smallFree(buf);
+					__PHYSFS_smallFree ( buf );
 					return -1;  /* error was set elsewhere. */
 				} /* if */
 
-			for (i = (PHYSFS_sint32) (len - 4); i >= 0; i--)
+			for ( i = ( PHYSFS_sint32 ) ( len - 4 ); i >= 0; i-- )
 				{
-					if ( (buf[i] == 0x50) && (buf[i+1] == 0x4b) &&
-					        (buf[i+2] == 0x06) && (buf[i+3] == 0x06) )
+					if ( ( buf[i] == 0x50 ) && ( buf[i+1] == 0x4b ) &&
+					        ( buf[i+2] == 0x06 ) && ( buf[i+3] == 0x06 ) )
 						{
-							__PHYSFS_smallFree(buf);
-							return pos - ((PHYSFS_sint64) (len - i));
+							__PHYSFS_smallFree ( buf );
+							return pos - ( ( PHYSFS_sint64 ) ( len - i ) );
 						} /* if */
 				} /* for */
 
-			__PHYSFS_smallFree(buf);
+			__PHYSFS_smallFree ( buf );
 		} /* if */
 
-	BAIL(PHYSFS_ERR_CORRUPT, -1);  /* didn't find it. */
+	BAIL ( PHYSFS_ERR_CORRUPT, -1 ); /* didn't find it. */
 } /* zip64_find_end_of_central_dir */
 
 
-static int zip64_parse_end_of_central_dir(ZIPinfo *info,
+static int zip64_parse_end_of_central_dir ( ZIPinfo *info,
         PHYSFS_uint64 *data_start,
         PHYSFS_uint64 *dir_ofs,
         PHYSFS_uint64 *entry_count,
-        PHYSFS_sint64 pos)
+        PHYSFS_sint64 pos )
 {
 	PHYSFS_Io *io = info->io;
 	PHYSFS_uint64 ui64;
@@ -1322,30 +1322,30 @@ static int zip64_parse_end_of_central_dir(ZIPinfo *info,
 
 	/* We should be positioned right past the locator signature. */
 
-	if ((pos < 0) || (!io->seek(io, pos)))
+	if ( ( pos < 0 ) || ( !io->seek ( io, pos ) ) )
 		return 0;
 
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
 
-	if (ui32 != ZIP64_END_OF_CENTRAL_DIRECTORY_LOCATOR_SIG)
+	if ( ui32 != ZIP64_END_OF_CENTRAL_DIRECTORY_LOCATOR_SIG )
 		return -1;  /* it's not a Zip64 archive. Not an error, though! */
 
 	info->zip64 = 1;
 
 	/* number of the disk with the start of the central directory. */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 != 0, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 != 0, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* offset of Zip64 end of central directory record. */
-	BAIL_IF_ERRPASS(!readui64(io, &ui64), 0);
+	BAIL_IF_ERRPASS ( !readui64 ( io, &ui64 ), 0 );
 
 	/* total number of disks */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 != 1, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 != 1, PHYSFS_ERR_CORRUPT, 0 );
 
-	pos = zip64_find_end_of_central_dir(io, pos, ui64);
+	pos = zip64_find_end_of_central_dir ( io, pos, ui64 );
 
-	if (pos < 0)
+	if ( pos < 0 )
 		return 0;  /* oh well. */
 
 	/*
@@ -1355,44 +1355,44 @@ static int zip64_parse_end_of_central_dir(ZIPinfo *info,
 	 *  offset is from where it is supposed to be...the difference in bytes
 	 *  is how much arbitrary data is at the start of the physical file.
 	 */
-	assert(((PHYSFS_uint64) pos) >= ui64);
-	*data_start = ((PHYSFS_uint64) pos) - ui64;
+	assert ( ( ( PHYSFS_uint64 ) pos ) >= ui64 );
+	*data_start = ( ( PHYSFS_uint64 ) pos ) - ui64;
 
-	BAIL_IF_ERRPASS(!io->seek(io, pos), 0);
+	BAIL_IF_ERRPASS ( !io->seek ( io, pos ), 0 );
 
 	/* check signature again, just in case. */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 != ZIP64_END_OF_CENTRAL_DIR_SIG, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 != ZIP64_END_OF_CENTRAL_DIR_SIG, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* size of Zip64 end of central directory record. */
-	BAIL_IF_ERRPASS(!readui64(io, &ui64), 0);
+	BAIL_IF_ERRPASS ( !readui64 ( io, &ui64 ), 0 );
 
 	/* version made by. */
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
 
 	/* version needed to extract. */
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
 
 	/* number of this disk. */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 != 0, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 != 0, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* number of disk with start of central directory record. */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 != 0, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 != 0, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* total number of entries in the central dir on this disk */
-	BAIL_IF_ERRPASS(!readui64(io, &ui64), 0);
+	BAIL_IF_ERRPASS ( !readui64 ( io, &ui64 ), 0 );
 
 	/* total number of entries in the central dir */
-	BAIL_IF_ERRPASS(!readui64(io, entry_count), 0);
-	BAIL_IF(ui64 != *entry_count, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui64 ( io, entry_count ), 0 );
+	BAIL_IF ( ui64 != *entry_count, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* size of the central directory */
-	BAIL_IF_ERRPASS(!readui64(io, &ui64), 0);
+	BAIL_IF_ERRPASS ( !readui64 ( io, &ui64 ), 0 );
 
 	/* offset of central directory */
-	BAIL_IF_ERRPASS(!readui64(io, dir_ofs), 0);
+	BAIL_IF_ERRPASS ( !readui64 ( io, dir_ofs ), 0 );
 
 	/* Since we know the difference, fix up the central dir offset... */
 	*dir_ofs += *data_start;
@@ -1406,10 +1406,10 @@ static int zip64_parse_end_of_central_dir(ZIPinfo *info,
 } /* zip64_parse_end_of_central_dir */
 
 
-static int zip_parse_end_of_central_dir(ZIPinfo *info,
-                                        PHYSFS_uint64 *data_start,
-                                        PHYSFS_uint64 *dir_ofs,
-                                        PHYSFS_uint64 *entry_count)
+static int zip_parse_end_of_central_dir ( ZIPinfo *info,
+        PHYSFS_uint64 *data_start,
+        PHYSFS_uint64 *dir_ofs,
+        PHYSFS_uint64 *entry_count )
 {
 	PHYSFS_Io *io = info->io;
 	PHYSFS_uint16 entryCount16;
@@ -1421,52 +1421,52 @@ static int zip_parse_end_of_central_dir(ZIPinfo *info,
 	int rc;
 
 	/* find the end-of-central-dir record, and seek to it. */
-	pos = zip_find_end_of_central_dir(io, &len);
-	BAIL_IF_ERRPASS(pos == -1, 0);
-	BAIL_IF_ERRPASS(!io->seek(io, pos), 0);
+	pos = zip_find_end_of_central_dir ( io, &len );
+	BAIL_IF_ERRPASS ( pos == -1, 0 );
+	BAIL_IF_ERRPASS ( !io->seek ( io, pos ), 0 );
 
 	/* check signature again, just in case. */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
-	BAIL_IF(ui32 != ZIP_END_OF_CENTRAL_DIR_SIG, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
+	BAIL_IF ( ui32 != ZIP_END_OF_CENTRAL_DIR_SIG, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* Seek back to see if "Zip64 end of central directory locator" exists. */
 	/* this record is 20 bytes before end-of-central-dir */
-	rc = zip64_parse_end_of_central_dir(info, data_start, dir_ofs,
-	                                    entry_count, pos - 20);
+	rc = zip64_parse_end_of_central_dir ( info, data_start, dir_ofs,
+	                                      entry_count, pos - 20 );
 
 	/* Error or success? Bounce out of here. Keep going if not zip64. */
-	if ((rc == 0) || (rc == 1))
+	if ( ( rc == 0 ) || ( rc == 1 ) )
 		return rc;
 
-	assert(rc == -1);  /* no error, just not a Zip64 archive. */
+	assert ( rc == -1 ); /* no error, just not a Zip64 archive. */
 
 	/* Not Zip64? Seek back to where we were and keep processing. */
-	BAIL_IF_ERRPASS(!io->seek(io, pos + 4), 0);
+	BAIL_IF_ERRPASS ( !io->seek ( io, pos + 4 ), 0 );
 
 	/* number of this disk */
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
-	BAIL_IF(ui16 != 0, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
+	BAIL_IF ( ui16 != 0, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* number of the disk with the start of the central directory */
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
-	BAIL_IF(ui16 != 0, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
+	BAIL_IF ( ui16 != 0, PHYSFS_ERR_CORRUPT, 0 );
 
 	/* total number of entries in the central dir on this disk */
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
 
 	/* total number of entries in the central dir */
-	BAIL_IF_ERRPASS(!readui16(io, &entryCount16), 0);
-	BAIL_IF(ui16 != entryCount16, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &entryCount16 ), 0 );
+	BAIL_IF ( ui16 != entryCount16, PHYSFS_ERR_CORRUPT, 0 );
 
 	*entry_count = entryCount16;
 
 	/* size of the central directory */
-	BAIL_IF_ERRPASS(!readui32(io, &ui32), 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &ui32 ), 0 );
 
 	/* offset of central directory */
-	BAIL_IF_ERRPASS(!readui32(io, &offset32), 0);
-	*dir_ofs = (PHYSFS_uint64) offset32;
-	BAIL_IF(((PHYSFS_uint64) pos) < (*dir_ofs + ui32), PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF_ERRPASS ( !readui32 ( io, &offset32 ), 0 );
+	*dir_ofs = ( PHYSFS_uint64 ) offset32;
+	BAIL_IF ( ( ( PHYSFS_uint64 ) pos ) < ( *dir_ofs + ui32 ), PHYSFS_ERR_CORRUPT, 0 );
 
 	/*
 	 * For self-extracting archives, etc, there's crapola in the file
@@ -1476,43 +1476,43 @@ static int zip_parse_end_of_central_dir(ZIPinfo *info,
 	 *  sizeof central dir)...the difference in bytes is how much arbitrary
 	 *  data is at the start of the physical file.
 	 */
-	*data_start = (PHYSFS_uint64) (pos - (*dir_ofs + ui32));
+	*data_start = ( PHYSFS_uint64 ) ( pos - ( *dir_ofs + ui32 ) );
 
 	/* Now that we know the difference, fix up the central dir offset... */
 	*dir_ofs += *data_start;
 
 	/* zipfile comment length */
-	BAIL_IF_ERRPASS(!readui16(io, &ui16), 0);
+	BAIL_IF_ERRPASS ( !readui16 ( io, &ui16 ), 0 );
 
 	/*
 	 * Make sure that the comment length matches to the end of file...
 	 *  If it doesn't, we're either in the wrong part of the file, or the
 	 *  file is corrupted, but we give up either way.
 	 */
-	BAIL_IF((pos + 22 + ui16) != len, PHYSFS_ERR_CORRUPT, 0);
+	BAIL_IF ( ( pos + 22 + ui16 ) != len, PHYSFS_ERR_CORRUPT, 0 );
 
 	return 1;  /* made it. */
 } /* zip_parse_end_of_central_dir */
 
 
-static void ZIP_closeArchive(void *opaque)
+static void ZIP_closeArchive ( void *opaque )
 {
-	ZIPinfo *info = (ZIPinfo *) (opaque);
+	ZIPinfo *info = ( ZIPinfo * ) ( opaque );
 
-	if (!info)
+	if ( !info )
 		return;
 
-	if (info->io)
-		info->io->destroy(info->io);
+	if ( info->io )
+		info->io->destroy ( info->io );
 
-	__PHYSFS_DirTreeDeinit(&info->tree);
+	__PHYSFS_DirTreeDeinit ( &info->tree );
 
-	allocator.Free(info);
+	allocator.Free ( info );
 } /* ZIP_closeArchive */
 
 
-static void *ZIP_openArchive(PHYSFS_Io *io, const char *name,
-                             int forWriting, int *claimed)
+static void *ZIP_openArchive ( PHYSFS_Io *io, const char *name,
+                               int forWriting, int *claimed )
 {
 	ZIPinfo *info = NULL;
 	ZIPentry *root = NULL;
@@ -1520,62 +1520,62 @@ static void *ZIP_openArchive(PHYSFS_Io *io, const char *name,
 	PHYSFS_uint64 cdir_ofs;  /* central dir offset */
 	PHYSFS_uint64 count;
 
-	assert(io != NULL);  /* shouldn't ever happen. */
+	assert ( io != NULL ); /* shouldn't ever happen. */
 
-	BAIL_IF(forWriting, PHYSFS_ERR_READ_ONLY, NULL);
-	BAIL_IF_ERRPASS(!isZip(io), NULL);
+	BAIL_IF ( forWriting, PHYSFS_ERR_READ_ONLY, NULL );
+	BAIL_IF_ERRPASS ( !isZip ( io ), NULL );
 
 	*claimed = 1;
 
-	info = (ZIPinfo *) allocator.Malloc(sizeof (ZIPinfo));
-	BAIL_IF(!info, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
-	memset(info, '\0', sizeof (ZIPinfo));
+	info = ( ZIPinfo * ) allocator.Malloc ( sizeof ( ZIPinfo ) );
+	BAIL_IF ( !info, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
+	memset ( info, '\0', sizeof ( ZIPinfo ) );
 
 	info->io = io;
 
-	if (!zip_parse_end_of_central_dir(info, &dstart, &cdir_ofs, &count))
+	if ( !zip_parse_end_of_central_dir ( info, &dstart, &cdir_ofs, &count ) )
 		goto ZIP_openarchive_failed;
 
-	else if (!__PHYSFS_DirTreeInit(&info->tree, sizeof (ZIPentry)))
+	else if ( !__PHYSFS_DirTreeInit ( &info->tree, sizeof ( ZIPentry ) ) )
 		goto ZIP_openarchive_failed;
 
-	root = (ZIPentry *) info->tree.root;
+	root = ( ZIPentry * ) info->tree.root;
 	root->resolved = ZIP_DIRECTORY;
 
-	if (!zip_load_entries(info, dstart, cdir_ofs, count))
+	if ( !zip_load_entries ( info, dstart, cdir_ofs, count ) )
 		goto ZIP_openarchive_failed;
 
-	assert(info->tree.root->sibling == NULL);
+	assert ( info->tree.root->sibling == NULL );
 	return info;
 
 ZIP_openarchive_failed:
 	info->io = NULL;  /* don't let ZIP_closeArchive destroy (io). */
-	ZIP_closeArchive(info);
+	ZIP_closeArchive ( info );
 	return NULL;
 } /* ZIP_openArchive */
 
 
-static PHYSFS_Io *zip_get_io(PHYSFS_Io *io, ZIPinfo *inf, ZIPentry *entry)
+static PHYSFS_Io *zip_get_io ( PHYSFS_Io *io, ZIPinfo *inf, ZIPentry *entry )
 {
 	int success;
-	PHYSFS_Io *retval = io->duplicate(io);
-	BAIL_IF_ERRPASS(!retval, NULL);
+	PHYSFS_Io *retval = io->duplicate ( io );
+	BAIL_IF_ERRPASS ( !retval, NULL );
 
-	assert(!entry->tree.isdir); /* should have been checked before calling. */
+	assert ( !entry->tree.isdir ); /* should have been checked before calling. */
 
 	/* (inf) can be NULL if we already resolved. */
-	success = (inf == NULL) || zip_resolve(retval, inf, entry);
+	success = ( inf == NULL ) || zip_resolve ( retval, inf, entry );
 
-	if (success)
+	if ( success )
 		{
 			PHYSFS_sint64 offset;
-			offset = ((entry->symlink) ? entry->symlink->offset : entry->offset);
-			success = retval->seek(retval, offset);
+			offset = ( ( entry->symlink ) ? entry->symlink->offset : entry->offset );
+			success = retval->seek ( retval, offset );
 		} /* if */
 
-	if (!success)
+	if ( !success )
 		{
-			retval->destroy(retval);
+			retval->destroy ( retval );
 			retval = NULL;
 		} /* if */
 
@@ -1583,148 +1583,148 @@ static PHYSFS_Io *zip_get_io(PHYSFS_Io *io, ZIPinfo *inf, ZIPentry *entry)
 } /* zip_get_io */
 
 
-static PHYSFS_Io *ZIP_openRead(void *opaque, const char *filename)
+static PHYSFS_Io *ZIP_openRead ( void *opaque, const char *filename )
 {
 	PHYSFS_Io *retval = NULL;
-	ZIPinfo *info = (ZIPinfo *) opaque;
-	ZIPentry *entry = zip_find_entry(info, filename);
+	ZIPinfo *info = ( ZIPinfo * ) opaque;
+	ZIPentry *entry = zip_find_entry ( info, filename );
 	ZIPfileinfo *finfo = NULL;
 	PHYSFS_Io *io = NULL;
 	PHYSFS_uint8 *password = NULL;
 
 	/* if not found, see if maybe "$PASSWORD" is appended. */
-	if ((!entry) && (info->has_crypto))
+	if ( ( !entry ) && ( info->has_crypto ) )
 		{
-			const char *ptr = strrchr(filename, '$');
+			const char *ptr = strrchr ( filename, '$' );
 
-			if (ptr != NULL)
+			if ( ptr != NULL )
 				{
-					const size_t len = (size_t) (ptr - filename);
-					char *str = (char *) __PHYSFS_smallAlloc(len + 1);
-					BAIL_IF(!str, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
-					memcpy(str, filename, len);
+					const size_t len = ( size_t ) ( ptr - filename );
+					char *str = ( char * ) __PHYSFS_smallAlloc ( len + 1 );
+					BAIL_IF ( !str, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
+					memcpy ( str, filename, len );
 					str[len] = '\0';
-					entry = zip_find_entry(info, str);
-					__PHYSFS_smallFree(str);
-					password = (PHYSFS_uint8 *) (ptr + 1);
+					entry = zip_find_entry ( info, str );
+					__PHYSFS_smallFree ( str );
+					password = ( PHYSFS_uint8 * ) ( ptr + 1 );
 				} /* if */
 		} /* if */
 
-	BAIL_IF_ERRPASS(!entry, NULL);
+	BAIL_IF_ERRPASS ( !entry, NULL );
 
-	BAIL_IF_ERRPASS(!zip_resolve(info->io, info, entry), NULL);
+	BAIL_IF_ERRPASS ( !zip_resolve ( info->io, info, entry ), NULL );
 
-	BAIL_IF(entry->tree.isdir, PHYSFS_ERR_NOT_A_FILE, NULL);
+	BAIL_IF ( entry->tree.isdir, PHYSFS_ERR_NOT_A_FILE, NULL );
 
-	retval = (PHYSFS_Io *) allocator.Malloc(sizeof (PHYSFS_Io));
-	GOTO_IF(!retval, PHYSFS_ERR_OUT_OF_MEMORY, ZIP_openRead_failed);
+	retval = ( PHYSFS_Io * ) allocator.Malloc ( sizeof ( PHYSFS_Io ) );
+	GOTO_IF ( !retval, PHYSFS_ERR_OUT_OF_MEMORY, ZIP_openRead_failed );
 
-	finfo = (ZIPfileinfo *) allocator.Malloc(sizeof (ZIPfileinfo));
-	GOTO_IF(!finfo, PHYSFS_ERR_OUT_OF_MEMORY, ZIP_openRead_failed);
-	memset(finfo, '\0', sizeof (ZIPfileinfo));
+	finfo = ( ZIPfileinfo * ) allocator.Malloc ( sizeof ( ZIPfileinfo ) );
+	GOTO_IF ( !finfo, PHYSFS_ERR_OUT_OF_MEMORY, ZIP_openRead_failed );
+	memset ( finfo, '\0', sizeof ( ZIPfileinfo ) );
 
-	io = zip_get_io(info->io, info, entry);
-	GOTO_IF_ERRPASS(!io, ZIP_openRead_failed);
+	io = zip_get_io ( info->io, info, entry );
+	GOTO_IF_ERRPASS ( !io, ZIP_openRead_failed );
 	finfo->io = io;
-	finfo->entry = ((entry->symlink != NULL) ? entry->symlink : entry);
-	initializeZStream(&finfo->stream);
+	finfo->entry = ( ( entry->symlink != NULL ) ? entry->symlink : entry );
+	initializeZStream ( &finfo->stream );
 
-	if (finfo->entry->compression_method != COMPMETH_NONE)
+	if ( finfo->entry->compression_method != COMPMETH_NONE )
 		{
-			finfo->buffer = (PHYSFS_uint8 *) allocator.Malloc(ZIP_READBUFSIZE);
+			finfo->buffer = ( PHYSFS_uint8 * ) allocator.Malloc ( ZIP_READBUFSIZE );
 
-			if (!finfo->buffer)
-				GOTO(PHYSFS_ERR_OUT_OF_MEMORY, ZIP_openRead_failed);
+			if ( !finfo->buffer )
+				GOTO ( PHYSFS_ERR_OUT_OF_MEMORY, ZIP_openRead_failed );
 
-			else if (zlib_err(inflateInit2(&finfo->stream, -MAX_WBITS)) != Z_OK)
+			else if ( zlib_err ( inflateInit2 ( &finfo->stream, -MAX_WBITS ) ) != Z_OK )
 				goto ZIP_openRead_failed;
 		} /* if */
 
-	if (!zip_entry_is_tradional_crypto(entry))
-		GOTO_IF(password != NULL, PHYSFS_ERR_BAD_PASSWORD, ZIP_openRead_failed);
+	if ( !zip_entry_is_tradional_crypto ( entry ) )
+		GOTO_IF ( password != NULL, PHYSFS_ERR_BAD_PASSWORD, ZIP_openRead_failed );
 
 	else
 		{
 			PHYSFS_uint8 crypto_header[12];
-			GOTO_IF(password == NULL, PHYSFS_ERR_BAD_PASSWORD, ZIP_openRead_failed);
+			GOTO_IF ( password == NULL, PHYSFS_ERR_BAD_PASSWORD, ZIP_openRead_failed );
 
-			if (io->read(io, crypto_header, 12) != 12)
+			if ( io->read ( io, crypto_header, 12 ) != 12 )
 				goto ZIP_openRead_failed;
 
-			else if (!zip_prep_crypto_keys(finfo, crypto_header, password))
+			else if ( !zip_prep_crypto_keys ( finfo, crypto_header, password ) )
 				goto ZIP_openRead_failed;
 		} /* if */
 
-	memcpy(retval, &ZIP_Io, sizeof (PHYSFS_Io));
+	memcpy ( retval, &ZIP_Io, sizeof ( PHYSFS_Io ) );
 	retval->opaque = finfo;
 
 	return retval;
 
 ZIP_openRead_failed:
 
-	if (finfo != NULL)
+	if ( finfo != NULL )
 		{
-			if (finfo->io != NULL)
-				finfo->io->destroy(finfo->io);
+			if ( finfo->io != NULL )
+				finfo->io->destroy ( finfo->io );
 
-			if (finfo->buffer != NULL)
+			if ( finfo->buffer != NULL )
 				{
-					allocator.Free(finfo->buffer);
-					inflateEnd(&finfo->stream);
+					allocator.Free ( finfo->buffer );
+					inflateEnd ( &finfo->stream );
 				} /* if */
 
-			allocator.Free(finfo);
+			allocator.Free ( finfo );
 		} /* if */
 
-	if (retval != NULL)
-		allocator.Free(retval);
+	if ( retval != NULL )
+		allocator.Free ( retval );
 
 	return NULL;
 } /* ZIP_openRead */
 
 
-static PHYSFS_Io *ZIP_openWrite(void *opaque, const char *filename)
+static PHYSFS_Io *ZIP_openWrite ( void *opaque, const char *filename )
 {
-	BAIL(PHYSFS_ERR_READ_ONLY, NULL);
+	BAIL ( PHYSFS_ERR_READ_ONLY, NULL );
 } /* ZIP_openWrite */
 
 
-static PHYSFS_Io *ZIP_openAppend(void *opaque, const char *filename)
+static PHYSFS_Io *ZIP_openAppend ( void *opaque, const char *filename )
 {
-	BAIL(PHYSFS_ERR_READ_ONLY, NULL);
+	BAIL ( PHYSFS_ERR_READ_ONLY, NULL );
 } /* ZIP_openAppend */
 
 
-static int ZIP_remove(void *opaque, const char *name)
+static int ZIP_remove ( void *opaque, const char *name )
 {
-	BAIL(PHYSFS_ERR_READ_ONLY, 0);
+	BAIL ( PHYSFS_ERR_READ_ONLY, 0 );
 } /* ZIP_remove */
 
 
-static int ZIP_mkdir(void *opaque, const char *name)
+static int ZIP_mkdir ( void *opaque, const char *name )
 {
-	BAIL(PHYSFS_ERR_READ_ONLY, 0);
+	BAIL ( PHYSFS_ERR_READ_ONLY, 0 );
 } /* ZIP_mkdir */
 
 
-static int ZIP_stat(void *opaque, const char *filename, PHYSFS_Stat *stat)
+static int ZIP_stat ( void *opaque, const char *filename, PHYSFS_Stat *stat )
 {
-	ZIPinfo *info = (ZIPinfo *) opaque;
-	ZIPentry *entry = zip_find_entry(info, filename);
+	ZIPinfo *info = ( ZIPinfo * ) opaque;
+	ZIPentry *entry = zip_find_entry ( info, filename );
 
-	if (entry == NULL)
+	if ( entry == NULL )
 		return 0;
 
-	else if (!zip_resolve(info->io, info, entry))
+	else if ( !zip_resolve ( info->io, info, entry ) )
 		return 0;
 
-	else if (entry->resolved == ZIP_DIRECTORY)
+	else if ( entry->resolved == ZIP_DIRECTORY )
 		{
 			stat->filesize = 0;
 			stat->filetype = PHYSFS_FILETYPE_DIRECTORY;
 		} /* if */
 
-	else if (zip_entry_is_symlink(entry))
+	else if ( zip_entry_is_symlink ( entry ) )
 		{
 			stat->filesize = 0;
 			stat->filetype = PHYSFS_FILETYPE_SYMLINK;
@@ -1732,11 +1732,11 @@ static int ZIP_stat(void *opaque, const char *filename, PHYSFS_Stat *stat)
 
 	else
 		{
-			stat->filesize = (PHYSFS_sint64) entry->uncompressed_size;
+			stat->filesize = ( PHYSFS_sint64 ) entry->uncompressed_size;
 			stat->filetype = PHYSFS_FILETYPE_REGULAR;
 		} /* else */
 
-	stat->modtime = ((entry) ? entry->last_mod_time : 0);
+	stat->modtime = ( ( entry ) ? entry->last_mod_time : 0 );
 	stat->createtime = stat->modtime;
 	stat->accesstime = -1;
 	stat->readonly = 1; /* .zip files are always read only */

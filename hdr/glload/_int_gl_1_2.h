@@ -38,12 +38,12 @@ extern "C" {
 #define GL_UNSIGNED_SHORT_5_6_5 0x8363
 #define GL_UNSIGNED_SHORT_5_6_5_REV 0x8364
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDCOLORPROC)(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONPROC)(GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE3DPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSPROC)(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DPROC)(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE3DPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDCOLORPROC ) ( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDEQUATIONPROC ) ( GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE3DPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSPROC ) ( GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DPROC ) ( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE3DPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels );
 
 extern PFNGLBLENDCOLORPROC _funcptr_glBlendColor;
 #define glBlendColor _funcptr_glBlendColor

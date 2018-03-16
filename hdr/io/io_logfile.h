@@ -17,11 +17,11 @@
 #include <string.h>
 
 // Log output to file on disk
-void io_logToFile (const char *format, ...);
+void io_logToFile ( const char *format, ... );
 
 // start the log file - if possible
 // set fileLoggingOn to true
-bool io_startLogFile(const char *logFileName);
+bool io_startLogFile ( const char *logFileName );
 
 // if the log file is open - close it
 void io_closeLogFile();

@@ -35,25 +35,25 @@ enum
 
 namespace _detail
 {
-typedef void (CODEGEN_FUNCPTR * Proc_glBeginQuery)(GLenum target, GLuint id);
-typedef void (CODEGEN_FUNCPTR * Proc_glBindBuffer)(GLenum target, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * Proc_glBufferData)(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
-typedef void (CODEGEN_FUNCPTR * Proc_glBufferSubData)(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * Proc_glDeleteBuffers)(GLsizei n, const GLuint * buffers);
-typedef void (CODEGEN_FUNCPTR * Proc_glDeleteQueries)(GLsizei n, const GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * Proc_glEndQuery)(GLenum target);
-typedef void (CODEGEN_FUNCPTR * Proc_glGenBuffers)(GLsizei n, GLuint * buffers);
-typedef void (CODEGEN_FUNCPTR * Proc_glGenQueries)(GLsizei n, GLuint * ids);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetBufferParameteriv)(GLenum target, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetBufferPointerv)(GLenum target, GLenum pname, GLvoid ** params);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetBufferSubData)(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetQueryObjectiv)(GLuint id, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetQueryObjectuiv)(GLuint id, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetQueryiv)(GLenum target, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_glIsBuffer)(GLuint buffer);
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_glIsQuery)(GLuint id);
-typedef void * (CODEGEN_FUNCPTR * Proc_glMapBuffer)(GLenum target, GLenum access);
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_glUnmapBuffer)(GLenum target);
+typedef void ( CODEGEN_FUNCPTR * Proc_glBeginQuery ) ( GLenum target, GLuint id );
+typedef void ( CODEGEN_FUNCPTR * Proc_glBindBuffer ) ( GLenum target, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glBufferData ) ( GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage );
+typedef void ( CODEGEN_FUNCPTR * Proc_glBufferSubData ) ( GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDeleteBuffers ) ( GLsizei n, const GLuint * buffers );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDeleteQueries ) ( GLsizei n, const GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * Proc_glEndQuery ) ( GLenum target );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGenBuffers ) ( GLsizei n, GLuint * buffers );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGenQueries ) ( GLsizei n, GLuint * ids );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetBufferParameteriv ) ( GLenum target, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetBufferPointerv ) ( GLenum target, GLenum pname, GLvoid ** params );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetBufferSubData ) ( GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetQueryObjectiv ) ( GLuint id, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetQueryObjectuiv ) ( GLuint id, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetQueryiv ) ( GLenum target, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_glIsBuffer ) ( GLuint buffer );
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_glIsQuery ) ( GLuint id );
+typedef void * ( CODEGEN_FUNCPTR * Proc_glMapBuffer ) ( GLenum target, GLenum access );
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_glUnmapBuffer ) ( GLenum target );
 }
 
 extern _detail::Proc_glBeginQuery BeginQuery;

@@ -95,11 +95,11 @@ union SFloatRegs
 	};
 } ;
 
-extern "C" asQWORD mipsFunc(asUINT argSize, asDWORD *argBuffer, void *func, SFloatRegs &floatRegs);
+extern "C" asQWORD mipsFunc ( asUINT argSize, asDWORD *argBuffer, void *func, SFloatRegs &floatRegs );
 asDWORD GetReturnedFloat();
 asQWORD GetReturnedDouble();
 
-asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/, void *secondObject)
+asQWORD CallSystemFunctionNative ( asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/, void *secondObject )
 {
 	asCScriptEngine *engine = context->m_engine;
 	asSSystemFunctionInterface *sysFunc = descr->sysFuncIntf;
@@ -107,11 +107,11 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 
 	asQWORD retQW = 0;
 
-	void *func = (void*)sysFunc->func;
+	void *func = ( void* ) sysFunc->func;
 	void **vftable;
 
 	asDWORD argBuffer[128]; // Ought to be big enough
-	asASSERT( sysFunc->paramSize < 128 );
+	asASSERT ( sysFunc->paramSize < 128 );
 
 	asDWORD argOffset = 0;
 
@@ -120,13 +120,13 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 
 	// If the application function returns the value in memory then
 	// the first argument must be the pointer to that memory
-	if( sysFunc->hostReturnInMemory )
+	if ( sysFunc->hostReturnInMemory )
 		{
-			asASSERT( retPointer );
-			argBuffer[argOffset++] = (asPWORD)retPointer;
+			asASSERT ( retPointer );
+			argBuffer[argOffset++] = ( asPWORD ) retPointer;
 		}
 
-	if( callConv == ICC_CDECL_OBJFIRST || callConv == ICC_CDECL_OBJFIRST_RETURNINMEM ||
+	if ( callConv == ICC_CDECL_OBJFIRST || callConv == ICC_CDECL_OBJFIRST_RETURNINMEM ||
 	        callConv == ICC_THISCALL || callConv == ICC_THISCALL_RETURNINMEM ||
 	        callConv == ICC_VIRTUAL_THISCALL || callConv == ICC_VIRTUAL_THISCALL_RETURNINMEM ||
 	        callConv == ICC_THISCALL_OBJFIRST || callConv == ICC_VIRTUAL_THISCALL_OBJFIRST ||
@@ -135,25 +135,25 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 	        callConv == ICC_THISCALL_OBJLAST_RETURNINMEM || callConv == ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM )
 		{
 			// Add the object pointer as the first argument
-			argBuffer[argOffset++] = (asPWORD)obj;
+			argBuffer[argOffset++] = ( asPWORD ) obj;
 		}
 
-	if( callConv == ICC_THISCALL_OBJFIRST || callConv == ICC_VIRTUAL_THISCALL_OBJFIRST ||
+	if ( callConv == ICC_THISCALL_OBJFIRST || callConv == ICC_VIRTUAL_THISCALL_OBJFIRST ||
 	        callConv == ICC_THISCALL_OBJFIRST_RETURNINMEM || callConv == ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM )
 		{
 			// Add the second object pointer
-			argBuffer[argOffset++] = (asPWORD)secondObject;
+			argBuffer[argOffset++] = ( asPWORD ) secondObject;
 		}
 
 	int spos = 0;
 
-	for( asUINT n = 0; n < descr->parameterTypes.GetLength(); n++ )
+	for ( asUINT n = 0; n < descr->parameterTypes.GetLength(); n++ )
 		{
 			asCDataType &paramType = descr->parameterTypes[n];
 
-			if( paramType.IsObject() && !paramType.IsObjectHandle() && !paramType.IsReference() )
+			if ( paramType.IsObject() && !paramType.IsObjectHandle() && !paramType.IsReference() )
 				{
-					if( paramType.GetTypeInfo()->flags & COMPLEX_MASK )
+					if ( paramType.GetTypeInfo()->flags & COMPLEX_MASK )
 						{
 							// The object is passed by reference
 							argBuffer[argOffset++] = args[spos++];
@@ -163,20 +163,20 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 					else
 						{
 							// Ensure 8byte alignment for classes that need it
-							if( (paramType.GetTypeInfo()->flags & asOBJ_APP_CLASS_ALIGN8) && (argOffset & 1) )
+							if ( ( paramType.GetTypeInfo()->flags & asOBJ_APP_CLASS_ALIGN8 ) && ( argOffset & 1 ) )
 								argOffset++;
 
 							// Copy the object's memory to the buffer
-							memcpy(&argBuffer[argOffset], *(void**)(args+spos), paramType.GetSizeInMemoryBytes());
+							memcpy ( &argBuffer[argOffset], * ( void** ) ( args+spos ), paramType.GetSizeInMemoryBytes() );
 							// Delete the original memory
-							engine->CallFree(*(char**)(args+spos));
+							engine->CallFree ( * ( char** ) ( args+spos ) );
 							spos++;
 							argOffset += paramType.GetSizeInMemoryDWords();
 						}
 
 				}
 
-			else if( paramType.GetTokenType() == ttQuestion )
+			else if ( paramType.GetTokenType() == ttQuestion )
 				{
 					// Copy both pointer and type id
 					argBuffer[argOffset++] = args[spos++];
@@ -190,37 +190,37 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 					// Actually this is only done if they are the first arguments to the function,
 					// but it doesn't cause any harm to load them into the registers even if they
 					// won't be used so we don't need to check if they really are the first args.
-					if( floatOffset == 0 )
+					if ( floatOffset == 0 )
 						{
-							if( paramType.GetTokenType() == ttFloat )
-								floatRegs.f0 = *reinterpret_cast<float*>(&args[spos]);
+							if ( paramType.GetTokenType() == ttFloat )
+								floatRegs.f0 = *reinterpret_cast<float*> ( &args[spos] );
 
-							else if( paramType.GetTokenType() == ttDouble )
-								floatRegs.d0 = *reinterpret_cast<double*>(&args[spos]);
+							else if ( paramType.GetTokenType() == ttDouble )
+								floatRegs.d0 = *reinterpret_cast<double*> ( &args[spos] );
 
 							floatOffset++;
 
 						}
 
-					else if( floatOffset == 1 )
+					else if ( floatOffset == 1 )
 						{
-							if( paramType.GetTokenType() == ttFloat )
-								floatRegs.f1 = *reinterpret_cast<float*>(&args[spos]);
+							if ( paramType.GetTokenType() == ttFloat )
+								floatRegs.f1 = *reinterpret_cast<float*> ( &args[spos] );
 
-							else if( paramType.GetTokenType() == ttDouble )
-								floatRegs.d1 = *reinterpret_cast<double*>(&args[spos]);
+							else if ( paramType.GetTokenType() == ttDouble )
+								floatRegs.d1 = *reinterpret_cast<double*> ( &args[spos] );
 
 							floatOffset++;
 						}
 
 					// Copy the value directly
-					if( paramType.GetSizeOnStackDWords() > 1 )
+					if ( paramType.GetSizeOnStackDWords() > 1 )
 						{
 							// Make sure the argument is 8byte aligned
-							if( argOffset & 1 )
+							if ( argOffset & 1 )
 								argOffset++;
 
-							*reinterpret_cast<asQWORD*>(&argBuffer[argOffset]) = *reinterpret_cast<asQWORD*>(&args[spos]);
+							*reinterpret_cast<asQWORD*> ( &argBuffer[argOffset] ) = *reinterpret_cast<asQWORD*> ( &args[spos] );
 							argOffset += 2;
 							spos += 2;
 
@@ -231,58 +231,58 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 				}
 		}
 
-	if( callConv == ICC_CDECL_OBJLAST || callConv == ICC_CDECL_OBJLAST_RETURNINMEM )
+	if ( callConv == ICC_CDECL_OBJLAST || callConv == ICC_CDECL_OBJLAST_RETURNINMEM )
 		{
 			// Add the object pointer as the last argument
-			argBuffer[argOffset++] = (asPWORD)obj;
+			argBuffer[argOffset++] = ( asPWORD ) obj;
 		}
 
-	if( callConv == ICC_THISCALL_OBJLAST || callConv == ICC_VIRTUAL_THISCALL_OBJLAST ||
+	if ( callConv == ICC_THISCALL_OBJLAST || callConv == ICC_VIRTUAL_THISCALL_OBJLAST ||
 	        callConv == ICC_THISCALL_OBJLAST_RETURNINMEM || callConv == ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM )
 		{
 			// Add the second object pointer
-			argBuffer[argOffset++] = (asPWORD)secondObject;
+			argBuffer[argOffset++] = ( asPWORD ) secondObject;
 		}
 
-	switch( callConv )
+	switch ( callConv )
 		{
-			case ICC_CDECL:
-			case ICC_CDECL_RETURNINMEM:
-			case ICC_STDCALL:
-			case ICC_STDCALL_RETURNINMEM:
-			case ICC_CDECL_OBJLAST:
-			case ICC_CDECL_OBJLAST_RETURNINMEM:
-			case ICC_CDECL_OBJFIRST:
-			case ICC_CDECL_OBJFIRST_RETURNINMEM:
-			case ICC_THISCALL:
-			case ICC_THISCALL_RETURNINMEM:
-			case ICC_THISCALL_OBJFIRST:
-			case ICC_THISCALL_OBJFIRST_RETURNINMEM:
-			case ICC_THISCALL_OBJLAST:
-			case ICC_THISCALL_OBJLAST_RETURNINMEM:
-				retQW = mipsFunc(argOffset*4, argBuffer, func, floatRegs);
-				break;
+		case ICC_CDECL:
+		case ICC_CDECL_RETURNINMEM:
+		case ICC_STDCALL:
+		case ICC_STDCALL_RETURNINMEM:
+		case ICC_CDECL_OBJLAST:
+		case ICC_CDECL_OBJLAST_RETURNINMEM:
+		case ICC_CDECL_OBJFIRST:
+		case ICC_CDECL_OBJFIRST_RETURNINMEM:
+		case ICC_THISCALL:
+		case ICC_THISCALL_RETURNINMEM:
+		case ICC_THISCALL_OBJFIRST:
+		case ICC_THISCALL_OBJFIRST_RETURNINMEM:
+		case ICC_THISCALL_OBJLAST:
+		case ICC_THISCALL_OBJLAST_RETURNINMEM:
+			retQW = mipsFunc ( argOffset*4, argBuffer, func, floatRegs );
+			break;
 
-			case ICC_VIRTUAL_THISCALL:
-			case ICC_VIRTUAL_THISCALL_RETURNINMEM:
-			case ICC_VIRTUAL_THISCALL_OBJFIRST:
-			case ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM:
-			case ICC_VIRTUAL_THISCALL_OBJLAST:
-			case ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM:
-				// Get virtual function table from the object pointer
-				vftable = *(void***)obj;
-				retQW = mipsFunc(argOffset*4, argBuffer, vftable[asPWORD(func)>>2], floatRegs);
-				break;
+		case ICC_VIRTUAL_THISCALL:
+		case ICC_VIRTUAL_THISCALL_RETURNINMEM:
+		case ICC_VIRTUAL_THISCALL_OBJFIRST:
+		case ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM:
+		case ICC_VIRTUAL_THISCALL_OBJLAST:
+		case ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM:
+			// Get virtual function table from the object pointer
+			vftable = * ( void*** ) obj;
+			retQW = mipsFunc ( argOffset*4, argBuffer, vftable[asPWORD ( func ) >>2], floatRegs );
+			break;
 
-			default:
-				context->SetInternalException(TXT_INVALID_CALLING_CONVENTION);
+		default:
+			context->SetInternalException ( TXT_INVALID_CALLING_CONVENTION );
 		}
 
 	// If the return is a float value we need to get the value from the FP register
-	if( sysFunc->hostReturnFloat )
+	if ( sysFunc->hostReturnFloat )
 		{
-			if( sysFunc->hostReturnSize == 1 )
-				*(asDWORD*)&retQW = GetReturnedFloat();
+			if ( sysFunc->hostReturnSize == 1 )
+				* ( asDWORD* ) &retQW = GetReturnedFloat();
 
 			else
 				retQW = GetReturnedDouble();
@@ -295,7 +295,7 @@ asDWORD GetReturnedFloat()
 {
 	asDWORD f;
 
-	asm("swc1 $f0, %0\n" : "=m"(f));
+	asm ( "swc1 $f0, %0\n" : "=m" ( f ) );
 
 	return f;
 }
@@ -304,14 +304,14 @@ asQWORD GetReturnedDouble()
 {
 	asQWORD d = 0;
 
-	asm("sdc1 $f0, %0\n" : "=m"(d));
+	asm ( "sdc1 $f0, %0\n" : "=m" ( d ) );
 
 	return d;
 }
 
 // asQWORD mipsFunc(asUINT argSize, asDWORD *argBuffer, void *func, SFloatRegs &floatRegs);
 // $2,$3                   $4                $5               $6                $7
-asm(
+asm (
     "	.text\n"
 //"	.align 2\n"
     "	.cfi_startproc\n"
@@ -422,21 +422,21 @@ extern "C" {
 // intArgSize is the size in bytes for how much data to put in int registers
 // floatArgSize is the size in bytes for how much data to put in float registers
 // stackArgSize is the size in bytes for how much data to put on the callstack
-extern "C" asQWORD mipsFunc(int intArgSize, int floatArgSize, int stackArgSize, asDWORD func);
+extern "C" asQWORD mipsFunc ( int intArgSize, int floatArgSize, int stackArgSize, asDWORD func );
 
 // puts the arguments in the correct place in the mipsArgs-array. See comments above.
 // This could be done better.
-inline void splitArgs(const asDWORD *args, int argNum, int &numRegIntArgs, int &numRegFloatArgs, int &numRestArgs, int hostFlags)
+inline void splitArgs ( const asDWORD *args, int argNum, int &numRegIntArgs, int &numRegFloatArgs, int &numRestArgs, int hostFlags )
 {
 	int i;
 
 	int argBit = 1;
 
-	for (i = 0; i < argNum; i++)
+	for ( i = 0; i < argNum; i++ )
 		{
-			if (hostFlags & argBit)
+			if ( hostFlags & argBit )
 				{
-					if (numRegFloatArgs < AS_NUM_REG_FLOATS)
+					if ( numRegFloatArgs < AS_NUM_REG_FLOATS )
 						{
 							// put in float register
 							mipsArgs[AS_NUM_REG_INTS + numRegFloatArgs] = args[i];
@@ -455,7 +455,7 @@ inline void splitArgs(const asDWORD *args, int argNum, int &numRegIntArgs, int &
 
 			else
 				{
-					if (numRegIntArgs < AS_NUM_REG_INTS)
+					if ( numRegIntArgs < AS_NUM_REG_INTS )
 						{
 							// put in int register
 							mipsArgs[numRegIntArgs] = args[i];
@@ -475,7 +475,7 @@ inline void splitArgs(const asDWORD *args, int argNum, int &numRegIntArgs, int &
 		}
 }
 
-asQWORD CallCDeclFunction(const asDWORD *args, int argSize, asDWORD func, int flags)
+asQWORD CallCDeclFunction ( const asDWORD *args, int argSize, asDWORD func, int flags )
 {
 	int argNum = argSize >> 2;
 
@@ -484,15 +484,15 @@ asQWORD CallCDeclFunction(const asDWORD *args, int argSize, asDWORD func, int fl
 	int restArgs = 0;
 
 	// put the arguments in the correct places in the mipsArgs array
-	if(argNum > 0)
-		splitArgs(args, argNum, intArgs, floatArgs, restArgs, flags);
+	if ( argNum > 0 )
+		splitArgs ( args, argNum, intArgs, floatArgs, restArgs, flags );
 
-	return mipsFunc(intArgs << 2, floatArgs << 2, restArgs << 2, func);
+	return mipsFunc ( intArgs << 2, floatArgs << 2, restArgs << 2, func );
 }
 
 // This function is identical to CallCDeclFunction, with the only difference that
 // the value in the first parameter is the object
-asQWORD CallThisCallFunction(const void *obj, const asDWORD *args, int argSize, asDWORD func, int flags)
+asQWORD CallThisCallFunction ( const void *obj, const asDWORD *args, int argSize, asDWORD func, int flags )
 {
 	int argNum = argSize >> 2;
 
@@ -500,18 +500,18 @@ asQWORD CallThisCallFunction(const void *obj, const asDWORD *args, int argSize, 
 	int floatArgs = 0;
 	int restArgs = 0;
 
-	mipsArgs[0] = (asDWORD) obj;
+	mipsArgs[0] = ( asDWORD ) obj;
 
 	// put the arguments in the correct places in the mipsArgs array
-	if (argNum > 0)
-		splitArgs(args, argNum, intArgs, floatArgs, restArgs, flags);
+	if ( argNum > 0 )
+		splitArgs ( args, argNum, intArgs, floatArgs, restArgs, flags );
 
-	return mipsFunc(intArgs << 2, floatArgs << 2, restArgs << 2, func);
+	return mipsFunc ( intArgs << 2, floatArgs << 2, restArgs << 2, func );
 }
 
 // This function is identical to CallCDeclFunction, with the only difference that
 // the value in the last parameter is the object
-asQWORD CallThisCallFunction_objLast(const void *obj, const asDWORD *args, int argSize, asDWORD func, int flags)
+asQWORD CallThisCallFunction_objLast ( const void *obj, const asDWORD *args, int argSize, asDWORD func, int flags )
 {
 	int argNum = argSize >> 2;
 
@@ -520,30 +520,30 @@ asQWORD CallThisCallFunction_objLast(const void *obj, const asDWORD *args, int a
 	int restArgs = 0;
 
 	// put the arguments in the correct places in the mipsArgs array
-	if(argNum > 0)
-		splitArgs(args, argNum, intArgs, floatArgs, restArgs, flags);
+	if ( argNum > 0 )
+		splitArgs ( args, argNum, intArgs, floatArgs, restArgs, flags );
 
-	if(intArgs < AS_NUM_REG_INTS)
+	if ( intArgs < AS_NUM_REG_INTS )
 		{
-			mipsArgs[intArgs] = (asDWORD) obj;
+			mipsArgs[intArgs] = ( asDWORD ) obj;
 			intArgs++;
 
 		}
 
 	else
 		{
-			mipsArgs[AS_NUM_REG_INTS + AS_NUM_REG_FLOATS + restArgs] = (asDWORD) obj;
+			mipsArgs[AS_NUM_REG_INTS + AS_NUM_REG_FLOATS + restArgs] = ( asDWORD ) obj;
 			restArgs++;
 		}
 
-	return mipsFunc(intArgs << 2, floatArgs << 2, restArgs << 2, func);
+	return mipsFunc ( intArgs << 2, floatArgs << 2, restArgs << 2, func );
 }
 
 asDWORD GetReturnedFloat()
 {
 	asDWORD f;
 
-	asm("swc1 $f0, %0\n" : "=m"(f));
+	asm ( "swc1 $f0, %0\n" : "=m" ( f ) );
 
 	return f;
 }
@@ -552,12 +552,12 @@ asQWORD GetReturnedDouble()
 {
 	asQWORD d = 0;
 
-	asm("sdc1 $f0, %0\n" : "=m"(d));
+	asm ( "sdc1 $f0, %0\n" : "=m" ( d ) );
 
 	return d;
 }
 
-asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/, void */*secondObject*/)
+asQWORD CallSystemFunctionNative ( asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &/*retQW2*/, void */*secondObject*/ )
 {
 	asCScriptEngine *engine = context->m_engine;
 	asSSystemFunctionInterface *sysFunc = descr->sysFuncIntf;
@@ -567,25 +567,25 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 
 	asQWORD retQW = 0;
 
-	void    *func              = (void*)sysFunc->func;
+	void    *func              = ( void* ) sysFunc->func;
 	int      paramSize         = sysFunc->paramSize;
 	asDWORD *vftable;
 
-	if( descr->returnType.IsObject() && !descr->returnType.IsReference() && !descr->returnType.IsObjectHandle() )
+	if ( descr->returnType.IsObject() && !descr->returnType.IsReference() && !descr->returnType.IsObjectHandle() )
 		{
-			mipsArgs[AS_MIPS_MAX_ARGS+1] = (asDWORD) retPointer;
+			mipsArgs[AS_MIPS_MAX_ARGS+1] = ( asDWORD ) retPointer;
 		}
 
-	asASSERT(descr->parameterTypes.GetLength() <= AS_MIPS_MAX_ARGS);
+	asASSERT ( descr->parameterTypes.GetLength() <= AS_MIPS_MAX_ARGS );
 
 	// mark all float arguments
 	int argBit = 1;
 	int hostFlags = 0;
 	int intArgs = 0;
 
-	for( size_t a = 0; a < descr->parameterTypes.GetLength(); a++ )
+	for ( size_t a = 0; a < descr->parameterTypes.GetLength(); a++ )
 		{
-			if (descr->parameterTypes[a].IsFloatType())
+			if ( descr->parameterTypes[a].IsFloatType() )
 				hostFlags |= argBit;
 
 			else
@@ -596,19 +596,19 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 
 	asDWORD paramBuffer[64];
 
-	if( sysFunc->takesObjByVal )
+	if ( sysFunc->takesObjByVal )
 		{
 			paramSize = 0;
 			int spos = 0;
 			int dpos = 1;
 
-			for( asUINT n = 0; n < descr->parameterTypes.GetLength(); n++ )
+			for ( asUINT n = 0; n < descr->parameterTypes.GetLength(); n++ )
 				{
-					if( descr->parameterTypes[n].IsObject() && !descr->parameterTypes[n].IsObjectHandle() && !descr->parameterTypes[n].IsReference() )
+					if ( descr->parameterTypes[n].IsObject() && !descr->parameterTypes[n].IsObjectHandle() && !descr->parameterTypes[n].IsReference() )
 						{
 #ifdef COMPLEX_OBJS_PASSED_BY_REF
 
-							if( descr->parameterTypes[n].GetTypeInfo()->flags & COMPLEX_MASK )
+							if ( descr->parameterTypes[n].GetTypeInfo()->flags & COMPLEX_MASK )
 								{
 									paramBuffer[dpos++] = args[spos++];
 									paramSize++;
@@ -619,9 +619,9 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 #endif
 								{
 									// Copy the object's memory to the buffer
-									memcpy(&paramBuffer[dpos], *(void**)(args+spos), descr->parameterTypes[n].GetSizeInMemoryBytes());
+									memcpy ( &paramBuffer[dpos], * ( void** ) ( args+spos ), descr->parameterTypes[n].GetSizeInMemoryBytes() );
 									// Delete the original memory
-									engine->CallFree(*(char**)(args+spos));
+									engine->CallFree ( * ( char** ) ( args+spos ) );
 									spos++;
 									dpos += descr->parameterTypes[n].GetSizeInMemoryDWords();
 									paramSize += descr->parameterTypes[n].GetSizeInMemoryDWords();
@@ -634,7 +634,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 							// Copy the value directly
 							paramBuffer[dpos++] = args[spos++];
 
-							if( descr->parameterTypes[n].GetSizeOnStackDWords() > 1 )
+							if ( descr->parameterTypes[n].GetSizeOnStackDWords() > 1 )
 								paramBuffer[dpos++] = args[spos++];
 
 							paramSize += descr->parameterTypes[n].GetSizeOnStackDWords();
@@ -645,46 +645,46 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 			args = &paramBuffer[1];
 		}
 
-	switch( callConv )
+	switch ( callConv )
 		{
-			case ICC_CDECL:
-			case ICC_CDECL_RETURNINMEM:
-			case ICC_STDCALL:
-			case ICC_STDCALL_RETURNINMEM:
-				retQW = CallCDeclFunction(args, paramSize<<2, (asDWORD)func, hostFlags);
-				break;
+		case ICC_CDECL:
+		case ICC_CDECL_RETURNINMEM:
+		case ICC_STDCALL:
+		case ICC_STDCALL_RETURNINMEM:
+			retQW = CallCDeclFunction ( args, paramSize<<2, ( asDWORD ) func, hostFlags );
+			break;
 
-			case ICC_THISCALL:
-			case ICC_THISCALL_RETURNINMEM:
-				retQW = CallThisCallFunction(obj, args, paramSize<<2, (asDWORD)func, hostFlags);
-				break;
+		case ICC_THISCALL:
+		case ICC_THISCALL_RETURNINMEM:
+			retQW = CallThisCallFunction ( obj, args, paramSize<<2, ( asDWORD ) func, hostFlags );
+			break;
 
-			case ICC_VIRTUAL_THISCALL:
-			case ICC_VIRTUAL_THISCALL_RETURNINMEM:
-				// Get virtual function table from the object pointer
-				vftable = *(asDWORD**)obj;
-				retQW = CallThisCallFunction(obj, args, paramSize<<2, vftable[asDWORD(func)>>2], hostFlags);
-				break;
+		case ICC_VIRTUAL_THISCALL:
+		case ICC_VIRTUAL_THISCALL_RETURNINMEM:
+			// Get virtual function table from the object pointer
+			vftable = * ( asDWORD** ) obj;
+			retQW = CallThisCallFunction ( obj, args, paramSize<<2, vftable[asDWORD ( func ) >>2], hostFlags );
+			break;
 
-			case ICC_CDECL_OBJLAST:
-			case ICC_CDECL_OBJLAST_RETURNINMEM:
-				retQW = CallThisCallFunction_objLast(obj, args, paramSize<<2, (asDWORD)func, hostFlags);
-				break;
+		case ICC_CDECL_OBJLAST:
+		case ICC_CDECL_OBJLAST_RETURNINMEM:
+			retQW = CallThisCallFunction_objLast ( obj, args, paramSize<<2, ( asDWORD ) func, hostFlags );
+			break;
 
-			case ICC_CDECL_OBJFIRST:
-			case ICC_CDECL_OBJFIRST_RETURNINMEM:
-				retQW = CallThisCallFunction(obj, args, paramSize<<2, (asDWORD)func, hostFlags);
-				break;
+		case ICC_CDECL_OBJFIRST:
+		case ICC_CDECL_OBJFIRST_RETURNINMEM:
+			retQW = CallThisCallFunction ( obj, args, paramSize<<2, ( asDWORD ) func, hostFlags );
+			break;
 
-			default:
-				context->SetInternalException(TXT_INVALID_CALLING_CONVENTION);
+		default:
+			context->SetInternalException ( TXT_INVALID_CALLING_CONVENTION );
 		}
 
 	// If the return is a float value we need to get the value from the FP register
-	if( sysFunc->hostReturnFloat )
+	if ( sysFunc->hostReturnFloat )
 		{
-			if( sysFunc->hostReturnSize == 1 )
-				*(asDWORD*)&retQW = GetReturnedFloat();
+			if ( sysFunc->hostReturnSize == 1 )
+				* ( asDWORD* ) &retQW = GetReturnedFloat();
 
 			else
 				retQW = GetReturnedDouble();
@@ -694,7 +694,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 }
 
 
-asm(
+asm (
     "	.text\n"
 //"	.align 2\n"
     "	.global mipsFunc\n"

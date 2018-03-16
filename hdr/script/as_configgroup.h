@@ -57,14 +57,14 @@ public:
 	int AddRef();
 	int Release();
 
-	asCTypeInfo *FindType(const char *name);
-	void RefConfigGroup(asCConfigGroup *group);
+	asCTypeInfo *FindType ( const char *name );
+	void RefConfigGroup ( asCConfigGroup *group );
 
 	bool HasLiveObjects();
-	void RemoveConfiguration(asCScriptEngine *engine, bool notUsed = false);
+	void RemoveConfiguration ( asCScriptEngine *engine, bool notUsed = false );
 
-	void AddReferencesForFunc(asCScriptEngine *engine, asCScriptFunction *func);
-	void AddReferencesForType(asCScriptEngine *engine, asCTypeInfo *type);
+	void AddReferencesForFunc ( asCScriptEngine *engine, asCScriptFunction *func );
+	void AddReferencesForType ( asCScriptEngine *engine, asCTypeInfo *type );
 
 	asCString groupName;
 	int refCount;

@@ -21,7 +21,7 @@ Loads function pointers for GLX extensions.
 
 \return A sys::LoadTest object that defines whether the loading was successful.
 **/
-glload::LoadTest LoadFunctions(Display *display, int screen);
+glload::LoadTest LoadFunctions ( Display *display, int screen );
 
 
 }

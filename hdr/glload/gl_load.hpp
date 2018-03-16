@@ -34,7 +34,7 @@ This function retrieves the minor GL version number. Only works after LoadFuncti
 int GetMinorVersion();
 
 /**Returns non-zero if the current GL version is greater than or equal to the given version.**/
-int IsVersionGEQ(int testMajorVersion, int testMinorVersion);
+int IsVersionGEQ ( int testMajorVersion, int testMinorVersion );
 
 }
 ///@}

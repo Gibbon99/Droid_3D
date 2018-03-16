@@ -34,98 +34,98 @@ bool    wrap_GL_CULL_FACE_enabled = false;
 //----------------------------------------------------------------------------
 //
 // Display openGLWrap counters
-void wrapShowCounters(bool writeToLog)
+void wrapShowCounters ( bool writeToLog )
 //----------------------------------------------------------------------------
 {
-	con_print(CON_TEXT, writeToLog, "glBindTexture - calls [ %i ] changes [ %i ]", wrapCountglBindTextureCalls, wrapCountglBindTextureChanges);
-	con_print(CON_TEXT, writeToLog, "glBlend - enable - calls [ %i ] changes [ %i ]", wrapCountglEnableBlendCalls, wrapCountglEnableBlendChanges);
-	con_print(CON_TEXT, writeToLog, "glBlend - disable - calls [ %i ] changes [ %i ]", wrapCountglDisableBlendCalls, wrapCountglDisableBlendChanges);
-	con_print(CON_TEXT, writeToLog, "glDepthTest - enable - calls [ %i ] changes [ %i ]", wrapCountglEnableDepthCalls, wrapCountglEnableDepthChanges);
-	con_print(CON_TEXT, writeToLog, "glDepthTest - disable - calls [ %i ] changes [ %i ]", wrapCountglDisableDepthCalls, wrapCountglDisableDepthChanges);
-	con_print(CON_TEXT, writeToLog, "glCullFace - enable - calls [ %i ] changes [ %i ]", wrapCountglEnableCullFaceCalls, wrapCountglEnableCullFaceChanges);
-	con_print(CON_TEXT, writeToLog, "glCullFace - disable - calls [ %i ] changes [ %i ]", wrapCountglDisableCullFaceCalls, wrapCountglDisableCullFaceChanges);
+	con_print ( CON_TEXT, writeToLog, "glBindTexture - calls [ %i ] changes [ %i ]", wrapCountglBindTextureCalls, wrapCountglBindTextureChanges );
+	con_print ( CON_TEXT, writeToLog, "glBlend - enable - calls [ %i ] changes [ %i ]", wrapCountglEnableBlendCalls, wrapCountglEnableBlendChanges );
+	con_print ( CON_TEXT, writeToLog, "glBlend - disable - calls [ %i ] changes [ %i ]", wrapCountglDisableBlendCalls, wrapCountglDisableBlendChanges );
+	con_print ( CON_TEXT, writeToLog, "glDepthTest - enable - calls [ %i ] changes [ %i ]", wrapCountglEnableDepthCalls, wrapCountglEnableDepthChanges );
+	con_print ( CON_TEXT, writeToLog, "glDepthTest - disable - calls [ %i ] changes [ %i ]", wrapCountglDisableDepthCalls, wrapCountglDisableDepthChanges );
+	con_print ( CON_TEXT, writeToLog, "glCullFace - enable - calls [ %i ] changes [ %i ]", wrapCountglEnableCullFaceCalls, wrapCountglEnableCullFaceChanges );
+	con_print ( CON_TEXT, writeToLog, "glCullFace - disable - calls [ %i ] changes [ %i ]", wrapCountglDisableCullFaceCalls, wrapCountglDisableCullFaceChanges );
 }
 
 //----------------------------------------------------------------------------
 //
 // Wrap glDisable
-void wrapglDisable(int whichState)
+void wrapglDisable ( int whichState )
 //----------------------------------------------------------------------------
 {
-	switch (whichState)
+	switch ( whichState )
 		{
 
-			case GL_CULL_FACE:
-			{
-				wrapCountglDisableCullFaceCalls++;
+		case GL_CULL_FACE:
+		{
+			wrapCountglDisableCullFaceCalls++;
 
-				if (true == wrap_GL_CULL_FACE_enabled)
-					{
-						glDisable(GL_CULL_FACE);
-						wrapCountglDisableCullFaceChanges++;
-						wrap_GL_CULL_FACE_enabled = false;
-					}
-			}
+			if ( true == wrap_GL_CULL_FACE_enabled )
+				{
+					glDisable ( GL_CULL_FACE );
+					wrapCountglDisableCullFaceChanges++;
+					wrap_GL_CULL_FACE_enabled = false;
+				}
+		}
+		break;
+
+		case GL_BLEND:
+		{
+			wrapCountglDisableBlendCalls++;
+
+			if ( true == wrap_GL_BLEND_enabled )
+				{
+					glDisable ( GL_BLEND );
+					wrapCountglDisableBlendChanges++;
+					wrap_GL_BLEND_enabled = false;
+				}
+		}
+		break;
+
+		case GL_DEPTH_TEST:
+			wrapCountglDisableDepthCalls++;
+
+			if ( true == wrap_GL_DEPTH_TEST_enabled )
+				{
+					glDisable ( GL_DEPTH_TEST );
+					wrapCountglDisableDepthChanges++;
+					wrap_GL_DEPTH_TEST_enabled = false;
+				}
+
 			break;
-
-			case GL_BLEND:
-			{
-				wrapCountglDisableBlendCalls++;
-
-				if (true == wrap_GL_BLEND_enabled)
-					{
-						glDisable(GL_BLEND);
-						wrapCountglDisableBlendChanges++;
-						wrap_GL_BLEND_enabled = false;
-					}
-			}
-			break;
-
-			case GL_DEPTH_TEST:
-				wrapCountglDisableDepthCalls++;
-
-				if (true == wrap_GL_DEPTH_TEST_enabled)
-					{
-						glDisable(GL_DEPTH_TEST);
-						wrapCountglDisableDepthChanges++;
-						wrap_GL_DEPTH_TEST_enabled = false;
-					}
-
-				break;
 		}
 }
 
 //----------------------------------------------------------------------------
 //
 // Warap glEnable
-void wrapglEnable(int whichState)
+void wrapglEnable ( int whichState )
 //----------------------------------------------------------------------------
 {
-	switch (whichState)
+	switch ( whichState )
 		{
-			case GL_BLEND:
-				wrapCountglEnableBlendCalls++;
+		case GL_BLEND:
+			wrapCountglEnableBlendCalls++;
 
-				if (false == wrap_GL_BLEND_enabled)
-					{
-						glEnable(GL_BLEND);
-						wrapCountglEnableBlendChanges++;
-						wrap_GL_BLEND_enabled = true;
-					}
+			if ( false == wrap_GL_BLEND_enabled )
+				{
+					glEnable ( GL_BLEND );
+					wrapCountglEnableBlendChanges++;
+					wrap_GL_BLEND_enabled = true;
+				}
 
-				break;
+			break;
 
-			case GL_DEPTH_TEST:
-				wrapCountglDisableDepthCalls++;
+		case GL_DEPTH_TEST:
+			wrapCountglDisableDepthCalls++;
 
-				if (false == wrap_GL_DEPTH_TEST_enabled)
-					{
-						glEnable(GL_DEPTH_TEST);
-						wrapCountglDisableDepthChanges++;
-						wrap_GL_DEPTH_TEST_enabled = true;
-					}
+			if ( false == wrap_GL_DEPTH_TEST_enabled )
+				{
+					glEnable ( GL_DEPTH_TEST );
+					wrapCountglDisableDepthChanges++;
+					wrap_GL_DEPTH_TEST_enabled = true;
+				}
 
-				break;
+			break;
 		}
 }
 
@@ -133,61 +133,61 @@ void wrapglEnable(int whichState)
 //----------------------------------------------------------------------------
 //
 // Wrap glBindTexture
-void wrapglBindTexture(int whichTextureUnit, int whichTexture)
+void wrapglBindTexture ( int whichTextureUnit, int whichTexture )
 //----------------------------------------------------------------------------
 {
 	static int boundTexture0, boundTexture1, boundTexture2, boundTexture3 = 0;
 
 	wrapCountglBindTextureCalls++;
 
-	switch (whichTextureUnit)
+	switch ( whichTextureUnit )
 		{
-			case GL_TEXTURE0:
-				if (whichTexture != boundTexture0)
-					{
-						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, whichTexture);
-						boundTexture0 = whichTexture;
-						wrapCountglBindTextureChanges++;
-					}
+		case GL_TEXTURE0:
+			if ( whichTexture != boundTexture0 )
+				{
+					glActiveTexture ( GL_TEXTURE0 );
+					glBindTexture ( GL_TEXTURE_2D, whichTexture );
+					boundTexture0 = whichTexture;
+					wrapCountglBindTextureChanges++;
+				}
 
-				break;
+			break;
 
-			case GL_TEXTURE1:
-				if (whichTexture != boundTexture1)
-					{
-						glActiveTexture(GL_TEXTURE1);
-						glBindTexture(GL_TEXTURE_2D, whichTexture);
-						boundTexture1 = whichTexture;
-						wrapCountglBindTextureChanges++;
-					}
+		case GL_TEXTURE1:
+			if ( whichTexture != boundTexture1 )
+				{
+					glActiveTexture ( GL_TEXTURE1 );
+					glBindTexture ( GL_TEXTURE_2D, whichTexture );
+					boundTexture1 = whichTexture;
+					wrapCountglBindTextureChanges++;
+				}
 
-				break;
+			break;
 
-			case GL_TEXTURE2:
-				if (whichTexture != boundTexture2)
-					{
-						glActiveTexture(GL_TEXTURE2);
-						glBindTexture(GL_TEXTURE_2D, whichTexture);
-						boundTexture2 = whichTexture;
-						wrapCountglBindTextureChanges++;
-					}
+		case GL_TEXTURE2:
+			if ( whichTexture != boundTexture2 )
+				{
+					glActiveTexture ( GL_TEXTURE2 );
+					glBindTexture ( GL_TEXTURE_2D, whichTexture );
+					boundTexture2 = whichTexture;
+					wrapCountglBindTextureChanges++;
+				}
 
-				break;
+			break;
 
-			case GL_TEXTURE3:
-				if (whichTexture != boundTexture3)
-					{
-						glActiveTexture(GL_TEXTURE3);
-						glBindTexture(GL_TEXTURE_2D, whichTexture);
-						boundTexture3 = whichTexture;
-						wrapCountglBindTextureChanges++;
-					}
+		case GL_TEXTURE3:
+			if ( whichTexture != boundTexture3 )
+				{
+					glActiveTexture ( GL_TEXTURE3 );
+					glBindTexture ( GL_TEXTURE_2D, whichTexture );
+					boundTexture3 = whichTexture;
+					wrapCountglBindTextureChanges++;
+				}
 
-				break;
+			break;
 
-			default:
-				con_print(CON_ERROR, true, "Invalid parameters passed to [ %s ]", __func__);
-				break;
+		default:
+			con_print ( CON_ERROR, true, "Invalid parameters passed to [ %s ]", __func__ );
+			break;
 		}
 }

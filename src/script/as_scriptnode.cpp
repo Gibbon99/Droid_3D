@@ -42,7 +42,7 @@
 
 BEGIN_AS_NAMESPACE
 
-asCScriptNode::asCScriptNode(eScriptNode type)
+asCScriptNode::asCScriptNode ( eScriptNode type )
 {
 	nodeType    = type;
 	tokenType   = ttUnrecognizedToken;
@@ -56,61 +56,61 @@ asCScriptNode::asCScriptNode(eScriptNode type)
 	lastChild   = 0;
 }
 
-void asCScriptNode::Destroy(asCScriptEngine *engine)
+void asCScriptNode::Destroy ( asCScriptEngine *engine )
 {
 	// Destroy all children
 	asCScriptNode *node = firstChild;
 	asCScriptNode *nxt;
 
-	while( node )
+	while ( node )
 		{
 			nxt = node->next;
-			node->Destroy(engine);
+			node->Destroy ( engine );
 			node = nxt;
 		}
 
 	// Return the memory to the memory manager
-	engine->memoryMgr.FreeScriptNode(this);
+	engine->memoryMgr.FreeScriptNode ( this );
 }
 
-asCScriptNode *asCScriptNode::CreateCopy(asCScriptEngine *engine)
+asCScriptNode *asCScriptNode::CreateCopy ( asCScriptEngine *engine )
 {
 	void *ptr = engine->memoryMgr.AllocScriptNode();
 
-	if( ptr == 0 )
+	if ( ptr == 0 )
 		{
 			// Out of memory
 			return 0;
 		}
 
-	new(ptr) asCScriptNode(nodeType);
+	new ( ptr ) asCScriptNode ( nodeType );
 
-	asCScriptNode *node = reinterpret_cast<asCScriptNode*>(ptr);
+	asCScriptNode *node = reinterpret_cast<asCScriptNode*> ( ptr );
 	node->tokenLength = tokenLength;
 	node->tokenPos    = tokenPos;
 	node->tokenType   = tokenType;
 
 	asCScriptNode *child = firstChild;
 
-	while( child )
+	while ( child )
 		{
-			node->AddChildLast(child->CreateCopy(engine));
+			node->AddChildLast ( child->CreateCopy ( engine ) );
 			child = child->next;
 		}
 
 	return node;
 }
 
-void asCScriptNode::SetToken(sToken *token)
+void asCScriptNode::SetToken ( sToken *token )
 {
 	tokenType   = token->type;
 }
 
-void asCScriptNode::UpdateSourcePos(size_t pos, size_t length)
+void asCScriptNode::UpdateSourcePos ( size_t pos, size_t length )
 {
-	if( pos == 0 && length == 0 ) return;
+	if ( pos == 0 && length == 0 ) return;
 
-	if( tokenPos == 0 && tokenLength == 0 )
+	if ( tokenPos == 0 && tokenLength == 0 )
 		{
 			tokenPos = pos;
 			tokenLength = length;
@@ -119,25 +119,25 @@ void asCScriptNode::UpdateSourcePos(size_t pos, size_t length)
 
 	else
 		{
-			if( tokenPos > pos )
+			if ( tokenPos > pos )
 				{
 					tokenLength = tokenPos + tokenLength - pos;
 					tokenPos = pos;
 				}
 
-			if( pos + length > tokenPos + tokenLength )
+			if ( pos + length > tokenPos + tokenLength )
 				{
 					tokenLength = pos + length - tokenPos;
 				}
 		}
 }
 
-void asCScriptNode::AddChildLast(asCScriptNode *node)
+void asCScriptNode::AddChildLast ( asCScriptNode *node )
 {
 	// We might get a null pointer if the parser encounter an out-of-memory situation
-	if( node == 0 ) return;
+	if ( node == 0 ) return;
 
-	if( lastChild )
+	if ( lastChild )
 		{
 			lastChild->next = node;
 			node->next      = 0;
@@ -156,24 +156,24 @@ void asCScriptNode::AddChildLast(asCScriptNode *node)
 			node->parent = this;
 		}
 
-	UpdateSourcePos(node->tokenPos, node->tokenLength);
+	UpdateSourcePos ( node->tokenPos, node->tokenLength );
 }
 
 void asCScriptNode::DisconnectParent()
 {
-	if( parent )
+	if ( parent )
 		{
-			if( parent->firstChild == this )
+			if ( parent->firstChild == this )
 				parent->firstChild = next;
 
-			if( parent->lastChild == this )
+			if ( parent->lastChild == this )
 				parent->lastChild = prev;
 		}
 
-	if( next )
+	if ( next )
 		next->prev = prev;
 
-	if( prev )
+	if ( prev )
 		prev->next = next;
 
 	parent = 0;

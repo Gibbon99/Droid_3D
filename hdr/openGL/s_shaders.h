@@ -53,23 +53,23 @@ enum
 };
 
 // Get errors from Shaders
-void gl_getGLSLError(GLint object, int objectType);
+void gl_getGLSLError ( GLint object, int objectType );
 
 // Load and compile shaders
-bool gl_loadCompileShaders(int programObject);
+bool gl_loadCompileShaders ( int programObject );
 
 // Get the location of a string variable from the shaders
-bool gl_getAttribVariable(int whichShader, char *strVariable, char *shaderText, GLint *varLocation);
-bool gl_getUniformVariable(int whichShader, char *strVariable, char *shaderText, GLint *varLocation);
+bool gl_getAttribVariable ( int whichShader, char *strVariable, char *shaderText, GLint *varLocation );
+bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderText, GLint *varLocation );
 
 // Set the value of a vec3 variable in a shader - VEC3 version
-bool gl_setUniformVariable3f(int location, float v1, float v2, float v3);
+bool gl_setUniformVariable3f ( int location, float v1, float v2, float v3 );
 
 // Set the value of a vec3 variable in a shader - VEC4 version
-bool gl_setUniformVariable4f(int location, float v1, float v2, float v3, float v4);
+bool gl_setUniformVariable4f ( int location, float v1, float v2, float v3, float v4 );
 
 // Set the value of a variable in a shader - single INT version
-bool gl_setUniformVariable(int location, int setTo);
+bool gl_setUniformVariable ( int location, int setTo );
 
 // Return string indicating which shader is passed
-char *gl_getShaderName(int whichShader);
+char *gl_getShaderName ( int whichShader );

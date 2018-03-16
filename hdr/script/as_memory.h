@@ -53,17 +53,17 @@ extern asFREEFUNC_t  userFree;
 // TODO: This declaration should be in angelscript.h
 //       when the application can register it's own
 //       aligned memory routines
-typedef void *(*asALLOCALIGNEDFUNC_t)(size_t, size_t);
-typedef void (*asFREEALIGNEDFUNC_t)(void *);
+typedef void * ( *asALLOCALIGNEDFUNC_t ) ( size_t, size_t );
+typedef void ( *asFREEALIGNEDFUNC_t ) ( void * );
 extern asALLOCALIGNEDFUNC_t userAllocAligned;
 extern asFREEALIGNEDFUNC_t  userFreeAligned;
-typedef void *(*asALLOCALIGNEDFUNCDEBUG_t)(size_t, size_t, const char *, unsigned int);
+typedef void * ( *asALLOCALIGNEDFUNCDEBUG_t ) ( size_t, size_t, const char *, unsigned int );
 
 // The maximum type alignment supported.
 const int MAX_TYPE_ALIGNMENT = 16;
 
 // Utility function used for assertions.
-bool isAligned(const void* const pointer, asUINT alignment);
+bool isAligned ( const void* const pointer, asUINT alignment );
 
 #endif // WIP_16BYTE_ALIGN
 
@@ -84,7 +84,7 @@ bool isAligned(const void* const pointer, asUINT alignment);
 
 #else
 
-typedef void *(*asALLOCFUNCDEBUG_t)(size_t, const char *, unsigned int);
+typedef void * ( *asALLOCFUNCDEBUG_t ) ( size_t, const char *, unsigned int );
 
 #define asNEW(x)        new(((asALLOCFUNCDEBUG_t)(userAlloc))(sizeof(x), __FILE__, __LINE__)) x
 #define asDELETE(ptr,x) {void *tmp = ptr; (ptr)->~x(); userFree(tmp);}
@@ -117,15 +117,15 @@ public:
 	void FreeUnusedMemory();
 
 	void *AllocScriptNode();
-	void FreeScriptNode(void *ptr);
+	void FreeScriptNode ( void *ptr );
 
 #ifndef AS_NO_COMPILER
 	void *AllocByteInstruction();
-	void FreeByteInstruction(void *ptr);
+	void FreeByteInstruction ( void *ptr );
 #endif
 
 protected:
-	DECLARECRITICALSECTION(cs)
+	DECLARECRITICALSECTION ( cs )
 	asCArray<void *> scriptNodePool;
 	asCArray<void *> byteInstructionPool;
 };

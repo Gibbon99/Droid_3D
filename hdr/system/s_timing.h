@@ -8,10 +8,10 @@ extern float            skipTicks;
 extern double           nextGameTick;
 
 // Calculate the frame rate for the capped portion
-void sys_CalculateThinkFrameRate(double timeValue);
+void sys_CalculateThinkFrameRate ( double timeValue );
 
 // This function calculates the overall frame rate and time taken to draw a frame
-void sys_CalculateFrameRate(double timeValue);
+void sys_CalculateFrameRate ( double timeValue );
 
 // Init timing variables
 void sys_initTimingVars();

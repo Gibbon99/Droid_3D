@@ -105,16 +105,16 @@ class asCScriptEngine;
 class asCScriptNode
 {
 public:
-	asCScriptNode(eScriptNode nodeType);
+	asCScriptNode ( eScriptNode nodeType );
 
-	void Destroy(asCScriptEngine *engine);
-	asCScriptNode *CreateCopy(asCScriptEngine *engine);
+	void Destroy ( asCScriptEngine *engine );
+	asCScriptNode *CreateCopy ( asCScriptEngine *engine );
 
-	void SetToken(sToken *token);
-	void AddChildLast(asCScriptNode *node);
+	void SetToken ( sToken *token );
+	void AddChildLast ( asCScriptNode *node );
 	void DisconnectParent();
 
-	void UpdateSourcePos(size_t pos, size_t length);
+	void UpdateSourcePos ( size_t pos, size_t length );
 
 	eScriptNode nodeType;
 	eTokenType tokenType;

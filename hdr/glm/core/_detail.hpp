@@ -62,9 +62,9 @@ template<bool C>
 struct If
 {
 	template<typename F, typename T>
-	static GLM_FUNC_QUALIFIER T apply(F functor, const T& val)
+	static GLM_FUNC_QUALIFIER T apply ( F functor, const T& val )
 	{
-		return functor(val);
+		return functor ( val );
 	}
 };
 
@@ -72,7 +72,7 @@ template<>
 struct If<false>
 {
 	template<typename F, typename T>
-	static GLM_FUNC_QUALIFIER T apply(F, const T& val)
+	static GLM_FUNC_QUALIFIER T apply ( F, const T& val )
 	{
 		return val;
 	}
@@ -134,15 +134,15 @@ struct If<false>
 union uif32
 {
 	GLM_FUNC_QUALIFIER uif32() :
-		i(0)
+		i ( 0 )
 	{}
 
-	GLM_FUNC_QUALIFIER uif32(float f) :
-		f(f)
+	GLM_FUNC_QUALIFIER uif32 ( float f ) :
+		f ( f )
 	{}
 
-	GLM_FUNC_QUALIFIER uif32(unsigned int i) :
-		i(i)
+	GLM_FUNC_QUALIFIER uif32 ( unsigned int i ) :
+		i ( i )
 	{}
 
 	float f;
@@ -152,15 +152,15 @@ union uif32
 union uif64
 {
 	GLM_FUNC_QUALIFIER uif64() :
-		i(0)
+		i ( 0 )
 	{}
 
-	GLM_FUNC_QUALIFIER uif64(double f) :
-		f(f)
+	GLM_FUNC_QUALIFIER uif64 ( double f ) :
+		f ( f )
 	{}
 
-	GLM_FUNC_QUALIFIER uif64(uint64 i) :
-		i(i)
+	GLM_FUNC_QUALIFIER uif64 ( uint64 i ) :
+		i ( i )
 	{}
 
 	double f;
@@ -243,10 +243,10 @@ struct is_float
 		};						\
 	}
 
-GLM_DETAIL_IS_FLOAT(detail::half);
-GLM_DETAIL_IS_FLOAT(float);
-GLM_DETAIL_IS_FLOAT(double);
-GLM_DETAIL_IS_FLOAT(long double);
+GLM_DETAIL_IS_FLOAT ( detail::half );
+GLM_DETAIL_IS_FLOAT ( float );
+GLM_DETAIL_IS_FLOAT ( double );
+GLM_DETAIL_IS_FLOAT ( long double );
 
 //////////////////
 // bool

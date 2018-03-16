@@ -184,20 +184,20 @@ extern "C" {
 #define GL_VENDOR 0x1F00
 #define GL_VERSION 0x1F02
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDTEXTUREPROC)(GLenum target, GLuint texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE1DPROC)(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE2DPROC)(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE1DPROC)(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE2DPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETETEXTURESPROC)(GLsizei n, const GLuint * textures);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWARRAYSPROC)(GLenum mode, GLint first, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENTEXTURESPROC)(GLsizei n, GLuint * textures);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETPOINTERVPROC)(GLenum pname, GLvoid ** params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISTEXTUREPROC)(GLuint texture);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOLYGONOFFSETPROC)(GLfloat factor, GLfloat units);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE1DPROC)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE2DPROC)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDTEXTUREPROC ) ( GLenum target, GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE1DPROC ) ( GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXIMAGE2DPROC ) ( GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE1DPROC ) ( GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOPYTEXSUBIMAGE2DPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETETEXTURESPROC ) ( GLsizei n, const GLuint * textures );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWARRAYSPROC ) ( GLenum mode, GLint first, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSPROC ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENTEXTURESPROC ) ( GLsizei n, GLuint * textures );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETPOINTERVPROC ) ( GLenum pname, GLvoid ** params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISTEXTUREPROC ) ( GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOLYGONOFFSETPROC ) ( GLfloat factor, GLfloat units );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE1DPROC ) ( GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXSUBIMAGE2DPROC ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels );
 
 extern PFNGLBINDTEXTUREPROC _funcptr_glBindTexture;
 #define glBindTexture _funcptr_glBindTexture

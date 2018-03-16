@@ -34,15 +34,15 @@ enum PlaneData
 //-----------------------------------------------------------------------------
 //
 // This normalizes a plane (A side) from a given frustum
-void sys_normalizePlane(float frustum[6][4], int side)
+void sys_normalizePlane ( float frustum[6][4], int side )
 //-----------------------------------------------------------------------------
 {
 	// Here we calculate the magnitude of the normal to the plane (point A B C)
 	// Remember that (A, B, C) is that same thing as the normal's (X, Y, Z).
 	// To calculate magnitude you use the equation:  magnitude = sqrt( x^2 + y^2 + z^2)
-	float magnitude = (float)sqrt( frustum[side][PLANE_A] * frustum[side][PLANE_A] +
-	                               frustum[side][PLANE_B] * frustum[side][PLANE_B] +
-	                               frustum[side][PLANE_C] * frustum[side][PLANE_C] );
+	float magnitude = ( float ) sqrt ( frustum[side][PLANE_A] * frustum[side][PLANE_A] +
+	                                   frustum[side][PLANE_B] * frustum[side][PLANE_B] +
+	                                   frustum[side][PLANE_C] * frustum[side][PLANE_C] );
 
 	// Then we divide the plane's values by it's magnitude.
 	// This makes it easier to work with.
@@ -76,8 +76,8 @@ void sys_calculateFrustum()
 	float *modl;
 
 
-	proj = glm::value_ptr(projMatrix);
-	modl = glm::value_ptr(viewMatrix);
+	proj = glm::value_ptr ( projMatrix );
+	modl = glm::value_ptr ( viewMatrix );
 
 	// Now that we have our modelview and projection matrix, if we combine these 2 matrices,
 	// it will give us our clipping planes.  To combine 2 matrices, we multiply them.
@@ -116,7 +116,7 @@ void sys_calculateFrustum()
 	// we want to normalize that normal and distance.
 
 	// Normalize the RIGHT side
-	sys_normalizePlane(m_Frustum, RIGHT);
+	sys_normalizePlane ( m_Frustum, RIGHT );
 
 	// This will extract the LEFT side of the frustum
 	m_Frustum[LEFT][PLANE_A] = clip[ 3] + clip[ 0];
@@ -125,7 +125,7 @@ void sys_calculateFrustum()
 	m_Frustum[LEFT][PLANE_D] = clip[15] + clip[12];
 
 	// Normalize the LEFT side
-	sys_normalizePlane(m_Frustum, LEFT);
+	sys_normalizePlane ( m_Frustum, LEFT );
 
 	// This will extract the BOTTOM side of the frustum
 	m_Frustum[BOTTOM][PLANE_A] = clip[ 3] + clip[ 1];
@@ -134,7 +134,7 @@ void sys_calculateFrustum()
 	m_Frustum[BOTTOM][PLANE_D] = clip[15] + clip[13];
 
 	// Normalize the BOTTOM side
-	sys_normalizePlane(m_Frustum, BOTTOM);
+	sys_normalizePlane ( m_Frustum, BOTTOM );
 
 	// This will extract the TOP side of the frustum
 	m_Frustum[TOP][PLANE_A] = clip[ 3] - clip[ 1];
@@ -143,7 +143,7 @@ void sys_calculateFrustum()
 	m_Frustum[TOP][PLANE_D] = clip[15] - clip[13];
 
 	// Normalize the TOP side
-	sys_normalizePlane(m_Frustum, TOP);
+	sys_normalizePlane ( m_Frustum, TOP );
 
 	// This will extract the BACK side of the frustum
 	m_Frustum[BACK][PLANE_A] = clip[ 3] - clip[ 2];
@@ -152,7 +152,7 @@ void sys_calculateFrustum()
 	m_Frustum[BACK][PLANE_D] = clip[15] - clip[14];
 
 	// Normalize the BACK side
-	sys_normalizePlane(m_Frustum, BACK);
+	sys_normalizePlane ( m_Frustum, BACK );
 
 	// This will extract the FRONT side of the frustum
 	m_Frustum[FRONT][PLANE_A] = clip[ 3] + clip[ 2];
@@ -161,86 +161,86 @@ void sys_calculateFrustum()
 	m_Frustum[FRONT][PLANE_D] = clip[15] + clip[14];
 
 	// Normalize the FRONT side
-	sys_normalizePlane(m_Frustum, FRONT);
+	sys_normalizePlane ( m_Frustum, FRONT );
 }
 
 //-----------------------------------------------------------------------------
 //
 // This determines if a BOX is in or around our frustum by it's min and max points
-int sys_boxInFrustum( float x, float y, float z, float x2, float y2, float z2)
+int sys_boxInFrustum ( float x, float y, float z, float x2, float y2, float z2 )
 //-----------------------------------------------------------------------------
 {
 	// Detailed explanation on the BSP tutorial 4
 	byte mode=0;					// set IN and OUT bit to 0
 
-	for(int i = 0; i < 6; i++ )
+	for ( int i = 0; i < 6; i++ )
 		{
 			mode &= V_OUT;				// clear the IN bit to 0
 
-			if(m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0)
+			if ( m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0 )
 				mode |= V_IN;  // set IN bit to 1
 
 			else
 				mode |= V_OUT; // set OUT bit to 1
 
-			if (mode == V_INTERSECT) continue;  // if we found a vertex IN for THIS plane and
+			if ( mode == V_INTERSECT ) continue; // if we found a vertex IN for THIS plane and
 
 			// a vertex OUT of ANY plane continue ( we have enough information to say:
 			// INTERSECT! IF there is not vertex missing from the FRONT of the remaining planes)
 
-			if(m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0)  mode |= V_IN;
+			if ( m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0 )  mode |= V_IN;
 
 			else mode |= V_OUT;
 
-			if (mode == V_INTERSECT) continue;
+			if ( mode == V_INTERSECT ) continue;
 
-			if(m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0)  mode |= V_IN;
-
-			else mode |= V_OUT;
-
-			if (mode == V_INTERSECT) continue;
-
-			if(m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0)  mode |= V_IN;
+			if ( m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0 )  mode |= V_IN;
 
 			else mode |= V_OUT;
 
-			if (mode == V_INTERSECT) continue;
+			if ( mode == V_INTERSECT ) continue;
 
-			if(m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0)  mode |= V_IN;
-
-			else mode |= V_OUT;
-
-			if (mode == V_INTERSECT) continue;
-
-			if(m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0)  mode |= V_IN;
+			if ( m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z  + m_Frustum[i][PLANE_D] >= 0 )  mode |= V_IN;
 
 			else mode |= V_OUT;
 
-			if (mode == V_INTERSECT) continue;
+			if ( mode == V_INTERSECT ) continue;
 
-			if(m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0)  mode |= V_IN;
-
-			else mode |= V_OUT;
-
-			if (mode == V_INTERSECT) continue;
-
-			if(m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0)  mode |= V_IN;
+			if ( m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0 )  mode |= V_IN;
 
 			else mode |= V_OUT;
 
-			if (mode == V_INTERSECT) continue;
+			if ( mode == V_INTERSECT ) continue;
+
+			if ( m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y  + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0 )  mode |= V_IN;
+
+			else mode |= V_OUT;
+
+			if ( mode == V_INTERSECT ) continue;
+
+			if ( m_Frustum[i][PLANE_A] * x  + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0 )  mode |= V_IN;
+
+			else mode |= V_OUT;
+
+			if ( mode == V_INTERSECT ) continue;
+
+			if ( m_Frustum[i][PLANE_A] * x2 + m_Frustum[i][PLANE_B] * y2 + m_Frustum[i][PLANE_C] * z2 + m_Frustum[i][PLANE_D] >= 0 )  mode |= V_IN;
+
+			else mode |= V_OUT;
+
+			if ( mode == V_INTERSECT ) continue;
 
 			// if we arrive to this point, then there are two possibilities:
 			// there is not vertices in or there is not intersection till now, if
 			// there is a vertice in, continue (we are not over!)
-			if (mode == V_IN) continue;
+			if ( mode == V_IN ) continue;
 
 			// there is not vertex IN front of this plane, so the box is COMPLETE_OUT
 			return COMPLETE_OUT;
 		}
 
 	// All planes has a vertex IN FRONT so or the box is intersecting or complete IN
-	if (mode == V_INTERSECT)
+	if ( mode == V_INTERSECT )
 		return INTERSECT;
 
 	else

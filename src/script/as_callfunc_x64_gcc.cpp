@@ -54,7 +54,7 @@
 BEGIN_AS_NAMESPACE
 
 enum argTypes { x64INTARG = 0, x64FLOATARG = 1 };
-typedef asQWORD ( *funcptr_t )( void );
+typedef asQWORD ( *funcptr_t ) ( void );
 
 #define X64_MAX_ARGS             32
 #define MAX_CALL_INT_REGISTERS    6
@@ -64,7 +64,7 @@ typedef asQWORD ( *funcptr_t )( void );
 // Note to self: Always remember to inform the used registers on the clobber line,
 // so that the gcc optimizer doesn't try to use them for other things
 
-static asQWORD __attribute__((noinline)) X64_CallFunction(const asQWORD *args, int cnt, funcptr_t func, asQWORD &retQW2, bool returnFloat)
+static asQWORD __attribute__ ( ( noinline ) ) X64_CallFunction ( const asQWORD *args, int cnt, funcptr_t func, asQWORD &retQW2, bool returnFloat )
 {
 	// Need to flag the variable as volatile so the compiler doesn't optimize out the variable
 	volatile asQWORD retQW1 = 0;
@@ -157,20 +157,20 @@ static asQWORD __attribute__((noinline)) X64_CallFunction(const asQWORD *args, i
 	    "  movq %%rdx, %4 \n"
 	    "endcall: \n"
 
-	    : : "g" ((asQWORD)cnt), "g" (args), "g" (func), "m" (retQW1), "m" (retQW2), "m" (returnFloat)
+	    : : "g" ( ( asQWORD ) cnt ), "g" ( args ), "g" ( func ), "m" ( retQW1 ), "m" ( retQW2 ), "m" ( returnFloat )
 	    : "%xmm0", "%xmm1", "%xmm2", "%xmm3", "%xmm4", "%xmm5", "%xmm6", "%xmm7",
-	    "%rdi", "%rsi", "%rax", "%rdx", "%rcx", "%r8", "%r9", "%r10", "%r11", "%r15");
+	    "%rdi", "%rsi", "%rax", "%rdx", "%rcx", "%r8", "%r9", "%r10", "%r11", "%r15" );
 
 	return retQW1;
 }
 
 // returns true if the given parameter is a 'variable argument'
-static inline bool IsVariableArgument( asCDataType type )
+static inline bool IsVariableArgument ( asCDataType type )
 {
 	return ( type.GetTokenType() == ttQuestion ) ? true : false;
 }
 
-asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &retQW2, void *secondObject)
+asQWORD CallSystemFunctionNative ( asCContext *context, asCScriptFunction *descr, void *obj, asDWORD *args, void *retPointer, asQWORD &retQW2, void *secondObject )
 {
 	asCScriptEngine            *engine             = context->m_engine;
 	asSSystemFunctionInterface *sysFunc            = descr->sysFuncIntf;
@@ -182,9 +182,9 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 	int                         n                  = 0;
 	int                         param_post         = 0;
 	int                         argIndex           = 0;
-	funcptr_t                   func               = (funcptr_t)sysFunc->func;
+	funcptr_t                   func               = ( funcptr_t ) sysFunc->func;
 
-	if( sysFunc->hostReturnInMemory )
+	if ( sysFunc->hostReturnInMemory )
 		{
 			// The return is made in memory
 			callConv++;
@@ -200,11 +200,11 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 	              callConv == ICC_VIRTUAL_THISCALL_OBJFIRST ||
 	              callConv == ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM ||
 	              callConv == ICC_VIRTUAL_THISCALL_OBJLAST ||
-	              callConv == ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM) )
+	              callConv == ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM ) )
 #endif
 		{
-			vftable = *((funcptr_t**)obj);
-			func = vftable[FuncPtrToUInt(asFUNCTION_t(func)) >> 3];
+			vftable = * ( ( funcptr_t** ) obj );
+			func = vftable[FuncPtrToUInt ( asFUNCTION_t ( func ) ) >> 3];
 		}
 
 	// Determine the type of the arguments, and prepare the input array for the X64_CallFunction
@@ -213,155 +213,155 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 
 	switch ( callConv )
 		{
-			case ICC_CDECL_RETURNINMEM:
-			case ICC_STDCALL_RETURNINMEM:
-			{
-				paramBuffer[0] = (asPWORD)retPointer;
-				argsType[0] = x64INTARG;
+		case ICC_CDECL_RETURNINMEM:
+		case ICC_STDCALL_RETURNINMEM:
+		{
+			paramBuffer[0] = ( asPWORD ) retPointer;
+			argsType[0] = x64INTARG;
 
-				argIndex = 1;
+			argIndex = 1;
 
-				break;
-			}
-
-#ifndef AS_NO_THISCALL_FUNCTOR_METHOD
-
-			case ICC_THISCALL_OBJLAST:
-			case ICC_VIRTUAL_THISCALL_OBJLAST:
-				param_post = 2;
-#endif
-
-			case ICC_THISCALL:
-			case ICC_VIRTUAL_THISCALL:
-			case ICC_CDECL_OBJFIRST:
-			{
-				paramBuffer[0] = (asPWORD)obj;
-				argsType[0] = x64INTARG;
-
-				argIndex = 1;
-
-				break;
-			}
-
-#ifndef AS_NO_THISCALL_FUNCTOR_METHOD
-
-			case ICC_THISCALL_OBJLAST_RETURNINMEM:
-			case ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM:
-				param_post = 2;
-#endif
-
-			case ICC_THISCALL_RETURNINMEM:
-			case ICC_VIRTUAL_THISCALL_RETURNINMEM:
-			case ICC_CDECL_OBJFIRST_RETURNINMEM:
-			{
-				paramBuffer[0] = (asPWORD)retPointer;
-				paramBuffer[1] = (asPWORD)obj;
-				argsType[0] = x64INTARG;
-				argsType[1] = x64INTARG;
-
-				argIndex = 2;
-
-				break;
-			}
-
-#ifndef AS_NO_THISCALL_FUNCTOR_METHOD
-
-			case ICC_THISCALL_OBJFIRST:
-			case ICC_VIRTUAL_THISCALL_OBJFIRST:
-			{
-				paramBuffer[0] = (asPWORD)obj;
-				paramBuffer[1] = (asPWORD)secondObject;
-				argsType[0] = x64INTARG;
-				argsType[1] = x64INTARG;
-
-				argIndex = 2;
-				break;
-			}
-
-			case ICC_THISCALL_OBJFIRST_RETURNINMEM:
-			case ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM:
-			{
-				paramBuffer[0] = (asPWORD)retPointer;
-				paramBuffer[1] = (asPWORD)obj;
-				paramBuffer[2] = (asPWORD)secondObject;
-				argsType[0] = x64INTARG;
-				argsType[1] = x64INTARG;
-				argsType[2] = x64INTARG;
-
-				argIndex = 3;
-				break;
-			}
-
-#endif
-
-			case ICC_CDECL_OBJLAST:
-				param_post = 1;
-				break;
-
-			case ICC_CDECL_OBJLAST_RETURNINMEM:
-			{
-				paramBuffer[0] = (asPWORD)retPointer;
-				argsType[0] = x64INTARG;
-
-				argIndex = 1;
-				param_post = 1;
-
-				break;
-			}
+			break;
 		}
 
-	int argumentCount = ( int )descr->parameterTypes.GetLength();
+#ifndef AS_NO_THISCALL_FUNCTOR_METHOD
 
-	for( int a = 0; a < argumentCount; ++a )
+		case ICC_THISCALL_OBJLAST:
+		case ICC_VIRTUAL_THISCALL_OBJLAST:
+			param_post = 2;
+#endif
+
+		case ICC_THISCALL:
+		case ICC_VIRTUAL_THISCALL:
+		case ICC_CDECL_OBJFIRST:
+		{
+			paramBuffer[0] = ( asPWORD ) obj;
+			argsType[0] = x64INTARG;
+
+			argIndex = 1;
+
+			break;
+		}
+
+#ifndef AS_NO_THISCALL_FUNCTOR_METHOD
+
+		case ICC_THISCALL_OBJLAST_RETURNINMEM:
+		case ICC_VIRTUAL_THISCALL_OBJLAST_RETURNINMEM:
+			param_post = 2;
+#endif
+
+		case ICC_THISCALL_RETURNINMEM:
+		case ICC_VIRTUAL_THISCALL_RETURNINMEM:
+		case ICC_CDECL_OBJFIRST_RETURNINMEM:
+		{
+			paramBuffer[0] = ( asPWORD ) retPointer;
+			paramBuffer[1] = ( asPWORD ) obj;
+			argsType[0] = x64INTARG;
+			argsType[1] = x64INTARG;
+
+			argIndex = 2;
+
+			break;
+		}
+
+#ifndef AS_NO_THISCALL_FUNCTOR_METHOD
+
+		case ICC_THISCALL_OBJFIRST:
+		case ICC_VIRTUAL_THISCALL_OBJFIRST:
+		{
+			paramBuffer[0] = ( asPWORD ) obj;
+			paramBuffer[1] = ( asPWORD ) secondObject;
+			argsType[0] = x64INTARG;
+			argsType[1] = x64INTARG;
+
+			argIndex = 2;
+			break;
+		}
+
+		case ICC_THISCALL_OBJFIRST_RETURNINMEM:
+		case ICC_VIRTUAL_THISCALL_OBJFIRST_RETURNINMEM:
+		{
+			paramBuffer[0] = ( asPWORD ) retPointer;
+			paramBuffer[1] = ( asPWORD ) obj;
+			paramBuffer[2] = ( asPWORD ) secondObject;
+			argsType[0] = x64INTARG;
+			argsType[1] = x64INTARG;
+			argsType[2] = x64INTARG;
+
+			argIndex = 3;
+			break;
+		}
+
+#endif
+
+		case ICC_CDECL_OBJLAST:
+			param_post = 1;
+			break;
+
+		case ICC_CDECL_OBJLAST_RETURNINMEM:
+		{
+			paramBuffer[0] = ( asPWORD ) retPointer;
+			argsType[0] = x64INTARG;
+
+			argIndex = 1;
+			param_post = 1;
+
+			break;
+		}
+		}
+
+	int argumentCount = ( int ) descr->parameterTypes.GetLength();
+
+	for ( int a = 0; a < argumentCount; ++a )
 		{
 			const asCDataType &parmType = descr->parameterTypes[a];
 
-			if( parmType.IsFloatType() && !parmType.IsReference() )
+			if ( parmType.IsFloatType() && !parmType.IsReference() )
 				{
 					argsType[argIndex] = x64FLOATARG;
-					memcpy(paramBuffer + argIndex, stack_pointer, sizeof(float));
+					memcpy ( paramBuffer + argIndex, stack_pointer, sizeof ( float ) );
 					argIndex++;
 					stack_pointer++;
 
 				}
 
-			else if( parmType.IsDoubleType() && !parmType.IsReference() )
+			else if ( parmType.IsDoubleType() && !parmType.IsReference() )
 				{
 					argsType[argIndex] = x64FLOATARG;
-					memcpy(paramBuffer + argIndex, stack_pointer, sizeof(double));
+					memcpy ( paramBuffer + argIndex, stack_pointer, sizeof ( double ) );
 					argIndex++;
 					stack_pointer += 2;
 
 				}
 
-			else if( IsVariableArgument( parmType ) )
+			else if ( IsVariableArgument ( parmType ) )
 				{
 					// The variable args are really two, one pointer and one type id
 					argsType[argIndex] = x64INTARG;
 					argsType[argIndex+1] = x64INTARG;
-					memcpy(paramBuffer + argIndex, stack_pointer, sizeof(void*));
-					memcpy(paramBuffer + argIndex + 1, stack_pointer + 2, sizeof(asDWORD));
+					memcpy ( paramBuffer + argIndex, stack_pointer, sizeof ( void* ) );
+					memcpy ( paramBuffer + argIndex + 1, stack_pointer + 2, sizeof ( asDWORD ) );
 					argIndex += 2;
 					stack_pointer += 3;
 
 				}
 
-			else if( parmType.IsPrimitive() ||
-			         parmType.IsReference() ||
-			         parmType.IsObjectHandle() )
+			else if ( parmType.IsPrimitive() ||
+			          parmType.IsReference() ||
+			          parmType.IsObjectHandle() )
 				{
 					argsType[argIndex] = x64INTARG;
 
-					if( parmType.GetSizeOnStackDWords() == 1 )
+					if ( parmType.GetSizeOnStackDWords() == 1 )
 						{
-							memcpy(paramBuffer + argIndex, stack_pointer, sizeof(asDWORD));
+							memcpy ( paramBuffer + argIndex, stack_pointer, sizeof ( asDWORD ) );
 							stack_pointer++;
 
 						}
 
 					else
 						{
-							memcpy(paramBuffer + argIndex, stack_pointer, sizeof(asQWORD));
+							memcpy ( paramBuffer + argIndex, stack_pointer, sizeof ( asQWORD ) );
 							stack_pointer += 2;
 						}
 
@@ -372,25 +372,25 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 			else
 				{
 					// An object is being passed by value
-					if( (parmType.GetTypeInfo()->flags & COMPLEX_MASK) ||
+					if ( ( parmType.GetTypeInfo()->flags & COMPLEX_MASK ) ||
 					        parmType.GetSizeInMemoryDWords() > 4 )
 						{
 							// Copy the address of the object
 							argsType[argIndex] = x64INTARG;
-							memcpy(paramBuffer + argIndex, stack_pointer, sizeof(asQWORD));
+							memcpy ( paramBuffer + argIndex, stack_pointer, sizeof ( asQWORD ) );
 							argIndex++;
 
 						}
 
-					else if( (parmType.GetTypeInfo()->flags & asOBJ_APP_CLASS_ALLINTS) ||
-					         (parmType.GetTypeInfo()->flags & asOBJ_APP_PRIMITIVE) )
+					else if ( ( parmType.GetTypeInfo()->flags & asOBJ_APP_CLASS_ALLINTS ) ||
+					          ( parmType.GetTypeInfo()->flags & asOBJ_APP_PRIMITIVE ) )
 						{
 							// Copy the value of the object
-							if( parmType.GetSizeInMemoryDWords() > 2 )
+							if ( parmType.GetSizeInMemoryDWords() > 2 )
 								{
 									argsType[argIndex] = x64INTARG;
 									argsType[argIndex+1] = x64INTARG;
-									memcpy(paramBuffer + argIndex, *(asDWORD**)stack_pointer, parmType.GetSizeInMemoryBytes());
+									memcpy ( paramBuffer + argIndex, * ( asDWORD** ) stack_pointer, parmType.GetSizeInMemoryBytes() );
 									argIndex += 2;
 
 								}
@@ -398,24 +398,24 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 							else
 								{
 									argsType[argIndex] = x64INTARG;
-									memcpy(paramBuffer + argIndex, *(asDWORD**)stack_pointer, parmType.GetSizeInMemoryBytes());
+									memcpy ( paramBuffer + argIndex, * ( asDWORD** ) stack_pointer, parmType.GetSizeInMemoryBytes() );
 									argIndex++;
 								}
 
 							// Delete the original memory
-							engine->CallFree(*(void**)stack_pointer);
+							engine->CallFree ( * ( void** ) stack_pointer );
 
 						}
 
-					else if( (parmType.GetTypeInfo()->flags & asOBJ_APP_CLASS_ALLFLOATS) ||
-					         (parmType.GetTypeInfo()->flags & asOBJ_APP_FLOAT) )
+					else if ( ( parmType.GetTypeInfo()->flags & asOBJ_APP_CLASS_ALLFLOATS ) ||
+					          ( parmType.GetTypeInfo()->flags & asOBJ_APP_FLOAT ) )
 						{
 							// Copy the value of the object
-							if( parmType.GetSizeInMemoryDWords() > 2 )
+							if ( parmType.GetSizeInMemoryDWords() > 2 )
 								{
 									argsType[argIndex] = x64FLOATARG;
 									argsType[argIndex+1] = x64FLOATARG;
-									memcpy(paramBuffer + argIndex, *(asDWORD**)stack_pointer, parmType.GetSizeInMemoryBytes());
+									memcpy ( paramBuffer + argIndex, * ( asDWORD** ) stack_pointer, parmType.GetSizeInMemoryBytes() );
 									argIndex += 2;
 
 								}
@@ -423,12 +423,12 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 							else
 								{
 									argsType[argIndex] = x64FLOATARG;
-									memcpy(paramBuffer + argIndex, *(asDWORD**)stack_pointer, parmType.GetSizeInMemoryBytes());
+									memcpy ( paramBuffer + argIndex, * ( asDWORD** ) stack_pointer, parmType.GetSizeInMemoryBytes() );
 									argIndex++;
 								}
 
 							// Delete the original memory
-							engine->CallFree(*(void**)stack_pointer);
+							engine->CallFree ( * ( void** ) stack_pointer );
 						}
 
 					stack_pointer += 2;
@@ -436,12 +436,12 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 		}
 
 	// For the CDECL_OBJ_LAST calling convention we need to add the object pointer as the last argument
-	if( param_post )
+	if ( param_post )
 		{
 #ifdef AS_NO_THISCALL_FUNCTOR_METHOD
-			paramBuffer[argIndex] = (asPWORD)obj;
+			paramBuffer[argIndex] = ( asPWORD ) obj;
 #else
-			paramBuffer[argIndex] = (asPWORD)(param_post > 1 ? secondObject : obj);
+			paramBuffer[argIndex] = ( asPWORD ) ( param_post > 1 ? secondObject : obj );
 #endif
 			argsType[argIndex] = x64INTARG;
 			argIndex++;
@@ -508,7 +508,7 @@ asQWORD CallSystemFunctionNative(asCContext *context, asCScriptFunction *descr, 
 				}
 		}
 
-	retQW = X64_CallFunction( tempBuff, used_stack_args, func, retQW2, sysFunc->hostReturnFloat );
+	retQW = X64_CallFunction ( tempBuff, used_stack_args, func, retQW2, sysFunc->hostReturnFloat );
 
 	return retQW;
 }

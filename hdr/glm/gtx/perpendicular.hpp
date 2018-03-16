@@ -55,9 +55,9 @@ namespace glm
 //! Projects x a perpendicular axis of Normal.
 //! From GLM_GTX_perpendicular extension.
 template <typename vecType>
-vecType perp(
+vecType perp (
     vecType const & x,
-    vecType const & Normal);
+    vecType const & Normal );
 
 /// @}
 }//namespace glm

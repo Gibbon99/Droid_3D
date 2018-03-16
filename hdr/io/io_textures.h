@@ -46,10 +46,10 @@ bool io_loadAllTextures();
 void io_freeTextureArray();
 
 // Setp the memory to hold info for textures for the models
-bool io_setupModelTextureMemory(int numberTextures);
+bool io_setupModelTextureMemory ( int numberTextures );
 
 // Load a texture and set it's TextureID
-GLint utilLoadTexture(GLuint whichTexture, const char *fileName);
+GLint utilLoadTexture ( GLuint whichTexture, const char *fileName );
 
 // Save current screen to file
 void io_saveScreenToFile();

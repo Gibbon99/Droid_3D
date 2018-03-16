@@ -53,17 +53,17 @@ namespace glm
 //! Simulate GL_CLAMP OpenGL wrap mode
 //! From GLM_GTX_wrap extension.
 template <typename genType>
-genType clamp(genType const & Texcoord);
+genType clamp ( genType const & Texcoord );
 
 //! Simulate GL_REPEAT OpenGL wrap mode
 //! From GLM_GTX_wrap extension.
 template <typename genType>
-genType repeat(genType const & Texcoord);
+genType repeat ( genType const & Texcoord );
 
 //! Simulate GL_MIRROR_REPEAT OpenGL wrap mode
 //! From GLM_GTX_wrap extension.
 template <typename genType>
-genType mirrorRepeat(genType const & Texcoord);
+genType mirrorRepeat ( genType const & Texcoord );
 
 /// @}
 }// namespace glm

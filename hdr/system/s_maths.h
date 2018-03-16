@@ -19,4 +19,4 @@ extern          glm::vec3 	clickRayDirection;
 void sys_calculateFrustum();
 
 // This determines if a BOX is in or around our frustum by it's min and max points
-int sys_boxInFrustum( float x, float y, float z, float x2, float y2, float z2);
+int sys_boxInFrustum ( float x, float y, float z, float x2, float y2, float z2 );

@@ -58,4 +58,4 @@ extern char         fontFileName[];       // Max size for font filename
 
 extern bool        cameraLockedToPhysics;   // Collision detection with physics or free roam camera
 // Change game mode
-void changeMode( int newMode );
+void changeMode ( int newMode );

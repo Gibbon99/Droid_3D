@@ -42,31 +42,31 @@ namespace glm
 namespace detail
 {
 //length
-__m128 sse_len_ps(__m128 x);
+__m128 sse_len_ps ( __m128 x );
 
 //distance
-__m128 sse_dst_ps(__m128 p0, __m128 p1);
+__m128 sse_dst_ps ( __m128 p0, __m128 p1 );
 
 //dot
-__m128 sse_dot_ps(__m128 v1, __m128 v2);
+__m128 sse_dot_ps ( __m128 v1, __m128 v2 );
 
 // SSE1
-__m128 sse_dot_ss(__m128 v1, __m128 v2);
+__m128 sse_dot_ss ( __m128 v1, __m128 v2 );
 
 //cross
-__m128 sse_xpd_ps(__m128 v1, __m128 v2);
+__m128 sse_xpd_ps ( __m128 v1, __m128 v2 );
 
 //normalize
-__m128 sse_nrm_ps(__m128 v);
+__m128 sse_nrm_ps ( __m128 v );
 
 //faceforward
-__m128 sse_ffd_ps(__m128 N, __m128 I, __m128 Nref);
+__m128 sse_ffd_ps ( __m128 N, __m128 I, __m128 Nref );
 
 //reflect
-__m128 sse_rfe_ps(__m128 I, __m128 N);
+__m128 sse_rfe_ps ( __m128 I, __m128 N );
 
 //refract
-__m128 sse_rfa_ps(__m128 I, __m128 N, __m128 eta);
+__m128 sse_rfa_ps ( __m128 I, __m128 N, __m128 eta );
 
 }//namespace detail
 }//namespace glm

@@ -69,31 +69,31 @@
 	} \
 
 /* Note this counts WCHARs, not codepoints! */
-static PHYSFS_uint64 wStrLen(const WCHAR *wstr)
+static PHYSFS_uint64 wStrLen ( const WCHAR *wstr )
 {
 	PHYSFS_uint64 len = 0;
 
-	while (*(wstr++))
+	while ( * ( wstr++ ) )
 		len++;
 
 	return len;
 } /* wStrLen */
 
-static char *unicodeToUtf8Heap(const WCHAR *w_str)
+static char *unicodeToUtf8Heap ( const WCHAR *w_str )
 {
 	char *retval = NULL;
 
-	if (w_str != NULL)
+	if ( w_str != NULL )
 		{
 			void *ptr = NULL;
-			const PHYSFS_uint64 len = (wStrLen(w_str) * 4) + 1;
-			retval = allocator.Malloc(len);
-			BAIL_IF(!retval, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
-			PHYSFS_utf8FromUtf16((const PHYSFS_uint16 *) w_str, retval, len);
-			ptr = allocator.Realloc(retval, strlen(retval) + 1); /* shrink. */
+			const PHYSFS_uint64 len = ( wStrLen ( w_str ) * 4 ) + 1;
+			retval = allocator.Malloc ( len );
+			BAIL_IF ( !retval, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
+			PHYSFS_utf8FromUtf16 ( ( const PHYSFS_uint16 * ) w_str, retval, len );
+			ptr = allocator.Realloc ( retval, strlen ( retval ) + 1 ); /* shrink. */
 
-			if (ptr != NULL)
-				retval = (char *) ptr;
+			if ( ptr != NULL )
+				retval = ( char * ) ptr;
 		} /* if */
 
 	return retval;
@@ -104,88 +104,88 @@ static char *unicodeToUtf8Heap(const WCHAR *w_str)
    Since non-WinRT might not have the "Ex" version, we tapdance to use
    the perfectly-fine-and-available-even-on-Win95 API on non-WinRT targets. */
 
-static inline HANDLE winFindFirstFileW(const WCHAR *path, LPWIN32_FIND_DATAW d)
+static inline HANDLE winFindFirstFileW ( const WCHAR *path, LPWIN32_FIND_DATAW d )
 {
 #ifdef PHYSFS_PLATFORM_WINRT
-	return FindFirstFileExW(path, FindExInfoStandard, d,
-	                        FindExSearchNameMatch, NULL, 0);
+	return FindFirstFileExW ( path, FindExInfoStandard, d,
+	                          FindExSearchNameMatch, NULL, 0 );
 #else
-	return FindFirstFileW(path, d);
+	return FindFirstFileW ( path, d );
 #endif
 } /* winFindFirstFileW */
 
-static inline BOOL winInitializeCriticalSection(LPCRITICAL_SECTION lpcs)
+static inline BOOL winInitializeCriticalSection ( LPCRITICAL_SECTION lpcs )
 {
 #ifdef PHYSFS_PLATFORM_WINRT
-	return InitializeCriticalSectionEx(lpcs, 2000, 0);
+	return InitializeCriticalSectionEx ( lpcs, 2000, 0 );
 #else
-	InitializeCriticalSection(lpcs);
+	InitializeCriticalSection ( lpcs );
 	return TRUE;
 #endif
 } /* winInitializeCriticalSection */
 
-static inline HANDLE winCreateFileW(const WCHAR *wfname, const DWORD mode,
-                                    const DWORD creation)
+static inline HANDLE winCreateFileW ( const WCHAR *wfname, const DWORD mode,
+                                      const DWORD creation )
 {
 	const DWORD share = FILE_SHARE_READ | FILE_SHARE_WRITE;
 #ifdef PHYSFS_PLATFORM_WINRT
-	return CreateFile2(wfname, mode, share, creation, NULL);
+	return CreateFile2 ( wfname, mode, share, creation, NULL );
 #else
-	return CreateFileW(wfname, mode, share, NULL, creation,
-	                   FILE_ATTRIBUTE_NORMAL, NULL);
+	return CreateFileW ( wfname, mode, share, NULL, creation,
+	                     FILE_ATTRIBUTE_NORMAL, NULL );
 #endif
 } /* winCreateFileW */
 
-static BOOL winSetFilePointer(HANDLE h, const PHYSFS_sint64 pos,
-                              PHYSFS_sint64 *_newpos, const DWORD whence)
+static BOOL winSetFilePointer ( HANDLE h, const PHYSFS_sint64 pos,
+                                PHYSFS_sint64 *_newpos, const DWORD whence )
 {
 #ifdef PHYSFS_PLATFORM_WINRT
 	LARGE_INTEGER lipos;
 	LARGE_INTEGER linewpos;
 	BOOL rc;
-	lipos.QuadPart = (LONGLONG) pos;
-	rc = SetFilePointerEx(h, lipos, &linewpos, whence);
+	lipos.QuadPart = ( LONGLONG ) pos;
+	rc = SetFilePointerEx ( h, lipos, &linewpos, whence );
 
-	if (_newpos)
-		*_newpos = (PHYSFS_sint64) linewpos.QuadPart;
+	if ( _newpos )
+		*_newpos = ( PHYSFS_sint64 ) linewpos.QuadPart;
 
 	return rc;
 #else
-	const LONG low = (LONG) (pos & 0xFFFFFFFF);
-	LONG high = (LONG) ((pos >> 32) & 0xFFFFFFFF);
-	const DWORD rc = SetFilePointer(h, low, &high, whence);
+	const LONG low = ( LONG ) ( pos & 0xFFFFFFFF );
+	LONG high = ( LONG ) ( ( pos >> 32 ) & 0xFFFFFFFF );
+	const DWORD rc = SetFilePointer ( h, low, &high, whence );
 
 	/* 0xFFFFFFFF could be valid, so you have to check GetLastError too! */
-	if (_newpos)
-		*_newpos = ((PHYSFS_sint64) rc) | (((PHYSFS_sint64) high) << 32);
+	if ( _newpos )
+		*_newpos = ( ( PHYSFS_sint64 ) rc ) | ( ( ( PHYSFS_sint64 ) high ) << 32 );
 
-	if ((rc == PHYSFS_INVALID_SET_FILE_POINTER) && (GetLastError() != NO_ERROR))
+	if ( ( rc == PHYSFS_INVALID_SET_FILE_POINTER ) && ( GetLastError() != NO_ERROR ) )
 		return FALSE;
 
 	return TRUE;
 #endif
 } /* winSetFilePointer */
 
-static PHYSFS_sint64 winGetFileSize(HANDLE h)
+static PHYSFS_sint64 winGetFileSize ( HANDLE h )
 {
 #ifdef PHYSFS_PLATFORM_WINRT
 	FILE_STANDARD_INFO info;
-	const BOOL rc = GetFileInformationByHandleEx(h, FileStandardInfo,
-	                &info, sizeof (info));
-	return rc ? (PHYSFS_sint64) info.EndOfFile.QuadPart : -1;
+	const BOOL rc = GetFileInformationByHandleEx ( h, FileStandardInfo,
+	                &info, sizeof ( info ) );
+	return rc ? ( PHYSFS_sint64 ) info.EndOfFile.QuadPart : -1;
 #else
 	DWORD high = 0;
-	const DWORD rc = GetFileSize(h, &high);
+	const DWORD rc = GetFileSize ( h, &high );
 
-	if ((rc == PHYSFS_INVALID_SET_FILE_POINTER) && (GetLastError() != NO_ERROR))
+	if ( ( rc == PHYSFS_INVALID_SET_FILE_POINTER ) && ( GetLastError() != NO_ERROR ) )
 		return -1;
 
-	return (PHYSFS_sint64) ((((PHYSFS_uint64) high) << 32) | rc);
+	return ( PHYSFS_sint64 ) ( ( ( ( PHYSFS_uint64 ) high ) << 32 ) | rc );
 #endif
 } /* winGetFileSize */
 
 
-static PHYSFS_ErrorCode errcodeFromWinApiError(const DWORD err)
+static PHYSFS_ErrorCode errcodeFromWinApiError ( const DWORD err )
 {
 	/*
 	 * win32 error codes are sort of a tricky thing; Microsoft intentionally
@@ -197,109 +197,109 @@ static PHYSFS_ErrorCode errcodeFromWinApiError(const DWORD err)
 	 *
 	 * Don't treat this list as anything other than a work in progress.
 	 */
-	switch (err)
+	switch ( err )
 		{
-			case ERROR_SUCCESS:
-				return PHYSFS_ERR_OK;
+		case ERROR_SUCCESS:
+			return PHYSFS_ERR_OK;
 
-			case ERROR_ACCESS_DENIED:
-				return PHYSFS_ERR_PERMISSION;
+		case ERROR_ACCESS_DENIED:
+			return PHYSFS_ERR_PERMISSION;
 
-			case ERROR_NETWORK_ACCESS_DENIED:
-				return PHYSFS_ERR_PERMISSION;
+		case ERROR_NETWORK_ACCESS_DENIED:
+			return PHYSFS_ERR_PERMISSION;
 
-			case ERROR_NOT_READY:
-				return PHYSFS_ERR_IO;
+		case ERROR_NOT_READY:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_CRC:
-				return PHYSFS_ERR_IO;
+		case ERROR_CRC:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_SEEK:
-				return PHYSFS_ERR_IO;
+		case ERROR_SEEK:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_SECTOR_NOT_FOUND:
-				return PHYSFS_ERR_IO;
+		case ERROR_SECTOR_NOT_FOUND:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_NOT_DOS_DISK:
-				return PHYSFS_ERR_IO;
+		case ERROR_NOT_DOS_DISK:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_WRITE_FAULT:
-				return PHYSFS_ERR_IO;
+		case ERROR_WRITE_FAULT:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_READ_FAULT:
-				return PHYSFS_ERR_IO;
+		case ERROR_READ_FAULT:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_DEV_NOT_EXIST:
-				return PHYSFS_ERR_IO;
+		case ERROR_DEV_NOT_EXIST:
+			return PHYSFS_ERR_IO;
 
-			case ERROR_BUFFER_OVERFLOW:
-				return PHYSFS_ERR_BAD_FILENAME;
+		case ERROR_BUFFER_OVERFLOW:
+			return PHYSFS_ERR_BAD_FILENAME;
 
-			case ERROR_INVALID_NAME:
-				return PHYSFS_ERR_BAD_FILENAME;
+		case ERROR_INVALID_NAME:
+			return PHYSFS_ERR_BAD_FILENAME;
 
-			case ERROR_BAD_PATHNAME:
-				return PHYSFS_ERR_BAD_FILENAME;
+		case ERROR_BAD_PATHNAME:
+			return PHYSFS_ERR_BAD_FILENAME;
 
-			case ERROR_DIRECTORY:
-				return PHYSFS_ERR_BAD_FILENAME;
+		case ERROR_DIRECTORY:
+			return PHYSFS_ERR_BAD_FILENAME;
 
-			case ERROR_FILE_NOT_FOUND:
-				return PHYSFS_ERR_NOT_FOUND;
+		case ERROR_FILE_NOT_FOUND:
+			return PHYSFS_ERR_NOT_FOUND;
 
-			case ERROR_PATH_NOT_FOUND:
-				return PHYSFS_ERR_NOT_FOUND;
+		case ERROR_PATH_NOT_FOUND:
+			return PHYSFS_ERR_NOT_FOUND;
 
-			case ERROR_DELETE_PENDING:
-				return PHYSFS_ERR_NOT_FOUND;
+		case ERROR_DELETE_PENDING:
+			return PHYSFS_ERR_NOT_FOUND;
 
-			case ERROR_INVALID_DRIVE:
-				return PHYSFS_ERR_NOT_FOUND;
+		case ERROR_INVALID_DRIVE:
+			return PHYSFS_ERR_NOT_FOUND;
 
-			case ERROR_HANDLE_DISK_FULL:
-				return PHYSFS_ERR_NO_SPACE;
+		case ERROR_HANDLE_DISK_FULL:
+			return PHYSFS_ERR_NO_SPACE;
 
-			case ERROR_DISK_FULL:
-				return PHYSFS_ERR_NO_SPACE;
+		case ERROR_DISK_FULL:
+			return PHYSFS_ERR_NO_SPACE;
 
-			case ERROR_WRITE_PROTECT:
-				return PHYSFS_ERR_READ_ONLY;
+		case ERROR_WRITE_PROTECT:
+			return PHYSFS_ERR_READ_ONLY;
 
-			case ERROR_LOCK_VIOLATION:
-				return PHYSFS_ERR_BUSY;
+		case ERROR_LOCK_VIOLATION:
+			return PHYSFS_ERR_BUSY;
 
-			case ERROR_SHARING_VIOLATION:
-				return PHYSFS_ERR_BUSY;
+		case ERROR_SHARING_VIOLATION:
+			return PHYSFS_ERR_BUSY;
 
-			case ERROR_CURRENT_DIRECTORY:
-				return PHYSFS_ERR_BUSY;
+		case ERROR_CURRENT_DIRECTORY:
+			return PHYSFS_ERR_BUSY;
 
-			case ERROR_DRIVE_LOCKED:
-				return PHYSFS_ERR_BUSY;
+		case ERROR_DRIVE_LOCKED:
+			return PHYSFS_ERR_BUSY;
 
-			case ERROR_PATH_BUSY:
-				return PHYSFS_ERR_BUSY;
+		case ERROR_PATH_BUSY:
+			return PHYSFS_ERR_BUSY;
 
-			case ERROR_BUSY:
-				return PHYSFS_ERR_BUSY;
+		case ERROR_BUSY:
+			return PHYSFS_ERR_BUSY;
 
-			case ERROR_NOT_ENOUGH_MEMORY:
-				return PHYSFS_ERR_OUT_OF_MEMORY;
+		case ERROR_NOT_ENOUGH_MEMORY:
+			return PHYSFS_ERR_OUT_OF_MEMORY;
 
-			case ERROR_OUTOFMEMORY:
-				return PHYSFS_ERR_OUT_OF_MEMORY;
+		case ERROR_OUTOFMEMORY:
+			return PHYSFS_ERR_OUT_OF_MEMORY;
 
-			case ERROR_DIR_NOT_EMPTY:
-				return PHYSFS_ERR_DIR_NOT_EMPTY;
+		case ERROR_DIR_NOT_EMPTY:
+			return PHYSFS_ERR_DIR_NOT_EMPTY;
 
-			default:
-				return PHYSFS_ERR_OS_ERROR;
+		default:
+			return PHYSFS_ERR_OS_ERROR;
 		} /* switch */
 } /* errcodeFromWinApiError */
 
-static inline PHYSFS_ErrorCode errcodeFromWinApi(void)
+static inline PHYSFS_ErrorCode errcodeFromWinApi ( void )
 {
-	return errcodeFromWinApiError(GetLastError());
+	return errcodeFromWinApiError ( GetLastError() );
 } /* errcodeFromWinApi */
 
 
@@ -311,73 +311,73 @@ static HANDLE detectCDThreadHandle = NULL;
 static HWND detectCDHwnd = NULL;
 static volatile DWORD drivesWithMediaBitmap = 0;
 
-typedef BOOL (WINAPI *fnSTEM)(DWORD, LPDWORD b);
+typedef BOOL ( WINAPI *fnSTEM ) ( DWORD, LPDWORD b );
 
-static DWORD pollDiscDrives(void)
+static DWORD pollDiscDrives ( void )
 {
 	/* Try to use SetThreadErrorMode(), which showed up in Windows 7. */
-	HANDLE lib = LoadLibraryA("kernel32.dll");
+	HANDLE lib = LoadLibraryA ( "kernel32.dll" );
 	fnSTEM stem = NULL;
 	char drive[4] = { 'x', ':', '\\', '\0' };
 	DWORD oldErrorMode = 0;
 	DWORD drives = 0;
 	DWORD i;
 
-	if (lib)
-		stem = (fnSTEM) GetProcAddress(lib, "SetThreadErrorMode");
+	if ( lib )
+		stem = ( fnSTEM ) GetProcAddress ( lib, "SetThreadErrorMode" );
 
-	if (stem)
-		stem(SEM_FAILCRITICALERRORS, &oldErrorMode);
+	if ( stem )
+		stem ( SEM_FAILCRITICALERRORS, &oldErrorMode );
 
 	else
-		oldErrorMode = SetErrorMode(SEM_FAILCRITICALERRORS);
+		oldErrorMode = SetErrorMode ( SEM_FAILCRITICALERRORS );
 
 	/* Do detection. This may block if a disc is spinning up. */
-	for (i = 'A'; i <= 'Z'; i++)
+	for ( i = 'A'; i <= 'Z'; i++ )
 		{
 			DWORD tmp = 0;
-			drive[0] = (char) i;
+			drive[0] = ( char ) i;
 
-			if (GetDriveTypeA(drive) != DRIVE_CDROM)
+			if ( GetDriveTypeA ( drive ) != DRIVE_CDROM )
 				continue;
 
 			/* If this function succeeds, there's media in the drive */
-			if (GetVolumeInformationA(drive, NULL, 0, NULL, NULL, &tmp, NULL, 0))
-				drives |= (1 << (i - 'A'));
+			if ( GetVolumeInformationA ( drive, NULL, 0, NULL, NULL, &tmp, NULL, 0 ) )
+				drives |= ( 1 << ( i - 'A' ) );
 		} /* for */
 
-	if (stem)
-		stem(oldErrorMode, NULL);
+	if ( stem )
+		stem ( oldErrorMode, NULL );
 
 	else
-		SetErrorMode(oldErrorMode);
+		SetErrorMode ( oldErrorMode );
 
-	if (lib)
-		FreeLibrary(lib);
+	if ( lib )
+		FreeLibrary ( lib );
 
 	return drives;
 } /* pollDiscDrives */
 
 
-static LRESULT CALLBACK detectCDWndProc(HWND hwnd, UINT msg,
-                                        WPARAM wp, LPARAM lparam)
+static LRESULT CALLBACK detectCDWndProc ( HWND hwnd, UINT msg,
+        WPARAM wp, LPARAM lparam )
 {
-	PDEV_BROADCAST_HDR lpdb = (PDEV_BROADCAST_HDR) lparam;
-	PDEV_BROADCAST_VOLUME lpdbv = (PDEV_BROADCAST_VOLUME) lparam;
-	const int removed = (wp == DBT_DEVICEREMOVECOMPLETE);
+	PDEV_BROADCAST_HDR lpdb = ( PDEV_BROADCAST_HDR ) lparam;
+	PDEV_BROADCAST_VOLUME lpdbv = ( PDEV_BROADCAST_VOLUME ) lparam;
+	const int removed = ( wp == DBT_DEVICEREMOVECOMPLETE );
 
-	if (msg == WM_DESTROY)
+	if ( msg == WM_DESTROY )
 		return 0;
 
-	else if ((msg != WM_DEVICECHANGE) ||
-	         ((wp != DBT_DEVICEARRIVAL) && (wp != DBT_DEVICEREMOVECOMPLETE)) ||
-	         (lpdb->dbch_devicetype != DBT_DEVTYP_VOLUME) ||
-	         ((lpdbv->dbcv_flags & DBTF_MEDIA) == 0))
+	else if ( ( msg != WM_DEVICECHANGE ) ||
+	          ( ( wp != DBT_DEVICEARRIVAL ) && ( wp != DBT_DEVICEREMOVECOMPLETE ) ) ||
+	          ( lpdb->dbch_devicetype != DBT_DEVTYP_VOLUME ) ||
+	          ( ( lpdbv->dbcv_flags & DBTF_MEDIA ) == 0 ) )
 		{
-			return DefWindowProcW(hwnd, msg, wp, lparam);
+			return DefWindowProcW ( hwnd, msg, wp, lparam );
 		} /* else if */
 
-	if (removed)
+	if ( removed )
 		drivesWithMediaBitmap &= ~lpdbv->dbcv_unitmask;
 
 	else
@@ -387,37 +387,37 @@ static LRESULT CALLBACK detectCDWndProc(HWND hwnd, UINT msg,
 } /* detectCDWndProc */
 
 
-static DWORD WINAPI detectCDThread(LPVOID arg)
+static DWORD WINAPI detectCDThread ( LPVOID arg )
 {
-	HANDLE initialDiscDetectionComplete = *((HANDLE *) arg);
+	HANDLE initialDiscDetectionComplete = * ( ( HANDLE * ) arg );
 	const char *classname = "PhysicsFSDetectCDCatcher";
 	const char *winname = "PhysicsFSDetectCDMsgWindow";
-	HINSTANCE hInstance = GetModuleHandleW(NULL);
+	HINSTANCE hInstance = GetModuleHandleW ( NULL );
 	ATOM class_atom = 0;
 	WNDCLASSEXA wce;
 	MSG msg;
 
-	memset(&wce, '\0', sizeof (wce));
-	wce.cbSize = sizeof (wce);
+	memset ( &wce, '\0', sizeof ( wce ) );
+	wce.cbSize = sizeof ( wce );
 	wce.lpfnWndProc = detectCDWndProc;
 	wce.lpszClassName = classname;
 	wce.hInstance = hInstance;
-	class_atom = RegisterClassExA(&wce);
+	class_atom = RegisterClassExA ( &wce );
 
-	if (class_atom == 0)
+	if ( class_atom == 0 )
 		{
-			SetEvent(initialDiscDetectionComplete);  /* let main thread go on. */
+			SetEvent ( initialDiscDetectionComplete ); /* let main thread go on. */
 			return 0;
 		} /* if */
 
-	detectCDHwnd = CreateWindowExA(0, classname, winname, WS_OVERLAPPEDWINDOW,
-	                               CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-	                               CW_USEDEFAULT, HWND_DESKTOP, NULL, hInstance, NULL);
+	detectCDHwnd = CreateWindowExA ( 0, classname, winname, WS_OVERLAPPEDWINDOW,
+	                                 CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+	                                 CW_USEDEFAULT, HWND_DESKTOP, NULL, hInstance, NULL );
 
-	if (detectCDHwnd == NULL)
+	if ( detectCDHwnd == NULL )
 		{
-			SetEvent(initialDiscDetectionComplete);  /* let main thread go on. */
-			UnregisterClassA(classname, hInstance);
+			SetEvent ( initialDiscDetectionComplete ); /* let main thread go on. */
+			UnregisterClassA ( classname, hInstance );
 			return 0;
 		} /* if */
 
@@ -426,27 +426,27 @@ static DWORD WINAPI detectCDThread(LPVOID arg)
 	/* Do initial detection, possibly blocking awhile... */
 	drivesWithMediaBitmap = pollDiscDrives();
 
-	SetEvent(initialDiscDetectionComplete);  /* let main thread go on. */
+	SetEvent ( initialDiscDetectionComplete ); /* let main thread go on. */
 
 	do
 		{
-			const BOOL rc = GetMessageW(&msg, detectCDHwnd, 0, 0);
+			const BOOL rc = GetMessageW ( &msg, detectCDHwnd, 0, 0 );
 
-			if ((rc == 0) || (rc == -1))
+			if ( ( rc == 0 ) || ( rc == -1 ) )
 				break;  /* don't care if WM_QUIT or error break this loop. */
 
-			TranslateMessage(&msg);
-			DispatchMessageW(&msg);
+			TranslateMessage ( &msg );
+			DispatchMessageW ( &msg );
 		}
-	while (1);
+	while ( 1 );
 
 	/* we've been asked to quit. */
-	DestroyWindow(detectCDHwnd);
-	UnregisterClassA(classname, hInstance);
+	DestroyWindow ( detectCDHwnd );
+	UnregisterClassA ( classname, hInstance );
 	return 0;
 } /* detectCDThread */
 
-static void detectAvailableCDs(PHYSFS_StringCallback cb, void *data)
+static void detectAvailableCDs ( PHYSFS_StringCallback cb, void *data )
 {
 	char drive_str[4] = { 'x', ':', '\\', '\0' };
 	DWORD drives = 0;
@@ -459,45 +459,45 @@ static void detectAvailableCDs(PHYSFS_StringCallback cb, void *data)
 	 *  events thereafter, for apps that use this interface to poll for
 	 *  disc insertion.
 	 */
-	if (!detectCDThreadHandle)
+	if ( !detectCDThreadHandle )
 		{
-			HANDLE initialDetectDone = CreateEvent(NULL, TRUE, FALSE, NULL);
+			HANDLE initialDetectDone = CreateEvent ( NULL, TRUE, FALSE, NULL );
 
-			if (!initialDetectDone)
+			if ( !initialDetectDone )
 				return;  /* oh well. */
 
-			detectCDThreadHandle = CreateThread(NULL, 0, detectCDThread,
-			                                    &initialDetectDone, 0, NULL);
+			detectCDThreadHandle = CreateThread ( NULL, 0, detectCDThread,
+			                                      &initialDetectDone, 0, NULL );
 
-			if (detectCDThreadHandle)
-				WaitForSingleObject(initialDetectDone, INFINITE);
+			if ( detectCDThreadHandle )
+				WaitForSingleObject ( initialDetectDone, INFINITE );
 
-			CloseHandle(initialDetectDone);
+			CloseHandle ( initialDetectDone );
 
-			if (!detectCDThreadHandle)
+			if ( !detectCDThreadHandle )
 				return;  /* oh well. */
 		} /* if */
 
 	drives = drivesWithMediaBitmap; /* whatever the thread has seen, we take. */
 
-	for (i = 'A'; i <= 'Z'; i++)
+	for ( i = 'A'; i <= 'Z'; i++ )
 		{
-			if (drives & (1 << (i - 'A')))
+			if ( drives & ( 1 << ( i - 'A' ) ) )
 				{
-					drive_str[0] = (char) i;
-					cb(data, drive_str);
+					drive_str[0] = ( char ) i;
+					cb ( data, drive_str );
 				} /* if */
 		} /* for */
 } /* detectAvailableCDs */
 
-static void deinitCDThread(void)
+static void deinitCDThread ( void )
 {
-	if (detectCDThreadHandle)
+	if ( detectCDThreadHandle )
 		{
-			if (detectCDHwnd)
-				PostMessageW(detectCDHwnd, WM_QUIT, 0, 0);
+			if ( detectCDHwnd )
+				PostMessageW ( detectCDHwnd, WM_QUIT, 0, 0 );
 
-			CloseHandle(detectCDThreadHandle);
+			CloseHandle ( detectCDThreadHandle );
 			detectCDThreadHandle = NULL;
 			drivesWithMediaBitmap = 0;
 		} /* if */
@@ -505,67 +505,67 @@ static void deinitCDThread(void)
 #endif
 
 
-void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data)
+void __PHYSFS_platformDetectAvailableCDs ( PHYSFS_StringCallback cb, void *data )
 {
-	detectAvailableCDs(cb, data);
+	detectAvailableCDs ( cb, data );
 } /* __PHYSFS_platformDetectAvailableCDs */
 
 #ifdef PHYSFS_PLATFORM_WINRT
-static char *calcDirAppendSep(const WCHAR *wdir)
+static char *calcDirAppendSep ( const WCHAR *wdir )
 {
 	size_t len;
 	void *ptr;
 	char *retval;
-	BAIL_IF(!wdir, errcodeFromWinApi(), NULL);
-	retval = unicodeToUtf8Heap(wdir);
-	BAIL_IF_ERRPASS(!retval, NULL);
-	len = strlen(retval);
-	ptr = allocator.Realloc(retval, len + 2);
+	BAIL_IF ( !wdir, errcodeFromWinApi(), NULL );
+	retval = unicodeToUtf8Heap ( wdir );
+	BAIL_IF_ERRPASS ( !retval, NULL );
+	len = strlen ( retval );
+	ptr = allocator.Realloc ( retval, len + 2 );
 
-	if (!ptr)
+	if ( !ptr )
 		{
-			allocator.Free(retval);
-			BAIL(PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+			allocator.Free ( retval );
+			BAIL ( PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 		} /* if */
 
-	retval = (char *) ptr;
+	retval = ( char * ) ptr;
 	retval[len] = '\\';
 	retval[len+1] = '\0';
 	return retval;
 } /* calcDirAppendSep */
 #endif
 
-char *__PHYSFS_platformCalcBaseDir(const char *argv0)
+char *__PHYSFS_platformCalcBaseDir ( const char *argv0 )
 {
 #ifdef PHYSFS_PLATFORM_WINRT
-	return calcDirAppendSep((const WCHAR *) __PHYSFS_winrtCalcBaseDir());
+	return calcDirAppendSep ( ( const WCHAR * ) __PHYSFS_winrtCalcBaseDir() );
 #else
 	char *retval = NULL;
 	DWORD buflen = 64;
 	LPWSTR modpath = NULL;
 
-	while (1)
+	while ( 1 )
 		{
 			DWORD rc;
 			void *ptr;
 
-			if ( (ptr = allocator.Realloc(modpath, buflen*sizeof(WCHAR))) == NULL )
+			if ( ( ptr = allocator.Realloc ( modpath, buflen*sizeof ( WCHAR ) ) ) == NULL )
 				{
-					allocator.Free(modpath);
-					BAIL(PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+					allocator.Free ( modpath );
+					BAIL ( PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 				} /* if */
 
-			modpath = (LPWSTR) ptr;
+			modpath = ( LPWSTR ) ptr;
 
-			rc = GetModuleFileNameW(NULL, modpath, buflen);
+			rc = GetModuleFileNameW ( NULL, modpath, buflen );
 
-			if (rc == 0)
+			if ( rc == 0 )
 				{
-					allocator.Free(modpath);
-					BAIL(errcodeFromWinApi(), NULL);
+					allocator.Free ( modpath );
+					BAIL ( errcodeFromWinApi(), NULL );
 				} /* if */
 
-			if (rc < buflen)
+			if ( rc < buflen )
 				{
 					buflen = rc;
 					break;
@@ -574,38 +574,38 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0)
 			buflen *= 2;
 		} /* while */
 
-	if (buflen > 0)  /* just in case... */
+	if ( buflen > 0 ) /* just in case... */
 		{
-			WCHAR *ptr = (modpath + buflen) - 1;
+			WCHAR *ptr = ( modpath + buflen ) - 1;
 
-			while (ptr != modpath)
+			while ( ptr != modpath )
 				{
-					if (*ptr == '\\')
+					if ( *ptr == '\\' )
 						break;
 
 					ptr--;
 				} /* while */
 
-			if ((ptr == modpath) && (*ptr != '\\'))
-				PHYSFS_setErrorCode(PHYSFS_ERR_OTHER_ERROR);  /* oh well. */
+			if ( ( ptr == modpath ) && ( *ptr != '\\' ) )
+				PHYSFS_setErrorCode ( PHYSFS_ERR_OTHER_ERROR ); /* oh well. */
 			else
 				{
-					*(ptr+1) = '\0';  /* chop off filename. */
-					retval = unicodeToUtf8Heap(modpath);
+					* ( ptr+1 ) = '\0'; /* chop off filename. */
+					retval = unicodeToUtf8Heap ( modpath );
 				} /* else */
 		} /* else */
 
-	allocator.Free(modpath);
+	allocator.Free ( modpath );
 
 	return retval;   /* w00t. */
 #endif
 } /* __PHYSFS_platformCalcBaseDir */
 
 
-char *__PHYSFS_platformCalcPrefDir(const char *org, const char *app)
+char *__PHYSFS_platformCalcPrefDir ( const char *org, const char *app )
 {
 #ifdef PHYSFS_PLATFORM_WINRT
-	return calcDirAppendSep((const WCHAR *) __PHYSFS_winrtCalcPrefDir());
+	return calcDirAppendSep ( ( const WCHAR * ) __PHYSFS_winrtCalcPrefDir() );
 #else
 	/*
 	 * Vista and later has a new API for this, but SHGetFolderPath works there,
@@ -620,46 +620,46 @@ char *__PHYSFS_platformCalcPrefDir(const char *org, const char *app)
 	size_t len = 0;
 	char *retval = NULL;
 
-	if (!SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE,
-	                                NULL, 0, path)))
-		BAIL(PHYSFS_ERR_OS_ERROR, NULL);
+	if ( !SUCCEEDED ( SHGetFolderPathW ( NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE,
+	                                     NULL, 0, path ) ) )
+		BAIL ( PHYSFS_ERR_OS_ERROR, NULL );
 
-	utf8 = unicodeToUtf8Heap(path);
-	BAIL_IF_ERRPASS(!utf8, NULL);
-	len = strlen(utf8) + strlen(org) + strlen(app) + 4;
-	retval = allocator.Malloc(len);
+	utf8 = unicodeToUtf8Heap ( path );
+	BAIL_IF_ERRPASS ( !utf8, NULL );
+	len = strlen ( utf8 ) + strlen ( org ) + strlen ( app ) + 4;
+	retval = allocator.Malloc ( len );
 
-	if (!retval)
+	if ( !retval )
 		{
-			allocator.Free(utf8);
-			BAIL(PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+			allocator.Free ( utf8 );
+			BAIL ( PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 		} /* if */
 
-	snprintf(retval, len, "%s\\%s\\%s\\", utf8, org, app);
-	allocator.Free(utf8);
+	snprintf ( retval, len, "%s\\%s\\%s\\", utf8, org, app );
+	allocator.Free ( utf8 );
 	return retval;
 #endif
 } /* __PHYSFS_platformCalcPrefDir */
 
 
-char *__PHYSFS_platformCalcUserDir(void)
+char *__PHYSFS_platformCalcUserDir ( void )
 {
 #ifdef PHYSFS_PLATFORM_WINRT
-	return calcDirAppendSep((const WCHAR *) __PHYSFS_winrtCalcPrefDir());
+	return calcDirAppendSep ( ( const WCHAR * ) __PHYSFS_winrtCalcPrefDir() );
 #else
-	typedef BOOL (WINAPI *fnGetUserProfDirW)(HANDLE, LPWSTR, LPDWORD);
+	typedef BOOL ( WINAPI *fnGetUserProfDirW ) ( HANDLE, LPWSTR, LPDWORD );
 	fnGetUserProfDirW pGetDir = NULL;
 	HANDLE lib = NULL;
 	HANDLE accessToken = NULL;       /* Security handle to process */
 	char *retval = NULL;
 
-	lib = LoadLibraryA("userenv.dll");
-	BAIL_IF(!lib, errcodeFromWinApi(), NULL);
-	pGetDir=(fnGetUserProfDirW) GetProcAddress(lib,"GetUserProfileDirectoryW");
-	GOTO_IF(!pGetDir, errcodeFromWinApi(), done);
+	lib = LoadLibraryA ( "userenv.dll" );
+	BAIL_IF ( !lib, errcodeFromWinApi(), NULL );
+	pGetDir= ( fnGetUserProfDirW ) GetProcAddress ( lib,"GetUserProfileDirectoryW" );
+	GOTO_IF ( !pGetDir, errcodeFromWinApi(), done );
 
-	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &accessToken))
-		GOTO(errcodeFromWinApi(), done);
+	if ( !OpenProcessToken ( GetCurrentProcess(), TOKEN_QUERY, &accessToken ) )
+		GOTO ( errcodeFromWinApi(), done );
 
 	else
 		{
@@ -673,208 +673,208 @@ char *__PHYSFS_platformCalcUserDir(void)
 			 *  psize. Also note that the second parameter can't be
 			 *  NULL or the function fails.
 			 */
-			rc = pGetDir(accessToken, &dummy, &psize);
-			GOTO_IF(rc, PHYSFS_ERR_OS_ERROR, done);  /* should have failed! */
+			rc = pGetDir ( accessToken, &dummy, &psize );
+			GOTO_IF ( rc, PHYSFS_ERR_OS_ERROR, done ); /* should have failed! */
 
 			/* Allocate memory for the profile directory */
-			wstr = (LPWSTR) __PHYSFS_smallAlloc((psize + 1) * sizeof (WCHAR));
+			wstr = ( LPWSTR ) __PHYSFS_smallAlloc ( ( psize + 1 ) * sizeof ( WCHAR ) );
 
-			if (wstr != NULL)
+			if ( wstr != NULL )
 				{
-					if (pGetDir(accessToken, wstr, &psize))
+					if ( pGetDir ( accessToken, wstr, &psize ) )
 						{
 							/* Make sure it ends in a dirsep. We allocated +1 for this. */
-							if (wstr[psize - 2] != '\\')
+							if ( wstr[psize - 2] != '\\' )
 								{
 									wstr[psize - 1] = '\\';
 									wstr[psize - 0] = '\0';
 								} /* if */
 
-							retval = unicodeToUtf8Heap(wstr);
+							retval = unicodeToUtf8Heap ( wstr );
 						} /* if */
 
-					__PHYSFS_smallFree(wstr);
+					__PHYSFS_smallFree ( wstr );
 				} /* if */
 		} /* if */
 
 done:
 
-	if (accessToken)
-		CloseHandle(accessToken);
+	if ( accessToken )
+		CloseHandle ( accessToken );
 
-	FreeLibrary(lib);
+	FreeLibrary ( lib );
 	return retval;  /* We made it: hit the showers. */
 #endif
 } /* __PHYSFS_platformCalcUserDir */
 
 
-int __PHYSFS_platformInit(void)
+int __PHYSFS_platformInit ( void )
 {
 	return 1;  /* It's all good */
 } /* __PHYSFS_platformInit */
 
 
-void __PHYSFS_platformDeinit(void)
+void __PHYSFS_platformDeinit ( void )
 {
 	deinitCDThread();
 } /* __PHYSFS_platformDeinit */
 
 
-void *__PHYSFS_platformGetThreadID(void)
+void *__PHYSFS_platformGetThreadID ( void )
 {
-	return ( (void *) ((size_t) GetCurrentThreadId()) );
+	return ( ( void * ) ( ( size_t ) GetCurrentThreadId() ) );
 } /* __PHYSFS_platformGetThreadID */
 
 
-PHYSFS_EnumerateCallbackResult __PHYSFS_platformEnumerate(const char *dirname,
+PHYSFS_EnumerateCallbackResult __PHYSFS_platformEnumerate ( const char *dirname,
         PHYSFS_EnumerateCallback callback,
-        const char *origdir, void *callbackdata)
+        const char *origdir, void *callbackdata )
 {
 	PHYSFS_EnumerateCallbackResult retval = PHYSFS_ENUM_OK;
 	HANDLE dir = INVALID_HANDLE_VALUE;
 	WIN32_FIND_DATAW entw;
-	size_t len = strlen(dirname);
+	size_t len = strlen ( dirname );
 	char *searchPath = NULL;
 	WCHAR *wSearchPath = NULL;
 
 	/* Allocate a new string for path, maybe '\\', "*", and NULL terminator */
-	searchPath = (char *) __PHYSFS_smallAlloc(len + 3);
-	BAIL_IF(!searchPath, PHYSFS_ERR_OUT_OF_MEMORY, PHYSFS_ENUM_ERROR);
+	searchPath = ( char * ) __PHYSFS_smallAlloc ( len + 3 );
+	BAIL_IF ( !searchPath, PHYSFS_ERR_OUT_OF_MEMORY, PHYSFS_ENUM_ERROR );
 
 	/* Copy current dirname */
-	strcpy(searchPath, dirname);
+	strcpy ( searchPath, dirname );
 
 	/* if there's no '\\' at the end of the path, stick one in there. */
-	if (searchPath[len - 1] != '\\')
+	if ( searchPath[len - 1] != '\\' )
 		{
 			searchPath[len++] = '\\';
 			searchPath[len] = '\0';
 		} /* if */
 
 	/* Append the "*" to the end of the string */
-	strcat(searchPath, "*");
+	strcat ( searchPath, "*" );
 
-	UTF8_TO_UNICODE_STACK(wSearchPath, searchPath);
-	__PHYSFS_smallFree(searchPath);
-	BAIL_IF_ERRPASS(!wSearchPath, PHYSFS_ENUM_ERROR);
+	UTF8_TO_UNICODE_STACK ( wSearchPath, searchPath );
+	__PHYSFS_smallFree ( searchPath );
+	BAIL_IF_ERRPASS ( !wSearchPath, PHYSFS_ENUM_ERROR );
 
-	dir = winFindFirstFileW(wSearchPath, &entw);
-	__PHYSFS_smallFree(wSearchPath);
-	BAIL_IF(dir==INVALID_HANDLE_VALUE, errcodeFromWinApi(), PHYSFS_ENUM_ERROR);
+	dir = winFindFirstFileW ( wSearchPath, &entw );
+	__PHYSFS_smallFree ( wSearchPath );
+	BAIL_IF ( dir==INVALID_HANDLE_VALUE, errcodeFromWinApi(), PHYSFS_ENUM_ERROR );
 
 	do
 		{
 			const WCHAR *fn = entw.cFileName;
 			char *utf8;
 
-			if (fn[0] == '.')  /* ignore "." and ".." */
+			if ( fn[0] == '.' ) /* ignore "." and ".." */
 				{
-					if ((fn[1] == '\0') || ((fn[1] == '.') && (fn[2] == '\0')))
+					if ( ( fn[1] == '\0' ) || ( ( fn[1] == '.' ) && ( fn[2] == '\0' ) ) )
 						continue;
 				} /* if */
 
-			utf8 = unicodeToUtf8Heap(fn);
+			utf8 = unicodeToUtf8Heap ( fn );
 
-			if (utf8 == NULL)
+			if ( utf8 == NULL )
 				retval = -1;
 
 			else
 				{
-					retval = callback(callbackdata, origdir, utf8);
-					allocator.Free(utf8);
+					retval = callback ( callbackdata, origdir, utf8 );
+					allocator.Free ( utf8 );
 
-					if (retval == PHYSFS_ENUM_ERROR)
-						PHYSFS_setErrorCode(PHYSFS_ERR_APP_CALLBACK);
+					if ( retval == PHYSFS_ENUM_ERROR )
+						PHYSFS_setErrorCode ( PHYSFS_ERR_APP_CALLBACK );
 				} /* else */
 		}
-	while ((retval == PHYSFS_ENUM_OK) && (FindNextFileW(dir, &entw) != 0));
+	while ( ( retval == PHYSFS_ENUM_OK ) && ( FindNextFileW ( dir, &entw ) != 0 ) );
 
-	FindClose(dir);
+	FindClose ( dir );
 
 	return retval;
 } /* __PHYSFS_platformEnumerate */
 
 
-int __PHYSFS_platformMkDir(const char *path)
+int __PHYSFS_platformMkDir ( const char *path )
 {
 	WCHAR *wpath;
 	DWORD rc;
-	UTF8_TO_UNICODE_STACK(wpath, path);
-	rc = CreateDirectoryW(wpath, NULL);
-	__PHYSFS_smallFree(wpath);
-	BAIL_IF(rc == 0, errcodeFromWinApi(), 0);
+	UTF8_TO_UNICODE_STACK ( wpath, path );
+	rc = CreateDirectoryW ( wpath, NULL );
+	__PHYSFS_smallFree ( wpath );
+	BAIL_IF ( rc == 0, errcodeFromWinApi(), 0 );
 	return 1;
 } /* __PHYSFS_platformMkDir */
 
 
-static HANDLE doOpen(const char *fname, DWORD mode, DWORD creation)
+static HANDLE doOpen ( const char *fname, DWORD mode, DWORD creation )
 {
 	HANDLE fileh;
 	WCHAR *wfname;
 
-	UTF8_TO_UNICODE_STACK(wfname, fname);
-	BAIL_IF(!wfname, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+	UTF8_TO_UNICODE_STACK ( wfname, fname );
+	BAIL_IF ( !wfname, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 
-	fileh = winCreateFileW(wfname, mode, creation);
-	__PHYSFS_smallFree(wfname);
+	fileh = winCreateFileW ( wfname, mode, creation );
+	__PHYSFS_smallFree ( wfname );
 
-	if (fileh == INVALID_HANDLE_VALUE)
-		BAIL(errcodeFromWinApi(), INVALID_HANDLE_VALUE);
+	if ( fileh == INVALID_HANDLE_VALUE )
+		BAIL ( errcodeFromWinApi(), INVALID_HANDLE_VALUE );
 
 	return fileh;
 } /* doOpen */
 
 
-void *__PHYSFS_platformOpenRead(const char *filename)
+void *__PHYSFS_platformOpenRead ( const char *filename )
 {
-	HANDLE h = doOpen(filename, GENERIC_READ, OPEN_EXISTING);
-	return (h == INVALID_HANDLE_VALUE) ? NULL : (void *) h;
+	HANDLE h = doOpen ( filename, GENERIC_READ, OPEN_EXISTING );
+	return ( h == INVALID_HANDLE_VALUE ) ? NULL : ( void * ) h;
 } /* __PHYSFS_platformOpenRead */
 
 
-void *__PHYSFS_platformOpenWrite(const char *filename)
+void *__PHYSFS_platformOpenWrite ( const char *filename )
 {
-	HANDLE h = doOpen(filename, GENERIC_WRITE, CREATE_ALWAYS);
-	return (h == INVALID_HANDLE_VALUE) ? NULL : (void *) h;
+	HANDLE h = doOpen ( filename, GENERIC_WRITE, CREATE_ALWAYS );
+	return ( h == INVALID_HANDLE_VALUE ) ? NULL : ( void * ) h;
 } /* __PHYSFS_platformOpenWrite */
 
 
-void *__PHYSFS_platformOpenAppend(const char *filename)
+void *__PHYSFS_platformOpenAppend ( const char *filename )
 {
-	HANDLE h = doOpen(filename, GENERIC_WRITE, OPEN_ALWAYS);
-	BAIL_IF_ERRPASS(h == INVALID_HANDLE_VALUE, NULL);
+	HANDLE h = doOpen ( filename, GENERIC_WRITE, OPEN_ALWAYS );
+	BAIL_IF_ERRPASS ( h == INVALID_HANDLE_VALUE, NULL );
 
-	if (!winSetFilePointer(h, 0, NULL, FILE_END))
+	if ( !winSetFilePointer ( h, 0, NULL, FILE_END ) )
 		{
 			const PHYSFS_ErrorCode err = errcodeFromWinApi();
-			CloseHandle(h);
-			BAIL(err, NULL);
+			CloseHandle ( h );
+			BAIL ( err, NULL );
 		} /* if */
 
-	return (void *) h;
+	return ( void * ) h;
 } /* __PHYSFS_platformOpenAppend */
 
 
-PHYSFS_sint64 __PHYSFS_platformRead(void *opaque, void *buf, PHYSFS_uint64 len)
+PHYSFS_sint64 __PHYSFS_platformRead ( void *opaque, void *buf, PHYSFS_uint64 len )
 {
-	HANDLE h = (HANDLE) opaque;
+	HANDLE h = ( HANDLE ) opaque;
 	PHYSFS_sint64 totalRead = 0;
 
-	if (!__PHYSFS_ui64FitsAddressSpace(len))
-		BAIL(PHYSFS_ERR_INVALID_ARGUMENT, -1);
+	if ( !__PHYSFS_ui64FitsAddressSpace ( len ) )
+		BAIL ( PHYSFS_ERR_INVALID_ARGUMENT, -1 );
 
-	while (len > 0)
+	while ( len > 0 )
 		{
-			const DWORD thislen = (len > 0xFFFFFFFF) ? 0xFFFFFFFF : (DWORD) len;
+			const DWORD thislen = ( len > 0xFFFFFFFF ) ? 0xFFFFFFFF : ( DWORD ) len;
 			DWORD numRead = 0;
 
-			if (!ReadFile(h, buf, thislen, &numRead, NULL))
-				BAIL(errcodeFromWinApi(), -1);
+			if ( !ReadFile ( h, buf, thislen, &numRead, NULL ) )
+				BAIL ( errcodeFromWinApi(), -1 );
 
-			len -= (PHYSFS_uint64) numRead;
-			totalRead += (PHYSFS_sint64) numRead;
+			len -= ( PHYSFS_uint64 ) numRead;
+			totalRead += ( PHYSFS_sint64 ) numRead;
 
-			if (numRead != thislen)
+			if ( numRead != thislen )
 				break;
 		} /* while */
 
@@ -882,27 +882,27 @@ PHYSFS_sint64 __PHYSFS_platformRead(void *opaque, void *buf, PHYSFS_uint64 len)
 } /* __PHYSFS_platformRead */
 
 
-PHYSFS_sint64 __PHYSFS_platformWrite(void *opaque, const void *buffer,
-                                     PHYSFS_uint64 len)
+PHYSFS_sint64 __PHYSFS_platformWrite ( void *opaque, const void *buffer,
+                                       PHYSFS_uint64 len )
 {
-	HANDLE h = (HANDLE) opaque;
+	HANDLE h = ( HANDLE ) opaque;
 	PHYSFS_sint64 totalWritten = 0;
 
-	if (!__PHYSFS_ui64FitsAddressSpace(len))
-		BAIL(PHYSFS_ERR_INVALID_ARGUMENT, -1);
+	if ( !__PHYSFS_ui64FitsAddressSpace ( len ) )
+		BAIL ( PHYSFS_ERR_INVALID_ARGUMENT, -1 );
 
-	while (len > 0)
+	while ( len > 0 )
 		{
-			const DWORD thislen = (len > 0xFFFFFFFF) ? 0xFFFFFFFF : (DWORD) len;
+			const DWORD thislen = ( len > 0xFFFFFFFF ) ? 0xFFFFFFFF : ( DWORD ) len;
 			DWORD numWritten = 0;
 
-			if (!WriteFile(h, buffer, thislen, &numWritten, NULL))
-				BAIL(errcodeFromWinApi(), -1);
+			if ( !WriteFile ( h, buffer, thislen, &numWritten, NULL ) )
+				BAIL ( errcodeFromWinApi(), -1 );
 
-			len -= (PHYSFS_uint64) numWritten;
-			totalWritten += (PHYSFS_sint64) numWritten;
+			len -= ( PHYSFS_uint64 ) numWritten;
+			totalWritten += ( PHYSFS_sint64 ) numWritten;
 
-			if (numWritten != thislen)
+			if ( numWritten != thislen )
 				break;
 		} /* while */
 
@@ -910,115 +910,115 @@ PHYSFS_sint64 __PHYSFS_platformWrite(void *opaque, const void *buffer,
 } /* __PHYSFS_platformWrite */
 
 
-int __PHYSFS_platformSeek(void *opaque, PHYSFS_uint64 pos)
+int __PHYSFS_platformSeek ( void *opaque, PHYSFS_uint64 pos )
 {
-	HANDLE h = (HANDLE) opaque;
-	const PHYSFS_sint64 spos = (PHYSFS_sint64) pos;
-	BAIL_IF(!winSetFilePointer(h,spos,NULL,FILE_BEGIN), errcodeFromWinApi(), 0);
+	HANDLE h = ( HANDLE ) opaque;
+	const PHYSFS_sint64 spos = ( PHYSFS_sint64 ) pos;
+	BAIL_IF ( !winSetFilePointer ( h,spos,NULL,FILE_BEGIN ), errcodeFromWinApi(), 0 );
 	return 1;  /* No error occured */
 } /* __PHYSFS_platformSeek */
 
 
-PHYSFS_sint64 __PHYSFS_platformTell(void *opaque)
+PHYSFS_sint64 __PHYSFS_platformTell ( void *opaque )
 {
-	HANDLE h = (HANDLE) opaque;
+	HANDLE h = ( HANDLE ) opaque;
 	PHYSFS_sint64 pos = 0;
-	BAIL_IF(!winSetFilePointer(h,0,&pos,FILE_CURRENT), errcodeFromWinApi(), -1);
+	BAIL_IF ( !winSetFilePointer ( h,0,&pos,FILE_CURRENT ), errcodeFromWinApi(), -1 );
 	return pos;
 } /* __PHYSFS_platformTell */
 
 
-PHYSFS_sint64 __PHYSFS_platformFileLength(void *opaque)
+PHYSFS_sint64 __PHYSFS_platformFileLength ( void *opaque )
 {
-	HANDLE h = (HANDLE) opaque;
-	const PHYSFS_sint64 retval = winGetFileSize(h);
-	BAIL_IF(retval < 0, errcodeFromWinApi(), -1);
+	HANDLE h = ( HANDLE ) opaque;
+	const PHYSFS_sint64 retval = winGetFileSize ( h );
+	BAIL_IF ( retval < 0, errcodeFromWinApi(), -1 );
 	return retval;
 } /* __PHYSFS_platformFileLength */
 
 
-int __PHYSFS_platformFlush(void *opaque)
+int __PHYSFS_platformFlush ( void *opaque )
 {
-	HANDLE h = (HANDLE) opaque;
-	BAIL_IF(!FlushFileBuffers(h), errcodeFromWinApi(), 0);
+	HANDLE h = ( HANDLE ) opaque;
+	BAIL_IF ( !FlushFileBuffers ( h ), errcodeFromWinApi(), 0 );
 	return 1;
 } /* __PHYSFS_platformFlush */
 
 
-void __PHYSFS_platformClose(void *opaque)
+void __PHYSFS_platformClose ( void *opaque )
 {
-	HANDLE h = (HANDLE) opaque;
-	(void) CloseHandle(h); /* ignore errors. You should have flushed! */
+	HANDLE h = ( HANDLE ) opaque;
+	( void ) CloseHandle ( h ); /* ignore errors. You should have flushed! */
 } /* __PHYSFS_platformClose */
 
 
-static int doPlatformDelete(LPWSTR wpath)
+static int doPlatformDelete ( LPWSTR wpath )
 {
 	WIN32_FILE_ATTRIBUTE_DATA info;
 
-	if (!GetFileAttributesExW(wpath, GetFileExInfoStandard, &info))
-		BAIL(errcodeFromWinApi(), 0);
+	if ( !GetFileAttributesExW ( wpath, GetFileExInfoStandard, &info ) )
+		BAIL ( errcodeFromWinApi(), 0 );
 
 	else
 		{
-			const int isdir = (info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY);
-			const BOOL rc = isdir ? RemoveDirectoryW(wpath) : DeleteFileW(wpath);
-			BAIL_IF(!rc, errcodeFromWinApi(), 0);
+			const int isdir = ( info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY );
+			const BOOL rc = isdir ? RemoveDirectoryW ( wpath ) : DeleteFileW ( wpath );
+			BAIL_IF ( !rc, errcodeFromWinApi(), 0 );
 		} /* else */
 
 	return 1;   /* if you made it here, it worked. */
 } /* doPlatformDelete */
 
 
-int __PHYSFS_platformDelete(const char *path)
+int __PHYSFS_platformDelete ( const char *path )
 {
 	int retval = 0;
 	LPWSTR wpath = NULL;
-	UTF8_TO_UNICODE_STACK(wpath, path);
-	BAIL_IF(!wpath, PHYSFS_ERR_OUT_OF_MEMORY, 0);
-	retval = doPlatformDelete(wpath);
-	__PHYSFS_smallFree(wpath);
+	UTF8_TO_UNICODE_STACK ( wpath, path );
+	BAIL_IF ( !wpath, PHYSFS_ERR_OUT_OF_MEMORY, 0 );
+	retval = doPlatformDelete ( wpath );
+	__PHYSFS_smallFree ( wpath );
 	return retval;
 } /* __PHYSFS_platformDelete */
 
 
-void *__PHYSFS_platformCreateMutex(void)
+void *__PHYSFS_platformCreateMutex ( void )
 {
 	LPCRITICAL_SECTION lpcs;
-	lpcs = (LPCRITICAL_SECTION) allocator.Malloc(sizeof (CRITICAL_SECTION));
-	BAIL_IF(!lpcs, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+	lpcs = ( LPCRITICAL_SECTION ) allocator.Malloc ( sizeof ( CRITICAL_SECTION ) );
+	BAIL_IF ( !lpcs, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 
-	if (!winInitializeCriticalSection(lpcs))
+	if ( !winInitializeCriticalSection ( lpcs ) )
 		{
-			allocator.Free(lpcs);
-			BAIL(errcodeFromWinApi(), NULL);
+			allocator.Free ( lpcs );
+			BAIL ( errcodeFromWinApi(), NULL );
 		} /* if */
 
 	return lpcs;
 } /* __PHYSFS_platformCreateMutex */
 
 
-void __PHYSFS_platformDestroyMutex(void *mutex)
+void __PHYSFS_platformDestroyMutex ( void *mutex )
 {
-	DeleteCriticalSection((LPCRITICAL_SECTION) mutex);
-	allocator.Free(mutex);
+	DeleteCriticalSection ( ( LPCRITICAL_SECTION ) mutex );
+	allocator.Free ( mutex );
 } /* __PHYSFS_platformDestroyMutex */
 
 
-int __PHYSFS_platformGrabMutex(void *mutex)
+int __PHYSFS_platformGrabMutex ( void *mutex )
 {
-	EnterCriticalSection((LPCRITICAL_SECTION) mutex);
+	EnterCriticalSection ( ( LPCRITICAL_SECTION ) mutex );
 	return 1;
 } /* __PHYSFS_platformGrabMutex */
 
 
-void __PHYSFS_platformReleaseMutex(void *mutex)
+void __PHYSFS_platformReleaseMutex ( void *mutex )
 {
-	LeaveCriticalSection((LPCRITICAL_SECTION) mutex);
+	LeaveCriticalSection ( ( LPCRITICAL_SECTION ) mutex );
 } /* __PHYSFS_platformReleaseMutex */
 
 
-static PHYSFS_sint64 FileTimeToPhysfsTime(const FILETIME *ft)
+static PHYSFS_sint64 FileTimeToPhysfsTime ( const FILETIME *ft )
 {
 	SYSTEMTIME st_utc;
 	SYSTEMTIME st_localtz;
@@ -1028,11 +1028,11 @@ static PHYSFS_sint64 FileTimeToPhysfsTime(const FILETIME *ft)
 	struct tm tm;
 	BOOL rc;
 
-	BAIL_IF(!FileTimeToSystemTime(ft, &st_utc), errcodeFromWinApi(), -1);
-	tzid = GetTimeZoneInformation(&tzi);
-	BAIL_IF(tzid == TIME_ZONE_ID_INVALID, errcodeFromWinApi(), -1);
-	rc = SystemTimeToTzSpecificLocalTime(&tzi, &st_utc, &st_localtz);
-	BAIL_IF(!rc, errcodeFromWinApi(), -1);
+	BAIL_IF ( !FileTimeToSystemTime ( ft, &st_utc ), errcodeFromWinApi(), -1 );
+	tzid = GetTimeZoneInformation ( &tzi );
+	BAIL_IF ( tzid == TIME_ZONE_ID_INVALID, errcodeFromWinApi(), -1 );
+	rc = SystemTimeToTzSpecificLocalTime ( &tzi, &st_utc, &st_localtz );
+	BAIL_IF ( !rc, errcodeFromWinApi(), -1 );
 
 	/* Convert to a format that mktime() can grok... */
 	tm.tm_sec = st_localtz.wSecond;
@@ -1046,8 +1046,8 @@ static PHYSFS_sint64 FileTimeToPhysfsTime(const FILETIME *ft)
 	tm.tm_isdst = -1;
 
 	/* Convert to a format PhysicsFS can grok... */
-	retval = (PHYSFS_sint64) mktime(&tm);
-	BAIL_IF(retval == -1, PHYSFS_ERR_OS_ERROR, -1);
+	retval = ( PHYSFS_sint64 ) mktime ( &tm );
+	BAIL_IF ( retval == -1, PHYSFS_ERR_OS_ERROR, -1 );
 	return retval;
 } /* FileTimeToPhysfsTime */
 
@@ -1059,25 +1059,25 @@ static PHYSFS_sint64 FileTimeToPhysfsTime(const FILETIME *ft)
    NTFS symlinks are a form of "reparse point" (junction, volume mount,
    etc), so if the REPARSE_POINT attribute is set, check for the symlink
    tag thereafter. This assumes you already read in the file attributes. */
-static int isSymlink(const WCHAR *wpath, const DWORD attr)
+static int isSymlink ( const WCHAR *wpath, const DWORD attr )
 {
 	WIN32_FIND_DATAW w32dw;
 	HANDLE h;
 
-	if ((attr & PHYSFS_FILE_ATTRIBUTE_REPARSE_POINT) == 0)
+	if ( ( attr & PHYSFS_FILE_ATTRIBUTE_REPARSE_POINT ) == 0 )
 		return 0;  /* not a reparse point? Definitely not a symlink. */
 
-	h = winFindFirstFileW(wpath, &w32dw);
+	h = winFindFirstFileW ( wpath, &w32dw );
 
-	if (h == INVALID_HANDLE_VALUE)
+	if ( h == INVALID_HANDLE_VALUE )
 		return 0;  /* ...maybe the file just vanished...? */
 
-	FindClose(h);
-	return (w32dw.dwReserved0 == PHYSFS_IO_REPARSE_TAG_SYMLINK);
+	FindClose ( h );
+	return ( w32dw.dwReserved0 == PHYSFS_IO_REPARSE_TAG_SYMLINK );
 } /* isSymlink */
 
 
-int __PHYSFS_platformStat(const char *filename, PHYSFS_Stat *st, const int follow)
+int __PHYSFS_platformStat ( const char *filename, PHYSFS_Stat *st, const int follow )
 {
 	WIN32_FILE_ATTRIBUTE_DATA winstat;
 	WCHAR *wstr = NULL;
@@ -1085,48 +1085,48 @@ int __PHYSFS_platformStat(const char *filename, PHYSFS_Stat *st, const int follo
 	BOOL rc = 0;
 	int issymlink = 0;
 
-	UTF8_TO_UNICODE_STACK(wstr, filename);
-	BAIL_IF(!wstr, PHYSFS_ERR_OUT_OF_MEMORY, 0);
-	rc = GetFileAttributesExW(wstr, GetFileExInfoStandard, &winstat);
+	UTF8_TO_UNICODE_STACK ( wstr, filename );
+	BAIL_IF ( !wstr, PHYSFS_ERR_OUT_OF_MEMORY, 0 );
+	rc = GetFileAttributesExW ( wstr, GetFileExInfoStandard, &winstat );
 
-	if (!rc)
+	if ( !rc )
 		err = GetLastError();
 
 	else  /* check for symlink while wstr is still available */
-		issymlink = !follow && isSymlink(wstr, winstat.dwFileAttributes);
+		issymlink = !follow && isSymlink ( wstr, winstat.dwFileAttributes );
 
-	__PHYSFS_smallFree(wstr);
-	BAIL_IF(!rc, errcodeFromWinApiError(err), 0);
+	__PHYSFS_smallFree ( wstr );
+	BAIL_IF ( !rc, errcodeFromWinApiError ( err ), 0 );
 
-	st->modtime = FileTimeToPhysfsTime(&winstat.ftLastWriteTime);
-	st->accesstime = FileTimeToPhysfsTime(&winstat.ftLastAccessTime);
-	st->createtime = FileTimeToPhysfsTime(&winstat.ftCreationTime);
+	st->modtime = FileTimeToPhysfsTime ( &winstat.ftLastWriteTime );
+	st->accesstime = FileTimeToPhysfsTime ( &winstat.ftLastAccessTime );
+	st->createtime = FileTimeToPhysfsTime ( &winstat.ftCreationTime );
 
-	if (issymlink)
+	if ( issymlink )
 		{
 			st->filetype = PHYSFS_FILETYPE_SYMLINK;
 			st->filesize = 0;
 		} /* if */
 
-	else if (winstat.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+	else if ( winstat.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
 		{
 			st->filetype = PHYSFS_FILETYPE_DIRECTORY;
 			st->filesize = 0;
 		} /* else if */
 
-	else if (winstat.dwFileAttributes & (FILE_ATTRIBUTE_OFFLINE | FILE_ATTRIBUTE_DEVICE))
+	else if ( winstat.dwFileAttributes & ( FILE_ATTRIBUTE_OFFLINE | FILE_ATTRIBUTE_DEVICE ) )
 		{
 			st->filetype = PHYSFS_FILETYPE_OTHER;
-			st->filesize = (((PHYSFS_uint64) winstat.nFileSizeHigh) << 32) | winstat.nFileSizeLow;
+			st->filesize = ( ( ( PHYSFS_uint64 ) winstat.nFileSizeHigh ) << 32 ) | winstat.nFileSizeLow;
 		} /* else if */
 
 	else
 		{
 			st->filetype = PHYSFS_FILETYPE_REGULAR;
-			st->filesize = (((PHYSFS_uint64) winstat.nFileSizeHigh) << 32) | winstat.nFileSizeLow;
+			st->filesize = ( ( ( PHYSFS_uint64 ) winstat.nFileSizeHigh ) << 32 ) | winstat.nFileSizeLow;
 		} /* else */
 
-	st->readonly = ((winstat.dwFileAttributes & FILE_ATTRIBUTE_READONLY) != 0);
+	st->readonly = ( ( winstat.dwFileAttributes & FILE_ATTRIBUTE_READONLY ) != 0 );
 
 	return 1;
 } /* __PHYSFS_platformStat */

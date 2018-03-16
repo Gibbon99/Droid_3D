@@ -75,71 +75,71 @@ struct tvec1
 	//////////////////////////////////////
 	// Accesses
 
-	GLM_FUNC_DECL value_type & operator[](size_type i);
-	GLM_FUNC_DECL value_type const & operator[](size_type i) const;
+	GLM_FUNC_DECL value_type & operator[] ( size_type i );
+	GLM_FUNC_DECL value_type const & operator[] ( size_type i ) const;
 
 	//////////////////////////////////////
 	// Implicit basic constructors
 
 	GLM_FUNC_DECL tvec1();
-	GLM_FUNC_DECL tvec1(tvec1<T> const & v);
+	GLM_FUNC_DECL tvec1 ( tvec1<T> const & v );
 
 	//////////////////////////////////////
 	// Explicit basic constructors
 
-	GLM_FUNC_DECL explicit tvec1(
-	    ctor);
-	GLM_FUNC_DECL explicit tvec1(
-	    value_type const & s);
+	GLM_FUNC_DECL explicit tvec1 (
+	    ctor );
+	GLM_FUNC_DECL explicit tvec1 (
+	    value_type const & s );
 
 	//////////////////////////////////////
 	// Swizzle constructors
 
-	GLM_FUNC_DECL tvec1(tref1<T> const & r);
+	GLM_FUNC_DECL tvec1 ( tref1<T> const & r );
 
 	//////////////////////////////////////
 	// Convertion scalar constructors
 
 	//! Explicit converions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 	template <typename U>
-	GLM_FUNC_DECL explicit tvec1(U const & s);
+	GLM_FUNC_DECL explicit tvec1 ( U const & s );
 
 	//////////////////////////////////////
 	// Convertion vector constructors
 
 	//! Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 	template <typename U>
-	GLM_FUNC_DECL explicit tvec1(tvec2<U> const & v);
+	GLM_FUNC_DECL explicit tvec1 ( tvec2<U> const & v );
 	//! Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 	template <typename U>
-	GLM_FUNC_DECL explicit tvec1(tvec3<U> const & v);
+	GLM_FUNC_DECL explicit tvec1 ( tvec3<U> const & v );
 	//! Explicit conversions (From section 5.4.1 Conversion and scalar constructors of GLSL 1.30.08 specification)
 	template <typename U>
-	GLM_FUNC_DECL explicit tvec1(tvec4<U> const & v);
+	GLM_FUNC_DECL explicit tvec1 ( tvec4<U> const & v );
 
 	//////////////////////////////////////
 	// Unary arithmetic operators
 
-	GLM_FUNC_DECL tvec1<T> & operator= (tvec1<T> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator= ( tvec1<T> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator= (tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator= ( tvec1<U> const & v );
 
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator+=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator+= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator+=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator+= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator-=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator-= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator-=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator-= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator*=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator*= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator*=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator*= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator/=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator/= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator/=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator/= ( tvec1<U> const & v );
 	GLM_FUNC_DECL tvec1<T> & operator++();
 	GLM_FUNC_DECL tvec1<T> & operator--();
 
@@ -147,54 +147,54 @@ struct tvec1
 	// Unary bit operators
 
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator%=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator%= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator%=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator%= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator&=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator&= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator&=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator&= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator|=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator|= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator|=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator|= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator^=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator^= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator^=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator^= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator<<=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator<<= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator<<=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator<<= ( tvec1<U> const & v );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator>>=(U const & s);
+	GLM_FUNC_DECL tvec1<T> & operator>>= ( U const & s );
 	template <typename U>
-	GLM_FUNC_DECL tvec1<T> & operator>>=(tvec1<U> const & v);
+	GLM_FUNC_DECL tvec1<T> & operator>>= ( tvec1<U> const & v );
 
 	//////////////////////////////////////
 	// Swizzle operators
 
-	GLM_FUNC_DECL value_type swizzle(comp X) const;
-	GLM_FUNC_DECL tvec2<T> swizzle(comp X, comp Y) const;
-	GLM_FUNC_DECL tvec3<T> swizzle(comp X, comp Y, comp Z) const;
-	GLM_FUNC_DECL tvec4<T> swizzle(comp X, comp Y, comp Z, comp W) const;
-	GLM_FUNC_DECL tref1<T> swizzle(comp X);
+	GLM_FUNC_DECL value_type swizzle ( comp X ) const;
+	GLM_FUNC_DECL tvec2<T> swizzle ( comp X, comp Y ) const;
+	GLM_FUNC_DECL tvec3<T> swizzle ( comp X, comp Y, comp Z ) const;
+	GLM_FUNC_DECL tvec4<T> swizzle ( comp X, comp Y, comp Z, comp W ) const;
+	GLM_FUNC_DECL tref1<T> swizzle ( comp X );
 };
 
 template <typename T>
 struct tref1
 {
-	GLM_FUNC_DECL tref1(T & x);
-	GLM_FUNC_DECL tref1(tref1<T> const & r);
-	GLM_FUNC_DECL tref1(tvec1<T> const & v);
+	GLM_FUNC_DECL tref1 ( T & x );
+	GLM_FUNC_DECL tref1 ( tref1<T> const & r );
+	GLM_FUNC_DECL tref1 ( tvec1<T> const & v );
 
-	GLM_FUNC_DECL tref1<T> & operator= (tref1<T> const & r);
-	GLM_FUNC_DECL tref1<T> & operator= (tvec1<T> const & v);
+	GLM_FUNC_DECL tref1<T> & operator= ( tref1<T> const & r );
+	GLM_FUNC_DECL tref1<T> & operator= ( tvec1<T> const & v );
 
 	T& x;
 };
 
-GLM_DETAIL_IS_VECTOR(tvec1);
+GLM_DETAIL_IS_VECTOR ( tvec1 );
 
 typedef detail::tvec1<highp_float>		highp_vec1_t;
 typedef detail::tvec1<mediump_float>	mediump_vec1_t;

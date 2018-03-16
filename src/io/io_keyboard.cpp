@@ -17,118 +17,119 @@ bool		keyDownDown = false;
 //-----------------------------------------------------------------------------
 //
 // Read a unicode character
-void io_readCharCallback(GLFWwindow* window, unsigned int character)
+void io_readCharCallback ( GLFWwindow* window, unsigned int character )
 //-----------------------------------------------------------------------------
 {
-	switch (currentMode)
+	switch ( currentMode )
 		{
-			case MODE_CONSOLE:
-				if(conCurrentCharCount < MAX_STRING_SIZE - 1)
-					{
-						if (character >= 32)
-							{
-								conCurrentLine.conLine += character;
-								conCurrentCharCount++;
-							}
-					}
+		case MODE_CONSOLE:
+			if ( conCurrentCharCount < MAX_STRING_SIZE - 1 )
+				{
+					if ( character >= 32 )
+						{
+							conCurrentLine.conLine += character;
+							conCurrentCharCount++;
+						}
+				}
 
-				break;
+			break;
 
-			default:
-				break;
+		default:
+			break;
 		}
 }
 
 //-----------------------------------------------------------------------------
 //
 // Read and process keys for main game
-void io_readGameSpecialKeys(int key, int action)
+void io_readGameSpecialKeys ( int key, int action )
 //-----------------------------------------------------------------------------
 {
-	if (GLFW_PRESS == action)
+	if ( GLFW_PRESS == action )
 		{
-			switch (key)
+			switch ( key )
 				{
-					case GLFW_KEY_GRAVE_ACCENT:
-						changeMode(MODE_CONSOLE);
-						break;
+				case GLFW_KEY_GRAVE_ACCENT:
+					changeMode ( MODE_CONSOLE );
+					conCurrentCharCount = 0;
+					break;
 
-					case GLFW_KEY_W:
-						keyForwardDown = true;
-						break;
+				case GLFW_KEY_W:
+					keyForwardDown = true;
+					break;
 
-					case GLFW_KEY_S:
-						keyBackwardDown = true;
-						break;
+				case GLFW_KEY_S:
+					keyBackwardDown = true;
+					break;
 
-					case GLFW_KEY_A:
-						keyLeftDown = true;
-						break;
+				case GLFW_KEY_A:
+					keyLeftDown = true;
+					break;
 
-					case GLFW_KEY_D:
-						keyRightDown = true;
-						break;
+				case GLFW_KEY_D:
+					keyRightDown = true;
+					break;
 
-					case GLFW_KEY_UP:
-						keyUpDown = true;
-						break;
+				case GLFW_KEY_UP:
+					keyUpDown = true;
+					break;
 
-					case GLFW_KEY_DOWN:
-						keyDownDown = true;
-						break;
+				case GLFW_KEY_DOWN:
+					keyDownDown = true;
+					break;
 
-					case GLFW_KEY_F11:
-						g_lockMouse = !g_lockMouse;
-						break;
+				case GLFW_KEY_F11:
+					g_lockMouse = !g_lockMouse;
+					break;
 
-					case GLFW_KEY_R:
-						bsp_placeCameraAtEntity("info_player_start");
-						break;
+				case GLFW_KEY_R:
+					bsp_placeCameraAtEntity ( "info_player_start" );
+					break;
 
-					case GLFW_KEY_F12:
-						io_saveScreenToFile();
-						break;
+				case GLFW_KEY_F12:
+					io_saveScreenToFile();
+					break;
 
-					case GLFW_KEY_SPACE:
-						animateLight = !animateLight;
-						break;
+				case GLFW_KEY_SPACE:
+					animateLight = !animateLight;
+					break;
 
-					default:
-						break;
+				default:
+					break;
 				}
 		}
 
-	if (GLFW_RELEASE == action)
+	if ( GLFW_RELEASE == action )
 		{
-			switch (key)
+			switch ( key )
 				{
-					case GLFW_KEY_W:
-						keyForwardDown = false;
-						break;
+				case GLFW_KEY_W:
+					keyForwardDown = false;
+					break;
 
-					case GLFW_KEY_S:
-						keyBackwardDown = false;
-						break;
+				case GLFW_KEY_S:
+					keyBackwardDown = false;
+					break;
 
-					case GLFW_KEY_A:
-						keyLeftDown = false;
-						break;
+				case GLFW_KEY_A:
+					keyLeftDown = false;
+					break;
 
-					case GLFW_KEY_D:
-						keyRightDown = false;
-						break;
+				case GLFW_KEY_D:
+					keyRightDown = false;
+					break;
 
-					case GLFW_KEY_UP:
-						keyUpDown = false;
-						break;
+				case GLFW_KEY_UP:
+					keyUpDown = false;
+					break;
 
-					case GLFW_KEY_DOWN:
-						keyDownDown = false;
-						break;
+				case GLFW_KEY_DOWN:
+					keyDownDown = false;
+					break;
 
-					case GLFW_KEY_1:
-						drawWireframe = !drawWireframe;
-						break;
+				case GLFW_KEY_1:
+					drawWireframe = !drawWireframe;
+					break;
 				}
 		}
 }
@@ -136,66 +137,66 @@ void io_readGameSpecialKeys(int key, int action)
 //-----------------------------------------------------------------------------
 //
 // Read and process the console keyboard
-void io_readConsoleSpecialKeys(int key, int action)
+void io_readConsoleSpecialKeys ( int key, int action )
 //-----------------------------------------------------------------------------
 {
 	//
 	// Check all the other keys, including the backspace key being pressed down
-	if (action == GLFW_PRESS)
+	if ( action == GLFW_PRESS )
 		{
-			switch (key)
+			switch ( key )
 				{
-					case GLFW_KEY_GRAVE_ACCENT:
-						changeMode(MODE_GAME);
-						break;
+				case GLFW_KEY_GRAVE_ACCENT:
+					changeMode ( MODE_GAME );
+					break;
 
-					case GLFW_KEY_BACKSPACE:
-						conBackSpaceDown = 1;
-						break;
+				case GLFW_KEY_BACKSPACE:
+					conBackSpaceDown = 1;
+					break;
 
-					case GLFW_KEY_ENTER:
-						con_processCommand(conCurrentLine.conLine);
-						break;
+				case GLFW_KEY_ENTER:
+					con_processCommand ( conCurrentLine.conLine );
+					break;
 
-					case GLFW_KEY_TAB:
-						con_completeCommand(conCurrentLine.conLine);
-						break;
+				case GLFW_KEY_TAB:
+					con_completeCommand ( conCurrentLine.conLine );
+					break;
 
-					case GLFW_KEY_UP:
-						con_popHistoryCommand();
+				case GLFW_KEY_UP:
+					con_popHistoryCommand();
 
-						//
-						// Get the next command if we need it
-						if (conHistoryPtr != NUM_MAX_CON_COMMANDS)
-							conHistoryPtr++;
+					//
+					// Get the next command if we need it
+					if ( conHistoryPtr != NUM_MAX_CON_COMMANDS )
+						conHistoryPtr++;
 
-						break;
+					break;
 
-					case GLFW_KEY_DOWN:
+				case GLFW_KEY_DOWN:
 
-						//
-						// Get the next command if we need it
-						if (conHistoryPtr > 0)
-							conHistoryPtr--;
+					//
+					// Get the next command if we need it
+					if ( conHistoryPtr > 0 )
+						conHistoryPtr--;
 
-						con_popHistoryCommand();
-						break;
+					con_popHistoryCommand();
+					break;
 
-					default:
-						break;
+				default:
+					break;
 				}
 		}
 
-	if (action == GLFW_RELEASE)
+	if ( action == GLFW_RELEASE )
 		{
-			switch (key)
+			switch ( key )
 				{
-					case GLFW_KEY_BACKSPACE:
-						conBackSpaceDown = 0;
-						break;
+				case GLFW_KEY_BACKSPACE:
+					conBackSpaceDown = 0;
+					break;
 
-					default:
-						break;
+				default:
+					break;
 				}
 		}
 }

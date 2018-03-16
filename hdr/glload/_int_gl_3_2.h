@@ -27,25 +27,25 @@ extern "C" {
 #define GL_TRIANGLES_ADJACENCY 0x000C
 #define GL_TRIANGLE_STRIP_ADJACENCY 0x000D
 
-typedef GLenum (CODEGEN_FUNCPTR * PFNGLCLIENTWAITSYNCPROC)(GLsync sync, GLbitfield flags, GLuint64 timeout);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETESYNCPROC)(GLsync sync);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSBASEVERTEXPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei instancecount, GLint basevertex);
-typedef void (CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC)(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex);
-typedef GLsync (CODEGEN_FUNCPTR * PFNGLFENCESYNCPROC)(GLenum condition, GLbitfield flags);
-typedef void (CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREPROC)(GLenum target, GLenum attachment, GLuint texture, GLint level);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERI64VPROC)(GLenum target, GLenum pname, GLint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTEGER64I_VPROC)(GLenum target, GLuint index, GLint64 * data);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETINTEGER64VPROC)(GLenum pname, GLint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETMULTISAMPLEFVPROC)(GLenum pname, GLuint index, GLfloat * val);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSYNCIVPROC)(GLsync sync, GLenum pname, GLsizei bufSize, GLsizei * length, GLint * values);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISSYNCPROC)(GLsync sync);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC)(GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei drawcount, const GLint * basevertex);
-typedef void (CODEGEN_FUNCPTR * PFNGLPROVOKINGVERTEXPROC)(GLenum mode);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLEMASKIPROC)(GLuint index, GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE2DMULTISAMPLEPROC)(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DMULTISAMPLEPROC)(GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
-typedef void (CODEGEN_FUNCPTR * PFNGLWAITSYNCPROC)(GLsync sync, GLbitfield flags, GLuint64 timeout);
+typedef GLenum ( CODEGEN_FUNCPTR * PFNGLCLIENTWAITSYNCPROC ) ( GLsync sync, GLbitfield flags, GLuint64 timeout );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETESYNCPROC ) ( GLsync sync );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSBASEVERTEXPROC ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei instancecount, GLint basevertex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC ) ( GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices, GLint basevertex );
+typedef GLsync ( CODEGEN_FUNCPTR * PFNGLFENCESYNCPROC ) ( GLenum condition, GLbitfield flags );
+typedef void ( CODEGEN_FUNCPTR * PFNGLFRAMEBUFFERTEXTUREPROC ) ( GLenum target, GLenum attachment, GLuint texture, GLint level );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETBUFFERPARAMETERI64VPROC ) ( GLenum target, GLenum pname, GLint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTEGER64I_VPROC ) ( GLenum target, GLuint index, GLint64 * data );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETINTEGER64VPROC ) ( GLenum pname, GLint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETMULTISAMPLEFVPROC ) ( GLenum pname, GLuint index, GLfloat * val );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSYNCIVPROC ) ( GLsync sync, GLenum pname, GLsizei bufSize, GLsizei * length, GLint * values );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISSYNCPROC ) ( GLsync sync );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC ) ( GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei drawcount, const GLint * basevertex );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPROVOKINGVERTEXPROC ) ( GLenum mode );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLEMASKIPROC ) ( GLuint index, GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE2DMULTISAMPLEPROC ) ( GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXIMAGE3DMULTISAMPLEPROC ) ( GLenum target, GLsizei samples, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations );
+typedef void ( CODEGEN_FUNCPTR * PFNGLWAITSYNCPROC ) ( GLsync sync, GLbitfield flags, GLuint64 timeout );
 
 extern PFNGLCLIENTWAITSYNCPROC _funcptr_glClientWaitSync;
 #define glClientWaitSync _funcptr_glClientWaitSync

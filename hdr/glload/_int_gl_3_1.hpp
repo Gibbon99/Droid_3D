@@ -25,18 +25,18 @@ enum
 
 namespace _detail
 {
-typedef void (CODEGEN_FUNCPTR * Proc_glCopyBufferSubData)(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-typedef void (CODEGEN_FUNCPTR * Proc_glDrawArraysInstanced)(GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
-typedef void (CODEGEN_FUNCPTR * Proc_glDrawElementsInstanced)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei instancecount);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetActiveUniformBlockName)(GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformBlockName);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetActiveUniformBlockiv)(GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetActiveUniformName)(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformName);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetActiveUniformsiv)(GLuint program, GLsizei uniformCount, const GLuint * uniformIndices, GLenum pname, GLint * params);
-typedef GLuint (CODEGEN_FUNCPTR * Proc_glGetUniformBlockIndex)(GLuint program, const GLchar * uniformBlockName);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetUniformIndices)(GLuint program, GLsizei uniformCount, const GLchar *const* uniformNames, GLuint * uniformIndices);
-typedef void (CODEGEN_FUNCPTR * Proc_glPrimitiveRestartIndex)(GLuint index);
-typedef void (CODEGEN_FUNCPTR * Proc_glTexBuffer)(GLenum target, GLenum internalformat, GLuint buffer);
-typedef void (CODEGEN_FUNCPTR * Proc_glUniformBlockBinding)(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
+typedef void ( CODEGEN_FUNCPTR * Proc_glCopyBufferSubData ) ( GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDrawArraysInstanced ) ( GLenum mode, GLint first, GLsizei count, GLsizei instancecount );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDrawElementsInstanced ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei instancecount );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetActiveUniformBlockName ) ( GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformBlockName );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetActiveUniformBlockiv ) ( GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetActiveUniformName ) ( GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei * length, GLchar * uniformName );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetActiveUniformsiv ) ( GLuint program, GLsizei uniformCount, const GLuint * uniformIndices, GLenum pname, GLint * params );
+typedef GLuint ( CODEGEN_FUNCPTR * Proc_glGetUniformBlockIndex ) ( GLuint program, const GLchar * uniformBlockName );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetUniformIndices ) ( GLuint program, GLsizei uniformCount, const GLchar *const* uniformNames, GLuint * uniformIndices );
+typedef void ( CODEGEN_FUNCPTR * Proc_glPrimitiveRestartIndex ) ( GLuint index );
+typedef void ( CODEGEN_FUNCPTR * Proc_glTexBuffer ) ( GLenum target, GLenum internalformat, GLuint buffer );
+typedef void ( CODEGEN_FUNCPTR * Proc_glUniformBlockBinding ) ( GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding );
 }
 
 extern _detail::Proc_glCopyBufferSubData CopyBufferSubData;

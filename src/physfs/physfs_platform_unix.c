@@ -60,19 +60,19 @@
 
 #include "physfs_internal.h"
 
-int __PHYSFS_platformInit(void)
+int __PHYSFS_platformInit ( void )
 {
 	return 1;  /* always succeed. */
 } /* __PHYSFS_platformInit */
 
 
-void __PHYSFS_platformDeinit(void)
+void __PHYSFS_platformDeinit ( void )
 {
 	/* no-op */
 } /* __PHYSFS_platformDeinit */
 
 
-void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data)
+void __PHYSFS_platformDetectAvailableCDs ( PHYSFS_StringCallback cb, void *data )
 {
 #if (defined PHYSFS_NO_CDROM_SUPPORT)
 	/* no-op. */
@@ -80,76 +80,76 @@ void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data)
 #elif (defined PHYSFS_HAVE_SYS_UCRED_H)
 	int i;
 	struct statfs *mntbufp = NULL;
-	int mounts = getmntinfo(&mntbufp, MNT_NOWAIT);
+	int mounts = getmntinfo ( &mntbufp, MNT_NOWAIT );
 
-	for (i = 0; i < mounts; i++)
+	for ( i = 0; i < mounts; i++ )
 		{
 			int add_it = 0;
 
-			if (strcmp(mntbufp[i].f_fstypename, "iso9660") == 0)
+			if ( strcmp ( mntbufp[i].f_fstypename, "iso9660" ) == 0 )
 				add_it = 1;
 
-			else if (strcmp( mntbufp[i].f_fstypename, "cd9660") == 0)
+			else if ( strcmp ( mntbufp[i].f_fstypename, "cd9660" ) == 0 )
 				add_it = 1;
 
 			/* add other mount types here */
 
-			if (add_it)
-				cb(data, mntbufp[i].f_mntonname);
+			if ( add_it )
+				cb ( data, mntbufp[i].f_mntonname );
 		} /* for */
 
 #elif (defined PHYSFS_HAVE_MNTENT_H)
 	FILE *mounts = NULL;
 	struct mntent *ent = NULL;
 
-	mounts = setmntent("/etc/mtab", "r");
-	BAIL_IF(mounts == NULL, PHYSFS_ERR_IO, /*return void*/);
+	mounts = setmntent ( "/etc/mtab", "r" );
+	BAIL_IF ( mounts == NULL, PHYSFS_ERR_IO, /*return void*/ );
 
-	while ( (ent = getmntent(mounts)) != NULL )
+	while ( ( ent = getmntent ( mounts ) ) != NULL )
 		{
 			int add_it = 0;
 
-			if (strcmp(ent->mnt_type, "iso9660") == 0)
+			if ( strcmp ( ent->mnt_type, "iso9660" ) == 0 )
 				add_it = 1;
 
-			else if (strcmp(ent->mnt_type, "udf") == 0)
+			else if ( strcmp ( ent->mnt_type, "udf" ) == 0 )
 				add_it = 1;
 
 			/* !!! FIXME: these might pick up floppy drives, right? */
-			else if (strcmp(ent->mnt_type, "auto") == 0)
+			else if ( strcmp ( ent->mnt_type, "auto" ) == 0 )
 				add_it = 1;
 
-			else if (strcmp(ent->mnt_type, "supermount") == 0)
+			else if ( strcmp ( ent->mnt_type, "supermount" ) == 0 )
 				add_it = 1;
 
 			/* add other mount types here */
 
-			if (add_it)
-				cb(data, ent->mnt_dir);
+			if ( add_it )
+				cb ( data, ent->mnt_dir );
 		} /* while */
 
-	endmntent(mounts);
+	endmntent ( mounts );
 
 #elif (defined PHYSFS_HAVE_SYS_MNTTAB_H)
-	FILE *mounts = fopen(MNTTAB, "r");
+	FILE *mounts = fopen ( MNTTAB, "r" );
 	struct mnttab ent;
 
-	BAIL_IF(mounts == NULL, PHYSFS_ERR_IO, /*return void*/);
+	BAIL_IF ( mounts == NULL, PHYSFS_ERR_IO, /*return void*/ );
 
-	while (getmntent(mounts, &ent) == 0)
+	while ( getmntent ( mounts, &ent ) == 0 )
 		{
 			int add_it = 0;
 
-			if (strcmp(ent.mnt_fstype, "hsfs") == 0)
+			if ( strcmp ( ent.mnt_fstype, "hsfs" ) == 0 )
 				add_it = 1;
 
 			/* add other mount types here */
 
-			if (add_it)
-				cb(data, ent.mnt_mountp);
+			if ( add_it )
+				cb ( data, ent.mnt_mountp );
 		} /* while */
 
-	fclose(mounts);
+	fclose ( mounts );
 #endif
 } /* __PHYSFS_platformDetectAvailableCDs */
 
@@ -163,39 +163,39 @@ void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data)
  * (envr) will be scribbled over, and you are expected to allocator.Free() the
  *  return value when you're done with it.
  */
-static char *findBinaryInPath(const char *bin, char *envr)
+static char *findBinaryInPath ( const char *bin, char *envr )
 {
 	size_t alloc_size = 0;
 	char *exe = NULL;
 	char *start = envr;
 	char *ptr;
 
-	assert(bin != NULL);
-	assert(envr != NULL);
+	assert ( bin != NULL );
+	assert ( envr != NULL );
 
 	do
 		{
 			size_t size;
 			size_t binlen;
 
-			ptr = strchr(start, ':');  /* find next $PATH separator. */
+			ptr = strchr ( start, ':' ); /* find next $PATH separator. */
 
-			if (ptr)
+			if ( ptr )
 				*ptr = '\0';
 
-			binlen = strlen(bin);
-			size = strlen(start) + binlen + 2;
+			binlen = strlen ( bin );
+			size = strlen ( start ) + binlen + 2;
 
-			if (size >= alloc_size)
+			if ( size >= alloc_size )
 				{
-					char *x = (char *) allocator.Realloc(exe, size);
+					char *x = ( char * ) allocator.Realloc ( exe, size );
 
-					if (!x)
+					if ( !x )
 						{
-							if (exe != NULL)
-								allocator.Free(exe);
+							if ( exe != NULL )
+								allocator.Free ( exe );
 
-							BAIL(PHYSFS_ERR_OUT_OF_MEMORY, NULL);
+							BAIL ( PHYSFS_ERR_OUT_OF_MEMORY, NULL );
 						} /* if */
 
 					alloc_size = size;
@@ -203,51 +203,51 @@ static char *findBinaryInPath(const char *bin, char *envr)
 				} /* if */
 
 			/* build full binary path... */
-			strcpy(exe, start);
+			strcpy ( exe, start );
 
-			if ((exe[0] == '\0') || (exe[strlen(exe) - 1] != '/'))
-				strcat(exe, "/");
+			if ( ( exe[0] == '\0' ) || ( exe[strlen ( exe ) - 1] != '/' ) )
+				strcat ( exe, "/" );
 
-			strcat(exe, bin);
+			strcat ( exe, bin );
 
-			if (access(exe, X_OK) == 0)  /* Exists as executable? We're done. */
+			if ( access ( exe, X_OK ) == 0 ) /* Exists as executable? We're done. */
 				{
-					exe[(size - binlen) - 1] = '\0'; /* chop off filename, leave '/' */
+					exe[ ( size - binlen ) - 1] = '\0'; /* chop off filename, leave '/' */
 					return exe;
 				} /* if */
 
 			start = ptr + 1;  /* start points to beginning of next element. */
 		}
-	while (ptr != NULL);
+	while ( ptr != NULL );
 
-	if (exe != NULL)
-		allocator.Free(exe);
+	if ( exe != NULL )
+		allocator.Free ( exe );
 
 	return NULL;  /* doesn't exist in path. */
 } /* findBinaryInPath */
 
 
-static char *readSymLink(const char *path)
+static char *readSymLink ( const char *path )
 {
 	ssize_t len = 64;
 	ssize_t rc = -1;
 	char *retval = NULL;
 
-	while (1)
+	while ( 1 )
 		{
-			char *ptr = (char *) allocator.Realloc(retval, (size_t) len);
+			char *ptr = ( char * ) allocator.Realloc ( retval, ( size_t ) len );
 
-			if (ptr == NULL)
+			if ( ptr == NULL )
 				break;   /* out of memory. */
 
 			retval = ptr;
 
-			rc = readlink(path, retval, len);
+			rc = readlink ( path, retval, len );
 
-			if (rc == -1)
+			if ( rc == -1 )
 				break;  /* not a symlink, i/o error, etc. */
 
-			else if (rc < len)
+			else if ( rc < len )
 				{
 					retval[rc] = '\0';  /* readlink doesn't null-terminate. */
 					return retval;  /* we're good to go. */
@@ -256,14 +256,14 @@ static char *readSymLink(const char *path)
 			len *= 2;  /* grow buffer, try again. */
 		} /* while */
 
-	if (retval != NULL)
-		allocator.Free(retval);
+	if ( retval != NULL )
+		allocator.Free ( retval );
 
 	return NULL;
 } /* readSymLink */
 
 
-char *__PHYSFS_platformCalcBaseDir(const char *argv0)
+char *__PHYSFS_platformCalcBaseDir ( const char *argv0 )
 {
 	char *retval = NULL;
 	const char *envr = NULL;
@@ -273,18 +273,18 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0)
 #if defined(PHYSFS_PLATFORM_FREEBSD)
 	{
 		char fullpath[PATH_MAX];
-		size_t buflen = sizeof (fullpath);
+		size_t buflen = sizeof ( fullpath );
 		int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
 
-		if (sysctl(mib, 4, fullpath, &buflen, NULL, 0) != -1)
-			retval = __PHYSFS_strdup(fullpath);
+		if ( sysctl ( mib, 4, fullpath, &buflen, NULL, 0 ) != -1 )
+			retval = __PHYSFS_strdup ( fullpath );
 	}
 #elif defined(PHYSFS_PLATFORM_SOLARIS)
 	{
 		const char *path = getexecname();
 
-		if ((path != NULL) && (path[0] == '/'))  /* must be absolute path... */
-			retval = __PHYSFS_strdup(path);
+		if ( ( path != NULL ) && ( path[0] == '/' ) ) /* must be absolute path... */
+			retval = __PHYSFS_strdup ( path );
 	}
 #endif
 
@@ -292,66 +292,66 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0)
 	 *  the current process from a symlink in there.
 	 */
 
-	if (!retval && (access("/proc", F_OK) == 0))
+	if ( !retval && ( access ( "/proc", F_OK ) == 0 ) )
 		{
-			retval = readSymLink("/proc/self/exe");
+			retval = readSymLink ( "/proc/self/exe" );
 
-			if (!retval) retval = readSymLink("/proc/curproc/file");
+			if ( !retval ) retval = readSymLink ( "/proc/curproc/file" );
 
-			if (!retval) retval = readSymLink("/proc/curproc/exe");
+			if ( !retval ) retval = readSymLink ( "/proc/curproc/exe" );
 
-			if (retval == NULL)
+			if ( retval == NULL )
 				{
 					/* older kernels don't have /proc/self ... try PID version... */
-					const unsigned long long pid = (unsigned long long) getpid();
+					const unsigned long long pid = ( unsigned long long ) getpid();
 					char path[64];
-					const int rc = (int) snprintf(path,sizeof(path),"/proc/%llu/exe",pid);
+					const int rc = ( int ) snprintf ( path,sizeof ( path ),"/proc/%llu/exe",pid );
 
-					if ( (rc > 0) && (rc < sizeof(path)) )
-						retval = readSymLink(path);
+					if ( ( rc > 0 ) && ( rc < sizeof ( path ) ) )
+						retval = readSymLink ( path );
 				} /* if */
 		} /* if */
 
-	if (retval != NULL)  /* chop off filename. */
+	if ( retval != NULL ) /* chop off filename. */
 		{
-			char *ptr = strrchr(retval, '/');
+			char *ptr = strrchr ( retval, '/' );
 
-			if (ptr != NULL)
-				*(ptr+1) = '\0';
+			if ( ptr != NULL )
+				* ( ptr+1 ) = '\0';
 
 			else  /* shouldn't happen, but just in case... */
 				{
-					allocator.Free(retval);
+					allocator.Free ( retval );
 					retval = NULL;
 				} /* else */
 		} /* if */
 
 	/* No /proc/self/exe, etc, but we have an argv[0] we can parse? */
-	if ((retval == NULL) && (argv0 != NULL))
+	if ( ( retval == NULL ) && ( argv0 != NULL ) )
 		{
 			/* fast path: default behaviour can handle this. */
-			if (strchr(argv0, '/') != NULL)
+			if ( strchr ( argv0, '/' ) != NULL )
 				return NULL;  /* higher level parses out real path from argv0. */
 
 			/* If there's no dirsep on argv0, then look through $PATH for it. */
-			envr = getenv("PATH");
+			envr = getenv ( "PATH" );
 
-			if (envr != NULL)
+			if ( envr != NULL )
 				{
-					char *path = (char *) __PHYSFS_smallAlloc(strlen(envr) + 1);
-					BAIL_IF(!path, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
-					strcpy(path, envr);
-					retval = findBinaryInPath(argv0, path);
-					__PHYSFS_smallFree(path);
+					char *path = ( char * ) __PHYSFS_smallAlloc ( strlen ( envr ) + 1 );
+					BAIL_IF ( !path, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
+					strcpy ( path, envr );
+					retval = findBinaryInPath ( argv0, path );
+					__PHYSFS_smallFree ( path );
 				} /* if */
 		} /* if */
 
-	if (retval != NULL)
+	if ( retval != NULL )
 		{
 			/* try to shrink buffer... */
-			char *ptr = (char *) allocator.Realloc(retval, strlen(retval) + 1);
+			char *ptr = ( char * ) allocator.Realloc ( retval, strlen ( retval ) + 1 );
 
-			if (ptr != NULL)
+			if ( ptr != NULL )
 				retval = ptr;  /* oh well if it failed. */
 		} /* if */
 
@@ -359,7 +359,7 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0)
 } /* __PHYSFS_platformCalcBaseDir */
 
 
-char *__PHYSFS_platformCalcPrefDir(const char *org, const char *app)
+char *__PHYSFS_platformCalcPrefDir ( const char *org, const char *app )
 {
 	/*
 	 * We use XDG's base directory spec, even if you're not on Linux.
@@ -368,23 +368,23 @@ char *__PHYSFS_platformCalcPrefDir(const char *org, const char *app)
 	 *
 	 * https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 	 */
-	const char *envr = getenv("XDG_DATA_HOME");
+	const char *envr = getenv ( "XDG_DATA_HOME" );
 	const char *append = "/";
 	char *retval = NULL;
 	size_t len = 0;
 
-	if (!envr)
+	if ( !envr )
 		{
 			/* You end up with "$HOME/.local/share/Game Name 2" */
 			envr = __PHYSFS_getUserDir();
-			BAIL_IF_ERRPASS(!envr, NULL);  /* oh well. */
+			BAIL_IF_ERRPASS ( !envr, NULL ); /* oh well. */
 			append = ".local/share/";
 		} /* if */
 
-	len = strlen(envr) + strlen(append) + strlen(app) + 2;
-	retval = (char *) allocator.Malloc(len);
-	BAIL_IF(!retval, PHYSFS_ERR_OUT_OF_MEMORY, NULL);
-	snprintf(retval, len, "%s%s%s/", envr, append, app);
+	len = strlen ( envr ) + strlen ( append ) + strlen ( app ) + 2;
+	retval = ( char * ) allocator.Malloc ( len );
+	BAIL_IF ( !retval, PHYSFS_ERR_OUT_OF_MEMORY, NULL );
+	snprintf ( retval, len, "%s%s%s/", envr, append, app );
 	return retval;
 } /* __PHYSFS_platformCalcPrefDir */
 

@@ -37,17 +37,17 @@ GLDebugDrawer                           debugDrawer;
 //------------------------------------------------------------
 //
 // Get matrix for falling box
-glm::mat4 bul_getMatrix(int index)
+glm::mat4 bul_getMatrix ( int index )
 //------------------------------------------------------------
 {
-	glm::mat4 ATTRIBUTE_ALIGNED16(worldTrans);
+	glm::mat4 ATTRIBUTE_ALIGNED16 ( worldTrans );
 	btTransform trans;
 
 	trans.setIdentity();
 
-	voxelPhysics[index].fallRigidBody->getMotionState()->getWorldTransform(trans);
+	voxelPhysics[index].fallRigidBody->getMotionState()->getWorldTransform ( trans );
 
-	trans.getOpenGLMatrix(glm::value_ptr(worldTrans));
+	trans.getOpenGLMatrix ( glm::value_ptr ( worldTrans ) );
 
 	return worldTrans;
 }
@@ -61,7 +61,7 @@ glm::vec3   bul_returnCameraPosition()
 	glm::vec3   tempPosition;
 
 	btTransform trans;
-	playerRigidBody->getMotionState()->getWorldTransform(trans);
+	playerRigidBody->getMotionState()->getWorldTransform ( trans );
 
 	tempPosition.x = trans.getOrigin().getX();
 	tempPosition.y = trans.getOrigin().getY();
@@ -73,55 +73,55 @@ glm::vec3   bul_returnCameraPosition()
 //------------------------------------------------------------
 //
 // Set camera physics object
-void bul_setCameraVelocity(glm::vec3 camVelocity)
+void bul_setCameraVelocity ( glm::vec3 camVelocity )
 //------------------------------------------------------------
 {
 	playerRigidBody->clearForces();
 
-	playerRigidBody->setLinearVelocity(btVector3(camVelocity.x, camVelocity.y, camVelocity.z));
+	playerRigidBody->setLinearVelocity ( btVector3 ( camVelocity.x, camVelocity.y, camVelocity.z ) );
 
 	btVector3 tempPos = playerRigidBody->getCenterOfMassPosition();
-	printf("center of mass position [ %3.3f %3.3f %3.3f\n", tempPos.x(), tempPos.y(), tempPos.z());
+	printf ( "center of mass position [ %3.3f %3.3f %3.3f\n", tempPos.x(), tempPos.y(), tempPos.z() );
 
 	btTransform transform;
 	transform.setIdentity ();
 	transform = playerRigidBody->getCenterOfMassTransform();
-	transform.setOrigin(btVector3(camPosition.x, camPosition.y, camPosition.z));
+	transform.setOrigin ( btVector3 ( camPosition.x, camPosition.y, camPosition.z ) );
 
-	playerRigidBody->setCenterOfMassTransform(transform);
+	playerRigidBody->setCenterOfMassTransform ( transform );
 
 }
 
 //------------------------------------------------------------
 //
 // Step the physics world
-void bul_processPhysics(btScalar physicsTime)
+void bul_processPhysics ( btScalar physicsTime )
 //------------------------------------------------------------
 {
 	//
 	// Step world
-	dynamicsWorld->stepSimulation(1 / physicsTime, 10);
+	dynamicsWorld->stepSimulation ( 1 / physicsTime, 10 );
 }
 
 //------------------------------------------------------------
 //
 // Create debug line information
-void bul_enableDebug(bool performDebug)
+void bul_enableDebug ( bool performDebug )
 //------------------------------------------------------------
 {
 	//
 	// Debug world
-	if (true == performDebug)
+	if ( true == performDebug )
 		{
-			debugDrawer.setDebugMode(1);
+			debugDrawer.setDebugMode ( 1 );
 			dynamicsWorld->debugDrawWorld();
-			bul_drawDebugLines(debugDrawer.GetLines());
+			bul_drawDebugLines ( debugDrawer.GetLines() );
 
 		}
 
 	else
 		{
-			debugDrawer.setDebugMode(0);
+			debugDrawer.setDebugMode ( 0 );
 		}
 }
 
@@ -133,7 +133,7 @@ void bul_enableDebug(bool performDebug)
 bool bul_setGravity()
 //------------------------------------------------------------
 {
-	dynamicsWorld->setGravity(btVector3(gravityX, gravityY, gravityZ));
+	dynamicsWorld->setGravity ( btVector3 ( gravityX, gravityY, gravityZ ) );
 
 	return true;
 }
@@ -141,38 +141,43 @@ bool bul_setGravity()
 //------------------------------------------------------------
 //
 // Add a physics object to the world
-bool bul_addPhysicsObject(int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition)
+bool bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition, 
+		btAlignedObjectArray<btVector3>& vertices )
 //------------------------------------------------------------
 {
 	btCollisionShape*   objectShape;
 
-	if (false == physicsEngineStarted)
+	if ( false == physicsEngineStarted )
 		{
-			con_print(true, true, "Physics engine is not started. Attempting to add object failed.");
+			con_print ( true, true, "Physics engine is not started. Attempting to add object failed." );
 			return false;
 		}
 
-	switch (objectType)
+	switch ( objectType )
 		{
-			case PHYSICS_OBJECT_BOX:
-				objectShape = new btBoxShape(btVector3(objectSize / 2, objectSize / 2, objectSize / 2));
-				break;
+		case PHYSICS_OBJECT_BOX:
+			objectShape = new btBoxShape ( btVector3 ( objectSize / 2, objectSize / 2, objectSize / 2 ) );
+			break;
+			
+		case PHYSICS_OBJECT_BSP:
+			objectShape= new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
+			break;
 		}
 
 	float scalePhysicsBy = 1.0;
-	objectShape->setLocalScaling(btVector3(scalePhysicsBy, scalePhysicsBy, scalePhysicsBy));
+	objectShape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
 
-	btVector3 fallInertia(0, 0, 0);
-	objectShape->calculateLocalInertia(objectMass, fallInertia);
+	btVector3 fallInertia ( 0, 0, 0 );
+	objectShape->calculateLocalInertia ( objectMass, fallInertia );
 
-	tempVoxelPhysics.fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(objectPosition.x, objectPosition.y, objectPosition.z)));
-	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(objectMass, tempVoxelPhysics.fallMotionState, objectShape, fallInertia);
+	tempVoxelPhysics.fallMotionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( objectPosition.x, objectPosition.y, objectPosition.z ) ) );
+	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI ( objectMass, tempVoxelPhysics.fallMotionState, objectShape, fallInertia );
 
-	tempVoxelPhysics.fallRigidBody = new btRigidBody(fallRigidBodyCI);
-	tempVoxelPhysics.fallRigidBody->setUserPointer((void *) index);
-	dynamicsWorld->addRigidBody(tempVoxelPhysics.fallRigidBody);
+	tempVoxelPhysics.fallRigidBody = new btRigidBody ( fallRigidBodyCI );
+	tempVoxelPhysics.fallRigidBody->setUserPointer ( ( void * ) index );
+	dynamicsWorld->addRigidBody ( tempVoxelPhysics.fallRigidBody );
 
-	voxelPhysics.push_back(tempVoxelPhysics);
+	voxelPhysics.push_back ( tempVoxelPhysics );
 }
 
 //------------------------------------------------------------
@@ -181,46 +186,64 @@ bool bul_addPhysicsObject(int index, int objectSize, int objectType, float objec
 bool bul_startPhysics()
 //------------------------------------------------------------
 {
+//	m_collisionConfiguration = new btDefaultCollisionConfiguration();
+//	m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
+	btVector3 worldMin(-1000,-1000,-1000);
+	btVector3 worldMax(1000,1000,1000);
+	//m_broadphase = new btDbvtBroadphase();
+//	m_solver = new btSequentialImpulseConstraintSolver();
+//	m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher,m_broadphase,m_solver,m_collisionConfiguration);
+
+//
+// Not set?
+//	m_guiHelper->createPhysicsDebugDrawer(m_dynamicsWorld);
+//	m_dynamicsWorld->setGravity(grav);
+	
+	
 	// Build the broadphase
 	broadphase = new btDbvtBroadphase();
 
 	// Set up the collision configuration and dispatcher
 	collisionConfiguration = new btDefaultCollisionConfiguration();
-	dispatcher = new btCollisionDispatcher(collisionConfiguration);
+	dispatcher = new btCollisionDispatcher ( collisionConfiguration );
 
 	// The actual physics solver
 	solver = new btSequentialImpulseConstraintSolver;
 
 	// The world.
-	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(gravityX, gravityY, gravityZ));
+	dynamicsWorld = new btDiscreteDynamicsWorld ( dispatcher, broadphase, solver, collisionConfiguration );
+	dynamicsWorld->setGravity ( btVector3 ( gravityX, gravityY, gravityZ ) );
 	//
 	// Point to debug renderer
-	dynamicsWorld->setDebugDrawer(&debugDrawer);
+	dynamicsWorld->setDebugDrawer ( &debugDrawer );
 
-	btVector3 fallInertia(0, 0, 0);
-	playerShape = new btCapsuleShape(btScalar(0.5), btScalar(1.0f));
-	playerShape->calculateLocalInertia(playerMass, fallInertia);
+	btVector3 fallInertia ( 0, 0, 0 );
+	playerShape = new btCapsuleShape ( btScalar ( 0.5 ), btScalar ( 1.0f ) );
+	playerShape->calculateLocalInertia ( playerMass, fallInertia );
 
-	camPosition = glm::vec3(144.00, 64.00, -16.00);
+	camPosition = glm::vec3 ( 144.00, 64.00, -16.00 );
 
-	playerMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+	playerMotionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0, 0, 0 ) ) );
 
-	btRigidBody::btRigidBodyConstructionInfo playerRigidBodyCI(playerMass, playerMotionState, playerShape, fallInertia);
-	playerRigidBody = new btRigidBody(playerRigidBodyCI);
-	playerRigidBody->setActivationState(DISABLE_DEACTIVATION);
-	dynamicsWorld->addRigidBody(playerRigidBody);
+	btRigidBody::btRigidBodyConstructionInfo playerRigidBodyCI ( playerMass, playerMotionState, playerShape, fallInertia );
+	playerRigidBody = new btRigidBody ( playerRigidBodyCI );
+	playerRigidBody->setActivationState ( DISABLE_DEACTIVATION );
+	dynamicsWorld->addRigidBody ( playerRigidBody );
 	//
 	// Stop player collision shape from rotating
-	playerRigidBody->setAngularFactor(btVector3(0.0, 0.0, 0.0));
+	playerRigidBody->setAngularFactor ( btVector3 ( 0.0, 0.0, 0.0 ) );
 
 	physicsEngineStarted = true;
 
-	playerMotionState->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(camPosition.x, camPosition.y, camPosition.z)));
+	playerMotionState->setWorldTransform ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( camPosition.x, camPosition.y, camPosition.z ) ) );
 
 	btTransform transform = playerRigidBody->getCenterOfMassTransform();
-	transform.setOrigin(btVector3(camPosition.x, camPosition.y, camPosition.z));
-	playerRigidBody->setCenterOfMassTransform(transform);
+	transform.setOrigin ( btVector3 ( camPosition.x, camPosition.y, camPosition.z ) );
+	playerRigidBody->setCenterOfMassTransform ( transform );
+
+
+//BspLoader bspLoader;
+
 
 	return true;
 }

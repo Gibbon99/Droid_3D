@@ -26,7 +26,7 @@ float               *colorBuffer = NULL;
 
 GLint 				*vertIndexes = NULL;
 GLsizei 			*vertNumber = NULL;
-	
+
 GLuint              g_glyphVAO_ID;
 GLuint              g_vertVBO_ID;
 GLuint              g_texVBO_ID;
@@ -92,16 +92,16 @@ bool                usePowerOf2 = false;
 //----------------------------------------------------------------------------
 //
 // Set the font filename from a script
-bool ttf_setFontName(std::string fontFileNameIn)
+bool ttf_setFontName ( std::string fontFileNameIn )
 //----------------------------------------------------------------------------
 {
-	if (strlen(fontFileNameIn.c_str()) > TTF_FILENAME_SIZE)
+	if ( strlen ( fontFileNameIn.c_str() ) > TTF_FILENAME_SIZE )
 		{
-			strcpy(fontFileName, "Font filename too long.");
+			strcpy ( fontFileName, "Font filename too long." );
 			return false;
 		}
 
-	strcpy(fontFileName, fontFileNameIn.c_str());
+	strcpy ( fontFileName, fontFileNameIn.c_str() );
 
 	return true;
 }
@@ -109,12 +109,12 @@ bool ttf_setFontName(std::string fontFileNameIn)
 //----------------------------------------------------------------------------
 //
 // Return power of two
-int gl_ttfNextPow2(int a)
+int gl_ttfNextPow2 ( int a )
 //----------------------------------------------------------------------------
 {
 	int rval = 1;
 
-	while (rval < a)
+	while ( rval < a )
 		rval <<=1;
 
 	return rval;
@@ -124,7 +124,7 @@ int gl_ttfNextPow2(int a)
 //----------------------------------------------------------------------
 //
 // Add all the widths of the characters to get the desired texture width
-float ttf_getCharsWidth(float *getHeight, float *charWidth)
+float ttf_getCharsWidth ( float *getHeight, float *charWidth )
 //----------------------------------------------------------------------
 {
 	int advanceX = 0;
@@ -133,34 +133,34 @@ float ttf_getCharsWidth(float *getHeight, float *charWidth)
 
 	//
 	// Find the char with the largest width
-	for (int c = START_CHAR; c != NUM_CHARS; c++)
+	for ( int c = START_CHAR; c != NUM_CHARS; c++ )
 		{
-			if (FT_Load_Char (fontInfo, c, FT_LOAD_DEFAULT | FT_LOAD_IGNORE_TRANSFORM | FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT) )
+			if ( FT_Load_Char ( fontInfo, c, FT_LOAD_DEFAULT | FT_LOAD_IGNORE_TRANSFORM | FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT ) )
 				{
-					io_logToFile ("Error: Could not load char [ %i ]", c);
+					io_logToFile ( "Error: Could not load char [ %i ]", c );
 					return false;
 				}
 
 			FT_Bitmap * bitmap = &fontInfo->glyph->bitmap;
 
-			if ((bitmap->width) > charMaxWidth)
+			if ( ( bitmap->width ) > charMaxWidth )
 				charMaxWidth = bitmap->width;
 		}
 
 	//
 	// Now generate each glyph and add up the width
-	for (int c = START_CHAR; c != NUM_CHARS; c++)
+	for ( int c = START_CHAR; c != NUM_CHARS; c++ )
 		{
-			if (FT_Load_Char (fontInfo, c, FT_LOAD_DEFAULT | FT_LOAD_IGNORE_TRANSFORM | FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT) )
+			if ( FT_Load_Char ( fontInfo, c, FT_LOAD_DEFAULT | FT_LOAD_IGNORE_TRANSFORM | FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT ) )
 				{
-					io_logToFile ("Error: Could not load char [ %i ]", c);
+					io_logToFile ( "Error: Could not load char [ %i ]", c );
 					return false;
 				}
 
 			FT_Bitmap * bitmap = &fontInfo->glyph->bitmap;
 			advanceX += charMaxWidth; //(bitmap->width + 1.0f);
 
-			if (bitmap->rows > maxHeight)
+			if ( bitmap->rows > maxHeight )
 				maxHeight = bitmap->rows;
 		}
 
@@ -177,16 +177,16 @@ void ttf_freeTextMemory()
 {
 	//
 	// Free OpenGL buffers
-	glDeleteBuffers(1, &g_vertVBO_ID);
-	glDeleteBuffers(1, &g_texVBO_ID);
-	glDeleteVertexArrays(1, &g_glyphVAO_ID);
+	glDeleteBuffers ( 1, &g_vertVBO_ID );
+	glDeleteBuffers ( 1, &g_texVBO_ID );
+	glDeleteVertexArrays ( 1, &g_glyphVAO_ID );
 	//
 	// Free memory
-	free(textureBuffer);
-	free(vertBuffer);
-	free(colorBuffer);
-	free(vertIndexes);
-	free(vertNumber);
+	free ( textureBuffer );
+	free ( vertBuffer );
+	free ( colorBuffer );
+	free ( vertIndexes );
+	free ( vertNumber );
 }
 
 //----------------------------------------------------------------------------
@@ -195,7 +195,7 @@ void ttf_freeTextMemory()
 void ttf_startText()
 //----------------------------------------------------------------------------
 {
-	memCharSize = (winWidth / conFontSize) * (winHeight / conFontSize);
+	memCharSize = ( winWidth / conFontSize ) * ( winHeight / conFontSize );
 
 	memCharSize *= 2;
 // Allocate enough memory for a character to cover the screen
@@ -204,40 +204,47 @@ void ttf_startText()
 //
 // TODO: Stop doing this each frame
 //
-if (NULL == vertNumber)
-{
-	vertNumber = (GLsizei *)malloc(sizeof(GLsizei) * memCharSize);
-	vertIndexes = (GLint *)malloc(sizeof(GLint) * memCharSize);
-
-	if ((NULL == vertIndexes) || (NULL == vertNumber))
+	if ( NULL == vertNumber )
 		{
-			io_logToFile("Memory error : vertIndexes");
-			sys_shutdownToSystem();
-		}
-		
+			vertNumber = ( GLsizei * ) malloc ( sizeof ( GLsizei ) * memCharSize );
+			vertIndexes = ( GLint * ) malloc ( sizeof ( GLint ) * memCharSize );
+
+			if ( ( NULL == vertIndexes ) || ( NULL == vertNumber ) )
+				{
+					io_logToFile ( "Memory error : vertIndexes" );
+					sys_shutdownToSystem();
+				}
+
 			int indexCount = 4;
 
-	vertIndexes[0] = 0;
-	
-	for (int i = 0; i != memCharSize; i++)
-		{
-			vertIndexes[i] = indexCount * i;
-			vertNumber[i] = 4;
-		}
-}
+			vertIndexes[0] = 0;
 
-
-	
-	
-	if (NULL == textureBuffer)
-		{
-			textureBuffer = (float *)malloc((sizeof(float) * NUM_VERTS) * memCharSize);
-			vertBuffer = (float *)malloc((sizeof(float) * NUM_VERTS) * memCharSize);
-			colorBuffer = (float *)malloc((sizeof(float) * NUM_VERTS) * 4 * memCharSize);        //4 Color values for each of the 8 verts
-
-			if ((NULL == vertBuffer) || (NULL == textureBuffer) || (NULL == colorBuffer))
+			for ( int i = 0; i != memCharSize; i++ )
 				{
-					io_logToFile("Error: Memory allocation error [ gl_startText ]");
+					vertIndexes[i] = indexCount * i;
+					vertNumber[i] = 4;
+				}
+				
+	//
+	// Setup the Vertex Array Object that will have the VBO's associated to it
+	GL_ASSERT ( glGenVertexArrays ( 1, &g_glyphVAO_ID ) );
+	//
+	// Bind the vertex info
+	GL_ASSERT ( glGenBuffers ( 1, &g_vertVBO_ID ) );
+	GL_ASSERT ( glGenBuffers ( 1, &g_texVBO_ID ) );
+	GL_ASSERT ( glGenBuffers ( 1, &g_colVBO_ID ) );
+				
+		}
+
+	if ( NULL == textureBuffer )
+		{
+			textureBuffer = ( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * memCharSize );
+			vertBuffer = ( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * memCharSize );
+			colorBuffer = ( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * 4 * memCharSize ); //4 Color values for each of the 8 verts
+
+			if ( ( NULL == vertBuffer ) || ( NULL == textureBuffer ) || ( NULL == colorBuffer ) )
+				{
+					io_logToFile ( "Error: Memory allocation error [ gl_startText ]" );
 					return;
 				}
 		}
@@ -245,21 +252,14 @@ if (NULL == vertNumber)
 	memCharCount = 0;   // no characters in memory buffer
 	vertCount = 0;
 	colorCount = 0;
-	//
-	// Setup the Vertex Array Object that will have the VBO's associated to it
-	GL_ASSERT(glGenVertexArrays (1, &g_glyphVAO_ID));
-	//
-	// Bind the vertex info
-	GL_ASSERT(glGenBuffers (1, &g_vertVBO_ID));
-	GL_ASSERT(glGenBuffers (1, &g_texVBO_ID));
-	GL_ASSERT(glGenBuffers (1, &g_colVBO_ID));
+
 }
 
 
 //----------------------------------------------------------------------
 //
 // Start TTF Library
-bool ttf_initLibrary (int fontSize, int whichFont)
+bool ttf_initLibrary ( int fontSize, int whichFont )
 //----------------------------------------------------------------------
 {
 	float           tmpWidth;
@@ -278,59 +278,59 @@ bool ttf_initLibrary (int fontSize, int whichFont)
 
 	conFontSize = fontSize;
 
-	if (FT_Init_FreeType (&library) )
+	if ( FT_Init_FreeType ( &library ) )
 		{
-			io_logToFile ("Could not initialize the freetype library.");
+			io_logToFile ( "Could not initialize the freetype library." );
 			return false;
 		}
 
-	ttfError = FT_New_Face (library, fontFileName, 0, &fontInfo);
+	ttfError = FT_New_Face ( library, fontFileName, 0, &fontInfo );
 
-	if (0 != ttfError)
+	if ( 0 != ttfError )
 		{
-			if (FT_Err_Unknown_File_Format == ttfError )
+			if ( FT_Err_Unknown_File_Format == ttfError )
 				{
-					printf("Error: TTF Unknown file format.\n");
+					printf ( "Error: TTF Unknown file format.\n" );
 					return false;
 
 				}
 
 			else
 				{
-					printf ("Could not load font file - [ %s ]\n", fontFileName);
+					printf ( "Could not load font file - [ %s ]\n", fontFileName );
 					return false;
 				}
 		}
 
-	if (FT_Set_Char_Size (fontInfo, (fontSize * 64) * scaleX, (fontSize * 64) * scaleY, 96, 96) )
+	if ( FT_Set_Char_Size ( fontInfo, ( fontSize * 64 ) * scaleX, ( fontSize * 64 ) * scaleY, 96, 96 ) )
 		{
-			io_logToFile ("Could not set font size.");
+			io_logToFile ( "Could not set font size." );
 			return false;
 		}
 
 	//
 	// Now setup a texture to hold all our glyphs
-	glGenTextures (1, &ttfFont[whichFont].texID);
+	glGenTextures ( 1, &ttfFont[whichFont].texID );
 
 //    glActiveTexture(GL_TEXTURE0);
 
-	wrapglBindTexture(GL_TEXTURE0, ttfFont[whichFont].texID);
+	wrapglBindTexture ( GL_TEXTURE0, ttfFont[whichFont].texID );
 	//glBindTexture (GL_TEXTURE_2D, ttfFont[whichFont].texID);
 
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 	//
 	// Get the width required to hold all the Characters
-	tmpWidth = ttf_getCharsWidth(&tmpHeight, &charWidth);
+	tmpWidth = ttf_getCharsWidth ( &tmpHeight, &charWidth );
 
 	//
 	// See if we need to use a power of 2 texture or not
-	if (true == usePowerOf2)
+	if ( true == usePowerOf2 )
 		{
-			tmpWidth = gl_ttfNextPow2(tmpWidth);
-			tmpHeight = gl_ttfNextPow2(tmpHeight);
+			tmpWidth = gl_ttfNextPow2 ( tmpWidth );
+			tmpHeight = gl_ttfNextPow2 ( tmpHeight );
 		}
 
 	ttfFont[whichFont].texWidth = tmpWidth * scaleX;
@@ -340,22 +340,22 @@ bool ttf_initLibrary (int fontSize, int whichFont)
 
 	int     *blankTexture;
 
-	blankTexture = (int *)malloc(sizeof(int) * (tmpWidth * tmpHeight * 4));
+	blankTexture = ( int * ) malloc ( sizeof ( int ) * ( tmpWidth * tmpHeight * 4 ) );
 
-	memset(blankTexture, 0, (tmpWidth * tmpHeight * 4));
+	memset ( blankTexture, 0, ( tmpWidth * tmpHeight * 4 ) );
 
 	// NULL means reserve texture memory, but texels are undefined
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA8, tmpWidth, tmpHeight, 0, GL_BGRA, GL_UNSIGNED_BYTE, &blankTexture[0]);
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA8, tmpWidth, tmpHeight, 0, GL_BGRA, GL_UNSIGNED_BYTE, &blankTexture[0] );
 
-	free(blankTexture);	// Free memory now that it's loaded to the card
+	free ( blankTexture );	// Free memory now that it's loaded to the card
 
 	//
 	// Now generate each glyph and upload to new texture
-	for (int c = START_CHAR; c != NUM_CHARS; c++)
+	for ( int c = START_CHAR; c != NUM_CHARS; c++ )
 		{
-			if (FT_Load_Char (fontInfo, c, FT_LOAD_DEFAULT | FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT) )
+			if ( FT_Load_Char ( fontInfo, c, FT_LOAD_DEFAULT | FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT ) )
 				{
-					io_logToFile ("Error: Could not load char [ %i ]", c);
+					io_logToFile ( "Error: Could not load char [ %i ]", c );
 					return false;
 				}
 
@@ -368,24 +368,24 @@ bool ttf_initLibrary (int fontSize, int whichFont)
 
 			int x, y, i = 0;
 
-			for (y = 0; y < bitmap->rows; y++)
-				for (x = 0; x < bitmap->width; x++)
-					data[x + (bitmap->rows - 1 - y) * bitmap->width] = bitmap->buffer[i++];
+			for ( y = 0; y < bitmap->rows; y++ )
+				for ( x = 0; x < bitmap->width; x++ )
+					data[x + ( bitmap->rows - 1 - y ) * bitmap->width] = bitmap->buffer[i++];
 
 			GLint uplast;
-			glGetIntegerv (GL_UNPACK_ALIGNMENT, &uplast);
+			glGetIntegerv ( GL_UNPACK_ALIGNMENT, &uplast );
 
-			if (uplast != 1)
-				glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+			if ( uplast != 1 )
+				glPixelStorei ( GL_UNPACK_ALIGNMENT, 1 );
 
-			ttfFont[whichFont].glyph[c].advanceX = (g->advance.x >> 6) * scaleX;
-			ttfFont[whichFont].glyph[c].advanceY = (g->advance.y >> 6) * scaleY;
+			ttfFont[whichFont].glyph[c].advanceX = ( g->advance.x >> 6 ) * scaleX;
+			ttfFont[whichFont].glyph[c].advanceY = ( g->advance.y >> 6 ) * scaleY;
 			ttfFont[whichFont].glyph[c].width = bitmap->width * scaleX;
 			ttfFont[whichFont].glyph[c].height = bitmap->rows * scaleY;
 			ttfFont[whichFont].glyph[c].left = g->bitmap_left;
 			ttfFont[whichFont].glyph[c].top = g->bitmap_top;
 
-			glTexSubImage2D (GL_TEXTURE_2D, 0, destX, 5 - (ttfFont[whichFont].glyph[c].height - ttfFont[whichFont].glyph[c].top), bitmap->width, bitmap->rows, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+			glTexSubImage2D ( GL_TEXTURE_2D, 0, destX, 5 - ( ttfFont[whichFont].glyph[c].height - ttfFont[whichFont].glyph[c].top ), bitmap->width, bitmap->rows, GL_ALPHA, GL_UNSIGNED_BYTE, data );
 
 			delete [] data;
 			//
@@ -405,18 +405,18 @@ bool ttf_initLibrary (int fontSize, int whichFont)
 			ttfFont[whichFont].glyph[c].vertex[6] = charWidth;
 			ttfFont[whichFont].glyph[c].vertex[7] = 0.0f;
 
-			float texX = 1.0f / (tmpWidth / (charWidth));
+			float texX = 1.0f / ( tmpWidth / ( charWidth ) );
 
-			ttfFont[whichFont].glyph[c].texCoord[0] = (c * texX);
+			ttfFont[whichFont].glyph[c].texCoord[0] = ( c * texX );
 			ttfFont[whichFont].glyph[c].texCoord[1] = 1.0f;
 
-			ttfFont[whichFont].glyph[c].texCoord[2] = (c * texX);
+			ttfFont[whichFont].glyph[c].texCoord[2] = ( c * texX );
 			ttfFont[whichFont].glyph[c].texCoord[3] = 0.0f;
 
-			ttfFont[whichFont].glyph[c].texCoord[4] = (c * texX) + texX;
+			ttfFont[whichFont].glyph[c].texCoord[4] = ( c * texX ) + texX;
 			ttfFont[whichFont].glyph[c].texCoord[5] = 0.0f;
 
-			ttfFont[whichFont].glyph[c].texCoord[6] = (c * texX) + texX;
+			ttfFont[whichFont].glyph[c].texCoord[6] = ( c * texX ) + texX;
 			ttfFont[whichFont].glyph[c].texCoord[7] = 1.0f;
 
 			destX += charWidth; //(bitmap->width + 1.0f);
@@ -428,7 +428,7 @@ bool ttf_initLibrary (int fontSize, int whichFont)
 //----------------------------------------------------------------------------
 //
 // Calculate the verts and textures and positions for each char in the string
-void ttf_addText(int whichFont, float startX, float startY, const char *text, ...)
+void ttf_addText ( int whichFont, float startX, float startY, const char *text, ... )
 //----------------------------------------------------------------------------
 {
 	va_list		    args;
@@ -438,9 +438,9 @@ void ttf_addText(int whichFont, float startX, float startY, const char *text, ..
 	//
 	// get out the passed in parameters
 	//
-	va_start (args, text);
-	vsnprintf (printText, MAX_STRING_SIZE, text, args);
-	va_end (args);
+	va_start ( args, text );
+	vsnprintf ( printText, MAX_STRING_SIZE, text, args );
+	va_end ( args );
 
 	float   advanceX = startX;  // Start at passed in position
 	float   advanceY = startY;
@@ -448,12 +448,12 @@ void ttf_addText(int whichFont, float startX, float startY, const char *text, ..
 //    logToFile("All - %s\n", printText);
 
 
-	for (int i = 0; i != (int)strlen(printText); i++)
+	for ( int i = 0; i != ( int ) strlen ( printText ); i++ )
 		{
 
 // TODO (dberry#1#): Verts are always the same - remove??
 
-			if (printText[i] == '\n')   // got a newline in string, move to next line
+			if ( printText[i] == '\n' ) // got a newline in string, move to next line
 				{
 					advanceY += conFontSize;
 					advanceX = startX;
@@ -463,15 +463,15 @@ void ttf_addText(int whichFont, float startX, float startY, const char *text, ..
 
 			//
 			// Lower left coord
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[0] + advanceX;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[0];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[0] + advanceX;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[0];
 			colorBuffer[colorCount++] = fontColor.red;   // Red
 			colorBuffer[colorCount++] = fontColor.green;   // Green
 			colorBuffer[colorCount++] = fontColor.blue;   // Blue
 			colorBuffer[colorCount++] = fontColor.alpha;   // Alpha
 
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[1] + advanceY;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[1];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[1] + advanceY;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[1];
 			colorBuffer[colorCount++] = fontColor.red;   // Red
 			colorBuffer[colorCount++] = fontColor.green;   // Green
 			colorBuffer[colorCount++] = fontColor.blue;   // Blue
@@ -479,15 +479,15 @@ void ttf_addText(int whichFont, float startX, float startY, const char *text, ..
 
 			//
 			// Top Left
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[2] + advanceX;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[2];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[2] + advanceX;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[2];
 			colorBuffer[colorCount++] = fontColor.red;   // Red
 			colorBuffer[colorCount++] = fontColor.green;   // Green
 			colorBuffer[colorCount++] = fontColor.blue;   // Blue
 			colorBuffer[colorCount++] = fontColor.alpha;   // Alpha
 
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[3] + advanceY;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[3];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[3] + advanceY;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[3];
 			colorBuffer[colorCount++] = fontColor.red;   // Red
 			colorBuffer[colorCount++] = fontColor.green;   // Green
 			colorBuffer[colorCount++] = fontColor.blue;   // Blue
@@ -495,25 +495,25 @@ void ttf_addText(int whichFont, float startX, float startY, const char *text, ..
 
 			//
 			// Top Right
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[4] + advanceX;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[4];
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[5] + advanceY;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[5];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[4] + advanceX;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[4];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[5] + advanceY;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[5];
 			//
 			// Bottom Right
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[6] + advanceX;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[6];
-			vertBuffer[vertCount] = ttfFont[whichFont].glyph[(int)printText[i]].vertex[7] + advanceY;
-			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[(int)printText[i]].texCoord[7];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[6] + advanceX;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[6];
+			vertBuffer[vertCount] = ttfFont[whichFont].glyph[ ( int ) printText[i]].vertex[7] + advanceY;
+			textureBuffer[vertCount++] = ttfFont[whichFont].glyph[ ( int ) printText[i]].texCoord[7];
 
-			advanceX += ttfFont[whichFont].glyph[(int)printText[i]].advanceX;
+			advanceX += ttfFont[whichFont].glyph[ ( int ) printText[i]].advanceX;
 
-			if (memCharCount >= memCharSize)    // Used all memory up
+			if ( memCharCount >= memCharSize )  // Used all memory up
 				{
-					if (false == errorLogged)
+					if ( false == errorLogged )
 						{
 							errorLogged = true;
-							io_logToFile("Info: Out of memory to hold characters");
+							io_logToFile ( "Info: Out of memory to hold characters" );
 							return;
 						}
 				}
@@ -525,79 +525,84 @@ void ttf_addText(int whichFont, float startX, float startY, const char *text, ..
 //----------------------------------------------------------------------------
 //
 // Display all the text in memory buffers
-void ttf_displayText(int whichFont)
+void ttf_displayText ( int whichFont )
 //----------------------------------------------------------------------------
 {
 	//
 	// Start using TTF font shader program
-	GL_CHECK(glUseProgram(shaderProgram[SHADER_TTF_FONT].programID));
+	GL_CHECK ( glUseProgram ( shaderProgram[SHADER_TTF_FONT].programID ) );
 	//
 	// Bind the generated VAO
-	GL_CHECK(glBindVertexArray (g_glyphVAO_ID));
+	GL_CHECK ( glBindVertexArray ( g_glyphVAO_ID ) );
 
-	wrapglEnable(GL_BLEND);
+	wrapglEnable ( GL_BLEND );
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	wrapglDisable(GL_DEPTH_TEST);
+	glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	wrapglDisable ( GL_DEPTH_TEST );
 //
 // Bind texture if it's not already bound as current texture
-	wrapglBindTexture(GL_TEXTURE0, ttfFont[whichFont].texID);
-	GL_CHECK(glUniform1i(shaderProgram[SHADER_TTF_FONT].inTextureUnit, 0));
+	wrapglBindTexture ( GL_TEXTURE0, ttfFont[whichFont].texID );
+	GL_CHECK ( glUniform1i ( shaderProgram[SHADER_TTF_FONT].inTextureUnit, 0 ) );
 //
 // Bind the vertex info
-	GL_CHECK(glBindBuffer (GL_ARRAY_BUFFER, g_vertVBO_ID));
-	GL_CHECK(glBufferData (GL_ARRAY_BUFFER, sizeof (GLfloat) * 8 * memCharCount, vertBuffer, GL_DYNAMIC_DRAW));
-	GL_CHECK(glVertexAttribPointer (shaderProgram[SHADER_TTF_FONT].inVertsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET (0)));
-	GL_CHECK(glEnableVertexAttribArray (shaderProgram[SHADER_TTF_FONT].inVertsID));
+	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, g_vertVBO_ID ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * 8 * memCharCount, vertBuffer, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_TTF_FONT].inVertsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_TTF_FONT].inVertsID ) );
 //
 // Bind the texture coordinates
-	GL_CHECK(glBindBuffer (GL_ARRAY_BUFFER, g_texVBO_ID));
-	GL_CHECK(glBufferData (GL_ARRAY_BUFFER, sizeof (GLfloat) * 8 * memCharCount, textureBuffer, GL_DYNAMIC_DRAW));
-	GL_CHECK(glVertexAttribPointer (shaderProgram[SHADER_TTF_FONT].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET (0)));
-	GL_CHECK(glEnableVertexAttribArray (shaderProgram[SHADER_TTF_FONT].inTextureCoordsID));
+	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, g_texVBO_ID ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * 8 * memCharCount, textureBuffer, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_TTF_FONT].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_TTF_FONT].inTextureCoordsID ) );
 //
 // Bind color array
-	GL_CHECK(glBindBuffer (GL_ARRAY_BUFFER, g_colVBO_ID));
-	GL_CHECK(glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * NUM_VERTS * 4 * memCharCount, colorBuffer, GL_DYNAMIC_DRAW));
-	GL_CHECK(glVertexAttribPointer (shaderProgram[SHADER_TTF_FONT].inColorID, 4, GL_FLOAT, false, 0, BUFFER_OFFSET (0)));
-	GL_CHECK(glEnableVertexAttribArray (shaderProgram[SHADER_TTF_FONT].inColorID));
+	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, g_colVBO_ID ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * NUM_VERTS * 4 * memCharCount, colorBuffer, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_TTF_FONT].inColorID, 4, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_TTF_FONT].inColorID ) );
 //
 // Move to start of screen
-	modelMatrix = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -1.0));
+	modelMatrix = glm::translate ( glm::mat4(), glm::vec3 ( 0.0f, 0.0f, -1.0 ) );
 //
 // Load the matrixes into the vertex shader
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].modelMat, 1, false, glm::value_ptr(modelMatrix)));
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
 //	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 //
 // viewMatrix is causing flickering on the 3d screen
-	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * glm::mat4())));	
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * glm::mat4() ) ) );
 
 	{
 //        PROFILE("glMultiDrawArrays");
-		switch (renderText)
+		switch ( renderText )
 			{
-				case TEXT_MULTI_ARRAY:
-					GL_CHECK(glMultiDrawArrays(GL_TRIANGLE_FAN,  vertIndexes,  vertNumber, memCharCount));
-					break;
+			case TEXT_MULTI_ARRAY:
+				GL_CHECK ( glMultiDrawArrays ( GL_TRIANGLE_FAN,  vertIndexes,  vertNumber, memCharCount ) );
+				break;
 
-				case TEXT_DRAW_ARRAY:
-					for (int i = 0; i != memCharCount; i++)
-						GL_CHECK(glDrawArrays(GL_TRIANGLE_FAN, vertIndexes[i], vertNumber[i]));
+			case TEXT_DRAW_ARRAY:
+				for ( int i = 0; i != memCharCount; i++ )
+					GL_CHECK ( glDrawArrays ( GL_TRIANGLE_FAN, vertIndexes[i], vertNumber[i] ) );
 
-					break;
+				break;
 			}
 	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
+	glBindVertexArray ( 0 );
 
-	wrapglDisable(GL_BLEND);
+	wrapglDisable ( GL_BLEND );
 
 	memCharCount = 0;
 	colorCount = 0;
 }
 
-int ttf_returnTexID(int whichFont)
+//-----------------------------------------------------------------------------
+//
+// Return the texture ID for a passed in font
+int ttf_returnTexID ( int whichFont )
+//-----------------------------------------------------------------------------
+
 {
 	return ttfFont[whichFont].texID;
 }
@@ -605,7 +610,7 @@ int ttf_returnTexID(int whichFont)
 //-----------------------------------------------------------------------------
 //
 // Set the font color
-void gl_setFontColor(float red, float green, float blue, float alpha)
+void gl_setFontColor ( float red, float green, float blue, float alpha )
 //-----------------------------------------------------------------------------
 {
 	fontColor.red = red;

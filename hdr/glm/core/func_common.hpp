@@ -50,7 +50,7 @@ namespace glm
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/abs.xml">GLSL abs man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType abs(genType const & x);
+GLM_FUNC_DECL genType abs ( genType const & x );
 
 /// Returns 1.0 if x > 0, 0.0 if x == 0, or -1.0 if x < 0.
 ///
@@ -59,7 +59,7 @@ GLM_FUNC_DECL genType abs(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/sign.xml">GLSL sign man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType sign(genType const & x);
+GLM_FUNC_DECL genType sign ( genType const & x );
 
 /// Returns a value equal to the nearest integer that is less then or equal to x.
 ///
@@ -68,7 +68,7 @@ GLM_FUNC_DECL genType sign(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/floor.xml">GLSL floor man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType floor(genType const & x);
+GLM_FUNC_DECL genType floor ( genType const & x );
 
 /// Returns a value equal to the nearest integer to x
 /// whose absolute value is not larger than the absolute value of x.
@@ -78,7 +78,7 @@ GLM_FUNC_DECL genType floor(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/trunc.xml">GLSL trunc man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType trunc(genType const & x);
+GLM_FUNC_DECL genType trunc ( genType const & x );
 
 /// Returns a value equal to the nearest integer to x.
 /// The fraction 0.5 will round in a direction chosen by the
@@ -91,7 +91,7 @@ GLM_FUNC_DECL genType trunc(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/round.xml">GLSL round man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType round(genType const & x);
+GLM_FUNC_DECL genType round ( genType const & x );
 
 /// Returns a value equal to the nearest integer to x.
 /// A fractional part of 0.5 will round toward the nearest even
@@ -103,7 +103,7 @@ GLM_FUNC_DECL genType round(genType const & x);
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 /// @see <a href="http://developer.amd.com/documentation/articles/pages/New-Round-to-Even-Technique.aspx">New round to even technique</a>
 template <typename genType>
-GLM_FUNC_DECL genType roundEven(genType const & x);
+GLM_FUNC_DECL genType roundEven ( genType const & x );
 
 /// Returns a value equal to the nearest integer
 /// that is greater than or equal to x.
@@ -113,7 +113,7 @@ GLM_FUNC_DECL genType roundEven(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/ceil.xml">GLSL ceil man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType ceil(genType const & x);
+GLM_FUNC_DECL genType ceil ( genType const & x );
 
 /// Return x - floor(x).
 ///
@@ -122,7 +122,7 @@ GLM_FUNC_DECL genType ceil(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/fract.xml">GLSL fract man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType fract(genType const & x);
+GLM_FUNC_DECL genType fract ( genType const & x );
 
 /// Modulus. Returns x - y * floor(x / y)
 /// for each component in x using the floating point value y.
@@ -132,9 +132,9 @@ GLM_FUNC_DECL genType fract(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/mod.xml">GLSL mod man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType mod(
+GLM_FUNC_DECL genType mod (
     genType const & x,
-    genType const & y);
+    genType const & y );
 
 /// Modulus. Returns x - y * floor(x / y)
 /// for each component in x using the floating point value y.
@@ -144,9 +144,9 @@ GLM_FUNC_DECL genType mod(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/mod.xml">GLSL mod man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType mod(
+GLM_FUNC_DECL genType mod (
     genType const & x,
-    typename genType::value_type const & y);
+    typename genType::value_type const & y );
 
 /// Returns the fractional part of x and sets i to the integer
 /// part (as a whole number floating point value). Both the
@@ -158,9 +158,9 @@ GLM_FUNC_DECL genType mod(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/modf.xml">GLSL modf man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType modf(
+GLM_FUNC_DECL genType modf (
     genType const & x,
-    genType & i);
+    genType & i );
 
 /// Returns y if y < x; otherwise, it returns x.
 ///
@@ -169,14 +169,14 @@ GLM_FUNC_DECL genType modf(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/min.xml">GLSL min man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType min(
+GLM_FUNC_DECL genType min (
     genType const & x,
-    genType const & y);
+    genType const & y );
 
 template <typename genType>
-GLM_FUNC_DECL genType min(
+GLM_FUNC_DECL genType min (
     genType const & x,
-    typename genType::value_type const & y);
+    typename genType::value_type const & y );
 
 /// Returns y if x < y; otherwise, it returns x.
 ///
@@ -185,14 +185,14 @@ GLM_FUNC_DECL genType min(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/max.xml">GLSL max man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType max(
+GLM_FUNC_DECL genType max (
     genType const & x,
-    genType const & y);
+    genType const & y );
 
 template <typename genType>
-GLM_FUNC_DECL genType max(
+GLM_FUNC_DECL genType max (
     genType const & x,
-    typename genType::value_type const & y);
+    typename genType::value_type const & y );
 
 /// Returns min(max(x, minVal), maxVal) for each component in x
 /// using the floating-point values minVal and maxVal.
@@ -202,16 +202,16 @@ GLM_FUNC_DECL genType max(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/clamp.xml">GLSL clamp man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType clamp(
+GLM_FUNC_DECL genType clamp (
     genType const & x,
     genType const & minVal,
-    genType const & maxVal);
+    genType const & maxVal );
 
 template <typename genType>
-GLM_FUNC_DECL genType clamp(
+GLM_FUNC_DECL genType clamp (
     genType const & x,
     typename genType::value_type const & minVal,
-    typename genType::value_type const & maxVal);
+    typename genType::value_type const & maxVal );
 
 /// If genTypeU is a floating scalar or vector:
 /// Returns x * (1.0 - a) + y * a, i.e., the linear blend of
@@ -256,21 +256,21 @@ GLM_FUNC_DECL genType clamp(
 /// glm::vec4 u = glm::mix(g, h, r); // Interpolations can be perform per component with a vector for the last parameter.
 /// @endcode
 template <typename genTypeT, typename genTypeU>
-GLM_FUNC_DECL genTypeT mix(genTypeT const & x, genTypeT const & y, genTypeU const & a);
+GLM_FUNC_DECL genTypeT mix ( genTypeT const & x, genTypeT const & y, genTypeU const & a );
 
 //! Returns 0.0 if x < edge, otherwise it returns 1.0.
 //!
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/step.xml">GLSL step man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType step(
+GLM_FUNC_DECL genType step (
     genType const & edge,
-    genType const & x);
+    genType const & x );
 
 template <typename genType>
-GLM_FUNC_DECL genType step(
+GLM_FUNC_DECL genType step (
     typename genType::value_type const & edge,
-    genType const & x);
+    genType const & x );
 
 /// Returns 0.0 if x <= edge0 and 1.0 if x >= edge1 and
 /// performs smooth Hermite interpolation between 0 and 1
@@ -287,16 +287,16 @@ GLM_FUNC_DECL genType step(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/smoothstep.xml">GLSL smoothstep man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType smoothstep(
+GLM_FUNC_DECL genType smoothstep (
     genType const & edge0,
     genType const & edge1,
-    genType const & x);
+    genType const & x );
 
 template <typename genType>
-GLM_FUNC_DECL genType smoothstep(
+GLM_FUNC_DECL genType smoothstep (
     typename genType::value_type const & edge0,
     typename genType::value_type const & edge1,
-    genType const & x);
+    genType const & x );
 
 /// Returns true if x holds a NaN (not a number)
 /// representation in the underlying implementation's set of
@@ -311,7 +311,7 @@ GLM_FUNC_DECL genType smoothstep(
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/isnan.xml">GLSL isnan man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL typename genType::bool_type isnan(genType const & x);
+GLM_FUNC_DECL typename genType::bool_type isnan ( genType const & x );
 
 /// Returns true if x holds a positive infinity or negative
 /// infinity representation in the underlying implementation's
@@ -324,7 +324,7 @@ GLM_FUNC_DECL typename genType::bool_type isnan(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/isinf.xml">GLSL isinf man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL typename genType::bool_type isinf(genType const & x);
+GLM_FUNC_DECL typename genType::bool_type isinf ( genType const & x );
 
 /// Returns a signed integer value representing
 /// the encoding of a floating-point value. The floatingpoint
@@ -336,7 +336,7 @@ GLM_FUNC_DECL typename genType::bool_type isinf(genType const & x);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/floatBitsToInt.xml">GLSL floatBitsToInt man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType, typename genIType>
-GLM_FUNC_DECL genIType floatBitsToInt(genType const & value);
+GLM_FUNC_DECL genIType floatBitsToInt ( genType const & value );
 
 /// Returns a unsigned integer value representing
 /// the encoding of a floating-point value. The floatingpoint
@@ -348,7 +348,7 @@ GLM_FUNC_DECL genIType floatBitsToInt(genType const & value);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/floatBitsToUint.xml">GLSL floatBitsToUint man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType, typename genUType>
-GLM_FUNC_DECL genUType floatBitsToUint(genType const & value);
+GLM_FUNC_DECL genUType floatBitsToUint ( genType const & value );
 
 /// Returns a floating-point value corresponding to a signed
 /// integer encoding of a floating-point value.
@@ -364,7 +364,7 @@ GLM_FUNC_DECL genUType floatBitsToUint(genType const & value);
 ///
 /// @todo Clarify this declaration, we don't need to actually specify the return type
 template <typename genType, typename genIType>
-GLM_FUNC_DECL genType intBitsToFloat(genIType const & value);
+GLM_FUNC_DECL genType intBitsToFloat ( genIType const & value );
 
 /// Returns a floating-point value corresponding to a
 /// unsigned integer encoding of a floating-point value.
@@ -380,7 +380,7 @@ GLM_FUNC_DECL genType intBitsToFloat(genIType const & value);
 ///
 /// @todo Clarify this declaration, we don't need to actually specify the return type
 template <typename genType, typename genUType>
-GLM_FUNC_DECL genType uintBitsToFloat(genUType const & value);
+GLM_FUNC_DECL genType uintBitsToFloat ( genUType const & value );
 
 /// Computes and returns a * b + c.
 ///
@@ -389,7 +389,7 @@ GLM_FUNC_DECL genType uintBitsToFloat(genUType const & value);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/fma.xml">GLSL fma man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType>
-GLM_FUNC_DECL genType fma(genType const & a, genType const & b, genType const & c);
+GLM_FUNC_DECL genType fma ( genType const & a, genType const & b, genType const & c );
 
 /// Splits x into a floating-point significand in the range
 /// [0.5, 1.0) and an integral exponent of two, such that:
@@ -406,7 +406,7 @@ GLM_FUNC_DECL genType fma(genType const & a, genType const & b, genType const & 
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/frexp.xml">GLSL frexp man page</a>
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType, typename genIType>
-GLM_FUNC_DECL genType frexp(genType const & x, genIType & exp);
+GLM_FUNC_DECL genType frexp ( genType const & x, genIType & exp );
 
 /// Builds a floating-point number from x and the
 /// corresponding integral exponent of two in exp, returning:
@@ -420,7 +420,7 @@ GLM_FUNC_DECL genType frexp(genType const & x, genIType & exp);
 /// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/ldexp.xml">GLSL ldexp man page</a>;
 /// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 template <typename genType, typename genIType>
-GLM_FUNC_DECL genType ldexp(genType const & x, genIType const & exp);
+GLM_FUNC_DECL genType ldexp ( genType const & x, genIType const & exp );
 
 /// @}
 }//namespace glm

@@ -28,4 +28,4 @@ extern _glColor       fontColor;
 
 
 // Update the vertex size for the font size
-void gl_texFontUpdateVerts(int fontSize);
+void gl_texFontUpdateVerts ( int fontSize );

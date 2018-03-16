@@ -71,40 +71,40 @@ BEGIN_AS_NAMESPACE
 
 // TODO: Allow user to register its own aligned memory routines
 // Wrappers for aligned allocations
-void *debugAlignedMalloc(size_t size, size_t align, const char *file, int line)
+void *debugAlignedMalloc ( size_t size, size_t align, const char *file, int line )
 {
-	void *mem = ((asALLOCFUNCDEBUG_t)userAlloc)(size + (align-1) + sizeof(void*), file, line);
+	void *mem = ( ( asALLOCFUNCDEBUG_t ) userAlloc ) ( size + ( align-1 ) + sizeof ( void* ), file, line );
 
-	char *amem = ((char*)mem) + sizeof(void*);
+	char *amem = ( ( char* ) mem ) + sizeof ( void* );
 
-	if( (uintptr_t)amem & (align - 1) )
-		amem += align - ((uintptr_t)amem & (align - 1));
+	if ( ( uintptr_t ) amem & ( align - 1 ) )
+		amem += align - ( ( uintptr_t ) amem & ( align - 1 ) );
 
-	((void**)amem)[-1] = mem;
+	( ( void** ) amem ) [-1] = mem;
 	return amem;
 }
 
-void *alignedMalloc(size_t size, size_t align)
+void *alignedMalloc ( size_t size, size_t align )
 {
-	void *mem = userAlloc(size + (align-1) + sizeof(void*));
+	void *mem = userAlloc ( size + ( align-1 ) + sizeof ( void* ) );
 
-	char *amem = ((char*)mem) + sizeof(void*);
+	char *amem = ( ( char* ) mem ) + sizeof ( void* );
 
-	if( (uintptr_t)amem & (align - 1) )
-		amem += align - ((uintptr_t)amem & (align - 1));
+	if ( ( uintptr_t ) amem & ( align - 1 ) )
+		amem += align - ( ( uintptr_t ) amem & ( align - 1 ) );
 
-	((void**)amem)[-1] = mem;
+	( ( void** ) amem ) [-1] = mem;
 	return amem;
 }
 
-void alignedFree(void *mem)
+void alignedFree ( void *mem )
 {
-	userFree( ((void**)mem)[-1] );
+	userFree ( ( ( void** ) mem ) [-1] );
 }
 
-bool isAligned(const void* const pointer, asUINT alignment)
+bool isAligned ( const void* const pointer, asUINT alignment )
 {
-	return (uintptr_t(pointer) % alignment) == 0;
+	return ( uintptr_t ( pointer ) % alignment ) == 0;
 }
 #endif
 
@@ -122,7 +122,7 @@ asALLOCFUNC_t userAlloc = malloc;
 asFREEFUNC_t  userFree  = free;
 #ifdef WIP_16BYTE_ALIGN
 #ifdef AS_DEBUG
-asALLOCALIGNEDFUNC_t userAllocAligned = (asALLOCALIGNEDFUNC_t)debugAlignedMalloc;
+asALLOCALIGNEDFUNC_t userAllocAligned = ( asALLOCALIGNEDFUNC_t ) debugAlignedMalloc;
 #else
 asALLOCALIGNEDFUNC_t userAllocAligned = alignedMalloc;
 #endif
@@ -142,7 +142,7 @@ extern "C"
 {
 
 // interface
-	int asSetGlobalMemoryFunctions(asALLOCFUNC_t allocFunc, asFREEFUNC_t freeFunc)
+	int asSetGlobalMemoryFunctions ( asALLOCFUNC_t allocFunc, asFREEFUNC_t freeFunc )
 	{
 		// Clean-up thread local memory before changing the allocation routines to avoid
 		// potential problem with trying to free memory using a different allocation
@@ -170,15 +170,15 @@ extern "C"
 	}
 
 // interface
-	void *asAllocMem(size_t size)
+	void *asAllocMem ( size_t size )
 	{
-		return asNEWARRAY(asBYTE, size);
+		return asNEWARRAY ( asBYTE, size );
 	}
 
 // interface
-	void asFreeMem(void *mem)
+	void asFreeMem ( void *mem )
 	{
-		asDELETEARRAY(mem);
+		asDELETEARRAY ( mem );
 	}
 
 } // extern "C"
@@ -197,80 +197,80 @@ void asCMemoryMgr::FreeUnusedMemory()
 	// It's necessary to protect the scriptNodePool from multiple
 	// simultaneous accesses, as the parser is used by several methods
 	// that can be executed simultaneously.
-	ENTERCRITICALSECTION(cs);
+	ENTERCRITICALSECTION ( cs );
 
 	int n;
 
-	for( n = 0; n < (signed)scriptNodePool.GetLength(); n++ )
-		userFree(scriptNodePool[n]);
+	for ( n = 0; n < ( signed ) scriptNodePool.GetLength(); n++ )
+		userFree ( scriptNodePool[n] );
 
-	scriptNodePool.Allocate(0, false);
+	scriptNodePool.Allocate ( 0, false );
 
-	LEAVECRITICALSECTION(cs);
+	LEAVECRITICALSECTION ( cs );
 
 	// The engine already protects against multiple threads
 	// compiling scripts simultaneously so this pool doesn't have
 	// to be protected again.
-	for( n = 0; n < (signed)byteInstructionPool.GetLength(); n++ )
-		userFree(byteInstructionPool[n]);
+	for ( n = 0; n < ( signed ) byteInstructionPool.GetLength(); n++ )
+		userFree ( byteInstructionPool[n] );
 
-	byteInstructionPool.Allocate(0, false);
+	byteInstructionPool.Allocate ( 0, false );
 }
 
 void *asCMemoryMgr::AllocScriptNode()
 {
-	ENTERCRITICALSECTION(cs);
+	ENTERCRITICALSECTION ( cs );
 
-	if( scriptNodePool.GetLength() )
+	if ( scriptNodePool.GetLength() )
 		{
 			void *tRet = scriptNodePool.PopLast();
-			LEAVECRITICALSECTION(cs);
+			LEAVECRITICALSECTION ( cs );
 			return tRet;
 		}
 
-	LEAVECRITICALSECTION(cs);
+	LEAVECRITICALSECTION ( cs );
 
 #if defined(AS_DEBUG)
-	return ((asALLOCFUNCDEBUG_t)(userAlloc))(sizeof(asCScriptNode), __FILE__, __LINE__);
+	return ( ( asALLOCFUNCDEBUG_t ) ( userAlloc ) ) ( sizeof ( asCScriptNode ), __FILE__, __LINE__ );
 #else
-	return userAlloc(sizeof(asCScriptNode));
+	return userAlloc ( sizeof ( asCScriptNode ) );
 #endif
 }
 
-void asCMemoryMgr::FreeScriptNode(void *ptr)
+void asCMemoryMgr::FreeScriptNode ( void *ptr )
 {
-	ENTERCRITICALSECTION(cs);
+	ENTERCRITICALSECTION ( cs );
 
 	// Pre allocate memory for the array to avoid slow growth
-	if( scriptNodePool.GetLength() == 0 )
-		scriptNodePool.Allocate(100, 0);
+	if ( scriptNodePool.GetLength() == 0 )
+		scriptNodePool.Allocate ( 100, 0 );
 
-	scriptNodePool.PushLast(ptr);
+	scriptNodePool.PushLast ( ptr );
 
-	LEAVECRITICALSECTION(cs);
+	LEAVECRITICALSECTION ( cs );
 }
 
 #ifndef AS_NO_COMPILER
 
 void *asCMemoryMgr::AllocByteInstruction()
 {
-	if( byteInstructionPool.GetLength() )
+	if ( byteInstructionPool.GetLength() )
 		return byteInstructionPool.PopLast();
 
 #if defined(AS_DEBUG)
-	return ((asALLOCFUNCDEBUG_t)(userAlloc))(sizeof(asCByteInstruction), __FILE__, __LINE__);
+	return ( ( asALLOCFUNCDEBUG_t ) ( userAlloc ) ) ( sizeof ( asCByteInstruction ), __FILE__, __LINE__ );
 #else
-	return userAlloc(sizeof(asCByteInstruction));
+	return userAlloc ( sizeof ( asCByteInstruction ) );
 #endif
 }
 
-void asCMemoryMgr::FreeByteInstruction(void *ptr)
+void asCMemoryMgr::FreeByteInstruction ( void *ptr )
 {
 	// Pre allocate memory for the array to avoid slow growth
-	if( byteInstructionPool.GetLength() == 0 )
-		byteInstructionPool.Allocate(100, 0);
+	if ( byteInstructionPool.GetLength() == 0 )
+		byteInstructionPool.Allocate ( 100, 0 );
 
-	byteInstructionPool.PushLast(ptr);
+	byteInstructionPool.PushLast ( ptr );
 }
 
 #endif // AS_NO_COMPILER

@@ -62,78 +62,78 @@ namespace glm
 /// @addtogroup gtx_compatibility
 /// @{
 
-template <typename T> GLM_FUNC_QUALIFIER T lerp(T x, T y, T a)
+template <typename T> GLM_FUNC_QUALIFIER T lerp ( T x, T y, T a )
 {
-	return mix(x, y, a);   //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
+	return mix ( x, y, a ); //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> lerp(const detail::tvec2<T>& x, const detail::tvec2<T>& y, T a)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> lerp ( const detail::tvec2<T>& x, const detail::tvec2<T>& y, T a )
 {
-	return mix(x, y, a);   //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
+	return mix ( x, y, a ); //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> lerp(const detail::tvec3<T>& x, const detail::tvec3<T>& y, T a)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> lerp ( const detail::tvec3<T>& x, const detail::tvec3<T>& y, T a )
 {
-	return mix(x, y, a);   //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
+	return mix ( x, y, a ); //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> lerp(const detail::tvec4<T>& x, const detail::tvec4<T>& y, T a)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> lerp ( const detail::tvec4<T>& x, const detail::tvec4<T>& y, T a )
 {
-	return mix(x, y, a);   //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
+	return mix ( x, y, a ); //!< \brief Returns x * (1.0 - a) + y * a, i.e., the linear blend of x and y using the floating-point value a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> lerp(const detail::tvec2<T>& x, const detail::tvec2<T>& y, const detail::tvec2<T>& a)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> lerp ( const detail::tvec2<T>& x, const detail::tvec2<T>& y, const detail::tvec2<T>& a )
 {
-	return mix(x, y, a);   //!< \brief Returns the component-wise result of x * (1.0 - a) + y * a, i.e., the linear blend of x and y using vector a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
+	return mix ( x, y, a ); //!< \brief Returns the component-wise result of x * (1.0 - a) + y * a, i.e., the linear blend of x and y using vector a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> lerp(const detail::tvec3<T>& x, const detail::tvec3<T>& y, const detail::tvec3<T>& a)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> lerp ( const detail::tvec3<T>& x, const detail::tvec3<T>& y, const detail::tvec3<T>& a )
 {
-	return mix(x, y, a);   //!< \brief Returns the component-wise result of x * (1.0 - a) + y * a, i.e., the linear blend of x and y using vector a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
+	return mix ( x, y, a ); //!< \brief Returns the component-wise result of x * (1.0 - a) + y * a, i.e., the linear blend of x and y using vector a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> lerp(const detail::tvec4<T>& x, const detail::tvec4<T>& y, const detail::tvec4<T>& a)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> lerp ( const detail::tvec4<T>& x, const detail::tvec4<T>& y, const detail::tvec4<T>& a )
 {
-	return mix(x, y, a);   //!< \brief Returns the component-wise result of x * (1.0 - a) + y * a, i.e., the linear blend of x and y using vector a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
-}
-
-template <typename T> GLM_FUNC_QUALIFIER T slerp(detail::tquat<T> const & x, detail::tquat<T> const & y, T const & a)
-{
-	return mix(x, y, a);   //!< \brief Returns the slurp interpolation between two quaternions.
+	return mix ( x, y, a ); //!< \brief Returns the component-wise result of x * (1.0 - a) + y * a, i.e., the linear blend of x and y using vector a. The value for a is not restricted to the range [0, 1]. (From GLM_GTX_compatibility)
 }
 
-template <typename T> GLM_FUNC_QUALIFIER T saturate(T x)
+template <typename T> GLM_FUNC_QUALIFIER T slerp ( detail::tquat<T> const & x, detail::tquat<T> const & y, T const & a )
 {
-	return clamp(x, T(0), T(1));   //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
-}
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> saturate(const detail::tvec2<T>& x)
-{
-	return clamp(x, T(0), T(1));   //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
-}
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> saturate(const detail::tvec3<T>& x)
-{
-	return clamp(x, T(0), T(1));   //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
-}
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> saturate(const detail::tvec4<T>& x)
-{
-	return clamp(x, T(0), T(1));   //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
+	return mix ( x, y, a ); //!< \brief Returns the slurp interpolation between two quaternions.
 }
 
-template <typename T> GLM_FUNC_QUALIFIER T atan2(T x, T y)
+template <typename T> GLM_FUNC_QUALIFIER T saturate ( T x )
 {
-	return atan(x, y);   //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+	return clamp ( x, T ( 0 ), T ( 1 ) ); //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> atan2(const detail::tvec2<T>& x, const detail::tvec2<T>& y)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> saturate ( const detail::tvec2<T>& x )
 {
-	return atan(x, y);   //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+	return clamp ( x, T ( 0 ), T ( 1 ) ); //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> atan2(const detail::tvec3<T>& x, const detail::tvec3<T>& y)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> saturate ( const detail::tvec3<T>& x )
 {
-	return atan(x, y);   //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+	return clamp ( x, T ( 0 ), T ( 1 ) ); //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
 }
-template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> atan2(const detail::tvec4<T>& x, const detail::tvec4<T>& y)
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> saturate ( const detail::tvec4<T>& x )
 {
-	return atan(x, y);   //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+	return clamp ( x, T ( 0 ), T ( 1 ) ); //!< \brief Returns clamp(x, 0, 1) for each component in x. (From GLM_GTX_compatibility)
 }
 
-template <typename genType> bool isfinite(genType const & x);											//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
-template <typename valType> detail::tvec2<bool> isfinite(const detail::tvec2<valType>& x);				//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
-template <typename valType> detail::tvec3<bool> isfinite(const detail::tvec3<valType>& x);				//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
-template <typename valType> detail::tvec4<bool> isfinite(const detail::tvec4<valType>& x);				//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
+template <typename T> GLM_FUNC_QUALIFIER T atan2 ( T x, T y )
+{
+	return atan ( x, y ); //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+}
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec2<T> atan2 ( const detail::tvec2<T>& x, const detail::tvec2<T>& y )
+{
+	return atan ( x, y ); //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+}
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec3<T> atan2 ( const detail::tvec3<T>& x, const detail::tvec3<T>& y )
+{
+	return atan ( x, y ); //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+}
+template <typename T> GLM_FUNC_QUALIFIER detail::tvec4<T> atan2 ( const detail::tvec4<T>& x, const detail::tvec4<T>& y )
+{
+	return atan ( x, y ); //!< \brief Arc tangent. Returns an angle whose tangent is y/x. The signs of x and y are used to determine what quadrant the angle is in. The range of values returned by this function is [-PI, PI]. Results are undefined if x and y are both 0. (From GLM_GTX_compatibility)
+}
+
+template <typename genType> bool isfinite ( genType const & x );											//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
+template <typename valType> detail::tvec2<bool> isfinite ( const detail::tvec2<valType>& x );				//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
+template <typename valType> detail::tvec3<bool> isfinite ( const detail::tvec3<valType>& x );				//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
+template <typename valType> detail::tvec4<bool> isfinite ( const detail::tvec4<valType>& x );				//!< \brief Test whether or not a scalar or each vector component is a finite value. (From GLM_GTX_compatibility)
 
 typedef bool						bool1;			//!< \brief boolean type with 1 component. (From GLM_GTX_compatibility extension)
 typedef detail::tvec2<bool>			bool2;			//!< \brief boolean type with 2 components. (From GLM_GTX_compatibility extension)

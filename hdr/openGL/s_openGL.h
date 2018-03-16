@@ -34,14 +34,11 @@ typedef struct
 	int             textureLocation;     // Which texture unit is the font texture bound to
 } _dataObject;
 
-// Draw the console screen
-void gl_drawScreen(bool updateNow);
-
 // Get all the openGL errors
 void gl_getAllGLErrors ( int errorNum, const char *calledFrom, int line );
 
 // Load the font texture
-bool gl_loadFontTexture(const char *fontFilename);
+bool gl_loadFontTexture ( const char *fontFilename );
 
 // Set OpenGL to 2d orthographic mode
 void gl_set2DMode();
@@ -50,7 +47,7 @@ void gl_set2DMode();
 void gl_set3DMode();
 
 // Draw a debug line to see the picking ray
-void drawDebugLine( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, int drawType, float length, bool reinit, float scaleBy );
+void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, int drawType, float length, bool reinit, float scaleBy );
 
 // OpenGL Debug - Register callback
 void gl_registerDebugCallback();

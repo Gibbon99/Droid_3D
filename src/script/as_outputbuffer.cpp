@@ -52,22 +52,22 @@ asCOutputBuffer::~asCOutputBuffer()
 
 void asCOutputBuffer::Clear()
 {
-	for( asUINT n = 0; n < messages.GetLength(); n++ )
+	for ( asUINT n = 0; n < messages.GetLength(); n++ )
 		{
-			if( messages[n] )
+			if ( messages[n] )
 				{
-					asDELETE(messages[n],message_t);
+					asDELETE ( messages[n],message_t );
 				}
 		}
 
-	messages.SetLength(0);
+	messages.SetLength ( 0 );
 }
 
-void asCOutputBuffer::Callback(asSMessageInfo *msg)
+void asCOutputBuffer::Callback ( asSMessageInfo *msg )
 {
-	message_t *msgInfo = asNEW(message_t);
+	message_t *msgInfo = asNEW ( message_t );
 
-	if( msgInfo == 0 )
+	if ( msgInfo == 0 )
 		return;
 
 	msgInfo->section = msg->section;
@@ -76,20 +76,20 @@ void asCOutputBuffer::Callback(asSMessageInfo *msg)
 	msgInfo->type = msg->type;
 	msgInfo->msg = msg->message;
 
-	messages.PushLast(msgInfo);
+	messages.PushLast ( msgInfo );
 }
 
-void asCOutputBuffer::Append(asCOutputBuffer &in)
+void asCOutputBuffer::Append ( asCOutputBuffer &in )
 {
-	for( asUINT n = 0; n < in.messages.GetLength(); n++ )
-		messages.PushLast(in.messages[n]);
+	for ( asUINT n = 0; n < in.messages.GetLength(); n++ )
+		messages.PushLast ( in.messages[n] );
 
-	in.messages.SetLength(0);
+	in.messages.SetLength ( 0 );
 }
 
-void asCOutputBuffer::SendToCallback(asCScriptEngine *engine, asSSystemFunctionInterface *func, void *obj)
+void asCOutputBuffer::SendToCallback ( asCScriptEngine *engine, asSSystemFunctionInterface *func, void *obj )
 {
-	for( asUINT n = 0; n < messages.GetLength(); n++ )
+	for ( asUINT n = 0; n < messages.GetLength(); n++ )
 		{
 			asSMessageInfo msg;
 			msg.section = messages[n]->section.AddressOf();
@@ -98,11 +98,11 @@ void asCOutputBuffer::SendToCallback(asCScriptEngine *engine, asSSystemFunctionI
 			msg.type    = messages[n]->type;
 			msg.message = messages[n]->msg.AddressOf();
 
-			if( func->callConv < ICC_THISCALL )
-				engine->CallGlobalFunction(&msg, obj, func, 0);
+			if ( func->callConv < ICC_THISCALL )
+				engine->CallGlobalFunction ( &msg, obj, func, 0 );
 
 			else
-				engine->CallObjectMethod(obj, &msg, func, 0);
+				engine->CallObjectMethod ( obj, &msg, func, 0 );
 		}
 
 	Clear();

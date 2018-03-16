@@ -79,7 +79,7 @@ public:
 	static void CollectQueryResults();
 
 	/// begin profile section
-	VSProfileLib (std::string name, bool profileGL = false);
+	VSProfileLib ( std::string name, bool profileGL = false );
 	/// end profile section
 	~VSProfileLib();
 
@@ -140,17 +140,17 @@ protected:
 	// AUX FUNCTIONS
 
 	/// Puts the profile result in sDump
-	static void DumpLevels(int l, int p, pTime calls);
+	static void DumpLevels ( int l, int p, pTime calls );
 	/// Creates a new section
-	void createNewSection(std::string &name, pTime w, bool profileGL);
+	void createNewSection ( std::string &name, pTime w, bool profileGL );
 	/// returns the index of a section
-	int searchSection(std::string &name);
+	int searchSection ( std::string &name );
 	/// updates the times in a section
-	void updateSection(int cur, pTime w);
+	void updateSection ( int cur, pTime w );
 	/// add the time spent in the current section
 	void accumulate();
 	/// Gets the time
-	static void GetTicks(pTime *ticks);
+	static void GetTicks ( pTime *ticks );
 
 #if VSPL_CLOCK == VSPL_WIN_HIGH_PERFORMANCE_COUNTER
 	static LARGE_INTEGER sFreq;

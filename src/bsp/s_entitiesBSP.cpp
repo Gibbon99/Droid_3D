@@ -17,30 +17,30 @@ bool bsp_setupEntities()
 	//
 	// Setup a string for each token line
 	//
-	for (i = 0; i != strlen(m_pEntities); i++)
+	for ( i = 0; i != strlen ( m_pEntities ); i++ )
 		{
-			if (m_pEntities[i] == '{')
+			if ( m_pEntities[i] == '{' )
 				g_numEntities++;
 		}
 
-	con_print (CON_INFO, true, "Found [ %i ] entities.", g_numEntities);
-	m_pEntitiesStruct = (tBSPEntity *)malloc(sizeof(tBSPEntity) * (g_numEntities + 1));
+	con_print ( CON_INFO, true, "Found [ %i ] entities.", g_numEntities );
+	m_pEntitiesStruct = ( tBSPEntity * ) malloc ( sizeof ( tBSPEntity ) * ( g_numEntities + 1 ) );
 
-	if (NULL == m_pEntitiesStruct)
-		sysErrorFatal(__FILE__, __LINE__, "Memory error: q3bspFindNumEntities: Malloc failed");
+	if ( NULL == m_pEntitiesStruct )
+		sysErrorFatal ( __FILE__, __LINE__, "Memory error: q3bspFindNumEntities: Malloc failed" );
 
 	int numOfEntities = 0;
 	int charCount = 0;
 
-	for (i = 0; i < (int)strlen(m_pEntities); i++)
+	for ( i = 0; i < ( int ) strlen ( m_pEntities ); i++ )
 		{
 			m_pEntitiesStruct[numOfEntities].value[charCount] = m_pEntities[i];
 			charCount++;
 
-			if (charCount == MAX_ENTITY_SIZE)
-				sysErrorFatal(__FILE__, __LINE__, "Entity string too large for value buffer.");
+			if ( charCount == MAX_ENTITY_SIZE )
+				sysErrorFatal ( __FILE__, __LINE__, "Entity string too large for value buffer." );
 
-			if (m_pEntities[i] == '}')
+			if ( m_pEntities[i] == '}' )
 				{
 					m_pEntitiesStruct[numOfEntities].value[charCount] = '\0';
 					numOfEntities++;
@@ -49,9 +49,9 @@ bool bsp_setupEntities()
 				}
 		}
 
-	if (numOfEntities != g_numEntities)
+	if ( numOfEntities != g_numEntities )
 		{
-			con_print(CON_ERROR, true, "Error; Possible corruption in BSP file. Entity numbers differ.");
+			con_print ( CON_ERROR, true, "Error; Possible corruption in BSP file. Entity numbers differ." );
 		}
 
 	//
@@ -59,21 +59,21 @@ bool bsp_setupEntities()
 	//
 	int numEntityKeys = 0;
 
-	for (j = 0; j != numOfEntities; j++)
+	for ( j = 0; j != numOfEntities; j++ )
 		{
-			for (i = 0; i != strlen(m_pEntitiesStruct[j].value); i++)
+			for ( i = 0; i != strlen ( m_pEntitiesStruct[j].value ); i++ )
 				{
-					if (m_pEntitiesStruct[j].value[i] == '{')
+					if ( m_pEntitiesStruct[j].value[i] == '{' )
 						numEntityKeys++;
 
-					if ((m_pEntitiesStruct[j].value[i] == '{') ||
-					        (m_pEntitiesStruct[j].value[i] == '}') ||
-					        (m_pEntitiesStruct[j].value[i] == '\n'))
+					if ( ( m_pEntitiesStruct[j].value[i] == '{' ) ||
+					        ( m_pEntitiesStruct[j].value[i] == '}' ) ||
+					        ( m_pEntitiesStruct[j].value[i] == '\n' ) )
 						m_pEntitiesStruct[j].value[i] = ' ';
 				}
 		}
 
-	con_print(CON_INFO, true, "Number of keys in Entities [ %i ]", numEntityKeys);
+	con_print ( CON_INFO, true, "Number of keys in Entities [ %i ]", numEntityKeys );
 	//
 	// Now find out how much memory is need to store keys
 	//
@@ -83,18 +83,18 @@ bool bsp_setupEntities()
 	g_numEntityKeys = 0;
 	char tempStr[128];
 
-	for (j = 0; j != numOfEntities; j++)
+	for ( j = 0; j != numOfEntities; j++ )
 		{
 			//
 			// strtok seems to destroy the original string
-			strcpy(tempEntityStr, m_pEntitiesStruct[j].value);
-			result = strtok( tempEntityStr, delimiter );
+			strcpy ( tempEntityStr, m_pEntitiesStruct[j].value );
+			result = strtok ( tempEntityStr, delimiter );
 
 			while ( result != NULL )
 				{
-					if (result[0] != ' ')
+					if ( result[0] != ' ' )
 						{
-							if (false == useTokenValue)
+							if ( false == useTokenValue )
 								{
 									useTokenValue = true;
 									g_numEntityKeys++;
@@ -108,19 +108,19 @@ bool bsp_setupEntities()
 								}
 						}
 
-					result = strtok( NULL, delimiter );
+					result = strtok ( NULL, delimiter );
 
 					//
 					// Just in case we get a bad file
-					if (g_numEntityKeys > 400)
+					if ( g_numEntityKeys > 400 )
 						{
-							con_print(CON_INFO, true, "Error: Endless loop getting entities.");
+							con_print ( CON_INFO, true, "Error: Endless loop getting entities." );
 							break;
 						}
 				}
 		}
 
-	con_print (CON_INFO, true, "numEntityKeys = [ %i ]", g_numEntityKeys);
+	con_print ( CON_INFO, true, "numEntityKeys = [ %i ]", g_numEntityKeys );
 
 	useTokenValue = false;
 	int tokenCounter = 0;
@@ -128,32 +128,32 @@ bool bsp_setupEntities()
 	//
 	// Now malloc memory and assign values to array
 	//
-	entityList = (_entity *)malloc(sizeof(_entity) * g_numEntityKeys);
+	entityList = ( _entity * ) malloc ( sizeof ( _entity ) * g_numEntityKeys );
 
-	if (NULL == entityList)
+	if ( NULL == entityList )
 		{
-			sysErrorFatal(__FILE__, __LINE__, "Memory error for entityList. Exiting");
+			sysErrorFatal ( __FILE__, __LINE__, "Memory error for entityList. Exiting" );
 		}
 
-	if (true == verbose)
-		con_print (CON_INFO, true, "Got memory for token list.");
+	if ( true == verbose )
+		con_print ( CON_INFO, true, "Got memory for token list." );
 
 	tokenCounter = 0;
 
-	for (j = 0; j < numOfEntities; j++)
+	for ( j = 0; j < numOfEntities; j++ )
 		{
-			strcpy(tempEntityStr, m_pEntitiesStruct[j].value);
-			result = strtok( tempEntityStr, delimiter );
+			strcpy ( tempEntityStr, m_pEntitiesStruct[j].value );
+			result = strtok ( tempEntityStr, delimiter );
 
 			while ( result != NULL )
 				{
-					if (result[0] != ' ')
+					if ( result[0] != ' ' )
 						{
 							entityList[tokenCounter].setID = tokenGroup;
 
-							if (false == useTokenValue)
+							if ( false == useTokenValue )
 								{
-									strcpy(entityList[tokenCounter].tokenName, result);
+									strcpy ( entityList[tokenCounter].tokenName, result );
 
 //									if (true == verbose)
 //										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenName [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenName);
@@ -164,7 +164,7 @@ bool bsp_setupEntities()
 
 							else
 								{
-									strcpy(entityList[tokenCounter].tokenValue, result);
+									strcpy ( entityList[tokenCounter].tokenValue, result );
 
 //									if (true == verbose)
 //										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenValue [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenValue);
@@ -174,18 +174,18 @@ bool bsp_setupEntities()
 								}
 						}
 
-					result = strtok( NULL, delimiter );
+					result = strtok ( NULL, delimiter );
 				}
 
 			tokenGroup++;
 		}
 
-	if (true == verbose)
-		con_print (CON_INFO, true, "Finished setting up keys into tokens");
+	if ( true == verbose )
+		con_print ( CON_INFO, true, "Finished setting up keys into tokens" );
 
-	if (true == verbose)
+	if ( true == verbose )
 		{
-			for (i = 0; i != g_numEntityKeys / 2; i++)
+			for ( i = 0; i != g_numEntityKeys / 2; i++ )
 				{
 //					con_print (CON_INFO, true, "Token [ %i ] Name [ %s ] Value [ %s ]", entityList[i].setID, entityList[i].tokenName, entityList[i].tokenValue);
 				}
@@ -197,16 +197,16 @@ bool bsp_setupEntities()
 //-------------------------------------------------------------------------------
 //
 // Get number of entities matching the string
-int bsp_getNumEntities(char *whichEntity)
+int bsp_getNumEntities ( char *whichEntity )
 //-------------------------------------------------------------------------------
 {
 	int i, entCount;
 
 	entCount = 0;
 
-	for (i = 0; i != g_numEntityKeys / 2; i++)
+	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
-			if (strcmp(entityList[i].tokenValue, whichEntity) == 0)
+			if ( strcmp ( entityList[i].tokenValue, whichEntity ) == 0 )
 				entCount++;
 		}
 
@@ -230,7 +230,7 @@ void bsp_resetEntitySearchFlag()
 {
 	int i;
 
-	for (i = 0; i != g_numEntityKeys / 2; i++)
+	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
 			entityList[i].checked = false;
 		}
@@ -239,18 +239,18 @@ void bsp_resetEntitySearchFlag()
 //-------------------------------------------------------------------------------
 //
 // Return the setID for the entity
-int bsp_getEntitySetID(char *entityStr, bool checkAll)
+int bsp_getEntitySetID ( char *entityStr, bool checkAll )
 //-------------------------------------------------------------------------------
 {
 	int i;
 
-	for (i = 0; i != g_numEntityKeys / 2; i++)
+	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
-			if (true == checkAll)
+			if ( true == checkAll )
 				{
-					if (false == entityList[i].checked)
+					if ( false == entityList[i].checked )
 						{
-							if (strcmp(entityList[i].tokenValue, entityStr) == 0)
+							if ( strcmp ( entityList[i].tokenValue, entityStr ) == 0 )
 								{
 									entityList[i].checked = true;
 									return entityList[i].setID;
@@ -261,7 +261,7 @@ int bsp_getEntitySetID(char *entityStr, bool checkAll)
 
 			else     // Just get the first occurance
 				{
-					if (strcmp(entityList[i].tokenValue, entityStr) == 0)
+					if ( strcmp ( entityList[i].tokenValue, entityStr ) == 0 )
 						return entityList[i].setID;
 				}
 		}
@@ -273,7 +273,7 @@ int bsp_getEntitySetID(char *entityStr, bool checkAll)
 //-------------------------------------------------------------------------------
 //
 // Find the location and values for a entity class - return value in entityValue
-int bsp_findEntityInfo(char *entityStr, char *entityKey, glm::vec3 *entityValue, bool swapValues, int whichSetID, int valueType)
+int bsp_findEntityInfo ( char *entityStr, char *entityKey, glm::vec3 *entityValue, bool swapValues, int whichSetID, int valueType )
 //-------------------------------------------------------------------------------
 {
 	int i;
@@ -283,11 +283,11 @@ int bsp_findEntityInfo(char *entityStr, char *entityKey, glm::vec3 *entityValue,
 	//
 	// Pass in required set to look for - only do this if required set is -1
 	//
-	if (-1 == whichSetID)
+	if ( -1 == whichSetID )
 		{
-			entitySetID = bsp_getEntitySetID(entityStr, false);
+			entitySetID = bsp_getEntitySetID ( entityStr, false );
 
-			if (-1 == entitySetID)
+			if ( -1 == entitySetID )
 				return -1;
 
 		}
@@ -295,51 +295,51 @@ int bsp_findEntityInfo(char *entityStr, char *entityKey, glm::vec3 *entityValue,
 	else
 		entitySetID = whichSetID;
 
-	for (i = 0; i != g_numEntityKeys / 2; i++)
+	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
-			if (strcmp(entityList[i].tokenName, entityKey) == 0)
+			if ( strcmp ( entityList[i].tokenName, entityKey ) == 0 )
 				{
-					if (entitySetID == entityList[i].setID)
+					if ( entitySetID == entityList[i].setID )
 						{
-							switch (valueType)
+							switch ( valueType )
 								{
-									case VAR_TYPE_FLOAT:
-										sscanf(entityList[i].tokenValue,"%f",&entityValue->x);
-										break;
+								case VAR_TYPE_FLOAT:
+									sscanf ( entityList[i].tokenValue,"%f",&entityValue->x );
+									break;
 
-									case VAR_TYPE_VEC3:
-										sscanf(entityList[i].tokenValue,"%f %f %f",&entityValue->x, &entityValue->y, &entityValue->z);
+								case VAR_TYPE_VEC3:
+									sscanf ( entityList[i].tokenValue,"%f %f %f",&entityValue->x, &entityValue->y, &entityValue->z );
 
-										if (true == swapValues)
-											{
-												tempSwap = entityValue->y;
-												entityValue->y = entityValue->z;
-												entityValue->z = -tempSwap;
-											}
+									if ( true == swapValues )
+										{
+											tempSwap = entityValue->y;
+											entityValue->y = entityValue->z;
+											entityValue->z = -tempSwap;
+										}
 
-										return 1;
-										break;
+									return 1;
+									break;
 
-									case VAR_TYPE_INT:
-										sscanf(entityList[i].tokenValue,"%f",&entityValue->x);
-										return 1;   // Need to return value greater than 0
-										break;
+								case VAR_TYPE_INT:
+									sscanf ( entityList[i].tokenValue,"%f",&entityValue->x );
+									return 1;   // Need to return value greater than 0
+									break;
 
 //
 // Need to pass string back
-									/*
-									                case TYPE_STRING:
-									                    sscanf(entityList[i].tokenValue, "%s",modelIndex);
-									                    modelIndex[0] = ' ';
-									                    tempIndex = atof(modelIndex);
-									                    entityValue->x = (float)tempIndex;
-									                    break;
-									                    */
-									case VAR_TYPE_TEXT:
-										sscanf(entityList[i].tokenValue, "%s", entityKey);
+								/*
+								                case TYPE_STRING:
+								                    sscanf(entityList[i].tokenValue, "%s",modelIndex);
+								                    modelIndex[0] = ' ';
+								                    tempIndex = atof(modelIndex);
+								                    entityValue->x = (float)tempIndex;
+								                    break;
+								                    */
+								case VAR_TYPE_TEXT:
+									sscanf ( entityList[i].tokenValue, "%s", entityKey );
 //                    strcpy(entityKey, modelIndex);
-										return 1;
-										break;
+									return 1;
+									break;
 								}
 						}
 				}
@@ -350,7 +350,7 @@ int bsp_findEntityInfo(char *entityStr, char *entityKey, glm::vec3 *entityValue,
 //-------------------------------------------------------------------------------
 //
 // Find the location and values for a entity class - return value in entityValue
-char *bsp_findEntityInfoString(char *entityStr, char *entityKey, int whichSetID)
+char *bsp_findEntityInfoString ( char *entityStr, char *entityKey, int whichSetID )
 //-------------------------------------------------------------------------------
 {
 	int i;
@@ -359,11 +359,11 @@ char *bsp_findEntityInfoString(char *entityStr, char *entityKey, int whichSetID)
 	//
 	// Pass in required set to look for - only do this if required set is -1
 	//
-	if (-1 == whichSetID)
+	if ( -1 == whichSetID )
 		{
-			entitySetID = bsp_getEntitySetID(entityStr, false);
+			entitySetID = bsp_getEntitySetID ( entityStr, false );
 
-			if (-1 == entitySetID)
+			if ( -1 == entitySetID )
 				return "";
 
 		}
@@ -371,11 +371,11 @@ char *bsp_findEntityInfoString(char *entityStr, char *entityKey, int whichSetID)
 	else
 		entitySetID = whichSetID;
 
-	for (i = 0; i != g_numEntityKeys / 2; i++)
+	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
-			if (strcmp(entityList[i].tokenName, entityKey) == 0)
+			if ( strcmp ( entityList[i].tokenName, entityKey ) == 0 )
 				{
-					if (entitySetID == entityList[i].setID)
+					if ( entitySetID == entityList[i].setID )
 						{
 							return entityList[i].tokenValue;
 						}
@@ -451,27 +451,27 @@ int bsp_entityGetNumDoors()
 // ---------------------------------------------------------------------------
 //
 // Find the passed in entity and move the camera to it's origin
-int bsp_placeCameraAtEntity(char *param1)
+int bsp_placeCameraAtEntity ( char *param1 )
 // ---------------------------------------------------------------------------
 // TODO (dberry#1#): Handle missing entity
 {
 	glm::vec3	originCoords;
 	float    temp;
 
-	if (strlen(param1) < 1)
+	if ( strlen ( param1 ) < 1 )
 		{
-			con_print (CON_INFO, true, "Usage: findent <str>");
+			con_print ( CON_INFO, true, "Usage: findent <str>" );
 			return -1;
 		}
 
-	if (true == verbose)
-		con_print (CON_INFO, true, "Looking for [ %s ]", param1);
+	if ( true == verbose )
+		con_print ( CON_INFO, true, "Looking for [ %s ]", param1 );
 
 	bsp_resetEntitySearchFlag();
 
-	if (bsp_findEntityInfo(param1, "origin", &originCoords, true, -1, VAR_TYPE_VEC3) < 0)
+	if ( bsp_findEntityInfo ( param1, "origin", &originCoords, true, -1, VAR_TYPE_VEC3 ) < 0 )
 		{
-			con_print (CON_INFO, true, "String [ %s ] not found in entity list.", param1);
+			con_print ( CON_INFO, true, "String [ %s ] not found in entity list.", param1 );
 			return -1;
 
 		}
@@ -484,12 +484,12 @@ int bsp_placeCameraAtEntity(char *param1)
 				originCoords.y = originCoords.z;
 				originCoords.z = -temp;
 			*/
-			if (true == verbose)
-				con_print (CON_INFO, true, "origin [ %4.2f ] [ %4.2f ] [ %4.2f ]", originCoords.x, originCoords.y, originCoords.z);
+			if ( true == verbose )
+				con_print ( CON_INFO, true, "origin [ %4.2f ] [ %4.2f ] [ %4.2f ]", originCoords.x, originCoords.y, originCoords.z );
 
-			cam_positionCamera(originCoords.x, originCoords.y, originCoords.z,
-			                   originCoords.x, originCoords.y, originCoords.z - 1,
-			                   0.0f, 1.0f, 0.0f);
+			cam_positionCamera ( originCoords.x, originCoords.y, originCoords.z,
+			                     originCoords.x, originCoords.y, originCoords.z - 1,
+			                     0.0f, 1.0f, 0.0f );
 
 			return 1;
 		}

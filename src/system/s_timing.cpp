@@ -19,7 +19,7 @@ void sys_initTimingVars()
 	frameTimeTakenAvg = 0;
 
 	ticksPerSecond = 30;
-	skipTicks = (1000.0f / ticksPerSecond) * 0.001f;;
+	skipTicks = ( 1000.0f / ticksPerSecond ) * 0.001f;;
 	maxFrameSkip = 5;
 	nextGameTick = 0;
 }
@@ -28,7 +28,7 @@ void sys_initTimingVars()
 //-----------------------------------------------------------------------------
 //
 // Calculate the frame rate for the capped portion
-void sys_CalculateThinkFrameRate(double timeValue)
+void sys_CalculateThinkFrameRate ( double timeValue )
 //-----------------------------------------------------------------------------
 {
 	static int	       thinkFps = 0;
@@ -39,7 +39,7 @@ void sys_CalculateThinkFrameRate(double timeValue)
 
 	thinkTick2 = timeValue;
 
-	thinkInterval += ( (thinkTick2 - thinkTick1) - thinkInterval) * 0.1f;
+	thinkInterval += ( ( thinkTick2 - thinkTick1 ) - thinkInterval ) * 0.1f;
 
 	thinkTick1 = thinkTick2;
 
@@ -47,7 +47,7 @@ void sys_CalculateThinkFrameRate(double timeValue)
 
 	thinkDelayCounter += 1.0f * thinkInterval;
 
-	if (thinkDelayCounter > 1.0f)
+	if ( thinkDelayCounter > 1.0f )
 		{
 			thinkDelayCounter = 0.0f;
 			thinkFpsPrint = thinkFps;
@@ -58,7 +58,7 @@ void sys_CalculateThinkFrameRate(double timeValue)
 //-----------------------------------------------------------------------------
 //
 // This function calculates the overall frame rate and time taken to draw a frame
-void sys_CalculateFrameRate(double timeValue)
+void sys_CalculateFrameRate ( double timeValue )
 //-----------------------------------------------------------------------------
 {
 	static int	    fps = 0;	// Remove global fps variable
@@ -69,7 +69,7 @@ void sys_CalculateFrameRate(double timeValue)
 
 	renderTick2 = timeValue;
 
-	renderInterval += ( (renderTick2 - renderTick1) - renderInterval) * 0.1f;
+	renderInterval += ( ( renderTick2 - renderTick1 ) - renderInterval ) * 0.1f;
 
 	renderTick1 = renderTick2;
 
@@ -78,17 +78,17 @@ void sys_CalculateFrameRate(double timeValue)
 	frameTimeTakenCount++;
 	frameTimeTakenTotal += frameTimeTaken;
 
-	if (frameTimeTaken < frameTimeTakenMin)
+	if ( frameTimeTaken < frameTimeTakenMin )
 		frameTimeTakenMin = frameTimeTaken;
 
-	if (frameTimeTaken > frameTimeTakenMax)
+	if ( frameTimeTaken > frameTimeTakenMax )
 		frameTimeTakenMax = frameTimeTaken;
 
 	frameTimeTakenAvg = frameTimeTakenTotal / frameTimeTakenCount;
 
 	tickDelayCounter += 1.0f * renderInterval;
 
-	if (tickDelayCounter > 1.0f)
+	if ( tickDelayCounter > 1.0f )
 		{
 			tickDelayCounter = 0.0f;
 			fpsPrint = fps;     // Value to display

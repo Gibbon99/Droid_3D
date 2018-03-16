@@ -56,21 +56,21 @@ namespace glm
 /// Classic perlin noise.
 /// @see gtc_noise
 template <typename T, template<typename> class vecType>
-T perlin(
-    vecType<T> const & p);
+T perlin (
+    vecType<T> const & p );
 
 /// Periodic perlin noise.
 /// @see gtc_noise
 template <typename T, template<typename> class vecType>
-T perlin(
+T perlin (
     vecType<T> const & p,
-    vecType<T> const & rep);
+    vecType<T> const & rep );
 
 /// Simplex noise.
 /// @see gtc_noise
 template <typename T, template<typename> class vecType>
-T simplex(
-    vecType<T> const & p);
+T simplex (
+    vecType<T> const & p );
 
 /// @}
 }//namespace glm

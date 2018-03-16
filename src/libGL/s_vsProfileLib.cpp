@@ -40,35 +40,35 @@ LARGE_INTEGER VSProfileLib::sFreq;
 
 // Timer function defined apart for easier replacement
 void
-VSProfileLib::GetTicks(pTime *ticks)
+VSProfileLib::GetTicks ( pTime *ticks )
 {
 
 #if VSPL_CLOCK == VSPL_WIN_HIGH_PERFORMANCE_COUNTER
 	LARGE_INTEGER t;
-	QueryPerformanceCounter(&t) ;
-	*ticks = 1000.0*(pTime)((double)t.QuadPart/
-	                        (double)sFreq.QuadPart);
+	QueryPerformanceCounter ( &t ) ;
+	*ticks = 1000.0* ( pTime ) ( ( double ) t.QuadPart/
+	                             ( double ) sFreq.QuadPart );
 
 #elif VSPL_CLOCK == VSPL_C_CLOCK
-	*ticks =  (pTime)clock()/VSPL_CLOCK_RATE;
+	*ticks =  ( pTime ) clock() /VSPL_CLOCK_RATE;
 
 #elif VSPL_CLOCK == VSPL_WIN_SYSTEMTIME
 	SYSTEMTIME systemTime;
-	GetSystemTime( &systemTime );
+	GetSystemTime ( &systemTime );
 
 	FILETIME fileTime;
-	SystemTimeToFileTime( &systemTime, &fileTime );
+	SystemTimeToFileTime ( &systemTime, &fileTime );
 
 	ULARGE_INTEGER uli;
 	uli.LowPart = fileTime.dwLowDateTime;
 	uli.HighPart = fileTime.dwHighDateTime;
 
-	ULONGLONG systemTimeIn_ms( uli.QuadPart/10000 );
-	*ticks = (double)systemTimeIn_ms;
+	ULONGLONG systemTimeIn_ms ( uli.QuadPart/10000 );
+	*ticks = ( double ) systemTimeIn_ms;
 
 #elif VSPL_CLOCK == VSPL_GETTIMEOFDAY
 	timeval t2;
-	gettimeofday(&t2,NULL);
+	gettimeofday ( &t2,NULL );
 	*ticks = t2.tv_sec * 1000.0 + t2.tv_usec / 1000.0;
 #endif
 }
@@ -76,7 +76,7 @@ VSProfileLib::GetTicks(pTime *ticks)
 
 // Constructor
 // begin of a profile section
-VSProfileLib::VSProfileLib(std::string name, bool profileGL)
+VSProfileLib::VSProfileLib ( std::string name, bool profileGL )
 {
 
 	int found;
@@ -84,21 +84,21 @@ VSProfileLib::VSProfileLib(std::string name, bool profileGL)
 	sCurrLevel++;
 
 #if VSPL_CLOCK == VSPL_WIN_HIGH_PERFORMANCE_COUNTER
-	QueryPerformanceFrequency(&sFreq);
+	QueryPerformanceFrequency ( &sFreq );
 #endif
 
-	GetTicks(&w);
+	GetTicks ( &w );
 
 	// create new level
-	if (sCurrLevel == sTotalLevels)
+	if ( sCurrLevel == sTotalLevels )
 		{
 
 			sLevels[sCurrLevel].cursor = -1;
-			createNewSection(name, w, profileGL);
+			createNewSection ( name, w, profileGL );
 			// store the size of the largest section name
 			int aux = name.size() ;
 
-			if (aux > sDisp)
+			if ( aux > sDisp )
 				sDisp = aux;
 
 			sTotalLevels++;
@@ -108,20 +108,20 @@ VSProfileLib::VSProfileLib(std::string name, bool profileGL)
 	else
 		{
 			// search for name and parent
-			found = searchSection(name);
+			found = searchSection ( name );
 
-			if (found != -1)
-				updateSection(found, w);
+			if ( found != -1 )
+				updateSection ( found, w );
 
 			else
 				{
 					// create new section inside current level
-					createNewSection(name, w, profileGL);
+					createNewSection ( name, w, profileGL );
 					// store the size of the largest section name
 					// for report formatting purposes
 					int aux = name.size() ;
 
-					if (aux > sDisp)
+					if ( aux > sDisp )
 						sDisp = aux;
 				}
 		}
@@ -143,7 +143,7 @@ VSProfileLib::~VSProfileLib()
 //////////////////////////////////////////////////////////////////////
 
 // Create a new profile section
-void VSProfileLib::createNewSection(std::string &name, pTime w, bool profileGL)
+void VSProfileLib::createNewSection ( std::string &name, pTime w, bool profileGL )
 {
 
 	section s;
@@ -153,8 +153,8 @@ void VSProfileLib::createNewSection(std::string &name, pTime w, bool profileGL)
 #else
 	s.profileGL = false;
 #endif
-	s.parent = (sCurrLevel > 0 ?
-	            sLevels[sCurrLevel-1].cursor : -1);
+	s.parent = ( sCurrLevel > 0 ?
+	             sLevels[sCurrLevel-1].cursor : -1 );
 	s.name = name;
 	s.calls = 1;
 	s.totalTime = 0;
@@ -162,57 +162,57 @@ void VSProfileLib::createNewSection(std::string &name, pTime w, bool profileGL)
 
 	sLevels[sCurrLevel].cursor++;
 
-	if (profileGL)
+	if ( profileGL )
 		{
 			pair p;
-			glGenQueries(2, p.queries);
-			glQueryCounter(p.queries[0], GL_TIMESTAMP);
-			s.queriesGL[sBackBuffer].push_back(p);
+			glGenQueries ( 2, p.queries );
+			glQueryCounter ( p.queries[0], GL_TIMESTAMP );
+			s.queriesGL[sBackBuffer].push_back ( p );
 		}
 
-	GetTicks(&(s.startTime));
+	GetTicks ( & ( s.startTime ) );
 	s.wastedTime = s.startTime - w;
-	sLevels[sCurrLevel].sec.push_back(s);
+	sLevels[sCurrLevel].sec.push_back ( s );
 }
 
 // Serach for a profile section
-int VSProfileLib::searchSection(std::string &name)
+int VSProfileLib::searchSection ( std::string &name )
 {
 
 	int i,max,par;
 
 	max = sLevels[sCurrLevel].sec.size();
-	par = (sCurrLevel==0 ? -1 : sLevels[sCurrLevel-1].cursor);
+	par = ( sCurrLevel==0 ? -1 : sLevels[sCurrLevel-1].cursor );
 
-	for(i=0; i<max; i++)
+	for ( i=0; i<max; i++ )
 		{
-			if (( name == sLevels[sCurrLevel].sec[i].name)  &&
-			        (par == sLevels[sCurrLevel].sec[i].parent))
-				return(i);
+			if ( ( name == sLevels[sCurrLevel].sec[i].name )  &&
+			        ( par == sLevels[sCurrLevel].sec[i].parent ) )
+				return ( i );
 		}
 
-	return(-1);
+	return ( -1 );
 }
 
 // updates a profile section
-void VSProfileLib::updateSection(int cur, pTime w)
+void VSProfileLib::updateSection ( int cur, pTime w )
 {
 
 	section *s;
 
-	s = &(sLevels[sCurrLevel].sec[cur]);
+	s = & ( sLevels[sCurrLevel].sec[cur] );
 	s->calls++;
 	sLevels[sCurrLevel].cursor = cur;
 
-	if (s->profileGL)
+	if ( s->profileGL )
 		{
 			pair p;
-			glGenQueries(2, p.queries);
-			glQueryCounter(p.queries[0], GL_TIMESTAMP);
-			s->queriesGL[sBackBuffer].push_back(p);
+			glGenQueries ( 2, p.queries );
+			glQueryCounter ( p.queries[0], GL_TIMESTAMP );
+			s->queriesGL[sBackBuffer].push_back ( p );
 		}
 
-	GetTicks(&s->startTime);
+	GetTicks ( &s->startTime );
 	s->wastedTime += s->startTime - w;
 }
 
@@ -223,19 +223,19 @@ void VSProfileLib::accumulate()
 
 	section *s;
 	pTime t,t2;
-	GetTicks(&t);
+	GetTicks ( &t );
 
-	s = &(sLevels[sCurrLevel].sec[sLevels[sCurrLevel].cursor]);
+	s = & ( sLevels[sCurrLevel].sec[sLevels[sCurrLevel].cursor] );
 
-	if (s->profileGL)
+	if ( s->profileGL )
 		{
-			glQueryCounter(s->queriesGL[sBackBuffer][s->queriesGL[sBackBuffer].size()-1].queries[1], GL_TIMESTAMP);
+			glQueryCounter ( s->queriesGL[sBackBuffer][s->queriesGL[sBackBuffer].size()-1].queries[1], GL_TIMESTAMP );
 		}
 
 	// to measure wasted time when accumulating
-	GetTicks(&t2);
-	s->wastedTime += (t2-t);
-	s->totalTime += (t - s->startTime);
+	GetTicks ( &t2 );
+	s->wastedTime += ( t2-t );
+	s->totalTime += ( t - s->startTime );
 
 }
 
@@ -248,19 +248,19 @@ void VSProfileLib::accumulate()
 void VSProfileLib::Reset()
 {
 
-	for(int i=0; i < sTotalLevels; ++i)
+	for ( int i=0; i < sTotalLevels; ++i )
 		{
 
-			for (unsigned int s = 0; s < sLevels[i].sec.size(); ++s)
+			for ( unsigned int s = 0; s < sLevels[i].sec.size(); ++s )
 				{
-					for (unsigned int k = 0; k < sLevels[i].sec[s].queriesGL[0].size(); ++k)
+					for ( unsigned int k = 0; k < sLevels[i].sec[s].queriesGL[0].size(); ++k )
 						{
-							glDeleteQueries(2, sLevels[i].sec[s].queriesGL[0][k].queries);
+							glDeleteQueries ( 2, sLevels[i].sec[s].queriesGL[0][k].queries );
 						}
 
-					for (unsigned int k = 0; k < sLevels[i].sec[s].queriesGL[1].size(); ++k)
+					for ( unsigned int k = 0; k < sLevels[i].sec[s].queriesGL[1].size(); ++k )
 						{
-							glDeleteQueries(2, sLevels[i].sec[s].queriesGL[1][k].queries);
+							glDeleteQueries ( 2, sLevels[i].sec[s].queriesGL[1][k].queries );
 						}
 				}
 
@@ -289,12 +289,12 @@ VSProfileLib::DumpLevels()
 	char t5[3]="wt";
 
 	sDump = "";
-	sprintf(saux,"%-*s  %s  %s  %s       %s\n",indent+4,t1,t2,t4,t41,t5);
+	sprintf ( saux,"%-*s  %s  %s  %s       %s\n",indent+4,t1,t2,t4,t41,t5 );
 	sDump += saux;
-	sprintf(saux,"---- %*s\n",indent+31,"------------------------------------");
+	sprintf ( saux,"---- %*s\n",indent+31,"------------------------------------" );
 	sDump += saux;
 
-	DumpLevels(0,-1,sLevels[0].sec[0].calls);
+	DumpLevels ( 0,-1,sLevels[0].sec[0].calls );
 #else
 	sDump = "";
 #endif
@@ -307,7 +307,7 @@ VSProfileLib::DumpLevels()
 // private method to recursively
 // build the profile report
 void
-VSProfileLib::DumpLevels(int l, int p, pTime calls)
+VSProfileLib::DumpLevels ( int l, int p, pTime calls )
 {
 
 
@@ -319,39 +319,39 @@ VSProfileLib::DumpLevels(int l, int p, pTime calls)
 
 	siz = sLevels[l].sec.size();
 
-	for(int cur = 0; cur < siz; ++cur)
+	for ( int cur = 0; cur < siz; ++cur )
 		{
-			sec = &(sLevels[l].sec[cur]);
+			sec = & ( sLevels[l].sec[cur] );
 
-			if (l==0)
+			if ( l==0 )
 				calls = sec->calls;
 
-			if ((p == -1) || (sec->parent == p))
+			if ( ( p == -1 ) || ( sec->parent == p ) )
 				{
 
-					sprintf(s,"%#*s%s", l * LEVEL_INDENT," ",sec->name.c_str());
+					sprintf ( s,"%#*s%s", l * LEVEL_INDENT," ",sec->name.c_str() );
 
-					if (sec->profileGL)
-						sprintf(s2,"%-*s %5.0f %8.2f %8.2f %8.2f\n",
-						        sDisp + sTotalLevels * LEVEL_INDENT + 2,
-						        s,
-						        (float)(sec->calls/calls),
-						        (float)(sec->totalTime)/(calls),
-						        (sec->totalQueryTime/(1000000.0 /** calls*/)),
-						        (float)(sec->wastedTime/(calls)));
+					if ( sec->profileGL )
+						sprintf ( s2,"%-*s %5.0f %8.2f %8.2f %8.2f\n",
+						          sDisp + sTotalLevels * LEVEL_INDENT + 2,
+						          s,
+						          ( float ) ( sec->calls/calls ),
+						          ( float ) ( sec->totalTime ) / ( calls ),
+						          ( sec->totalQueryTime/ ( 1000000.0 /** calls*/ ) ),
+						          ( float ) ( sec->wastedTime/ ( calls ) ) );
 
 					else
-						sprintf(s2,"%-*s %5.0f %8.2f          %8.2f\n",
-						        sDisp + sTotalLevels * LEVEL_INDENT + 2,
-						        s,
-						        (float)(sec->calls/calls),
-						        (float)(sec->totalTime)/(calls),
-						        (float)(sec->wastedTime)/(calls));
+						sprintf ( s2,"%-*s %5.0f %8.2f          %8.2f\n",
+						          sDisp + sTotalLevels * LEVEL_INDENT + 2,
+						          s,
+						          ( float ) ( sec->calls/calls ),
+						          ( float ) ( sec->totalTime ) / ( calls ),
+						          ( float ) ( sec->wastedTime ) / ( calls ) );
 
 					sDump += s2;
 
-					if (l+1 < sTotalLevels)
-						DumpLevels(l+1,cur,calls);
+					if ( l+1 < sTotalLevels )
+						DumpLevels ( l+1,cur,calls );
 				}
 
 		}
@@ -370,26 +370,26 @@ VSProfileLib::CollectQueryResults()
 	GLuint64 timeStart=0, timeEnd = 0;
 	unsigned long long int aux = 0;
 
-	for (int l = 0; l < sTotalLevels; ++l)
+	for ( int l = 0; l < sTotalLevels; ++l )
 		{
 			siz = sLevels[l].sec.size();
 
-			for(int cur = 0; cur < siz; ++cur)
+			for ( int cur = 0; cur < siz; ++cur )
 				{
-					sec = &(sLevels[l].sec[cur]);
+					sec = & ( sLevels[l].sec[cur] );
 
-					if (sec->profileGL)
+					if ( sec->profileGL )
 						{
 							sec->totalQueryTime = 0;
 							aux = 0;
 
-							for (unsigned int j = 0; j < sec->queriesGL[sFrontBuffer].size(); ++j)
+							for ( unsigned int j = 0; j < sec->queriesGL[sFrontBuffer].size(); ++j )
 								{
 
-									glGetQueryObjectui64v(sec->queriesGL[sFrontBuffer][j].queries[0], GL_QUERY_RESULT, &timeStart);
-									glGetQueryObjectui64v(sec->queriesGL[sFrontBuffer][j].queries[1], GL_QUERY_RESULT, &timeEnd);
-									aux +=  (timeEnd - timeStart);
-									glDeleteQueries(2, sec->queriesGL[sFrontBuffer][j].queries);
+									glGetQueryObjectui64v ( sec->queriesGL[sFrontBuffer][j].queries[0], GL_QUERY_RESULT, &timeStart );
+									glGetQueryObjectui64v ( sec->queriesGL[sFrontBuffer][j].queries[1], GL_QUERY_RESULT, &timeEnd );
+									aux +=  ( timeEnd - timeStart );
+									glDeleteQueries ( 2, sec->queriesGL[sFrontBuffer][j].queries );
 								}
 
 							sec->totalQueryTime += aux;
@@ -399,7 +399,7 @@ VSProfileLib::CollectQueryResults()
 		}
 
 	// SWAP QUERY BUFFERS
-	if (sBackBuffer)
+	if ( sBackBuffer )
 		{
 			sBackBuffer = 0;
 			sFrontBuffer = 1;

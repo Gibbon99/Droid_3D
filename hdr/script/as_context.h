@@ -62,7 +62,7 @@ public:
 	asIScriptEngine *GetEngine() const;
 
 	// Execution
-	int             Prepare(asIScriptFunction *func);
+	int             Prepare ( asIScriptFunction *func );
 	int             Unprepare();
 	int             Execute();
 	int             Abort();
@@ -70,22 +70,22 @@ public:
 	asEContextState GetState() const;
 	int             PushState();
 	int             PopState();
-	bool            IsNested(asUINT *nestCount = 0) const;
+	bool            IsNested ( asUINT *nestCount = 0 ) const;
 
 	// Object pointer for calling class methods
-	int SetObject(void *obj);
+	int SetObject ( void *obj );
 
 	// Arguments
-	int   SetArgByte(asUINT arg, asBYTE value);
-	int   SetArgWord(asUINT arg, asWORD value);
-	int   SetArgDWord(asUINT arg, asDWORD value);
-	int   SetArgQWord(asUINT arg, asQWORD value);
-	int   SetArgFloat(asUINT arg, float value);
-	int   SetArgDouble(asUINT arg, double value);
-	int   SetArgAddress(asUINT arg, void *addr);
-	int   SetArgObject(asUINT arg, void *obj);
-	int   SetArgVarType(asUINT arg, void *ptr, int typeId);
-	void *GetAddressOfArg(asUINT arg);
+	int   SetArgByte ( asUINT arg, asBYTE value );
+	int   SetArgWord ( asUINT arg, asWORD value );
+	int   SetArgDWord ( asUINT arg, asDWORD value );
+	int   SetArgQWord ( asUINT arg, asQWORD value );
+	int   SetArgFloat ( asUINT arg, float value );
+	int   SetArgDouble ( asUINT arg, double value );
+	int   SetArgAddress ( asUINT arg, void *addr );
+	int   SetArgObject ( asUINT arg, void *obj );
+	int   SetArgVarType ( asUINT arg, void *ptr, int typeId );
+	void *GetAddressOfArg ( asUINT arg );
 
 	// Return value
 	asBYTE  GetReturnByte();
@@ -99,36 +99,36 @@ public:
 	void   *GetAddressOfReturnValue();
 
 	// Exception handling
-	int                SetException(const char *descr);
-	int                GetExceptionLineNumber(int *column, const char **sectionName);
+	int                SetException ( const char *descr );
+	int                GetExceptionLineNumber ( int *column, const char **sectionName );
 	asIScriptFunction *GetExceptionFunction();
 	const char *       GetExceptionString();
-	int                SetExceptionCallback(asSFuncPtr callback, void *obj, int callConv);
+	int                SetExceptionCallback ( asSFuncPtr callback, void *obj, int callConv );
 	void               ClearExceptionCallback();
 
 	// Debugging
-	int                SetLineCallback(asSFuncPtr callback, void *obj, int callConv);
+	int                SetLineCallback ( asSFuncPtr callback, void *obj, int callConv );
 	void               ClearLineCallback();
 	asUINT             GetCallstackSize() const;
-	asIScriptFunction *GetFunction(asUINT stackLevel);
-	int                GetLineNumber(asUINT stackLevel, int *column, const char **sectionName);
-	int                GetVarCount(asUINT stackLevel);
-	const char        *GetVarName(asUINT varIndex, asUINT stackLevel);
-	const char        *GetVarDeclaration(asUINT varIndex, asUINT stackLevel, bool includeNamespace);
-	int                GetVarTypeId(asUINT varIndex, asUINT stackLevel);
-	void              *GetAddressOfVar(asUINT varIndex, asUINT stackLevel);
-	bool               IsVarInScope(asUINT varIndex, asUINT stackLevel);
-	int                GetThisTypeId(asUINT stackLevel);
-	void              *GetThisPointer(asUINT stackLevel);
+	asIScriptFunction *GetFunction ( asUINT stackLevel );
+	int                GetLineNumber ( asUINT stackLevel, int *column, const char **sectionName );
+	int                GetVarCount ( asUINT stackLevel );
+	const char        *GetVarName ( asUINT varIndex, asUINT stackLevel );
+	const char        *GetVarDeclaration ( asUINT varIndex, asUINT stackLevel, bool includeNamespace );
+	int                GetVarTypeId ( asUINT varIndex, asUINT stackLevel );
+	void              *GetAddressOfVar ( asUINT varIndex, asUINT stackLevel );
+	bool               IsVarInScope ( asUINT varIndex, asUINT stackLevel );
+	int                GetThisTypeId ( asUINT stackLevel );
+	void              *GetThisPointer ( asUINT stackLevel );
 	asIScriptFunction *GetSystemFunction();
 
 	// User data
-	void *SetUserData(void *data, asPWORD type);
-	void *GetUserData(asPWORD type) const;
+	void *SetUserData ( void *data, asPWORD type );
+	void *GetUserData ( asPWORD type ) const;
 
 public:
 	// Internal public functions
-	asCContext(asCScriptEngine *engine, bool holdRef);
+	asCContext ( asCScriptEngine *engine, bool holdRef );
 	virtual ~asCContext();
 
 //protected:
@@ -137,7 +137,7 @@ public:
 	void CallLineCallback();
 	void CallExceptionCallback();
 
-	int  CallGeneric(asCScriptFunction *func);
+	int  CallGeneric ( asCScriptFunction *func );
 
 	void DetachEngine();
 
@@ -146,17 +146,17 @@ public:
 	void CleanStackFrame();
 	void CleanArgsOnStack();
 	void CleanReturnObject();
-	void DetermineLiveObjects(asCArray<int> &liveObjects, asUINT stackLevel);
+	void DetermineLiveObjects ( asCArray<int> &liveObjects, asUINT stackLevel );
 
 	void PushCallState();
 	void PopCallState();
-	void CallScriptFunction(asCScriptFunction *func);
-	void CallInterfaceMethod(asCScriptFunction *func);
+	void CallScriptFunction ( asCScriptFunction *func );
+	void CallInterfaceMethod ( asCScriptFunction *func );
 	void PrepareScriptFunction();
 
-	bool ReserveStackSpace(asUINT size);
+	bool ReserveStackSpace ( asUINT size );
 
-	void SetInternalException(const char *descr);
+	void SetInternalException ( const char *descr );
 
 	// Must be protected for multiple accesses
 	mutable asCAtomic m_refCount;
@@ -212,27 +212,27 @@ public:
 };
 
 // TODO: Move these to as_utils.h
-int     as_powi(int base, int exponent, bool& isOverflow);
-asDWORD as_powu(asDWORD base, asDWORD exponent, bool& isOverflow);
-asINT64 as_powi64(asINT64 base, asINT64 exponent, bool& isOverflow);
-asQWORD as_powu64(asQWORD base, asQWORD exponent, bool& isOverflow);
+int     as_powi ( int base, int exponent, bool& isOverflow );
+asDWORD as_powu ( asDWORD base, asDWORD exponent, bool& isOverflow );
+asINT64 as_powi64 ( asINT64 base, asINT64 exponent, bool& isOverflow );
+asQWORD as_powu64 ( asQWORD base, asQWORD exponent, bool& isOverflow );
 
 // Optional template version of powi if overflow detection is not used.
 #if 0
 template <class T>
-T as_powi(T base, T exponent)
+T as_powi ( T base, T exponent )
 {
 	// Test for sign bit (huge number is OK)
-	if( exponent & (T(1)<<(sizeof(T)*8-1)) )
+	if ( exponent & ( T ( 1 ) << ( sizeof ( T ) *8-1 ) ) )
 		return 0;
 
 	else
 		{
 			int result = 1;
 
-			while( exponent )
+			while ( exponent )
 				{
-					if( exponent & 1 )
+					if ( exponent & 1 )
 						result *= base;
 
 					exponent >>= 1;

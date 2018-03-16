@@ -43,40 +43,40 @@
 
 BEGIN_AS_NAMESPACE
 
-int asCompareStrings(const char *str1, size_t len1, const char *str2, size_t len2)
+int asCompareStrings ( const char *str1, size_t len1, const char *str2, size_t len2 )
 {
-	if( len1 == 0 )
+	if ( len1 == 0 )
 		{
-			if( str2 == 0 || len2 == 0 ) return 0; // Equal
+			if ( str2 == 0 || len2 == 0 ) return 0; // Equal
 
 			return 1; // The other string is larger than this
 		}
 
-	if( str2 == 0 )
+	if ( str2 == 0 )
 		{
-			if( len1 == 0 )
+			if ( len1 == 0 )
 				return 0; // Equal
 
 			return -1; // The other string is smaller than this
 		}
 
-	if( len2 < len1 )
+	if ( len2 < len1 )
 		{
-			int result = memcmp(str1, str2, len2);
+			int result = memcmp ( str1, str2, len2 );
 
-			if( result == 0 ) return -1; // The other string is smaller than this
+			if ( result == 0 ) return -1; // The other string is smaller than this
 
 			return result;
 		}
 
-	int result = memcmp(str1, str2, len1);
+	int result = memcmp ( str1, str2, len1 );
 
-	if( result == 0 && len1 < len2 ) return 1; // The other string is larger than this
+	if ( result == 0 && len1 < len2 ) return 1; // The other string is larger than this
 
 	return result;
 }
 
-double asStringScanDouble(const char *string, size_t *numScanned)
+double asStringScanDouble ( const char *string, size_t *numScanned )
 {
 	// I decided to do my own implementation of strtod() because this function
 	// doesn't seem to be present on all systems. iOS 5 for example doesn't appear
@@ -97,10 +97,10 @@ double asStringScanDouble(const char *string, size_t *numScanned)
 	// two tokens so we'll never have a sign to parse here
 
 	// Parse the integer value
-	for( ;; )
+	for ( ;; )
 		{
-			if( string[c] >= '0' && string[c] <= '9' )
-				value = value*10 + double(string[c] - '0');
+			if ( string[c] >= '0' && string[c] <= '9' )
+				value = value*10 + double ( string[c] - '0' );
 
 			else
 				break;
@@ -108,15 +108,15 @@ double asStringScanDouble(const char *string, size_t *numScanned)
 			c++;
 		}
 
-	if( string[c] == '.' )
+	if ( string[c] == '.' )
 		{
 			c++;
 
 			// Parse the fraction
-			for( ;; )
+			for ( ;; )
 				{
-					if( string[c] >= '0' && string[c] <= '9' )
-						value += fraction * double(string[c] - '0');
+					if ( string[c] >= '0' && string[c] <= '9' )
+						value += fraction * double ( string[c] - '0' );
 
 					else
 						break;
@@ -126,26 +126,26 @@ double asStringScanDouble(const char *string, size_t *numScanned)
 				}
 		}
 
-	if( string[c] == 'e' || string[c] == 'E' )
+	if ( string[c] == 'e' || string[c] == 'E' )
 		{
 			c++;
 
 			// Parse the sign of the exponent
-			if( string[c] == '-' )
+			if ( string[c] == '-' )
 				{
 					negativeExponent = true;
 					c++;
 
 				}
 
-			else if( string[c] == '+' )
+			else if ( string[c] == '+' )
 				c++;
 
 			// Parse the exponent value
-			for( ;; )
+			for ( ;; )
 				{
-					if( string[c] >= '0' && string[c] <= '9' )
-						exponent = exponent*10 + int(string[c] - '0');
+					if ( string[c] >= '0' && string[c] <= '9' )
+						exponent = exponent*10 + int ( string[c] - '0' );
 
 					else
 						break;
@@ -154,15 +154,15 @@ double asStringScanDouble(const char *string, size_t *numScanned)
 				}
 		}
 
-	if( exponent )
+	if ( exponent )
 		{
-			if( negativeExponent )
+			if ( negativeExponent )
 				exponent = -exponent;
 
-			value *= pow(10.0, exponent);
+			value *= pow ( 10.0, exponent );
 		}
 
-	if( numScanned )
+	if ( numScanned )
 		*numScanned = c;
 
 	return value;
@@ -170,36 +170,36 @@ double asStringScanDouble(const char *string, size_t *numScanned)
 
 // Converts a character to the decimal number based on the radix
 // Returns -1 if the character is not valid for the radix
-static int asCharToNbr(char ch, int radix)
+static int asCharToNbr ( char ch, int radix )
 {
-	if( ch >= '0' && ch <= '9' ) return ((ch -= '0') < radix ? ch : -1);
+	if ( ch >= '0' && ch <= '9' ) return ( ( ch -= '0' ) < radix ? ch : -1 );
 
-	if( ch >= 'A' && ch <= 'Z' ) return ((ch -= 'A'-10) < radix ? ch : -1);
+	if ( ch >= 'A' && ch <= 'Z' ) return ( ( ch -= 'A'-10 ) < radix ? ch : -1 );
 
-	if( ch >= 'a' && ch <= 'z' ) return ((ch -= 'a'-10) < radix ? ch : -1);
+	if ( ch >= 'a' && ch <= 'z' ) return ( ( ch -= 'a'-10 ) < radix ? ch : -1 );
 
 	return -1;
 }
 
 // If base is 0 the string should be prefixed by 0x, 0d, 0o, or 0b to allow the function to automatically determine the radix
-asQWORD asStringScanUInt64(const char *string, int base, size_t *numScanned, bool *overflow)
+asQWORD asStringScanUInt64 ( const char *string, int base, size_t *numScanned, bool *overflow )
 {
-	asASSERT(base == 10 || base == 16 || base == 0);
+	asASSERT ( base == 10 || base == 16 || base == 0 );
 
-	if (overflow)
+	if ( overflow )
 		*overflow = false;
 
 	const char *end = string;
 
-	static const asQWORD QWORD_MAX = (~asQWORD(0));
+	static const asQWORD QWORD_MAX = ( ~asQWORD ( 0 ) );
 
 	asQWORD res = 0;
 
-	if( base == 10 )
+	if ( base == 10 )
 		{
-			while( *end >= '0' && *end <= '9' )
+			while ( *end >= '0' && *end <= '9' )
 				{
-					if( overflow && ((res > QWORD_MAX / 10) || ((asUINT(*end - '0') > (QWORD_MAX - (QWORD_MAX / 10) * 10)) && res == QWORD_MAX / 10)) )
+					if ( overflow && ( ( res > QWORD_MAX / 10 ) || ( ( asUINT ( *end - '0' ) > ( QWORD_MAX - ( QWORD_MAX / 10 ) * 10 ) ) && res == QWORD_MAX / 10 ) ) )
 						*overflow = true;
 
 					res *= 10;
@@ -210,42 +210,42 @@ asQWORD asStringScanUInt64(const char *string, int base, size_t *numScanned, boo
 
 	else
 		{
-			if( base == 0 && string[0] == '0')
+			if ( base == 0 && string[0] == '0' )
 				{
 					// Determine the radix from the prefix
-					switch( string[1] )
+					switch ( string[1] )
 						{
-							case 'b':
-							case 'B':
-								base = 2;
-								break;
+						case 'b':
+						case 'B':
+							base = 2;
+							break;
 
-							case 'o':
-							case 'O':
-								base = 8;
-								break;
+						case 'o':
+						case 'O':
+							base = 8;
+							break;
 
-							case 'd':
-							case 'D':
-								base = 10;
-								break;
+						case 'd':
+						case 'D':
+							base = 10;
+							break;
 
-							case 'x':
-							case 'X':
-								base = 16;
-								break;
+						case 'x':
+						case 'X':
+							base = 16;
+							break;
 						}
 
 					end += 2;
 				}
 
-			asASSERT( base );
+			asASSERT ( base );
 
-			if( base )
+			if ( base )
 				{
-					for (int nbr; (nbr = asCharToNbr(*end, base)) >= 0; end++)
+					for ( int nbr; ( nbr = asCharToNbr ( *end, base ) ) >= 0; end++ )
 						{
-							if (overflow && ((res > QWORD_MAX / base) || ((asUINT(nbr) > (QWORD_MAX - (QWORD_MAX / base) * base)) && res == QWORD_MAX / base)) )
+							if ( overflow && ( ( res > QWORD_MAX / base ) || ( ( asUINT ( nbr ) > ( QWORD_MAX - ( QWORD_MAX / base ) * base ) ) && res == QWORD_MAX / base ) ) )
 								*overflow = true;
 
 							res = res * base + nbr;
@@ -253,7 +253,7 @@ asQWORD asStringScanUInt64(const char *string, int base, size_t *numScanned, boo
 				}
 		}
 
-	if( numScanned )
+	if ( numScanned )
 		*numScanned = end - string;
 
 	return res;
@@ -266,46 +266,46 @@ asQWORD asStringScanUInt64(const char *string, int base, size_t *numScanned, boo
 //
 // This function is taken from the AngelCode ToolBox.
 //
-int asStringEncodeUTF8(unsigned int value, char *outEncodedBuffer)
+int asStringEncodeUTF8 ( unsigned int value, char *outEncodedBuffer )
 {
-	unsigned char *buf = (unsigned char*)outEncodedBuffer;
+	unsigned char *buf = ( unsigned char* ) outEncodedBuffer;
 
 	int length = -1;
 
-	if( value <= 0x7F )
+	if ( value <= 0x7F )
 		{
-			buf[0] = static_cast<unsigned char>(value);
+			buf[0] = static_cast<unsigned char> ( value );
 			return 1;
 
 		}
 
-	else if( value >= 0x80 && value <= 0x7FF )
+	else if ( value >= 0x80 && value <= 0x7FF )
 		{
 			// Encode it with 2 characters
-			buf[0] = static_cast<unsigned char>(0xC0 + (value >> 6));
+			buf[0] = static_cast<unsigned char> ( 0xC0 + ( value >> 6 ) );
 			length = 2;
 
 		}
 
-	else if( (value >= 0x800 && value <= 0xD7FF) || (value >= 0xE000 && value <= 0xFFFF) )
+	else if ( ( value >= 0x800 && value <= 0xD7FF ) || ( value >= 0xE000 && value <= 0xFFFF ) )
 		{
 			// Note: Values 0xD800 to 0xDFFF are not valid unicode characters
-			buf[0] = static_cast<unsigned char>(0xE0 + (value >> 12));
+			buf[0] = static_cast<unsigned char> ( 0xE0 + ( value >> 12 ) );
 			length = 3;
 
 		}
 
-	else if( value >= 0x10000 && value <= 0x10FFFF )
+	else if ( value >= 0x10000 && value <= 0x10FFFF )
 		{
-			buf[0] = static_cast<unsigned char>(0xF0 + (value >> 18));
+			buf[0] = static_cast<unsigned char> ( 0xF0 + ( value >> 18 ) );
 			length = 4;
 		}
 
 	int n = length-1;
 
-	for( ; n > 0; n-- )
+	for ( ; n > 0; n-- )
 		{
-			buf[n] = static_cast<unsigned char>(0x80 + (value & 0x3F));
+			buf[n] = static_cast<unsigned char> ( 0x80 + ( value & 0x3F ) );
 			value >>= 6;
 		}
 
@@ -318,67 +318,67 @@ int asStringEncodeUTF8(unsigned int value, char *outEncodedBuffer)
 //
 // This function is taken from the AngelCode ToolBox.
 //
-int asStringDecodeUTF8(const char *encodedBuffer, unsigned int *outLength)
+int asStringDecodeUTF8 ( const char *encodedBuffer, unsigned int *outLength )
 {
-	const unsigned char *buf = (const unsigned char*)encodedBuffer;
+	const unsigned char *buf = ( const unsigned char* ) encodedBuffer;
 
 	int value = 0;
 	int length = -1;
 	unsigned char byte = buf[0];
 
-	if( (byte & 0x80) == 0 )
+	if ( ( byte & 0x80 ) == 0 )
 		{
 			// This is the only byte
-			if( outLength ) *outLength = 1;
+			if ( outLength ) *outLength = 1;
 
 			return byte;
 
 		}
 
-	else if( (byte & 0xE0) == 0xC0 )
+	else if ( ( byte & 0xE0 ) == 0xC0 )
 		{
 			// There is one more byte
-			value = int(byte & 0x1F);
+			value = int ( byte & 0x1F );
 			length = 2;
 
 			// The value at this moment must not be less than 2, because
 			// that should have been encoded with one byte only.
-			if( value < 2 )
+			if ( value < 2 )
 				length = -1;
 
 		}
 
-	else if( (byte & 0xF0) == 0xE0 )
+	else if ( ( byte & 0xF0 ) == 0xE0 )
 		{
 			// There are two more bytes
-			value = int(byte & 0x0F);
+			value = int ( byte & 0x0F );
 			length = 3;
 
 		}
 
-	else if( (byte & 0xF8) == 0xF0 )
+	else if ( ( byte & 0xF8 ) == 0xF0 )
 		{
 			// There are three more bytes
-			value = int(byte & 0x07);
+			value = int ( byte & 0x07 );
 			length = 4;
 		}
 
 	int n = 1;
 
-	for( ; n < length; n++ )
+	for ( ; n < length; n++ )
 		{
 			byte = buf[n];
 
-			if( (byte & 0xC0) == 0x80 )
-				value = (value << 6) + int(byte & 0x3F);
+			if ( ( byte & 0xC0 ) == 0x80 )
+				value = ( value << 6 ) + int ( byte & 0x3F );
 
 			else
 				break;
 		}
 
-	if( n == length )
+	if ( n == length )
 		{
-			if( outLength ) *outLength = (unsigned)length;
+			if ( outLength ) *outLength = ( unsigned ) length;
 
 			return value;
 		}
@@ -394,16 +394,16 @@ int asStringDecodeUTF8(const char *encodedBuffer, unsigned int *outLength)
 //
 // This function is taken from the AngelCode ToolBox.
 //
-int asStringEncodeUTF16(unsigned int value, char *outEncodedBuffer)
+int asStringEncodeUTF16 ( unsigned int value, char *outEncodedBuffer )
 {
-	if( value < 0x10000 )
+	if ( value < 0x10000 )
 		{
 #ifndef AS_BIG_ENDIAN
-			outEncodedBuffer[0] = (value & 0xFF);
-			outEncodedBuffer[1] = ((value >> 8) & 0xFF);
+			outEncodedBuffer[0] = ( value & 0xFF );
+			outEncodedBuffer[1] = ( ( value >> 8 ) & 0xFF );
 #else
-			outEncodedBuffer[1] = (value & 0xFF);
-			outEncodedBuffer[0] = ((value >> 8) & 0xFF);
+			outEncodedBuffer[1] = ( value & 0xFF );
+			outEncodedBuffer[0] = ( ( value >> 8 ) & 0xFF );
 #endif
 			return 2;
 
@@ -412,19 +412,19 @@ int asStringEncodeUTF16(unsigned int value, char *outEncodedBuffer)
 	else
 		{
 			value -= 0x10000;
-			int surrogate1 = ((value >> 10) & 0x3FF) + 0xD800;
-			int surrogate2 = (value & 0x3FF) + 0xDC00;
+			int surrogate1 = ( ( value >> 10 ) & 0x3FF ) + 0xD800;
+			int surrogate2 = ( value & 0x3FF ) + 0xDC00;
 
 #ifndef AS_BIG_ENDIAN
-			outEncodedBuffer[0] = (surrogate1 & 0xFF);
-			outEncodedBuffer[1] = ((surrogate1 >> 8) & 0xFF);
-			outEncodedBuffer[2] = (surrogate2 & 0xFF);
-			outEncodedBuffer[3] = ((surrogate2 >> 8) & 0xFF);
+			outEncodedBuffer[0] = ( surrogate1 & 0xFF );
+			outEncodedBuffer[1] = ( ( surrogate1 >> 8 ) & 0xFF );
+			outEncodedBuffer[2] = ( surrogate2 & 0xFF );
+			outEncodedBuffer[3] = ( ( surrogate2 >> 8 ) & 0xFF );
 #else
-			outEncodedBuffer[1] = (surrogate1 & 0xFF);
-			outEncodedBuffer[0] = ((surrogate1 >> 8) & 0xFF);
-			outEncodedBuffer[3] = (surrogate2 & 0xFF);
-			outEncodedBuffer[2] = ((surrogate2 >> 8) & 0xFF);
+			outEncodedBuffer[1] = ( surrogate1 & 0xFF );
+			outEncodedBuffer[0] = ( ( surrogate1 >> 8 ) & 0xFF );
+			outEncodedBuffer[3] = ( surrogate2 & 0xFF );
+			outEncodedBuffer[2] = ( ( surrogate2 >> 8 ) & 0xFF );
 #endif
 
 			return 4;

@@ -75,11 +75,11 @@ enum asEListPatternNodeType
 
 struct asSListPatternNode
 {
-	asSListPatternNode(asEListPatternNodeType t) : type(t), next(0) {}
+	asSListPatternNode ( asEListPatternNodeType t ) : type ( t ), next ( 0 ) {}
 	virtual ~asSListPatternNode() {};
 	virtual asSListPatternNode *Duplicate()
 	{
-		return asNEW(asSListPatternNode)(type);
+		return asNEW ( asSListPatternNode ) ( type );
 	}
 	asEListPatternNodeType  type;
 	asSListPatternNode     *next;
@@ -87,10 +87,10 @@ struct asSListPatternNode
 
 struct asSListPatternDataTypeNode : public asSListPatternNode
 {
-	asSListPatternDataTypeNode(const asCDataType &dt) : asSListPatternNode(asLPT_TYPE), dataType(dt) {}
+	asSListPatternDataTypeNode ( const asCDataType &dt ) : asSListPatternNode ( asLPT_TYPE ), dataType ( dt ) {}
 	asSListPatternNode *Duplicate()
 	{
-		return asNEW(asSListPatternDataTypeNode)(dataType);
+		return asNEW ( asSListPatternDataTypeNode ) ( dataType );
 	}
 	asCDataType dataType;
 };
@@ -118,16 +118,16 @@ enum asEFuncTrait
 
 struct asSFunctionTraits
 {
-	asSFunctionTraits() : traits(0) {}
-	void SetTrait(asEFuncTrait trait, bool set)
+	asSFunctionTraits() : traits ( 0 ) {}
+	void SetTrait ( asEFuncTrait trait, bool set )
 	{
-		if (set) traits |= trait;
+		if ( set ) traits |= trait;
 
 		else traits &= ~trait;
 	}
-	bool GetTrait(asEFuncTrait trait) const
+	bool GetTrait ( asEFuncTrait trait ) const
 	{
-		return (traits & trait) ? true : false;
+		return ( traits & trait ) ? true : false;
 	}
 protected:
 	asDWORD traits;
@@ -146,7 +146,7 @@ struct asSSystemFunctionInterface;
 //       also functions/methods that are being called. This could be used to build a
 //       code database with call graphs, etc.
 
-void RegisterScriptFunction(asCScriptEngine *engine);
+void RegisterScriptFunction ( asCScriptEngine *engine );
 
 class asCScriptFunction : public asIScriptFunction
 {
@@ -173,7 +173,7 @@ public:
 	const char          *GetObjectName() const;
 	const char          *GetName() const;
 	const char          *GetNamespace() const;
-	const char          *GetDeclaration(bool includeObjectName = true, bool includeNamespace = false, bool includeParamNames = false) const;
+	const char          *GetDeclaration ( bool includeObjectName = true, bool includeNamespace = false, bool includeParamNames = false ) const;
 	bool                 IsReadOnly() const;
 	bool                 IsPrivate() const;
 	bool                 IsProtected() const;
@@ -181,12 +181,12 @@ public:
 	bool                 IsOverride() const;
 	bool                 IsShared() const;
 	asUINT               GetParamCount() const;
-	int                  GetParam(asUINT index, int *typeId, asDWORD *flags = 0, const char **name = 0, const char **defaultArg = 0) const;
-	int                  GetReturnTypeId(asDWORD *flags = 0) const;
+	int                  GetParam ( asUINT index, int *typeId, asDWORD *flags = 0, const char **name = 0, const char **defaultArg = 0 ) const;
+	int                  GetReturnTypeId ( asDWORD *flags = 0 ) const;
 
 	// Type id for function pointers
 	int                  GetTypeId() const;
-	bool                 IsCompatibleWithTypeId(int typeId) const;
+	bool                 IsCompatibleWithTypeId ( int typeId ) const;
 
 	// Delegates
 	void                *GetDelegateObject() const;
@@ -195,47 +195,47 @@ public:
 
 	// Debug information
 	asUINT               GetVarCount() const;
-	int                  GetVar(asUINT index, const char **name, int *typeId = 0) const;
-	const char *         GetVarDecl(asUINT index, bool includeNamespace = false) const;
-	int                  FindNextLineWithCode(int line) const;
+	int                  GetVar ( asUINT index, const char **name, int *typeId = 0 ) const;
+	const char *         GetVarDecl ( asUINT index, bool includeNamespace = false ) const;
+	int                  FindNextLineWithCode ( int line ) const;
 
 	// For JIT compilation
-	asDWORD             *GetByteCode(asUINT *length = 0);
+	asDWORD             *GetByteCode ( asUINT *length = 0 );
 
 	// User data
-	void                *SetUserData(void *userData, asPWORD type);
-	void                *GetUserData(asPWORD type) const;
+	void                *SetUserData ( void *userData, asPWORD type );
+	void                *GetUserData ( asPWORD type ) const;
 
 public:
 	//-----------------------------------
 	// Internal methods
 
-	void SetShared(bool set)
+	void SetShared ( bool set )
 	{
-		traits.SetTrait(asTRAIT_SHARED, set);
+		traits.SetTrait ( asTRAIT_SHARED, set );
 	}
-	void SetReadOnly(bool set)
+	void SetReadOnly ( bool set )
 	{
-		traits.SetTrait(asTRAIT_CONST, set);
+		traits.SetTrait ( asTRAIT_CONST, set );
 	}
-	void SetFinal(bool set)
+	void SetFinal ( bool set )
 	{
-		traits.SetTrait(asTRAIT_FINAL, set);
+		traits.SetTrait ( asTRAIT_FINAL, set );
 	}
-	void SetOverride(bool set)
+	void SetOverride ( bool set )
 	{
-		traits.SetTrait(asTRAIT_OVERRIDE, set);
+		traits.SetTrait ( asTRAIT_OVERRIDE, set );
 	}
-	void SetProtected(bool set)
+	void SetProtected ( bool set )
 	{
-		traits.SetTrait(asTRAIT_PROTECTED, set);
+		traits.SetTrait ( asTRAIT_PROTECTED, set );
 	}
-	void SetPrivate(bool set)
+	void SetPrivate ( bool set )
 	{
-		traits.SetTrait(asTRAIT_PRIVATE, set);
+		traits.SetTrait ( asTRAIT_PRIVATE, set );
 	}
 
-	asCScriptFunction(asCScriptEngine *engine, asCModule *mod, asEFuncType funcType);
+	asCScriptFunction ( asCScriptEngine *engine, asCModule *mod, asEFuncType funcType );
 	~asCScriptFunction();
 
 	// Keep an internal reference counter to separate references coming from
@@ -255,26 +255,26 @@ public:
 
 	void      DestroyInternal();
 
-	void      AddVariable(asCString &name, asCDataType &type, int stackOffset);
+	void      AddVariable ( asCString &name, asCDataType &type, int stackOffset );
 
 	int       GetSpaceNeededForArguments();
 	int       GetSpaceNeededForReturnValue();
-	asCString GetDeclarationStr(bool includeObjectName = true, bool includeNamespace = false, bool includeParamNames = false) const;
-	int       GetLineNumber(int programPosition, int *sectionIdx);
+	asCString GetDeclarationStr ( bool includeObjectName = true, bool includeNamespace = false, bool includeParamNames = false ) const;
+	int       GetLineNumber ( int programPosition, int *sectionIdx );
 	void      ComputeSignatureId();
-	bool      IsSignatureEqual(const asCScriptFunction *func) const;
-	bool      IsSignatureExceptNameEqual(const asCScriptFunction *func) const;
-	bool      IsSignatureExceptNameEqual(const asCDataType &retType, const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &inOutFlags, const asCObjectType *type, bool isReadOnly) const;
-	bool      IsSignatureExceptNameAndReturnTypeEqual(const asCScriptFunction *fun) const;
-	bool      IsSignatureExceptNameAndReturnTypeEqual(const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &inOutFlags, const asCObjectType *type, bool isReadOnly) const;
-	bool      IsSignatureExceptNameAndObjectTypeEqual(const asCScriptFunction *func) const;
+	bool      IsSignatureEqual ( const asCScriptFunction *func ) const;
+	bool      IsSignatureExceptNameEqual ( const asCScriptFunction *func ) const;
+	bool      IsSignatureExceptNameEqual ( const asCDataType &retType, const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &inOutFlags, const asCObjectType *type, bool isReadOnly ) const;
+	bool      IsSignatureExceptNameAndReturnTypeEqual ( const asCScriptFunction *fun ) const;
+	bool      IsSignatureExceptNameAndReturnTypeEqual ( const asCArray<asCDataType> &paramTypes, const asCArray<asETypeModifiers> &inOutFlags, const asCObjectType *type, bool isReadOnly ) const;
+	bool      IsSignatureExceptNameAndObjectTypeEqual ( const asCScriptFunction *func ) const;
 
-	asCTypeInfo *GetTypeInfoOfLocalVar(short varOffset);
+	asCTypeInfo *GetTypeInfoOfLocalVar ( short varOffset );
 
-	void      MakeDelegate(asCScriptFunction *func, void *obj);
+	void      MakeDelegate ( asCScriptFunction *func, void *obj );
 
-	int       RegisterListPattern(const char *decl, asCScriptNode *listPattern);
-	int       ParseListPattern(asSListPatternNode *&target, const char *decl, asCScriptNode *listPattern);
+	int       RegisterListPattern ( const char *decl, asCScriptNode *listPattern );
+	int       ParseListPattern ( asSListPatternNode *&target, const char *decl, asCScriptNode *listPattern );
 
 	bool      DoesReturnOnStack() const;
 
@@ -286,14 +286,14 @@ public:
 	void      AllocateScriptFunctionData();
 	void      DeallocateScriptFunctionData();
 
-	asCGlobalProperty *GetPropertyByGlobalVarPtr(void *gvarPtr);
+	asCGlobalProperty *GetPropertyByGlobalVarPtr ( void *gvarPtr );
 
 	// GC methods (for delegates)
 	int  GetRefCount();
 	void SetFlag();
 	bool GetFlag();
-	void EnumReferences(asIScriptEngine *engine);
-	void ReleaseAllHandles(asIScriptEngine *engine);
+	void EnumReferences ( asIScriptEngine *engine );
+	void ReleaseAllHandles ( asIScriptEngine *engine );
 
 public:
 	//-----------------------------------
@@ -388,7 +388,7 @@ public:
 };
 
 const char * const DELEGATE_FACTORY = "$dlgte";
-asCScriptFunction *CreateDelegate(asCScriptFunction *func, void *obj);
+asCScriptFunction *CreateDelegate ( asCScriptFunction *func, void *obj );
 
 END_AS_NAMESPACE
 

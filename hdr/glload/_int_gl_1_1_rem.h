@@ -327,22 +327,22 @@ extern "C" {
 #define GL_ZOOM_X 0x0D16
 #define GL_ZOOM_Y 0x0D17
 
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLARETEXTURESRESIDENTPROC)(GLsizei n, const GLuint * textures, GLboolean * residences);
-typedef void (CODEGEN_FUNCPTR * PFNGLARRAYELEMENTPROC)(GLint i);
-typedef void (CODEGEN_FUNCPTR * PFNGLCOLORPOINTERPROC)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLDISABLECLIENTSTATEPROC)(GLenum ren_array);
-typedef void (CODEGEN_FUNCPTR * PFNGLEDGEFLAGPOINTERPROC)(GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLENABLECLIENTSTATEPROC)(GLenum ren_array);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXPOINTERPROC)(GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXUBPROC)(GLubyte c);
-typedef void (CODEGEN_FUNCPTR * PFNGLINDEXUBVPROC)(const GLubyte * c);
-typedef void (CODEGEN_FUNCPTR * PFNGLINTERLEAVEDARRAYSPROC)(GLenum format, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLNORMALPOINTERPROC)(GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOPCLIENTATTRIBPROC)();
-typedef void (CODEGEN_FUNCPTR * PFNGLPRIORITIZETEXTURESPROC)(GLsizei n, const GLuint * textures, const GLfloat * priorities);
-typedef void (CODEGEN_FUNCPTR * PFNGLPUSHCLIENTATTRIBPROC)(GLbitfield mask);
-typedef void (CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTERPROC)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXPOINTERPROC)(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLARETEXTURESRESIDENTPROC ) ( GLsizei n, const GLuint * textures, GLboolean * residences );
+typedef void ( CODEGEN_FUNCPTR * PFNGLARRAYELEMENTPROC ) ( GLint i );
+typedef void ( CODEGEN_FUNCPTR * PFNGLCOLORPOINTERPROC ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDISABLECLIENTSTATEPROC ) ( GLenum ren_array );
+typedef void ( CODEGEN_FUNCPTR * PFNGLEDGEFLAGPOINTERPROC ) ( GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLENABLECLIENTSTATEPROC ) ( GLenum ren_array );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXPOINTERPROC ) ( GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXUBPROC ) ( GLubyte c );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINDEXUBVPROC ) ( const GLubyte * c );
+typedef void ( CODEGEN_FUNCPTR * PFNGLINTERLEAVEDARRAYSPROC ) ( GLenum format, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLNORMALPOINTERPROC ) ( GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOPCLIENTATTRIBPROC ) ();
+typedef void ( CODEGEN_FUNCPTR * PFNGLPRIORITIZETEXTURESPROC ) ( GLsizei n, const GLuint * textures, const GLfloat * priorities );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPUSHCLIENTATTRIBPROC ) ( GLbitfield mask );
+typedef void ( CODEGEN_FUNCPTR * PFNGLTEXCOORDPOINTERPROC ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXPOINTERPROC ) ( GLint size, GLenum type, GLsizei stride, const GLvoid * pointer );
 
 extern PFNGLARETEXTURESRESIDENTPROC _funcptr_glAreTexturesResident;
 #define glAreTexturesResident _funcptr_glAreTexturesResident

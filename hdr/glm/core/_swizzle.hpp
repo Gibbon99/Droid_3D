@@ -61,13 +61,13 @@ struct _swizzle_base0
 	typedef T       value_type;
 
 protected:
-	GLM_FUNC_QUALIFIER value_type&         elem   (size_t i)
+	GLM_FUNC_QUALIFIER value_type&         elem   ( size_t i )
 	{
-		return (reinterpret_cast<value_type*>(_buffer))[i];
+		return ( reinterpret_cast<value_type*> ( _buffer ) ) [i];
 	}
-	GLM_FUNC_QUALIFIER const value_type&   elem   (size_t i) const
+	GLM_FUNC_QUALIFIER const value_type&   elem   ( size_t i ) const
 	{
-		return (reinterpret_cast<const value_type*>(_buffer))[i];
+		return ( reinterpret_cast<const value_type*> ( _buffer ) ) [i];
 	}
 
 	// Use an opaque buffer to *ensure* the compiler doesn't call a constructor.
@@ -84,27 +84,27 @@ struct _swizzle_base1 : public _swizzle_base0<T,N>
 template <typename T, typename V, int E0, int E1>
 struct _swizzle_base1<T,V,E0,E1,-1,-2,2> : public _swizzle_base0<T,2>
 {
-	GLM_FUNC_QUALIFIER V operator ()()  const
+	GLM_FUNC_QUALIFIER V operator () ()  const
 	{
-		return V(this->elem(E0), this->elem(E1));
+		return V ( this->elem ( E0 ), this->elem ( E1 ) );
 	}
 };
 
 template <typename T, typename V, int E0, int E1, int E2>
 struct _swizzle_base1<T,V,E0,E1,E2,-1,3> : public _swizzle_base0<T,3>
 {
-	GLM_FUNC_QUALIFIER V operator ()()  const
+	GLM_FUNC_QUALIFIER V operator () ()  const
 	{
-		return V(this->elem(E0), this->elem(E1), this->elem(E2));
+		return V ( this->elem ( E0 ), this->elem ( E1 ), this->elem ( E2 ) );
 	}
 };
 
 template <typename T, typename V, int E0, int E1, int E2, int E3>
 struct _swizzle_base1<T,V,E0,E1,E2,E3,4> : public _swizzle_base0<T,4>
 {
-	GLM_FUNC_QUALIFIER V operator ()()  const
+	GLM_FUNC_QUALIFIER V operator () ()  const
 	{
-		return V(this->elem(E0), this->elem(E1), this->elem(E2), this->elem(E3));
+		return V ( this->elem ( E0 ), this->elem ( E1 ), this->elem ( E2 ), this->elem ( E3 ) );
 	}
 };
 
@@ -126,105 +126,105 @@ struct _swizzle_base2 : public _swizzle_base1<ValueType,VecType,E0,E1,E2,E3,N>
 	typedef VecType vec_type;
 	typedef ValueType value_type;
 
-	GLM_FUNC_QUALIFIER _swizzle_base2& operator= (const ValueType& t)
+	GLM_FUNC_QUALIFIER _swizzle_base2& operator= ( const ValueType& t )
 	{
-		for (int i = 0; i < N; ++i)
-			(*this)[i] = t;
+		for ( int i = 0; i < N; ++i )
+			( *this ) [i] = t;
 
 		return *this;
 	}
 
-	GLM_FUNC_QUALIFIER _swizzle_base2& operator= (const VecType& that)
+	GLM_FUNC_QUALIFIER _swizzle_base2& operator= ( const VecType& that )
 	{
 		struct op
 		{
-			GLM_FUNC_QUALIFIER void operator() (value_type& e, value_type& t)
+			GLM_FUNC_QUALIFIER void operator() ( value_type& e, value_type& t )
 			{
 				e = t;
 			}
 		};
-		_apply_op(that, op());
+		_apply_op ( that, op() );
 		return *this;
 	}
 
-	GLM_FUNC_QUALIFIER void operator -= (const VecType& that)
+	GLM_FUNC_QUALIFIER void operator -= ( const VecType& that )
 	{
 		struct op
 		{
-			GLM_FUNC_QUALIFIER void operator() (value_type& e, value_type& t)
+			GLM_FUNC_QUALIFIER void operator() ( value_type& e, value_type& t )
 			{
 				e -= t;
 			}
 		};
-		_apply_op(that, op());
+		_apply_op ( that, op() );
 	}
 
-	GLM_FUNC_QUALIFIER void operator += (const VecType& that)
+	GLM_FUNC_QUALIFIER void operator += ( const VecType& that )
 	{
 		struct op
 		{
-			GLM_FUNC_QUALIFIER void operator() (value_type& e, value_type& t)
+			GLM_FUNC_QUALIFIER void operator() ( value_type& e, value_type& t )
 			{
 				e += t;
 			}
 		};
-		_apply_op(that, op());
+		_apply_op ( that, op() );
 	}
 
-	GLM_FUNC_QUALIFIER void operator *= (const VecType& that)
+	GLM_FUNC_QUALIFIER void operator *= ( const VecType& that )
 	{
 		struct op
 		{
-			GLM_FUNC_QUALIFIER void operator() (value_type& e, value_type& t)
+			GLM_FUNC_QUALIFIER void operator() ( value_type& e, value_type& t )
 			{
 				e *= t;
 			}
 		};
-		_apply_op(that, op());
+		_apply_op ( that, op() );
 	}
 
-	GLM_FUNC_QUALIFIER void operator /= (const VecType& that)
+	GLM_FUNC_QUALIFIER void operator /= ( const VecType& that )
 	{
 		struct op
 		{
-			GLM_FUNC_QUALIFIER void operator() (value_type& e, value_type& t)
+			GLM_FUNC_QUALIFIER void operator() ( value_type& e, value_type& t )
 			{
 				e /= t;
 			}
 		};
-		_apply_op(that, op());
+		_apply_op ( that, op() );
 	}
 
-	GLM_FUNC_QUALIFIER value_type& operator[]  (size_t i)
+	GLM_FUNC_QUALIFIER value_type& operator[]  ( size_t i )
 	{
 #ifndef __CUDA_ARCH__
 		static
 #endif
 		const int offset_dst[4] = { E0, E1, E2, E3 };
-		return this->elem(offset_dst[i]);
+		return this->elem ( offset_dst[i] );
 	}
-	GLM_FUNC_QUALIFIER value_type  operator[]  (size_t i) const
+	GLM_FUNC_QUALIFIER value_type  operator[]  ( size_t i ) const
 	{
 #ifndef __CUDA_ARCH__
 		static
 #endif
 		const int offset_dst[4] = { E0, E1, E2, E3 };
-		return this->elem(offset_dst[i]);
+		return this->elem ( offset_dst[i] );
 	}
 protected:
 	template <typename T>
-	GLM_FUNC_QUALIFIER void _apply_op(const VecType& that, T op)
+	GLM_FUNC_QUALIFIER void _apply_op ( const VecType& that, T op )
 	{
 		// Make a copy of the data in this == &that.
 		// The copier should optimize out the copy in cases where the function is
 		// properly inlined and the copy is not necessary.
 		ValueType t[N];
 
-		for (int i = 0; i < N; ++i)
+		for ( int i = 0; i < N; ++i )
 			t[i] = that[i];
 
-		for (int i = 0; i < N; ++i)
-			op( (*this)[i], t[i] );
+		for ( int i = 0; i < N; ++i )
+			op ( ( *this ) [i], t[i] );
 	}
 };
 
@@ -236,31 +236,31 @@ struct _swizzle_base2<ValueType,VecType,N,E0,E1,E2,E3,1> : public _swizzle_base1
 	typedef ValueType       value_type;
 
 	struct Stub {};
-	GLM_FUNC_QUALIFIER _swizzle_base2& operator= (Stub const &)
+	GLM_FUNC_QUALIFIER _swizzle_base2& operator= ( Stub const & )
 	{
 		return *this;
 	}
 
-	GLM_FUNC_QUALIFIER value_type  operator[]  (size_t i) const
+	GLM_FUNC_QUALIFIER value_type  operator[]  ( size_t i ) const
 	{
 #ifndef __CUDA_ARCH__
 		static
 #endif
 		const int offset_dst[4] = { E0, E1, E2, E3 };
-		return this->elem(offset_dst[i]);
+		return this->elem ( offset_dst[i] );
 	}
 };
 
 template <int N,typename ValueType, typename VecType, int E0,int E1,int E2,int E3>
-struct swizzle : public _swizzle_base2<ValueType,VecType,N,E0,E1,E2,E3,(E0==E1||E0==E2||E0==E3||E1==E2||E1==E3||E2==E3)>
+struct swizzle : public _swizzle_base2<ValueType,VecType,N,E0,E1,E2,E3, ( E0==E1||E0==E2||E0==E3||E1==E2||E1==E3||E2==E3 ) >
 {
-	typedef _swizzle_base2<ValueType,VecType,N,E0,E1,E2,E3,(E0==E1||E0==E2||E0==E3||E1==E2||E1==E3||E2==E3)> base_type;
+	typedef _swizzle_base2<ValueType,VecType,N,E0,E1,E2,E3, ( E0==E1||E0==E2||E0==E3||E1==E2||E1==E3||E2==E3 ) > base_type;
 
 	using base_type::operator=;
 
 	GLM_FUNC_QUALIFIER operator VecType () const
 	{
-		return (*this)();
+		return ( *this ) ();
 	}
 };
 
@@ -374,12 +374,12 @@ namespace glm
 {
 namespace detail
 {
-_GLM_SWIZZLE_SCALAR_BINARY_OPERATOR_IMPLEMENTATION(-)
-_GLM_SWIZZLE_SCALAR_BINARY_OPERATOR_IMPLEMENTATION(*)
-_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION(+)
-_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION(-)
-_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION(*)
-_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION(/)
+_GLM_SWIZZLE_SCALAR_BINARY_OPERATOR_IMPLEMENTATION ( - )
+_GLM_SWIZZLE_SCALAR_BINARY_OPERATOR_IMPLEMENTATION ( * )
+_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION ( + )
+_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION ( - )
+_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION ( * )
+_GLM_SWIZZLE_VECTOR_BINARY_OPERATOR_IMPLEMENTATION ( / )
 }
 
 //

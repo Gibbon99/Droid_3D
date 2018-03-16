@@ -48,9 +48,9 @@ BEGIN_AS_NAMESPACE
 class asCReader
 {
 public:
-	asCReader(asCModule *module, asIBinaryStream *stream, asCScriptEngine *engine);
+	asCReader ( asCModule *module, asIBinaryStream *stream, asCScriptEngine *engine );
 
-	int Read(bool *wasDebugInfoStripped);
+	int Read ( bool *wasDebugInfoStripped );
 
 protected:
 	asCModule       *module;
@@ -60,20 +60,20 @@ protected:
 	bool             error;
 	asUINT           bytesRead;
 
-	int                Error(const char *msg);
+	int                Error ( const char *msg );
 
 	int                ReadInner();
 
-	int                ReadData(void *data, asUINT size);
-	void               ReadString(asCString *str);
-	asCScriptFunction *ReadFunction(bool &isNew, bool addToModule = true, bool addToEngine = true, bool addToGC = true, bool *isExternal = 0);
-	void               ReadFunctionSignature(asCScriptFunction *func, asCObjectType **parentClass = 0);
+	int                ReadData ( void *data, asUINT size );
+	void               ReadString ( asCString *str );
+	asCScriptFunction *ReadFunction ( bool &isNew, bool addToModule = true, bool addToEngine = true, bool addToGC = true, bool *isExternal = 0 );
+	void               ReadFunctionSignature ( asCScriptFunction *func, asCObjectType **parentClass = 0 );
 	void               ReadGlobalProperty();
-	void               ReadObjectProperty(asCObjectType *ot);
-	void               ReadDataType(asCDataType *dt);
+	void               ReadObjectProperty ( asCObjectType *ot );
+	void               ReadDataType ( asCDataType *dt );
 	asCTypeInfo       *ReadTypeInfo();
-	void               ReadTypeDeclaration(asCTypeInfo *ot, int phase, bool *isExternal = 0);
-	void               ReadByteCode(asCScriptFunction *func);
+	void               ReadTypeDeclaration ( asCTypeInfo *ot, int phase, bool *isExternal = 0 );
+	void               ReadByteCode ( asCScriptFunction *func );
 	asWORD             ReadEncodedUInt16();
 	asUINT             ReadEncodedUInt();
 	asQWORD            ReadEncodedUInt64();
@@ -84,18 +84,18 @@ protected:
 	void ReadUsedStringConstants();
 	void ReadUsedObjectProps();
 
-	asCTypeInfo *      FindType(int idx);
-	int                FindTypeId(int idx);
-	short              FindObjectPropOffset(asWORD index);
-	asCScriptFunction *FindFunction(int idx);
+	asCTypeInfo *      FindType ( int idx );
+	int                FindTypeId ( int idx );
+	short              FindObjectPropOffset ( asWORD index );
+	asCScriptFunction *FindFunction ( int idx );
 
 	// After loading, each function needs to be translated to update pointers, function ids, etc
-	void TranslateFunction(asCScriptFunction *func);
-	void CalculateAdjustmentByPos(asCScriptFunction *func);
-	int  AdjustStackPosition(int pos);
-	int  AdjustGetOffset(int offset, asCScriptFunction *func, asDWORD programPos);
-	void CalculateStackNeeded(asCScriptFunction *func);
-	asCScriptFunction *GetCalledFunction(asCScriptFunction *func, asDWORD programPos);
+	void TranslateFunction ( asCScriptFunction *func );
+	void CalculateAdjustmentByPos ( asCScriptFunction *func );
+	int  AdjustStackPosition ( int pos );
+	int  AdjustGetOffset ( int offset, asCScriptFunction *func, asDWORD programPos );
+	void CalculateStackNeeded ( asCScriptFunction *func );
+	asCScriptFunction *GetCalledFunction ( asCScriptFunction *func, asDWORD programPos );
 
 	// Temporary storage for persisting variable data
 	asCArray<int>                usedTypeIds;
@@ -124,11 +124,11 @@ protected:
 	// Helper class for adjusting offsets within initialization list buffers
 	struct SListAdjuster
 	{
-		SListAdjuster(asCReader *rd, asDWORD *bc, asCObjectType *ot);
+		SListAdjuster ( asCReader *rd, asDWORD *bc, asCObjectType *ot );
 		void AdjustAllocMem();
-		int  AdjustOffset(int offset);
-		void SetRepeatCount(asUINT rc);
-		void SetNextType(int typeId);
+		int  AdjustOffset ( int offset );
+		void SetRepeatCount ( asUINT rc );
+		void SetNextType ( int typeId );
 
 		struct SInfo
 		{
@@ -156,7 +156,7 @@ protected:
 class asCWriter
 {
 public:
-	asCWriter(asCModule *module, asIBinaryStream *stream, asCScriptEngine *engine, bool stripDebugInfo);
+	asCWriter ( asCModule *module, asIBinaryStream *stream, asCScriptEngine *engine, bool stripDebugInfo );
 
 	int Write();
 
@@ -168,33 +168,33 @@ protected:
 	bool             error;
 	asUINT           bytesWritten;
 
-	int              Error(const char *msg);
+	int              Error ( const char *msg );
 
-	int  WriteData(const void *data, asUINT size);
+	int  WriteData ( const void *data, asUINT size );
 
-	void WriteString(asCString *str);
-	void WriteFunction(asCScriptFunction *func);
-	void WriteFunctionSignature(asCScriptFunction *func);
-	void WriteGlobalProperty(asCGlobalProperty *prop);
-	void WriteObjectProperty(asCObjectProperty *prop);
-	void WriteDataType(const asCDataType *dt);
-	void WriteTypeInfo(asCTypeInfo *ot);
-	void WriteTypeDeclaration(asCTypeInfo *ot, int phase);
-	void WriteByteCode(asCScriptFunction *func);
-	void WriteEncodedInt64(asINT64 i);
+	void WriteString ( asCString *str );
+	void WriteFunction ( asCScriptFunction *func );
+	void WriteFunctionSignature ( asCScriptFunction *func );
+	void WriteGlobalProperty ( asCGlobalProperty *prop );
+	void WriteObjectProperty ( asCObjectProperty *prop );
+	void WriteDataType ( const asCDataType *dt );
+	void WriteTypeInfo ( asCTypeInfo *ot );
+	void WriteTypeDeclaration ( asCTypeInfo *ot, int phase );
+	void WriteByteCode ( asCScriptFunction *func );
+	void WriteEncodedInt64 ( asINT64 i );
 
 	// Helper functions for storing variable data
-	int FindTypeInfoIdx(asCTypeInfo *ti);
-	int FindTypeIdIdx(int typeId);
-	int FindFunctionIndex(asCScriptFunction *func);
-	int FindGlobalPropPtrIndex(void *);
-	int FindStringConstantIndex(void *str);
-	int FindObjectPropIndex(short offset, int typeId, asDWORD *bc);
+	int FindTypeInfoIdx ( asCTypeInfo *ti );
+	int FindTypeIdIdx ( int typeId );
+	int FindFunctionIndex ( asCScriptFunction *func );
+	int FindGlobalPropPtrIndex ( void * );
+	int FindStringConstantIndex ( void *str );
+	int FindObjectPropIndex ( short offset, int typeId, asDWORD *bc );
 
-	void CalculateAdjustmentByPos(asCScriptFunction *func);
-	int  AdjustStackPosition(int pos);
-	int  AdjustProgramPosition(int pos);
-	int  AdjustGetOffset(int offset, asCScriptFunction *func, asDWORD programPos);
+	void CalculateAdjustmentByPos ( asCScriptFunction *func );
+	int  AdjustStackPosition ( int pos );
+	int  AdjustProgramPosition ( int pos );
+	int  AdjustGetOffset ( int offset, asCScriptFunction *func, asDWORD programPos );
 
 	// Intermediate data used for storing that which isn't constant, function id's, pointers, etc
 	void WriteUsedTypeIds();
@@ -229,10 +229,10 @@ protected:
 	// Helper class for adjusting offsets within initialization list buffers
 	struct SListAdjuster
 	{
-		SListAdjuster(asCObjectType *ot);
-		int  AdjustOffset(int offset, asCObjectType *listPatternType);
-		void SetRepeatCount(asUINT rc);
-		void SetNextType(int typeId);
+		SListAdjuster ( asCObjectType *ot );
+		int  AdjustOffset ( int offset, asCObjectType *listPatternType );
+		void SetRepeatCount ( asUINT rc );
+		void SetNextType ( int typeId );
 
 		struct SInfo
 		{

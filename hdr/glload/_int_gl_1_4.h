@@ -21,13 +21,13 @@ extern "C" {
 #define GL_TEXTURE_DEPTH_SIZE 0x884A
 #define GL_TEXTURE_LOD_BIAS 0x8501
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEPROC)(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSPROC)(GLenum mode, const GLint * first, const GLsizei * count, GLsizei drawcount);
-typedef void (CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSPROC)(GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei drawcount);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFPROC)(GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVPROC)(GLenum pname, const GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERIPROC)(GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERIVPROC)(GLenum pname, const GLint * params);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBLENDFUNCSEPARATEPROC ) ( GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWARRAYSPROC ) ( GLenum mode, const GLint * first, const GLsizei * count, GLsizei drawcount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLMULTIDRAWELEMENTSPROC ) ( GLenum mode, const GLsizei * count, GLenum type, const GLvoid *const* indices, GLsizei drawcount );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFPROC ) ( GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERFVPROC ) ( GLenum pname, const GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERIPROC ) ( GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLPOINTPARAMETERIVPROC ) ( GLenum pname, const GLint * params );
 
 extern PFNGLBLENDFUNCSEPARATEPROC _funcptr_glBlendFuncSeparate;
 #define glBlendFuncSeparate _funcptr_glBlendFuncSeparate

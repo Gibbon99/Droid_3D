@@ -9,7 +9,7 @@
 #define PLAYER_BOUNDING_SPHERE_RADIUS 15
 
 // This vector hold in which direction and how much the camera can clamp vertically
-glm::vec3 STEP_UP(0,PLAYER_BOUNDING_SPHERE_RADIUS * 1.5,0);
+glm::vec3 STEP_UP ( 0,PLAYER_BOUNDING_SPHERE_RADIUS * 1.5,0 );
 
 #define		BOX_SIZE			PLAYER_BOUNDING_SPHERE_RADIUS
 
@@ -37,7 +37,7 @@ glm::vec3 cam_getPosition()
 //-----------------------------------------------------------------------------
 //
 //	This rotates the view around the position using an axis-angle rotation
-void camRotateView(float angle, float x, float y, float z)
+void camRotateView ( float angle, float x, float y, float z )
 //-----------------------------------------------------------------------------
 {
 	glm::vec3 vNewView;
@@ -46,23 +46,23 @@ void camRotateView(float angle, float x, float y, float z)
 	glm::vec3 vView = camDirection - camPosition;
 
 	// Calculate the sine and cosine of the angle once
-	float cosTheta = (float)cos(angle);
-	float sinTheta = (float)sin(angle);
+	float cosTheta = ( float ) cos ( angle );
+	float sinTheta = ( float ) sin ( angle );
 
 	// Find the new x position for the new rotated point
-	vNewView.x  = (cosTheta + (1 - cosTheta) * x * x)		* vView.x;
-	vNewView.x += ((1 - cosTheta) * x * y - z * sinTheta)	* vView.y;
-	vNewView.x += ((1 - cosTheta) * x * z + y * sinTheta)	* vView.z;
+	vNewView.x  = ( cosTheta + ( 1 - cosTheta ) * x * x )		* vView.x;
+	vNewView.x += ( ( 1 - cosTheta ) * x * y - z * sinTheta )	* vView.y;
+	vNewView.x += ( ( 1 - cosTheta ) * x * z + y * sinTheta )	* vView.z;
 
 	// Find the new y position for the new rotated point
-	vNewView.y  = ((1 - cosTheta) * x * y + z * sinTheta)	* vView.x;
-	vNewView.y += (cosTheta + (1 - cosTheta) * y * y)		* vView.y;
-	vNewView.y += ((1 - cosTheta) * y * z - x * sinTheta)	* vView.z;
+	vNewView.y  = ( ( 1 - cosTheta ) * x * y + z * sinTheta )	* vView.x;
+	vNewView.y += ( cosTheta + ( 1 - cosTheta ) * y * y )		* vView.y;
+	vNewView.y += ( ( 1 - cosTheta ) * y * z - x * sinTheta )	* vView.z;
 
 	// Find the new z position for the new rotated point
-	vNewView.z  = ((1 - cosTheta) * x * z - y * sinTheta)	* vView.x;
-	vNewView.z += ((1 - cosTheta) * y * z + x * sinTheta)	* vView.y;
-	vNewView.z += (cosTheta + (1 - cosTheta) * z * z)		* vView.z;
+	vNewView.z  = ( ( 1 - cosTheta ) * x * z - y * sinTheta )	* vView.x;
+	vNewView.z += ( ( 1 - cosTheta ) * y * z + x * sinTheta )	* vView.y;
+	vNewView.z += ( cosTheta + ( 1 - cosTheta ) * z * z )		* vView.z;
 
 	// Now we just add the newly rotated vector to our position to set
 	// our new rotated view of our camera.
@@ -73,14 +73,14 @@ void camRotateView(float angle, float x, float y, float z)
 //-----------------------------------------------------------------------------
 //
 //	This allows us to look around using the mouse, like in most first person games.
-void cam_setViewByMouse(float x, float y)
+void cam_setViewByMouse ( float x, float y )
 //-----------------------------------------------------------------------------
 {
 	float angleY = 0.0f;							// This is the direction for looking up or down
 	float angleZ = 0.0f;							// This will be the value we need to rotate around the Y axis (Left and Right)
 	static float currentRotX = 0.0f;
 
-	if (false == g_lockMouse)
+	if ( false == g_lockMouse )
 		return;
 
 	//
@@ -93,11 +93,11 @@ void cam_setViewByMouse(float x, float y)
 	currentRotX -= angleZ;
 
 	// If the current rotation (in radians) is greater than 1.0, we want to cap it.
-	if(currentRotX > 1.0f)
+	if ( currentRotX > 1.0f )
 		currentRotX = 1.0f;
 
 	// Check if the rotation is below -1.0, if so we want to make sure it doesn't continue
-	else if(currentRotX < -1.0f)
+	else if ( currentRotX < -1.0f )
 		currentRotX = -1.0f;
 
 	// Otherwise, we can rotate the view around our position
@@ -106,16 +106,16 @@ void cam_setViewByMouse(float x, float y)
 			// To find the axis we need to rotate around for up and down
 			// movements, we need to get a perpendicular vector from the
 			// camera's view vector and up vector.  This will be the axis.
-			glm::vec3 vAxis = glm::cross(camDirection - camPosition, vecUp);
-			vAxis = glm::normalize(vAxis);
+			glm::vec3 vAxis = glm::cross ( camDirection - camPosition, vecUp );
+			vAxis = glm::normalize ( vAxis );
 
 			// Rotate around our perpendicular axis and along the y-axis
-			camRotateView(angleZ, vAxis.x, vAxis.y, vAxis.z);
-			camRotateView(angleY, 0, 1, 0);
+			camRotateView ( angleZ, vAxis.x, vAxis.y, vAxis.z );
+			camRotateView ( angleY, 0, 1, 0 );
 		}
 
-	if (true == g_lockMouse)
-		lib_setMousePos(winWidth / 2, winHeight / 2);
+	if ( true == g_lockMouse )
+		lib_setMousePos ( winWidth / 2, winHeight / 2 );
 }
 
 //-----------------------------------------------------------------------------
@@ -124,9 +124,9 @@ void cam_setViewByMouse(float x, float y)
 void cam_setupCamera()
 //-----------------------------------------------------------------------------
 {
-	glm::vec3 vZero = glm::vec3( 0.0, 0.0, 0.0 );		// Init a vVector to 0 0 0 for our position
-	glm::vec3 vView = glm::vec3( 0.0, 1.0, 0.5 );		// Init a starting view vVector (looking up and out the screen)
-	glm::vec3 vUp   = glm::vec3( 0.0, 1.0, 0.0 );		// Init a standard up vVector (Rarely ever changes)
+	glm::vec3 vZero = glm::vec3 ( 0.0, 0.0, 0.0 );		// Init a vVector to 0 0 0 for our position
+	glm::vec3 vView = glm::vec3 ( 0.0, 1.0, 0.5 );		// Init a starting view vVector (looking up and out the screen)
+	glm::vec3 vUp   = glm::vec3 ( 0.0, 1.0, 0.0 );		// Init a standard up vVector (Rarely ever changes)
 
 	camPosition		= vZero;					// Init the position to zero
 	camDirection	= vView;					// Init the view to a std starting view
@@ -138,7 +138,7 @@ void cam_setupCamera()
 //-----------------------------------------------------------------------------
 //
 //	Try to make a step up and if possible, move on or slide
-bool cam_tryMove( glm::vec3 vFrom, glm::vec3 vMoveToVector )
+bool cam_tryMove ( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 //-----------------------------------------------------------------------------
 {
 #define BOX_SIZE        15
@@ -156,14 +156,14 @@ bool cam_tryMove( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 	boxMax.y = BOX_SIZE;
 	boxMax.z = BOX_SIZE;
 
-	while (fabs(wantedCamPosition.x) > 0.0001f || fabs(wantedCamPosition.y) > 0.0001f || fabs(wantedCamPosition.z) > 0.0001f )
+	while ( fabs ( wantedCamPosition.x ) > 0.0001f || fabs ( wantedCamPosition.y ) > 0.0001f || fabs ( wantedCamPosition.z ) > 0.0001f )
 		{
-			bsp_checkSphereMove(vFrom,vFrom + vMoveToVector, BOX_SIZE, md);
+			bsp_checkSphereMove ( vFrom,vFrom + vMoveToVector, BOX_SIZE, md );
 
 //		bsp_checkBoxMove ( vFrom, vFrom + vMoveToVector, boxMin, boxMax, md);
 			//
 			// No collision
-			if (true == md.AllSolid)
+			if ( true == md.AllSolid )
 				{
 					testCollisionWithBSP = false;
 					return false;
@@ -171,7 +171,7 @@ bool cam_tryMove( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 
 			//
 			// Will collide, so reduce amount of movement
-			if (md.Fraction > 0)
+			if ( md.Fraction > 0 )
 				{
 					wantedCamPosition = md.EndPoint;    // This is where we hit something
 					testCollisionWithBSP = false;
@@ -182,12 +182,12 @@ bool cam_tryMove( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 			// Can't move so slide along
 			wantedCamPosition = md.EndPoint;        // this is where the collision occured
 
-			vMoveToVector =         glm::normalize(vMoveToVector);
+			vMoveToVector =         glm::normalize ( vMoveToVector );
 //        md.CollisionNormal =    glm::normalize(md.CollisionNormal);
 
-			slide  = vMoveToVector - md.CollisionNormal * ( glm::dot(md.CollisionNormal, vMoveToVector) );
+			slide  = vMoveToVector - md.CollisionNormal * ( glm::dot ( md.CollisionNormal, vMoveToVector ) );
 
-			printf("Slide [ %3.3f %3.3f %3.3f ] Node index [ %i ]\n", slide.x, slide.y, slide.z, md.nodeIndex);
+			printf ( "Slide [ %3.3f %3.3f %3.3f ] Node index [ %i ]\n", slide.x, slide.y, slide.z, md.nodeIndex );
 
 			wantedCamPosition += slide;
 
@@ -209,17 +209,17 @@ bool cam_tryMove( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 // NewPosition is a vector indicating the desired movement direction
 //
 // Global wantedCamPosition - camPosition is used to derive it
-void cam_moveTo( glm::vec3 newPosition )
+void cam_moveTo ( glm::vec3 newPosition )
 //-----------------------------------------------------------------------------
 {
-	camDirection = camDirection + ( newPosition - camPosition); // - camPosition;
+	camDirection = camDirection + ( newPosition - camPosition ); // - camPosition;
 	camPosition = newPosition;
 }
 
 //-----------------------------------------------------------------------------
 //
 //	This will move the camera forward or backward depending on the speed
-void cam_moveCamera( float speed, float interpolate )
+void cam_moveCamera ( float speed, float interpolate )
 //-----------------------------------------------------------------------------
 {
 	glm::vec3 deltha;
@@ -227,7 +227,7 @@ void cam_moveCamera( float speed, float interpolate )
 	// Get the current view vector (the direction we are looking)
 	deltha = camDirection - camPosition;
 
-	deltha = glm::normalize( deltha ) * ( speed * interpolate );
+	deltha = glm::normalize ( deltha ) * ( speed * interpolate );
 
 	wantedCamPosition.x = wantedCamPosition.x + deltha.x;
 	wantedCamPosition.z = wantedCamPosition.z + deltha.z;
@@ -236,7 +236,7 @@ void cam_moveCamera( float speed, float interpolate )
 //-----------------------------------------------------------------------------
 //
 //	This strafes the camera left and right depending on the speed (-/+)
-void cam_strafeCamera( float speed )
+void cam_strafeCamera ( float speed )
 //-----------------------------------------------------------------------------
 {
 	// Try to move in that direction
@@ -246,25 +246,25 @@ void cam_strafeCamera( float speed )
 //-----------------------------------------------------------------------------
 //
 //	This updates the camera's view and strafe vector
-void cam_update( float interpolate )
+void cam_update ( float interpolate )
 //-----------------------------------------------------------------------------
 {
 	// Initialize a variable for the cross product result
-	glm::vec3 vCross = glm::cross( camDirection - camPosition, vecUp );
+	glm::vec3 vCross = glm::cross ( camDirection - camPosition, vecUp );
 
 	// Normalize the strafe vector
-	camStrafe = glm::normalize( vCross );
+	camStrafe = glm::normalize ( vCross );
 
 //	camDoGravity();
 
 	// This checks to see if the keyboard was pressed
-	gam_processPlayerMovement( interpolate );
+	gam_processPlayerMovement ( interpolate );
 }
 
 //-----------------------------------------------------------------------------
 //
 //	This updates the camera according to the view and position
-void cam_look(glm::vec3 matPosition, glm::vec3 matDirection)
+void cam_look ( glm::vec3 matPosition, glm::vec3 matDirection )
 //-----------------------------------------------------------------------------
 {
 	//
@@ -280,7 +280,7 @@ void cam_look(glm::vec3 matPosition, glm::vec3 matDirection)
 //-----------------------------------------------------------------------------
 //
 // Used for moving up/down
-void cam_moveCameraYPos( float speed, float interpolate )
+void cam_moveCameraYPos ( float speed, float interpolate )
 //-----------------------------------------------------------------------------
 {
 	wantedCamPosition.y -= speed * interpolate;
@@ -289,14 +289,14 @@ void cam_moveCameraYPos( float speed, float interpolate )
 //-----------------------------------------------------------------------------
 //
 //	This function sets the camera's position and view and up vVector.
-void cam_positionCamera(     float positionX, float positionY, float positionZ,
-                             float viewX,     float viewY,     float viewZ,
-                             float upVectorX, float upVectorY, float upVectorZ )
+void cam_positionCamera (     float positionX, float positionY, float positionZ,
+                              float viewX,     float viewY,     float viewZ,
+                              float upVectorX, float upVectorY, float upVectorZ )
 //-----------------------------------------------------------------------------
 {
-	glm::vec3 vPosition	= glm::vec3( positionX,  positionY,  positionZ );
-	glm::vec3 vView		= glm::vec3( viewX,      viewY,      viewZ );
-	glm::vec3 vUpVector	= glm::vec3( upVectorX,  upVectorY,  upVectorZ );
+	glm::vec3 vPosition	= glm::vec3 ( positionX,  positionY,  positionZ );
+	glm::vec3 vView		= glm::vec3 ( viewX,      viewY,      viewZ );
+	glm::vec3 vUpVector	= glm::vec3 ( upVectorX,  upVectorY,  upVectorZ );
 
 	// The code above just makes it cleaner to set the variables.
 	// Otherwise we would have to set each variable x y and z.
@@ -327,32 +327,32 @@ void cam_handleCollision()
 //-----------------------------------------------------------------------------
 //
 //	Try to move camera, if not slide along collision plane
-bool cam_trySlide( glm::vec3 vFrom )
+bool cam_trySlide ( glm::vec3 vFrom )
 //-----------------------------------------------------------------------------
 {
 	glm::vec3 slide;
 
-	while (fabs(wantedCamPosition.x) > 0.0001f || fabs(wantedCamPosition.y) > 0.0001f || fabs(wantedCamPosition.z) > 0.0001f )
+	while ( fabs ( wantedCamPosition.x ) > 0.0001f || fabs ( wantedCamPosition.y ) > 0.0001f || fabs ( wantedCamPosition.z ) > 0.0001f )
 		{
 //		sMoveData md = bspCheckSphereMove(vFrom,vFrom + wantedCamPosition, PLAYER_BOUNDING_SPHERE_RADIUS);
 			sMoveData md;
-			bsp_checkBoxMove ( vFrom, vFrom + wantedCamPosition, boxMin, boxMax, md);
+			bsp_checkBoxMove ( vFrom, vFrom + wantedCamPosition, boxMin, boxMax, md );
 
-			if (true == md.AllSolid)
+			if ( true == md.AllSolid )
 				{
 					testCollisionWithBSP = true;
 					return false;
 				}
 
-			if (md.Fraction > 0)
+			if ( md.Fraction > 0 )
 				{
-					cam_moveTo( md.EndPoint );
+					cam_moveTo ( md.EndPoint );
 					return true;
 				}
 
 			// can't move so slide
-			md.CollisionNormal = glm::normalize(md.CollisionNormal);
-			slide  = wantedCamPosition - md.CollisionNormal* ( glm::dot(md.CollisionNormal,wantedCamPosition) );
+			md.CollisionNormal = glm::normalize ( md.CollisionNormal );
+			slide  = wantedCamPosition - md.CollisionNormal* ( glm::dot ( md.CollisionNormal,wantedCamPosition ) );
 			wantedCamPosition = slide;
 		}
 
@@ -367,30 +367,30 @@ bool cam_tryStepUpAndSlide()
 {
 //	sMoveData md = bspCheckSphereMove(m_vPosition,m_vPosition+STEP_UP, PLAYER_BOUNDING_SPHERE_RADIUS);
 	sMoveData md;
-	bsp_checkBoxMove ( camPosition, camPosition + STEP_UP, boxMin, boxMax, md);
+	bsp_checkBoxMove ( camPosition, camPosition + STEP_UP, boxMin, boxMax, md );
 
-	if (md.Fraction == 0)
+	if ( md.Fraction == 0 )
 		{
 			cam_handleCollision();
 			return false;
 		}
 
-	if (!cam_trySlide( md.EndPoint ))
+	if ( !cam_trySlide ( md.EndPoint ) )
 		{
 			cam_handleCollision();
 			return false;
 		}
 
 //	md = bspCheckSphereMove(m_vPosition,m_vPosition-STEP_UP, PLAYER_BOUNDING_SPHERE_RADIUS);
-	bsp_checkBoxMove ( camPosition, camPosition - STEP_UP, boxMin, boxMax, md);
+	bsp_checkBoxMove ( camPosition, camPosition - STEP_UP, boxMin, boxMax, md );
 
-	if (md.Fraction == 0)
+	if ( md.Fraction == 0 )
 		{
 			cam_handleCollision();
 			return false;
 		}
 
-	cam_moveTo( md.EndPoint );
+	cam_moveTo ( md.EndPoint );
 	camMoveDistance = md.Fraction;
 	return true;
 }
@@ -412,5 +412,5 @@ void cam_resolveCollisions()
 	// try to step up
 	//     if not TrySlide
 //	if (!cam_tryStepUpAndSlide())
-	cam_trySlide( camPosition );
+	cam_trySlide ( camPosition );
 }

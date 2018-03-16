@@ -17,7 +17,7 @@ glm::vec3       traceExtents;
 //----------------------------------------------------------------------
 //
 // BSP collision
-void bsp_checkTouchBrush( tBSPBrush *brush, int leafNode, sMoveData &localDataMoveBrush)
+void bsp_checkTouchBrush ( tBSPBrush *brush, int leafNode, sMoveData &localDataMoveBrush )
 //----------------------------------------------------------------------
 {
 	float startFraction = -1.0f;	// The S in the pictures
@@ -31,40 +31,40 @@ void bsp_checkTouchBrush( tBSPBrush *brush, int leafNode, sMoveData &localDataMo
 	glm::vec3 CandidateToHitNormal;
 
 	// Go for every brush side
-	for (int i = 0; i < brush->numOfBrushSides; i++)
+	for ( int i = 0; i < brush->numOfBrushSides; i++ )
 		{
 			// take a pointer to the brush side and the plane it represent
 			tBSPBrushSide *brushSide = &m_pBrushSides[brush->brushSide + i];
 			tBSPPlane     *plane	 = &m_pPlanes[brushSide->plane];
 
-			if (CO_BOX == MoveObjectType)
+			if ( CO_BOX == MoveObjectType )
 				{
 					glm::vec3 offset;
 
-					if (plane->vNormal.x < 0)
+					if ( plane->vNormal.x < 0 )
 						offset.x = traceMaxs.x;
 
 					else
 						offset.x = traceMins.x;
 
-					if (plane->vNormal.y < 0)
+					if ( plane->vNormal.y < 0 )
 						offset.y = traceMaxs.y;
 
 					else
 						offset.y = traceMins.y;
 
-					if (plane->vNormal.z < 0)
+					if ( plane->vNormal.z < 0 )
 						offset.z = traceMaxs.z;
 
 					else
 						offset.z = traceMins.z;
 
-					startDistance = (MStart.x + offset.x) * plane->vNormal.x +
-					                (MStart.y + offset.y) * plane->vNormal.y +
-					                (MStart.z + offset.z) * plane->vNormal.z - plane->d;
-					endDistance = (MEnd.x + offset.x) * plane->vNormal.x +
-					              (MEnd.y + offset.y) * plane->vNormal.y +
-					              (MEnd.z + offset.z) * plane->vNormal.z - plane->d;
+					startDistance = ( MStart.x + offset.x ) * plane->vNormal.x +
+					                ( MStart.y + offset.y ) * plane->vNormal.y +
+					                ( MStart.z + offset.z ) * plane->vNormal.z - plane->d;
+					endDistance = ( MEnd.x + offset.x ) * plane->vNormal.x +
+					              ( MEnd.y + offset.y ) * plane->vNormal.y +
+					              ( MEnd.z + offset.z ) * plane->vNormal.z - plane->d;
 
 				}
 
@@ -82,20 +82,20 @@ void bsp_checkTouchBrush( tBSPBrush *brush, int leafNode, sMoveData &localDataMo
 				}
 
 			// if the start point is in front this plane, then it can be IN the brush so it's OUT
-			if (startDistance > 0)	startsOut = true;
+			if ( startDistance > 0 )	startsOut = true;
 
 			// if the end point is in front this plane, then it can be IN the brush so it's OUT
-			if (endDistance > 0)	endsOut = true;
+			if ( endDistance > 0 )	endsOut = true;
 
 
 			// make sure the trace isn't completely on one side of the brush
-			if (startDistance > 0 && endDistance > 0)
+			if ( startDistance > 0 && endDistance > 0 )
 				{
 					// both are in front of the plane, its outside of this brush
 					return;
 				}
 
-			if (startDistance <= 0 && endDistance <= 0)
+			if ( startDistance <= 0 && endDistance <= 0 )
 				{
 					// both are behind this plane, it will get clipped by another one
 					continue;
@@ -106,11 +106,11 @@ void bsp_checkTouchBrush( tBSPBrush *brush, int leafNode, sMoveData &localDataMo
 			// Compute the new S   (fraction)
 			// if (the new S) > S    move S  and update CandidateToHitNormal
 
-			if (startDistance > endDistance)
+			if ( startDistance > endDistance )
 				{
-					float fraction = (startDistance - EPSILON) / (startDistance - endDistance);
+					float fraction = ( startDistance - EPSILON ) / ( startDistance - endDistance );
 
-					if (fraction > startFraction)
+					if ( fraction > startFraction )
 						{
 							startFraction = fraction;
 							CandidateToHitNormal = plane->vNormal;
@@ -123,34 +123,34 @@ void bsp_checkTouchBrush( tBSPBrush *brush, int leafNode, sMoveData &localDataMo
 				// Compute the new E   (fraction)
 				// if (the new E) < E    move E
 				{
-					float fraction = (startDistance + EPSILON) / (startDistance - endDistance);
+					float fraction = ( startDistance + EPSILON ) / ( startDistance - endDistance );
 
-					if (fraction < endFraction)
+					if ( fraction < endFraction )
 						endFraction = fraction;
 				}
 		}
 
 	// After checking all sides if startOut remain false, then the Start Point is complete in the brush
-	if (startsOut == false)
+	if ( startsOut == false )
 		{
 			localDataMoveBrush.StartOut = false;
 
 			// if the EndPoint is also in this brush, then the ray is complete in this brush
-			if (endsOut == false)
+			if ( endsOut == false )
 				localDataMoveBrush.AllSolid = true;
 
 			return;
 		}
 
 	// if there was collision against the brush (S < E)
-	if (startFraction < endFraction)
+	if ( startFraction < endFraction )
 		{
 			// And of course if we move S (if we dont then we dont enter the brush
 			// and we dont collide with some nearest brush
-			if (startFraction > -1 && startFraction < localDataMoveBrush.Fraction)
+			if ( startFraction > -1 && startFraction < localDataMoveBrush.Fraction )
 				{
 					// UpDate OutPut values
-					if (startFraction < 0)
+					if ( startFraction < 0 )
 						startFraction = 0;
 
 					localDataMoveBrush.Fraction		        = startFraction;
@@ -165,14 +165,14 @@ void bsp_checkTouchBrush( tBSPBrush *brush, int leafNode, sMoveData &localDataMo
 //----------------------------------------------------------------------
 //
 // Check if we collide with something of this node ( including children and leafs
-void bsp_checkMoveByNode( int nodeIndex, float startFraction, float endFraction, glm::vec3 Start, glm::vec3 End, sMoveData &localMoveDataNode )
+void bsp_checkMoveByNode ( int nodeIndex, float startFraction, float endFraction, glm::vec3 Start, glm::vec3 End, sMoveData &localMoveDataNode )
 //----------------------------------------------------------------------
 {
 	// If the path was blocked by a nearer obstacle, don't bother checking
-	if ( localMoveDataNode.Fraction <= startFraction)
+	if ( localMoveDataNode.Fraction <= startFraction )
 		return;
 
-	if (nodeIndex < 0)
+	if ( nodeIndex < 0 )
 		{
 			// this is a leaf
 			tBSPLeaf *leaf = &m_pLeafs[~nodeIndex]; // Get a pointer from the m_pLeafs Array.
@@ -180,15 +180,15 @@ void bsp_checkMoveByNode( int nodeIndex, float startFraction, float endFraction,
 			// Remember that NodeIndex is negative so the corresponding leafs is
 			// ~nodeIndex which is same of saying -(NodeIndex+1) but faster!
 			// Loop by all the brushes
-			for (int i = 0; i < leaf->numOfLeafBrushes; i++)
+			for ( int i = 0; i < leaf->numOfLeafBrushes; i++ )
 				{
 					//Take a point to the i-th brush in the leaf
 					tBSPBrush *brush = &m_pBrushes[m_pLeafBrushes[leaf->leafBrush + i]];
 
 					// If the brush has sides (is a convex volume) and is SOLID then check it out!
-					if ( brush->numOfBrushSides > 0 && (m_pTextures[brush->textureID].contents & 1))
+					if ( brush->numOfBrushSides > 0 && ( m_pTextures[brush->textureID].contents & 1 ) )
 						{
-							bsp_checkTouchBrush( brush, nodeIndex, localMoveDataNode );
+							bsp_checkTouchBrush ( brush, nodeIndex, localMoveDataNode );
 						}
 				}
 
@@ -211,27 +211,27 @@ void bsp_checkMoveByNode( int nodeIndex, float startFraction, float endFraction,
 	                       plane->vNormal.z * End.z -
 	                       plane->d;
 
-	if (CO_BOX == MoveObjectType)
+	if ( CO_BOX == MoveObjectType )
 		{
 			// If both points are in front of the plane (the positive side) pass the ray to the front
 			// child as the ray comes.
 			// this is just a dot product, but we want the absolute values
-			MoveOffset = (float)(fabs( traceExtents.x * plane->vNormal.x ) +
-			                     fabs( traceExtents.y * plane->vNormal.y ) +
-			                     fabs( traceExtents.z * plane->vNormal.z ) );
+			MoveOffset = ( float ) ( fabs ( traceExtents.x * plane->vNormal.x ) +
+			                         fabs ( traceExtents.y * plane->vNormal.y ) +
+			                         fabs ( traceExtents.z * plane->vNormal.z ) );
 		}
 
-	if (startDistance >= MoveOffset && endDistance >= MoveOffset)
+	if ( startDistance >= MoveOffset && endDistance >= MoveOffset )
 		{
-			bsp_checkMoveByNode( node->front, startFraction, endFraction, Start, End, localMoveDataNode );
+			bsp_checkMoveByNode ( node->front, startFraction, endFraction, Start, End, localMoveDataNode );
 		}
 
 	// If both points are in behind the plane (the negative side) pass the ray to the back
 	// child as the ray comes.
 
-	else if (startDistance < -MoveOffset && endDistance < -MoveOffset)
+	else if ( startDistance < -MoveOffset && endDistance < -MoveOffset )
 		{
-			bsp_checkMoveByNode( node->back, startFraction, endFraction, Start, End, localMoveDataNode );
+			bsp_checkMoveByNode ( node->back, startFraction, endFraction, Start, End, localMoveDataNode );
 		}
 
 	else
@@ -245,23 +245,23 @@ void bsp_checkMoveByNode( int nodeIndex, float startFraction, float endFraction,
 
 			// If we know that one is positive and the other is negative, and startDistance < endDistance, so
 			// startDistance is negative and endDistance is positive (front and back correspondingly)
-			if (startDistance < endDistance)
+			if ( startDistance < endDistance )
 				{
 					side1 = node->back;    // the back side contains the start point so the back will be the first
 					side2 = node->front;
-					float inverseDistance = 1.0f / (startDistance - endDistance); // optimization
-					fraction1 = (startDistance - EPSILON - MoveOffset) * inverseDistance;	  // compute fraction for the start-middle
-					fraction2 = (startDistance + EPSILON + MoveOffset) * inverseDistance;	  // compute fraction for the middle-end
+					float inverseDistance = 1.0f / ( startDistance - endDistance ); // optimization
+					fraction1 = ( startDistance - EPSILON - MoveOffset ) * inverseDistance;	 // compute fraction for the start-middle
+					fraction2 = ( startDistance + EPSILON + MoveOffset ) * inverseDistance;	 // compute fraction for the middle-end
 				}
 
 			// On the other hand if endDistance is negative and startDistance is positive
-			else if (endDistance < startDistance)
+			else if ( endDistance < startDistance )
 				{
 					side1 = node->front;   // the front side contains the start point so the front will be the first
 					side2 = node->back;
-					float inverseDistance = 1.0f / (startDistance - endDistance);
-					fraction1 = (startDistance + EPSILON + MoveOffset) * inverseDistance;
-					fraction2 = (startDistance - EPSILON - MoveOffset) * inverseDistance;
+					float inverseDistance = 1.0f / ( startDistance - endDistance );
+					fraction1 = ( startDistance + EPSILON + MoveOffset ) * inverseDistance;
+					fraction2 = ( startDistance - EPSILON - MoveOffset ) * inverseDistance;
 
 				}
 
@@ -274,38 +274,38 @@ void bsp_checkMoveByNode( int nodeIndex, float startFraction, float endFraction,
 				}
 
 			// make sure the numbers are valid
-			if (fraction1 < 0.0f) fraction1 = 0.0f;
+			if ( fraction1 < 0.0f ) fraction1 = 0.0f;
 
-			else if (fraction1 > 1.0f) fraction1 = 1.0f;
+			else if ( fraction1 > 1.0f ) fraction1 = 1.0f;
 
-			if (fraction2 < 0.0f) fraction2 = 0.0f;
+			if ( fraction2 < 0.0f ) fraction2 = 0.0f;
 
-			else if (fraction2 > 1.0f) fraction2 = 1.0f;
+			else if ( fraction2 > 1.0f ) fraction2 = 1.0f;
 
 			// calculate the middle point for the first side
-			middle		   = Start + (End - Start)*fraction1;
+			middle		   = Start + ( End - Start ) *fraction1;
 
 			// get the Smiddle fraction (not just the point)
-			float middleFraction = startFraction + (endFraction - startFraction) * fraction1;
+			float middleFraction = startFraction + ( endFraction - startFraction ) * fraction1;
 
 			// check the first side
-			bsp_checkMoveByNode( side1, startFraction, middleFraction, Start, middle, localMoveDataNode );
+			bsp_checkMoveByNode ( side1, startFraction, middleFraction, Start, middle, localMoveDataNode );
 
 			// calculate the middle point for the second side
-			middle = Start + (End - Start)*fraction2;
+			middle = Start + ( End - Start ) *fraction2;
 
 			// get the Emiddle fraction (not just the point)
-			middleFraction = startFraction + (endFraction - startFraction) * fraction2;
+			middleFraction = startFraction + ( endFraction - startFraction ) * fraction2;
 
 			// check the second side
-			bsp_checkMoveByNode( side2, middleFraction, endFraction, middle, End, localMoveDataNode );
+			bsp_checkMoveByNode ( side2, middleFraction, endFraction, middle, End, localMoveDataNode );
 		}
 }
 
 //----------------------------------------------------------------------
 //
 // Check a ray against the BSP tree
-void bsp_checkRayMove( glm::vec3 Start, glm::vec3 End, sMoveData &localMoveDataRay)
+void bsp_checkRayMove ( glm::vec3 Start, glm::vec3 End, sMoveData &localMoveDataRay )
 //----------------------------------------------------------------------
 {
 	// Initializations, This will change if the traversal detect it was wrong
@@ -320,9 +320,9 @@ void bsp_checkRayMove( glm::vec3 Start, glm::vec3 End, sMoveData &localMoveDataR
 	MoveOffset = 0;
 
 	// walk through the BSP tree
-	bsp_checkMoveByNode( 0, 0.0f, 1.0f, Start, End, localMoveDataRay);
+	bsp_checkMoveByNode ( 0, 0.0f, 1.0f, Start, End, localMoveDataRay );
 
-	if (localMoveDataRay.Fraction == 1.0f)
+	if ( localMoveDataRay.Fraction == 1.0f )
 		{
 			// nothing blocked the trace
 			localMoveDataRay.EndPoint = End;
@@ -332,7 +332,7 @@ void bsp_checkRayMove( glm::vec3 Start, glm::vec3 End, sMoveData &localMoveDataR
 	else
 		{
 			// collided with something
-			localMoveDataRay.EndPoint = Start + (End-Start) * localMoveDataRay.Fraction;
+			localMoveDataRay.EndPoint = Start + ( End-Start ) * localMoveDataRay.Fraction;
 		}
 
 	return;
@@ -355,11 +355,11 @@ void bsp_checkBoxMove ( glm::vec3 Start, glm::vec3 End, glm::vec3 inputMins, glm
 
 	MoveObjectType	= CO_BOX;
 
-	if (inputMins.x == 0 && inputMins.y == 0 && inputMins.z == 0 &&
-	        inputMaxs.x == 0 && inputMaxs.y == 0 && inputMaxs.z == 0)
+	if ( inputMins.x == 0 && inputMins.y == 0 && inputMins.z == 0 &&
+	        inputMaxs.x == 0 && inputMaxs.y == 0 && inputMaxs.z == 0 )
 		{
 			// the user TraceBox, but this is actually a ray
-			bsp_checkRayMove( Start, End, localDataMoveBox );
+			bsp_checkRayMove ( Start, End, localDataMoveBox );
 
 		}
 
@@ -372,10 +372,10 @@ void bsp_checkBoxMove ( glm::vec3 Start, glm::vec3 End, glm::vec3 inputMins, glm
 			traceExtents.y = -traceMins.y > traceMaxs.y ? -traceMins.y : traceMaxs.y;
 			traceExtents.z = -traceMins.z > traceMaxs.z ? -traceMins.z : traceMaxs.z;
 			// walk through the BSP tree
-			bsp_checkMoveByNode( 0, 0.0f, 1.0f, Start, End, localDataMoveBox);
+			bsp_checkMoveByNode ( 0, 0.0f, 1.0f, Start, End, localDataMoveBox );
 		}
 
-	if (localDataMoveBox.Fraction == 1.0f)
+	if ( localDataMoveBox.Fraction == 1.0f )
 		{
 			// nothing blocked the trace
 			localDataMoveBox.EndPoint = End;
@@ -385,7 +385,7 @@ void bsp_checkBoxMove ( glm::vec3 Start, glm::vec3 End, glm::vec3 inputMins, glm
 	else
 		{
 			// collided with something
-			localDataMoveBox.EndPoint = Start + (End-Start) * localDataMoveBox.Fraction;
+			localDataMoveBox.EndPoint = Start + ( End-Start ) * localDataMoveBox.Fraction;
 			testCollisionWithBSP = true;
 //		currentFallingSpeed = 0.0f;
 		}
@@ -396,7 +396,7 @@ void bsp_checkBoxMove ( glm::vec3 Start, glm::vec3 End, glm::vec3 inputMins, glm
 //----------------------------------------------------------------------
 //
 // Check sphere ( with radius ) against BSP tree
-void bsp_checkSphereMove( glm::vec3 Start, glm::vec3 End, float Radius, sMoveData &localMoveDataSphere)
+void bsp_checkSphereMove ( glm::vec3 Start, glm::vec3 End, float Radius, sMoveData &localMoveDataSphere )
 //----------------------------------------------------------------------
 {
 	// Initializations, This will change if the traversal detect it was wrong
@@ -412,9 +412,9 @@ void bsp_checkSphereMove( glm::vec3 Start, glm::vec3 End, float Radius, sMoveDat
 	MoveOffset		= Radius;
 
 	// walk through the BSP tree
-	bsp_checkMoveByNode( 0, 0.0f, 1.0f, Start, End, localMoveDataSphere);
+	bsp_checkMoveByNode ( 0, 0.0f, 1.0f, Start, End, localMoveDataSphere );
 
-	if (localMoveDataSphere.Fraction == 1.0f)
+	if ( localMoveDataSphere.Fraction == 1.0f )
 		{
 			// nothing blocked the trace
 			localMoveDataSphere.EndPoint = End;
@@ -424,7 +424,7 @@ void bsp_checkSphereMove( glm::vec3 Start, glm::vec3 End, float Radius, sMoveDat
 	else
 		{
 			// collided with something
-			localMoveDataSphere.EndPoint = Start + (End-Start) * localMoveDataSphere.Fraction;
+			localMoveDataSphere.EndPoint = Start + ( End-Start ) * localMoveDataSphere.Fraction;
 			testCollisionWithBSP = true;
 		}
 

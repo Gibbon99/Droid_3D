@@ -54,15 +54,15 @@ namespace glm
 //! Returns the orthonormalized matrix of m.
 //! From GLM_GTX_orthonormalize extension.
 template <typename T>
-detail::tmat3x3<T> orthonormalize(
-    const detail::tmat3x3<T>& m);
+detail::tmat3x3<T> orthonormalize (
+    const detail::tmat3x3<T>& m );
 
 //! Orthonormalizes x according y.
 //! From GLM_GTX_orthonormalize extension.
 template <typename T>
-detail::tvec3<T> orthonormalize(
+detail::tvec3<T> orthonormalize (
     const detail::tvec3<T>& x,
-    const detail::tvec3<T>& y);
+    const detail::tvec3<T>& y );
 
 /// @}
 }//namespace glm

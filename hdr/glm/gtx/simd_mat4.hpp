@@ -60,7 +60,7 @@ namespace detail
 {
 /// 4x4 Matrix implemented using SIMD SEE intrinsics.
 /// \ingroup gtx_simd_mat4
-GLM_ALIGNED_STRUCT(16) fmat4x4SIMD
+GLM_ALIGNED_STRUCT ( 16 ) fmat4x4SIMD
 {
 	enum ctor{null};
 
@@ -79,21 +79,21 @@ GLM_ALIGNED_STRUCT(16) fmat4x4SIMD
 	// Constructors
 
 	fmat4x4SIMD();
-	explicit fmat4x4SIMD(float const & s);
-	explicit fmat4x4SIMD(
+	explicit fmat4x4SIMD ( float const & s );
+	explicit fmat4x4SIMD (
 	    float const & x0, float const & y0, float const & z0, float const & w0,
 	    float const & x1, float const & y1, float const & z1, float const & w1,
 	    float const & x2, float const & y2, float const & z2, float const & w2,
-	    float const & x3, float const & y3, float const & z3, float const & w3);
-	explicit fmat4x4SIMD(
+	    float const & x3, float const & y3, float const & z3, float const & w3 );
+	explicit fmat4x4SIMD (
 	    fvec4SIMD const & v0,
 	    fvec4SIMD const & v1,
 	    fvec4SIMD const & v2,
-	    fvec4SIMD const & v3);
-	explicit fmat4x4SIMD(
-	    tmat4x4<float> const & m);
-	explicit fmat4x4SIMD(
-	    __m128 const in[4]);
+	    fvec4SIMD const & v3 );
+	explicit fmat4x4SIMD (
+	    tmat4x4<float> const & m );
+	explicit fmat4x4SIMD (
+	    __m128 const in[4] );
 
 	// Conversions
 	//template <typename U>
@@ -109,52 +109,52 @@ GLM_ALIGNED_STRUCT(16) fmat4x4SIMD
 	//explicit tmat4x4(tmat4x3<T> const & x);
 
 	// Accesses
-	fvec4SIMD & operator[](size_type i);
-	fvec4SIMD const & operator[](size_type i) const;
+	fvec4SIMD & operator[] ( size_type i );
+	fvec4SIMD const & operator[] ( size_type i ) const;
 
 	// Unary updatable operators
-	fmat4x4SIMD & operator= (fmat4x4SIMD const & m);
-	fmat4x4SIMD & operator+= (float const & s);
-	fmat4x4SIMD & operator+= (fmat4x4SIMD const & m);
-	fmat4x4SIMD & operator-= (float const & s);
-	fmat4x4SIMD & operator-= (fmat4x4SIMD const & m);
-	fmat4x4SIMD & operator*= (float const & s);
-	fmat4x4SIMD & operator*= (fmat4x4SIMD const & m);
-	fmat4x4SIMD & operator/= (float const & s);
-	fmat4x4SIMD & operator/= (fmat4x4SIMD const & m);
+	fmat4x4SIMD & operator= ( fmat4x4SIMD const & m );
+	fmat4x4SIMD & operator+= ( float const & s );
+	fmat4x4SIMD & operator+= ( fmat4x4SIMD const & m );
+	fmat4x4SIMD & operator-= ( float const & s );
+	fmat4x4SIMD & operator-= ( fmat4x4SIMD const & m );
+	fmat4x4SIMD & operator*= ( float const & s );
+	fmat4x4SIMD & operator*= ( fmat4x4SIMD const & m );
+	fmat4x4SIMD & operator/= ( float const & s );
+	fmat4x4SIMD & operator/= ( fmat4x4SIMD const & m );
 	fmat4x4SIMD & operator++ ();
 	fmat4x4SIMD & operator-- ();
 };
 
 // Binary operators
-fmat4x4SIMD operator+ (fmat4x4SIMD const & m, float const & s);
-fmat4x4SIMD operator+ (float const & s, fmat4x4SIMD const & m);
-fmat4x4SIMD operator+ (fmat4x4SIMD const & m1, fmat4x4SIMD const & m2);
+fmat4x4SIMD operator+ ( fmat4x4SIMD const & m, float const & s );
+fmat4x4SIMD operator+ ( float const & s, fmat4x4SIMD const & m );
+fmat4x4SIMD operator+ ( fmat4x4SIMD const & m1, fmat4x4SIMD const & m2 );
 
-fmat4x4SIMD operator- (fmat4x4SIMD const & m, float const & s);
-fmat4x4SIMD operator- (float const & s, fmat4x4SIMD const & m);
-fmat4x4SIMD operator- (fmat4x4SIMD const & m1, fmat4x4SIMD const & m2);
+fmat4x4SIMD operator- ( fmat4x4SIMD const & m, float const & s );
+fmat4x4SIMD operator- ( float const & s, fmat4x4SIMD const & m );
+fmat4x4SIMD operator- ( fmat4x4SIMD const & m1, fmat4x4SIMD const & m2 );
 
-fmat4x4SIMD operator* (fmat4x4SIMD const & m, float const & s);
-fmat4x4SIMD operator* (float const & s, fmat4x4SIMD const & m);
+fmat4x4SIMD operator* ( fmat4x4SIMD const & m, float const & s );
+fmat4x4SIMD operator* ( float const & s, fmat4x4SIMD const & m );
 
-fvec4SIMD operator* (fmat4x4SIMD const & m, fvec4SIMD const & v);
-fvec4SIMD operator* (fvec4SIMD const & v, fmat4x4SIMD const & m);
+fvec4SIMD operator* ( fmat4x4SIMD const & m, fvec4SIMD const & v );
+fvec4SIMD operator* ( fvec4SIMD const & v, fmat4x4SIMD const & m );
 
-fmat4x4SIMD operator* (fmat4x4SIMD const & m1, fmat4x4SIMD const & m2);
+fmat4x4SIMD operator* ( fmat4x4SIMD const & m1, fmat4x4SIMD const & m2 );
 
-fmat4x4SIMD operator/ (fmat4x4SIMD const & m, float const & s);
-fmat4x4SIMD operator/ (float const & s, fmat4x4SIMD const & m);
+fmat4x4SIMD operator/ ( fmat4x4SIMD const & m, float const & s );
+fmat4x4SIMD operator/ ( float const & s, fmat4x4SIMD const & m );
 
-fvec4SIMD operator/ (fmat4x4SIMD const & m, fvec4SIMD const & v);
-fvec4SIMD operator/ (fvec4SIMD const & v, fmat4x4SIMD const & m);
+fvec4SIMD operator/ ( fmat4x4SIMD const & m, fvec4SIMD const & v );
+fvec4SIMD operator/ ( fvec4SIMD const & v, fmat4x4SIMD const & m );
 
-fmat4x4SIMD operator/ (fmat4x4SIMD const & m1, fmat4x4SIMD const & m2);
+fmat4x4SIMD operator/ ( fmat4x4SIMD const & m1, fmat4x4SIMD const & m2 );
 
 // Unary constant operators
-fmat4x4SIMD const operator-  (fmat4x4SIMD const & m);
-fmat4x4SIMD const operator-- (fmat4x4SIMD const & m, int);
-fmat4x4SIMD const operator++ (fmat4x4SIMD const & m, int);
+fmat4x4SIMD const operator-  ( fmat4x4SIMD const & m );
+fmat4x4SIMD const operator-- ( fmat4x4SIMD const & m, int );
+fmat4x4SIMD const operator++ ( fmat4x4SIMD const & m, int );
 }//namespace detail
 
 typedef detail::fmat4x4SIMD simdMat4;
@@ -164,38 +164,38 @@ typedef detail::fmat4x4SIMD simdMat4;
 
 //! Convert a simdMat4 to a mat4.
 //! (From GLM_GTX_simd_mat4 extension)
-detail::tmat4x4<float> mat4_cast(
-    detail::fmat4x4SIMD const & x);
+detail::tmat4x4<float> mat4_cast (
+    detail::fmat4x4SIMD const & x );
 
 //! Multiply matrix x by matrix y component-wise, i.e.,
 //! result[i][j] is the scalar product of x[i][j] and y[i][j].
 //! (From GLM_GTX_simd_mat4 extension).
-detail::fmat4x4SIMD matrixCompMult(
+detail::fmat4x4SIMD matrixCompMult (
     detail::fmat4x4SIMD const & x,
-    detail::fmat4x4SIMD const & y);
+    detail::fmat4x4SIMD const & y );
 
 //! Treats the first parameter c as a column vector
 //! and the second parameter r as a row vector
 //! and does a linear algebraic matrix multiply c * r.
 //! (From GLM_GTX_simd_mat4 extension).
-detail::fmat4x4SIMD outerProduct(
+detail::fmat4x4SIMD outerProduct (
     detail::fvec4SIMD const & c,
-    detail::fvec4SIMD const & r);
+    detail::fvec4SIMD const & r );
 
 //! Returns the transposed matrix of x
 //! (From GLM_GTX_simd_mat4 extension).
-detail::fmat4x4SIMD transpose(
-    detail::fmat4x4SIMD const & x);
+detail::fmat4x4SIMD transpose (
+    detail::fmat4x4SIMD const & x );
 
 //! Return the determinant of a mat4 matrix.
 //! (From GLM_GTX_simd_mat4 extension).
-float determinant(
-    detail::fmat4x4SIMD const & m);
+float determinant (
+    detail::fmat4x4SIMD const & m );
 
 //! Return the inverse of a mat4 matrix.
 //! (From GLM_GTX_simd_mat4 extension).
-detail::fmat4x4SIMD inverse(
-    detail::fmat4x4SIMD const & m);
+detail::fmat4x4SIMD inverse (
+    detail::fmat4x4SIMD const & m );
 
 /// @}
 }// namespace glm

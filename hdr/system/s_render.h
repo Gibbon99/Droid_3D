@@ -8,6 +8,4 @@ extern     glm::mat4 shadowViewMat;
 extern     glm::mat4 shadowProjMat;
 
 // Draw everything to the screen
-void updateScreen(float interpolate);
-
-void drawGroundPlane();
+void updateScreen ( float interpolate );

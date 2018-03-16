@@ -55,9 +55,9 @@ int bsp_findNumOfLights();
 void bsp_setLightArrayData();
 
 // Process any effects that the light may have
-int bsp_processLightEffect(float interpolate);
+int bsp_processLightEffect ( float interpolate );
 
 // Add a new light - usually dynamic
 //
 // Return pointer to new light index
-int bsp_addNewLight(glm::vec3 color, int effect, int type);
+int bsp_addNewLight ( glm::vec3 color, int effect, int type );

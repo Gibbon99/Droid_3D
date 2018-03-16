@@ -9,14 +9,14 @@
 //-----------------------------------------------------------------------------
 //
 // Main function - called first
-int main(int argc, char *argv[])
+int main ( int argc, char *argv[] )
 //-----------------------------------------------------------------------------
 {
 	float       interpolation;
 	double      singleTimeValue, frameTimeStart;
 	int         loops;
 
-	if (false == initAll())
+	if ( false == initAll() )
 		sys_shutdownToSystem();
 
 	nextGameTick = glfwGetTime();
@@ -28,22 +28,22 @@ int main(int argc, char *argv[])
 			loops = 0;
 			singleTimeValue = glfwGetTime();
 
-			while (singleTimeValue > nextGameTick && loops < maxFrameSkip)
+			while ( singleTimeValue > nextGameTick && loops < maxFrameSkip )
 				{
-					gameTickRun(interpolation);
+					gameTickRun ( interpolation );
 					nextGameTick += skipTicks;
 					loops++;
-					sys_CalculateThinkFrameRate (singleTimeValue);
+					sys_CalculateThinkFrameRate ( singleTimeValue );
 				}
 
-			interpolation = float (singleTimeValue + skipTicks - nextGameTick) / float (skipTicks);
+			interpolation = float ( singleTimeValue + skipTicks - nextGameTick ) / float ( skipTicks );
 			//
 			// draw all to the screen
 			frameTimeStart = glfwGetTime();
-			updateScreen(interpolation);
+			updateScreen ( interpolation );
 			frameTimeTaken = glfwGetTime() - frameTimeStart;
 
-			sys_CalculateFrameRate (singleTimeValue);
+			sys_CalculateFrameRate ( singleTimeValue );
 		}
 
 	sys_shutdownToSystem();
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 //-----------------------------------------------------------------------------
 //
 // Change game mode
-void changeMode(int newMode)
+void changeMode ( int newMode )
 //-----------------------------------------------------------------------------
 {
 	currentMode = newMode;

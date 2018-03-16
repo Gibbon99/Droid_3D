@@ -45,28 +45,28 @@ asCGlobalProperty::asCGlobalProperty()
 	initFunc        = 0;
 	accessMask      = 0xFFFFFFFF;
 
-	refCount.set(1);
+	refCount.set ( 1 );
 }
 
 asCGlobalProperty::~asCGlobalProperty()
 {
 #ifndef WIP_16BYTE_ALIGNED
 
-	if( memoryAllocated )
+	if ( memoryAllocated )
 		{
-			asDELETEARRAY(memory);
+			asDELETEARRAY ( memory );
 		}
 
 #else
 
-	if( memoryAllocated )
+	if ( memoryAllocated )
 		{
-			asDELETEARRAYALIGNED(memory);
+			asDELETEARRAYALIGNED ( memory );
 		}
 
 #endif
 
-	if( initFunc )
+	if ( initFunc )
 		initFunc->ReleaseInternal();
 }
 
@@ -77,13 +77,13 @@ void asCGlobalProperty::AddRef()
 
 void asCGlobalProperty::Release()
 {
-	if( refCount.atomicDec() == 0 )
-		asDELETE(this, asCGlobalProperty);
+	if ( refCount.atomicDec() == 0 )
+		asDELETE ( this, asCGlobalProperty );
 }
 
 void asCGlobalProperty::DestroyInternal()
 {
-	if( initFunc )
+	if ( initFunc )
 		{
 			initFunc->ReleaseInternal();
 			initFunc = 0;
@@ -101,23 +101,23 @@ void *asCGlobalProperty::GetAddressOfValue()
 // any time.
 void asCGlobalProperty::AllocateMemory()
 {
-	if( type.GetSizeOnStackDWords() > 2 )
+	if ( type.GetSizeOnStackDWords() > 2 )
 		{
 #ifndef WIP_16BYTE_ALIGNED
-			memory = asNEWARRAY(asDWORD, type.GetSizeOnStackDWords());
+			memory = asNEWARRAY ( asDWORD, type.GetSizeOnStackDWords() );
 #else
 			// TODO: Avoid aligned allocation if not needed to reduce the waste of memory for the alignment
-			memory = asNEWARRAYALIGNED(asDWORD, type.GetSizeOnStackDWords(), type.GetAlignment());
+			memory = asNEWARRAYALIGNED ( asDWORD, type.GetSizeOnStackDWords(), type.GetAlignment() );
 #endif
 			memoryAllocated = true;
 		}
 }
 
-void asCGlobalProperty::SetRegisteredAddress(void *p)
+void asCGlobalProperty::SetRegisteredAddress ( void *p )
 {
 	realAddress = p;
 
-	if( type.IsObject() && !type.IsReference() && !type.IsObjectHandle() )
+	if ( type.IsObject() && !type.IsReference() && !type.IsObjectHandle() )
 		{
 			// The global property is a pointer to a pointer
 			memory = &realAddress;
@@ -133,10 +133,10 @@ void *asCGlobalProperty::GetRegisteredAddress() const
 	return realAddress;
 }
 
-void asCGlobalProperty::SetInitFunc(asCScriptFunction *in_initFunc)
+void asCGlobalProperty::SetInitFunc ( asCScriptFunction *in_initFunc )
 {
 	// This should only be done once
-	asASSERT( initFunc == 0 );
+	asASSERT ( initFunc == 0 );
 
 	initFunc = in_initFunc;
 	initFunc->AddRefInternal();

@@ -15,19 +15,19 @@ bool bul_startPhysics();
 bool bul_stopPhysics();
 
 // Step the physics world
-void bul_processPhysics(btScalar physicsTime);
+void bul_processPhysics ( btScalar physicsTime );
 
 // Set gravity to current values in gravity variables
 bool bul_setGravity();
 
 // Create debug line information
-void bul_enableDebug(bool performDebug);
+void bul_enableDebug ( bool performDebug );
 
 // Return position of the camera after physics world processed
 glm::vec3   bul_returnCameraPosition();
 
 // Set camera physics object
-void bul_setCameraVelocity(glm::vec3 camVelocity);
+void bul_setCameraVelocity ( glm::vec3 camVelocity );
 
 // Add a physics object to the world
-bool bul_addPhysicsObject(int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition);
+bool bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition, btAlignedObjectArray<btVector3>& vertices  );

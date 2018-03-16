@@ -4,7 +4,7 @@ extern bool            animateLight;
 
 void gl_freeShadowMap();
 
-bool gl_initShadowMap(unsigned int WindowWidth, unsigned int WindowHeight);
+bool gl_initShadowMap ( unsigned int WindowWidth, unsigned int WindowHeight );
 
 void gl_bindWriteShadowMap();
 
@@ -22,13 +22,13 @@ glm::vec3 gl_lightPos();
 glm::vec3 gl_lightDir();
 
 // Adjust light position
-void gl_moveLightPos(glm::vec3 moveVector);
+void gl_moveLightPos ( glm::vec3 moveVector );
 
 // Draw position of the light
 //void drawLightPos(int whichShader);
 
 // Move the light in a circle
-void shadowMoveLight(float interpolate);
+void shadowMoveLight ( float interpolate );
 
 // Return the texture ID of the shadowDepthMap
 GLuint gl_getShadowMapTextureID();
@@ -37,7 +37,7 @@ GLuint gl_getShadowMapTextureID();
 GLuint gl_getShadowMapPositionsID();
 
 // Setup GLSL variables for lighting
-void gl_getShadowMapVariables(int whichShader);
+void gl_getShadowMapVariables ( int whichShader );
 
 // Setup GLSL variables for lighting
-void gl_setShadowMapVars(int whichShader, glm::mat4 v_matrixPass);
+void gl_setShadowMapVars ( int whichShader, glm::mat4 v_matrixPass );

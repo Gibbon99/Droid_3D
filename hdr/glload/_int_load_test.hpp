@@ -21,7 +21,7 @@ class LoadTest
 {
 private:
 	//Safe bool idiom. Joy!
-	typedef void (LoadTest::*bool_type)() const;
+	typedef void ( LoadTest::*bool_type ) () const;
 	void big_long_name_that_really_doesnt_matter() const {}
 
 public:
@@ -37,8 +37,8 @@ public:
 		return m_numMissing;
 	}
 
-	LoadTest() : m_isLoaded(false), m_numMissing(0) {}
-	LoadTest(bool isLoaded, int numMissing) : m_isLoaded(isLoaded), m_numMissing(isLoaded ? numMissing : 0) {}
+	LoadTest() : m_isLoaded ( false ), m_numMissing ( 0 ) {}
+	LoadTest ( bool isLoaded, int numMissing ) : m_isLoaded ( isLoaded ), m_numMissing ( isLoaded ? numMissing : 0 ) {}
 private:
 	bool m_isLoaded;
 	int m_numMissing;

@@ -17,6 +17,6 @@ extern glm::vec3   previousCamPosition;		// The position from last movement
 extern glm::vec3   previousViewPosition;		// The view from the last movement
 
 // Process player movement speed
-void gam_processPlayerMovement(float interpolate);
+void gam_processPlayerMovement ( float interpolate );
 
 #endif // header guard

@@ -54,16 +54,16 @@ namespace glm
 //! Higher Multiple number of Source.
 //! From GLM_GTX_multiple extension.
 template <typename genType>
-genType higherMultiple(
+genType higherMultiple (
     genType const & Source,
-    genType const & Multiple);
+    genType const & Multiple );
 
 //! Lower Multiple number of Source.
 //! From GLM_GTX_multiple extension.
 template <typename genType>
-genType lowerMultiple(
+genType lowerMultiple (
     genType const & Source,
-    genType const & Multiple);
+    genType const & Multiple );
 
 /// @}
 }//namespace glm

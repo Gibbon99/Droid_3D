@@ -57,9 +57,9 @@ class asCOutputBuffer
 public:
 	~asCOutputBuffer ();
 	void Clear();
-	void Callback(asSMessageInfo *msg);
-	void Append(asCOutputBuffer &in);
-	void SendToCallback(asCScriptEngine *engine, asSSystemFunctionInterface *func, void *obj);
+	void Callback ( asSMessageInfo *msg );
+	void Append ( asCOutputBuffer &in );
+	void SendToCallback ( asCScriptEngine *engine, asSSystemFunctionInterface *func, void *obj );
 
 	struct message_t
 	{

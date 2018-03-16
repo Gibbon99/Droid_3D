@@ -21,7 +21,7 @@ Loads function pointers for WGL extensions.
 
 \return A sys::LoadTest object that defines whether the loading was successful.
 **/
-glload::LoadTest LoadFunctions(HDC hdc);
+glload::LoadTest LoadFunctions ( HDC hdc );
 
 
 }

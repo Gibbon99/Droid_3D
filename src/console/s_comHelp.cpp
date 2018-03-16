@@ -9,26 +9,26 @@ int conHelp()
 {
 	int i;
 
-	for (i = 0; i != conCurrentNumCommands; i++)
+	for ( i = 0; i != conCurrentNumCommands; i++ )
 		{
 			{
-				if (conCommands[i].type == CON_COMMAND_SCRIPT)
+				if ( conCommands[i].type == CON_COMMAND_SCRIPT )
 					{
-						con_setColor (1.0f, 0.0f, 1.0f, 1.0f);
-						con_print (CON_TEXT, false, "[ %s ] - [ %s ]", conCommands[i].command.c_str(), conCommands[i].usage.c_str());
+						con_setColor ( 1.0f, 0.0f, 1.0f, 1.0f );
+						con_print ( CON_TEXT, false, "[ %s ] - [ %s ]", conCommands[i].command.c_str(), conCommands[i].usage.c_str() );
 
 					}
 
 				else
 					{
-						con_setColor (1.0f, 1.0f, 0.0f, 1.0f);
-						con_print (CON_TEXT, false, "[ %s ] - [ %s ]", conCommands[i].command.c_str(), conCommands[i].usage.c_str());
+						con_setColor ( 1.0f, 1.0f, 0.0f, 1.0f );
+						con_print ( CON_TEXT, false, "[ %s ] - [ %s ]", conCommands[i].command.c_str(), conCommands[i].usage.c_str() );
 					}
 			}
 		}
 
-	con_setColor (1.0f, 1.0f, 1.0f, 1.0f);
-	
+	con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+
 	return 1;
 }
 
@@ -40,10 +40,10 @@ int showScriptAddedCommands()
 {
 	int i;
 
-	for (i = 0; i != conCurrentNumCommands; i++)
+	for ( i = 0; i != conCurrentNumCommands; i++ )
 		{
-			if (conCommands[i].type == CON_COMMAND_SCRIPT)
-				con_print (CON_TEXT, false, "[ %s ] - [ %s ]", conCommands[i].command.c_str(), conCommands[i].usage.c_str());
+			if ( conCommands[i].type == CON_COMMAND_SCRIPT )
+				con_print ( CON_TEXT, false, "[ %s ] - [ %s ]", conCommands[i].command.c_str(), conCommands[i].usage.c_str() );
 		}
 
 	return 1;

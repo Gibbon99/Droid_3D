@@ -6,34 +6,34 @@ extern "C" {
 #endif /*__cplusplus*/
 #define GL_VERTEX_ATTRIB_ARRAY_DIVISOR 0x88FE
 
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDFRAGDATALOCATIONINDEXEDPROC)(GLuint program, GLuint colorNumber, GLuint index, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLBINDSAMPLERPROC)(GLuint unit, GLuint sampler);
-typedef void (CODEGEN_FUNCPTR * PFNGLDELETESAMPLERSPROC)(GLsizei count, const GLuint * samplers);
-typedef void (CODEGEN_FUNCPTR * PFNGLGENSAMPLERSPROC)(GLsizei count, GLuint * samplers);
-typedef GLint (CODEGEN_FUNCPTR * PFNGLGETFRAGDATAINDEXPROC)(GLuint program, const GLchar * name);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTI64VPROC)(GLuint id, GLenum pname, GLint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUI64VPROC)(GLuint id, GLenum pname, GLuint64 * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIIVPROC)(GLuint sampler, GLenum pname, GLint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIUIVPROC)(GLuint sampler, GLenum pname, GLuint * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERFVPROC)(GLuint sampler, GLenum pname, GLfloat * params);
-typedef void (CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIVPROC)(GLuint sampler, GLenum pname, GLint * params);
-typedef GLboolean (CODEGEN_FUNCPTR * PFNGLISSAMPLERPROC)(GLuint sampler);
-typedef void (CODEGEN_FUNCPTR * PFNGLQUERYCOUNTERPROC)(GLuint id, GLenum target);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIIVPROC)(GLuint sampler, GLenum pname, const GLint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIUIVPROC)(GLuint sampler, GLenum pname, const GLuint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFPROC)(GLuint sampler, GLenum pname, GLfloat param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFVPROC)(GLuint sampler, GLenum pname, const GLfloat * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIPROC)(GLuint sampler, GLenum pname, GLint param);
-typedef void (CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIVPROC)(GLuint sampler, GLenum pname, const GLint * param);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBDIVISORPROC)(GLuint index, GLuint divisor);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIPROC)(GLuint index, GLenum type, GLboolean normalized, GLuint value);
-typedef void (CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIVPROC)(GLuint index, GLenum type, GLboolean normalized, const GLuint * value);
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDFRAGDATALOCATIONINDEXEDPROC ) ( GLuint program, GLuint colorNumber, GLuint index, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLBINDSAMPLERPROC ) ( GLuint unit, GLuint sampler );
+typedef void ( CODEGEN_FUNCPTR * PFNGLDELETESAMPLERSPROC ) ( GLsizei count, const GLuint * samplers );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGENSAMPLERSPROC ) ( GLsizei count, GLuint * samplers );
+typedef GLint ( CODEGEN_FUNCPTR * PFNGLGETFRAGDATAINDEXPROC ) ( GLuint program, const GLchar * name );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTI64VPROC ) ( GLuint id, GLenum pname, GLint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETQUERYOBJECTUI64VPROC ) ( GLuint id, GLenum pname, GLuint64 * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIIVPROC ) ( GLuint sampler, GLenum pname, GLint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIUIVPROC ) ( GLuint sampler, GLenum pname, GLuint * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERFVPROC ) ( GLuint sampler, GLenum pname, GLfloat * params );
+typedef void ( CODEGEN_FUNCPTR * PFNGLGETSAMPLERPARAMETERIVPROC ) ( GLuint sampler, GLenum pname, GLint * params );
+typedef GLboolean ( CODEGEN_FUNCPTR * PFNGLISSAMPLERPROC ) ( GLuint sampler );
+typedef void ( CODEGEN_FUNCPTR * PFNGLQUERYCOUNTERPROC ) ( GLuint id, GLenum target );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIIVPROC ) ( GLuint sampler, GLenum pname, const GLint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIUIVPROC ) ( GLuint sampler, GLenum pname, const GLuint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFPROC ) ( GLuint sampler, GLenum pname, GLfloat param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERFVPROC ) ( GLuint sampler, GLenum pname, const GLfloat * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIPROC ) ( GLuint sampler, GLenum pname, GLint param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLSAMPLERPARAMETERIVPROC ) ( GLuint sampler, GLenum pname, const GLint * param );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBDIVISORPROC ) ( GLuint index, GLuint divisor );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP1UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP2UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP3UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIPROC ) ( GLuint index, GLenum type, GLboolean normalized, GLuint value );
+typedef void ( CODEGEN_FUNCPTR * PFNGLVERTEXATTRIBP4UIVPROC ) ( GLuint index, GLenum type, GLboolean normalized, const GLuint * value );
 
 extern PFNGLBINDFRAGDATALOCATIONINDEXEDPROC _funcptr_glBindFragDataLocationIndexed;
 #define glBindFragDataLocationIndexed _funcptr_glBindFragDataLocationIndexed

@@ -95,22 +95,22 @@ extern const PHYSFS_Archiver __PHYSFS_Archiver_VDF;
 /* a real C99-compliant snprintf() is in Visual Studio 2015,
    but just use this everywhere for binary compatibility. */
 #if defined(_MSC_VER)
-int __PHYSFS_msvc_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap);
-int __PHYSFS_msvc_snprintf(char *outBuf, size_t size, const char *format, ...);
+int __PHYSFS_msvc_vsnprintf ( char *outBuf, size_t size, const char *format, va_list ap );
+int __PHYSFS_msvc_snprintf ( char *outBuf, size_t size, const char *format, ... );
 #define vsnprintf __PHYSFS_msvc_vsnprintf
 #define snprintf __PHYSFS_msvc_snprintf
 #endif
 
 /* Some simple wrappers around WinRT C++ interfaces we can call from C. */
 #ifdef PHYSFS_PLATFORM_WINRT
-const void *__PHYSFS_winrtCalcBaseDir(void);
-const void *__PHYSFS_winrtCalcPrefDir(void);
+const void *__PHYSFS_winrtCalcBaseDir ( void );
+const void *__PHYSFS_winrtCalcPrefDir ( void );
 #endif
 
 /* atomic operations. */
 #if defined(_MSC_VER) && (_MSC_VER >= 1500)
 #include <intrin.h>
-__PHYSFS_COMPILE_TIME_ASSERT(LongEqualsInt, sizeof (int) == sizeof (long));
+__PHYSFS_COMPILE_TIME_ASSERT ( LongEqualsInt, sizeof ( int ) == sizeof ( long ) );
 #define __PHYSFS_ATOMIC_INCR(ptrval) _InterlockedIncrement((long*)(ptrval))
 #define __PHYSFS_ATOMIC_DECR(ptrval) _InterlockedDecrement((long*)(ptrval))
 #elif defined(__clang__) || (defined(__GNUC__) && (((__GNUC__ * 10000) + (__GNUC_MINOR__ * 100)) >= 40100))
@@ -118,8 +118,8 @@ __PHYSFS_COMPILE_TIME_ASSERT(LongEqualsInt, sizeof (int) == sizeof (long));
 #define __PHYSFS_ATOMIC_DECR(ptrval) __sync_fetch_and_add(ptrval, -1)
 #else
 #define PHYSFS_NEED_ATOMIC_OP_FALLBACK 1
-int __PHYSFS_ATOMIC_INCR(int *ptrval);
-int __PHYSFS_ATOMIC_DECR(int *ptrval);
+int __PHYSFS_ATOMIC_INCR ( int *ptrval );
+int __PHYSFS_ATOMIC_DECR ( int *ptrval );
 #endif
 
 
@@ -145,7 +145,7 @@ int __PHYSFS_ATOMIC_DECR(int *ptrval);
  * NEVER forget to check for NULL...allocation can fail here, of course!
  */
 #define __PHYSFS_SMALLALLOCTHRESHOLD 256
-void *__PHYSFS_initSmallAlloc(void *ptr, const size_t len);
+void *__PHYSFS_initSmallAlloc ( void *ptr, const size_t len );
 
 #define __PHYSFS_smallAlloc(bytes) ( \
                                      __PHYSFS_initSmallAlloc( \
@@ -153,7 +153,7 @@ void *__PHYSFS_initSmallAlloc(void *ptr, const size_t len);
                                                      alloca((size_t)((bytes)+sizeof(void*))) : NULL), (bytes)) \
                                    )
 
-void __PHYSFS_smallFree(void *ptr);
+void __PHYSFS_smallFree ( void *ptr );
 
 
 /* Use the allocation hooks. */
@@ -195,7 +195,7 @@ void __PHYSFS_smallFree(void *ptr);
 
 #if PHYSFS_SUPPORTS_7Z
 /* 7zip support needs a global init function called at startup (no deinit). */
-extern void SZIP_global_init(void);
+extern void SZIP_global_init ( void );
 #endif
 
 /* The latest supported PHYSFS_Io::version value. */
@@ -242,9 +242,9 @@ extern void SZIP_global_init(void);
  * (cmpfn) is used to determine ordering, and (swapfn) does the actual
  *  swapping of elements in the list.
  */
-void __PHYSFS_sort(void *entries, size_t max,
-                   int (*cmpfn)(void *, size_t, size_t),
-                   void (*swapfn)(void *, size_t, size_t));
+void __PHYSFS_sort ( void *entries, size_t max,
+                     int ( *cmpfn ) ( void *, size_t, size_t ),
+                     void ( *swapfn ) ( void *, size_t, size_t ) );
 
 /* These get used all over for lessening code clutter. */
 /* "ERRPASS" means "something else just set the error state for us" and is
@@ -298,12 +298,12 @@ void __PHYSFS_sort(void *entries, size_t max,
 /*
  * Like strdup(), but uses the current PhysicsFS allocator.
  */
-char *__PHYSFS_strdup(const char *str);
+char *__PHYSFS_strdup ( const char *str );
 
 /*
  * Give a hash value for a C string (uses djb's xor hashing algorithm).
  */
-PHYSFS_uint32 __PHYSFS_hashString(const char *str, size_t len);
+PHYSFS_uint32 __PHYSFS_hashString ( const char *str, size_t len );
 
 
 /*
@@ -319,38 +319,38 @@ extern PHYSFS_Allocator __PHYSFS_AllocatorHooks;
  *  This path is in platform-dependent notation. (mode) must be 'r', 'w', or
  *  'a' for Read, Write, or Append.
  */
-PHYSFS_Io *__PHYSFS_createNativeIo(const char *path, const int mode);
+PHYSFS_Io *__PHYSFS_createNativeIo ( const char *path, const int mode );
 
 /*
  * Create a PHYSFS_Io for a buffer of memory (READ-ONLY). If you already
  *  have one of these, just use its duplicate() method, and it'll increment
  *  its refcount without allocating a copy of the buffer.
  */
-PHYSFS_Io *__PHYSFS_createMemoryIo(const void *buf, PHYSFS_uint64 len,
-                                   void (*destruct)(void *));
+PHYSFS_Io *__PHYSFS_createMemoryIo ( const void *buf, PHYSFS_uint64 len,
+                                     void ( *destruct ) ( void * ) );
 
 
 /*
  * Read (len) bytes from (io) into (buf). Returns non-zero on success,
  *  zero on i/o error. Literally: "return (io->read(io, buf, len) == len);"
  */
-int __PHYSFS_readAll(PHYSFS_Io *io, void *buf, const size_t len);
+int __PHYSFS_readAll ( PHYSFS_Io *io, void *buf, const size_t len );
 
 
 /* These are shared between some archivers. */
 
-void UNPK_abandonArchive(void *opaque);
-void UNPK_closeArchive(void *opaque);
-void *UNPK_openArchive(PHYSFS_Io *io);
-void *UNPK_addEntry(void *opaque, char *name, const int isdir,
-                    const PHYSFS_sint64 ctime, const PHYSFS_sint64 mtime,
-                    const PHYSFS_uint64 pos, const PHYSFS_uint64 len);
-PHYSFS_Io *UNPK_openRead(void *opaque, const char *name);
-PHYSFS_Io *UNPK_openWrite(void *opaque, const char *name);
-PHYSFS_Io *UNPK_openAppend(void *opaque, const char *name);
-int UNPK_remove(void *opaque, const char *name);
-int UNPK_mkdir(void *opaque, const char *name);
-int UNPK_stat(void *opaque, const char *fn, PHYSFS_Stat *st);
+void UNPK_abandonArchive ( void *opaque );
+void UNPK_closeArchive ( void *opaque );
+void *UNPK_openArchive ( PHYSFS_Io *io );
+void *UNPK_addEntry ( void *opaque, char *name, const int isdir,
+                      const PHYSFS_sint64 ctime, const PHYSFS_sint64 mtime,
+                      const PHYSFS_uint64 pos, const PHYSFS_uint64 len );
+PHYSFS_Io *UNPK_openRead ( void *opaque, const char *name );
+PHYSFS_Io *UNPK_openWrite ( void *opaque, const char *name );
+PHYSFS_Io *UNPK_openAppend ( void *opaque, const char *name );
+int UNPK_remove ( void *opaque, const char *name );
+int UNPK_mkdir ( void *opaque, const char *name );
+int UNPK_stat ( void *opaque, const char *fn, PHYSFS_Stat *st );
 #define UNPK_enumerate __PHYSFS_DirTreeEnumerate
 
 
@@ -376,13 +376,13 @@ typedef struct __PHYSFS_DirTree
 } __PHYSFS_DirTree;
 
 
-int __PHYSFS_DirTreeInit(__PHYSFS_DirTree *dt, const size_t entrylen);
-void *__PHYSFS_DirTreeAdd(__PHYSFS_DirTree *dt, char *name, const int isdir);
-void *__PHYSFS_DirTreeFind(__PHYSFS_DirTree *dt, const char *path);
-PHYSFS_EnumerateCallbackResult __PHYSFS_DirTreeEnumerate(void *opaque,
+int __PHYSFS_DirTreeInit ( __PHYSFS_DirTree *dt, const size_t entrylen );
+void *__PHYSFS_DirTreeAdd ( __PHYSFS_DirTree *dt, char *name, const int isdir );
+void *__PHYSFS_DirTreeFind ( __PHYSFS_DirTree *dt, const char *path );
+PHYSFS_EnumerateCallbackResult __PHYSFS_DirTreeEnumerate ( void *opaque,
         const char *dname, PHYSFS_EnumerateCallback cb,
-        const char *origdir, void *callbackdata);
-void __PHYSFS_DirTreeDeinit(__PHYSFS_DirTree *dt);
+        const char *origdir, void *callbackdata );
+void __PHYSFS_DirTreeDeinit ( __PHYSFS_DirTree *dt );
 
 
 
@@ -416,7 +416,7 @@ void __PHYSFS_DirTreeDeinit(__PHYSFS_DirTree *dt);
  * Return zero if there was a catastrophic failure (which prevents you from
  *  functioning at all), and non-zero otherwise.
  */
-int __PHYSFS_platformInit(void);
+int __PHYSFS_platformInit ( void );
 
 
 /*
@@ -424,7 +424,7 @@ int __PHYSFS_platformInit(void);
  *  from the application. You can use this to clean up anything you've
  *  allocated in your platform driver.
  */
-void __PHYSFS_platformDeinit(void);
+void __PHYSFS_platformDeinit ( void );
 
 
 /*
@@ -440,7 +440,7 @@ void __PHYSFS_platformDeinit(void);
  *
  * Call PHYSFS_setErrorCode() and return (NULL) if the file can't be opened.
  */
-void *__PHYSFS_platformOpenRead(const char *filename);
+void *__PHYSFS_platformOpenRead ( const char *filename );
 
 
 /*
@@ -457,7 +457,7 @@ void *__PHYSFS_platformOpenRead(const char *filename);
  *
  * Call PHYSFS_setErrorCode() and return (NULL) if the file can't be opened.
  */
-void *__PHYSFS_platformOpenWrite(const char *filename);
+void *__PHYSFS_platformOpenWrite ( const char *filename );
 
 
 /*
@@ -475,7 +475,7 @@ void *__PHYSFS_platformOpenWrite(const char *filename);
  *
  * Call PHYSFS_setErrorCode() and return (NULL) if the file can't be opened.
  */
-void *__PHYSFS_platformOpenAppend(const char *filename);
+void *__PHYSFS_platformOpenAppend ( const char *filename );
 
 /*
  * Read more data from a platform-specific file handle. (opaque) should be
@@ -490,7 +490,7 @@ void *__PHYSFS_platformOpenAppend(const char *filename);
  *  return (-1) on total failure; presumably, the next read call after a
  *  partial read will fail as such.
  */
-PHYSFS_sint64 __PHYSFS_platformRead(void *opaque, void *buf, PHYSFS_uint64 len);
+PHYSFS_sint64 __PHYSFS_platformRead ( void *opaque, void *buf, PHYSFS_uint64 len );
 
 /*
  * Write more data to a platform-specific file handle. (opaque) should be
@@ -503,8 +503,8 @@ PHYSFS_sint64 __PHYSFS_platformRead(void *opaque, void *buf, PHYSFS_uint64 len);
  *  return (-1) on total failure; presumably, the next write call after a
  *  partial write will fail as such.
  */
-PHYSFS_sint64 __PHYSFS_platformWrite(void *opaque, const void *buffer,
-                                     PHYSFS_uint64 len);
+PHYSFS_sint64 __PHYSFS_platformWrite ( void *opaque, const void *buffer,
+                                       PHYSFS_uint64 len );
 
 /*
  * Set the file pointer to a new position. (opaque) should be cast to
@@ -517,7 +517,7 @@ PHYSFS_sint64 __PHYSFS_platformWrite(void *opaque, const void *buffer,
  * On error, call PHYSFS_setErrorCode() and return zero. On success, return
  *  a non-zero value.
  */
-int __PHYSFS_platformSeek(void *opaque, PHYSFS_uint64 pos);
+int __PHYSFS_platformSeek ( void *opaque, PHYSFS_uint64 pos );
 
 
 /*
@@ -529,7 +529,7 @@ int __PHYSFS_platformSeek(void *opaque, PHYSFS_uint64 pos);
  *
  * On error, call PHYSFS_setErrorCode() and return -1. On success, return >= 0.
  */
-PHYSFS_sint64 __PHYSFS_platformTell(void *opaque);
+PHYSFS_sint64 __PHYSFS_platformTell ( void *opaque );
 
 
 /*
@@ -541,7 +541,7 @@ PHYSFS_sint64 __PHYSFS_platformTell(void *opaque);
  * Return -1 if you can't do it, and call PHYSFS_setErrorCode(). Otherwise,
  *  return the file length in 8-bit bytes.
  */
-PHYSFS_sint64 __PHYSFS_platformFileLength(void *handle);
+PHYSFS_sint64 __PHYSFS_platformFileLength ( void *handle );
 
 
 /*
@@ -554,7 +554,7 @@ PHYSFS_sint64 __PHYSFS_platformFileLength(void *handle);
  *
  *  Return zero on failure, non-zero on success.
  */
-int __PHYSFS_platformStat(const char *fn, PHYSFS_Stat *stat, const int follow);
+int __PHYSFS_platformStat ( const char *fn, PHYSFS_Stat *stat, const int follow );
 
 /*
  * Flush any pending writes to disk. (opaque) should be cast to whatever data
@@ -563,7 +563,7 @@ int __PHYSFS_platformStat(const char *fn, PHYSFS_Stat *stat, const int follow);
  *
  *  Return zero on failure, non-zero on success.
  */
-int __PHYSFS_platformFlush(void *opaque);
+int __PHYSFS_platformFlush ( void *opaque );
 
 /*
  * Close file and deallocate resources. (opaque) should be cast to whatever
@@ -573,7 +573,7 @@ int __PHYSFS_platformFlush(void *opaque);
  * You should clean up all resources associated with (opaque); the pointer
  *  will be considered invalid after this call.
  */
-void __PHYSFS_platformClose(void *opaque);
+void __PHYSFS_platformClose ( void *opaque );
 
 /*
  * Platform implementation of PHYSFS_getCdRomDirsCallback()...
@@ -582,7 +582,7 @@ void __PHYSFS_platformClose(void *opaque);
  *  application after the callback returns, so you can free them or whatever.
  *  Callback does not assume results will be sorted in any meaningful way.
  */
-void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data);
+void __PHYSFS_platformDetectAvailableCDs ( PHYSFS_StringCallback cb, void *data );
 
 /*
  * Calculate the base dir, if your platform needs special consideration.
@@ -591,7 +591,7 @@ void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data);
  * Your string must end with a dir separator if you don't return NULL.
  *  Caller will allocator.Free() the retval if it's not NULL.
  */
-char *__PHYSFS_platformCalcBaseDir(const char *argv0);
+char *__PHYSFS_platformCalcBaseDir ( const char *argv0 );
 
 /*
  * Get the platform-specific user dir.
@@ -599,11 +599,11 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0);
  * Your string must end with a dir separator if you don't return NULL.
  *  Caller will allocator.Free() the retval if it's not NULL.
  */
-char *__PHYSFS_platformCalcUserDir(void);
+char *__PHYSFS_platformCalcUserDir ( void );
 
 
 /* This is the cached version from PHYSFS_init(). This is a fast call. */
-const char *__PHYSFS_getUserDir(void);  /* not deprecated internal version. */
+const char *__PHYSFS_getUserDir ( void ); /* not deprecated internal version. */
 
 
 /*
@@ -614,7 +614,7 @@ const char *__PHYSFS_getUserDir(void);  /* not deprecated internal version. */
  *  Caller will make missing directories if necessary; this just reports
  *   the final path.
  */
-char *__PHYSFS_platformCalcPrefDir(const char *org, const char *app);
+char *__PHYSFS_platformCalcPrefDir ( const char *org, const char *app );
 
 
 /*
@@ -623,7 +623,7 @@ char *__PHYSFS_platformCalcPrefDir(const char *org, const char *app);
  *  arbitrary; the only requirement is that no two threads have the same
  *  pointer.
  */
-void *__PHYSFS_platformGetThreadID(void);
+void *__PHYSFS_platformGetThreadID ( void );
 
 
 /*
@@ -634,16 +634,16 @@ void *__PHYSFS_platformGetThreadID(void);
  *  notation. Note that ".", "..", and other meta-entries should always
  *  be ignored.
  */
-PHYSFS_EnumerateCallbackResult __PHYSFS_platformEnumerate(const char *dirname,
+PHYSFS_EnumerateCallbackResult __PHYSFS_platformEnumerate ( const char *dirname,
         PHYSFS_EnumerateCallback callback,
-        const char *origdir, void *callbackdata);
+        const char *origdir, void *callbackdata );
 
 /*
  * Make a directory in the actual filesystem. (path) is specified in
  *  platform-dependent notation. On error, return zero and set the error
  *  message. Return non-zero on success.
  */
-int __PHYSFS_platformMkDir(const char *path);
+int __PHYSFS_platformMkDir ( const char *path );
 
 
 /*
@@ -657,7 +657,7 @@ int __PHYSFS_platformMkDir(const char *path);
  *
  * On error, return zero and set the error message. Return non-zero on success.
  */
-int __PHYSFS_platformDelete(const char *path);
+int __PHYSFS_platformDelete ( const char *path );
 
 
 /*
@@ -667,7 +667,7 @@ int __PHYSFS_platformDelete(const char *path);
  * Return (NULL) if you couldn't create one. Systems without threads can
  *  return any arbitrary non-NULL value.
  */
-void *__PHYSFS_platformCreateMutex(void);
+void *__PHYSFS_platformCreateMutex ( void );
 
 /*
  * Destroy a platform-specific mutex, and clean up any resources associated
@@ -675,7 +675,7 @@ void *__PHYSFS_platformCreateMutex(void);
  *  __PHYSFS_platformCreateMutex(). This can be a no-op on single-threaded
  *  platforms.
  */
-void __PHYSFS_platformDestroyMutex(void *mutex);
+void __PHYSFS_platformDestroyMutex ( void *mutex );
 
 /*
  * Grab possession of a platform-specific mutex. Mutexes should be recursive;
@@ -692,7 +692,7 @@ void __PHYSFS_platformDestroyMutex(void *mutex);
  *  function, you'll cause an infinite recursion. This means you can't
  *  use the BAIL_*MACRO* macros, either.
  */
-int __PHYSFS_platformGrabMutex(void *mutex);
+int __PHYSFS_platformGrabMutex ( void *mutex );
 
 /*
  * Relinquish possession of the mutex when this method has been called
@@ -704,7 +704,7 @@ int __PHYSFS_platformGrabMutex(void *mutex);
  *  function, you'll cause an infinite recursion. This means you can't
  *  use the BAIL_*MACRO* macros, either.
  */
-void __PHYSFS_platformReleaseMutex(void *mutex);
+void __PHYSFS_platformReleaseMutex ( void *mutex );
 
 #if PHYSFS_HAVE_PRAGMA_VISIBILITY
 #pragma GCC visibility pop

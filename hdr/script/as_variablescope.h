@@ -63,14 +63,14 @@ struct sVariable
 class asCVariableScope
 {
 public:
-	asCVariableScope(asCVariableScope *parent);
+	asCVariableScope ( asCVariableScope *parent );
 	~asCVariableScope();
 
 	void Reset();
 
-	int DeclareVariable(const char *name, const asCDataType &type, int stackOffset, bool isObjectOnHeap);
-	sVariable *GetVariable(const char *name);
-	sVariable *GetVariableByOffset(int offset);
+	int DeclareVariable ( const char *name, const asCDataType &type, int stackOffset, bool isObjectOnHeap );
+	sVariable *GetVariable ( const char *name );
+	sVariable *GetVariableByOffset ( int offset );
 
 	asCVariableScope *parent;
 

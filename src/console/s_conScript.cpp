@@ -15,9 +15,9 @@ asIScriptContext 	*scriptContext = NULL;
 CScriptBuilder 		builder;
 
 // Print messages from script compiler to console
-void scr_Output(const char *msgText, void *outParam);
+void scr_Output ( const char *msgText, void *outParam );
 
-void MessageCallback(const asSMessageInfo *msg, void *param);
+void MessageCallback ( const asSMessageInfo *msg, void *param );
 
 // Change to string??
 static char *fileLocation = NULL; // Pointer to memory to hold the scriptFile7
@@ -70,17 +70,17 @@ _scriptInfo     scriptInfo[] =
 
 _hostScriptFunctions hostScriptFunctions[] =
 {
-	{"void printCon_AS(string &in, string &in)",            (void *)&sys_scriptPrintStr},
+	{"void printCon_AS(string &in, string &in)",            ( void * )&sys_scriptPrintStr},
 
 	{"void sys_addScriptCommand(string &in, string &in, string &in, bool setParam)", ( const void * ) &con_addScriptCommand},
 
-	{"void conPushCommand_AS(string &in)",                  (void *)con_pushScriptCommand},
-	{"bool startPackFile(string &in, string &in)",          (void *)io_startFileSystem},
-	{"bool startLogFile(string &in)",                       (void *)io_startLogFile},
-	{"void lib_resizeWindow(int newWidth, int newHeight)",  (void *)lib_resizeWindow},
-	{"bool ttf_setFontName(string &in)",                    (void *)ttf_setFontName},
-	{"bool ttf_initLibrary(int fontSize, int whichFont)",   (void *)ttf_initLibrary},
-	{"bool ass_loadModel(int whichModel, string &in, float scaleFactor)", (void *)ass_loadModel},
+	{"void conPushCommand_AS(string &in)",                  ( void * ) con_pushScriptCommand},
+	{"bool startPackFile(string &in, string &in)",          ( void * ) io_startFileSystem},
+	{"bool startLogFile(string &in)",                       ( void * ) io_startLogFile},
+	{"void lib_resizeWindow(int newWidth, int newHeight)",  ( void * ) lib_resizeWindow},
+	{"bool ttf_setFontName(string &in)",                    ( void * ) ttf_setFontName},
+	{"bool ttf_initLibrary(int fontSize, int whichFont)",   ( void * ) ttf_initLibrary},
+	{"bool ass_loadModel(int whichModel, string &in, float scaleFactor)", ( void * ) ass_loadModel},
 	{"",							NULL},
 };
 
@@ -126,101 +126,101 @@ vector<_scriptFunctionName> scriptFunctions;
 //-----------------------------------------------------------------------------
 //
 // Error codes for AngelScript
-const char *sys_getScriptError(int errNo)
+const char *sys_getScriptError ( int errNo )
 //-----------------------------------------------------------------------------
 {
-	switch (errNo)
+	switch ( errNo )
 		{
-			case 0:
-				return ("asSUCCESS");
-				break;
+		case 0:
+			return ( "asSUCCESS" );
+			break;
 
-			case -1:
-				return ("asERROR");
-				break;
+		case -1:
+			return ( "asERROR" );
+			break;
 
-			case -2:
-				return ("asCONTEXT_ACTIVE");
-				break;
+		case -2:
+			return ( "asCONTEXT_ACTIVE" );
+			break;
 
-			case -3:
-				return ("asCONTEXT_NOT_FINISHED");
-				break;
+		case -3:
+			return ( "asCONTEXT_NOT_FINISHED" );
+			break;
 
-			case -4:
-				return ("asCONTEXT_NOT_PREPARED");
-				break;
+		case -4:
+			return ( "asCONTEXT_NOT_PREPARED" );
+			break;
 
-			case -5:
-				return ("asINVALID_ARG");
-				break;
+		case -5:
+			return ( "asINVALID_ARG" );
+			break;
 
-			case -6:
-				return ("asNO_FUNCTION");
-				break;
+		case -6:
+			return ( "asNO_FUNCTION" );
+			break;
 
-			case -7:
-				return ("asNOT_SUPPORTED");
-				break;
+		case -7:
+			return ( "asNOT_SUPPORTED" );
+			break;
 
-			case -8:
-				return ("asINVALID_NAME");
-				break;
+		case -8:
+			return ( "asINVALID_NAME" );
+			break;
 
-			case -9:
-				return ("asNAME_TAKEN");
-				break;
+		case -9:
+			return ( "asNAME_TAKEN" );
+			break;
 
-			case -10:
-				return ("asINVALID_DECLARATION");
-				break;
+		case -10:
+			return ( "asINVALID_DECLARATION" );
+			break;
 
-			case -11:
-				return ("asINVALID_OBJECT");
-				break;
+		case -11:
+			return ( "asINVALID_OBJECT" );
+			break;
 
-			case -12:
-				return ("asINVALID_TYPE");
-				break;
+		case -12:
+			return ( "asINVALID_TYPE" );
+			break;
 
-			case -13:
-				return ("asALREADY_REGISTERED");
-				break;
+		case -13:
+			return ( "asALREADY_REGISTERED" );
+			break;
 
-			case -14:
-				return ("asMULTIPLE_FUNCTIONS");
-				break;
+		case -14:
+			return ( "asMULTIPLE_FUNCTIONS" );
+			break;
 
-			case -15:
-				return ("asNO_MODULE");
-				break;
+		case -15:
+			return ( "asNO_MODULE" );
+			break;
 
-			case -16:
-				return ("asNO_GLOBAL_VAR");
-				break;
+		case -16:
+			return ( "asNO_GLOBAL_VAR" );
+			break;
 
-			case -17:
-				return ("asINVALID_CONFIGURATION");
-				break;
+		case -17:
+			return ( "asINVALID_CONFIGURATION" );
+			break;
 
-			case -18:
-				return ("asINVALID_INTERFACE");
-				break;
+		case -18:
+			return ( "asINVALID_INTERFACE" );
+			break;
 
-			case -19:
-				return ("asCANT_BIND_ALL_FUNCTIONS");
-				break;
+		case -19:
+			return ( "asCANT_BIND_ALL_FUNCTIONS" );
+			break;
 
-			case -20:
-				return ("asLOWER_ARRAY_DIMENSION_NOT_REGISTERED");
-				break;
+		case -20:
+			return ( "asLOWER_ARRAY_DIMENSION_NOT_REGISTERED" );
+			break;
 
-			case -21:
-				return ("asAPP_CANT_INTERFACE_DEFAULT_ARRAY");
-				break;
+		case -21:
+			return ( "asAPP_CANT_INTERFACE_DEFAULT_ARRAY" );
+			break;
 
-			default:
-				return ("Unknown error type.");
+		default:
+			return ( "Unknown error type." );
 		}
 }
 
@@ -236,7 +236,7 @@ bool util_registerFunctions()
 
 	string test1, test2;
 
-	if (false == scriptEngineStarted)
+	if ( false == scriptEngineStarted )
 		{
 			con_print ( true, true, "Failed to register functions. ScriptEngine is not ready." );
 			return false;
@@ -245,7 +245,7 @@ bool util_registerFunctions()
 	count = 0;
 	numFunctionsInScripts = 0;		// Used later to copy the script info into vector array
 
-	while (scriptFunctionName[count].functionName.size() > 1)
+	while ( scriptFunctionName[count].functionName.size() > 1 )
 		{
 			numFunctionsInScripts++;
 			count++;
@@ -268,7 +268,7 @@ bool util_registerFunctions()
 
 			else
 				{
-					con_print (true, true, "Registered function [ %s ]", hostScriptFunctions[count].scriptFunctionName.c_str());
+					con_print ( true, true, "Registered function [ %s ]", hostScriptFunctions[count].scriptFunctionName.c_str() );
 				}
 
 			count++;
@@ -298,7 +298,7 @@ bool sys_registerVariables()
 
 	while ( hostVariables[count].scriptFunctionName.size() > 1 )
 		{
-			result = scriptEngine->RegisterGlobalProperty ( hostVariables[count].scriptFunctionName.c_str(), (void *)hostVariables[count].hostFunctionPtr );
+			result = scriptEngine->RegisterGlobalProperty ( hostVariables[count].scriptFunctionName.c_str(), ( void * ) hostVariables[count].hostFunctionPtr );
 
 			if ( result < 0 )
 				{
@@ -338,7 +338,7 @@ bool util_cacheFunctionIDs()
 
 			if ( tempFunctionName.funcID <= 0 )
 				{
-					con_print ( true, true, "Failed to get function ID for [ %s ]", scriptFunctionName[i].functionName.c_str());
+					con_print ( true, true, "Failed to get function ID for [ %s ]", scriptFunctionName[i].functionName.c_str() );
 //					return false;
 
 				}
@@ -380,9 +380,9 @@ bool sys_fileIntoMemory ( char *whichFile )
 
 	strcpy ( fileName, whichFile );
 
-	printf("Opening file [ %s ] into memory\n", fileName);
+	printf ( "Opening file [ %s ] into memory\n", fileName );
 
-	fileHandle = PHYSFS_openRead(fileName);
+	fileHandle = PHYSFS_openRead ( fileName );
 
 	if ( NULL == fileHandle )
 		{
@@ -390,7 +390,7 @@ bool sys_fileIntoMemory ( char *whichFile )
 			return false;
 		}
 
-	fileSize = PHYSFS_fileLength( fileHandle );
+	fileSize = PHYSFS_fileLength ( fileHandle );
 	con_print ( true, true, "Size of script [ %i ] - [ %s ]", fileSize, fileName );
 
 	//
@@ -410,11 +410,11 @@ bool sys_fileIntoMemory ( char *whichFile )
 			return false;
 		}
 
-	if ( PHYSFS_read( fileHandle, ( void * ) fileLocation, ( size_t ) fileSize, 1 ) <= 0 )
+	if ( PHYSFS_read ( fileHandle, ( void * ) fileLocation, ( size_t ) fileSize, 1 ) <= 0 )
 		//sys_errorFatal ( "sys_fileIntoMemory", __LINE__, ( char * ) "Read error [ %s ]", fileName );
 		return false;
 
-	PHYSFS_close( fileHandle );
+	PHYSFS_close ( fileHandle );
 
 	fileLocation[fileSize - 1] = '\0';
 	return true;
@@ -444,7 +444,7 @@ bool util_loadAndCompileScripts()
 			//
 			if ( sys_fileIntoMemory ( ( char* ) scriptInfo[fileCounter].scriptFileName.c_str() ) == false )
 				{
-					con_print ( true, true, "Error: Failed to load scriptFile [ %s ]", scriptInfo[fileCounter].scriptFileName.c_str());
+					con_print ( true, true, "Error: Failed to load scriptFile [ %s ]", scriptInfo[fileCounter].scriptFileName.c_str() );
 					return false;
 				}
 
@@ -502,13 +502,13 @@ bool util_executeScriptFunction ( string functionName, string funcParam )
 	// Safety check first
 	if ( NULL == scriptEngine )
 		{
-			con_print ( true, true, "Couldn't execute [ %s ]. Engine not ready.", functionName.c_str());
+			con_print ( true, true, "Couldn't execute [ %s ]. Engine not ready.", functionName.c_str() );
 			return false;
 		}
 
 	if ( NULL == scriptContext )
 		{
-			con_print ( true, false, "Couldn't execute [ %s ]. Script context not ready", functionName.c_str());
+			con_print ( true, false, "Couldn't execute [ %s ]. Script context not ready", functionName.c_str() );
 			return false;
 		}
 
@@ -616,21 +616,21 @@ bool util_executeScriptFunction ( string functionName, string funcParam )
 //------------------------------------------------------------------
 //
 // Return messages to console from script engine
-void util_scriptMessageCallback(const asSMessageInfo *msg, void *param)
+void util_scriptMessageCallback ( const asSMessageInfo *msg, void *param )
 //------------------------------------------------------------------
 {
 	string messageType;
 
 	messageType = "ERROR";
 
-	if( msg->type == asMSGTYPE_WARNING )
+	if ( msg->type == asMSGTYPE_WARNING )
 		messageType = "WARN";
 
-	else if( msg->type == asMSGTYPE_INFORMATION )
+	else if ( msg->type == asMSGTYPE_INFORMATION )
 		messageType = "INFO";
 
-	printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, messageType.c_str(), msg->message);
-	con_print(true, false, "%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, messageType.c_str(), msg->message);
+	printf ( "%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, messageType.c_str(), msg->message );
+	con_print ( true, false, "%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, messageType.c_str(), msg->message );
 }
 
 //----------------------------------------------------------------
@@ -644,34 +644,34 @@ bool util_startScriptEngine()
 
 	if ( scriptEngine == 0 )
 		{
-			con_print(true, false, "Failed to create script engine.");
+			con_print ( true, false, "Failed to create script engine." );
 			scriptEngineStarted = false;
 			return false;
 		}
 
 	//
 	// The script compiler will write any compiler messages to the callback.
-	scriptEngine->SetMessageCallback(asFUNCTION(util_scriptMessageCallback), 0, asCALL_CDECL);
+	scriptEngine->SetMessageCallback ( asFUNCTION ( util_scriptMessageCallback ), 0, asCALL_CDECL );
 
 	//
 	// Find out how to call functions
 	if ( !strstr ( asGetLibraryOptions(), "AS_MAX_PORTABILTY" ) )
 		{
 			callType = asCALL_CDECL;
-			con_print(true, true, "Script: Call type [ %s ]", "asCALL_CDECL");
+			con_print ( true, true, "Script: Call type [ %s ]", "asCALL_CDECL" );
 
 		}
 
 	else
 		{
 			callType = asCALL_STDCALL;
-			con_print(true, true, "Script: Call type [ %s ]", "asCALL_STDCALL");
+			con_print ( true, true, "Script: Call type [ %s ]", "asCALL_STDCALL" );
 		}
 
 	// Register the script string type
 	// Look at the implementation for this function for more information
 	// on how to register a custom string type, and other object types.
-	RegisterStdString(scriptEngine);
+	RegisterStdString ( scriptEngine );
 
 	scriptEngineStarted = true;
 
@@ -699,7 +699,7 @@ bool sys_addScriptConsoleFunction ( string funcName, string funcPtr, bool setPar
 
 	if ( tempScriptFunction.funcID == NULL  )
 		{
-			con_print ( true, true, "Err: Failed to get function ID for [ %s ].", tempScriptFunction.functionName.c_str());
+			con_print ( true, true, "Err: Failed to get function ID for [ %s ].", tempScriptFunction.functionName.c_str() );
 			return false;
 		}
 
@@ -719,7 +719,7 @@ bool sys_shutDownScriptEngine()
 //-----------------------------------------------------------------------------
 {
 	context->Release();
-	con_print (CON_TEXT, true, "Script: Info: Script engine released.");
+	con_print ( CON_TEXT, true, "Script: Info: Script engine released." );
 	return true;
 }
 
@@ -732,30 +732,30 @@ bool sys_shutDownScriptEngine()
 //-----------------------------------------------------------------------------
 //
 // Print messages from script compiler to console
-void scr_Output(const char *msgText, void *outParam)
+void scr_Output ( const char *msgText, void *outParam )
 //-----------------------------------------------------------------------------
 {
-	con_print (CON_TEXT, true, "Script output > [ %s ]", msgText);
+	con_print ( CON_TEXT, true, "Script output > [ %s ]", msgText );
 }
 
-void MessageCallback(const asSMessageInfo *msg, void *param)
+void MessageCallback ( const asSMessageInfo *msg, void *param )
 {
 	const char *type = "ERR ";
 
-	if( msg->type == asMSGTYPE_WARNING )
+	if ( msg->type == asMSGTYPE_WARNING )
 		type = "WARN";
 
-	else if( msg->type == asMSGTYPE_INFORMATION )
+	else if ( msg->type == asMSGTYPE_INFORMATION )
 		type = "INFO";
 
-	printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
+	printf ( "%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message );
 }
 
 //-----------------------------------------------------------------------------
 //
 // Print to console from the scripts - String version
-void sys_scriptPrintStr(std::string *msgText, std::string *msgParam)
+void sys_scriptPrintStr ( std::string *msgText, std::string *msgParam )
 //-----------------------------------------------------------------------------
 {
-	con_print (CON_TEXT, true, "[ %s ] [ %s ]", msgText->c_str(), msgParam->c_str());
+	con_print ( CON_TEXT, true, "[ %s ] [ %s ]", msgText->c_str(), msgParam->c_str() );
 }

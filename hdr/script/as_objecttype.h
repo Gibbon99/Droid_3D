@@ -102,30 +102,30 @@ class asCObjectType : public asCTypeInfo
 {
 public:
 	asITypeInfo       *GetBaseType() const;
-	bool               DerivesFrom(const asITypeInfo *objType) const;
-	int                GetSubTypeId(asUINT subtypeIndex = 0) const;
-	asITypeInfo       *GetSubType(asUINT subtypeIndex = 0) const;
+	bool               DerivesFrom ( const asITypeInfo *objType ) const;
+	int                GetSubTypeId ( asUINT subtypeIndex = 0 ) const;
+	asITypeInfo       *GetSubType ( asUINT subtypeIndex = 0 ) const;
 	asUINT             GetSubTypeCount() const;
 	asUINT             GetInterfaceCount() const;
-	asITypeInfo       *GetInterface(asUINT index) const;
-	bool               Implements(const asITypeInfo *objType) const;
+	asITypeInfo       *GetInterface ( asUINT index ) const;
+	bool               Implements ( const asITypeInfo *objType ) const;
 	asUINT             GetFactoryCount() const;
-	asIScriptFunction *GetFactoryByIndex(asUINT index) const;
-	asIScriptFunction *GetFactoryByDecl(const char *decl) const;
+	asIScriptFunction *GetFactoryByIndex ( asUINT index ) const;
+	asIScriptFunction *GetFactoryByDecl ( const char *decl ) const;
 	asUINT             GetMethodCount() const;
-	asIScriptFunction *GetMethodByIndex(asUINT index, bool getVirtual) const;
-	asIScriptFunction *GetMethodByName(const char *name, bool getVirtual) const;
-	asIScriptFunction *GetMethodByDecl(const char *decl, bool getVirtual) const;
+	asIScriptFunction *GetMethodByIndex ( asUINT index, bool getVirtual ) const;
+	asIScriptFunction *GetMethodByName ( const char *name, bool getVirtual ) const;
+	asIScriptFunction *GetMethodByDecl ( const char *decl, bool getVirtual ) const;
 	asUINT             GetPropertyCount() const;
-	int                GetProperty(asUINT index, const char **name, int *typeId, bool *isPrivate, bool *isProtected, int *offset, bool *isReference, asDWORD *accessMask, int *compositeOffset, bool *isCompositeIndirect) const;
-	const char        *GetPropertyDeclaration(asUINT index, bool includeNamespace = false) const;
+	int                GetProperty ( asUINT index, const char **name, int *typeId, bool *isPrivate, bool *isProtected, int *offset, bool *isReference, asDWORD *accessMask, int *compositeOffset, bool *isCompositeIndirect ) const;
+	const char        *GetPropertyDeclaration ( asUINT index, bool includeNamespace = false ) const;
 	asUINT             GetBehaviourCount() const;
-	asIScriptFunction *GetBehaviourByIndex(asUINT index, asEBehaviours *outBehaviour) const;
+	asIScriptFunction *GetBehaviourByIndex ( asUINT index, asEBehaviours *outBehaviour ) const;
 	asUINT             GetChildFuncdefCount() const;
-	asITypeInfo       *GetChildFuncdef(asUINT index) const;
+	asITypeInfo       *GetChildFuncdef ( asUINT index ) const;
 
 public:
-	asCObjectType(asCScriptEngine *engine);
+	asCObjectType ( asCScriptEngine *engine );
 	~asCObjectType();
 	void DestroyInternal();
 
@@ -133,7 +133,7 @@ public:
 
 	bool IsInterface() const;
 
-	asCObjectProperty *AddPropertyToClass(const asCString &name, const asCDataType &dt, bool isPrivate, bool isProtected, bool isInherited);
+	asCObjectProperty *AddPropertyToClass ( const asCString &name, const asCDataType &dt, bool isPrivate, bool isProtected, bool isInherited );
 	void ReleaseAllProperties();
 
 #ifdef WIP_16BYTE_ALIGN

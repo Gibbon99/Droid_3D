@@ -53,18 +53,18 @@ namespace glm
 //! Return if a trihedron right handed or not.
 //! From GLM_GTX_handed_coordinate_space extension.
 template <typename T>
-bool rightHanded(
+bool rightHanded (
     detail::tvec3<T> const & tangent,
     detail::tvec3<T> const & binormal,
-    detail::tvec3<T> const & normal);
+    detail::tvec3<T> const & normal );
 
 //! Return if a trihedron left handed or not.
 //! From GLM_GTX_handed_coordinate_space extension.
 template <typename T>
-bool leftHanded(
+bool leftHanded (
     detail::tvec3<T> const & tangent,
     detail::tvec3<T> const & binormal,
-    detail::tvec3<T> const & normal);
+    detail::tvec3<T> const & normal );
 
 /// @}
 }// namespace glm

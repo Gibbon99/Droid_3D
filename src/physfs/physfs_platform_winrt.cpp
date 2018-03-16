@@ -24,12 +24,12 @@
 
 #include "physfs_internal.h"
 
-const void *__PHYSFS_winrtCalcBaseDir(void)
+const void *__PHYSFS_winrtCalcBaseDir ( void )
 {
 	return Windows::ApplicationModel::Package::Current->InstalledLocation->Path->Data();
 } /* __PHYSFS_winrtCalcBaseDir */
 
-const void *__PHYSFS_winrtCalcPrefDir(void)
+const void *__PHYSFS_winrtCalcPrefDir ( void )
 {
 	return Windows::Storage::ApplicationData::Current->LocalFolder->Path->Data();
 } /* __PHYSFS_winrtCalcBaseDir */

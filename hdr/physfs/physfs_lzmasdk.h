@@ -138,24 +138,24 @@ typedef int Bool;
 
 typedef struct
 {
-	Byte (*Read)(void *p); /* reads one byte, returns 0 in case of EOF or error */
+	Byte ( *Read ) ( void *p ); /* reads one byte, returns 0 in case of EOF or error */
 } IByteIn;
 
 typedef struct
 {
-	void (*Write)(void *p, Byte b);
+	void ( *Write ) ( void *p, Byte b );
 } IByteOut;
 
 typedef struct
 {
-	SRes (*Read)(void *p, void *buf, size_t *size);
+	SRes ( *Read ) ( void *p, void *buf, size_t *size );
 	/* if (input(*size) != 0 && output(*size) == 0) means end_of_stream.
 	   (output(*size) < input(*size)) is allowed */
 } ISeqInStream;
 
 typedef struct
 {
-	size_t (*Write)(void *p, const void *buf, size_t size);
+	size_t ( *Write ) ( void *p, const void *buf, size_t size );
 	/* Returns: result - the number of actually written bytes.
 	   (result < size) means error */
 } ISeqOutStream;
@@ -169,29 +169,29 @@ typedef enum
 
 typedef struct
 {
-	SRes (*Read)(void *p, void *buf, size_t *size);  /* same as ISeqInStream::Read */
-	SRes (*Seek)(void *p, Int64 *pos, ESzSeek origin);
+	SRes ( *Read ) ( void *p, void *buf, size_t *size ); /* same as ISeqInStream::Read */
+	SRes ( *Seek ) ( void *p, Int64 *pos, ESzSeek origin );
 } ISeekInStream;
 
 typedef struct
 {
-	SRes (*Look)(void *p, const void **buf, size_t *size);
+	SRes ( *Look ) ( void *p, const void **buf, size_t *size );
 	/* if (input(*size) != 0 && output(*size) == 0) means end_of_stream.
 	   (output(*size) > input(*size)) is not allowed
 	   (output(*size) < input(*size)) is allowed */
-	SRes (*Skip)(void *p, size_t offset);
+	SRes ( *Skip ) ( void *p, size_t offset );
 	/* offset must be <= output(*size) of Look */
 
-	SRes (*Read)(void *p, void *buf, size_t *size);
+	SRes ( *Read ) ( void *p, void *buf, size_t *size );
 	/* reads directly (without buffer). It's same as ISeqInStream::Read */
-	SRes (*Seek)(void *p, Int64 *pos, ESzSeek origin);
+	SRes ( *Seek ) ( void *p, Int64 *pos, ESzSeek origin );
 } ILookInStream;
 
-static SRes LookInStream_SeekTo(ILookInStream *stream, UInt64 offset);
+static SRes LookInStream_SeekTo ( ILookInStream *stream, UInt64 offset );
 
 /* reads via ILookInStream::Read */
-static SRes LookInStream_Read2(ILookInStream *stream, void *buf, size_t size, SRes errorType);
-static SRes LookInStream_Read(ILookInStream *stream, void *buf, size_t size);
+static SRes LookInStream_Read2 ( ILookInStream *stream, void *buf, size_t size, SRes errorType );
+static SRes LookInStream_Read ( ILookInStream *stream, void *buf, size_t size );
 
 #define LookToRead_BUF_SIZE (1 << 14)
 
@@ -204,8 +204,8 @@ typedef struct
 	Byte buf[LookToRead_BUF_SIZE];
 } CLookToRead;
 
-static void LookToRead_CreateVTable(CLookToRead *p, int lookahead);
-static void LookToRead_Init(CLookToRead *p);
+static void LookToRead_CreateVTable ( CLookToRead *p, int lookahead );
+static void LookToRead_Init ( CLookToRead *p );
 
 typedef struct
 {
@@ -221,15 +221,15 @@ typedef struct
 
 typedef struct
 {
-	SRes (*Progress)(void *p, UInt64 inSize, UInt64 outSize);
+	SRes ( *Progress ) ( void *p, UInt64 inSize, UInt64 outSize );
 	/* Returns: result. (result != SZ_OK) means break.
 	   Value (UInt64)(Int64)-1 for size means unknown value. */
 } ICompressProgress;
 
 typedef struct
 {
-	void *(*Alloc)(void *p, size_t size);
-	void (*Free)(void *p, void *address); /* address can be 0 */
+	void * ( *Alloc ) ( void *p, size_t size );
+	void ( *Free ) ( void *p, void *address ); /* address can be 0 */
 } ISzAlloc;
 
 #define IAlloc_Alloc(p, size) (p)->Alloc((p), size)
@@ -308,7 +308,7 @@ typedef struct
 } CSzFolder;
 
 
-static SRes SzGetNextFolderItem(CSzFolder *f, CSzData *sd);
+static SRes SzGetNextFolderItem ( CSzFolder *f, CSzData *sd );
 
 typedef struct
 {
@@ -350,12 +350,12 @@ typedef struct
 	Byte *CodersData;
 } CSzAr;
 
-static UInt64 SzAr_GetFolderUnpackSize(const CSzAr *p, UInt32 folderIndex);
+static UInt64 SzAr_GetFolderUnpackSize ( const CSzAr *p, UInt32 folderIndex );
 
-static SRes SzAr_DecodeFolder(const CSzAr *p, UInt32 folderIndex,
-                              ILookInStream *stream, UInt64 startPos,
-                              Byte *outBuffer, size_t outSize,
-                              ISzAlloc *allocMain);
+static SRes SzAr_DecodeFolder ( const CSzAr *p, UInt32 folderIndex,
+                                ILookInStream *stream, UInt64 startPos,
+                                Byte *outBuffer, size_t outSize,
+                                ISzAlloc *allocMain );
 
 typedef struct
 {
@@ -387,8 +387,8 @@ typedef struct
 
 #define SzArEx_GetFileSize(p, i) ((p)->UnpackPositions[(i) + 1] - (p)->UnpackPositions[i])
 
-static void SzArEx_Init(CSzArEx *p);
-static void SzArEx_Free(CSzArEx *p, ISzAlloc *alloc);
+static void SzArEx_Init ( CSzArEx *p );
+static void SzArEx_Free ( CSzArEx *p, ISzAlloc *alloc );
 
 /*
 if dest == NULL, the return value specifies the required size of the buffer,
@@ -396,7 +396,7 @@ if dest == NULL, the return value specifies the required size of the buffer,
 if dest != NULL, the return value specifies the number of 16-bit characters that
   are written to the dest, including the null-terminating character. */
 
-static size_t SzArEx_GetFileNameUtf16(const CSzArEx *p, size_t fileIndex, UInt16 *dest);
+static size_t SzArEx_GetFileNameUtf16 ( const CSzArEx *p, size_t fileIndex, UInt16 *dest );
 
 /*
 size_t SzArEx_GetFullNameLen(const CSzArEx *p, size_t fileIndex);
@@ -425,7 +425,7 @@ UInt16 *SzArEx_GetFullNameUtf16_Back(const CSzArEx *p, size_t fileIndex, UInt16 
     Free *outBuffer and set *outBuffer to 0, if you want to flush cache.
 */
 
-static SRes SzArEx_Extract(
+static SRes SzArEx_Extract (
     const CSzArEx *db,
     ILookInStream *inStream,
     UInt32 fileIndex,         /* index of file */
@@ -435,7 +435,7 @@ static SRes SzArEx_Extract(
     size_t *offset,           /* offset of stream for required file in *outBuffer */
     size_t *outSizeProcessed, /* size of file in *outBuffer */
     ISzAlloc *allocMain,
-    ISzAlloc *allocTemp);
+    ISzAlloc *allocTemp );
 
 
 /*
@@ -449,8 +449,8 @@ SZ_ERROR_INPUT_EOF
 SZ_ERROR_FAIL
 */
 
-static SRes SzArEx_Open(CSzArEx *p, ILookInStream *inStream,
-                        ISzAlloc *allocMain, ISzAlloc *allocTemp);
+static SRes SzArEx_Open ( CSzArEx *p, ILookInStream *inStream,
+                          ISzAlloc *allocMain, ISzAlloc *allocTemp );
 
 EXTERN_C_END
 
@@ -467,13 +467,13 @@ EXTERN_C_END
 EXTERN_C_BEGIN
 
 /* Call CrcGenerateTable one time before other CRC functions */
-static void MY_FAST_CALL CrcGenerateTable(void);
+static void MY_FAST_CALL CrcGenerateTable ( void );
 
 #define CRC_INIT_VAL 0xFFFFFFFF
 #define CRC_GET_DIGEST(crc) ((crc) ^ CRC_INIT_VAL)
 #define CRC_UPDATE_BYTE(crc, b) (g_CrcTable[((crc) ^ (b)) & 0xFF] ^ ((crc) >> 8))
 
-static UInt32 MY_FAST_CALL CrcCalc(const void *data, size_t size);
+static UInt32 MY_FAST_CALL CrcCalc ( const void *data, size_t size );
 
 EXTERN_C_END
 
@@ -685,10 +685,10 @@ enum
 	CPU_FIRM_VIA
 };
 
-static void MyCPUID(UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d);
+static void MyCPUID ( UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d );
 
-static Bool x86cpuid_CheckAndRead(Cx86cpuid *p);
-static int x86cpuid_GetFirm(const Cx86cpuid *p);
+static Bool x86cpuid_CheckAndRead ( Cx86cpuid *p );
+static int x86cpuid_GetFirm ( const Cx86cpuid *p );
 
 #define x86cpuid_GetFamily(ver) (((ver >> 16) & 0xFF0) | ((ver >> 8) & 0xF))
 #define x86cpuid_GetModel(ver)  (((ver >> 12) &  0xF0) | ((ver >> 4) & 0xF))
@@ -718,9 +718,9 @@ typedef struct
 	size_t size;
 } CBuf;
 
-static void Buf_Init(CBuf *p);
-static int Buf_Create(CBuf *p, size_t size, ISzAlloc *alloc);
-static void Buf_Free(CBuf *p, ISzAlloc *alloc);
+static void Buf_Init ( CBuf *p );
+static int Buf_Create ( CBuf *p, size_t size, ISzAlloc *alloc );
+static void Buf_Free ( CBuf *p, ISzAlloc *alloc );
 
 EXTERN_C_END
 
@@ -804,10 +804,10 @@ typedef struct
 	UInt16 probs[2 + 256];
 } CBcj2Dec;
 
-static void Bcj2Dec_Init(CBcj2Dec *p);
+static void Bcj2Dec_Init ( CBcj2Dec *p );
 
 /* Returns: SZ_OK or SZ_ERROR_DATA */
-static SRes Bcj2Dec_Decode(CBcj2Dec *p);
+static SRes Bcj2Dec_Decode ( CBcj2Dec *p );
 
 #define Bcj2Dec_IsFinished(_p_) ((_p_)->code == 0)
 
@@ -875,12 +875,12 @@ in CALL instructions to increase the compression ratio.
 */
 
 #define x86_Convert_Init(state) { state = 0; }
-static SizeT x86_Convert(Byte *data, SizeT size, UInt32 ip, UInt32 *state, int encoding);
-static SizeT ARM_Convert(Byte *data, SizeT size, UInt32 ip, int encoding);
-static SizeT ARMT_Convert(Byte *data, SizeT size, UInt32 ip, int encoding);
-static SizeT PPC_Convert(Byte *data, SizeT size, UInt32 ip, int encoding);
-static SizeT SPARC_Convert(Byte *data, SizeT size, UInt32 ip, int encoding);
-static SizeT IA64_Convert(Byte *data, SizeT size, UInt32 ip, int encoding);
+static SizeT x86_Convert ( Byte *data, SizeT size, UInt32 ip, UInt32 *state, int encoding );
+static SizeT ARM_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding );
+static SizeT ARMT_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding );
+static SizeT PPC_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding );
+static SizeT SPARC_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding );
+static SizeT IA64_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding );
 
 EXTERN_C_END
 
@@ -898,8 +898,8 @@ EXTERN_C_BEGIN
 
 #define DELTA_STATE_SIZE 256
 
-static void Delta_Init(Byte *state);
-static void Delta_Decode(Byte *state, unsigned delta, Byte *data, SizeT size);
+static void Delta_Init ( Byte *state );
+static void Delta_Decode ( Byte *state, unsigned delta, Byte *data, SizeT size );
 
 EXTERN_C_END
 
@@ -942,7 +942,7 @@ Returns:
   SZ_ERROR_UNSUPPORTED - Unsupported properties
 */
 
-static SRes LzmaProps_Decode(CLzmaProps *p, const Byte *data, unsigned size);
+static SRes LzmaProps_Decode ( CLzmaProps *p, const Byte *data, unsigned size );
 
 
 /* ---------- LZMA Decoder state ---------- */
@@ -975,7 +975,7 @@ typedef struct
 
 #define LzmaDec_Construct(p) { (p)->dic = 0; (p)->probs = 0; }
 
-static void LzmaDec_Init(CLzmaDec *p);
+static void LzmaDec_Init ( CLzmaDec *p );
 
 /* There are two types of LZMA streams:
      0) Stream with end mark. That end mark adds about 6 bytes to compressed size.
@@ -1036,8 +1036,8 @@ LzmaDec_Allocate* can return:
   SZ_ERROR_UNSUPPORTED - Unsupported properties
 */
 
-static SRes LzmaDec_AllocateProbs(CLzmaDec *p, const Byte *props, unsigned propsSize, ISzAlloc *alloc);
-static void LzmaDec_FreeProbs(CLzmaDec *p, ISzAlloc *alloc);
+static SRes LzmaDec_AllocateProbs ( CLzmaDec *p, const Byte *props, unsigned propsSize, ISzAlloc *alloc );
+static void LzmaDec_FreeProbs ( CLzmaDec *p, ISzAlloc *alloc );
 
 /* ---------- Dictionary Interface ---------- */
 
@@ -1080,8 +1080,8 @@ Returns:
   SZ_ERROR_DATA - Data error
 */
 
-static SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit,
-                                const Byte *src, SizeT *srcLen, ELzmaFinishMode finishMode, ELzmaStatus *status);
+static SRes LzmaDec_DecodeToDic ( CLzmaDec *p, SizeT dicLimit,
+                                  const Byte *src, SizeT *srcLen, ELzmaFinishMode finishMode, ELzmaStatus *status );
 
 EXTERN_C_END
 
@@ -1115,8 +1115,8 @@ typedef struct
 #define Lzma2Dec_FreeProbs(p, alloc) LzmaDec_FreeProbs(&(p)->decoder, alloc);
 #define Lzma2Dec_Free(p, alloc) LzmaDec_Free(&(p)->decoder, alloc);
 
-static SRes Lzma2Dec_AllocateProbs(CLzma2Dec *p, Byte prop, ISzAlloc *alloc);
-static void Lzma2Dec_Init(CLzma2Dec *p);
+static SRes Lzma2Dec_AllocateProbs ( CLzma2Dec *p, Byte prop, ISzAlloc *alloc );
+static void Lzma2Dec_Init ( CLzma2Dec *p );
 
 
 /*
@@ -1134,8 +1134,8 @@ Returns:
   SZ_ERROR_DATA - Data error
 */
 
-static SRes Lzma2Dec_DecodeToDic(CLzma2Dec *p, SizeT dicLimit,
-                                 const Byte *src, SizeT *srcLen, ELzmaFinishMode finishMode, ELzmaStatus *status);
+static SRes Lzma2Dec_DecodeToDic ( CLzma2Dec *p, SizeT dicLimit,
+                                   const Byte *src, SizeT *srcLen, ELzmaFinishMode finishMode, ELzmaStatus *status );
 
 
 EXTERN_C_END
@@ -1166,16 +1166,16 @@ EXTERN_C_END
 
 #define CRC_UINT32_SWAP(v) ((v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24))
 
-static UInt32 MY_FAST_CALL CrcUpdateT1_BeT4(UInt32 v, const void *data, size_t size, const UInt32 *table);
-static UInt32 MY_FAST_CALL CrcUpdateT1_BeT8(UInt32 v, const void *data, size_t size, const UInt32 *table);
+static UInt32 MY_FAST_CALL CrcUpdateT1_BeT4 ( UInt32 v, const void *data, size_t size, const UInt32 *table );
+static UInt32 MY_FAST_CALL CrcUpdateT1_BeT8 ( UInt32 v, const void *data, size_t size, const UInt32 *table );
 #endif
 
 #ifndef MY_CPU_BE
-static UInt32 MY_FAST_CALL CrcUpdateT4(UInt32 v, const void *data, size_t size, const UInt32 *table);
-static UInt32 MY_FAST_CALL CrcUpdateT8(UInt32 v, const void *data, size_t size, const UInt32 *table);
+static UInt32 MY_FAST_CALL CrcUpdateT4 ( UInt32 v, const void *data, size_t size, const UInt32 *table );
+static UInt32 MY_FAST_CALL CrcUpdateT8 ( UInt32 v, const void *data, size_t size, const UInt32 *table );
 #endif
 
-typedef UInt32 (MY_FAST_CALL *CRC_FUNC)(UInt32 v, const void *data, size_t size, const UInt32 *table);
+typedef UInt32 ( MY_FAST_CALL *CRC_FUNC ) ( UInt32 v, const void *data, size_t size, const UInt32 *table );
 
 static CRC_FUNC g_CrcUpdateT4;
 static CRC_FUNC g_CrcUpdateT8;
@@ -1183,21 +1183,21 @@ static CRC_FUNC g_CrcUpdate;
 
 static UInt32 g_CrcTable[256 * CRC_NUM_TABLES];
 
-static UInt32 MY_FAST_CALL CrcCalc(const void *data, size_t size)
+static UInt32 MY_FAST_CALL CrcCalc ( const void *data, size_t size )
 {
-	return g_CrcUpdate(CRC_INIT_VAL, data, size, g_CrcTable) ^ CRC_INIT_VAL;
+	return g_CrcUpdate ( CRC_INIT_VAL, data, size, g_CrcTable ) ^ CRC_INIT_VAL;
 }
 
 #define CRC_UPDATE_BYTE_2(crc, b) (table[((crc) ^ (b)) & 0xFF] ^ ((crc) >> 8))
 
 #if CRC_NUM_TABLES < 4
-static UInt32 MY_FAST_CALL CrcUpdateT1(UInt32 v, const void *data, size_t size, const UInt32 *table)
+static UInt32 MY_FAST_CALL CrcUpdateT1 ( UInt32 v, const void *data, size_t size, const UInt32 *table )
 {
-	const Byte *p = (const Byte *)data;
+	const Byte *p = ( const Byte * ) data;
 	const Byte *pEnd = p + size;
 
-	for (; p != pEnd; p++)
-		v = CRC_UPDATE_BYTE_2(v, *p);
+	for ( ; p != pEnd; p++ )
+		v = CRC_UPDATE_BYTE_2 ( v, *p );
 
 	return v;
 }
@@ -1207,21 +1207,21 @@ static void MY_FAST_CALL CrcGenerateTable()
 {
 	UInt32 i;
 
-	for (i = 0; i < 256; i++)
+	for ( i = 0; i < 256; i++ )
 		{
 			UInt32 r = i;
 			unsigned j;
 
-			for (j = 0; j < 8; j++)
-				r = (r >> 1) ^ (kCrcPoly & ~((r & 1) - 1));
+			for ( j = 0; j < 8; j++ )
+				r = ( r >> 1 ) ^ ( kCrcPoly & ~ ( ( r & 1 ) - 1 ) );
 
 			g_CrcTable[i] = r;
 		}
 
-	for (; i < 256 * CRC_NUM_TABLES; i++)
+	for ( ; i < 256 * CRC_NUM_TABLES; i++ )
 		{
 			UInt32 r = g_CrcTable[i - 256];
-			g_CrcTable[i] = g_CrcTable[r & 0xFF] ^ (r >> 8);
+			g_CrcTable[i] = g_CrcTable[r & 0xFF] ^ ( r >> 8 );
 		}
 
 #if CRC_NUM_TABLES < 4
@@ -1240,7 +1240,7 @@ static void MY_FAST_CALL CrcGenerateTable()
 
 #ifdef MY_CPU_X86_OR_AMD64
 
-	if (!CPU_Is_InOrder())
+	if ( !CPU_Is_InOrder() )
 		g_CrcUpdate = CrcUpdateT8;
 
 #endif
@@ -1250,9 +1250,9 @@ static void MY_FAST_CALL CrcGenerateTable()
 	{
 #ifndef MY_CPU_BE
 		UInt32 k = 0x01020304;
-		const Byte *p = (const Byte *)&k;
+		const Byte *p = ( const Byte * ) &k;
 
-		if (p[0] == 4 && p[1] == 3)
+		if ( p[0] == 4 && p[1] == 3 )
 			{
 				g_CrcUpdateT4 = CrcUpdateT4;
 				g_CrcUpdate = CrcUpdateT4;
@@ -1262,16 +1262,16 @@ static void MY_FAST_CALL CrcGenerateTable()
 #endif
 			}
 
-		else if (p[0] != 1 || p[1] != 2)
+		else if ( p[0] != 1 || p[1] != 2 )
 			g_CrcUpdate = CrcUpdateT1;
 
 		else
 #endif
 			{
-				for (i = 256 * CRC_NUM_TABLES - 1; i >= 256; i--)
+				for ( i = 256 * CRC_NUM_TABLES - 1; i >= 256; i-- )
 					{
 						UInt32 x = g_CrcTable[i - 256];
-						g_CrcTable[i] = CRC_UINT32_SWAP(x);
+						g_CrcTable[i] = CRC_UINT32_SWAP ( x );
 					}
 
 				g_CrcUpdateT4 = CrcUpdateT1_BeT4;
@@ -1300,55 +1300,55 @@ static void MY_FAST_CALL CrcGenerateTable()
 
 #define CRC_UPDATE_BYTE_2(crc, b) (table[((crc) ^ (b)) & 0xFF] ^ ((crc) >> 8))
 
-static UInt32 MY_FAST_CALL CrcUpdateT4(UInt32 v, const void *data, size_t size, const UInt32 *table)
+static UInt32 MY_FAST_CALL CrcUpdateT4 ( UInt32 v, const void *data, size_t size, const UInt32 *table )
 {
-	const Byte *p = (const Byte *)data;
+	const Byte *p = ( const Byte * ) data;
 
-	for (; size > 0 && ((unsigned)(ptrdiff_t)p & 3) != 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2(v, *p);
+	for ( ; size > 0 && ( ( unsigned ) ( ptrdiff_t ) p & 3 ) != 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2 ( v, *p );
 
-	for (; size >= 4; size -= 4, p += 4)
+	for ( ; size >= 4; size -= 4, p += 4 )
 		{
-			v ^= *(const UInt32 *)p;
+			v ^= * ( const UInt32 * ) p;
 			v =
-			    table[0x300 + ((v      ) & 0xFF)]
-			    ^ table[0x200 + ((v >>  8) & 0xFF)]
-			    ^ table[0x100 + ((v >> 16) & 0xFF)]
-			    ^ table[0x000 + ((v >> 24))];
+			    table[0x300 + ( ( v      ) & 0xFF )]
+			    ^ table[0x200 + ( ( v >>  8 ) & 0xFF )]
+			    ^ table[0x100 + ( ( v >> 16 ) & 0xFF )]
+			    ^ table[0x000 + ( ( v >> 24 ) )];
 		}
 
-	for (; size > 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2(v, *p);
+	for ( ; size > 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2 ( v, *p );
 
 	return v;
 }
 
-static UInt32 MY_FAST_CALL CrcUpdateT8(UInt32 v, const void *data, size_t size, const UInt32 *table)
+static UInt32 MY_FAST_CALL CrcUpdateT8 ( UInt32 v, const void *data, size_t size, const UInt32 *table )
 {
-	const Byte *p = (const Byte *)data;
+	const Byte *p = ( const Byte * ) data;
 
-	for (; size > 0 && ((unsigned)(ptrdiff_t)p & 7) != 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2(v, *p);
+	for ( ; size > 0 && ( ( unsigned ) ( ptrdiff_t ) p & 7 ) != 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2 ( v, *p );
 
-	for (; size >= 8; size -= 8, p += 8)
+	for ( ; size >= 8; size -= 8, p += 8 )
 		{
 			UInt32 d;
-			v ^= *(const UInt32 *)p;
+			v ^= * ( const UInt32 * ) p;
 			v =
-			    table[0x700 + ((v      ) & 0xFF)]
-			    ^ table[0x600 + ((v >>  8) & 0xFF)]
-			    ^ table[0x500 + ((v >> 16) & 0xFF)]
-			    ^ table[0x400 + ((v >> 24))];
-			d = *((const UInt32 *)p + 1);
+			    table[0x700 + ( ( v      ) & 0xFF )]
+			    ^ table[0x600 + ( ( v >>  8 ) & 0xFF )]
+			    ^ table[0x500 + ( ( v >> 16 ) & 0xFF )]
+			    ^ table[0x400 + ( ( v >> 24 ) )];
+			d = * ( ( const UInt32 * ) p + 1 );
 			v ^=
-			    table[0x300 + ((d      ) & 0xFF)]
-			    ^ table[0x200 + ((d >>  8) & 0xFF)]
-			    ^ table[0x100 + ((d >> 16) & 0xFF)]
-			    ^ table[0x000 + ((d >> 24))];
+			    table[0x300 + ( ( d      ) & 0xFF )]
+			    ^ table[0x200 + ( ( d >>  8 ) & 0xFF )]
+			    ^ table[0x100 + ( ( d >> 16 ) & 0xFF )]
+			    ^ table[0x000 + ( ( d >> 24 ) )];
 		}
 
-	for (; size > 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2(v, *p);
+	for ( ; size > 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2 ( v, *p );
 
 	return v;
 }
@@ -1362,61 +1362,61 @@ static UInt32 MY_FAST_CALL CrcUpdateT8(UInt32 v, const void *data, size_t size, 
 
 #define CRC_UPDATE_BYTE_2_BE(crc, b) (table[(((crc) >> 24) ^ (b))] ^ ((crc) << 8))
 
-static UInt32 MY_FAST_CALL CrcUpdateT1_BeT4(UInt32 v, const void *data, size_t size, const UInt32 *table)
+static UInt32 MY_FAST_CALL CrcUpdateT1_BeT4 ( UInt32 v, const void *data, size_t size, const UInt32 *table )
 {
-	const Byte *p = (const Byte *)data;
+	const Byte *p = ( const Byte * ) data;
 	table += 0x100;
-	v = CRC_UINT32_SWAP(v);
+	v = CRC_UINT32_SWAP ( v );
 
-	for (; size > 0 && ((unsigned)(ptrdiff_t)p & 3) != 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2_BE(v, *p);
+	for ( ; size > 0 && ( ( unsigned ) ( ptrdiff_t ) p & 3 ) != 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2_BE ( v, *p );
 
-	for (; size >= 4; size -= 4, p += 4)
+	for ( ; size >= 4; size -= 4, p += 4 )
 		{
-			v ^= *(const UInt32 *)p;
+			v ^= * ( const UInt32 * ) p;
 			v =
-			    table[0x000 + ((v      ) & 0xFF)]
-			    ^ table[0x100 + ((v >>  8) & 0xFF)]
-			    ^ table[0x200 + ((v >> 16) & 0xFF)]
-			    ^ table[0x300 + ((v >> 24))];
+			    table[0x000 + ( ( v      ) & 0xFF )]
+			    ^ table[0x100 + ( ( v >>  8 ) & 0xFF )]
+			    ^ table[0x200 + ( ( v >> 16 ) & 0xFF )]
+			    ^ table[0x300 + ( ( v >> 24 ) )];
 		}
 
-	for (; size > 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2_BE(v, *p);
+	for ( ; size > 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2_BE ( v, *p );
 
-	return CRC_UINT32_SWAP(v);
+	return CRC_UINT32_SWAP ( v );
 }
 
-static UInt32 MY_FAST_CALL CrcUpdateT1_BeT8(UInt32 v, const void *data, size_t size, const UInt32 *table)
+static UInt32 MY_FAST_CALL CrcUpdateT1_BeT8 ( UInt32 v, const void *data, size_t size, const UInt32 *table )
 {
-	const Byte *p = (const Byte *)data;
+	const Byte *p = ( const Byte * ) data;
 	table += 0x100;
-	v = CRC_UINT32_SWAP(v);
+	v = CRC_UINT32_SWAP ( v );
 
-	for (; size > 0 && ((unsigned)(ptrdiff_t)p & 7) != 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2_BE(v, *p);
+	for ( ; size > 0 && ( ( unsigned ) ( ptrdiff_t ) p & 7 ) != 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2_BE ( v, *p );
 
-	for (; size >= 8; size -= 8, p += 8)
+	for ( ; size >= 8; size -= 8, p += 8 )
 		{
 			UInt32 d;
-			v ^= *(const UInt32 *)p;
+			v ^= * ( const UInt32 * ) p;
 			v =
-			    table[0x400 + ((v      ) & 0xFF)]
-			    ^ table[0x500 + ((v >>  8) & 0xFF)]
-			    ^ table[0x600 + ((v >> 16) & 0xFF)]
-			    ^ table[0x700 + ((v >> 24))];
-			d = *((const UInt32 *)p + 1);
+			    table[0x400 + ( ( v      ) & 0xFF )]
+			    ^ table[0x500 + ( ( v >>  8 ) & 0xFF )]
+			    ^ table[0x600 + ( ( v >> 16 ) & 0xFF )]
+			    ^ table[0x700 + ( ( v >> 24 ) )];
+			d = * ( ( const UInt32 * ) p + 1 );
 			v ^=
-			    table[0x000 + ((d      ) & 0xFF)]
-			    ^ table[0x100 + ((d >>  8) & 0xFF)]
-			    ^ table[0x200 + ((d >> 16) & 0xFF)]
-			    ^ table[0x300 + ((d >> 24))];
+			    table[0x000 + ( ( d      ) & 0xFF )]
+			    ^ table[0x100 + ( ( d >>  8 ) & 0xFF )]
+			    ^ table[0x200 + ( ( d >> 16 ) & 0xFF )]
+			    ^ table[0x300 + ( ( d >> 24 ) )];
 		}
 
-	for (; size > 0; size--, p++)
-		v = CRC_UPDATE_BYTE_2_BE(v, *p);
+	for ( ; size > 0; size--, p++ )
+		v = CRC_UPDATE_BYTE_2_BE ( v, *p );
 
-	return CRC_UINT32_SWAP(v);
+	return CRC_UINT32_SWAP ( v );
 }
 
 #endif
@@ -1441,7 +1441,7 @@ static UInt32 MY_FAST_CALL CrcUpdateT1_BeT8(UInt32 v, const void *data, size_t s
 #endif
 
 #if defined(USE_ASM) && !defined(MY_CPU_AMD64)
-static UInt32 CheckFlag(UInt32 flag)
+static UInt32 CheckFlag ( UInt32 flag )
 {
 #ifdef _MSC_VER
 	__asm pushfd;
@@ -1470,8 +1470,8 @@ static UInt32 CheckFlag(UInt32 flag)
 	    "push %%EDX\n\t"
 	    "popf\n\t"
 	    "andl %%EAX, %0\n\t":
-	    "=c" (flag) : "c" (flag) :
-	    "%eax", "%edx");
+	    "=c" ( flag ) : "c" ( flag ) :
+	    "%eax", "%edx" );
 #endif
 	return flag;
 }
@@ -1481,7 +1481,7 @@ static UInt32 CheckFlag(UInt32 flag)
 #endif
 
 #if defined(__WATCOMC__)
-static void __cpuid(int *cpuinfo, const UInt32 infotype);
+static void __cpuid ( int *cpuinfo, const UInt32 infotype );
 #pragma aux __cpuid =     \
     ".586"                \
     "cpuid"               \
@@ -1493,7 +1493,7 @@ static void __cpuid(int *cpuinfo, const UInt32 infotype);
 #endif
 
 
-static void MyCPUID(UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d)
+static void MyCPUID ( UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d )
 {
 #ifdef USE_ASM
 
@@ -1522,29 +1522,29 @@ static void MyCPUID(UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d)
 	    "mov %%rbx, %%rdi;"
 	    "cpuid;"
 	    "xchg %%rbx, %%rdi;"
-	    : "=a" (*a),
-	    "=D" (*b),
+	    : "=a" ( *a ),
+	    "=D" ( *b ),
 #elif defined(MY_CPU_X86) && defined(__PIC__)
 	    "mov %%ebx, %%edi;"
 	    "cpuid;"
 	    "xchgl %%ebx, %%edi;"
-	    : "=a" (*a),
-	    "=D" (*b),
+	    : "=a" ( *a ),
+	    "=D" ( *b ),
 #else
 	    "cpuid"
-	    : "=a" (*a),
-	    "=b" (*b),
+	    : "=a" ( *a ),
+	    "=b" ( *b ),
 #endif
-	    "=c" (*c),
-	    "=d" (*d)
-	    : "0" (function)) ;
+	    "=c" ( *c ),
+	    "=d" ( *d )
+	    : "0" ( function ) ) ;
 
 #endif
 
 #else
 
 	int CPUInfo[4];
-	__cpuid(CPUInfo, function);
+	__cpuid ( CPUInfo, function );
 	*a = CPUInfo[0];
 	*b = CPUInfo[1];
 	*c = CPUInfo[2];
@@ -1553,11 +1553,11 @@ static void MyCPUID(UInt32 function, UInt32 *a, UInt32 *b, UInt32 *c, UInt32 *d)
 #endif
 }
 
-static Bool x86cpuid_CheckAndRead(Cx86cpuid *p)
+static Bool x86cpuid_CheckAndRead ( Cx86cpuid *p )
 {
 	CHECK_CPUID_IS_SUPPORTED
-	MyCPUID(0, &p->maxFunc, &p->vendor[0], &p->vendor[2], &p->vendor[1]);
-	MyCPUID(1, &p->ver, &p->b, &p->c, &p->d);
+	MyCPUID ( 0, &p->maxFunc, &p->vendor[0], &p->vendor[2], &p->vendor[1] );
+	MyCPUID ( 1, &p->ver, &p->b, &p->c, &p->d );
 	return True;
 }
 
@@ -1568,18 +1568,18 @@ static const UInt32 kVendors[][3] =
 	{ 0x746E6543, 0x48727561, 0x736C7561}
 };
 
-static int x86cpuid_GetFirm(const Cx86cpuid *p)
+static int x86cpuid_GetFirm ( const Cx86cpuid *p )
 {
 	unsigned i;
 
-	for (i = 0; i < sizeof(kVendors) / sizeof(kVendors[i]); i++)
+	for ( i = 0; i < sizeof ( kVendors ) / sizeof ( kVendors[i] ); i++ )
 		{
 			const UInt32 *v = kVendors[i];
 
-			if (v[0] == p->vendor[0] &&
+			if ( v[0] == p->vendor[0] &&
 			        v[1] == p->vendor[1] &&
-			        v[2] == p->vendor[2])
-				return (int)i;
+			        v[2] == p->vendor[2] )
+				return ( int ) i;
 		}
 
 	return -1;
@@ -1591,31 +1591,31 @@ static Bool CPU_Is_InOrder()
 	int firm;
 	UInt32 family, model;
 
-	if (!x86cpuid_CheckAndRead(&p))
+	if ( !x86cpuid_CheckAndRead ( &p ) )
 		return True;
 
-	family = x86cpuid_GetFamily(p.ver);
-	model = x86cpuid_GetModel(p.ver);
+	family = x86cpuid_GetFamily ( p.ver );
+	model = x86cpuid_GetModel ( p.ver );
 
-	firm = x86cpuid_GetFirm(&p);
+	firm = x86cpuid_GetFirm ( &p );
 
-	switch (firm)
+	switch ( firm )
 		{
-			case CPU_FIRM_INTEL:
-				return (family < 6 || (family == 6 && (
-				                           /* In-Order Atom CPU */
-				                           model == 0x1C  /* 45 nm, N4xx, D4xx, N5xx, D5xx, 230, 330 */
-				                           || model == 0x26  /* 45 nm, Z6xx */
-				                           || model == 0x27  /* 32 nm, Z2460 */
-				                           || model == 0x35  /* 32 nm, Z2760 */
-				                           || model == 0x36  /* 32 nm, N2xxx, D2xxx */
-				                       )));
+		case CPU_FIRM_INTEL:
+			return ( family < 6 || ( family == 6 && (
+			                             /* In-Order Atom CPU */
+			                             model == 0x1C  /* 45 nm, N4xx, D4xx, N5xx, D5xx, 230, 330 */
+			                             || model == 0x26  /* 45 nm, Z6xx */
+			                             || model == 0x27  /* 32 nm, Z2460 */
+			                             || model == 0x35  /* 32 nm, Z2760 */
+			                             || model == 0x36  /* 32 nm, N2xxx, D2xxx */
+			                         ) ) );
 
-			case CPU_FIRM_AMD:
-				return (family < 5 || (family == 5 && (model < 6 || model == 0xA)));
+		case CPU_FIRM_AMD:
+			return ( family < 5 || ( family == 5 && ( model < 6 || model == 0xA ) ) );
 
-			case CPU_FIRM_VIA:
-				return (family < 6 || (family == 6 && model < 0xF));
+		case CPU_FIRM_VIA:
+			return ( family < 6 || ( family == 6 && model < 0xF ) );
 		}
 
 	return True;
@@ -1632,111 +1632,111 @@ static Bool CPU_Is_InOrder()
 
 /*#include "7zTypes.h"*/
 
-static SRes LookInStream_SeekTo(ILookInStream *stream, UInt64 offset)
+static SRes LookInStream_SeekTo ( ILookInStream *stream, UInt64 offset )
 {
 	Int64 t = offset;
-	return stream->Seek(stream, &t, SZ_SEEK_SET);
+	return stream->Seek ( stream, &t, SZ_SEEK_SET );
 }
 
-static SRes LookInStream_Read2(ILookInStream *stream, void *buf, size_t size, SRes errorType)
+static SRes LookInStream_Read2 ( ILookInStream *stream, void *buf, size_t size, SRes errorType )
 {
-	while (size != 0)
+	while ( size != 0 )
 		{
 			size_t processed = size;
-			RINOK(stream->Read(stream, buf, &processed));
+			RINOK ( stream->Read ( stream, buf, &processed ) );
 
-			if (processed == 0)
+			if ( processed == 0 )
 				return errorType;
 
-			buf = (void *)((Byte *)buf + processed);
+			buf = ( void * ) ( ( Byte * ) buf + processed );
 			size -= processed;
 		}
 
 	return SZ_OK;
 }
 
-static SRes LookInStream_Read(ILookInStream *stream, void *buf, size_t size)
+static SRes LookInStream_Read ( ILookInStream *stream, void *buf, size_t size )
 {
-	return LookInStream_Read2(stream, buf, size, SZ_ERROR_INPUT_EOF);
+	return LookInStream_Read2 ( stream, buf, size, SZ_ERROR_INPUT_EOF );
 }
 
-static SRes LookToRead_Look_Lookahead(void *pp, const void **buf, size_t *size)
+static SRes LookToRead_Look_Lookahead ( void *pp, const void **buf, size_t *size )
 {
 	SRes res = SZ_OK;
-	CLookToRead *p = (CLookToRead *)pp;
+	CLookToRead *p = ( CLookToRead * ) pp;
 	size_t size2 = p->size - p->pos;
 
-	if (size2 == 0 && *size > 0)
+	if ( size2 == 0 && *size > 0 )
 		{
 			p->pos = 0;
 			size2 = LookToRead_BUF_SIZE;
-			res = p->realStream->Read(p->realStream, p->buf, &size2);
+			res = p->realStream->Read ( p->realStream, p->buf, &size2 );
 			p->size = size2;
 		}
 
-	if (size2 < *size)
+	if ( size2 < *size )
 		*size = size2;
 
 	*buf = p->buf + p->pos;
 	return res;
 }
 
-static SRes LookToRead_Look_Exact(void *pp, const void **buf, size_t *size)
+static SRes LookToRead_Look_Exact ( void *pp, const void **buf, size_t *size )
 {
 	SRes res = SZ_OK;
-	CLookToRead *p = (CLookToRead *)pp;
+	CLookToRead *p = ( CLookToRead * ) pp;
 	size_t size2 = p->size - p->pos;
 
-	if (size2 == 0 && *size > 0)
+	if ( size2 == 0 && *size > 0 )
 		{
 			p->pos = 0;
 
-			if (*size > LookToRead_BUF_SIZE)
+			if ( *size > LookToRead_BUF_SIZE )
 				*size = LookToRead_BUF_SIZE;
 
-			res = p->realStream->Read(p->realStream, p->buf, size);
+			res = p->realStream->Read ( p->realStream, p->buf, size );
 			size2 = p->size = *size;
 		}
 
-	if (size2 < *size)
+	if ( size2 < *size )
 		*size = size2;
 
 	*buf = p->buf + p->pos;
 	return res;
 }
 
-static SRes LookToRead_Skip(void *pp, size_t offset)
+static SRes LookToRead_Skip ( void *pp, size_t offset )
 {
-	CLookToRead *p = (CLookToRead *)pp;
+	CLookToRead *p = ( CLookToRead * ) pp;
 	p->pos += offset;
 	return SZ_OK;
 }
 
-static SRes LookToRead_Read(void *pp, void *buf, size_t *size)
+static SRes LookToRead_Read ( void *pp, void *buf, size_t *size )
 {
-	CLookToRead *p = (CLookToRead *)pp;
+	CLookToRead *p = ( CLookToRead * ) pp;
 	size_t rem = p->size - p->pos;
 
-	if (rem == 0)
-		return p->realStream->Read(p->realStream, buf, size);
+	if ( rem == 0 )
+		return p->realStream->Read ( p->realStream, buf, size );
 
-	if (rem > *size)
+	if ( rem > *size )
 		rem = *size;
 
-	memcpy(buf, p->buf + p->pos, rem);
+	memcpy ( buf, p->buf + p->pos, rem );
 	p->pos += rem;
 	*size = rem;
 	return SZ_OK;
 }
 
-static SRes LookToRead_Seek(void *pp, Int64 *pos, ESzSeek origin)
+static SRes LookToRead_Seek ( void *pp, Int64 *pos, ESzSeek origin )
 {
-	CLookToRead *p = (CLookToRead *)pp;
+	CLookToRead *p = ( CLookToRead * ) pp;
 	p->pos = p->size = 0;
-	return p->realStream->Seek(p->realStream, pos, origin);
+	return p->realStream->Seek ( p->realStream, pos, origin );
 }
 
-static void LookToRead_CreateVTable(CLookToRead *p, int lookahead)
+static void LookToRead_CreateVTable ( CLookToRead *p, int lookahead )
 {
 	p->s.Look = lookahead ?
 	            LookToRead_Look_Lookahead :
@@ -1746,7 +1746,7 @@ static void LookToRead_CreateVTable(CLookToRead *p, int lookahead)
 	p->s.Seek = LookToRead_Seek;
 }
 
-static void LookToRead_Init(CLookToRead *p)
+static void LookToRead_Init ( CLookToRead *p )
 {
 	p->pos = p->size = 0;
 }
@@ -1816,9 +1816,9 @@ static const Byte k7zSignature[k7zSignatureSize] = {'7', 'z', 0xBC, 0xAF, 0x27, 
 
 #define SzBitUi32s_Init(p) { (p)->Defs = NULL; (p)->Vals = NULL; }
 
-static SRes SzBitUi32s_Alloc(CSzBitUi32s *p, size_t num, ISzAlloc *alloc)
+static SRes SzBitUi32s_Alloc ( CSzBitUi32s *p, size_t num, ISzAlloc *alloc )
 {
-	if (num == 0)
+	if ( num == 0 )
 		{
 			p->Defs = NULL;
 			p->Vals = NULL;
@@ -1826,39 +1826,39 @@ static SRes SzBitUi32s_Alloc(CSzBitUi32s *p, size_t num, ISzAlloc *alloc)
 
 	else
 		{
-			MY_ALLOC(Byte, p->Defs, (num + 7) >> 3, alloc);
-			MY_ALLOC(UInt32, p->Vals, num, alloc);
+			MY_ALLOC ( Byte, p->Defs, ( num + 7 ) >> 3, alloc );
+			MY_ALLOC ( UInt32, p->Vals, num, alloc );
 		}
 
 	return SZ_OK;
 }
 
-static void SzBitUi32s_Free(CSzBitUi32s *p, ISzAlloc *alloc)
+static void SzBitUi32s_Free ( CSzBitUi32s *p, ISzAlloc *alloc )
 {
-	IAlloc_Free(alloc, p->Defs);
+	IAlloc_Free ( alloc, p->Defs );
 	p->Defs = NULL;
-	IAlloc_Free(alloc, p->Vals);
+	IAlloc_Free ( alloc, p->Vals );
 	p->Vals = NULL;
 }
 
 #define SzBitUi64s_Init(p) { (p)->Defs = NULL; (p)->Vals = NULL; }
 
-static void SzBitUi64s_Free(CSzBitUi64s *p, ISzAlloc *alloc)
+static void SzBitUi64s_Free ( CSzBitUi64s *p, ISzAlloc *alloc )
 {
-	IAlloc_Free(alloc, p->Defs);
+	IAlloc_Free ( alloc, p->Defs );
 	p->Defs = NULL;
-	IAlloc_Free(alloc, p->Vals);
+	IAlloc_Free ( alloc, p->Vals );
 	p->Vals = NULL;
 }
 
 
-static void SzAr_Init(CSzAr *p)
+static void SzAr_Init ( CSzAr *p )
 {
 	p->NumPackStreams = 0;
 	p->NumFolders = 0;
 
 	p->PackPositions = NULL;
-	SzBitUi32s_Init(&p->FolderCRCs);
+	SzBitUi32s_Init ( &p->FolderCRCs );
 
 	p->FoCodersOffsets = NULL;
 	p->FoStartPackStreamIndex = NULL;
@@ -1869,26 +1869,26 @@ static void SzAr_Init(CSzAr *p)
 	p->CodersData = NULL;
 }
 
-static void SzAr_Free(CSzAr *p, ISzAlloc *alloc)
+static void SzAr_Free ( CSzAr *p, ISzAlloc *alloc )
 {
-	IAlloc_Free(alloc, p->PackPositions);
-	SzBitUi32s_Free(&p->FolderCRCs, alloc);
+	IAlloc_Free ( alloc, p->PackPositions );
+	SzBitUi32s_Free ( &p->FolderCRCs, alloc );
 
-	IAlloc_Free(alloc, p->FoCodersOffsets);
-	IAlloc_Free(alloc, p->FoStartPackStreamIndex);
-	IAlloc_Free(alloc, p->FoToCoderUnpackSizes);
-	IAlloc_Free(alloc, p->FoToMainUnpackSizeIndex);
-	IAlloc_Free(alloc, p->CoderUnpackSizes);
+	IAlloc_Free ( alloc, p->FoCodersOffsets );
+	IAlloc_Free ( alloc, p->FoStartPackStreamIndex );
+	IAlloc_Free ( alloc, p->FoToCoderUnpackSizes );
+	IAlloc_Free ( alloc, p->FoToMainUnpackSizeIndex );
+	IAlloc_Free ( alloc, p->CoderUnpackSizes );
 
-	IAlloc_Free(alloc, p->CodersData);
+	IAlloc_Free ( alloc, p->CodersData );
 
-	SzAr_Init(p);
+	SzAr_Init ( p );
 }
 
 
-static void SzArEx_Init(CSzArEx *p)
+static void SzArEx_Init ( CSzArEx *p )
 {
-	SzAr_Init(&p->db);
+	SzAr_Init ( &p->db );
 
 	p->NumFiles = 0;
 	p->dataPos = 0;
@@ -1902,41 +1902,41 @@ static void SzArEx_Init(CSzArEx *p)
 	p->FileNameOffsets = NULL;
 	p->FileNames = NULL;
 
-	SzBitUi32s_Init(&p->CRCs);
-	SzBitUi32s_Init(&p->Attribs);
+	SzBitUi32s_Init ( &p->CRCs );
+	SzBitUi32s_Init ( &p->Attribs );
 	/* SzBitUi32s_Init(&p->Parents); */
-	SzBitUi64s_Init(&p->MTime);
-	SzBitUi64s_Init(&p->CTime);
+	SzBitUi64s_Init ( &p->MTime );
+	SzBitUi64s_Init ( &p->CTime );
 }
 
-static void SzArEx_Free(CSzArEx *p, ISzAlloc *alloc)
+static void SzArEx_Free ( CSzArEx *p, ISzAlloc *alloc )
 {
-	IAlloc_Free(alloc, p->UnpackPositions);
-	IAlloc_Free(alloc, p->IsDirs);
+	IAlloc_Free ( alloc, p->UnpackPositions );
+	IAlloc_Free ( alloc, p->IsDirs );
 
-	IAlloc_Free(alloc, p->FolderToFile);
-	IAlloc_Free(alloc, p->FileToFolder);
+	IAlloc_Free ( alloc, p->FolderToFile );
+	IAlloc_Free ( alloc, p->FileToFolder );
 
-	IAlloc_Free(alloc, p->FileNameOffsets);
-	IAlloc_Free(alloc, p->FileNames);
+	IAlloc_Free ( alloc, p->FileNameOffsets );
+	IAlloc_Free ( alloc, p->FileNames );
 
-	SzBitUi32s_Free(&p->CRCs, alloc);
-	SzBitUi32s_Free(&p->Attribs, alloc);
+	SzBitUi32s_Free ( &p->CRCs, alloc );
+	SzBitUi32s_Free ( &p->Attribs, alloc );
 	/* SzBitUi32s_Free(&p->Parents, alloc); */
-	SzBitUi64s_Free(&p->MTime, alloc);
-	SzBitUi64s_Free(&p->CTime, alloc);
+	SzBitUi64s_Free ( &p->MTime, alloc );
+	SzBitUi64s_Free ( &p->CTime, alloc );
 
-	SzAr_Free(&p->db, alloc);
-	SzArEx_Init(p);
+	SzAr_Free ( &p->db, alloc );
+	SzArEx_Init ( p );
 }
 
 
-static int TestSignatureCandidate(const Byte *testBytes)
+static int TestSignatureCandidate ( const Byte *testBytes )
 {
 	unsigned i;
 
-	for (i = 0; i < k7zSignatureSize; i++)
-		if (testBytes[i] != k7zSignature[i])
+	for ( i = 0; i < k7zSignatureSize; i++ )
+		if ( testBytes[i] != k7zSignature[i] )
 			return 0;
 
 	return 1;
@@ -1954,45 +1954,45 @@ static int TestSignatureCandidate(const Byte *testBytes)
 #define SZ_READ_32(dest) if (sd.Size < 4) return SZ_ERROR_ARCHIVE; \
 	dest = GetUi32(sd.Data); SKIP_DATA2(sd, 4);
 
-static MY_NO_INLINE SRes ReadNumber(CSzData *sd, UInt64 *value)
+static MY_NO_INLINE SRes ReadNumber ( CSzData *sd, UInt64 *value )
 {
 	Byte firstByte, mask;
 	unsigned i;
 	UInt32 v;
 
-	SZ_READ_BYTE(firstByte);
+	SZ_READ_BYTE ( firstByte );
 
-	if ((firstByte & 0x80) == 0)
+	if ( ( firstByte & 0x80 ) == 0 )
 		{
 			*value = firstByte;
 			return SZ_OK;
 		}
 
-	SZ_READ_BYTE(v);
+	SZ_READ_BYTE ( v );
 
-	if ((firstByte & 0x40) == 0)
+	if ( ( firstByte & 0x40 ) == 0 )
 		{
-			*value = (((UInt32)firstByte & 0x3F) << 8) | v;
+			*value = ( ( ( UInt32 ) firstByte & 0x3F ) << 8 ) | v;
 			return SZ_OK;
 		}
 
-	SZ_READ_BYTE(mask);
-	*value = v | ((UInt32)mask << 8);
+	SZ_READ_BYTE ( mask );
+	*value = v | ( ( UInt32 ) mask << 8 );
 	mask = 0x20;
 
-	for (i = 2; i < 8; i++)
+	for ( i = 2; i < 8; i++ )
 		{
 			Byte b;
 
-			if ((firstByte & mask) == 0)
+			if ( ( firstByte & mask ) == 0 )
 				{
-					UInt64 highPart = (unsigned)firstByte & (unsigned)(mask - 1);
-					*value |= (highPart << (8 * i));
+					UInt64 highPart = ( unsigned ) firstByte & ( unsigned ) ( mask - 1 );
+					*value |= ( highPart << ( 8 * i ) );
 					return SZ_OK;
 				}
 
-			SZ_READ_BYTE(b);
-			*value |= ((UInt64)b << (8 * i));
+			SZ_READ_BYTE ( b );
+			*value |= ( ( UInt64 ) b << ( 8 * i ) );
 			mask >>= 1;
 		}
 
@@ -2000,17 +2000,17 @@ static MY_NO_INLINE SRes ReadNumber(CSzData *sd, UInt64 *value)
 }
 
 
-static MY_NO_INLINE SRes SzReadNumber32(CSzData *sd, UInt32 *value)
+static MY_NO_INLINE SRes SzReadNumber32 ( CSzData *sd, UInt32 *value )
 {
 	Byte firstByte;
 	UInt64 value64;
 
-	if (sd->Size == 0)
+	if ( sd->Size == 0 )
 		return SZ_ERROR_ARCHIVE;
 
 	firstByte = *sd->Data;
 
-	if ((firstByte & 0x80) == 0)
+	if ( ( firstByte & 0x80 ) == 0 )
 		{
 			*value = firstByte;
 			sd->Data++;
@@ -2018,130 +2018,130 @@ static MY_NO_INLINE SRes SzReadNumber32(CSzData *sd, UInt32 *value)
 			return SZ_OK;
 		}
 
-	RINOK(ReadNumber(sd, &value64));
+	RINOK ( ReadNumber ( sd, &value64 ) );
 
-	if (value64 >= (UInt32)0x80000000 - 1)
+	if ( value64 >= ( UInt32 ) 0x80000000 - 1 )
 		return SZ_ERROR_UNSUPPORTED;
 
-	if (value64 >= ((UInt64)(1) << ((sizeof(size_t) - 1) * 8 + 4)))
+	if ( value64 >= ( ( UInt64 ) ( 1 ) << ( ( sizeof ( size_t ) - 1 ) * 8 + 4 ) ) )
 		return SZ_ERROR_UNSUPPORTED;
 
-	*value = (UInt32)value64;
+	*value = ( UInt32 ) value64;
 	return SZ_OK;
 }
 
 #define ReadID(sd, value) ReadNumber(sd, value)
 
-static SRes SkipData(CSzData *sd)
+static SRes SkipData ( CSzData *sd )
 {
 	UInt64 size;
-	RINOK(ReadNumber(sd, &size));
+	RINOK ( ReadNumber ( sd, &size ) );
 
-	if (size > sd->Size)
+	if ( size > sd->Size )
 		return SZ_ERROR_ARCHIVE;
 
-	SKIP_DATA(sd, size);
+	SKIP_DATA ( sd, size );
 	return SZ_OK;
 }
 
-static SRes WaitId(CSzData *sd, UInt32 id)
+static SRes WaitId ( CSzData *sd, UInt32 id )
 {
-	for (;;)
+	for ( ;; )
 		{
 			UInt64 type;
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadID ( sd, &type ) );
 
-			if (type == id)
+			if ( type == id )
 				return SZ_OK;
 
-			if (type == k7zIdEnd)
+			if ( type == k7zIdEnd )
 				return SZ_ERROR_ARCHIVE;
 
-			RINOK(SkipData(sd));
+			RINOK ( SkipData ( sd ) );
 		}
 }
 
-static SRes RememberBitVector(CSzData *sd, UInt32 numItems, const Byte **v)
+static SRes RememberBitVector ( CSzData *sd, UInt32 numItems, const Byte **v )
 {
-	UInt32 numBytes = (numItems + 7) >> 3;
+	UInt32 numBytes = ( numItems + 7 ) >> 3;
 
-	if (numBytes > sd->Size)
+	if ( numBytes > sd->Size )
 		return SZ_ERROR_ARCHIVE;
 
 	*v = sd->Data;
-	SKIP_DATA(sd, numBytes);
+	SKIP_DATA ( sd, numBytes );
 	return SZ_OK;
 }
 
-static UInt32 CountDefinedBits(const Byte *bits, UInt32 numItems)
+static UInt32 CountDefinedBits ( const Byte *bits, UInt32 numItems )
 {
 	Byte b = 0;
 	unsigned m = 0;
 	UInt32 sum = 0;
 
-	for (; numItems != 0; numItems--)
+	for ( ; numItems != 0; numItems-- )
 		{
-			if (m == 0)
+			if ( m == 0 )
 				{
 					b = *bits++;
 					m = 8;
 				}
 
 			m--;
-			sum += ((b >> m) & 1);
+			sum += ( ( b >> m ) & 1 );
 		}
 
 	return sum;
 }
 
-static MY_NO_INLINE SRes ReadBitVector(CSzData *sd, UInt32 numItems, Byte **v, ISzAlloc *alloc)
+static MY_NO_INLINE SRes ReadBitVector ( CSzData *sd, UInt32 numItems, Byte **v, ISzAlloc *alloc )
 {
 	Byte allAreDefined;
 	Byte *v2;
-	UInt32 numBytes = (numItems + 7) >> 3;
+	UInt32 numBytes = ( numItems + 7 ) >> 3;
 	*v = NULL;
-	SZ_READ_BYTE(allAreDefined);
+	SZ_READ_BYTE ( allAreDefined );
 
-	if (numBytes == 0)
+	if ( numBytes == 0 )
 		return SZ_OK;
 
-	if (allAreDefined == 0)
+	if ( allAreDefined == 0 )
 		{
-			if (numBytes > sd->Size)
+			if ( numBytes > sd->Size )
 				return SZ_ERROR_ARCHIVE;
 
-			MY_ALLOC_AND_CPY(*v, numBytes, sd->Data, alloc);
-			SKIP_DATA(sd, numBytes);
+			MY_ALLOC_AND_CPY ( *v, numBytes, sd->Data, alloc );
+			SKIP_DATA ( sd, numBytes );
 			return SZ_OK;
 		}
 
-	MY_ALLOC(Byte, *v, numBytes, alloc);
+	MY_ALLOC ( Byte, *v, numBytes, alloc );
 	v2 = *v;
-	memset(v2, 0xFF, (size_t)numBytes);
+	memset ( v2, 0xFF, ( size_t ) numBytes );
 	{
-		unsigned numBits = (unsigned)numItems & 7;
+		unsigned numBits = ( unsigned ) numItems & 7;
 
-		if (numBits != 0)
-			v2[numBytes - 1] = (Byte)((((UInt32)1 << numBits) - 1) << (8 - numBits));
+		if ( numBits != 0 )
+			v2[numBytes - 1] = ( Byte ) ( ( ( ( UInt32 ) 1 << numBits ) - 1 ) << ( 8 - numBits ) );
 	}
 	return SZ_OK;
 }
 
-static MY_NO_INLINE SRes ReadUi32s(CSzData *sd2, UInt32 numItems, CSzBitUi32s *crcs, ISzAlloc *alloc)
+static MY_NO_INLINE SRes ReadUi32s ( CSzData *sd2, UInt32 numItems, CSzBitUi32s *crcs, ISzAlloc *alloc )
 {
 	UInt32 i;
 	CSzData sd;
 	UInt32 *vals;
 	const Byte *defs;
-	MY_ALLOC_ZE(UInt32, crcs->Vals, numItems, alloc);
+	MY_ALLOC_ZE ( UInt32, crcs->Vals, numItems, alloc );
 	sd = *sd2;
 	defs = crcs->Defs;
 	vals = crcs->Vals;
 
-	for (i = 0; i < numItems; i++)
-		if (SzBitArray_Check(defs, i))
+	for ( i = 0; i < numItems; i++ )
+		if ( SzBitArray_Check ( defs, i ) )
 			{
-				SZ_READ_32(vals[i]);
+				SZ_READ_32 ( vals[i] );
 			}
 
 		else
@@ -2151,78 +2151,78 @@ static MY_NO_INLINE SRes ReadUi32s(CSzData *sd2, UInt32 numItems, CSzBitUi32s *c
 	return SZ_OK;
 }
 
-static SRes ReadBitUi32s(CSzData *sd, UInt32 numItems, CSzBitUi32s *crcs, ISzAlloc *alloc)
+static SRes ReadBitUi32s ( CSzData *sd, UInt32 numItems, CSzBitUi32s *crcs, ISzAlloc *alloc )
 {
-	SzBitUi32s_Free(crcs, alloc);
-	RINOK(ReadBitVector(sd, numItems, &crcs->Defs, alloc));
-	return ReadUi32s(sd, numItems, crcs, alloc);
+	SzBitUi32s_Free ( crcs, alloc );
+	RINOK ( ReadBitVector ( sd, numItems, &crcs->Defs, alloc ) );
+	return ReadUi32s ( sd, numItems, crcs, alloc );
 }
 
-static SRes SkipBitUi32s(CSzData *sd, UInt32 numItems)
+static SRes SkipBitUi32s ( CSzData *sd, UInt32 numItems )
 {
 	Byte allAreDefined;
 	UInt32 numDefined = numItems;
-	SZ_READ_BYTE(allAreDefined);
+	SZ_READ_BYTE ( allAreDefined );
 
-	if (!allAreDefined)
+	if ( !allAreDefined )
 		{
-			size_t numBytes = (numItems + 7) >> 3;
+			size_t numBytes = ( numItems + 7 ) >> 3;
 
-			if (numBytes > sd->Size)
+			if ( numBytes > sd->Size )
 				return SZ_ERROR_ARCHIVE;
 
-			numDefined = CountDefinedBits(sd->Data, numItems);
-			SKIP_DATA(sd, numBytes);
+			numDefined = CountDefinedBits ( sd->Data, numItems );
+			SKIP_DATA ( sd, numBytes );
 		}
 
-	if (numDefined > (sd->Size >> 2))
+	if ( numDefined > ( sd->Size >> 2 ) )
 		return SZ_ERROR_ARCHIVE;
 
-	SKIP_DATA(sd, (size_t)numDefined * 4);
+	SKIP_DATA ( sd, ( size_t ) numDefined * 4 );
 	return SZ_OK;
 }
 
-static SRes ReadPackInfo(CSzAr *p, CSzData *sd, ISzAlloc *alloc)
+static SRes ReadPackInfo ( CSzAr *p, CSzData *sd, ISzAlloc *alloc )
 {
-	RINOK(SzReadNumber32(sd, &p->NumPackStreams));
+	RINOK ( SzReadNumber32 ( sd, &p->NumPackStreams ) );
 
-	RINOK(WaitId(sd, k7zIdSize));
-	MY_ALLOC(UInt64, p->PackPositions, (size_t)p->NumPackStreams + 1, alloc);
+	RINOK ( WaitId ( sd, k7zIdSize ) );
+	MY_ALLOC ( UInt64, p->PackPositions, ( size_t ) p->NumPackStreams + 1, alloc );
 	{
 		UInt64 sum = 0;
 		UInt32 i;
 		UInt32 numPackStreams = p->NumPackStreams;
 
-		for (i = 0; i < numPackStreams; i++)
+		for ( i = 0; i < numPackStreams; i++ )
 			{
 				UInt64 packSize;
 				p->PackPositions[i] = sum;
-				RINOK(ReadNumber(sd, &packSize));
+				RINOK ( ReadNumber ( sd, &packSize ) );
 				sum += packSize;
 
-				if (sum < packSize)
+				if ( sum < packSize )
 					return SZ_ERROR_ARCHIVE;
 			}
 
 		p->PackPositions[i] = sum;
 	}
 
-	for (;;)
+	for ( ;; )
 		{
 			UInt64 type;
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadID ( sd, &type ) );
 
-			if (type == k7zIdEnd)
+			if ( type == k7zIdEnd )
 				return SZ_OK;
 
-			if (type == k7zIdCRC)
+			if ( type == k7zIdCRC )
 				{
 					/* CRC of packed streams is unused now */
-					RINOK(SkipBitUi32s(sd, p->NumPackStreams));
+					RINOK ( SkipBitUi32s ( sd, p->NumPackStreams ) );
 					continue;
 				}
 
-			RINOK(SkipData(sd));
+			RINOK ( SkipData ( sd ) );
 		}
 }
 
@@ -2237,7 +2237,7 @@ static SRes SzReadSwitch(CSzData *sd)
 
 #define k_NumCodersStreams_in_Folder_MAX (SZ_NUM_BONDS_IN_FOLDER_MAX + SZ_NUM_PACK_STREAMS_IN_FOLDER_MAX)
 
-static SRes SzGetNextFolderItem(CSzFolder *f, CSzData *sd)
+static SRes SzGetNextFolderItem ( CSzFolder *f, CSzData *sd )
 {
 	UInt32 numCoders, i;
 	UInt32 numInStreams = 0;
@@ -2248,86 +2248,86 @@ static SRes SzGetNextFolderItem(CSzFolder *f, CSzData *sd)
 	f->NumPackStreams = 0;
 	f->UnpackStream = 0;
 
-	RINOK(SzReadNumber32(sd, &numCoders));
+	RINOK ( SzReadNumber32 ( sd, &numCoders ) );
 
-	if (numCoders == 0 || numCoders > SZ_NUM_CODERS_IN_FOLDER_MAX)
+	if ( numCoders == 0 || numCoders > SZ_NUM_CODERS_IN_FOLDER_MAX )
 		return SZ_ERROR_UNSUPPORTED;
 
-	for (i = 0; i < numCoders; i++)
+	for ( i = 0; i < numCoders; i++ )
 		{
 			Byte mainByte;
 			CSzCoderInfo *coder = f->Coders + i;
 			unsigned idSize, j;
 			UInt64 id;
 
-			SZ_READ_BYTE(mainByte);
+			SZ_READ_BYTE ( mainByte );
 
-			if ((mainByte & 0xC0) != 0)
+			if ( ( mainByte & 0xC0 ) != 0 )
 				return SZ_ERROR_UNSUPPORTED;
 
-			idSize = (unsigned)(mainByte & 0xF);
+			idSize = ( unsigned ) ( mainByte & 0xF );
 
-			if (idSize > sizeof(id))
+			if ( idSize > sizeof ( id ) )
 				return SZ_ERROR_UNSUPPORTED;
 
-			if (idSize > sd->Size)
+			if ( idSize > sd->Size )
 				return SZ_ERROR_ARCHIVE;
 
 			id = 0;
 
-			for (j = 0; j < idSize; j++)
+			for ( j = 0; j < idSize; j++ )
 				{
-					id = ((id << 8) | *sd->Data);
+					id = ( ( id << 8 ) | *sd->Data );
 					sd->Data++;
 					sd->Size--;
 				}
 
-			if (id > UINT64_CONST(0xFFFFFFFF))
+			if ( id > UINT64_CONST ( 0xFFFFFFFF ) )
 				return SZ_ERROR_UNSUPPORTED;
 
-			coder->MethodID = (UInt32)id;
+			coder->MethodID = ( UInt32 ) id;
 
 			coder->NumStreams = 1;
 			coder->PropsOffset = 0;
 			coder->PropsSize = 0;
 
-			if ((mainByte & 0x10) != 0)
+			if ( ( mainByte & 0x10 ) != 0 )
 				{
 					UInt32 numStreams;
 
-					RINOK(SzReadNumber32(sd, &numStreams));
+					RINOK ( SzReadNumber32 ( sd, &numStreams ) );
 
-					if (numStreams > k_NumCodersStreams_in_Folder_MAX)
+					if ( numStreams > k_NumCodersStreams_in_Folder_MAX )
 						return SZ_ERROR_UNSUPPORTED;
 
-					coder->NumStreams = (Byte)numStreams;
+					coder->NumStreams = ( Byte ) numStreams;
 
-					RINOK(SzReadNumber32(sd, &numStreams));
+					RINOK ( SzReadNumber32 ( sd, &numStreams ) );
 
-					if (numStreams != 1)
+					if ( numStreams != 1 )
 						return SZ_ERROR_UNSUPPORTED;
 				}
 
 			numInStreams += coder->NumStreams;
 
-			if (numInStreams > k_NumCodersStreams_in_Folder_MAX)
+			if ( numInStreams > k_NumCodersStreams_in_Folder_MAX )
 				return SZ_ERROR_UNSUPPORTED;
 
-			if ((mainByte & 0x20) != 0)
+			if ( ( mainByte & 0x20 ) != 0 )
 				{
 					UInt32 propsSize = 0;
-					RINOK(SzReadNumber32(sd, &propsSize));
+					RINOK ( SzReadNumber32 ( sd, &propsSize ) );
 
-					if (propsSize > sd->Size)
+					if ( propsSize > sd->Size )
 						return SZ_ERROR_ARCHIVE;
 
-					if (propsSize >= 0x80)
+					if ( propsSize >= 0x80 )
 						return SZ_ERROR_UNSUPPORTED;
 
 					coder->PropsOffset = sd->Data - dataStart;
-					coder->PropsSize = (Byte)propsSize;
-					sd->Data += (size_t)propsSize;
-					sd->Size -= (size_t)propsSize;
+					coder->PropsSize = ( Byte ) propsSize;
+					sd->Data += ( size_t ) propsSize;
+					sd->Size -= ( size_t ) propsSize;
 				}
 		}
 
@@ -2345,80 +2345,80 @@ static SRes SzGetNextFolderItem(CSzFolder *f, CSzData *sd)
 
 		numBonds = numCoders - 1;
 
-		if (numInStreams < numBonds)
+		if ( numInStreams < numBonds )
 			return SZ_ERROR_ARCHIVE;
 
-		if (numBonds > SZ_NUM_BONDS_IN_FOLDER_MAX)
+		if ( numBonds > SZ_NUM_BONDS_IN_FOLDER_MAX )
 			return SZ_ERROR_UNSUPPORTED;
 
 		f->NumBonds = numBonds;
 
 		numPackStreams = numInStreams - numBonds;
 
-		if (numPackStreams > SZ_NUM_PACK_STREAMS_IN_FOLDER_MAX)
+		if ( numPackStreams > SZ_NUM_PACK_STREAMS_IN_FOLDER_MAX )
 			return SZ_ERROR_UNSUPPORTED;
 
 		f->NumPackStreams = numPackStreams;
 
-		for (i = 0; i < numInStreams; i++)
+		for ( i = 0; i < numInStreams; i++ )
 			streamUsed[i] = False;
 
-		if (numBonds != 0)
+		if ( numBonds != 0 )
 			{
 				Byte coderUsed[SZ_NUM_CODERS_IN_FOLDER_MAX];
 
-				for (i = 0; i < numCoders; i++)
+				for ( i = 0; i < numCoders; i++ )
 					coderUsed[i] = False;
 
-				for (i = 0; i < numBonds; i++)
+				for ( i = 0; i < numBonds; i++ )
 					{
 						CSzBond *bp = f->Bonds + i;
 
-						RINOK(SzReadNumber32(sd, &bp->InIndex));
+						RINOK ( SzReadNumber32 ( sd, &bp->InIndex ) );
 
-						if (bp->InIndex >= numInStreams || streamUsed[bp->InIndex])
+						if ( bp->InIndex >= numInStreams || streamUsed[bp->InIndex] )
 							return SZ_ERROR_ARCHIVE;
 
 						streamUsed[bp->InIndex] = True;
 
-						RINOK(SzReadNumber32(sd, &bp->OutIndex));
+						RINOK ( SzReadNumber32 ( sd, &bp->OutIndex ) );
 
-						if (bp->OutIndex >= numCoders || coderUsed[bp->OutIndex])
+						if ( bp->OutIndex >= numCoders || coderUsed[bp->OutIndex] )
 							return SZ_ERROR_ARCHIVE;
 
 						coderUsed[bp->OutIndex] = True;
 					}
 
-				for (i = 0; i < numCoders; i++)
-					if (!coderUsed[i])
+				for ( i = 0; i < numCoders; i++ )
+					if ( !coderUsed[i] )
 						{
 							f->UnpackStream = i;
 							break;
 						}
 
-				if (i == numCoders)
+				if ( i == numCoders )
 					return SZ_ERROR_ARCHIVE;
 			}
 
-		if (numPackStreams == 1)
+		if ( numPackStreams == 1 )
 			{
-				for (i = 0; i < numInStreams; i++)
-					if (!streamUsed[i])
+				for ( i = 0; i < numInStreams; i++ )
+					if ( !streamUsed[i] )
 						break;
 
-				if (i == numInStreams)
+				if ( i == numInStreams )
 					return SZ_ERROR_ARCHIVE;
 
 				f->PackStreams[0] = i;
 			}
 
 		else
-			for (i = 0; i < numPackStreams; i++)
+			for ( i = 0; i < numPackStreams; i++ )
 				{
 					UInt32 index;
-					RINOK(SzReadNumber32(sd, &index));
+					RINOK ( SzReadNumber32 ( sd, &index ) );
 
-					if (index >= numInStreams || streamUsed[index])
+					if ( index >= numInStreams || streamUsed[index] )
 						return SZ_ERROR_ARCHIVE;
 
 					streamUsed[index] = True;
@@ -2432,23 +2432,23 @@ static SRes SzGetNextFolderItem(CSzFolder *f, CSzData *sd)
 }
 
 
-static MY_NO_INLINE SRes SkipNumbers(CSzData *sd2, UInt32 num)
+static MY_NO_INLINE SRes SkipNumbers ( CSzData *sd2, UInt32 num )
 {
 	CSzData sd;
 	sd = *sd2;
 
-	for (; num != 0; num--)
+	for ( ; num != 0; num-- )
 		{
 			Byte firstByte, mask;
 			unsigned i;
-			SZ_READ_BYTE_2(firstByte);
+			SZ_READ_BYTE_2 ( firstByte );
 
-			if ((firstByte & 0x80) == 0)
+			if ( ( firstByte & 0x80 ) == 0 )
 				continue;
 
-			if ((firstByte & 0x40) == 0)
+			if ( ( firstByte & 0x40 ) == 0 )
 				{
-					if (sd.Size == 0)
+					if ( sd.Size == 0 )
 						return SZ_ERROR_ARCHIVE;
 
 					sd.Size--;
@@ -2458,13 +2458,13 @@ static MY_NO_INLINE SRes SkipNumbers(CSzData *sd2, UInt32 num)
 
 			mask = 0x20;
 
-			for (i = 2; i < 8 && (firstByte & mask) != 0; i++)
+			for ( i = 2; i < 8 && ( firstByte & mask ) != 0; i++ )
 				mask >>= 1;
 
-			if (i > sd.Size)
+			if ( i > sd.Size )
 				return SZ_ERROR_ARCHIVE;
 
-			SKIP_DATA2(sd, i);
+			SKIP_DATA2 ( sd, i );
 		}
 
 	*sd2 = sd;
@@ -2476,11 +2476,11 @@ static MY_NO_INLINE SRes SkipNumbers(CSzData *sd2, UInt32 num)
 #define k_Scan_NumCodersStreams_in_Folder_MAX 64
 
 
-static SRes ReadUnpackInfo(CSzAr *p,
-                           CSzData *sd2,
-                           UInt32 numFoldersMax,
-                           const CBuf *tempBufs, UInt32 numTempBufs,
-                           ISzAlloc *alloc)
+static SRes ReadUnpackInfo ( CSzAr *p,
+                             CSzData *sd2,
+                             UInt32 numFoldersMax,
+                             const CBuf *tempBufs, UInt32 numTempBufs,
+                             ISzAlloc *alloc )
 {
 	CSzData sd;
 
@@ -2488,97 +2488,97 @@ static SRes ReadUnpackInfo(CSzAr *p,
 	const Byte *startBufPtr;
 	Byte external;
 
-	RINOK(WaitId(sd2, k7zIdFolder));
+	RINOK ( WaitId ( sd2, k7zIdFolder ) );
 
-	RINOK(SzReadNumber32(sd2, &numFolders));
+	RINOK ( SzReadNumber32 ( sd2, &numFolders ) );
 
-	if (numFolders > numFoldersMax)
+	if ( numFolders > numFoldersMax )
 		return SZ_ERROR_UNSUPPORTED;
 
 	p->NumFolders = numFolders;
 
-	SZ_READ_BYTE_SD(sd2, external);
+	SZ_READ_BYTE_SD ( sd2, external );
 
-	if (external == 0)
+	if ( external == 0 )
 		sd = *sd2;
 
 	else
 		{
 			UInt32 index;
-			RINOK(SzReadNumber32(sd2, &index));
+			RINOK ( SzReadNumber32 ( sd2, &index ) );
 
-			if (index >= numTempBufs)
+			if ( index >= numTempBufs )
 				return SZ_ERROR_ARCHIVE;
 
 			sd.Data = tempBufs[index].data;
 			sd.Size = tempBufs[index].size;
 		}
 
-	MY_ALLOC(size_t, p->FoCodersOffsets, (size_t)numFolders + 1, alloc);
-	MY_ALLOC(UInt32, p->FoStartPackStreamIndex, (size_t)numFolders + 1, alloc);
-	MY_ALLOC(UInt32, p->FoToCoderUnpackSizes, (size_t)numFolders + 1, alloc);
-	MY_ALLOC(Byte, p->FoToMainUnpackSizeIndex, (size_t)numFolders, alloc);
+	MY_ALLOC ( size_t, p->FoCodersOffsets, ( size_t ) numFolders + 1, alloc );
+	MY_ALLOC ( UInt32, p->FoStartPackStreamIndex, ( size_t ) numFolders + 1, alloc );
+	MY_ALLOC ( UInt32, p->FoToCoderUnpackSizes, ( size_t ) numFolders + 1, alloc );
+	MY_ALLOC ( Byte, p->FoToMainUnpackSizeIndex, ( size_t ) numFolders, alloc );
 
 	startBufPtr = sd.Data;
 
 	packStreamIndex = 0;
 	numCodersOutStreams = 0;
 
-	for (fo = 0; fo < numFolders; fo++)
+	for ( fo = 0; fo < numFolders; fo++ )
 		{
 			UInt32 numCoders, ci, numInStreams = 0;
 
 			p->FoCodersOffsets[fo] = sd.Data - startBufPtr;
 
-			RINOK(SzReadNumber32(&sd, &numCoders));
+			RINOK ( SzReadNumber32 ( &sd, &numCoders ) );
 
-			if (numCoders == 0 || numCoders > k_Scan_NumCoders_MAX)
+			if ( numCoders == 0 || numCoders > k_Scan_NumCoders_MAX )
 				return SZ_ERROR_UNSUPPORTED;
 
-			for (ci = 0; ci < numCoders; ci++)
+			for ( ci = 0; ci < numCoders; ci++ )
 				{
 					Byte mainByte;
 					unsigned idSize;
 					UInt32 coderInStreams;
 
-					SZ_READ_BYTE_2(mainByte);
+					SZ_READ_BYTE_2 ( mainByte );
 
-					if ((mainByte & 0xC0) != 0)
+					if ( ( mainByte & 0xC0 ) != 0 )
 						return SZ_ERROR_UNSUPPORTED;
 
-					idSize = (mainByte & 0xF);
+					idSize = ( mainByte & 0xF );
 
-					if (idSize > 8)
+					if ( idSize > 8 )
 						return SZ_ERROR_UNSUPPORTED;
 
-					if (idSize > sd.Size)
+					if ( idSize > sd.Size )
 						return SZ_ERROR_ARCHIVE;
 
-					SKIP_DATA2(sd, idSize);
+					SKIP_DATA2 ( sd, idSize );
 
 					coderInStreams = 1;
 
-					if ((mainByte & 0x10) != 0)
+					if ( ( mainByte & 0x10 ) != 0 )
 						{
 							UInt32 coderOutStreams;
-							RINOK(SzReadNumber32(&sd, &coderInStreams));
-							RINOK(SzReadNumber32(&sd, &coderOutStreams));
+							RINOK ( SzReadNumber32 ( &sd, &coderInStreams ) );
+							RINOK ( SzReadNumber32 ( &sd, &coderOutStreams ) );
 
-							if (coderInStreams > k_Scan_NumCodersStreams_in_Folder_MAX || coderOutStreams != 1)
+							if ( coderInStreams > k_Scan_NumCodersStreams_in_Folder_MAX || coderOutStreams != 1 )
 								return SZ_ERROR_UNSUPPORTED;
 						}
 
 					numInStreams += coderInStreams;
 
-					if ((mainByte & 0x20) != 0)
+					if ( ( mainByte & 0x20 ) != 0 )
 						{
 							UInt32 propsSize;
-							RINOK(SzReadNumber32(&sd, &propsSize));
+							RINOK ( SzReadNumber32 ( &sd, &propsSize ) );
 
-							if (propsSize > sd.Size)
+							if ( propsSize > sd.Size )
 								return SZ_ERROR_ARCHIVE;
 
-							SKIP_DATA2(sd, propsSize);
+							SKIP_DATA2 ( sd, propsSize );
 						}
 				}
 
@@ -2586,7 +2586,7 @@ static SRes ReadUnpackInfo(CSzAr *p,
 				UInt32 indexOfMainStream = 0;
 				UInt32 numPackStreams = 1;
 
-				if (numCoders != 1 || numInStreams != 1)
+				if ( numCoders != 1 || numInStreams != 1 )
 					{
 						Byte streamUsed[k_Scan_NumCodersStreams_in_Folder_MAX];
 						Byte coderUsed[k_Scan_NumCoders_MAX];
@@ -2594,32 +2594,32 @@ static SRes ReadUnpackInfo(CSzAr *p,
 						UInt32 i;
 						UInt32 numBonds = numCoders - 1;
 
-						if (numInStreams < numBonds)
+						if ( numInStreams < numBonds )
 							return SZ_ERROR_ARCHIVE;
 
-						if (numInStreams > k_Scan_NumCodersStreams_in_Folder_MAX)
+						if ( numInStreams > k_Scan_NumCodersStreams_in_Folder_MAX )
 							return SZ_ERROR_UNSUPPORTED;
 
-						for (i = 0; i < numInStreams; i++)
+						for ( i = 0; i < numInStreams; i++ )
 							streamUsed[i] = False;
 
-						for (i = 0; i < numCoders; i++)
+						for ( i = 0; i < numCoders; i++ )
 							coderUsed[i] = False;
 
-						for (i = 0; i < numBonds; i++)
+						for ( i = 0; i < numBonds; i++ )
 							{
 								UInt32 index;
 
-								RINOK(SzReadNumber32(&sd, &index));
+								RINOK ( SzReadNumber32 ( &sd, &index ) );
 
-								if (index >= numInStreams || streamUsed[index])
+								if ( index >= numInStreams || streamUsed[index] )
 									return SZ_ERROR_ARCHIVE;
 
 								streamUsed[index] = True;
 
-								RINOK(SzReadNumber32(&sd, &index));
+								RINOK ( SzReadNumber32 ( &sd, &index ) );
 
-								if (index >= numCoders || coderUsed[index])
+								if ( index >= numCoders || coderUsed[index] )
 									return SZ_ERROR_ARCHIVE;
 
 								coderUsed[index] = True;
@@ -2627,38 +2627,38 @@ static SRes ReadUnpackInfo(CSzAr *p,
 
 						numPackStreams = numInStreams - numBonds;
 
-						if (numPackStreams != 1)
-							for (i = 0; i < numPackStreams; i++)
+						if ( numPackStreams != 1 )
+							for ( i = 0; i < numPackStreams; i++ )
 								{
 									UInt32 index;
-									RINOK(SzReadNumber32(&sd, &index));
+									RINOK ( SzReadNumber32 ( &sd, &index ) );
 
-									if (index >= numInStreams || streamUsed[index])
+									if ( index >= numInStreams || streamUsed[index] )
 										return SZ_ERROR_ARCHIVE;
 
 									streamUsed[index] = True;
 								}
 
-						for (i = 0; i < numCoders; i++)
-							if (!coderUsed[i])
+						for ( i = 0; i < numCoders; i++ )
+							if ( !coderUsed[i] )
 								{
 									indexOfMainStream = i;
 									break;
 								}
 
-						if (i == numCoders)
+						if ( i == numCoders )
 							return SZ_ERROR_ARCHIVE;
 					}
 
 				p->FoStartPackStreamIndex[fo] = packStreamIndex;
 				p->FoToCoderUnpackSizes[fo] = numCodersOutStreams;
-				p->FoToMainUnpackSizeIndex[fo] = (Byte)indexOfMainStream;
+				p->FoToMainUnpackSizeIndex[fo] = ( Byte ) indexOfMainStream;
 				numCodersOutStreams += numCoders;
 
-				if (numCodersOutStreams < numCoders)
+				if ( numCodersOutStreams < numCoders )
 					return SZ_ERROR_UNSUPPORTED;
 
-				if (numPackStreams > p->NumPackStreams - packStreamIndex)
+				if ( numPackStreams > p->NumPackStreams - packStreamIndex )
 					return SZ_ERROR_ARCHIVE;
 
 				packStreamIndex += numPackStreams;
@@ -2671,52 +2671,52 @@ static SRes ReadUnpackInfo(CSzAr *p,
 		size_t dataSize = sd.Data - startBufPtr;
 		p->FoStartPackStreamIndex[fo] = packStreamIndex;
 		p->FoCodersOffsets[fo] = dataSize;
-		MY_ALLOC_ZE_AND_CPY(p->CodersData, dataSize, startBufPtr, alloc);
+		MY_ALLOC_ZE_AND_CPY ( p->CodersData, dataSize, startBufPtr, alloc );
 	}
 
-	if (external != 0)
+	if ( external != 0 )
 		{
-			if (sd.Size != 0)
+			if ( sd.Size != 0 )
 				return SZ_ERROR_ARCHIVE;
 
 			sd = *sd2;
 		}
 
-	RINOK(WaitId(&sd, k7zIdCodersUnpackSize));
+	RINOK ( WaitId ( &sd, k7zIdCodersUnpackSize ) );
 
-	MY_ALLOC_ZE(UInt64, p->CoderUnpackSizes, (size_t)numCodersOutStreams, alloc);
+	MY_ALLOC_ZE ( UInt64, p->CoderUnpackSizes, ( size_t ) numCodersOutStreams, alloc );
 	{
 		UInt32 i;
 
-		for (i = 0; i < numCodersOutStreams; i++)
+		for ( i = 0; i < numCodersOutStreams; i++ )
 			{
-				RINOK(ReadNumber(&sd, p->CoderUnpackSizes + i));
+				RINOK ( ReadNumber ( &sd, p->CoderUnpackSizes + i ) );
 			}
 	}
 
-	for (;;)
+	for ( ;; )
 		{
 			UInt64 type;
-			RINOK(ReadID(&sd, &type));
+			RINOK ( ReadID ( &sd, &type ) );
 
-			if (type == k7zIdEnd)
+			if ( type == k7zIdEnd )
 				{
 					*sd2 = sd;
 					return SZ_OK;
 				}
 
-			if (type == k7zIdCRC)
+			if ( type == k7zIdCRC )
 				{
-					RINOK(ReadBitUi32s(&sd, numFolders, &p->FolderCRCs, alloc));
+					RINOK ( ReadBitUi32s ( &sd, numFolders, &p->FolderCRCs, alloc ) );
 					continue;
 				}
 
-			RINOK(SkipData(&sd));
+			RINOK ( SkipData ( &sd ) );
 		}
 }
 
 
-static UInt64 SzAr_GetFolderUnpackSize(const CSzAr *p, UInt32 folderIndex)
+static UInt64 SzAr_GetFolderUnpackSize ( const CSzAr *p, UInt32 folderIndex )
 {
 	return p->CoderUnpackSizes[p->FoToCoderUnpackSizes[folderIndex] + p->FoToMainUnpackSizeIndex[folderIndex]];
 }
@@ -2732,7 +2732,7 @@ typedef struct
 } CSubStreamInfo;
 
 
-static SRes ReadSubStreamsInfo(CSzAr *p, CSzData *sd, CSubStreamInfo *ssi)
+static SRes ReadSubStreamsInfo ( CSzAr *p, CSzData *sd, CSubStreamInfo *ssi )
 {
 	UInt64 type = 0;
 	UInt32 numSubDigests = 0;
@@ -2740,31 +2740,31 @@ static SRes ReadSubStreamsInfo(CSzAr *p, CSzData *sd, CSubStreamInfo *ssi)
 	UInt32 numUnpackStreams = numFolders;
 	UInt32 numUnpackSizesInData = 0;
 
-	for (;;)
+	for ( ;; )
 		{
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadID ( sd, &type ) );
 
-			if (type == k7zIdNumUnpackStream)
+			if ( type == k7zIdNumUnpackStream )
 				{
 					UInt32 i;
 					ssi->sdNumSubStreams.Data = sd->Data;
 					numUnpackStreams = 0;
 					numSubDigests = 0;
 
-					for (i = 0; i < numFolders; i++)
+					for ( i = 0; i < numFolders; i++ )
 						{
 							UInt32 numStreams;
-							RINOK(SzReadNumber32(sd, &numStreams));
+							RINOK ( SzReadNumber32 ( sd, &numStreams ) );
 
-							if (numUnpackStreams > numUnpackStreams + numStreams)
+							if ( numUnpackStreams > numUnpackStreams + numStreams )
 								return SZ_ERROR_UNSUPPORTED;
 
 							numUnpackStreams += numStreams;
 
-							if (numStreams != 0)
-								numUnpackSizesInData += (numStreams - 1);
+							if ( numStreams != 0 )
+								numUnpackSizesInData += ( numStreams - 1 );
 
-							if (numStreams != 1 || !SzBitWithVals_Check(&p->FolderCRCs, i))
+							if ( numStreams != 1 || !SzBitWithVals_Check ( &p->FolderCRCs, i ) )
 								numSubDigests += numStreams;
 						}
 
@@ -2772,85 +2772,85 @@ static SRes ReadSubStreamsInfo(CSzAr *p, CSzData *sd, CSubStreamInfo *ssi)
 					continue;
 				}
 
-			if (type == k7zIdCRC || type == k7zIdSize || type == k7zIdEnd)
+			if ( type == k7zIdCRC || type == k7zIdSize || type == k7zIdEnd )
 				break;
 
-			RINOK(SkipData(sd));
+			RINOK ( SkipData ( sd ) );
 		}
 
-	if (!ssi->sdNumSubStreams.Data)
+	if ( !ssi->sdNumSubStreams.Data )
 		{
 			numSubDigests = numFolders;
 
-			if (p->FolderCRCs.Defs)
-				numSubDigests = numFolders - CountDefinedBits(p->FolderCRCs.Defs, numFolders);
+			if ( p->FolderCRCs.Defs )
+				numSubDigests = numFolders - CountDefinedBits ( p->FolderCRCs.Defs, numFolders );
 		}
 
 	ssi->NumTotalSubStreams = numUnpackStreams;
 	ssi->NumSubDigests = numSubDigests;
 
-	if (type == k7zIdSize)
+	if ( type == k7zIdSize )
 		{
 			ssi->sdSizes.Data = sd->Data;
-			RINOK(SkipNumbers(sd, numUnpackSizesInData));
+			RINOK ( SkipNumbers ( sd, numUnpackSizesInData ) );
 			ssi->sdSizes.Size = sd->Data - ssi->sdSizes.Data;
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadID ( sd, &type ) );
 		}
 
-	for (;;)
+	for ( ;; )
 		{
-			if (type == k7zIdEnd)
+			if ( type == k7zIdEnd )
 				return SZ_OK;
 
-			if (type == k7zIdCRC)
+			if ( type == k7zIdCRC )
 				{
 					ssi->sdCRCs.Data = sd->Data;
-					RINOK(SkipBitUi32s(sd, numSubDigests));
+					RINOK ( SkipBitUi32s ( sd, numSubDigests ) );
 					ssi->sdCRCs.Size = sd->Data - ssi->sdCRCs.Data;
 				}
 
 			else
 				{
-					RINOK(SkipData(sd));
+					RINOK ( SkipData ( sd ) );
 				}
 
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadID ( sd, &type ) );
 		}
 }
 
-static SRes SzReadStreamsInfo(CSzAr *p,
-                              CSzData *sd,
-                              UInt32 numFoldersMax, const CBuf *tempBufs, UInt32 numTempBufs,
-                              UInt64 *dataOffset,
-                              CSubStreamInfo *ssi,
-                              ISzAlloc *alloc)
+static SRes SzReadStreamsInfo ( CSzAr *p,
+                                CSzData *sd,
+                                UInt32 numFoldersMax, const CBuf *tempBufs, UInt32 numTempBufs,
+                                UInt64 *dataOffset,
+                                CSubStreamInfo *ssi,
+                                ISzAlloc *alloc )
 {
 	UInt64 type;
 
-	SzData_Clear(&ssi->sdSizes);
-	SzData_Clear(&ssi->sdCRCs);
-	SzData_Clear(&ssi->sdNumSubStreams);
+	SzData_Clear ( &ssi->sdSizes );
+	SzData_Clear ( &ssi->sdCRCs );
+	SzData_Clear ( &ssi->sdNumSubStreams );
 
 	*dataOffset = 0;
-	RINOK(ReadID(sd, &type));
+	RINOK ( ReadID ( sd, &type ) );
 
-	if (type == k7zIdPackInfo)
+	if ( type == k7zIdPackInfo )
 		{
-			RINOK(ReadNumber(sd, dataOffset));
-			RINOK(ReadPackInfo(p, sd, alloc));
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadNumber ( sd, dataOffset ) );
+			RINOK ( ReadPackInfo ( p, sd, alloc ) );
+			RINOK ( ReadID ( sd, &type ) );
 		}
 
-	if (type == k7zIdUnpackInfo)
+	if ( type == k7zIdUnpackInfo )
 		{
-			RINOK(ReadUnpackInfo(p, sd, numFoldersMax, tempBufs, numTempBufs, alloc));
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadUnpackInfo ( p, sd, numFoldersMax, tempBufs, numTempBufs, alloc ) );
+			RINOK ( ReadID ( sd, &type ) );
 		}
 
-	if (type == k7zIdSubStreamsInfo)
+	if ( type == k7zIdSubStreamsInfo )
 		{
-			RINOK(ReadSubStreamsInfo(p, sd, ssi));
-			RINOK(ReadID(sd, &type));
+			RINOK ( ReadSubStreamsInfo ( p, sd, ssi ) );
+			RINOK ( ReadID ( sd, &type ) );
 		}
 
 	else
@@ -2859,101 +2859,101 @@ static SRes SzReadStreamsInfo(CSzAr *p,
 			/* ssi->NumSubDigests = 0; */
 		}
 
-	return (type == k7zIdEnd ? SZ_OK : SZ_ERROR_UNSUPPORTED);
+	return ( type == k7zIdEnd ? SZ_OK : SZ_ERROR_UNSUPPORTED );
 }
 
-static SRes SzReadAndDecodePackedStreams(
+static SRes SzReadAndDecodePackedStreams (
     ILookInStream *inStream,
     CSzData *sd,
     CBuf *tempBufs,
     UInt32 numFoldersMax,
     UInt64 baseOffset,
     CSzAr *p,
-    ISzAlloc *allocTemp)
+    ISzAlloc *allocTemp )
 {
 	UInt64 dataStartPos = 0;
 	UInt32 fo;
 	CSubStreamInfo ssi;
 	UInt32 numFolders;
 
-	RINOK(SzReadStreamsInfo(p, sd, numFoldersMax, NULL, 0, &dataStartPos, &ssi, allocTemp));
+	RINOK ( SzReadStreamsInfo ( p, sd, numFoldersMax, NULL, 0, &dataStartPos, &ssi, allocTemp ) );
 
 	numFolders = p->NumFolders;
 
-	if (numFolders == 0)
+	if ( numFolders == 0 )
 		return SZ_ERROR_ARCHIVE;
 
-	else if (numFolders > numFoldersMax)
+	else if ( numFolders > numFoldersMax )
 		return SZ_ERROR_UNSUPPORTED;
 
 	dataStartPos += baseOffset;
 
-	for (fo = 0; fo < numFolders; fo++)
-		Buf_Init(tempBufs + fo);
+	for ( fo = 0; fo < numFolders; fo++ )
+		Buf_Init ( tempBufs + fo );
 
-	for (fo = 0; fo < numFolders; fo++)
+	for ( fo = 0; fo < numFolders; fo++ )
 		{
 			CBuf *tempBuf = tempBufs + fo;
-			UInt64 unpackSize = SzAr_GetFolderUnpackSize(p, fo);
+			UInt64 unpackSize = SzAr_GetFolderUnpackSize ( p, fo );
 
-			if ((size_t)unpackSize != unpackSize)
+			if ( ( size_t ) unpackSize != unpackSize )
 				return SZ_ERROR_MEM;
 
-			if (!Buf_Create(tempBuf, (size_t)unpackSize, allocTemp))
+			if ( !Buf_Create ( tempBuf, ( size_t ) unpackSize, allocTemp ) )
 				return SZ_ERROR_MEM;
 		}
 
-	for (fo = 0; fo < numFolders; fo++)
+	for ( fo = 0; fo < numFolders; fo++ )
 		{
 			const CBuf *tempBuf = tempBufs + fo;
-			RINOK(LookInStream_SeekTo(inStream, dataStartPos));
-			RINOK(SzAr_DecodeFolder(p, fo, inStream, dataStartPos, tempBuf->data, tempBuf->size, allocTemp));
+			RINOK ( LookInStream_SeekTo ( inStream, dataStartPos ) );
+			RINOK ( SzAr_DecodeFolder ( p, fo, inStream, dataStartPos, tempBuf->data, tempBuf->size, allocTemp ) );
 		}
 
 	return SZ_OK;
 }
 
-static SRes SzReadFileNames(const Byte *data, size_t size, UInt32 numFiles, size_t *offsets)
+static SRes SzReadFileNames ( const Byte *data, size_t size, UInt32 numFiles, size_t *offsets )
 {
 	size_t pos = 0;
 	*offsets++ = 0;
 
-	if (numFiles == 0)
-		return (size == 0) ? SZ_OK : SZ_ERROR_ARCHIVE;
+	if ( numFiles == 0 )
+		return ( size == 0 ) ? SZ_OK : SZ_ERROR_ARCHIVE;
 
-	if (size < 2)
+	if ( size < 2 )
 		return SZ_ERROR_ARCHIVE;
 
-	if (data[size - 2] != 0 || data[size - 1] != 0)
+	if ( data[size - 2] != 0 || data[size - 1] != 0 )
 		return SZ_ERROR_ARCHIVE;
 
 	do
 		{
 			const Byte *p;
 
-			if (pos == size)
+			if ( pos == size )
 				return SZ_ERROR_ARCHIVE;
 
-			for (p = data + pos;
+			for ( p = data + pos;
 #ifdef _WIN32
-			        *(const UInt16 *)p != 0
+			        * ( const UInt16 * ) p != 0
 #else
 			        p[0] != 0 || p[1] != 0
 #endif
-			        ; p += 2);
+			        ; p += 2 );
 
 			pos = p - data + 2;
-			*offsets++ = (pos >> 1);
+			*offsets++ = ( pos >> 1 );
 		}
-	while (--numFiles);
+	while ( --numFiles );
 
-	return (pos == size) ? SZ_OK : SZ_ERROR_ARCHIVE;
+	return ( pos == size ) ? SZ_OK : SZ_ERROR_ARCHIVE;
 }
 
-static MY_NO_INLINE SRes ReadTime(CSzBitUi64s *p, UInt32 num,
-                                  CSzData *sd2,
-                                  const CBuf *tempBufs, UInt32 numTempBufs,
-                                  ISzAlloc *alloc)
+static MY_NO_INLINE SRes ReadTime ( CSzBitUi64s *p, UInt32 num,
+                                    CSzData *sd2,
+                                    const CBuf *tempBufs, UInt32 numTempBufs,
+                                    ISzAlloc *alloc )
 {
 	CSzData sd;
 	UInt32 i;
@@ -2961,44 +2961,44 @@ static MY_NO_INLINE SRes ReadTime(CSzBitUi64s *p, UInt32 num,
 	Byte *defs;
 	Byte external;
 
-	RINOK(ReadBitVector(sd2, num, &p->Defs, alloc));
+	RINOK ( ReadBitVector ( sd2, num, &p->Defs, alloc ) );
 
-	SZ_READ_BYTE_SD(sd2, external);
+	SZ_READ_BYTE_SD ( sd2, external );
 
-	if (external == 0)
+	if ( external == 0 )
 		sd = *sd2;
 
 	else
 		{
 			UInt32 index;
-			RINOK(SzReadNumber32(sd2, &index));
+			RINOK ( SzReadNumber32 ( sd2, &index ) );
 
-			if (index >= numTempBufs)
+			if ( index >= numTempBufs )
 				return SZ_ERROR_ARCHIVE;
 
 			sd.Data = tempBufs[index].data;
 			sd.Size = tempBufs[index].size;
 		}
 
-	MY_ALLOC_ZE(CNtfsFileTime, p->Vals, num, alloc);
+	MY_ALLOC_ZE ( CNtfsFileTime, p->Vals, num, alloc );
 	vals = p->Vals;
 	defs = p->Defs;
 
-	for (i = 0; i < num; i++)
-		if (SzBitArray_Check(defs, i))
+	for ( i = 0; i < num; i++ )
+		if ( SzBitArray_Check ( defs, i ) )
 			{
-				if (sd.Size < 8)
+				if ( sd.Size < 8 )
 					return SZ_ERROR_ARCHIVE;
 
-				vals[i].Low = GetUi32(sd.Data);
-				vals[i].High = GetUi32(sd.Data + 4);
-				SKIP_DATA2(sd, 8);
+				vals[i].Low = GetUi32 ( sd.Data );
+				vals[i].High = GetUi32 ( sd.Data + 4 );
+				SKIP_DATA2 ( sd, 8 );
 			}
 
 		else
 			vals[i].High = vals[i].Low = 0;
 
-	if (external == 0)
+	if ( external == 0 )
 		*sd2 = sd;
 
 	return SZ_OK;
@@ -3008,7 +3008,7 @@ static MY_NO_INLINE SRes ReadTime(CSzBitUi64s *p, UInt32 num,
 #define NUM_ADDITIONAL_STREAMS_MAX 8
 
 
-static SRes SzReadHeader2(
+static SRes SzReadHeader2 (
     CSzArEx *p,   /* allocMain */
     CSzData *sd,
     ILookInStream *inStream,
@@ -3022,62 +3022,62 @@ static SRes SzReadHeader2(
 	{
 		UInt64 type;
 
-		SzData_Clear(&ssi.sdSizes);
-		SzData_Clear(&ssi.sdCRCs);
-		SzData_Clear(&ssi.sdNumSubStreams);
+		SzData_Clear ( &ssi.sdSizes );
+		SzData_Clear ( &ssi.sdCRCs );
+		SzData_Clear ( &ssi.sdNumSubStreams );
 
 		ssi.NumSubDigests = 0;
 		ssi.NumTotalSubStreams = 0;
 
-		RINOK(ReadID(sd, &type));
+		RINOK ( ReadID ( sd, &type ) );
 
-		if (type == k7zIdArchiveProperties)
+		if ( type == k7zIdArchiveProperties )
 			{
-				for (;;)
+				for ( ;; )
 					{
 						UInt64 type2;
-						RINOK(ReadID(sd, &type2));
+						RINOK ( ReadID ( sd, &type2 ) );
 
-						if (type2 == k7zIdEnd)
+						if ( type2 == k7zIdEnd )
 							break;
 
-						RINOK(SkipData(sd));
+						RINOK ( SkipData ( sd ) );
 					}
 
-				RINOK(ReadID(sd, &type));
+				RINOK ( ReadID ( sd, &type ) );
 			}
 
-		if (type == k7zIdAdditionalStreamsInfo)
+		if ( type == k7zIdAdditionalStreamsInfo )
 			{
 				CSzAr tempAr;
 				SRes res;
 
-				SzAr_Init(&tempAr);
-				res = SzReadAndDecodePackedStreams(inStream, sd, tempBufs, NUM_ADDITIONAL_STREAMS_MAX,
-				                                   p->startPosAfterHeader, &tempAr, allocTemp);
+				SzAr_Init ( &tempAr );
+				res = SzReadAndDecodePackedStreams ( inStream, sd, tempBufs, NUM_ADDITIONAL_STREAMS_MAX,
+				                                     p->startPosAfterHeader, &tempAr, allocTemp );
 				*numTempBufs = tempAr.NumFolders;
-				SzAr_Free(&tempAr, allocTemp);
+				SzAr_Free ( &tempAr, allocTemp );
 
-				if (res != SZ_OK)
+				if ( res != SZ_OK )
 					return res;
 
-				RINOK(ReadID(sd, &type));
+				RINOK ( ReadID ( sd, &type ) );
 			}
 
-		if (type == k7zIdMainStreamsInfo)
+		if ( type == k7zIdMainStreamsInfo )
 			{
-				RINOK(SzReadStreamsInfo(&p->db, sd, (UInt32)1 << 30, tempBufs, *numTempBufs,
-				                        &p->dataPos, &ssi, allocMain));
+				RINOK ( SzReadStreamsInfo ( &p->db, sd, ( UInt32 ) 1 << 30, tempBufs, *numTempBufs,
+				                            &p->dataPos, &ssi, allocMain ) );
 				p->dataPos += p->startPosAfterHeader;
-				RINOK(ReadID(sd, &type));
+				RINOK ( ReadID ( sd, &type ) );
 			}
 
-		if (type == k7zIdEnd)
+		if ( type == k7zIdEnd )
 			{
 				return SZ_OK;
 			}
 
-		if (type != k7zIdFilesInfo)
+		if ( type != k7zIdFilesInfo )
 			return SZ_ERROR_ARCHIVE;
 	}
 
@@ -3087,152 +3087,152 @@ static SRes SzReadHeader2(
 		const Byte *emptyStreams = NULL;
 		const Byte *emptyFiles = NULL;
 
-		RINOK(SzReadNumber32(sd, &numFiles));
+		RINOK ( SzReadNumber32 ( sd, &numFiles ) );
 		p->NumFiles = numFiles;
 
-		for (;;)
+		for ( ;; )
 			{
 				UInt64 type;
 				UInt64 size;
-				RINOK(ReadID(sd, &type));
+				RINOK ( ReadID ( sd, &type ) );
 
-				if (type == k7zIdEnd)
+				if ( type == k7zIdEnd )
 					break;
 
-				RINOK(ReadNumber(sd, &size));
+				RINOK ( ReadNumber ( sd, &size ) );
 
-				if (size > sd->Size)
+				if ( size > sd->Size )
 					return SZ_ERROR_ARCHIVE;
 
-				if (type >= ((UInt32)1 << 8))
+				if ( type >= ( ( UInt32 ) 1 << 8 ) )
 					{
-						SKIP_DATA(sd, size);
+						SKIP_DATA ( sd, size );
 					}
 
-				else switch ((unsigned)type)
+				else switch ( ( unsigned ) type )
 						{
-							case k7zIdName:
-							{
-								size_t namesSize;
-								const Byte *namesData;
-								Byte external;
+						case k7zIdName:
+						{
+							size_t namesSize;
+							const Byte *namesData;
+							Byte external;
 
-								SZ_READ_BYTE(external);
+							SZ_READ_BYTE ( external );
 
-								if (external == 0)
-									{
-										namesSize = (size_t)size - 1;
-										namesData = sd->Data;
-									}
+							if ( external == 0 )
+								{
+									namesSize = ( size_t ) size - 1;
+									namesData = sd->Data;
+								}
 
-								else
-									{
-										UInt32 index;
-										RINOK(SzReadNumber32(sd, &index));
+							else
+								{
+									UInt32 index;
+									RINOK ( SzReadNumber32 ( sd, &index ) );
 
-										if (index >= *numTempBufs)
-											return SZ_ERROR_ARCHIVE;
+									if ( index >= *numTempBufs )
+										return SZ_ERROR_ARCHIVE;
 
-										namesData = (tempBufs)[index].data;
-										namesSize = (tempBufs)[index].size;
-									}
+									namesData = ( tempBufs ) [index].data;
+									namesSize = ( tempBufs ) [index].size;
+								}
 
-								if ((namesSize & 1) != 0)
-									return SZ_ERROR_ARCHIVE;
+							if ( ( namesSize & 1 ) != 0 )
+								return SZ_ERROR_ARCHIVE;
 
-								MY_ALLOC(size_t, p->FileNameOffsets, numFiles + 1, allocMain);
-								MY_ALLOC_ZE_AND_CPY(p->FileNames, namesSize, namesData, allocMain);
-								RINOK(SzReadFileNames(p->FileNames, namesSize, numFiles, p->FileNameOffsets))
+							MY_ALLOC ( size_t, p->FileNameOffsets, numFiles + 1, allocMain );
+							MY_ALLOC_ZE_AND_CPY ( p->FileNames, namesSize, namesData, allocMain );
+							RINOK ( SzReadFileNames ( p->FileNames, namesSize, numFiles, p->FileNameOffsets ) )
 
-								if (external == 0)
-									{
-										SKIP_DATA(sd, namesSize);
-									}
+							if ( external == 0 )
+								{
+									SKIP_DATA ( sd, namesSize );
+								}
 
-								break;
-							}
+							break;
+						}
 
-							case k7zIdEmptyStream:
-							{
-								RINOK(RememberBitVector(sd, numFiles, &emptyStreams));
-								numEmptyStreams = CountDefinedBits(emptyStreams, numFiles);
-								emptyFiles = NULL;
-								break;
-							}
+						case k7zIdEmptyStream:
+						{
+							RINOK ( RememberBitVector ( sd, numFiles, &emptyStreams ) );
+							numEmptyStreams = CountDefinedBits ( emptyStreams, numFiles );
+							emptyFiles = NULL;
+							break;
+						}
 
-							case k7zIdEmptyFile:
-							{
-								RINOK(RememberBitVector(sd, numEmptyStreams, &emptyFiles));
-								break;
-							}
+						case k7zIdEmptyFile:
+						{
+							RINOK ( RememberBitVector ( sd, numEmptyStreams, &emptyFiles ) );
+							break;
+						}
 
-							case k7zIdWinAttrib:
-							{
-								Byte external;
-								CSzData sdSwitch;
-								CSzData *sdPtr;
-								SzBitUi32s_Free(&p->Attribs, allocMain);
-								RINOK(ReadBitVector(sd, numFiles, &p->Attribs.Defs, allocMain));
+						case k7zIdWinAttrib:
+						{
+							Byte external;
+							CSzData sdSwitch;
+							CSzData *sdPtr;
+							SzBitUi32s_Free ( &p->Attribs, allocMain );
+							RINOK ( ReadBitVector ( sd, numFiles, &p->Attribs.Defs, allocMain ) );
 
-								SZ_READ_BYTE(external);
+							SZ_READ_BYTE ( external );
 
-								if (external == 0)
-									sdPtr = sd;
+							if ( external == 0 )
+								sdPtr = sd;
 
-								else
-									{
-										UInt32 index;
-										RINOK(SzReadNumber32(sd, &index));
+							else
+								{
+									UInt32 index;
+									RINOK ( SzReadNumber32 ( sd, &index ) );
 
-										if (index >= *numTempBufs)
-											return SZ_ERROR_ARCHIVE;
+									if ( index >= *numTempBufs )
+										return SZ_ERROR_ARCHIVE;
 
-										sdSwitch.Data = (tempBufs)[index].data;
-										sdSwitch.Size = (tempBufs)[index].size;
-										sdPtr = &sdSwitch;
-									}
+									sdSwitch.Data = ( tempBufs ) [index].data;
+									sdSwitch.Size = ( tempBufs ) [index].size;
+									sdPtr = &sdSwitch;
+								}
 
-								RINOK(ReadUi32s(sdPtr, numFiles, &p->Attribs, allocMain));
-								break;
-							}
+							RINOK ( ReadUi32s ( sdPtr, numFiles, &p->Attribs, allocMain ) );
+							break;
+						}
 
-							/*
-							case k7zParent:
-							{
-							  SzBitUi32s_Free(&p->Parents, allocMain);
-							  RINOK(ReadBitVector(sd, numFiles, &p->Parents.Defs, allocMain));
-							  RINOK(SzReadSwitch(sd));
-							  RINOK(ReadUi32s(sd, numFiles, &p->Parents, allocMain));
-							  break;
-							}
-							*/
-							case k7zIdMTime:
-								RINOK(ReadTime(&p->MTime, numFiles, sd, tempBufs, *numTempBufs, allocMain));
-								break;
+						/*
+						case k7zParent:
+						{
+						  SzBitUi32s_Free(&p->Parents, allocMain);
+						  RINOK(ReadBitVector(sd, numFiles, &p->Parents.Defs, allocMain));
+						  RINOK(SzReadSwitch(sd));
+						  RINOK(ReadUi32s(sd, numFiles, &p->Parents, allocMain));
+						  break;
+						}
+						*/
+						case k7zIdMTime:
+							RINOK ( ReadTime ( &p->MTime, numFiles, sd, tempBufs, *numTempBufs, allocMain ) );
+							break;
 
-							case k7zIdCTime:
-								RINOK(ReadTime(&p->CTime, numFiles, sd, tempBufs, *numTempBufs, allocMain));
-								break;
+						case k7zIdCTime:
+							RINOK ( ReadTime ( &p->CTime, numFiles, sd, tempBufs, *numTempBufs, allocMain ) );
+							break;
 
-							default:
-							{
-								SKIP_DATA(sd, size);
-							}
+						default:
+						{
+							SKIP_DATA ( sd, size );
+						}
 						}
 			}
 
-		if (numFiles - numEmptyStreams != ssi.NumTotalSubStreams)
+		if ( numFiles - numEmptyStreams != ssi.NumTotalSubStreams )
 			return SZ_ERROR_ARCHIVE;
 
-		for (;;)
+		for ( ;; )
 			{
 				UInt64 type;
-				RINOK(ReadID(sd, &type));
+				RINOK ( ReadID ( sd, &type ) );
 
-				if (type == k7zIdEnd)
+				if ( type == k7zIdEnd )
 					break;
 
-				RINOK(SkipData(sd));
+				RINOK ( SkipData ( sd ) );
 			}
 
 		{
@@ -3251,23 +3251,23 @@ static SRes SzReadHeader2(
 			Byte crcMask = 0;
 			Byte mask = 0x80;
 
-			MY_ALLOC(UInt32, p->FolderToFile, p->db.NumFolders + 1, allocMain);
-			MY_ALLOC_ZE(UInt32, p->FileToFolder, p->NumFiles, allocMain);
-			MY_ALLOC(UInt64, p->UnpackPositions, p->NumFiles + 1, allocMain);
-			MY_ALLOC_ZE(Byte, p->IsDirs, (p->NumFiles + 7) >> 3, allocMain);
+			MY_ALLOC ( UInt32, p->FolderToFile, p->db.NumFolders + 1, allocMain );
+			MY_ALLOC_ZE ( UInt32, p->FileToFolder, p->NumFiles, allocMain );
+			MY_ALLOC ( UInt64, p->UnpackPositions, p->NumFiles + 1, allocMain );
+			MY_ALLOC_ZE ( Byte, p->IsDirs, ( p->NumFiles + 7 ) >> 3, allocMain );
 
-			RINOK(SzBitUi32s_Alloc(&p->CRCs, p->NumFiles, allocMain));
+			RINOK ( SzBitUi32s_Alloc ( &p->CRCs, p->NumFiles, allocMain ) );
 
-			if (ssi.sdCRCs.Size != 0)
+			if ( ssi.sdCRCs.Size != 0 )
 				{
-					SZ_READ_BYTE_SD(&ssi.sdCRCs, allDigestsDefined);
+					SZ_READ_BYTE_SD ( &ssi.sdCRCs, allDigestsDefined );
 
-					if (allDigestsDefined)
+					if ( allDigestsDefined )
 						digestsVals = ssi.sdCRCs.Data;
 
 					else
 						{
-							size_t numBytes = (ssi.NumSubDigests + 7) >> 3;
+							size_t numBytes = ( ssi.NumSubDigests + 7 ) >> 3;
 							digestsDefs = ssi.sdCRCs.Data;
 							digestsVals = digestsDefs + numBytes;
 						}
@@ -3275,11 +3275,11 @@ static SRes SzReadHeader2(
 
 			digestIndex = 0;
 
-			for (i = 0; i < numFiles; i++, mask >>= 1)
+			for ( i = 0; i < numFiles; i++, mask >>= 1 )
 				{
-					if (mask == 0)
+					if ( mask == 0 )
 						{
-							UInt32 byteIndex = (i - 1) >> 3;
+							UInt32 byteIndex = ( i - 1 ) >> 3;
 							p->IsDirs[byteIndex] = isDirMask;
 							p->CRCs.Defs[byteIndex] = crcMask;
 							isDirMask = 0;
@@ -3290,11 +3290,11 @@ static SRes SzReadHeader2(
 					p->UnpackPositions[i] = unpackPos;
 					p->CRCs.Vals[i] = 0;
 
-					if (emptyStreams && SzBitArray_Check(emptyStreams, i))
+					if ( emptyStreams && SzBitArray_Check ( emptyStreams, i ) )
 						{
-							if (emptyFiles)
+							if ( emptyFiles )
 								{
-									if (!SzBitArray_Check(emptyFiles, emptyFileIndex))
+									if ( !SzBitArray_Check ( emptyFiles, emptyFileIndex ) )
 										isDirMask |= mask;
 
 									emptyFileIndex++;
@@ -3303,38 +3303,38 @@ static SRes SzReadHeader2(
 							else
 								isDirMask |= mask;
 
-							if (remSubStreams == 0)
+							if ( remSubStreams == 0 )
 								{
-									p->FileToFolder[i] = (UInt32)-1;
+									p->FileToFolder[i] = ( UInt32 )-1;
 									continue;
 								}
 						}
 
-					if (remSubStreams == 0)
+					if ( remSubStreams == 0 )
 						{
-							for (;;)
+							for ( ;; )
 								{
-									if (folderIndex >= p->db.NumFolders)
+									if ( folderIndex >= p->db.NumFolders )
 										return SZ_ERROR_ARCHIVE;
 
 									p->FolderToFile[folderIndex] = i;
 									numSubStreams = 1;
 
-									if (ssi.sdNumSubStreams.Data)
+									if ( ssi.sdNumSubStreams.Data )
 										{
-											RINOK(SzReadNumber32(&ssi.sdNumSubStreams, &numSubStreams));
+											RINOK ( SzReadNumber32 ( &ssi.sdNumSubStreams, &numSubStreams ) );
 										}
 
 									remSubStreams = numSubStreams;
 
-									if (numSubStreams != 0)
+									if ( numSubStreams != 0 )
 										break;
 
 									{
-										UInt64 folderUnpackSize = SzAr_GetFolderUnpackSize(&p->db, folderIndex);
+										UInt64 folderUnpackSize = SzAr_GetFolderUnpackSize ( &p->db, folderIndex );
 										unpackPos += folderUnpackSize;
 
-										if (unpackPos < folderUnpackSize)
+										if ( unpackPos < folderUnpackSize )
 											return SZ_ERROR_ARCHIVE;
 									}
 
@@ -3344,31 +3344,31 @@ static SRes SzReadHeader2(
 
 					p->FileToFolder[i] = folderIndex;
 
-					if (emptyStreams && SzBitArray_Check(emptyStreams, i))
+					if ( emptyStreams && SzBitArray_Check ( emptyStreams, i ) )
 						continue;
 
-					if (--remSubStreams == 0)
+					if ( --remSubStreams == 0 )
 						{
-							UInt64 folderUnpackSize = SzAr_GetFolderUnpackSize(&p->db, folderIndex);
+							UInt64 folderUnpackSize = SzAr_GetFolderUnpackSize ( &p->db, folderIndex );
 							UInt64 startFolderUnpackPos = p->UnpackPositions[p->FolderToFile[folderIndex]];
 
-							if (folderUnpackSize < unpackPos - startFolderUnpackPos)
+							if ( folderUnpackSize < unpackPos - startFolderUnpackPos )
 								return SZ_ERROR_ARCHIVE;
 
 							unpackPos = startFolderUnpackPos + folderUnpackSize;
 
-							if (unpackPos < folderUnpackSize)
+							if ( unpackPos < folderUnpackSize )
 								return SZ_ERROR_ARCHIVE;
 
-							if (numSubStreams == 1 && SzBitWithVals_Check(&p->db.FolderCRCs, i))
+							if ( numSubStreams == 1 && SzBitWithVals_Check ( &p->db.FolderCRCs, i ) )
 								{
 									p->CRCs.Vals[i] = p->db.FolderCRCs.Vals[folderIndex];
 									crcMask |= mask;
 								}
 
-							else if (allDigestsDefined || (digestsDefs && SzBitArray_Check(digestsDefs, digestIndex)))
+							else if ( allDigestsDefined || ( digestsDefs && SzBitArray_Check ( digestsDefs, digestIndex ) ) )
 								{
-									p->CRCs.Vals[i] = GetUi32(digestsVals + (size_t)digestsValsIndex * 4);
+									p->CRCs.Vals[i] = GetUi32 ( digestsVals + ( size_t ) digestsValsIndex * 4 );
 									digestsValsIndex++;
 									crcMask |= mask;
 								}
@@ -3379,46 +3379,46 @@ static SRes SzReadHeader2(
 					else
 						{
 							UInt64 v;
-							RINOK(ReadNumber(&ssi.sdSizes, &v));
+							RINOK ( ReadNumber ( &ssi.sdSizes, &v ) );
 							unpackPos += v;
 
-							if (unpackPos < v)
+							if ( unpackPos < v )
 								return SZ_ERROR_ARCHIVE;
 
-							if (allDigestsDefined || (digestsDefs && SzBitArray_Check(digestsDefs, digestIndex)))
+							if ( allDigestsDefined || ( digestsDefs && SzBitArray_Check ( digestsDefs, digestIndex ) ) )
 								{
-									p->CRCs.Vals[i] = GetUi32(digestsVals + (size_t)digestsValsIndex * 4);
+									p->CRCs.Vals[i] = GetUi32 ( digestsVals + ( size_t ) digestsValsIndex * 4 );
 									digestsValsIndex++;
 									crcMask |= mask;
 								}
 						}
 				}
 
-			if (mask != 0x80)
+			if ( mask != 0x80 )
 				{
-					UInt32 byteIndex = (i - 1) >> 3;
+					UInt32 byteIndex = ( i - 1 ) >> 3;
 					p->IsDirs[byteIndex] = isDirMask;
 					p->CRCs.Defs[byteIndex] = crcMask;
 				}
 
 			p->UnpackPositions[i] = unpackPos;
 
-			if (remSubStreams != 0)
+			if ( remSubStreams != 0 )
 				return SZ_ERROR_ARCHIVE;
 
-			for (;;)
+			for ( ;; )
 				{
 					p->FolderToFile[folderIndex] = i;
 
-					if (folderIndex >= p->db.NumFolders)
+					if ( folderIndex >= p->db.NumFolders )
 						break;
 
-					if (!ssi.sdNumSubStreams.Data)
+					if ( !ssi.sdNumSubStreams.Data )
 						return SZ_ERROR_ARCHIVE;
 
-					RINOK(SzReadNumber32(&ssi.sdNumSubStreams, &numSubStreams));
+					RINOK ( SzReadNumber32 ( &ssi.sdNumSubStreams, &numSubStreams ) );
 
-					if (numSubStreams != 0)
+					if ( numSubStreams != 0 )
 						return SZ_ERROR_ARCHIVE;
 
 					/*
@@ -3432,7 +3432,7 @@ static SRes SzReadHeader2(
 					folderIndex++;
 				}
 
-			if (ssi.sdNumSubStreams.Data && ssi.sdNumSubStreams.Size != 0)
+			if ( ssi.sdNumSubStreams.Data && ssi.sdNumSubStreams.Size != 0 )
 				return SZ_ERROR_ARCHIVE;
 		}
 	}
@@ -3440,41 +3440,41 @@ static SRes SzReadHeader2(
 }
 
 
-static SRes SzReadHeader(
+static SRes SzReadHeader (
     CSzArEx *p,
     CSzData *sd,
     ILookInStream *inStream,
     ISzAlloc *allocMain,
-    ISzAlloc *allocTemp)
+    ISzAlloc *allocTemp )
 {
 	UInt32 i;
 	UInt32 numTempBufs = 0;
 	SRes res;
 	CBuf tempBufs[NUM_ADDITIONAL_STREAMS_MAX];
 
-	for (i = 0; i < NUM_ADDITIONAL_STREAMS_MAX; i++)
-		Buf_Init(tempBufs + i);
+	for ( i = 0; i < NUM_ADDITIONAL_STREAMS_MAX; i++ )
+		Buf_Init ( tempBufs + i );
 
-	res = SzReadHeader2(p, sd, inStream,
-	                    tempBufs, &numTempBufs,
-	                    allocMain, allocTemp);
+	res = SzReadHeader2 ( p, sd, inStream,
+	                      tempBufs, &numTempBufs,
+	                      allocMain, allocTemp );
 
-	for (i = 0; i < NUM_ADDITIONAL_STREAMS_MAX; i++)
-		Buf_Free(tempBufs + i, allocTemp);
+	for ( i = 0; i < NUM_ADDITIONAL_STREAMS_MAX; i++ )
+		Buf_Free ( tempBufs + i, allocTemp );
 
-	RINOK(res);
+	RINOK ( res );
 
-	if (sd->Size != 0)
+	if ( sd->Size != 0 )
 		return SZ_ERROR_FAIL;
 
 	return res;
 }
 
-static SRes SzArEx_Open2(
+static SRes SzArEx_Open2 (
     CSzArEx *p,
     ILookInStream *inStream,
     ISzAlloc *allocMain,
-    ISzAlloc *allocTemp)
+    ISzAlloc *allocTemp )
 {
 	Byte header[k7zStartHeaderSize];
 	Int64 startArcPos;
@@ -3485,96 +3485,96 @@ static SRes SzArEx_Open2(
 	SRes res;
 
 	startArcPos = 0;
-	RINOK(inStream->Seek(inStream, &startArcPos, SZ_SEEK_CUR));
+	RINOK ( inStream->Seek ( inStream, &startArcPos, SZ_SEEK_CUR ) );
 
-	RINOK(LookInStream_Read2(inStream, header, k7zStartHeaderSize, SZ_ERROR_NO_ARCHIVE));
+	RINOK ( LookInStream_Read2 ( inStream, header, k7zStartHeaderSize, SZ_ERROR_NO_ARCHIVE ) );
 
-	if (!TestSignatureCandidate(header))
+	if ( !TestSignatureCandidate ( header ) )
 		return SZ_ERROR_NO_ARCHIVE;
 
-	if (header[6] != k7zMajorVersion)
+	if ( header[6] != k7zMajorVersion )
 		return SZ_ERROR_UNSUPPORTED;
 
-	nextHeaderOffset = GetUi64(header + 12);
-	nextHeaderSize = GetUi64(header + 20);
-	nextHeaderCRC = GetUi32(header + 28);
+	nextHeaderOffset = GetUi64 ( header + 12 );
+	nextHeaderSize = GetUi64 ( header + 20 );
+	nextHeaderCRC = GetUi32 ( header + 28 );
 
 	p->startPosAfterHeader = startArcPos + k7zStartHeaderSize;
 
-	if (CrcCalc(header + 12, 20) != GetUi32(header + 8))
+	if ( CrcCalc ( header + 12, 20 ) != GetUi32 ( header + 8 ) )
 		return SZ_ERROR_CRC;
 
-	nextHeaderSizeT = (size_t)nextHeaderSize;
+	nextHeaderSizeT = ( size_t ) nextHeaderSize;
 
-	if (nextHeaderSizeT != nextHeaderSize)
+	if ( nextHeaderSizeT != nextHeaderSize )
 		return SZ_ERROR_MEM;
 
-	if (nextHeaderSizeT == 0)
+	if ( nextHeaderSizeT == 0 )
 		return SZ_OK;
 
-	if (nextHeaderOffset > nextHeaderOffset + nextHeaderSize ||
-	        nextHeaderOffset > nextHeaderOffset + nextHeaderSize + k7zStartHeaderSize)
+	if ( nextHeaderOffset > nextHeaderOffset + nextHeaderSize ||
+	        nextHeaderOffset > nextHeaderOffset + nextHeaderSize + k7zStartHeaderSize )
 		return SZ_ERROR_NO_ARCHIVE;
 
 	{
 		Int64 pos = 0;
-		RINOK(inStream->Seek(inStream, &pos, SZ_SEEK_END));
+		RINOK ( inStream->Seek ( inStream, &pos, SZ_SEEK_END ) );
 
-		if ((UInt64)pos < startArcPos + nextHeaderOffset ||
-		        (UInt64)pos < startArcPos + k7zStartHeaderSize + nextHeaderOffset ||
-		        (UInt64)pos < startArcPos + k7zStartHeaderSize + nextHeaderOffset + nextHeaderSize)
+		if ( ( UInt64 ) pos < startArcPos + nextHeaderOffset ||
+		        ( UInt64 ) pos < startArcPos + k7zStartHeaderSize + nextHeaderOffset ||
+		        ( UInt64 ) pos < startArcPos + k7zStartHeaderSize + nextHeaderOffset + nextHeaderSize )
 			return SZ_ERROR_INPUT_EOF;
 	}
 
-	RINOK(LookInStream_SeekTo(inStream, startArcPos + k7zStartHeaderSize + nextHeaderOffset));
+	RINOK ( LookInStream_SeekTo ( inStream, startArcPos + k7zStartHeaderSize + nextHeaderOffset ) );
 
-	if (!Buf_Create(&buf, nextHeaderSizeT, allocTemp))
+	if ( !Buf_Create ( &buf, nextHeaderSizeT, allocTemp ) )
 		return SZ_ERROR_MEM;
 
-	res = LookInStream_Read(inStream, buf.data, nextHeaderSizeT);
+	res = LookInStream_Read ( inStream, buf.data, nextHeaderSizeT );
 
-	if (res == SZ_OK)
+	if ( res == SZ_OK )
 		{
 			res = SZ_ERROR_ARCHIVE;
 
-			if (CrcCalc(buf.data, nextHeaderSizeT) == nextHeaderCRC)
+			if ( CrcCalc ( buf.data, nextHeaderSizeT ) == nextHeaderCRC )
 				{
 					CSzData sd;
 					UInt64 type;
 					sd.Data = buf.data;
 					sd.Size = buf.size;
 
-					res = ReadID(&sd, &type);
+					res = ReadID ( &sd, &type );
 
-					if (res == SZ_OK && type == k7zIdEncodedHeader)
+					if ( res == SZ_OK && type == k7zIdEncodedHeader )
 						{
 							CSzAr tempAr;
 							CBuf tempBuf;
-							Buf_Init(&tempBuf);
+							Buf_Init ( &tempBuf );
 
-							SzAr_Init(&tempAr);
-							res = SzReadAndDecodePackedStreams(inStream, &sd, &tempBuf, 1, p->startPosAfterHeader, &tempAr, allocTemp);
-							SzAr_Free(&tempAr, allocTemp);
+							SzAr_Init ( &tempAr );
+							res = SzReadAndDecodePackedStreams ( inStream, &sd, &tempBuf, 1, p->startPosAfterHeader, &tempAr, allocTemp );
+							SzAr_Free ( &tempAr, allocTemp );
 
-							if (res != SZ_OK)
+							if ( res != SZ_OK )
 								{
-									Buf_Free(&tempBuf, allocTemp);
+									Buf_Free ( &tempBuf, allocTemp );
 								}
 
 							else
 								{
-									Buf_Free(&buf, allocTemp);
+									Buf_Free ( &buf, allocTemp );
 									buf.data = tempBuf.data;
 									buf.size = tempBuf.size;
 									sd.Data = buf.data;
 									sd.Size = buf.size;
-									res = ReadID(&sd, &type);
+									res = ReadID ( &sd, &type );
 								}
 						}
 
-					if (res == SZ_OK)
+					if ( res == SZ_OK )
 						{
-							if (type == k7zIdHeader)
+							if ( type == k7zIdHeader )
 								{
 									/*
 									CSzData sd2;
@@ -3588,7 +3588,7 @@ static SRes SzArEx_Open2(
 									    break;
 									}
 									*/
-									res = SzReadHeader(p, &sd, inStream, allocMain, allocTemp);
+									res = SzReadHeader ( p, &sd, inStream, allocMain, allocTemp );
 								}
 
 							else
@@ -3597,24 +3597,24 @@ static SRes SzArEx_Open2(
 				}
 		}
 
-	Buf_Free(&buf, allocTemp);
+	Buf_Free ( &buf, allocTemp );
 	return res;
 }
 
 
-static SRes SzArEx_Open(CSzArEx *p, ILookInStream *inStream,
-                        ISzAlloc *allocMain, ISzAlloc *allocTemp)
+static SRes SzArEx_Open ( CSzArEx *p, ILookInStream *inStream,
+                          ISzAlloc *allocMain, ISzAlloc *allocTemp )
 {
-	SRes res = SzArEx_Open2(p, inStream, allocMain, allocTemp);
+	SRes res = SzArEx_Open2 ( p, inStream, allocMain, allocTemp );
 
-	if (res != SZ_OK)
-		SzArEx_Free(p, allocMain);
+	if ( res != SZ_OK )
+		SzArEx_Free ( p, allocMain );
 
 	return res;
 }
 
 
-static SRes SzArEx_Extract(
+static SRes SzArEx_Extract (
     const CSzArEx *p,
     ILookInStream *inStream,
     UInt32 fileIndex,
@@ -3624,7 +3624,7 @@ static SRes SzArEx_Extract(
     size_t *offset,
     size_t *outSizeProcessed,
     ISzAlloc *allocMain,
-    ISzAlloc *allocTemp)
+    ISzAlloc *allocTemp )
 {
 	UInt32 folderIndex = p->FileToFolder[fileIndex];
 	SRes res = SZ_OK;
@@ -3632,63 +3632,63 @@ static SRes SzArEx_Extract(
 	*offset = 0;
 	*outSizeProcessed = 0;
 
-	if (folderIndex == (UInt32)-1)
+	if ( folderIndex == ( UInt32 )-1 )
 		{
-			IAlloc_Free(allocMain, *tempBuf);
+			IAlloc_Free ( allocMain, *tempBuf );
 			*blockIndex = folderIndex;
 			*tempBuf = NULL;
 			*outBufferSize = 0;
 			return SZ_OK;
 		}
 
-	if (*tempBuf == NULL || *blockIndex != folderIndex)
+	if ( *tempBuf == NULL || *blockIndex != folderIndex )
 		{
-			UInt64 unpackSizeSpec = SzAr_GetFolderUnpackSize(&p->db, folderIndex);
+			UInt64 unpackSizeSpec = SzAr_GetFolderUnpackSize ( &p->db, folderIndex );
 			/*
 			UInt64 unpackSizeSpec =
 			    p->UnpackPositions[p->FolderToFile[folderIndex + 1]] -
 			    p->UnpackPositions[p->FolderToFile[folderIndex]];
 			*/
-			size_t unpackSize = (size_t)unpackSizeSpec;
+			size_t unpackSize = ( size_t ) unpackSizeSpec;
 
-			if (unpackSize != unpackSizeSpec)
+			if ( unpackSize != unpackSizeSpec )
 				return SZ_ERROR_MEM;
 
 			*blockIndex = folderIndex;
-			IAlloc_Free(allocMain, *tempBuf);
+			IAlloc_Free ( allocMain, *tempBuf );
 			*tempBuf = NULL;
 
-			if (res == SZ_OK)
+			if ( res == SZ_OK )
 				{
 					*outBufferSize = unpackSize;
 
-					if (unpackSize != 0)
+					if ( unpackSize != 0 )
 						{
-							*tempBuf = (Byte *)IAlloc_Alloc(allocMain, unpackSize);
+							*tempBuf = ( Byte * ) IAlloc_Alloc ( allocMain, unpackSize );
 
-							if (*tempBuf == NULL)
+							if ( *tempBuf == NULL )
 								res = SZ_ERROR_MEM;
 						}
 
-					if (res == SZ_OK)
+					if ( res == SZ_OK )
 						{
-							res = SzAr_DecodeFolder(&p->db, folderIndex,
-							                        inStream, p->dataPos, *tempBuf, unpackSize, allocTemp);
+							res = SzAr_DecodeFolder ( &p->db, folderIndex,
+							                          inStream, p->dataPos, *tempBuf, unpackSize, allocTemp );
 						}
 				}
 		}
 
-	if (res == SZ_OK)
+	if ( res == SZ_OK )
 		{
 			UInt64 unpackPos = p->UnpackPositions[fileIndex];
-			*offset = (size_t)(unpackPos - p->UnpackPositions[p->FolderToFile[folderIndex]]);
-			*outSizeProcessed = (size_t)(p->UnpackPositions[fileIndex + 1] - unpackPos);
+			*offset = ( size_t ) ( unpackPos - p->UnpackPositions[p->FolderToFile[folderIndex]] );
+			*outSizeProcessed = ( size_t ) ( p->UnpackPositions[fileIndex + 1] - unpackPos );
 
-			if (*offset + *outSizeProcessed > *outBufferSize)
+			if ( *offset + *outSizeProcessed > *outBufferSize )
 				return SZ_ERROR_FAIL;
 
-			if (SzBitWithVals_Check(&p->CRCs, fileIndex))
-				if (CrcCalc(*tempBuf + *offset, *outSizeProcessed) != p->CRCs.Vals[fileIndex])
+			if ( SzBitWithVals_Check ( &p->CRCs, fileIndex ) )
+				if ( CrcCalc ( *tempBuf + *offset, *outSizeProcessed ) != p->CRCs.Vals[fileIndex] )
 					res = SZ_ERROR_CRC;
 		}
 
@@ -3696,18 +3696,18 @@ static SRes SzArEx_Extract(
 }
 
 
-static size_t SzArEx_GetFileNameUtf16(const CSzArEx *p, size_t fileIndex, UInt16 *dest)
+static size_t SzArEx_GetFileNameUtf16 ( const CSzArEx *p, size_t fileIndex, UInt16 *dest )
 {
 	size_t offs = p->FileNameOffsets[fileIndex];
 	size_t len = p->FileNameOffsets[fileIndex + 1] - offs;
 
-	if (dest != 0)
+	if ( dest != 0 )
 		{
 			size_t i;
 			const Byte *src = p->FileNames + offs * 2;
 
-			for (i = 0; i < len; i++)
-				dest[i] = GetUi16(src + i * 2);
+			for ( i = 0; i < len; i++ )
+				dest[i] = GetUi16 ( src + i * 2 );
 		}
 
 	return len;
@@ -3769,25 +3769,25 @@ static UInt16 *SzArEx_GetFullNameUtf16_Back(const CSzArEx *p, size_t fileIndex, 
 #include "7zBuf.h"
 */
 
-static void Buf_Init(CBuf *p)
+static void Buf_Init ( CBuf *p )
 {
 	p->data = 0;
 	p->size = 0;
 }
 
-static int Buf_Create(CBuf *p, size_t size, ISzAlloc *alloc)
+static int Buf_Create ( CBuf *p, size_t size, ISzAlloc *alloc )
 {
 	p->size = 0;
 
-	if (size == 0)
+	if ( size == 0 )
 		{
 			p->data = 0;
 			return 1;
 		}
 
-	p->data = (Byte *)alloc->Alloc(alloc, size);
+	p->data = ( Byte * ) alloc->Alloc ( alloc, size );
 
-	if (p->data != 0)
+	if ( p->data != 0 )
 		{
 			p->size = size;
 			return 1;
@@ -3796,9 +3796,9 @@ static int Buf_Create(CBuf *p, size_t size, ISzAlloc *alloc)
 	return 0;
 }
 
-static void Buf_Free(CBuf *p, ISzAlloc *alloc)
+static void Buf_Free ( CBuf *p, ISzAlloc *alloc )
 {
-	alloc->Free(alloc, p->data);
+	alloc->Free ( alloc, p->data );
 	p->data = 0;
 	p->size = 0;
 }
@@ -3856,24 +3856,24 @@ typedef struct
 	ILookInStream *inStream;
 } CByteInToLook;
 
-static Byte ReadByte(void *pp)
+static Byte ReadByte ( void *pp )
 {
-	CByteInToLook *p = (CByteInToLook *)pp;
+	CByteInToLook *p = ( CByteInToLook * ) pp;
 
-	if (p->cur != p->end)
+	if ( p->cur != p->end )
 		return *p->cur++;
 
-	if (p->res == SZ_OK)
+	if ( p->res == SZ_OK )
 		{
 			size_t size = p->cur - p->begin;
 			p->processed += size;
-			p->res = p->inStream->Skip(p->inStream, size);
-			size = (1 << 25);
-			p->res = p->inStream->Look(p->inStream, (const void **)&p->begin, &size);
+			p->res = p->inStream->Skip ( p->inStream, size );
+			size = ( 1 << 25 );
+			p->res = p->inStream->Look ( p->inStream, ( const void ** ) &p->begin, &size );
 			p->cur = p->begin;
 			p->end = p->begin + size;
 
-			if (size != 0)
+			if ( size != 0 )
 				return *p->cur++;;
 		}
 
@@ -3881,8 +3881,8 @@ static Byte ReadByte(void *pp)
 	return 0;
 }
 
-static SRes SzDecodePpmd(const Byte *props, unsigned propsSize, UInt64 inSize, ILookInStream *inStream,
-                         Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain)
+static SRes SzDecodePpmd ( const Byte *props, unsigned propsSize, UInt64 inSize, ILookInStream *inStream,
+                           Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain )
 {
 	CPpmd7 ppmd;
 	CByteInToLook s;
@@ -3895,261 +3895,261 @@ static SRes SzDecodePpmd(const Byte *props, unsigned propsSize, UInt64 inSize, I
 	s.res = SZ_OK;
 	s.processed = 0;
 
-	if (propsSize != 5)
+	if ( propsSize != 5 )
 		return SZ_ERROR_UNSUPPORTED;
 
 	{
 		unsigned order = props[0];
-		UInt32 memSize = GetUi32(props + 1);
+		UInt32 memSize = GetUi32 ( props + 1 );
 
-		if (order < PPMD7_MIN_ORDER ||
+		if ( order < PPMD7_MIN_ORDER ||
 		        order > PPMD7_MAX_ORDER ||
 		        memSize < PPMD7_MIN_MEM_SIZE ||
-		        memSize > PPMD7_MAX_MEM_SIZE)
+		        memSize > PPMD7_MAX_MEM_SIZE )
 			return SZ_ERROR_UNSUPPORTED;
 
-		Ppmd7_Construct(&ppmd);
+		Ppmd7_Construct ( &ppmd );
 
-		if (!Ppmd7_Alloc(&ppmd, memSize, allocMain))
+		if ( !Ppmd7_Alloc ( &ppmd, memSize, allocMain ) )
 			return SZ_ERROR_MEM;
 
-		Ppmd7_Init(&ppmd, order);
+		Ppmd7_Init ( &ppmd, order );
 	}
 	{
 		CPpmd7z_RangeDec rc;
-		Ppmd7z_RangeDec_CreateVTable(&rc);
+		Ppmd7z_RangeDec_CreateVTable ( &rc );
 		rc.Stream = &s.p;
 
-		if (!Ppmd7z_RangeDec_Init(&rc))
+		if ( !Ppmd7z_RangeDec_Init ( &rc ) )
 			res = SZ_ERROR_DATA;
 
-		else if (s.extra)
-			res = (s.res != SZ_OK ? s.res : SZ_ERROR_DATA);
+		else if ( s.extra )
+			res = ( s.res != SZ_OK ? s.res : SZ_ERROR_DATA );
 
 		else
 			{
 				SizeT i;
 
-				for (i = 0; i < outSize; i++)
+				for ( i = 0; i < outSize; i++ )
 					{
-						int sym = Ppmd7_DecodeSymbol(&ppmd, &rc.p);
+						int sym = Ppmd7_DecodeSymbol ( &ppmd, &rc.p );
 
-						if (s.extra || sym < 0)
+						if ( s.extra || sym < 0 )
 							break;
 
-						outBuffer[i] = (Byte)sym;
+						outBuffer[i] = ( Byte ) sym;
 					}
 
-				if (i != outSize)
-					res = (s.res != SZ_OK ? s.res : SZ_ERROR_DATA);
+				if ( i != outSize )
+					res = ( s.res != SZ_OK ? s.res : SZ_ERROR_DATA );
 
-				else if (s.processed + (s.cur - s.begin) != inSize || !Ppmd7z_RangeDec_IsFinishedOK(&rc))
+				else if ( s.processed + ( s.cur - s.begin ) != inSize || !Ppmd7z_RangeDec_IsFinishedOK ( &rc ) )
 					res = SZ_ERROR_DATA;
 			}
 	}
-	Ppmd7_Free(&ppmd, allocMain);
+	Ppmd7_Free ( &ppmd, allocMain );
 	return res;
 }
 
 #endif
 
 
-static SRes SzDecodeLzma(const Byte *props, unsigned propsSize, UInt64 inSize, ILookInStream *inStream,
-                         Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain)
+static SRes SzDecodeLzma ( const Byte *props, unsigned propsSize, UInt64 inSize, ILookInStream *inStream,
+                           Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain )
 {
 	CLzmaDec state;
 	SRes res = SZ_OK;
 
-	LzmaDec_Construct(&state);
-	RINOK(LzmaDec_AllocateProbs(&state, props, propsSize, allocMain));
+	LzmaDec_Construct ( &state );
+	RINOK ( LzmaDec_AllocateProbs ( &state, props, propsSize, allocMain ) );
 	state.dic = outBuffer;
 	state.dicBufSize = outSize;
-	LzmaDec_Init(&state);
+	LzmaDec_Init ( &state );
 
-	for (;;)
+	for ( ;; )
 		{
 			const void *inBuf = NULL;
-			size_t lookahead = (1 << 18);
+			size_t lookahead = ( 1 << 18 );
 
-			if (lookahead > inSize)
-				lookahead = (size_t)inSize;
+			if ( lookahead > inSize )
+				lookahead = ( size_t ) inSize;
 
-			res = inStream->Look(inStream, &inBuf, &lookahead);
+			res = inStream->Look ( inStream, &inBuf, &lookahead );
 
-			if (res != SZ_OK)
+			if ( res != SZ_OK )
 				break;
 
 			{
-				SizeT inProcessed = (SizeT)lookahead, dicPos = state.dicPos;
+				SizeT inProcessed = ( SizeT ) lookahead, dicPos = state.dicPos;
 				ELzmaStatus status;
-				res = LzmaDec_DecodeToDic(&state, outSize, inBuf, &inProcessed, LZMA_FINISH_END, &status);
+				res = LzmaDec_DecodeToDic ( &state, outSize, inBuf, &inProcessed, LZMA_FINISH_END, &status );
 				lookahead -= inProcessed;
 				inSize -= inProcessed;
 
-				if (res != SZ_OK)
+				if ( res != SZ_OK )
 					break;
 
-				if (status == LZMA_STATUS_FINISHED_WITH_MARK)
+				if ( status == LZMA_STATUS_FINISHED_WITH_MARK )
 					{
-						if (outSize != state.dicPos || inSize != 0)
+						if ( outSize != state.dicPos || inSize != 0 )
 							res = SZ_ERROR_DATA;
 
 						break;
 					}
 
-				if (outSize == state.dicPos && inSize == 0 && status == LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK)
+				if ( outSize == state.dicPos && inSize == 0 && status == LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK )
 					break;
 
-				if (inProcessed == 0 && dicPos == state.dicPos)
+				if ( inProcessed == 0 && dicPos == state.dicPos )
 					{
 						res = SZ_ERROR_DATA;
 						break;
 					}
 
-				res = inStream->Skip((void *)inStream, inProcessed);
+				res = inStream->Skip ( ( void * ) inStream, inProcessed );
 
-				if (res != SZ_OK)
+				if ( res != SZ_OK )
 					break;
 			}
 		}
 
-	LzmaDec_FreeProbs(&state, allocMain);
+	LzmaDec_FreeProbs ( &state, allocMain );
 	return res;
 }
 
 
 #ifndef _7Z_NO_METHOD_LZMA2
 
-static SRes SzDecodeLzma2(const Byte *props, unsigned propsSize, UInt64 inSize, ILookInStream *inStream,
-                          Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain)
+static SRes SzDecodeLzma2 ( const Byte *props, unsigned propsSize, UInt64 inSize, ILookInStream *inStream,
+                            Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain )
 {
 	CLzma2Dec state;
 	SRes res = SZ_OK;
 
-	Lzma2Dec_Construct(&state);
+	Lzma2Dec_Construct ( &state );
 
-	if (propsSize != 1)
+	if ( propsSize != 1 )
 		return SZ_ERROR_DATA;
 
-	RINOK(Lzma2Dec_AllocateProbs(&state, props[0], allocMain));
+	RINOK ( Lzma2Dec_AllocateProbs ( &state, props[0], allocMain ) );
 	state.decoder.dic = outBuffer;
 	state.decoder.dicBufSize = outSize;
-	Lzma2Dec_Init(&state);
+	Lzma2Dec_Init ( &state );
 
-	for (;;)
+	for ( ;; )
 		{
 			const void *inBuf = NULL;
-			size_t lookahead = (1 << 18);
+			size_t lookahead = ( 1 << 18 );
 
-			if (lookahead > inSize)
-				lookahead = (size_t)inSize;
+			if ( lookahead > inSize )
+				lookahead = ( size_t ) inSize;
 
-			res = inStream->Look(inStream, &inBuf, &lookahead);
+			res = inStream->Look ( inStream, &inBuf, &lookahead );
 
-			if (res != SZ_OK)
+			if ( res != SZ_OK )
 				break;
 
 			{
-				SizeT inProcessed = (SizeT)lookahead, dicPos = state.decoder.dicPos;
+				SizeT inProcessed = ( SizeT ) lookahead, dicPos = state.decoder.dicPos;
 				ELzmaStatus status;
-				res = Lzma2Dec_DecodeToDic(&state, outSize, inBuf, &inProcessed, LZMA_FINISH_END, &status);
+				res = Lzma2Dec_DecodeToDic ( &state, outSize, inBuf, &inProcessed, LZMA_FINISH_END, &status );
 				lookahead -= inProcessed;
 				inSize -= inProcessed;
 
-				if (res != SZ_OK)
+				if ( res != SZ_OK )
 					break;
 
-				if (status == LZMA_STATUS_FINISHED_WITH_MARK)
+				if ( status == LZMA_STATUS_FINISHED_WITH_MARK )
 					{
-						if (outSize != state.decoder.dicPos || inSize != 0)
+						if ( outSize != state.decoder.dicPos || inSize != 0 )
 							res = SZ_ERROR_DATA;
 
 						break;
 					}
 
-				if (inProcessed == 0 && dicPos == state.decoder.dicPos)
+				if ( inProcessed == 0 && dicPos == state.decoder.dicPos )
 					{
 						res = SZ_ERROR_DATA;
 						break;
 					}
 
-				res = inStream->Skip((void *)inStream, inProcessed);
+				res = inStream->Skip ( ( void * ) inStream, inProcessed );
 
-				if (res != SZ_OK)
+				if ( res != SZ_OK )
 					break;
 			}
 		}
 
-	Lzma2Dec_FreeProbs(&state, allocMain);
+	Lzma2Dec_FreeProbs ( &state, allocMain );
 	return res;
 }
 
 #endif
 
 
-static SRes SzDecodeCopy(UInt64 inSize, ILookInStream *inStream, Byte *outBuffer)
+static SRes SzDecodeCopy ( UInt64 inSize, ILookInStream *inStream, Byte *outBuffer )
 {
-	while (inSize > 0)
+	while ( inSize > 0 )
 		{
 			const void *inBuf;
-			size_t curSize = (1 << 18);
+			size_t curSize = ( 1 << 18 );
 
-			if (curSize > inSize)
-				curSize = (size_t)inSize;
+			if ( curSize > inSize )
+				curSize = ( size_t ) inSize;
 
-			RINOK(inStream->Look(inStream, &inBuf, &curSize));
+			RINOK ( inStream->Look ( inStream, &inBuf, &curSize ) );
 
-			if (curSize == 0)
+			if ( curSize == 0 )
 				return SZ_ERROR_INPUT_EOF;
 
-			memcpy(outBuffer, inBuf, curSize);
+			memcpy ( outBuffer, inBuf, curSize );
 			outBuffer += curSize;
 			inSize -= curSize;
-			RINOK(inStream->Skip((void *)inStream, curSize));
+			RINOK ( inStream->Skip ( ( void * ) inStream, curSize ) );
 		}
 
 	return SZ_OK;
 }
 
-static Bool IS_MAIN_METHOD(UInt32 m)
+static Bool IS_MAIN_METHOD ( UInt32 m )
 {
-	switch (m)
+	switch ( m )
 		{
-			case k_Copy:
-			case k_LZMA:
+		case k_Copy:
+		case k_LZMA:
 #ifndef _7Z_NO_METHOD_LZMA2
-			case k_LZMA2:
+		case k_LZMA2:
 #endif
 #ifdef _7ZIP_PPMD_SUPPPORT
-			case k_PPMD:
+		case k_PPMD:
 #endif
-				return True;
+			return True;
 		}
 
 	return False;
 }
 
-static Bool IS_SUPPORTED_CODER(const CSzCoderInfo *c)
+static Bool IS_SUPPORTED_CODER ( const CSzCoderInfo *c )
 {
 	return
 	    c->NumStreams == 1
 	    /* && c->MethodID <= (UInt32)0xFFFFFFFF */
-	    && IS_MAIN_METHOD((UInt32)c->MethodID);
+	    && IS_MAIN_METHOD ( ( UInt32 ) c->MethodID );
 }
 
 #define IS_BCJ2(c) ((c)->MethodID == k_BCJ2 && (c)->NumStreams == 4)
 
-static SRes CheckSupportedFolder(const CSzFolder *f)
+static SRes CheckSupportedFolder ( const CSzFolder *f )
 {
-	if (f->NumCoders < 1 || f->NumCoders > 4)
+	if ( f->NumCoders < 1 || f->NumCoders > 4 )
 		return SZ_ERROR_UNSUPPORTED;
 
-	if (!IS_SUPPORTED_CODER(&f->Coders[0]))
+	if ( !IS_SUPPORTED_CODER ( &f->Coders[0] ) )
 		return SZ_ERROR_UNSUPPORTED;
 
-	if (f->NumCoders == 1)
+	if ( f->NumCoders == 1 )
 		{
-			if (f->NumPackStreams != 1 || f->PackStreams[0] != 0 || f->NumBonds != 0)
+			if ( f->NumPackStreams != 1 || f->PackStreams[0] != 0 || f->NumBonds != 0 )
 				return SZ_ERROR_UNSUPPORTED;
 
 			return SZ_OK;
@@ -4158,7 +4158,7 @@ static SRes CheckSupportedFolder(const CSzFolder *f)
 
 #ifndef _7Z_NO_METHODS_FILTERS
 
-	if (f->NumCoders == 2)
+	if ( f->NumCoders == 2 )
 		{
 			const CSzCoderInfo *c = &f->Coders[1];
 
@@ -4169,22 +4169,22 @@ static SRes CheckSupportedFolder(const CSzFolder *f)
 			    || f->PackStreams[0] != 0
 			    || f->NumBonds != 1
 			    || f->Bonds[0].InIndex != 1
-			    || f->Bonds[0].OutIndex != 0)
+			    || f->Bonds[0].OutIndex != 0 )
 				return SZ_ERROR_UNSUPPORTED;
 
-			switch ((UInt32)c->MethodID)
+			switch ( ( UInt32 ) c->MethodID )
 				{
-					case k_Delta:
-					case k_BCJ:
-					case k_PPC:
-					case k_IA64:
-					case k_SPARC:
-					case k_ARM:
-					case k_ARMT:
-						break;
+				case k_Delta:
+				case k_BCJ:
+				case k_PPC:
+				case k_IA64:
+				case k_SPARC:
+				case k_ARM:
+				case k_ARMT:
+					break;
 
-					default:
-						return SZ_ERROR_UNSUPPORTED;
+				default:
+					return SZ_ERROR_UNSUPPORTED;
 				}
 
 			return SZ_OK;
@@ -4193,14 +4193,14 @@ static SRes CheckSupportedFolder(const CSzFolder *f)
 #endif
 
 
-	if (f->NumCoders == 4)
+	if ( f->NumCoders == 4 )
 		{
-			if (!IS_SUPPORTED_CODER(&f->Coders[1])
-			        || !IS_SUPPORTED_CODER(&f->Coders[2])
-			        || !IS_BCJ2(&f->Coders[3]))
+			if ( !IS_SUPPORTED_CODER ( &f->Coders[1] )
+			        || !IS_SUPPORTED_CODER ( &f->Coders[2] )
+			        || !IS_BCJ2 ( &f->Coders[3] ) )
 				return SZ_ERROR_UNSUPPORTED;
 
-			if (f->NumPackStreams != 4
+			if ( f->NumPackStreams != 4
 			        || f->PackStreams[0] != 2
 			        || f->PackStreams[1] != 6
 			        || f->PackStreams[2] != 1
@@ -4208,7 +4208,7 @@ static SRes CheckSupportedFolder(const CSzFolder *f)
 			        || f->NumBonds != 3
 			        || f->Bonds[0].InIndex != 5 || f->Bonds[0].OutIndex != 0
 			        || f->Bonds[1].InIndex != 4 || f->Bonds[1].OutIndex != 1
-			        || f->Bonds[2].InIndex != 3 || f->Bonds[2].OutIndex != 2)
+			        || f->Bonds[2].InIndex != 3 || f->Bonds[2].OutIndex != 2 )
 				return SZ_ERROR_UNSUPPORTED;
 
 			return SZ_OK;
@@ -4219,26 +4219,26 @@ static SRes CheckSupportedFolder(const CSzFolder *f)
 
 #define CASE_BRA_CONV(isa) case k_ ## isa: isa ## _Convert(outBuffer, outSize, 0, 0); break;
 
-static SRes SzFolder_Decode2(const CSzFolder *folder,
-                             const Byte *propsData,
-                             const UInt64 *unpackSizes,
-                             const UInt64 *packPositions,
-                             ILookInStream *inStream, UInt64 startPos,
-                             Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain,
-                             Byte *tempBuf[])
+static SRes SzFolder_Decode2 ( const CSzFolder *folder,
+                               const Byte *propsData,
+                               const UInt64 *unpackSizes,
+                               const UInt64 *packPositions,
+                               ILookInStream *inStream, UInt64 startPos,
+                               Byte *outBuffer, SizeT outSize, ISzAlloc *allocMain,
+                               Byte *tempBuf[] )
 {
 	UInt32 ci;
 	SizeT tempSizes[3] = { 0, 0, 0};
 	SizeT tempSize3 = 0;
 	Byte *tempBuf3 = 0;
 
-	RINOK(CheckSupportedFolder(folder));
+	RINOK ( CheckSupportedFolder ( folder ) );
 
-	for (ci = 0; ci < folder->NumCoders; ci++)
+	for ( ci = 0; ci < folder->NumCoders; ci++ )
 		{
 			const CSzCoderInfo *coder = &folder->Coders[ci];
 
-			if (IS_MAIN_METHOD((UInt32)coder->MethodID))
+			if ( IS_MAIN_METHOD ( ( UInt32 ) coder->MethodID ) )
 				{
 					UInt32 si = 0;
 					UInt64 offset;
@@ -4246,36 +4246,36 @@ static SRes SzFolder_Decode2(const CSzFolder *folder,
 					Byte *outBufCur = outBuffer;
 					SizeT outSizeCur = outSize;
 
-					if (folder->NumCoders == 4)
+					if ( folder->NumCoders == 4 )
 						{
 							UInt32 indices[] = { 3, 2, 0 };
 							UInt64 unpackSize = unpackSizes[ci];
 							si = indices[ci];
 
-							if (ci < 2)
+							if ( ci < 2 )
 								{
 									Byte *temp;
-									outSizeCur = (SizeT)unpackSize;
+									outSizeCur = ( SizeT ) unpackSize;
 
-									if (outSizeCur != unpackSize)
+									if ( outSizeCur != unpackSize )
 										return SZ_ERROR_MEM;
 
-									temp = (Byte *)IAlloc_Alloc(allocMain, outSizeCur);
+									temp = ( Byte * ) IAlloc_Alloc ( allocMain, outSizeCur );
 
-									if (!temp && outSizeCur != 0)
+									if ( !temp && outSizeCur != 0 )
 										return SZ_ERROR_MEM;
 
 									outBufCur = tempBuf[1 - ci] = temp;
 									tempSizes[1 - ci] = outSizeCur;
 								}
 
-							else if (ci == 2)
+							else if ( ci == 2 )
 								{
-									if (unpackSize > outSize) /* check it */
+									if ( unpackSize > outSize ) /* check it */
 										return SZ_ERROR_PARAM;
 
-									tempBuf3 = outBufCur = outBuffer + (outSize - (size_t)unpackSize);
-									tempSize3 = outSizeCur = (SizeT)unpackSize;
+									tempBuf3 = outBufCur = outBuffer + ( outSize - ( size_t ) unpackSize );
+									tempSize3 = outSizeCur = ( SizeT ) unpackSize;
 								}
 
 							else
@@ -4284,34 +4284,34 @@ static SRes SzFolder_Decode2(const CSzFolder *folder,
 
 					offset = packPositions[si];
 					inSize = packPositions[si + 1] - offset;
-					RINOK(LookInStream_SeekTo(inStream, startPos + offset));
+					RINOK ( LookInStream_SeekTo ( inStream, startPos + offset ) );
 
-					if (coder->MethodID == k_Copy)
+					if ( coder->MethodID == k_Copy )
 						{
-							if (inSize != outSizeCur) /* check it */
+							if ( inSize != outSizeCur ) /* check it */
 								return SZ_ERROR_DATA;
 
-							RINOK(SzDecodeCopy(inSize, inStream, outBufCur));
+							RINOK ( SzDecodeCopy ( inSize, inStream, outBufCur ) );
 						}
 
-					else if (coder->MethodID == k_LZMA)
+					else if ( coder->MethodID == k_LZMA )
 						{
-							RINOK(SzDecodeLzma(propsData + coder->PropsOffset, coder->PropsSize, inSize, inStream, outBufCur, outSizeCur, allocMain));
+							RINOK ( SzDecodeLzma ( propsData + coder->PropsOffset, coder->PropsSize, inSize, inStream, outBufCur, outSizeCur, allocMain ) );
 						}
 
 #ifndef _7Z_NO_METHOD_LZMA2
 
-					else if (coder->MethodID == k_LZMA2)
+					else if ( coder->MethodID == k_LZMA2 )
 						{
-							RINOK(SzDecodeLzma2(propsData + coder->PropsOffset, coder->PropsSize, inSize, inStream, outBufCur, outSizeCur, allocMain));
+							RINOK ( SzDecodeLzma2 ( propsData + coder->PropsOffset, coder->PropsSize, inSize, inStream, outBufCur, outSizeCur, allocMain ) );
 						}
 
 #endif
 #ifdef _7ZIP_PPMD_SUPPPORT
 
-					else if (coder->MethodID == k_PPMD)
+					else if ( coder->MethodID == k_PPMD )
 						{
-							RINOK(SzDecodePpmd(propsData + coder->PropsOffset, coder->PropsSize, inSize, inStream, outBufCur, outSizeCur, allocMain));
+							RINOK ( SzDecodePpmd ( propsData + coder->PropsOffset, coder->PropsSize, inSize, inStream, outBufCur, outSizeCur, allocMain ) );
 						}
 
 #endif
@@ -4320,30 +4320,30 @@ static SRes SzFolder_Decode2(const CSzFolder *folder,
 						return SZ_ERROR_UNSUPPORTED;
 				}
 
-			else if (coder->MethodID == k_BCJ2)
+			else if ( coder->MethodID == k_BCJ2 )
 				{
 					UInt64 offset = packPositions[1];
 					UInt64 s3Size = packPositions[2] - offset;
 
-					if (ci != 3)
+					if ( ci != 3 )
 						return SZ_ERROR_UNSUPPORTED;
 
-					tempSizes[2] = (SizeT)s3Size;
+					tempSizes[2] = ( SizeT ) s3Size;
 
-					if (tempSizes[2] != s3Size)
+					if ( tempSizes[2] != s3Size )
 						return SZ_ERROR_MEM;
 
-					tempBuf[2] = (Byte *)IAlloc_Alloc(allocMain, tempSizes[2]);
+					tempBuf[2] = ( Byte * ) IAlloc_Alloc ( allocMain, tempSizes[2] );
 
-					if (!tempBuf[2] && tempSizes[2] != 0)
+					if ( !tempBuf[2] && tempSizes[2] != 0 )
 						return SZ_ERROR_MEM;
 
-					RINOK(LookInStream_SeekTo(inStream, startPos + offset));
-					RINOK(SzDecodeCopy(s3Size, inStream, tempBuf[2]));
+					RINOK ( LookInStream_SeekTo ( inStream, startPos + offset ) );
+					RINOK ( SzDecodeCopy ( s3Size, inStream, tempBuf[2] ) );
 
-					if ((tempSizes[0] & 3) != 0 ||
-					        (tempSizes[1] & 3) != 0 ||
-					        tempSize3 + tempSizes[0] + tempSizes[1] != outSize)
+					if ( ( tempSizes[0] & 3 ) != 0 ||
+					        ( tempSizes[1] & 3 ) != 0 ||
+					        tempSize3 + tempSizes[0] + tempSizes[1] != outSize )
 						return SZ_ERROR_DATA;
 
 					{
@@ -4361,21 +4361,21 @@ static SRes SzFolder_Decode2(const CSzFolder *folder,
 						p.dest = outBuffer;
 						p.destLim = outBuffer + outSize;
 
-						Bcj2Dec_Init(&p);
-						RINOK(Bcj2Dec_Decode(&p));
+						Bcj2Dec_Init ( &p );
+						RINOK ( Bcj2Dec_Decode ( &p ) );
 
 						{
 							unsigned i;
 
-							for (i = 0; i < 4; i++)
-								if (p.bufs[i] != p.lims[i])
+							for ( i = 0; i < 4; i++ )
+								if ( p.bufs[i] != p.lims[i] )
 									return SZ_ERROR_DATA;
 
-							if (!Bcj2Dec_IsFinished(&p))
+							if ( !Bcj2Dec_IsFinished ( &p ) )
 								return SZ_ERROR_DATA;
 
-							if (p.dest != p.destLim
-							        || p.state != BCJ2_STREAM_MAIN)
+							if ( p.dest != p.destLim
+							        || p.state != BCJ2_STREAM_MAIN )
 								return SZ_ERROR_DATA;
 						}
 					}
@@ -4383,43 +4383,43 @@ static SRes SzFolder_Decode2(const CSzFolder *folder,
 
 #ifndef _7Z_NO_METHODS_FILTERS
 
-			else if (ci == 1)
+			else if ( ci == 1 )
 				{
-					if (coder->MethodID == k_Delta)
+					if ( coder->MethodID == k_Delta )
 						{
-							if (coder->PropsSize != 1)
+							if ( coder->PropsSize != 1 )
 								return SZ_ERROR_UNSUPPORTED;
 
 							{
 								Byte state[DELTA_STATE_SIZE];
-								Delta_Init(state);
-								Delta_Decode(state, (unsigned)(propsData[coder->PropsOffset]) + 1, outBuffer, outSize);
+								Delta_Init ( state );
+								Delta_Decode ( state, ( unsigned ) ( propsData[coder->PropsOffset] ) + 1, outBuffer, outSize );
 							}
 						}
 
 					else
 						{
-							if (coder->PropsSize != 0)
+							if ( coder->PropsSize != 0 )
 								return SZ_ERROR_UNSUPPORTED;
 
-							switch (coder->MethodID)
+							switch ( coder->MethodID )
 								{
-									case k_BCJ:
-									{
-										UInt32 state;
-										x86_Convert_Init(state);
-										x86_Convert(outBuffer, outSize, 0, &state, 0);
-										break;
-									}
+								case k_BCJ:
+								{
+									UInt32 state;
+									x86_Convert_Init ( state );
+									x86_Convert ( outBuffer, outSize, 0, &state, 0 );
+									break;
+								}
 
-									CASE_BRA_CONV(PPC)
-									CASE_BRA_CONV(IA64)
-									CASE_BRA_CONV(SPARC)
-									CASE_BRA_CONV(ARM)
-									CASE_BRA_CONV(ARMT)
+								CASE_BRA_CONV ( PPC )
+								CASE_BRA_CONV ( IA64 )
+								CASE_BRA_CONV ( SPARC )
+								CASE_BRA_CONV ( ARM )
+								CASE_BRA_CONV ( ARMT )
 
-									default:
-										return SZ_ERROR_UNSUPPORTED;
+								default:
+									return SZ_ERROR_UNSUPPORTED;
 								}
 						}
 				}
@@ -4434,10 +4434,10 @@ static SRes SzFolder_Decode2(const CSzFolder *folder,
 }
 
 
-static SRes SzAr_DecodeFolder(const CSzAr *p, UInt32 folderIndex,
-                              ILookInStream *inStream, UInt64 startPos,
-                              Byte *outBuffer, size_t outSize,
-                              ISzAlloc *allocMain)
+static SRes SzAr_DecodeFolder ( const CSzAr *p, UInt32 folderIndex,
+                                ILookInStream *inStream, UInt64 startPos,
+                                Byte *outBuffer, size_t outSize,
+                                ISzAlloc *allocMain )
 {
 	SRes res;
 	CSzFolder folder;
@@ -4447,32 +4447,32 @@ static SRes SzAr_DecodeFolder(const CSzAr *p, UInt32 folderIndex,
 	sd.Data = data;
 	sd.Size = p->FoCodersOffsets[folderIndex + 1] - p->FoCodersOffsets[folderIndex];
 
-	res = SzGetNextFolderItem(&folder, &sd);
+	res = SzGetNextFolderItem ( &folder, &sd );
 
-	if (res != SZ_OK)
+	if ( res != SZ_OK )
 		return res;
 
-	if (sd.Size != 0
+	if ( sd.Size != 0
 	        || folder.UnpackStream != p->FoToMainUnpackSizeIndex[folderIndex]
-	        || outSize != SzAr_GetFolderUnpackSize(p, folderIndex))
+	        || outSize != SzAr_GetFolderUnpackSize ( p, folderIndex ) )
 		return SZ_ERROR_FAIL;
 
 	{
 		unsigned i;
 		Byte *tempBuf[3] = { 0, 0, 0};
 
-		res = SzFolder_Decode2(&folder, data,
-		                       &p->CoderUnpackSizes[p->FoToCoderUnpackSizes[folderIndex]],
-		                       p->PackPositions + p->FoStartPackStreamIndex[folderIndex],
-		                       inStream, startPos,
-		                       outBuffer, (SizeT)outSize, allocMain, tempBuf);
+		res = SzFolder_Decode2 ( &folder, data,
+		                         &p->CoderUnpackSizes[p->FoToCoderUnpackSizes[folderIndex]],
+		                         p->PackPositions + p->FoStartPackStreamIndex[folderIndex],
+		                         inStream, startPos,
+		                         outBuffer, ( SizeT ) outSize, allocMain, tempBuf );
 
-		for (i = 0; i < 3; i++)
-			IAlloc_Free(allocMain, tempBuf[i]);
+		for ( i = 0; i < 3; i++ )
+			IAlloc_Free ( allocMain, tempBuf[i] );
 
-		if (res == SZ_OK)
-			if (SzBitWithVals_Check(&p->FolderCRCs, folderIndex))
-				if (CrcCalc(outBuffer, outSize) != p->FolderCRCs.Vals[folderIndex])
+		if ( res == SZ_OK )
+			if ( SzBitWithVals_Check ( &p->FolderCRCs, folderIndex ) )
+				if ( CrcCalc ( outBuffer, outSize ) != p->FolderCRCs.Vals[folderIndex] )
 					res = SZ_ERROR_CRC;
 
 		return res;
@@ -4500,7 +4500,7 @@ static SRes SzAr_DecodeFolder(const CSzAr *p, UInt32 folderIndex,
 #define _UPDATE_0 p->range = bound; *prob = (CProb)(ttt + ((kBitModelTotal - ttt) >> kNumMoveBits));
 #define _UPDATE_1 p->range -= bound; p->code -= bound; *prob = (CProb)(ttt - (ttt >> kNumMoveBits));
 
-static void Bcj2Dec_Init(CBcj2Dec *p)
+static void Bcj2Dec_Init ( CBcj2Dec *p )
 {
 	unsigned i;
 
@@ -4510,43 +4510,43 @@ static void Bcj2Dec_Init(CBcj2Dec *p)
 	p->range = 0;
 	p->code = 0;
 
-	for (i = 0; i < sizeof(p->probs) / sizeof(p->probs[0]); i++)
+	for ( i = 0; i < sizeof ( p->probs ) / sizeof ( p->probs[0] ); i++ )
 		p->probs[i] = kBitModelTotal >> 1;
 }
 
-static SRes Bcj2Dec_Decode(CBcj2Dec *p)
+static SRes Bcj2Dec_Decode ( CBcj2Dec *p )
 {
-	if (p->range <= 5)
+	if ( p->range <= 5 )
 		{
 			p->state = BCJ2_DEC_STATE_OK;
 
-			for (; p->range != 5; p->range++)
+			for ( ; p->range != 5; p->range++ )
 				{
-					if (p->range == 1 && p->code != 0)
+					if ( p->range == 1 && p->code != 0 )
 						return SZ_ERROR_DATA;
 
-					if (p->bufs[BCJ2_STREAM_RC] == p->lims[BCJ2_STREAM_RC])
+					if ( p->bufs[BCJ2_STREAM_RC] == p->lims[BCJ2_STREAM_RC] )
 						{
 							p->state = BCJ2_STREAM_RC;
 							return SZ_OK;
 						}
 
-					p->code = (p->code << 8) | *(p->bufs[BCJ2_STREAM_RC])++;
+					p->code = ( p->code << 8 ) | * ( p->bufs[BCJ2_STREAM_RC] )++;
 				}
 
-			if (p->code == 0xFFFFFFFF)
+			if ( p->code == 0xFFFFFFFF )
 				return SZ_ERROR_DATA;
 
 			p->range = 0xFFFFFFFF;
 		}
 
-	else if (p->state >= BCJ2_DEC_STATE_ORIG_0)
+	else if ( p->state >= BCJ2_DEC_STATE_ORIG_0 )
 		{
-			while (p->state <= BCJ2_DEC_STATE_ORIG_3)
+			while ( p->state <= BCJ2_DEC_STATE_ORIG_3 )
 				{
 					Byte *dest = p->dest;
 
-					if (dest == p->destLim)
+					if ( dest == p->destLim )
 						return SZ_OK;
 
 					*dest = p->temp[p->state++ - BCJ2_DEC_STATE_ORIG_0];
@@ -4589,23 +4589,23 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 	}
 	*/
 
-	for (;;)
+	for ( ;; )
 		{
-			if (BCJ2_IS_32BIT_STREAM(p->state))
+			if ( BCJ2_IS_32BIT_STREAM ( p->state ) )
 				p->state = BCJ2_DEC_STATE_OK;
 
 			else
 				{
-					if (p->range < kTopValue)
+					if ( p->range < kTopValue )
 						{
-							if (p->bufs[BCJ2_STREAM_RC] == p->lims[BCJ2_STREAM_RC])
+							if ( p->bufs[BCJ2_STREAM_RC] == p->lims[BCJ2_STREAM_RC] )
 								{
 									p->state = BCJ2_STREAM_RC;
 									return SZ_OK;
 								}
 
 							p->range <<= 8;
-							p->code = (p->code << 8) | *(p->bufs[BCJ2_STREAM_RC])++;
+							p->code = ( p->code << 8 ) | * ( p->bufs[BCJ2_STREAM_RC] )++;
 						}
 
 					{
@@ -4614,7 +4614,7 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 						Byte *dest;
 						SizeT num = p->lims[BCJ2_STREAM_MAIN] - src;
 
-						if (num == 0)
+						if ( num == 0 )
 							{
 								p->state = BCJ2_STREAM_MAIN;
 								return SZ_OK;
@@ -4622,11 +4622,11 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 
 						dest = p->dest;
 
-						if (num > (SizeT)(p->destLim - dest))
+						if ( num > ( SizeT ) ( p->destLim - dest ) )
 							{
 								num = p->destLim - dest;
 
-								if (num == 0)
+								if ( num == 0 )
 									{
 										p->state = BCJ2_DEC_STATE_ORIG;
 										return SZ_OK;
@@ -4635,22 +4635,22 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 
 						srcLim = src + num;
 
-						if (p->temp[3] == 0x0F && (src[0] & 0xF0) == 0x80)
+						if ( p->temp[3] == 0x0F && ( src[0] & 0xF0 ) == 0x80 )
 							*dest = src[0];
 
-						else for (;;)
+						else for ( ;; )
 								{
 									Byte b = *src;
 									*dest = b;
 
-									if (b != 0x0F)
+									if ( b != 0x0F )
 										{
-											if ((b & 0xFE) == 0xE8)
+											if ( ( b & 0xFE ) == 0xE8 )
 												break;
 
 											dest++;
 
-											if (++src != srcLim)
+											if ( ++src != srcLim )
 												continue;
 
 											break;
@@ -4658,10 +4658,10 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 
 									dest++;
 
-									if (++src == srcLim)
+									if ( ++src == srcLim )
 										break;
 
-									if ((*src & 0xF0) != 0x80)
+									if ( ( *src & 0xF0 ) != 0x80 )
 										continue;
 
 									*dest = *src;
@@ -4670,17 +4670,17 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 
 						num = src - p->bufs[BCJ2_STREAM_MAIN];
 
-						if (src == srcLim)
+						if ( src == srcLim )
 							{
 								p->temp[3] = src[-1];
 								p->bufs[BCJ2_STREAM_MAIN] = src;
-								p->ip += (UInt32)num;
+								p->ip += ( UInt32 ) num;
 								p->dest += num;
 								p->state =
 								    p->bufs[BCJ2_STREAM_MAIN] ==
 								    p->lims[BCJ2_STREAM_MAIN] ?
-								    (unsigned)BCJ2_STREAM_MAIN :
-								    (unsigned)BCJ2_DEC_STATE_ORIG;
+								    ( unsigned ) BCJ2_STREAM_MAIN :
+								    ( unsigned ) BCJ2_DEC_STATE_ORIG;
 								return SZ_OK;
 							}
 
@@ -4688,15 +4688,15 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 							UInt32 bound, ttt;
 							CProb *prob;
 							Byte b = src[0];
-							Byte prev = (Byte)(num == 0 ? p->temp[3] : src[-1]);
+							Byte prev = ( Byte ) ( num == 0 ? p->temp[3] : src[-1] );
 
 							p->temp[3] = b;
 							p->bufs[BCJ2_STREAM_MAIN] = src + 1;
 							num++;
-							p->ip += (UInt32)num;
+							p->ip += ( UInt32 ) num;
 							p->dest += num;
 
-							prob = p->probs + (unsigned)(b == 0xE8 ? 2 + (unsigned)prev : (b == 0xE9 ? 1 : 0));
+							prob = p->probs + ( unsigned ) ( b == 0xE8 ? 2 + ( unsigned ) prev : ( b == 0xE9 ? 1 : 0 ) );
 
 							_IF_BIT_0
 							{
@@ -4711,18 +4711,18 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 
 			{
 				UInt32 val;
-				unsigned cj = (p->temp[3] == 0xE8) ? BCJ2_STREAM_CALL : BCJ2_STREAM_JUMP;
+				unsigned cj = ( p->temp[3] == 0xE8 ) ? BCJ2_STREAM_CALL : BCJ2_STREAM_JUMP;
 				const Byte *cur = p->bufs[cj];
 				Byte *dest;
 				SizeT rem;
 
-				if (cur == p->lims[cj])
+				if ( cur == p->lims[cj] )
 					{
 						p->state = cj;
 						break;
 					}
 
-				val = GetBe32(cur);
+				val = GetBe32 ( cur );
 				p->bufs[cj] = cur + 4;
 
 				p->ip += 4;
@@ -4730,29 +4730,29 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 				dest = p->dest;
 				rem = p->destLim - dest;
 
-				if (rem < 4)
+				if ( rem < 4 )
 					{
 						SizeT i;
-						SetUi32(p->temp, val);
+						SetUi32 ( p->temp, val );
 
-						for (i = 0; i < rem; i++)
+						for ( i = 0; i < rem; i++ )
 							dest[i] = p->temp[i];
 
 						p->dest = dest + rem;
-						p->state = BCJ2_DEC_STATE_ORIG_0 + (unsigned)rem;
+						p->state = BCJ2_DEC_STATE_ORIG_0 + ( unsigned ) rem;
 						break;
 					}
 
-				SetUi32(dest, val);
-				p->temp[3] = (Byte)(val >> 24);
+				SetUi32 ( dest, val );
+				p->temp[3] = ( Byte ) ( val >> 24 );
 				p->dest = dest + 4;
 			}
 		}
 
-	if (p->range < kTopValue && p->bufs[BCJ2_STREAM_RC] != p->lims[BCJ2_STREAM_RC])
+	if ( p->range < kTopValue && p->bufs[BCJ2_STREAM_RC] != p->lims[BCJ2_STREAM_RC] )
 		{
 			p->range <<= 8;
-			p->code = (p->code << 8) | *(p->bufs[BCJ2_STREAM_RC])++;
+			p->code = ( p->code << 8 ) | * ( p->bufs[BCJ2_STREAM_RC] )++;
 		}
 
 	return SZ_OK;
@@ -4771,76 +4771,76 @@ static SRes Bcj2Dec_Decode(CBcj2Dec *p)
 #include "Bra.h"
 */
 
-static SizeT ARM_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
+static SizeT ARM_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding )
 {
 	SizeT i;
 
-	if (size < 4)
+	if ( size < 4 )
 		return 0;
 
 	size -= 4;
 	ip += 8;
 
-	for (i = 0; i <= size; i += 4)
+	for ( i = 0; i <= size; i += 4 )
 		{
-			if (data[i + 3] == 0xEB)
+			if ( data[i + 3] == 0xEB )
 				{
 					UInt32 dest;
-					UInt32 src = ((UInt32)data[i + 2] << 16) | ((UInt32)data[i + 1] << 8) | (data[i + 0]);
+					UInt32 src = ( ( UInt32 ) data[i + 2] << 16 ) | ( ( UInt32 ) data[i + 1] << 8 ) | ( data[i + 0] );
 					src <<= 2;
 
-					if (encoding)
-						dest = ip + (UInt32)i + src;
+					if ( encoding )
+						dest = ip + ( UInt32 ) i + src;
 
 					else
-						dest = src - (ip + (UInt32)i);
+						dest = src - ( ip + ( UInt32 ) i );
 
 					dest >>= 2;
-					data[i + 2] = (Byte)(dest >> 16);
-					data[i + 1] = (Byte)(dest >> 8);
-					data[i + 0] = (Byte)dest;
+					data[i + 2] = ( Byte ) ( dest >> 16 );
+					data[i + 1] = ( Byte ) ( dest >> 8 );
+					data[i + 0] = ( Byte ) dest;
 				}
 		}
 
 	return i;
 }
 
-static SizeT ARMT_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
+static SizeT ARMT_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding )
 {
 	SizeT i;
 
-	if (size < 4)
+	if ( size < 4 )
 		return 0;
 
 	size -= 4;
 	ip += 4;
 
-	for (i = 0; i <= size; i += 2)
+	for ( i = 0; i <= size; i += 2 )
 		{
-			if ((data[i + 1] & 0xF8) == 0xF0 &&
-			        (data[i + 3] & 0xF8) == 0xF8)
+			if ( ( data[i + 1] & 0xF8 ) == 0xF0 &&
+			        ( data[i + 3] & 0xF8 ) == 0xF8 )
 				{
 					UInt32 dest;
 					UInt32 src =
-					    (((UInt32)data[i + 1] & 0x7) << 19) |
-					    ((UInt32)data[i + 0] << 11) |
-					    (((UInt32)data[i + 3] & 0x7) << 8) |
-					    (data[i + 2]);
+					    ( ( ( UInt32 ) data[i + 1] & 0x7 ) << 19 ) |
+					    ( ( UInt32 ) data[i + 0] << 11 ) |
+					    ( ( ( UInt32 ) data[i + 3] & 0x7 ) << 8 ) |
+					    ( data[i + 2] );
 
 					src <<= 1;
 
-					if (encoding)
-						dest = ip + (UInt32)i + src;
+					if ( encoding )
+						dest = ip + ( UInt32 ) i + src;
 
 					else
-						dest = src - (ip + (UInt32)i);
+						dest = src - ( ip + ( UInt32 ) i );
 
 					dest >>= 1;
 
-					data[i + 1] = (Byte)(0xF0 | ((dest >> 19) & 0x7));
-					data[i + 0] = (Byte)(dest >> 11);
-					data[i + 3] = (Byte)(0xF8 | ((dest >> 8) & 0x7));
-					data[i + 2] = (Byte)dest;
+					data[i + 1] = ( Byte ) ( 0xF0 | ( ( dest >> 19 ) & 0x7 ) );
+					data[i + 0] = ( Byte ) ( dest >> 11 );
+					data[i + 3] = ( Byte ) ( 0xF8 | ( ( dest >> 8 ) & 0x7 ) );
+					data[i + 2] = ( Byte ) dest;
 					i += 2;
 				}
 		}
@@ -4848,35 +4848,35 @@ static SizeT ARMT_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
 	return i;
 }
 
-static SizeT PPC_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
+static SizeT PPC_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding )
 {
 	SizeT i;
 
-	if (size < 4)
+	if ( size < 4 )
 		return 0;
 
 	size -= 4;
 
-	for (i = 0; i <= size; i += 4)
+	for ( i = 0; i <= size; i += 4 )
 		{
-			if ((data[i] >> 2) == 0x12 && (data[i + 3] & 3) == 1)
+			if ( ( data[i] >> 2 ) == 0x12 && ( data[i + 3] & 3 ) == 1 )
 				{
-					UInt32 src = ((UInt32)(data[i + 0] & 3) << 24) |
-					             ((UInt32)data[i + 1] << 16) |
-					             ((UInt32)data[i + 2] << 8) |
-					             ((UInt32)data[i + 3] & (~3));
+					UInt32 src = ( ( UInt32 ) ( data[i + 0] & 3 ) << 24 ) |
+					             ( ( UInt32 ) data[i + 1] << 16 ) |
+					             ( ( UInt32 ) data[i + 2] << 8 ) |
+					             ( ( UInt32 ) data[i + 3] & ( ~3 ) );
 
 					UInt32 dest;
 
-					if (encoding)
-						dest = ip + (UInt32)i + src;
+					if ( encoding )
+						dest = ip + ( UInt32 ) i + src;
 
 					else
-						dest = src - (ip + (UInt32)i);
+						dest = src - ( ip + ( UInt32 ) i );
 
-					data[i + 0] = (Byte)(0x48 | ((dest >> 24) &  0x3));
-					data[i + 1] = (Byte)(dest >> 16);
-					data[i + 2] = (Byte)(dest >> 8);
+					data[i + 0] = ( Byte ) ( 0x48 | ( ( dest >> 24 ) &  0x3 ) );
+					data[i + 1] = ( Byte ) ( dest >> 16 );
+					data[i + 2] = ( Byte ) ( dest >> 8 );
 					data[i + 3] &= 0x3;
 					data[i + 3] |= dest;
 				}
@@ -4885,43 +4885,43 @@ static SizeT PPC_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
 	return i;
 }
 
-static SizeT SPARC_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
+static SizeT SPARC_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding )
 {
 	UInt32 i;
 
-	if (size < 4)
+	if ( size < 4 )
 		return 0;
 
 	size -= 4;
 
-	for (i = 0; i <= size; i += 4)
+	for ( i = 0; i <= size; i += 4 )
 		{
-			if ((data[i] == 0x40 && (data[i + 1] & 0xC0) == 0x00) ||
-			        (data[i] == 0x7F && (data[i + 1] & 0xC0) == 0xC0))
+			if ( ( data[i] == 0x40 && ( data[i + 1] & 0xC0 ) == 0x00 ) ||
+			        ( data[i] == 0x7F && ( data[i + 1] & 0xC0 ) == 0xC0 ) )
 				{
 					UInt32 src =
-					    ((UInt32)data[i + 0] << 24) |
-					    ((UInt32)data[i + 1] << 16) |
-					    ((UInt32)data[i + 2] << 8) |
-					    ((UInt32)data[i + 3]);
+					    ( ( UInt32 ) data[i + 0] << 24 ) |
+					    ( ( UInt32 ) data[i + 1] << 16 ) |
+					    ( ( UInt32 ) data[i + 2] << 8 ) |
+					    ( ( UInt32 ) data[i + 3] );
 					UInt32 dest;
 
 					src <<= 2;
 
-					if (encoding)
+					if ( encoding )
 						dest = ip + i + src;
 
 					else
-						dest = src - (ip + i);
+						dest = src - ( ip + i );
 
 					dest >>= 2;
 
-					dest = (((0 - ((dest >> 22) & 1)) << 22) & 0x3FFFFFFF) | (dest & 0x3FFFFF) | 0x40000000;
+					dest = ( ( ( 0 - ( ( dest >> 22 ) & 1 ) ) << 22 ) & 0x3FFFFFFF ) | ( dest & 0x3FFFFF ) | 0x40000000;
 
-					data[i + 0] = (Byte)(dest >> 24);
-					data[i + 1] = (Byte)(dest >> 16);
-					data[i + 2] = (Byte)(dest >> 8);
-					data[i + 3] = (Byte)dest;
+					data[i + 0] = ( Byte ) ( dest >> 24 );
+					data[i + 1] = ( Byte ) ( dest >> 16 );
+					data[i + 2] = ( Byte ) ( dest >> 8 );
+					data[i + 3] = ( Byte ) dest;
 				}
 		}
 
@@ -4939,73 +4939,73 @@ static SizeT SPARC_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
 
 #define Test86MSByte(b) ((((b) + 1) & 0xFE) == 0)
 
-static SizeT x86_Convert(Byte *data, SizeT size, UInt32 ip, UInt32 *state, int encoding)
+static SizeT x86_Convert ( Byte *data, SizeT size, UInt32 ip, UInt32 *state, int encoding )
 {
 	SizeT pos = 0;
 	UInt32 mask = *state & 7;
 
-	if (size < 5)
+	if ( size < 5 )
 		return 0;
 
 	size -= 4;
 	ip += 5;
 
-	for (;;)
+	for ( ;; )
 		{
 			Byte *p = data + pos;
 			const Byte *limit = data + size;
 
-			for (; p < limit; p++)
-				if ((*p & 0xFE) == 0xE8)
+			for ( ; p < limit; p++ )
+				if ( ( *p & 0xFE ) == 0xE8 )
 					break;
 
 			{
-				SizeT d = (SizeT)(p - data - pos);
-				pos = (SizeT)(p - data);
+				SizeT d = ( SizeT ) ( p - data - pos );
+				pos = ( SizeT ) ( p - data );
 
-				if (p >= limit)
+				if ( p >= limit )
 					{
-						*state = (d > 2 ? 0 : mask >> (unsigned)d);
+						*state = ( d > 2 ? 0 : mask >> ( unsigned ) d );
 						return pos;
 					}
 
-				if (d > 2)
+				if ( d > 2 )
 					mask = 0;
 
 				else
 					{
-						mask >>= (unsigned)d;
+						mask >>= ( unsigned ) d;
 
-						if (mask != 0 && (mask > 4 || mask == 3 || Test86MSByte(p[(mask >> 1) + 1])))
+						if ( mask != 0 && ( mask > 4 || mask == 3 || Test86MSByte ( p[ ( mask >> 1 ) + 1] ) ) )
 							{
-								mask = (mask >> 1) | 4;
+								mask = ( mask >> 1 ) | 4;
 								pos++;
 								continue;
 							}
 					}
 			}
 
-			if (Test86MSByte(p[4]))
+			if ( Test86MSByte ( p[4] ) )
 				{
-					UInt32 v = ((UInt32)p[4] << 24) | ((UInt32)p[3] << 16) | ((UInt32)p[2] << 8) | ((UInt32)p[1]);
-					UInt32 cur = ip + (UInt32)pos;
+					UInt32 v = ( ( UInt32 ) p[4] << 24 ) | ( ( UInt32 ) p[3] << 16 ) | ( ( UInt32 ) p[2] << 8 ) | ( ( UInt32 ) p[1] );
+					UInt32 cur = ip + ( UInt32 ) pos;
 					pos += 5;
 
-					if (encoding)
+					if ( encoding )
 						v += cur;
 
 					else
 						v -= cur;
 
-					if (mask != 0)
+					if ( mask != 0 )
 						{
-							unsigned sh = (mask & 6) << 2;
+							unsigned sh = ( mask & 6 ) << 2;
 
-							if (Test86MSByte((Byte)(v >> sh)))
+							if ( Test86MSByte ( ( Byte ) ( v >> sh ) ) )
 								{
-									v ^= (((UInt32)0x100 << sh) - 1);
+									v ^= ( ( ( UInt32 ) 0x100 << sh ) - 1 );
 
-									if (encoding)
+									if ( encoding )
 										v += cur;
 
 									else
@@ -5015,15 +5015,15 @@ static SizeT x86_Convert(Byte *data, SizeT size, UInt32 ip, UInt32 *state, int e
 							mask = 0;
 						}
 
-					p[1] = (Byte)v;
-					p[2] = (Byte)(v >> 8);
-					p[3] = (Byte)(v >> 16);
-					p[4] = (Byte)(0 - ((v >> 24) & 1));
+					p[1] = ( Byte ) v;
+					p[2] = ( Byte ) ( v >> 8 );
+					p[3] = ( Byte ) ( v >> 16 );
+					p[4] = ( Byte ) ( 0 - ( ( v >> 24 ) & 1 ) );
 				}
 
 			else
 				{
-					mask = (mask >> 1) | 4;
+					mask = ( mask >> 1 ) | 4;
 					pos++;
 				}
 		}
@@ -5046,65 +5046,65 @@ static const Byte kBranchTable[32] =
 	4, 4, 0, 0, 4, 4, 0, 0
 };
 
-static SizeT IA64_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
+static SizeT IA64_Convert ( Byte *data, SizeT size, UInt32 ip, int encoding )
 {
 	SizeT i;
 
-	if (size < 16)
+	if ( size < 16 )
 		return 0;
 
 	size -= 16;
 
-	for (i = 0; i <= size; i += 16)
+	for ( i = 0; i <= size; i += 16 )
 		{
 			UInt32 instrTemplate = data[i] & 0x1F;
 			UInt32 mask = kBranchTable[instrTemplate];
 			UInt32 bitPos = 5;
 			int slot;
 
-			for (slot = 0; slot < 3; slot++, bitPos += 41)
+			for ( slot = 0; slot < 3; slot++, bitPos += 41 )
 				{
 					UInt32 bytePos, bitRes;
 					UInt64 instruction, instNorm;
 					int j;
 
-					if (((mask >> slot) & 1) == 0)
+					if ( ( ( mask >> slot ) & 1 ) == 0 )
 						continue;
 
-					bytePos = (bitPos >> 3);
+					bytePos = ( bitPos >> 3 );
 					bitRes = bitPos & 0x7;
 					instruction = 0;
 
-					for (j = 0; j < 6; j++)
-						instruction += (UInt64)data[i + j + bytePos] << (8 * j);
+					for ( j = 0; j < 6; j++ )
+						instruction += ( UInt64 ) data[i + j + bytePos] << ( 8 * j );
 
 					instNorm = instruction >> bitRes;
 
-					if (((instNorm >> 37) & 0xF) == 0x5 && ((instNorm >> 9) & 0x7) == 0)
+					if ( ( ( instNorm >> 37 ) & 0xF ) == 0x5 && ( ( instNorm >> 9 ) & 0x7 ) == 0 )
 						{
-							UInt32 src = (UInt32)((instNorm >> 13) & 0xFFFFF);
+							UInt32 src = ( UInt32 ) ( ( instNorm >> 13 ) & 0xFFFFF );
 							UInt32 dest;
-							src |= ((UInt32)(instNorm >> 36) & 1) << 20;
+							src |= ( ( UInt32 ) ( instNorm >> 36 ) & 1 ) << 20;
 
 							src <<= 4;
 
-							if (encoding)
-								dest = ip + (UInt32)i + src;
+							if ( encoding )
+								dest = ip + ( UInt32 ) i + src;
 
 							else
-								dest = src - (ip + (UInt32)i);
+								dest = src - ( ip + ( UInt32 ) i );
 
 							dest >>= 4;
 
-							instNorm &= ~((UInt64)(0x8FFFFF) << 13);
-							instNorm |= ((UInt64)(dest & 0xFFFFF) << 13);
-							instNorm |= ((UInt64)(dest & 0x100000) << (36 - 20));
+							instNorm &= ~ ( ( UInt64 ) ( 0x8FFFFF ) << 13 );
+							instNorm |= ( ( UInt64 ) ( dest & 0xFFFFF ) << 13 );
+							instNorm |= ( ( UInt64 ) ( dest & 0x100000 ) << ( 36 - 20 ) );
 
-							instruction &= (1 << bitRes) - 1;
-							instruction |= (instNorm << bitRes);
+							instruction &= ( 1 << bitRes ) - 1;
+							instruction |= ( instNorm << bitRes );
 
-							for (j = 0; j < 6; j++)
-								data[i + j + bytePos] = (Byte)(instruction >> (8 * j));
+							for ( j = 0; j < 6; j++ )
+								data[i + j + bytePos] = ( Byte ) ( instruction >> ( 8 * j ) );
 						}
 				}
 		}
@@ -5122,44 +5122,44 @@ static SizeT IA64_Convert(Byte *data, SizeT size, UInt32 ip, int encoding)
 #include "Delta.h"
 */
 
-static void Delta_Init(Byte *state)
+static void Delta_Init ( Byte *state )
 {
 	unsigned i;
 
-	for (i = 0; i < DELTA_STATE_SIZE; i++)
+	for ( i = 0; i < DELTA_STATE_SIZE; i++ )
 		state[i] = 0;
 }
 
-static void MyMemCpy(Byte *dest, const Byte *src, unsigned size)
+static void MyMemCpy ( Byte *dest, const Byte *src, unsigned size )
 {
 	unsigned i;
 
-	for (i = 0; i < size; i++)
+	for ( i = 0; i < size; i++ )
 		dest[i] = src[i];
 }
 
-static void Delta_Decode(Byte *state, unsigned delta, Byte *data, SizeT size)
+static void Delta_Decode ( Byte *state, unsigned delta, Byte *data, SizeT size )
 {
 	Byte buf[DELTA_STATE_SIZE];
 	unsigned j = 0;
-	MyMemCpy(buf, state, delta);
+	MyMemCpy ( buf, state, delta );
 	{
 		SizeT i;
 
-		for (i = 0; i < size;)
+		for ( i = 0; i < size; )
 			{
-				for (j = 0; j < delta && i < size; i++, j++)
+				for ( j = 0; j < delta && i < size; i++, j++ )
 					{
-						buf[j] = data[i] = (Byte)(buf[j] + data[i]);
+						buf[j] = data[i] = ( Byte ) ( buf[j] + data[i] );
 					}
 			}
 	}
 
-	if (j == delta)
+	if ( j == delta )
 		j = 0;
 
-	MyMemCpy(state, buf + j, delta - j);
-	MyMemCpy(state + delta - j, buf, j);
+	MyMemCpy ( state, buf + j, delta - j );
+	MyMemCpy ( state + delta - j, buf, j );
 }
 
 /* LzmaDec.c -- LZMA Decoder
@@ -5303,14 +5303,14 @@ Out:
     = kMatchSpecLenStart + 2 : State Init Marker (unused now)
 */
 
-static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte *bufLimit)
+static int MY_FAST_CALL LzmaDec_DecodeReal ( CLzmaDec *p, SizeT limit, const Byte *bufLimit )
 {
 	CLzmaProb *probs = p->probs;
 
 	unsigned state = p->state;
 	UInt32 rep0 = p->reps[0], rep1 = p->reps[1], rep2 = p->reps[2], rep3 = p->reps[3];
-	unsigned pbMask = ((unsigned)1 << (p->prop.pb)) - 1;
-	unsigned lpMask = ((unsigned)1 << (p->prop.lp)) - 1;
+	unsigned pbMask = ( ( unsigned ) 1 << ( p->prop.pb ) ) - 1;
+	unsigned lpMask = ( ( unsigned ) 1 << ( p->prop.lp ) ) - 1;
 	unsigned lc = p->prop.lc;
 
 	Byte *dic = p->dic;
@@ -5332,22 +5332,22 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 			unsigned ttt;
 			unsigned posState = processedPos & pbMask;
 
-			prob = probs + IsMatch + (state << kNumPosBitsMax) + posState;
-			IF_BIT_0(prob)
+			prob = probs + IsMatch + ( state << kNumPosBitsMax ) + posState;
+			IF_BIT_0 ( prob )
 			{
 				unsigned symbol;
-				UPDATE_0(prob);
+				UPDATE_0 ( prob );
 				prob = probs + Literal;
 
-				if (processedPos != 0 || checkDicSize != 0)
-					prob += ((UInt32)LZMA_LIT_SIZE * (((processedPos & lpMask) << lc) +
-					                                  (dic[(dicPos == 0 ? dicBufSize : dicPos) - 1] >> (8 - lc))));
+				if ( processedPos != 0 || checkDicSize != 0 )
+					prob += ( ( UInt32 ) LZMA_LIT_SIZE * ( ( ( processedPos & lpMask ) << lc ) +
+					                                       ( dic[ ( dicPos == 0 ? dicBufSize : dicPos ) - 1] >> ( 8 - lc ) ) ) );
 
 				processedPos++;
 
-				if (state < kNumLitStates)
+				if ( state < kNumLitStates )
 					{
-						state -= (state < 4) ? state : 3;
+						state -= ( state < 4 ) ? state : 3;
 						symbol = 1;
 #ifdef _LZMA_SIZE_OPT
 
@@ -5355,7 +5355,7 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 							{
 								NORMAL_LITER_DEC
 							}
-						while (symbol < 0x100);
+						while ( symbol < 0x100 );
 
 #else
 						NORMAL_LITER_DEC
@@ -5371,9 +5371,9 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 
 				else
 					{
-						unsigned matchByte = dic[dicPos - rep0 + (dicPos < rep0 ? dicBufSize : 0)];
+						unsigned matchByte = dic[dicPos - rep0 + ( dicPos < rep0 ? dicBufSize : 0 )];
 						unsigned offs = 0x100;
-						state -= (state < 10) ? 3 : 6;
+						state -= ( state < 10 ) ? 3 : 6;
 						symbol = 1;
 #ifdef _LZMA_SIZE_OPT
 
@@ -5383,7 +5383,7 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 								CLzmaProb *probLit;
 								MATCHED_LITER_DEC
 							}
-						while (symbol < 0x100);
+						while ( symbol < 0x100 );
 
 #else
 						{
@@ -5401,68 +5401,68 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 #endif
 					}
 
-				dic[dicPos++] = (Byte)symbol;
+				dic[dicPos++] = ( Byte ) symbol;
 				continue;
 			}
 
 			{
-				UPDATE_1(prob);
+				UPDATE_1 ( prob );
 				prob = probs + IsRep + state;
-				IF_BIT_0(prob)
+				IF_BIT_0 ( prob )
 				{
-					UPDATE_0(prob);
+					UPDATE_0 ( prob );
 					state += kNumStates;
 					prob = probs + LenCoder;
 				}
 
 				else
 					{
-						UPDATE_1(prob);
+						UPDATE_1 ( prob );
 
-						if (checkDicSize == 0 && processedPos == 0)
+						if ( checkDicSize == 0 && processedPos == 0 )
 							return SZ_ERROR_DATA;
 
 						prob = probs + IsRepG0 + state;
-						IF_BIT_0(prob)
+						IF_BIT_0 ( prob )
 						{
-							UPDATE_0(prob);
-							prob = probs + IsRep0Long + (state << kNumPosBitsMax) + posState;
-							IF_BIT_0(prob)
+							UPDATE_0 ( prob );
+							prob = probs + IsRep0Long + ( state << kNumPosBitsMax ) + posState;
+							IF_BIT_0 ( prob )
 							{
-								UPDATE_0(prob);
-								dic[dicPos] = dic[dicPos - rep0 + (dicPos < rep0 ? dicBufSize : 0)];
+								UPDATE_0 ( prob );
+								dic[dicPos] = dic[dicPos - rep0 + ( dicPos < rep0 ? dicBufSize : 0 )];
 								dicPos++;
 								processedPos++;
 								state = state < kNumLitStates ? 9 : 11;
 								continue;
 							}
-							UPDATE_1(prob);
+							UPDATE_1 ( prob );
 						}
 
 						else
 							{
 								UInt32 distance;
-								UPDATE_1(prob);
+								UPDATE_1 ( prob );
 								prob = probs + IsRepG1 + state;
-								IF_BIT_0(prob)
+								IF_BIT_0 ( prob )
 								{
-									UPDATE_0(prob);
+									UPDATE_0 ( prob );
 									distance = rep1;
 								}
 
 								else
 									{
-										UPDATE_1(prob);
+										UPDATE_1 ( prob );
 										prob = probs + IsRepG2 + state;
-										IF_BIT_0(prob)
+										IF_BIT_0 ( prob )
 										{
-											UPDATE_0(prob);
+											UPDATE_0 ( prob );
 											distance = rep2;
 										}
 
 										else
 											{
-												UPDATE_1(prob);
+												UPDATE_1 ( prob );
 												distance = rep3;
 												rep3 = rep2;
 											}
@@ -5482,91 +5482,91 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 				{
 					unsigned lim, offset;
 					CLzmaProb *probLen = prob + LenChoice;
-					IF_BIT_0(probLen)
+					IF_BIT_0 ( probLen )
 					{
-						UPDATE_0(probLen);
-						probLen = prob + LenLow + (posState << kLenNumLowBits);
+						UPDATE_0 ( probLen );
+						probLen = prob + LenLow + ( posState << kLenNumLowBits );
 						offset = 0;
-						lim = (1 << kLenNumLowBits);
+						lim = ( 1 << kLenNumLowBits );
 					}
 
 					else
 						{
-							UPDATE_1(probLen);
+							UPDATE_1 ( probLen );
 							probLen = prob + LenChoice2;
-							IF_BIT_0(probLen)
+							IF_BIT_0 ( probLen )
 							{
-								UPDATE_0(probLen);
-								probLen = prob + LenMid + (posState << kLenNumMidBits);
+								UPDATE_0 ( probLen );
+								probLen = prob + LenMid + ( posState << kLenNumMidBits );
 								offset = kLenNumLowSymbols;
-								lim = (1 << kLenNumMidBits);
+								lim = ( 1 << kLenNumMidBits );
 							}
 
 							else
 								{
-									UPDATE_1(probLen);
+									UPDATE_1 ( probLen );
 									probLen = prob + LenHigh;
 									offset = kLenNumLowSymbols + kLenNumMidSymbols;
-									lim = (1 << kLenNumHighBits);
+									lim = ( 1 << kLenNumHighBits );
 								}
 						}
 
-					TREE_DECODE(probLen, lim, len);
+					TREE_DECODE ( probLen, lim, len );
 					len += offset;
 				}
 #else
 				{
 					CLzmaProb *probLen = prob + LenChoice;
-					IF_BIT_0(probLen)
+					IF_BIT_0 ( probLen )
 					{
-						UPDATE_0(probLen);
-						probLen = prob + LenLow + (posState << kLenNumLowBits);
+						UPDATE_0 ( probLen );
+						probLen = prob + LenLow + ( posState << kLenNumLowBits );
 						len = 1;
-						TREE_GET_BIT(probLen, len);
-						TREE_GET_BIT(probLen, len);
-						TREE_GET_BIT(probLen, len);
+						TREE_GET_BIT ( probLen, len );
+						TREE_GET_BIT ( probLen, len );
+						TREE_GET_BIT ( probLen, len );
 						len -= 8;
 					}
 
 					else
 						{
-							UPDATE_1(probLen);
+							UPDATE_1 ( probLen );
 							probLen = prob + LenChoice2;
-							IF_BIT_0(probLen)
+							IF_BIT_0 ( probLen )
 							{
-								UPDATE_0(probLen);
-								probLen = prob + LenMid + (posState << kLenNumMidBits);
+								UPDATE_0 ( probLen );
+								probLen = prob + LenMid + ( posState << kLenNumMidBits );
 								len = 1;
-								TREE_GET_BIT(probLen, len);
-								TREE_GET_BIT(probLen, len);
-								TREE_GET_BIT(probLen, len);
+								TREE_GET_BIT ( probLen, len );
+								TREE_GET_BIT ( probLen, len );
+								TREE_GET_BIT ( probLen, len );
 							}
 
 							else
 								{
-									UPDATE_1(probLen);
+									UPDATE_1 ( probLen );
 									probLen = prob + LenHigh;
-									TREE_DECODE(probLen, (1 << kLenNumHighBits), len);
+									TREE_DECODE ( probLen, ( 1 << kLenNumHighBits ), len );
 									len += kLenNumLowSymbols + kLenNumMidSymbols;
 								}
 						}
 				}
 #endif
 
-				if (state >= kNumStates)
+				if ( state >= kNumStates )
 					{
 						UInt32 distance;
 						prob = probs + PosSlot +
-						       ((len < kNumLenToPosStates ? len : kNumLenToPosStates - 1) << kNumPosSlotBits);
-						TREE_6_DECODE(prob, distance);
+						       ( ( len < kNumLenToPosStates ? len : kNumLenToPosStates - 1 ) << kNumPosSlotBits );
+						TREE_6_DECODE ( prob, distance );
 
-						if (distance >= kStartPosModelIndex)
+						if ( distance >= kStartPosModelIndex )
 							{
-								unsigned posSlot = (unsigned)distance;
-								unsigned numDirectBits = (unsigned)(((distance >> 1) - 1));
-								distance = (2 | (distance & 1));
+								unsigned posSlot = ( unsigned ) distance;
+								unsigned numDirectBits = ( unsigned ) ( ( ( distance >> 1 ) - 1 ) );
+								distance = ( 2 | ( distance & 1 ) );
 
-								if (posSlot < kEndPosModelIndex)
+								if ( posSlot < kEndPosModelIndex )
 									{
 										distance <<= numDirectBits;
 										prob = probs + SpecPos + distance - posSlot - 1;
@@ -5576,10 +5576,10 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 
 											do
 												{
-													GET_BIT2(prob + i, i, ;, distance |= mask);
+													GET_BIT2 ( prob + i, i, ;, distance |= mask );
 													mask <<= 1;
 												}
-											while (--numDirectBits != 0);
+											while ( --numDirectBits != 0 );
 										}
 									}
 
@@ -5595,8 +5595,8 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 												{
 													UInt32 t;
 													code -= range;
-													t = (0 - ((UInt32)code >> 31)); /* (UInt32)((Int32)code >> 31) */
-													distance = (distance << 1) + (t + 1);
+													t = ( 0 - ( ( UInt32 ) code >> 31 ) ); /* (UInt32)((Int32)code >> 31) */
+													distance = ( distance << 1 ) + ( t + 1 );
 													code += range & t;
 												}
 												/*
@@ -5608,19 +5608,19 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 												}
 												*/
 											}
-										while (--numDirectBits != 0);
+										while ( --numDirectBits != 0 );
 
 										prob = probs + Align;
 										distance <<= kNumAlignBits;
 										{
 											unsigned i = 1;
-											GET_BIT2(prob + i, i, ;, distance |= 1);
-											GET_BIT2(prob + i, i, ;, distance |= 2);
-											GET_BIT2(prob + i, i, ;, distance |= 4);
-											GET_BIT2(prob + i, i, ;, distance |= 8);
+											GET_BIT2 ( prob + i, i, ;, distance |= 1 );
+											GET_BIT2 ( prob + i, i, ;, distance |= 2 );
+											GET_BIT2 ( prob + i, i, ;, distance |= 4 );
+											GET_BIT2 ( prob + i, i, ;, distance |= 8 );
 										}
 
-										if (distance == (UInt32)0xFFFFFFFF)
+										if ( distance == ( UInt32 ) 0xFFFFFFFF )
 											{
 												len += kMatchSpecLenStart;
 												state -= kNumStates;
@@ -5634,22 +5634,22 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 						rep1 = rep0;
 						rep0 = distance + 1;
 
-						if (checkDicSize == 0)
+						if ( checkDicSize == 0 )
 							{
-								if (distance >= processedPos)
+								if ( distance >= processedPos )
 									{
 										p->dicPos = dicPos;
 										return SZ_ERROR_DATA;
 									}
 							}
 
-						else if (distance >= checkDicSize)
+						else if ( distance >= checkDicSize )
 							{
 								p->dicPos = dicPos;
 								return SZ_ERROR_DATA;
 							}
 
-						state = (state < kNumStates + kNumLitStates) ? kNumLitStates : kNumLitStates + 3;
+						state = ( state < kNumStates + kNumLitStates ) ? kNumLitStates : kNumLitStates + 3;
 					}
 
 				len += kMatchMinLen;
@@ -5659,30 +5659,30 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 					unsigned curLen;
 					SizeT pos;
 
-					if ((rem = limit - dicPos) == 0)
+					if ( ( rem = limit - dicPos ) == 0 )
 						{
 							p->dicPos = dicPos;
 							return SZ_ERROR_DATA;
 						}
 
-					curLen = ((rem < len) ? (unsigned)rem : len);
-					pos = dicPos - rep0 + (dicPos < rep0 ? dicBufSize : 0);
+					curLen = ( ( rem < len ) ? ( unsigned ) rem : len );
+					pos = dicPos - rep0 + ( dicPos < rep0 ? dicBufSize : 0 );
 
 					processedPos += curLen;
 
 					len -= curLen;
 
-					if (curLen <= dicBufSize - pos)
+					if ( curLen <= dicBufSize - pos )
 						{
 							Byte *dest = dic + dicPos;
-							ptrdiff_t src = (ptrdiff_t)pos - (ptrdiff_t)dicPos;
+							ptrdiff_t src = ( ptrdiff_t ) pos - ( ptrdiff_t ) dicPos;
 							const Byte *lim = dest + curLen;
 							dicPos += curLen;
 
 							do
-								*(dest) = (Byte)*(dest + src);
+								* ( dest ) = ( Byte ) * ( dest + src );
 
-							while (++dest != lim);
+							while ( ++dest != lim );
 						}
 
 					else
@@ -5691,15 +5691,15 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 								{
 									dic[dicPos++] = dic[pos];
 
-									if (++pos == dicBufSize)
+									if ( ++pos == dicBufSize )
 										pos = 0;
 								}
-							while (--curLen != 0);
+							while ( --curLen != 0 );
 						}
 				}
 			}
 		}
-	while (dicPos < limit && buf < bufLimit);
+	while ( dicPos < limit && buf < bufLimit );
 
 	NORMALIZE;
 
@@ -5718,9 +5718,9 @@ static int MY_FAST_CALL LzmaDec_DecodeReal(CLzmaDec *p, SizeT limit, const Byte 
 	return SZ_OK;
 }
 
-static void MY_FAST_CALL LzmaDec_WriteRem(CLzmaDec *p, SizeT limit)
+static void MY_FAST_CALL LzmaDec_WriteRem ( CLzmaDec *p, SizeT limit )
 {
-	if (p->remainLen != 0 && p->remainLen < kMatchSpecLenStart)
+	if ( p->remainLen != 0 && p->remainLen < kMatchSpecLenStart )
 		{
 			Byte *dic = p->dic;
 			SizeT dicPos = p->dicPos;
@@ -5729,19 +5729,19 @@ static void MY_FAST_CALL LzmaDec_WriteRem(CLzmaDec *p, SizeT limit)
 			SizeT rep0 = p->reps[0]; /* we use SizeT to avoid the BUG of VC14 for AMD64 */
 			SizeT rem = limit - dicPos;
 
-			if (rem < len)
-				len = (unsigned)(rem);
+			if ( rem < len )
+				len = ( unsigned ) ( rem );
 
-			if (p->checkDicSize == 0 && p->prop.dicSize - p->processedPos <= len)
+			if ( p->checkDicSize == 0 && p->prop.dicSize - p->processedPos <= len )
 				p->checkDicSize = p->prop.dicSize;
 
 			p->processedPos += len;
 			p->remainLen -= len;
 
-			while (len != 0)
+			while ( len != 0 )
 				{
 					len--;
-					dic[dicPos] = dic[dicPos - rep0 + (dicPos < rep0 ? dicBufSize : 0)];
+					dic[dicPos] = dic[dicPos - rep0 + ( dicPos < rep0 ? dicBufSize : 0 )];
 					dicPos++;
 				}
 
@@ -5749,30 +5749,30 @@ static void MY_FAST_CALL LzmaDec_WriteRem(CLzmaDec *p, SizeT limit)
 		}
 }
 
-static int MY_FAST_CALL LzmaDec_DecodeReal2(CLzmaDec *p, SizeT limit, const Byte *bufLimit)
+static int MY_FAST_CALL LzmaDec_DecodeReal2 ( CLzmaDec *p, SizeT limit, const Byte *bufLimit )
 {
 	do
 		{
 			SizeT limit2 = limit;
 
-			if (p->checkDicSize == 0)
+			if ( p->checkDicSize == 0 )
 				{
 					UInt32 rem = p->prop.dicSize - p->processedPos;
 
-					if (limit - p->dicPos > rem)
+					if ( limit - p->dicPos > rem )
 						limit2 = p->dicPos + rem;
 				}
 
-			RINOK(LzmaDec_DecodeReal(p, limit2, bufLimit));
+			RINOK ( LzmaDec_DecodeReal ( p, limit2, bufLimit ) );
 
-			if (p->checkDicSize == 0 && p->processedPos >= p->prop.dicSize)
+			if ( p->checkDicSize == 0 && p->processedPos >= p->prop.dicSize )
 				p->checkDicSize = p->prop.dicSize;
 
-			LzmaDec_WriteRem(p, limit);
+			LzmaDec_WriteRem ( p, limit );
 		}
-	while (p->dicPos < limit && p->buf < bufLimit && p->remainLen < kMatchSpecLenStart);
+	while ( p->dicPos < limit && p->buf < bufLimit && p->remainLen < kMatchSpecLenStart );
 
-	if (p->remainLen > kMatchSpecLenStart)
+	if ( p->remainLen > kMatchSpecLenStart )
 		p->remainLen = kMatchSpecLenStart;
 
 	return 0;
@@ -5786,7 +5786,7 @@ typedef enum
 	DUMMY_REP
 } ELzmaDummy;
 
-static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inSize)
+static ELzmaDummy LzmaDec_TryDummy ( const CLzmaDec *p, const Byte *buf, SizeT inSize )
 {
 	UInt32 range = p->range;
 	UInt32 code = p->code;
@@ -5799,10 +5799,10 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 		const CLzmaProb *prob;
 		UInt32 bound;
 		unsigned ttt;
-		unsigned posState = (p->processedPos) & ((1 << p->prop.pb) - 1);
+		unsigned posState = ( p->processedPos ) & ( ( 1 << p->prop.pb ) - 1 );
 
-		prob = probs + IsMatch + (state << kNumPosBitsMax) + posState;
-		IF_BIT_0_CHECK(prob)
+		prob = probs + IsMatch + ( state << kNumPosBitsMax ) + posState;
+		IF_BIT_0_CHECK ( prob )
 		{
 			UPDATE_0_CHECK
 
@@ -5810,26 +5810,26 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 
 			prob = probs + Literal;
 
-			if (p->checkDicSize != 0 || p->processedPos != 0)
-				prob += ((UInt32)LZMA_LIT_SIZE *
-				         ((((p->processedPos) & ((1 << (p->prop.lp)) - 1)) << p->prop.lc) +
-				          (p->dic[(p->dicPos == 0 ? p->dicBufSize : p->dicPos) - 1] >> (8 - p->prop.lc))));
+			if ( p->checkDicSize != 0 || p->processedPos != 0 )
+				prob += ( ( UInt32 ) LZMA_LIT_SIZE *
+				          ( ( ( ( p->processedPos ) & ( ( 1 << ( p->prop.lp ) ) - 1 ) ) << p->prop.lc ) +
+				            ( p->dic[ ( p->dicPos == 0 ? p->dicBufSize : p->dicPos ) - 1] >> ( 8 - p->prop.lc ) ) ) );
 
-			if (state < kNumLitStates)
+			if ( state < kNumLitStates )
 				{
 					unsigned symbol = 1;
 
 					do
 						{
-							GET_BIT_CHECK(prob + symbol, symbol)
+							GET_BIT_CHECK ( prob + symbol, symbol )
 						}
-					while (symbol < 0x100);
+					while ( symbol < 0x100 );
 				}
 
 			else
 				{
 					unsigned matchByte = p->dic[p->dicPos - p->reps[0] +
-					                                      (p->dicPos < p->reps[0] ? p->dicBufSize : 0)];
+					                                      ( p->dicPos < p->reps[0] ? p->dicBufSize : 0 )];
 					unsigned offs = 0x100;
 					unsigned symbol = 1;
 
@@ -5838,11 +5838,11 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 							unsigned bit;
 							const CLzmaProb *probLit;
 							matchByte <<= 1;
-							bit = (matchByte & offs);
+							bit = ( matchByte & offs );
 							probLit = prob + offs + bit + symbol;
-							GET_BIT2_CHECK(probLit, symbol, offs &= ~bit, offs &= bit)
+							GET_BIT2_CHECK ( probLit, symbol, offs &= ~bit, offs &= bit )
 						}
-					while (symbol < 0x100);
+					while ( symbol < 0x100 );
 				}
 
 			res = DUMMY_LIT;
@@ -5854,7 +5854,7 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 				UPDATE_1_CHECK;
 
 				prob = probs + IsRep + state;
-				IF_BIT_0_CHECK(prob)
+				IF_BIT_0_CHECK ( prob )
 				{
 					UPDATE_0_CHECK;
 					state = 0;
@@ -5867,11 +5867,11 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 						UPDATE_1_CHECK;
 						res = DUMMY_REP;
 						prob = probs + IsRepG0 + state;
-						IF_BIT_0_CHECK(prob)
+						IF_BIT_0_CHECK ( prob )
 						{
 							UPDATE_0_CHECK;
-							prob = probs + IsRep0Long + (state << kNumPosBitsMax) + posState;
-							IF_BIT_0_CHECK(prob)
+							prob = probs + IsRep0Long + ( state << kNumPosBitsMax ) + posState;
+							IF_BIT_0_CHECK ( prob )
 							{
 								UPDATE_0_CHECK;
 								NORMALIZE_CHECK;
@@ -5888,7 +5888,7 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 							{
 								UPDATE_1_CHECK;
 								prob = probs + IsRepG1 + state;
-								IF_BIT_0_CHECK(prob)
+								IF_BIT_0_CHECK ( prob )
 								{
 									UPDATE_0_CHECK;
 								}
@@ -5897,7 +5897,7 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 									{
 										UPDATE_1_CHECK;
 										prob = probs + IsRepG2 + state;
-										IF_BIT_0_CHECK(prob)
+										IF_BIT_0_CHECK ( prob )
 										{
 											UPDATE_0_CHECK;
 										}
@@ -5916,10 +5916,10 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 				{
 					unsigned limit, offset;
 					const CLzmaProb *probLen = prob + LenChoice;
-					IF_BIT_0_CHECK(probLen)
+					IF_BIT_0_CHECK ( probLen )
 					{
 						UPDATE_0_CHECK;
-						probLen = prob + LenLow + (posState << kLenNumLowBits);
+						probLen = prob + LenLow + ( posState << kLenNumLowBits );
 						offset = 0;
 						limit = 1 << kLenNumLowBits;
 					}
@@ -5928,10 +5928,10 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 						{
 							UPDATE_1_CHECK;
 							probLen = prob + LenChoice2;
-							IF_BIT_0_CHECK(probLen)
+							IF_BIT_0_CHECK ( probLen )
 							{
 								UPDATE_0_CHECK;
-								probLen = prob + LenMid + (posState << kLenNumMidBits);
+								probLen = prob + LenMid + ( posState << kLenNumMidBits );
 								offset = kLenNumLowSymbols;
 								limit = 1 << kLenNumMidBits;
 							}
@@ -5945,27 +5945,27 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 								}
 						}
 
-					TREE_DECODE_CHECK(probLen, limit, len);
+					TREE_DECODE_CHECK ( probLen, limit, len );
 					len += offset;
 				}
 
-				if (state < 4)
+				if ( state < 4 )
 					{
 						unsigned posSlot;
 						prob = probs + PosSlot +
-						       ((len < kNumLenToPosStates ? len : kNumLenToPosStates - 1) <<
-						        kNumPosSlotBits);
-						TREE_DECODE_CHECK(prob, 1 << kNumPosSlotBits, posSlot);
+						       ( ( len < kNumLenToPosStates ? len : kNumLenToPosStates - 1 ) <<
+						         kNumPosSlotBits );
+						TREE_DECODE_CHECK ( prob, 1 << kNumPosSlotBits, posSlot );
 
-						if (posSlot >= kStartPosModelIndex)
+						if ( posSlot >= kStartPosModelIndex )
 							{
-								unsigned numDirectBits = ((posSlot >> 1) - 1);
+								unsigned numDirectBits = ( ( posSlot >> 1 ) - 1 );
 
 								/* if (bufLimit - buf >= 8) return DUMMY_MATCH; */
 
-								if (posSlot < kEndPosModelIndex)
+								if ( posSlot < kEndPosModelIndex )
 									{
-										prob = probs + SpecPos + ((2 | (posSlot & 1)) << numDirectBits) - posSlot - 1;
+										prob = probs + SpecPos + ( ( 2 | ( posSlot & 1 ) ) << numDirectBits ) - posSlot - 1;
 									}
 
 								else
@@ -5976,10 +5976,10 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 											{
 												NORMALIZE_CHECK
 												range >>= 1;
-												code -= range & (((code - range) >> 31) - 1);
+												code -= range & ( ( ( code - range ) >> 31 ) - 1 );
 												/* if (code >= range) code -= range; */
 											}
-										while (--numDirectBits != 0);
+										while ( --numDirectBits != 0 );
 
 										prob = probs + Align;
 										numDirectBits = kNumAlignBits;
@@ -5990,9 +5990,9 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 
 									do
 										{
-											GET_BIT_CHECK(prob + i, i);
+											GET_BIT_CHECK ( prob + i, i );
 										}
-									while (--numDirectBits != 0);
+									while ( --numDirectBits != 0 );
 								}
 							}
 					}
@@ -6003,36 +6003,36 @@ static ELzmaDummy LzmaDec_TryDummy(const CLzmaDec *p, const Byte *buf, SizeT inS
 }
 
 
-static void LzmaDec_InitDicAndState(CLzmaDec *p, Bool initDic, Bool initState)
+static void LzmaDec_InitDicAndState ( CLzmaDec *p, Bool initDic, Bool initState )
 {
 	p->needFlush = 1;
 	p->remainLen = 0;
 	p->tempBufSize = 0;
 
-	if (initDic)
+	if ( initDic )
 		{
 			p->processedPos = 0;
 			p->checkDicSize = 0;
 			p->needInitState = 1;
 		}
 
-	if (initState)
+	if ( initState )
 		p->needInitState = 1;
 }
 
-static void LzmaDec_Init(CLzmaDec *p)
+static void LzmaDec_Init ( CLzmaDec *p )
 {
 	p->dicPos = 0;
-	LzmaDec_InitDicAndState(p, True, True);
+	LzmaDec_InitDicAndState ( p, True, True );
 }
 
-static void LzmaDec_InitStateReal(CLzmaDec *p)
+static void LzmaDec_InitStateReal ( CLzmaDec *p )
 {
-	SizeT numProbs = LzmaProps_GetNumProbs(&p->prop);
+	SizeT numProbs = LzmaProps_GetNumProbs ( &p->prop );
 	SizeT i;
 	CLzmaProb *probs = p->probs;
 
-	for (i = 0; i < numProbs; i++)
+	for ( i = 0; i < numProbs; i++ )
 		probs[i] = kBitModelTotal >> 1;
 
 	p->reps[0] = p->reps[1] = p->reps[2] = p->reps[3] = 1;
@@ -6040,38 +6040,38 @@ static void LzmaDec_InitStateReal(CLzmaDec *p)
 	p->needInitState = 0;
 }
 
-static SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, SizeT *srcLen,
-                                ELzmaFinishMode finishMode, ELzmaStatus *status)
+static SRes LzmaDec_DecodeToDic ( CLzmaDec *p, SizeT dicLimit, const Byte *src, SizeT *srcLen,
+                                  ELzmaFinishMode finishMode, ELzmaStatus *status )
 {
 	SizeT inSize = *srcLen;
-	(*srcLen) = 0;
-	LzmaDec_WriteRem(p, dicLimit);
+	( *srcLen ) = 0;
+	LzmaDec_WriteRem ( p, dicLimit );
 
 	*status = LZMA_STATUS_NOT_SPECIFIED;
 
-	while (p->remainLen != kMatchSpecLenStart)
+	while ( p->remainLen != kMatchSpecLenStart )
 		{
 			int checkEndMarkNow;
 
-			if (p->needFlush)
+			if ( p->needFlush )
 				{
-					for (; inSize > 0 && p->tempBufSize < RC_INIT_SIZE; (*srcLen)++, inSize--)
+					for ( ; inSize > 0 && p->tempBufSize < RC_INIT_SIZE; ( *srcLen )++, inSize-- )
 						p->tempBuf[p->tempBufSize++] = *src++;
 
-					if (p->tempBufSize < RC_INIT_SIZE)
+					if ( p->tempBufSize < RC_INIT_SIZE )
 						{
 							*status = LZMA_STATUS_NEEDS_MORE_INPUT;
 							return SZ_OK;
 						}
 
-					if (p->tempBuf[0] != 0)
+					if ( p->tempBuf[0] != 0 )
 						return SZ_ERROR_DATA;
 
 					p->code =
-					    ((UInt32)p->tempBuf[1] << 24)
-					    | ((UInt32)p->tempBuf[2] << 16)
-					    | ((UInt32)p->tempBuf[3] << 8)
-					    | ((UInt32)p->tempBuf[4]);
+					    ( ( UInt32 ) p->tempBuf[1] << 24 )
+					    | ( ( UInt32 ) p->tempBuf[2] << 16 )
+					    | ( ( UInt32 ) p->tempBuf[3] << 8 )
+					    | ( ( UInt32 ) p->tempBuf[4] );
 					p->range = 0xFFFFFFFF;
 					p->needFlush = 0;
 					p->tempBufSize = 0;
@@ -6079,21 +6079,21 @@ static SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, Si
 
 			checkEndMarkNow = 0;
 
-			if (p->dicPos >= dicLimit)
+			if ( p->dicPos >= dicLimit )
 				{
-					if (p->remainLen == 0 && p->code == 0)
+					if ( p->remainLen == 0 && p->code == 0 )
 						{
 							*status = LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK;
 							return SZ_OK;
 						}
 
-					if (finishMode == LZMA_FINISH_ANY)
+					if ( finishMode == LZMA_FINISH_ANY )
 						{
 							*status = LZMA_STATUS_NOT_FINISHED;
 							return SZ_OK;
 						}
 
-					if (p->remainLen != 0)
+					if ( p->remainLen != 0 )
 						{
 							*status = LZMA_STATUS_NOT_FINISHED;
 							return SZ_ERROR_DATA;
@@ -6102,28 +6102,28 @@ static SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, Si
 					checkEndMarkNow = 1;
 				}
 
-			if (p->needInitState)
-				LzmaDec_InitStateReal(p);
+			if ( p->needInitState )
+				LzmaDec_InitStateReal ( p );
 
-			if (p->tempBufSize == 0)
+			if ( p->tempBufSize == 0 )
 				{
 					SizeT processed;
 					const Byte *bufLimit;
 
-					if (inSize < LZMA_REQUIRED_INPUT_MAX || checkEndMarkNow)
+					if ( inSize < LZMA_REQUIRED_INPUT_MAX || checkEndMarkNow )
 						{
-							int dummyRes = LzmaDec_TryDummy(p, src, inSize);
+							int dummyRes = LzmaDec_TryDummy ( p, src, inSize );
 
-							if (dummyRes == DUMMY_ERROR)
+							if ( dummyRes == DUMMY_ERROR )
 								{
-									memcpy(p->tempBuf, src, inSize);
-									p->tempBufSize = (unsigned)inSize;
-									(*srcLen) += inSize;
+									memcpy ( p->tempBuf, src, inSize );
+									p->tempBufSize = ( unsigned ) inSize;
+									( *srcLen ) += inSize;
 									*status = LZMA_STATUS_NEEDS_MORE_INPUT;
 									return SZ_OK;
 								}
 
-							if (checkEndMarkNow && dummyRes != DUMMY_MATCH)
+							if ( checkEndMarkNow && dummyRes != DUMMY_MATCH )
 								{
 									*status = LZMA_STATUS_NOT_FINISHED;
 									return SZ_ERROR_DATA;
@@ -6137,11 +6137,11 @@ static SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, Si
 
 					p->buf = src;
 
-					if (LzmaDec_DecodeReal2(p, dicLimit, bufLimit) != 0)
+					if ( LzmaDec_DecodeReal2 ( p, dicLimit, bufLimit ) != 0 )
 						return SZ_ERROR_DATA;
 
-					processed = (SizeT)(p->buf - src);
-					(*srcLen) += processed;
+					processed = ( SizeT ) ( p->buf - src );
+					( *srcLen ) += processed;
 					src += processed;
 					inSize -= processed;
 				}
@@ -6150,23 +6150,23 @@ static SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, Si
 				{
 					unsigned rem = p->tempBufSize, lookAhead = 0;
 
-					while (rem < LZMA_REQUIRED_INPUT_MAX && lookAhead < inSize)
+					while ( rem < LZMA_REQUIRED_INPUT_MAX && lookAhead < inSize )
 						p->tempBuf[rem++] = src[lookAhead++];
 
 					p->tempBufSize = rem;
 
-					if (rem < LZMA_REQUIRED_INPUT_MAX || checkEndMarkNow)
+					if ( rem < LZMA_REQUIRED_INPUT_MAX || checkEndMarkNow )
 						{
-							int dummyRes = LzmaDec_TryDummy(p, p->tempBuf, rem);
+							int dummyRes = LzmaDec_TryDummy ( p, p->tempBuf, rem );
 
-							if (dummyRes == DUMMY_ERROR)
+							if ( dummyRes == DUMMY_ERROR )
 								{
-									(*srcLen) += lookAhead;
+									( *srcLen ) += lookAhead;
 									*status = LZMA_STATUS_NEEDS_MORE_INPUT;
 									return SZ_OK;
 								}
 
-							if (checkEndMarkNow && dummyRes != DUMMY_MATCH)
+							if ( checkEndMarkNow && dummyRes != DUMMY_MATCH )
 								{
 									*status = LZMA_STATUS_NOT_FINISHED;
 									return SZ_ERROR_DATA;
@@ -6175,60 +6175,60 @@ static SRes LzmaDec_DecodeToDic(CLzmaDec *p, SizeT dicLimit, const Byte *src, Si
 
 					p->buf = p->tempBuf;
 
-					if (LzmaDec_DecodeReal2(p, dicLimit, p->buf) != 0)
+					if ( LzmaDec_DecodeReal2 ( p, dicLimit, p->buf ) != 0 )
 						return SZ_ERROR_DATA;
 
 					{
-						unsigned kkk = (unsigned)(p->buf - p->tempBuf);
+						unsigned kkk = ( unsigned ) ( p->buf - p->tempBuf );
 
-						if (rem < kkk)
+						if ( rem < kkk )
 							return SZ_ERROR_FAIL; /* some internal error */
 
 						rem -= kkk;
 
-						if (lookAhead < rem)
+						if ( lookAhead < rem )
 							return SZ_ERROR_FAIL; /* some internal error */
 
 						lookAhead -= rem;
 					}
-					(*srcLen) += lookAhead;
+					( *srcLen ) += lookAhead;
 					src += lookAhead;
 					inSize -= lookAhead;
 					p->tempBufSize = 0;
 				}
 		}
 
-	if (p->code == 0)
+	if ( p->code == 0 )
 		*status = LZMA_STATUS_FINISHED_WITH_MARK;
 
-	return (p->code == 0) ? SZ_OK : SZ_ERROR_DATA;
+	return ( p->code == 0 ) ? SZ_OK : SZ_ERROR_DATA;
 }
 
-static void LzmaDec_FreeProbs(CLzmaDec *p, ISzAlloc *alloc)
+static void LzmaDec_FreeProbs ( CLzmaDec *p, ISzAlloc *alloc )
 {
-	alloc->Free(alloc, p->probs);
+	alloc->Free ( alloc, p->probs );
 	p->probs = NULL;
 }
 
-static SRes LzmaProps_Decode(CLzmaProps *p, const Byte *data, unsigned size)
+static SRes LzmaProps_Decode ( CLzmaProps *p, const Byte *data, unsigned size )
 {
 	UInt32 dicSize;
 	Byte d;
 
-	if (size < LZMA_PROPS_SIZE)
+	if ( size < LZMA_PROPS_SIZE )
 		return SZ_ERROR_UNSUPPORTED;
 
 	else
-		dicSize = data[1] | ((UInt32)data[2] << 8) | ((UInt32)data[3] << 16) | ((UInt32)data[4] << 24);
+		dicSize = data[1] | ( ( UInt32 ) data[2] << 8 ) | ( ( UInt32 ) data[3] << 16 ) | ( ( UInt32 ) data[4] << 24 );
 
-	if (dicSize < LZMA_DIC_MIN)
+	if ( dicSize < LZMA_DIC_MIN )
 		dicSize = LZMA_DIC_MIN;
 
 	p->dicSize = dicSize;
 
 	d = data[0];
 
-	if (d >= (9 * 5 * 5))
+	if ( d >= ( 9 * 5 * 5 ) )
 		return SZ_ERROR_UNSUPPORTED;
 
 	p->lc = d % 9;
@@ -6239,28 +6239,28 @@ static SRes LzmaProps_Decode(CLzmaProps *p, const Byte *data, unsigned size)
 	return SZ_OK;
 }
 
-static SRes LzmaDec_AllocateProbs2(CLzmaDec *p, const CLzmaProps *propNew, ISzAlloc *alloc)
+static SRes LzmaDec_AllocateProbs2 ( CLzmaDec *p, const CLzmaProps *propNew, ISzAlloc *alloc )
 {
-	UInt32 numProbs = LzmaProps_GetNumProbs(propNew);
+	UInt32 numProbs = LzmaProps_GetNumProbs ( propNew );
 
-	if (!p->probs || numProbs != p->numProbs)
+	if ( !p->probs || numProbs != p->numProbs )
 		{
-			LzmaDec_FreeProbs(p, alloc);
-			p->probs = (CLzmaProb *)alloc->Alloc(alloc, numProbs * sizeof(CLzmaProb));
+			LzmaDec_FreeProbs ( p, alloc );
+			p->probs = ( CLzmaProb * ) alloc->Alloc ( alloc, numProbs * sizeof ( CLzmaProb ) );
 			p->numProbs = numProbs;
 
-			if (!p->probs)
+			if ( !p->probs )
 				return SZ_ERROR_MEM;
 		}
 
 	return SZ_OK;
 }
 
-static SRes LzmaDec_AllocateProbs(CLzmaDec *p, const Byte *props, unsigned propsSize, ISzAlloc *alloc)
+static SRes LzmaDec_AllocateProbs ( CLzmaDec *p, const Byte *props, unsigned propsSize, ISzAlloc *alloc )
 {
 	CLzmaProps propNew;
-	RINOK(LzmaProps_Decode(&propNew, props, propsSize));
-	RINOK(LzmaDec_AllocateProbs2(p, &propNew, alloc));
+	RINOK ( LzmaProps_Decode ( &propNew, props, propsSize ) );
+	RINOK ( LzmaDec_AllocateProbs2 ( p, &propNew, alloc ) );
 	p->prop = propNew;
 	return SZ_OK;
 }
@@ -6329,154 +6329,154 @@ typedef enum
 	LZMA2_STATE_ERROR
 } ELzma2State;
 
-static SRes Lzma2Dec_GetOldProps(Byte prop, Byte *props)
+static SRes Lzma2Dec_GetOldProps ( Byte prop, Byte *props )
 {
 	UInt32 dicSize;
 
-	if (prop > 40)
+	if ( prop > 40 )
 		return SZ_ERROR_UNSUPPORTED;
 
-	dicSize = (prop == 40) ? 0xFFFFFFFF : LZMA2_DIC_SIZE_FROM_PROP(prop);
-	props[0] = (Byte)LZMA2_LCLP_MAX;
-	props[1] = (Byte)(dicSize);
-	props[2] = (Byte)(dicSize >> 8);
-	props[3] = (Byte)(dicSize >> 16);
-	props[4] = (Byte)(dicSize >> 24);
+	dicSize = ( prop == 40 ) ? 0xFFFFFFFF : LZMA2_DIC_SIZE_FROM_PROP ( prop );
+	props[0] = ( Byte ) LZMA2_LCLP_MAX;
+	props[1] = ( Byte ) ( dicSize );
+	props[2] = ( Byte ) ( dicSize >> 8 );
+	props[3] = ( Byte ) ( dicSize >> 16 );
+	props[4] = ( Byte ) ( dicSize >> 24 );
 	return SZ_OK;
 }
 
-static SRes Lzma2Dec_AllocateProbs(CLzma2Dec *p, Byte prop, ISzAlloc *alloc)
+static SRes Lzma2Dec_AllocateProbs ( CLzma2Dec *p, Byte prop, ISzAlloc *alloc )
 {
 	Byte props[LZMA_PROPS_SIZE];
-	RINOK(Lzma2Dec_GetOldProps(prop, props));
-	return LzmaDec_AllocateProbs(&p->decoder, props, LZMA_PROPS_SIZE, alloc);
+	RINOK ( Lzma2Dec_GetOldProps ( prop, props ) );
+	return LzmaDec_AllocateProbs ( &p->decoder, props, LZMA_PROPS_SIZE, alloc );
 }
 
-static void Lzma2Dec_Init(CLzma2Dec *p)
+static void Lzma2Dec_Init ( CLzma2Dec *p )
 {
 	p->state = LZMA2_STATE_CONTROL;
 	p->needInitDic = True;
 	p->needInitState = True;
 	p->needInitProp = True;
-	LzmaDec_Init(&p->decoder);
+	LzmaDec_Init ( &p->decoder );
 }
 
-static ELzma2State Lzma2Dec_UpdateState(CLzma2Dec *p, Byte b)
+static ELzma2State Lzma2Dec_UpdateState ( CLzma2Dec *p, Byte b )
 {
-	switch (p->state)
+	switch ( p->state )
 		{
-			case LZMA2_STATE_CONTROL:
-				p->control = b;
-				PRF(printf("\n %4X ", (unsigned)p->decoder.dicPos));
-				PRF(printf(" %2X", (unsigned)b));
+		case LZMA2_STATE_CONTROL:
+			p->control = b;
+			PRF ( printf ( "\n %4X ", ( unsigned ) p->decoder.dicPos ) );
+			PRF ( printf ( " %2X", ( unsigned ) b ) );
 
-				if (p->control == 0)
-					return LZMA2_STATE_FINISHED;
+			if ( p->control == 0 )
+				return LZMA2_STATE_FINISHED;
 
-				if (LZMA2_IS_UNCOMPRESSED_STATE(p))
-					{
-						if ((p->control & 0x7F) > 2)
-							return LZMA2_STATE_ERROR;
+			if ( LZMA2_IS_UNCOMPRESSED_STATE ( p ) )
+				{
+					if ( ( p->control & 0x7F ) > 2 )
+						return LZMA2_STATE_ERROR;
 
-						p->unpackSize = 0;
-					}
+					p->unpackSize = 0;
+				}
 
-				else
-					p->unpackSize = (UInt32)(p->control & 0x1F) << 16;
+			else
+				p->unpackSize = ( UInt32 ) ( p->control & 0x1F ) << 16;
 
-				return LZMA2_STATE_UNPACK0;
+			return LZMA2_STATE_UNPACK0;
 
-			case LZMA2_STATE_UNPACK0:
-				p->unpackSize |= (UInt32)b << 8;
-				return LZMA2_STATE_UNPACK1;
+		case LZMA2_STATE_UNPACK0:
+			p->unpackSize |= ( UInt32 ) b << 8;
+			return LZMA2_STATE_UNPACK1;
 
-			case LZMA2_STATE_UNPACK1:
-				p->unpackSize |= (UInt32)b;
-				p->unpackSize++;
-				PRF(printf(" %8u", (unsigned)p->unpackSize));
-				return (LZMA2_IS_UNCOMPRESSED_STATE(p)) ? LZMA2_STATE_DATA : LZMA2_STATE_PACK0;
+		case LZMA2_STATE_UNPACK1:
+			p->unpackSize |= ( UInt32 ) b;
+			p->unpackSize++;
+			PRF ( printf ( " %8u", ( unsigned ) p->unpackSize ) );
+			return ( LZMA2_IS_UNCOMPRESSED_STATE ( p ) ) ? LZMA2_STATE_DATA : LZMA2_STATE_PACK0;
 
-			case LZMA2_STATE_PACK0:
-				p->packSize = (UInt32)b << 8;
-				return LZMA2_STATE_PACK1;
+		case LZMA2_STATE_PACK0:
+			p->packSize = ( UInt32 ) b << 8;
+			return LZMA2_STATE_PACK1;
 
-			case LZMA2_STATE_PACK1:
-				p->packSize |= (UInt32)b;
-				p->packSize++;
-				PRF(printf(" %8u", (unsigned)p->packSize));
-				return LZMA2_IS_THERE_PROP(LZMA2_GET_LZMA_MODE(p)) ? LZMA2_STATE_PROP:
-				       (p->needInitProp ? LZMA2_STATE_ERROR : LZMA2_STATE_DATA);
+		case LZMA2_STATE_PACK1:
+			p->packSize |= ( UInt32 ) b;
+			p->packSize++;
+			PRF ( printf ( " %8u", ( unsigned ) p->packSize ) );
+			return LZMA2_IS_THERE_PROP ( LZMA2_GET_LZMA_MODE ( p ) ) ? LZMA2_STATE_PROP:
+			       ( p->needInitProp ? LZMA2_STATE_ERROR : LZMA2_STATE_DATA );
 
-			case LZMA2_STATE_PROP:
-			{
-				unsigned lc, lp;
+		case LZMA2_STATE_PROP:
+		{
+			unsigned lc, lp;
 
-				if (b >= (9 * 5 * 5))
-					return LZMA2_STATE_ERROR;
+			if ( b >= ( 9 * 5 * 5 ) )
+				return LZMA2_STATE_ERROR;
 
-				lc = b % 9;
-				b /= 9;
-				p->decoder.prop.pb = b / 5;
-				lp = b % 5;
+			lc = b % 9;
+			b /= 9;
+			p->decoder.prop.pb = b / 5;
+			lp = b % 5;
 
-				if (lc + lp > LZMA2_LCLP_MAX)
-					return LZMA2_STATE_ERROR;
+			if ( lc + lp > LZMA2_LCLP_MAX )
+				return LZMA2_STATE_ERROR;
 
-				p->decoder.prop.lc = lc;
-				p->decoder.prop.lp = lp;
-				p->needInitProp = False;
-				return LZMA2_STATE_DATA;
-			}
+			p->decoder.prop.lc = lc;
+			p->decoder.prop.lp = lp;
+			p->needInitProp = False;
+			return LZMA2_STATE_DATA;
+		}
 		}
 
 	return LZMA2_STATE_ERROR;
 }
 
-static void LzmaDec_UpdateWithUncompressed(CLzmaDec *p, const Byte *src, SizeT size)
+static void LzmaDec_UpdateWithUncompressed ( CLzmaDec *p, const Byte *src, SizeT size )
 {
-	memcpy(p->dic + p->dicPos, src, size);
+	memcpy ( p->dic + p->dicPos, src, size );
 	p->dicPos += size;
 
-	if (p->checkDicSize == 0 && p->prop.dicSize - p->processedPos <= size)
+	if ( p->checkDicSize == 0 && p->prop.dicSize - p->processedPos <= size )
 		p->checkDicSize = p->prop.dicSize;
 
-	p->processedPos += (UInt32)size;
+	p->processedPos += ( UInt32 ) size;
 }
 
-static void LzmaDec_InitDicAndState(CLzmaDec *p, Bool initDic, Bool initState);
+static void LzmaDec_InitDicAndState ( CLzmaDec *p, Bool initDic, Bool initState );
 
-static SRes Lzma2Dec_DecodeToDic(CLzma2Dec *p, SizeT dicLimit,
-                                 const Byte *src, SizeT *srcLen, ELzmaFinishMode finishMode, ELzmaStatus *status)
+static SRes Lzma2Dec_DecodeToDic ( CLzma2Dec *p, SizeT dicLimit,
+                                   const Byte *src, SizeT *srcLen, ELzmaFinishMode finishMode, ELzmaStatus *status )
 {
 	SizeT inSize = *srcLen;
 	*srcLen = 0;
 	*status = LZMA_STATUS_NOT_SPECIFIED;
 
-	while (p->state != LZMA2_STATE_FINISHED)
+	while ( p->state != LZMA2_STATE_FINISHED )
 		{
 			SizeT dicPos = p->decoder.dicPos;
 
-			if (p->state == LZMA2_STATE_ERROR)
+			if ( p->state == LZMA2_STATE_ERROR )
 				return SZ_ERROR_DATA;
 
-			if (dicPos == dicLimit && finishMode == LZMA_FINISH_ANY)
+			if ( dicPos == dicLimit && finishMode == LZMA_FINISH_ANY )
 				{
 					*status = LZMA_STATUS_NOT_FINISHED;
 					return SZ_OK;
 				}
 
-			if (p->state != LZMA2_STATE_DATA && p->state != LZMA2_STATE_DATA_CONT)
+			if ( p->state != LZMA2_STATE_DATA && p->state != LZMA2_STATE_DATA_CONT )
 				{
-					if (*srcLen == inSize)
+					if ( *srcLen == inSize )
 						{
 							*status = LZMA_STATUS_NEEDS_MORE_INPUT;
 							return SZ_OK;
 						}
 
-					(*srcLen)++;
-					p->state = Lzma2Dec_UpdateState(p, *src++);
+					( *srcLen )++;
+					p->state = Lzma2Dec_UpdateState ( p, *src++ );
 
-					if (dicPos == dicLimit && p->state != LZMA2_STATE_FINISHED)
+					if ( dicPos == dicLimit && p->state != LZMA2_STATE_FINISHED )
 						{
 							p->state = LZMA2_STATE_ERROR;
 							return SZ_ERROR_DATA;
@@ -6490,52 +6490,52 @@ static SRes Lzma2Dec_DecodeToDic(CLzma2Dec *p, SizeT dicLimit,
 				SizeT srcSizeCur = inSize - *srcLen;
 				ELzmaFinishMode curFinishMode = LZMA_FINISH_ANY;
 
-				if (p->unpackSize <= destSizeCur)
+				if ( p->unpackSize <= destSizeCur )
 					{
-						destSizeCur = (SizeT)p->unpackSize;
+						destSizeCur = ( SizeT ) p->unpackSize;
 						curFinishMode = LZMA_FINISH_END;
 					}
 
-				if (LZMA2_IS_UNCOMPRESSED_STATE(p))
+				if ( LZMA2_IS_UNCOMPRESSED_STATE ( p ) )
 					{
-						if (*srcLen == inSize)
+						if ( *srcLen == inSize )
 							{
 								*status = LZMA_STATUS_NEEDS_MORE_INPUT;
 								return SZ_OK;
 							}
 
-						if (p->state == LZMA2_STATE_DATA)
+						if ( p->state == LZMA2_STATE_DATA )
 							{
-								Bool initDic = (p->control == LZMA2_CONTROL_COPY_RESET_DIC);
+								Bool initDic = ( p->control == LZMA2_CONTROL_COPY_RESET_DIC );
 
-								if (initDic)
+								if ( initDic )
 									p->needInitProp = p->needInitState = True;
 
-								else if (p->needInitDic)
+								else if ( p->needInitDic )
 									{
 										p->state = LZMA2_STATE_ERROR;
 										return SZ_ERROR_DATA;
 									}
 
 								p->needInitDic = False;
-								LzmaDec_InitDicAndState(&p->decoder, initDic, False);
+								LzmaDec_InitDicAndState ( &p->decoder, initDic, False );
 							}
 
-						if (srcSizeCur > destSizeCur)
+						if ( srcSizeCur > destSizeCur )
 							srcSizeCur = destSizeCur;
 
-						if (srcSizeCur == 0)
+						if ( srcSizeCur == 0 )
 							{
 								p->state = LZMA2_STATE_ERROR;
 								return SZ_ERROR_DATA;
 							}
 
-						LzmaDec_UpdateWithUncompressed(&p->decoder, src, srcSizeCur);
+						LzmaDec_UpdateWithUncompressed ( &p->decoder, src, srcSizeCur );
 
 						src += srcSizeCur;
 						*srcLen += srcSizeCur;
-						p->unpackSize -= (UInt32)srcSizeCur;
-						p->state = (p->unpackSize == 0) ? LZMA2_STATE_CONTROL : LZMA2_STATE_DATA_CONT;
+						p->unpackSize -= ( UInt32 ) srcSizeCur;
+						p->state = ( p->unpackSize == 0 ) ? LZMA2_STATE_CONTROL : LZMA2_STATE_DATA_CONT;
 					}
 
 				else
@@ -6543,46 +6543,46 @@ static SRes Lzma2Dec_DecodeToDic(CLzma2Dec *p, SizeT dicLimit,
 						SizeT outSizeProcessed;
 						SRes res;
 
-						if (p->state == LZMA2_STATE_DATA)
+						if ( p->state == LZMA2_STATE_DATA )
 							{
-								unsigned mode = LZMA2_GET_LZMA_MODE(p);
-								Bool initDic = (mode == 3);
-								Bool initState = (mode != 0);
+								unsigned mode = LZMA2_GET_LZMA_MODE ( p );
+								Bool initDic = ( mode == 3 );
+								Bool initState = ( mode != 0 );
 
-								if ((!initDic && p->needInitDic) || (!initState && p->needInitState))
+								if ( ( !initDic && p->needInitDic ) || ( !initState && p->needInitState ) )
 									{
 										p->state = LZMA2_STATE_ERROR;
 										return SZ_ERROR_DATA;
 									}
 
-								LzmaDec_InitDicAndState(&p->decoder, initDic, initState);
+								LzmaDec_InitDicAndState ( &p->decoder, initDic, initState );
 								p->needInitDic = False;
 								p->needInitState = False;
 								p->state = LZMA2_STATE_DATA_CONT;
 							}
 
-						if (srcSizeCur > p->packSize)
-							srcSizeCur = (SizeT)p->packSize;
+						if ( srcSizeCur > p->packSize )
+							srcSizeCur = ( SizeT ) p->packSize;
 
-						res = LzmaDec_DecodeToDic(&p->decoder, dicPos + destSizeCur, src, &srcSizeCur, curFinishMode, status);
+						res = LzmaDec_DecodeToDic ( &p->decoder, dicPos + destSizeCur, src, &srcSizeCur, curFinishMode, status );
 
 						src += srcSizeCur;
 						*srcLen += srcSizeCur;
-						p->packSize -= (UInt32)srcSizeCur;
+						p->packSize -= ( UInt32 ) srcSizeCur;
 
 						outSizeProcessed = p->decoder.dicPos - dicPos;
-						p->unpackSize -= (UInt32)outSizeProcessed;
+						p->unpackSize -= ( UInt32 ) outSizeProcessed;
 
-						RINOK(res);
+						RINOK ( res );
 
-						if (*status == LZMA_STATUS_NEEDS_MORE_INPUT)
+						if ( *status == LZMA_STATUS_NEEDS_MORE_INPUT )
 							return res;
 
-						if (srcSizeCur == 0 && outSizeProcessed == 0)
+						if ( srcSizeCur == 0 && outSizeProcessed == 0 )
 							{
-								if (*status != LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK
+								if ( *status != LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK
 								        || p->unpackSize != 0
-								        || p->packSize != 0)
+								        || p->packSize != 0 )
 									{
 										p->state = LZMA2_STATE_ERROR;
 										return SZ_ERROR_DATA;
@@ -6591,7 +6591,7 @@ static SRes Lzma2Dec_DecodeToDic(CLzma2Dec *p, SizeT dicLimit,
 								p->state = LZMA2_STATE_CONTROL;
 							}
 
-						if (*status == LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK)
+						if ( *status == LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK )
 							*status = LZMA_STATUS_NOT_FINISHED;
 					}
 			}

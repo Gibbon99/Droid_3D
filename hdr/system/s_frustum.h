@@ -8,4 +8,4 @@
 // Call this every time the camera moves to update the frustum
 void CalculateFrustum();
 
-int BoxInFrustum( float x, float y, float z, float x2, float y2, float z2);
+int BoxInFrustum ( float x, float y, float z, float x2, float y2, float z2 );

@@ -52,7 +52,7 @@ public:
 	asCAtomic();
 
 	asDWORD get() const;
-	void    set(asDWORD val);
+	void    set ( asDWORD val );
 
 	// Increase and return new value
 	asDWORD atomicInc();

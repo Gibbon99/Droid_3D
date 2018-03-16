@@ -189,20 +189,20 @@ enum
 
 namespace _detail
 {
-typedef void (CODEGEN_FUNCPTR * Proc_glBindTexture)(GLenum target, GLuint texture);
-typedef void (CODEGEN_FUNCPTR * Proc_glCopyTexImage1D)(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
-typedef void (CODEGEN_FUNCPTR * Proc_glCopyTexImage2D)(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-typedef void (CODEGEN_FUNCPTR * Proc_glCopyTexSubImage1D)(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-typedef void (CODEGEN_FUNCPTR * Proc_glCopyTexSubImage2D)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (CODEGEN_FUNCPTR * Proc_glDeleteTextures)(GLsizei n, const GLuint * textures);
-typedef void (CODEGEN_FUNCPTR * Proc_glDrawArrays)(GLenum mode, GLint first, GLsizei count);
-typedef void (CODEGEN_FUNCPTR * Proc_glDrawElements)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
-typedef void (CODEGEN_FUNCPTR * Proc_glGenTextures)(GLsizei n, GLuint * textures);
-typedef void (CODEGEN_FUNCPTR * Proc_glGetPointerv)(GLenum pname, GLvoid ** params);
-typedef GLboolean (CODEGEN_FUNCPTR * Proc_glIsTexture)(GLuint texture);
-typedef void (CODEGEN_FUNCPTR * Proc_glPolygonOffset)(GLfloat factor, GLfloat units);
-typedef void (CODEGEN_FUNCPTR * Proc_glTexSubImage1D)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels);
-typedef void (CODEGEN_FUNCPTR * Proc_glTexSubImage2D)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
+typedef void ( CODEGEN_FUNCPTR * Proc_glBindTexture ) ( GLenum target, GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * Proc_glCopyTexImage1D ) ( GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border );
+typedef void ( CODEGEN_FUNCPTR * Proc_glCopyTexImage2D ) ( GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border );
+typedef void ( CODEGEN_FUNCPTR * Proc_glCopyTexSubImage1D ) ( GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width );
+typedef void ( CODEGEN_FUNCPTR * Proc_glCopyTexSubImage2D ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDeleteTextures ) ( GLsizei n, const GLuint * textures );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDrawArrays ) ( GLenum mode, GLint first, GLsizei count );
+typedef void ( CODEGEN_FUNCPTR * Proc_glDrawElements ) ( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGenTextures ) ( GLsizei n, GLuint * textures );
+typedef void ( CODEGEN_FUNCPTR * Proc_glGetPointerv ) ( GLenum pname, GLvoid ** params );
+typedef GLboolean ( CODEGEN_FUNCPTR * Proc_glIsTexture ) ( GLuint texture );
+typedef void ( CODEGEN_FUNCPTR * Proc_glPolygonOffset ) ( GLfloat factor, GLfloat units );
+typedef void ( CODEGEN_FUNCPTR * Proc_glTexSubImage1D ) ( GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels );
+typedef void ( CODEGEN_FUNCPTR * Proc_glTexSubImage2D ) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels );
 }
 
 extern _detail::Proc_glBindTexture BindTexture;

@@ -49,15 +49,15 @@ class asCScriptFunction;
 class asCObjectType;
 struct asSSystemFunctionInterface;
 
-int DetectCallingConvention(bool isMethod, const asSFuncPtr &ptr, int callConv, void *auxiliary, asSSystemFunctionInterface *internal);
+int DetectCallingConvention ( bool isMethod, const asSFuncPtr &ptr, int callConv, void *auxiliary, asSSystemFunctionInterface *internal );
 
-int PrepareSystemFunctionGeneric(asCScriptFunction *func, asSSystemFunctionInterface *internal, asCScriptEngine *engine);
+int PrepareSystemFunctionGeneric ( asCScriptFunction *func, asSSystemFunctionInterface *internal, asCScriptEngine *engine );
 
-int PrepareSystemFunction(asCScriptFunction *func, asSSystemFunctionInterface *internal, asCScriptEngine *engine);
+int PrepareSystemFunction ( asCScriptFunction *func, asSSystemFunctionInterface *internal, asCScriptEngine *engine );
 
-int CallSystemFunction(int id, asCContext *context);
+int CallSystemFunction ( int id, asCContext *context );
 
-inline asPWORD FuncPtrToUInt(asFUNCTION_t func)
+inline asPWORD FuncPtrToUInt ( asFUNCTION_t func )
 {
 	// A little trickery as the C++ standard doesn't allow direct
 	// conversion between function pointer and data pointer
@@ -124,14 +124,14 @@ struct asSSystemFunctionInterface
 	};
 	asCArray<SClean>     cleanArgs;
 
-	asSSystemFunctionInterface() : func(0), baseOffset(0), callConv(ICC_GENERIC_FUNC), scriptReturnSize(0), hostReturnInMemory(false), hostReturnFloat(false), hostReturnSize(0), paramSize(0), takesObjByVal(false), returnAutoHandle(false), compositeOffset(0), isCompositeIndirect(false), auxiliary(0) {}
+	asSSystemFunctionInterface() : func ( 0 ), baseOffset ( 0 ), callConv ( ICC_GENERIC_FUNC ), scriptReturnSize ( 0 ), hostReturnInMemory ( false ), hostReturnFloat ( false ), hostReturnSize ( 0 ), paramSize ( 0 ), takesObjByVal ( false ), returnAutoHandle ( false ), compositeOffset ( 0 ), isCompositeIndirect ( false ), auxiliary ( 0 ) {}
 
-	asSSystemFunctionInterface(const asSSystemFunctionInterface &in)
+	asSSystemFunctionInterface ( const asSSystemFunctionInterface &in )
 	{
 		*this = in;
 	}
 
-	asSSystemFunctionInterface &operator=(const asSSystemFunctionInterface &in)
+	asSSystemFunctionInterface &operator= ( const asSSystemFunctionInterface &in )
 	{
 		func                = in.func;
 		baseOffset          = in.baseOffset;
