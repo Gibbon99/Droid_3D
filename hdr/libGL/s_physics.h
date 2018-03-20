@@ -3,6 +3,12 @@
 #include "s_globals.h"
 #include <bullet/btBulletDynamicsCommon.h>
 
+typedef struct
+{
+	btCollisionShape* 		shape;
+	btDefaultMotionState* 	motionState;
+	btRigidBody* 			rigidBody;
+} _physicsObject;
 
 extern float        gravityX;
 extern float        gravityY;
@@ -30,4 +36,13 @@ glm::vec3   bul_returnCameraPosition();
 void bul_setCameraVelocity ( glm::vec3 camVelocity );
 
 // Add a physics object to the world
-bool bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition, btAlignedObjectArray<btVector3>& vertices  );
+int bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition);
+
+// Get position for physics object by index
+glm::vec3 phy_getObjectPosition ( int index );
+
+// Add a physics BSP hull object to the world
+void bul_addPhysicsBSP ( float scalePhysicsBy, btAlignedObjectArray<btVector3>& vertices );
+
+// Apply a force to a physics object
+void phy_applyMovement(int index, float applyAmount, glm::vec3 direction);

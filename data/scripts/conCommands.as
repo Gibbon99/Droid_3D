@@ -58,7 +58,7 @@ void as_setGameVariables()
 	ttf_initLibrary ( fontSizeSmall, 0 );
 
 	gravityX = 0.0f;
-	gravityY = 2.0f;
+	gravityY = 0.0f;
 	gravityZ = 0.0f;
 
 	materialShininess = 140.0f;
@@ -66,10 +66,10 @@ void as_setGameVariables()
 	globalGammaFactor = 0.2;
 	//
 	// Free roam camera
-	cameraLockedToPhysics = false;
+	cameraLockedToPhysics = true;
 	//
 	// BSP collision
-	bspCollisionDetectOn = true;
+	bspCollisionDetectOn = false;
 	//
 	// Show position of lights in map
 	g_debugLightPos = false;
@@ -122,10 +122,10 @@ bool as_conCommandOpenGLVer()
 void as_loadAllModels()
 //-----------------------------------------------------------------------------
 {
-	ass_loadModel ( MODEL_CRATE, 			"data/models/crate01.3ds",  		0.8f );
-	ass_loadModel ( MODEL_TANK, 			"data/models/triax_tracks.md2",  	0.3f );
+	ass_loadModel ( MODEL_CRATE, 		"data/models/crate01.3ds",  		0.8f );
+	ass_loadModel ( MODEL_TANK, 		"data/models/triax_tracks.md2",  	0.3f );
 	ass_loadModel ( MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2",  	0.3f );
-	ass_loadModel ( MODEL_SPHERE,			"data/models/sphere2.obj",			0.4f );
+	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj",			0.4f );
 	ass_loadModel ( MODEL_CONE,			"data/models/cone.dae",				0.5f );
 }
 
@@ -136,8 +136,8 @@ void as_addAllScriptCommands()
 //-----------------------------------------------------------------------------
 {
 
-	sys_addScriptCommand ( "quit", 			"Quit the program", 		"bool as_conCommandQuit()", 				false );
-	sys_addScriptCommand ( "exit", 			"Quit the program", 		"bool as_conCommandQuit()", 				false );
-	sys_addScriptCommand ( "glVersion", 			"Show openGL version", 		"bool as_conCommandOpenGLVer()", 				false );
-	sys_addScriptCommand ( "loadFont", 			"loadFont size index", 		"bool ttf_initLibrary()", 				false );
+	sys_addScriptCommand ( "quit", 			"Quit the program", 		"bool as_conCommandQuit()", 		false );
+	sys_addScriptCommand ( "exit", 			"Quit the program", 		"bool as_conCommandQuit()", 		false );
+	sys_addScriptCommand ( "glVersion", 	"Show openGL version", 		"bool as_conCommandOpenGLVer()", 	false );
+	sys_addScriptCommand ( "loadFont", 		"loadFont size index", 		"bool ttf_initLibrary()", 			false );
 }

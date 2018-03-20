@@ -125,7 +125,7 @@ void gl_registerDebugCallback()
 
 //--------------------------------------------------------------------------------------------
 //
-// Draw a debug line to see the picking ray
+// Draw a debug line t
 void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, int drawType, float length, bool reinit, GLfloat scaleBy )
 //--------------------------------------------------------------------------------------------
 {

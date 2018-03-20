@@ -73,7 +73,7 @@ void gam_drawBullets ( int whichShader )
 		{
 			if ( true == bullet[i].active )
 				{
-					gam_drawBullet ( bullet[i].position, whichShader );
+					gam_drawBullet ( phy_getObjectPosition(i), whichShader );
 				}
 		}
 }
@@ -88,9 +88,11 @@ void gam_processBulletMovement ( GLfloat interpolate )
 		{
 			if ( true == bullet[i].active )
 				{
-					bullet[i].position += ( bullet[i].direction * ( bullet[i].speed * interpolate ) );
+					phy_applyMovement(i, 50.0f, bullet[i].direction);
+					
+//					bullet[i].position += ( bullet[i].direction * ( bullet[i].speed * interpolate ) );
 					if ( bullet[i].lightIndex != -1 )
-						allLights[bullet[i].lightIndex].position = bullet[i].position;
+						allLights[bullet[i].lightIndex].position = phy_getObjectPosition(i);
 
 					if ( false == bul_checkWorldCollide ( i ) )
 						{
@@ -120,6 +122,8 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 					bullet[i].position = position;
 
 					bullet[i].lightIndex = bsp_addNewLight ( glm::vec3 ( 255.0f, 0.0f, 0.0f ), LIGHT_POINT, LIGHT_POINT );
+					bullet[i].physicsIndex = bul_addPhysicsObject(i, 2.0f, PHYSICS_OBJECT_BOX, 0.5f, position);
+
 					return;
 				}
 		}

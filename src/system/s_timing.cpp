@@ -18,7 +18,7 @@ void sys_initTimingVars()
 	frameTimeTakenMax = 0;
 	frameTimeTakenAvg = 0;
 
-	ticksPerSecond = 30;
+	ticksPerSecond = 60;
 	skipTicks = ( 1000.0f / ticksPerSecond ) * 0.001f;;
 	maxFrameSkip = 5;
 	nextGameTick = 0;

@@ -238,6 +238,8 @@ void updateScreen ( float interpolate )
 			bspDrawAllDoorTriggerZones();
 
 			sys_renderModels ( SHADER_GEOMETRY_PASS );
+			
+//			bul_showFallingObject( SHADER_GEOMETRY_PASS );
 
 //lt_renderPointLights(SHADER_GEOMETRY_PASS);
 
@@ -251,6 +253,8 @@ void updateScreen ( float interpolate )
 						drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
 					}
 			}
+
+bul_enableDebug(true);
 
 			glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 			glUseProgram ( 0 );

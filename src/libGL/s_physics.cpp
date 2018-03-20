@@ -4,8 +4,6 @@
 
 #include "s_camera.h"       // Need to set camera position before calling this
 
-#define NUM_CUBES       50
-
 float        gravityX;      // Set from startup script
 float        gravityY;
 float        gravityZ;
@@ -23,33 +21,22 @@ btDefaultMotionState*                   playerMotionState;
 btRigidBody*                            playerRigidBody;
 btScalar                                playerMass = 1.0f;
 
-typedef struct
-{
-	btRigidBody*                        fallRigidBody;
-	btDefaultMotionState*               fallMotionState;
-} _voxelPhysics;
-
-vector<_voxelPhysics>                   voxelPhysics;
-_voxelPhysics                           tempVoxelPhysics;
-
 GLDebugDrawer                           debugDrawer;
+
+vector<_physicsObject>					physicsObjects;
+
 
 //------------------------------------------------------------
 //
-// Get matrix for falling box
-glm::mat4 bul_getMatrix ( int index )
+// Get position for physics object by index
+glm::vec3 phy_getObjectPosition ( int index )
 //------------------------------------------------------------
 {
-	glm::mat4 ATTRIBUTE_ALIGNED16 ( worldTrans );
 	btTransform trans;
 
-	trans.setIdentity();
+	physicsObjects[index].rigidBody->getMotionState()->getWorldTransform ( trans );
 
-	voxelPhysics[index].fallRigidBody->getMotionState()->getWorldTransform ( trans );
-
-	trans.getOpenGLMatrix ( glm::value_ptr ( worldTrans ) );
-
-	return worldTrans;
+	return glm::vec3 ( trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() );
 }
 
 //------------------------------------------------------------
@@ -78,19 +65,29 @@ void bul_setCameraVelocity ( glm::vec3 camVelocity )
 {
 	playerRigidBody->clearForces();
 
-	playerRigidBody->setLinearVelocity ( btVector3 ( camVelocity.x, camVelocity.y, camVelocity.z ) );
+	playerRigidBody->setLinearVelocity ( btVector3 ( 0.0, 0.0, 0.0 ) );
 
 	btVector3 tempPos = playerRigidBody->getCenterOfMassPosition();
-	printf ( "center of mass position [ %3.3f %3.3f %3.3f\n", tempPos.x(), tempPos.y(), tempPos.z() );
 
-	btTransform transform;
-	transform.setIdentity ();
-	transform = playerRigidBody->getCenterOfMassTransform();
-	transform.setOrigin ( btVector3 ( camPosition.x, camPosition.y, camPosition.z ) );
+	btTransform transform = playerRigidBody->getCenterOfMassTransform();
+	transform.setOrigin ( btVector3 ( camVelocity.x, camVelocity.y, camVelocity.z ) );
 
-	playerRigidBody->setCenterOfMassTransform ( transform );
-
+	playerRigidBody->applyCentralImpulse ( btVector3 ( camVelocity.x, camVelocity.y, camVelocity.z ) );
 }
+
+/*
+//------------------------------------------------------------
+//
+// Draw the falling sphere with a cube
+void bul_showFallingObject(int whichShader)
+//------------------------------------------------------------
+{
+	btTransform trans;
+	fallRigidBody->getMotionState()->getWorldTransform ( trans );
+
+	ass_renderMesh ( MODEL_CRATE, whichShader, glm::vec3 ( trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() ), 0.1f, glm::vec3() );
+}
+*/
 
 //------------------------------------------------------------
 //
@@ -140,12 +137,32 @@ bool bul_setGravity()
 
 //------------------------------------------------------------
 //
+// Apply a force to a physics object
+void phy_applyMovement ( int index, float applyAmount, glm::vec3 direction )
+//------------------------------------------------------------
+{
+	btVector3		application;
+
+	if ((index < 0) || (index > physicsObjects.size()))
+		return;
+
+	direction = normalize(direction);
+
+	application.setX ( direction.x * applyAmount );
+	application.setY ( direction.y * applyAmount );
+	application.setZ ( direction.z * applyAmount );
+
+	physicsObjects[index].rigidBody->applyCentralForce ( application );
+}
+
+//------------------------------------------------------------
+//
 // Add a physics object to the world
-bool bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition, 
-		btAlignedObjectArray<btVector3>& vertices )
+int bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition )
 //------------------------------------------------------------
 {
 	btCollisionShape*   objectShape;
+	_physicsObject		tempObject;
 
 	if ( false == physicsEngineStarted )
 		{
@@ -156,28 +173,29 @@ bool bul_addPhysicsObject ( int index, int objectSize, int objectType, float obj
 	switch ( objectType )
 		{
 		case PHYSICS_OBJECT_BOX:
-			objectShape = new btBoxShape ( btVector3 ( objectSize / 2, objectSize / 2, objectSize / 2 ) );
+			tempObject.shape = new btBoxShape ( btVector3 ( objectSize / 2, objectSize / 2, objectSize / 2 ) );
 			break;
-			
-		case PHYSICS_OBJECT_BSP:
-			objectShape= new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
-			break;
+
 		}
 
-	float scalePhysicsBy = 1.0;
-	objectShape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
-
 	btVector3 fallInertia ( 0, 0, 0 );
-	objectShape->calculateLocalInertia ( objectMass, fallInertia );
+	float scalePhysicsBy = 1.0;
 
-	tempVoxelPhysics.fallMotionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( objectPosition.x, objectPosition.y, objectPosition.z ) ) );
-	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI ( objectMass, tempVoxelPhysics.fallMotionState, objectShape, fallInertia );
+	tempObject.shape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
 
-	tempVoxelPhysics.fallRigidBody = new btRigidBody ( fallRigidBodyCI );
-	tempVoxelPhysics.fallRigidBody->setUserPointer ( ( void * ) index );
-	dynamicsWorld->addRigidBody ( tempVoxelPhysics.fallRigidBody );
+	tempObject.shape->calculateLocalInertia ( objectMass, fallInertia );
+	tempObject.motionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( objectPosition.x, objectPosition.y, objectPosition.z ) ) );
+	tempObject.rigidBody = new btRigidBody ( objectMass, tempObject.motionState, tempObject.shape, fallInertia );
 
-	voxelPhysics.push_back ( tempVoxelPhysics );
+	//
+	// Need more work on this
+	tempObject.rigidBody->setUserPointer ( ( void * ) index );
+
+	dynamicsWorld->addRigidBody ( tempObject.rigidBody );
+
+	physicsObjects.push_back ( tempObject );
+
+	return physicsObjects.size() - 1;	// Return index into array
 }
 
 //------------------------------------------------------------
@@ -186,20 +204,7 @@ bool bul_addPhysicsObject ( int index, int objectSize, int objectType, float obj
 bool bul_startPhysics()
 //------------------------------------------------------------
 {
-//	m_collisionConfiguration = new btDefaultCollisionConfiguration();
-//	m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);
-	btVector3 worldMin(-1000,-1000,-1000);
-	btVector3 worldMax(1000,1000,1000);
-	//m_broadphase = new btDbvtBroadphase();
-//	m_solver = new btSequentialImpulseConstraintSolver();
-//	m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher,m_broadphase,m_solver,m_collisionConfiguration);
 
-//
-// Not set?
-//	m_guiHelper->createPhysicsDebugDrawer(m_dynamicsWorld);
-//	m_dynamicsWorld->setGravity(grav);
-	
-	
 	// Build the broadphase
 	broadphase = new btDbvtBroadphase();
 
@@ -213,37 +218,29 @@ bool bul_startPhysics()
 	// The world.
 	dynamicsWorld = new btDiscreteDynamicsWorld ( dispatcher, broadphase, solver, collisionConfiguration );
 	dynamicsWorld->setGravity ( btVector3 ( gravityX, gravityY, gravityZ ) );
-	//
-	// Point to debug renderer
-	dynamicsWorld->setDebugDrawer ( &debugDrawer );
 
-	btVector3 fallInertia ( 0, 0, 0 );
+
 	playerShape = new btCapsuleShape ( btScalar ( 0.5 ), btScalar ( 1.0f ) );
-	playerShape->calculateLocalInertia ( playerMass, fallInertia );
-
-	camPosition = glm::vec3 ( 144.00, 64.00, -16.00 );
-
 	playerMotionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0, 0, 0 ) ) );
+	btVector3 fallInertiaPlayer ( 0, 0, 0 );
+	playerShape->calculateLocalInertia ( playerMass, fallInertiaPlayer );
 
-	btRigidBody::btRigidBodyConstructionInfo playerRigidBodyCI ( playerMass, playerMotionState, playerShape, fallInertia );
+
+	btRigidBody::btRigidBodyConstructionInfo playerRigidBodyCI ( playerMass, playerMotionState, playerShape, fallInertiaPlayer );
 	playerRigidBody = new btRigidBody ( playerRigidBodyCI );
-	playerRigidBody->setActivationState ( DISABLE_DEACTIVATION );
+//	playerRigidBody->setActivationState ( DISABLE_DEACTIVATION );
 	dynamicsWorld->addRigidBody ( playerRigidBody );
 	//
 	// Stop player collision shape from rotating
 	playerRigidBody->setAngularFactor ( btVector3 ( 0.0, 0.0, 0.0 ) );
 
+
+	//
+	// Point to debug renderer
+	dynamicsWorld->setDebugDrawer ( &debugDrawer );
 	physicsEngineStarted = true;
 
-	playerMotionState->setWorldTransform ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( camPosition.x, camPosition.y, camPosition.z ) ) );
-
-	btTransform transform = playerRigidBody->getCenterOfMassTransform();
-	transform.setOrigin ( btVector3 ( camPosition.x, camPosition.y, camPosition.z ) );
-	playerRigidBody->setCenterOfMassTransform ( transform );
-
-
-//BspLoader bspLoader;
-
+	bul_enableDebug ( true );
 
 	return true;
 }
@@ -266,4 +263,39 @@ bool bul_stopPhysics()
 	delete playerRigidBody;
 
 	return true;
+}
+
+//------------------------------------------------------------
+//
+// Add a physics BSP hull object to the world
+void bul_addPhysicsBSP ( float scalePhysicsBy, btAlignedObjectArray<btVector3>& vertices )
+//------------------------------------------------------------
+{
+	float		bspMass = 0.0f;
+
+	btCollisionShape*   objectShape;
+
+	btCollisionShape* 		shape;
+	btDefaultMotionState* 	motionState;
+	btRigidBody* 			rigidBody;
+
+
+	if ( false == physicsEngineStarted )
+		{
+			con_print ( true, true, "Physics engine is not started. Attempting to add object failed." );
+			return false;
+		}
+
+	objectShape= new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
+
+	objectShape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
+
+	btVector3 fallInertia ( 0, 0, 0 );
+	objectShape->calculateLocalInertia ( bspMass, fallInertia );
+
+	motionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0.0f, 0.0f, 0.0f ) ) );
+	btRigidBody::btRigidBodyConstructionInfo bspRigidBodyCI ( bspMass, motionState, objectShape, fallInertia );
+
+	rigidBody = new btRigidBody ( bspRigidBodyCI );
+	dynamicsWorld->addRigidBody ( rigidBody );
 }

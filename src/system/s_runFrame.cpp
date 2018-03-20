@@ -33,7 +33,7 @@ void gameTickRun ( float interpolate )
 //                cam_update( interpolate );
 //                cam_moveTo( wantedCamPosition );      // Handle BSP collision event here - modify wantedCamPosition if required
 
-//cameraLockedToPhysics = true;
+cameraLockedToPhysics = true;
 
 			if ( true == cameraLockedToPhysics )
 				{
@@ -41,12 +41,15 @@ void gameTickRun ( float interpolate )
 					bul_setCameraVelocity ( ( wantedCamPosition ) );
 				}
 
-//				bul_setGravity();
-//				bul_processPhysics(30.0f);
+				bul_setGravity();
+				bul_processPhysics(30.0f);
 
 			if ( true == cameraLockedToPhysics )
 				{
 					vel = bul_returnCameraPosition();   // Get position after running physics
+					
+					printf("Camera after physics move [ %4.2f %4.2f %4.2f ]\n", vel.x, vel.y, vel.z);
+					
 					vel.y = 0;
 					wantedCamPosition = vel;
 					cam_update ( interpolate );

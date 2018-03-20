@@ -2,6 +2,7 @@
 
 #include "s_globals.h"
 #include "s_bullet.h"
+#include "s_physics.h"
 
 typedef struct
 {
@@ -11,6 +12,7 @@ typedef struct
 	glm::vec3       destination;
 	GLfloat         speed;
 	int				lightIndex;
+	int				physicsIndex;
 } _bullet;
 
 extern _bullet             bullet[];

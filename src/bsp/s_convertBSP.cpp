@@ -20,17 +20,13 @@ void addConvexVerticesCollider ( btAlignedObjectArray<btVector3>& vertices, bool
 			btTransform startTransform;
 			//can use a shift
 			startTransform.setIdentity();
-			startTransform.setOrigin ( btVector3 ( 0,0,-10.f ) );
+			startTransform.setOrigin ( btVector3 ( 0,0,0 ) );
 			//this create an internal copy of the vertices
 
 			btCollisionShape* shape = new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
 			
-	
-			bul_addPhysicsObject (0, 0, PHYSICS_OBJECT_BSP, 0.0f, glm::vec3(0.0f, 0.0f, 0.0f), vertices);
+			bul_addPhysicsBSP ( 1.0f, vertices );
 			
-			//m_demoApp->m_collisionShapes.push_back ( shape );
-
-			//m_demoApp->createRigidBody ( mass, startTransform,shape );
 		}
 }
 
@@ -99,7 +95,7 @@ void bspConvertMesh ( float scaling )
 
 									bool isEntity = false;
 									btVector3 entityTarget ( 0.f,0.f,0.f );
-									//addConvexVerticesCollider ( vertices,isEntity,entityTarget );
+									addConvexVerticesCollider ( vertices,isEntity,entityTarget );
 								}
 						}
 					}

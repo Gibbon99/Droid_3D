@@ -187,7 +187,7 @@ bool cam_tryMove ( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 
 			slide  = vMoveToVector - md.CollisionNormal * ( glm::dot ( md.CollisionNormal, vMoveToVector ) );
 
-			printf ( "Slide [ %3.3f %3.3f %3.3f ] Node index [ %i ]\n", slide.x, slide.y, slide.z, md.nodeIndex );
+//			printf ( "Slide [ %3.3f %3.3f %3.3f ] Node index [ %i ]\n", slide.x, slide.y, slide.z, md.nodeIndex );
 
 			wantedCamPosition += slide;
 
