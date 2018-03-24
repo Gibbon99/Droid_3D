@@ -5,6 +5,7 @@
 #include "s_renderBSP.h"
 #include "s_shaders.h"
 #include "s_timing.h"
+#include "s_convertBSP.h"
 
 int					numOfDoors;
 int					numOfDoorsDrawn = 0;
@@ -26,7 +27,6 @@ int bsp_findNumOfDoors()
 
 	if ( numOfDoors == 0 )
 		return 0;
-
 
 	doorModels.reserve ( numOfDoors );		// Get memory to hold all the doors
 
@@ -201,6 +201,11 @@ int bsp_findNumOfDoors()
 							vertCounter++;
 						}
 				}
+			//
+			// Now create physics object from convex hull
+			//
+
+			bspConvertDoors ( i, 1.0f );
 		}
 }
 
@@ -225,6 +230,8 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 {
 #define Y_OFFSET		0.1f
 
+static bool					initDone = false;
+
 	glm::vec3   			vertsTrigger[4];
 	GLuint					vao;
 	GLuint					buffers[2];
@@ -235,6 +242,7 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 //		0,1,2,0,2,3,
 		0,1,2,2,3,0,
 	};
+
 
 	// First point
 	vertsTrigger[0].x = doorModels[whichModel].trigger.min.x;
@@ -274,6 +282,7 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 
 	// Unbind the VAO
 	glBindVertexArray ( 0 );
+	
 
 	// Now render it
 	gl_set3DMode();
@@ -461,6 +470,8 @@ void bspProcessAllDoorMovements ( float interpolate )
 //-------------------------------------------------------------------------------
 {
 
+	#define DOOR_PHYSICS_SPEED 2.0f
+
 	int         whichModel;
 	int         whichDoor;
 
@@ -486,27 +497,29 @@ void bspProcessAllDoorMovements ( float interpolate )
 							switch ( doorModels[whichDoor].angle )
 								{
 								case 90:
+									doorModels[whichDoor].rigidBody->applyCentralForce(btVector3(0.0f, 0.0f, DOOR_PHYSICS_SPEED));
+									
 									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z + doorModels[whichDoor].currentOffset;
 									break;
 
 								case 270:
+								
+									doorModels[whichDoor].rigidBody->applyCentralForce(btVector3(-DOOR_PHYSICS_SPEED, 0.0f, 0.0f));
+
 									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x - doorModels[whichDoor].currentOffset;
 									break;
 
 								case 360:
-//                    if (doorModels[whichDoor].currentState == DOOR_STATE_OPENING)
+									doorModels[whichDoor].rigidBody->applyCentralForce(btVector3(DOOR_PHYSICS_SPEED, 0.0f, 0.0f));
+								
 									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x + doorModels[whichDoor].currentOffset;
-//                    if (doorModels[whichDoor].currentState == DOOR_STATE_CLOSING)
-//                        m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x - doorModels[whichDoor].currentOffset;
 									break;
 
 								case 180:
-//                    if (doorModels[whichDoor].currentState == DOOR_STATE_OPENING)
-
+								
+									doorModels[whichDoor].rigidBody->applyCentralForce(btVector3(0.0f, 0.0f, -DOOR_PHYSICS_SPEED));
+									
 									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z - doorModels[whichDoor].currentOffset;
-
-//                    if (doorModels[whichDoor].currentState == DOOR_STATE_CLOSING)
-//                        m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x + doorModels[whichDoor].currentOffset;
 									break;
 
 								case -1:	// Move up

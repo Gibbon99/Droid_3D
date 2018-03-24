@@ -16,7 +16,7 @@ GLDebugDrawer::GLDebugDrawer()
 void GLDebugDrawer::drawLine ( const btVector3& from,const btVector3& to,const btVector3& color )
 //------------------------------------------------------------
 {
-	static int callCount = 0;
+//	static int callCount = 0;
 
 	glm::vec3 src ( from.x(), from.y(), from.z() );
 	glm::vec3 dst ( to.x(), to.y(), to.z() );
@@ -51,82 +51,89 @@ void GLDebugDrawer::drawContactPoint ( const btVector3& pointOnB,const btVector3
 void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 //------------------------------------------------------------
 {
-	vector<GLfloat>     vertices;
-	vector<GLfloat>     color;
-	vector<GLuint>      indices;
-	GLuint              vboLineColors;
+	static vector<GLfloat>     vertices;
+	static vector<GLfloat>     color;
+	static vector<GLuint>      indices;
 
-	GLuint			    lineVAO, lineVBO, lineColorVBO;
+	static bool			initDone = false;
 
-	wrapglDisable ( GL_CULL_FACE );
+	static GLuint		lineColorsVBO;
+	static GLuint	    lineVAO = -1;
+	static GLuint		lineVBO = -1;
+
+	int		whichShader = SHADER_COLOR;
 
 	unsigned int indexI = 0;
 
-	//
-	// Extract vertice and color information from lines
-	for ( vector<GLDebugDrawer::LINE>::iterator it = lines.begin(); it != lines.end(); it++ )
+	if ( false == initDone )
 		{
-			GLDebugDrawer::LINE l = ( *it );
-			vertices.push_back ( l.a.x );
-			vertices.push_back ( l.a.y );
-			vertices.push_back ( l.a.z );
-			vertices.push_back ( l.b.x );
-			vertices.push_back ( l.b.y );
-			vertices.push_back ( l.b.z );
+			//
+			// Extract vertice and color information from lines
+			for ( vector<GLDebugDrawer::LINE>::iterator it = lines.begin(); it != lines.end(); it++ )
+				{
+					GLDebugDrawer::LINE l = ( *it );
 
-			color.push_back ( l.color.r );
-			color.push_back ( l.color.g );
-			color.push_back ( l.color.b );
-			color.push_back ( l.color.r );
-			color.push_back ( l.color.g );
-			color.push_back ( l.color.b );
+					vertices.push_back ( l.a.x );
+					vertices.push_back ( l.a.y );
+					vertices.push_back ( l.a.z );
+					vertices.push_back ( l.b.x );
+					vertices.push_back ( l.b.y );
+					vertices.push_back ( l.b.z );
 
-			indices.push_back ( indexI );
-			indices.push_back ( indexI + 1 );
-			indexI += 2;
+					color.push_back ( l.color.r );
+					color.push_back ( l.color.g );
+					color.push_back ( l.color.b );
+					color.push_back ( l.color.r );
+					color.push_back ( l.color.g );
+					color.push_back ( l.color.b );
+
+					indices.push_back ( indexI );
+					indices.push_back ( indexI + 1 );
+					indexI += 2;
+				}
+
+			glGenVertexArrays ( 1, &lineVAO );
+			glBindVertexArray ( lineVAO );
+			//
+			// Use Vertices
+			glGenBuffers ( 1, &lineVBO );
+			glBindBuffer ( GL_ARRAY_BUFFER, lineVBO );
+			glBufferData ( GL_ARRAY_BUFFER, vertices.size() * sizeof ( GLfloat ), &vertices[0], GL_STATIC_DRAW );
+			glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID );
+			glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );
+
+			//
+			// Line Color
+			glGenBuffers ( 1, &lineColorsVBO );
+			glBindBuffer ( GL_ARRAY_BUFFER, lineColorsVBO );
+			glBufferData ( GL_ARRAY_BUFFER, color.size() * sizeof ( GLfloat ), &color[0], GL_STATIC_DRAW );
+			glEnableVertexAttribArray ( shaderProgram[whichShader].inColorID );
+			glVertexAttribPointer ( shaderProgram[whichShader].inColorID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );	// R G B
+
+			initDone = true;
 		}
 
 	//
 	// Enable the shader program
-	glUseProgram ( shaderProgram[SHADER_COLOR].programID );
+	glUseProgram ( shaderProgram[whichShader].programID );
 
-	glGenVertexArrays ( 1, &lineVAO );
 	glBindVertexArray ( lineVAO );
 	//
-	// Use Vertices
-	glGenBuffers ( 1, &lineVBO );
-	glBindBuffer ( GL_ARRAY_BUFFER, lineVBO );		// Allocate space and upload from CPU to GPU
-	glBufferData ( GL_ARRAY_BUFFER, vertices.size() * 6, &vertices[0], GL_STATIC_DRAW );
-	glEnableVertexAttribArray ( shaderProgram[SHADER_COLOR].inVertsID );
-	glVertexAttribPointer ( shaderProgram[SHADER_COLOR].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );
-	//
-	// Use Colors
-	glGenBuffers ( 1, &vboLineColors );
-	glBindBuffer ( GL_ARRAY_BUFFER, vboLineColors );
-	glBufferData ( GL_ARRAY_BUFFER, color.size() * 6, &color[0], GL_STATIC_DRAW );
-	glEnableVertexAttribArray ( shaderProgram[SHADER_COLOR].inColorID );
-	glVertexAttribPointer ( shaderProgram[SHADER_COLOR].inColorID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );	// R G B
-	//
 	// Calculate matrix and upload to shader
-//    glm::mat4   mvpMatrix = projMatrix * viewMatrix * modelMatrix;
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
 
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_COLOR].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_COLOR].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+	glBindBuffer ( GL_ARRAY_BUFFER, lineVBO );
+	glBufferData ( GL_ARRAY_BUFFER, vertices.size() * sizeof ( GLfloat ), &vertices[0], GL_STATIC_DRAW );
+	glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID );
+	glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );
 
-//    glUniformMatrix4fv(shaderProgram[SHADER_COLOR].MVPLocation, 1, false, glm::value_ptr(mvpMatrix));
 	//
 	// Draw debug lines
-	glDrawElements ( GL_LINES, indices.size(), GL_UNSIGNED_INT, ( void* ) & ( indices[0] ) );
+//	glDrawElements ( GL_LINES, indices.size(), GL_UNSIGNED_INT, ( void* ) & ( indices[0] ) );
 
-//    glDrawArrays(GL_LINES, 0, vertices.size());
-
-	lines.clear();
-	color.clear();
-	indices.clear();
+	glDrawArrays ( GL_LINES, 0, vertices.size() );
 
 	glUseProgram ( 0 );
 	glBindVertexArray ( 0 );
-	glDeleteBuffers ( 1, &lineVBO );
-	glDeleteBuffers ( 1, &lineColorVBO );
-	glDeleteVertexArrays ( 1, &lineVAO );
 }

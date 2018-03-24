@@ -7,6 +7,8 @@
 // This is the number that is associated with a face that is of type "polygon"
 #define FACE_POLYGON	1
 
+#define BSPCONTENTS_SOLID 1
+
 #define MAX_ENTITY_SIZE	512					// Max size for a entity string
 
 #define byte unsigned char

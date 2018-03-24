@@ -33,7 +33,6 @@ _hostScriptFunctions hostVariables[] =
 	{"float gravityX",                      &gravityX},
 	{"float gravityY",                      &gravityY},
 	{"float gravityZ",                      &gravityZ},
-	{"bool drawWireframe",                  &drawWireframe},
 	{"bool cameraLockedToPhysics",          &cameraLockedToPhysics},
 	{"bool showGBuffers",                   &showGBuffers},
 	{"bool bspCollisionDetectOn",           &bspCollisionDetectOn},

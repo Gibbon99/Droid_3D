@@ -48,7 +48,9 @@ cameraLockedToPhysics = true;
 				{
 					vel = bul_returnCameraPosition();   // Get position after running physics
 					
-					printf("Camera after physics move [ %4.2f %4.2f %4.2f ]\n", vel.x, vel.y, vel.z);
+					btTransform trans;
+					doorModels[1].rigidBody->getMotionState()->getWorldTransform(trans);
+					printf("Door [ %i ] Pos [ %4.2f %4.2f %4.2f ] \n", 1, trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() );
 					
 					vel.y = 0;
 					wantedCamPosition = vel;

@@ -105,10 +105,10 @@ void gl_DebugCallback ( GLenum source, GLenum type, GLenum id, GLenum severity,
 		return;
 
 	con_print ( CON_ERROR, true, "ID [ %i ]", id );
-	con_print ( CON_ERROR, true, "source [ %s ]", getStringForSource ( source ).c_str() );
-	con_print ( CON_ERROR, true, "type [ %s ]", getStringForType ( type ).c_str() );
-	con_print ( CON_ERROR, true, "severity [ %s ]", getStringForSeverity ( severity ).c_str() );
-	con_print ( CON_ERROR, true, "debug call [ %s ]", msg );
+	con_print ( CON_ERROR, true, "source [ %s ]", 		getStringForSource ( source ).c_str() );
+	con_print ( CON_ERROR, true, "type [ %s ]", 		getStringForType ( type ).c_str() );
+	con_print ( CON_ERROR, true, "severity [ %s ]", 	getStringForSeverity ( severity ).c_str() );
+	con_print ( CON_ERROR, true, "debug call [ %s ]", 	msg );
 
 }
 
@@ -125,55 +125,50 @@ void gl_registerDebugCallback()
 
 //--------------------------------------------------------------------------------------------
 //
-// Draw a debug line t
+// Draw a debug line
 void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, int drawType, float length, bool reinit, GLfloat scaleBy )
 //--------------------------------------------------------------------------------------------
 {
-	GLuint			lineVAO, lineVBO, lineColorVBO;
+	static GLuint			lineVAO = -1;
+	static GLuint			lineVBO = -1;
+	static GLuint			lineColorVBO = -1;
+
 	glm::vec3		lineCoords[2];
 
-	static bool initDone = false;
+	glm::mat4 		scaleMatrix;
 
-	if ( true == reinit )
-		initDone = false;
-
-	if ( false == initDone )
+	if ( -1 == lineVAO )
 		{
-			if ( DRAW_LINE == drawType )
-				{
-					lineCoords[0] = startPoint;
-					lineCoords[1] = endPoint;
-
-				}
-
-			else if ( DRAW_RAY == drawType )
-				{
-					lineCoords[0] = startPoint;
-					endPoint = glm::normalize ( endPoint );
-					lineCoords[1] = startPoint + ( length * endPoint );
-				}
-
-			GL_ASSERT ( glUseProgram ( shaderProgram[SHADER_COLOR].programID ) );
-
-			GL_ASSERT ( glGenVertexArrays ( 1, &lineVAO ) );
-			GL_CHECK ( glBindVertexArray ( lineVAO ) );
-
-			GL_ASSERT ( glGenBuffers ( 1, &lineVBO ) );
-			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, lineVBO ) );		// Allocate space and upload from CPU to GPU
-			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( glm::vec3 ) * 2, &lineCoords, GL_STATIC_DRAW ) );
-			GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_COLOR].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
-			GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_COLOR].inVertsID ) );
+			GL_ASSERT ( glGenVertexArrays 	( 1, &lineVAO ) );
+			GL_ASSERT ( glGenBuffers 		( 1, &lineVBO ) );
 		}
 
-	glm::mat4   scaleMatrix;
-	int whichMesh = 0;
-	//
-	// Adjust the size and position of the mesh
-	scaleMatrix = glm::scale ( glm::translate ( modelMatrix, pos ), glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
+	switch ( drawType )
+		{
+		case DRAW_LINE:
+			lineCoords[0] = startPoint;
+			lineCoords[1] = endPoint;
+			break;
 
-//	gl_set3DMode();
-//	cam_look(camPosition, camDirection);
-//	modelMatrix = glm::mat4();
+		case DRAW_RAY:
+			lineCoords[0] = startPoint;
+			endPoint = glm::normalize ( endPoint );
+			lineCoords[1] = startPoint + ( length * endPoint );
+			break;
+		}
+
+	GL_ASSERT ( glUseProgram ( shaderProgram[SHADER_COLOR].programID ) );
+	GL_CHECK ( glBindVertexArray ( lineVAO ) );
+
+	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, lineVBO ) );		// Allocate space and upload from CPU to GPU
+
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( glm::vec3 ) * 2, &lineCoords,  GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_COLOR].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_COLOR].inVertsID ) );
+
+	//
+	// Adjust the size and position of the line
+	scaleMatrix = glm::scale ( glm::translate ( modelMatrix, pos ), glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
 
 	GL_CHECK ( glUseProgram ( shaderProgram[SHADER_COLOR].programID ) );
 
@@ -187,6 +182,9 @@ void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, in
 
 	glUseProgram ( 0 );
 	glBindVertexArray ( 0 );
+
+//	glDeleteVertexArrays ( 1, &lineVAO );
+//	glDeleteBuffers ( 1, &lineVBO );
 }
 
 //-----------------------------------------------------------------------------

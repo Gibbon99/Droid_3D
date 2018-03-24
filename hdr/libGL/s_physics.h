@@ -42,7 +42,10 @@ int bul_addPhysicsObject ( int index, int objectSize, int objectType, float obje
 glm::vec3 phy_getObjectPosition ( int index );
 
 // Add a physics BSP hull object to the world
-void bul_addPhysicsBSP ( float scalePhysicsBy, btAlignedObjectArray<btVector3>& vertices );
+void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btAlignedObjectArray<btVector3>& vertices );
 
 // Apply a force to a physics object
 void phy_applyMovement(int index, float applyAmount, glm::vec3 direction);
+
+// Draw debug physics world
+void bul_drawDebugWorld();

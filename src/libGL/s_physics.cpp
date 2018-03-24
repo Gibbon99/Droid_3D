@@ -1,8 +1,9 @@
 #include "s_physics.h"
 #include "s_physicsDebug.h"
 #include "s_render.h"
-
+#include "s_doorsBSP.h"
 #include "s_camera.h"       // Need to set camera position before calling this
+#include "s_physicsDebug.h"
 
 float        gravityX;      // Set from startup script
 float        gravityY;
@@ -24,6 +25,17 @@ btScalar                                playerMass = 1.0f;
 GLDebugDrawer                           debugDrawer;
 
 vector<_physicsObject>					physicsObjects;
+
+
+//------------------------------------------------------------
+//
+// Draw debug physics world
+void bul_drawDebugWorld()
+//------------------------------------------------------------
+{
+	dynamicsWorld->debugDrawWorld();
+	bul_drawDebugLines ( debugDrawer.GetLines() );
+}
 
 
 //------------------------------------------------------------
@@ -67,27 +79,13 @@ void bul_setCameraVelocity ( glm::vec3 camVelocity )
 
 	playerRigidBody->setLinearVelocity ( btVector3 ( 0.0, 0.0, 0.0 ) );
 
-	btVector3 tempPos = playerRigidBody->getCenterOfMassPosition();
+//	btVector3 tempPos = playerRigidBody->getCenterOfMassPosition();
 
 	btTransform transform = playerRigidBody->getCenterOfMassTransform();
 	transform.setOrigin ( btVector3 ( camVelocity.x, camVelocity.y, camVelocity.z ) );
 
 	playerRigidBody->applyCentralImpulse ( btVector3 ( camVelocity.x, camVelocity.y, camVelocity.z ) );
 }
-
-/*
-//------------------------------------------------------------
-//
-// Draw the falling sphere with a cube
-void bul_showFallingObject(int whichShader)
-//------------------------------------------------------------
-{
-	btTransform trans;
-	fallRigidBody->getMotionState()->getWorldTransform ( trans );
-
-	ass_renderMesh ( MODEL_CRATE, whichShader, glm::vec3 ( trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() ), 0.1f, glm::vec3() );
-}
-*/
 
 //------------------------------------------------------------
 //
@@ -111,9 +109,7 @@ void bul_enableDebug ( bool performDebug )
 	if ( true == performDebug )
 		{
 			debugDrawer.setDebugMode ( 1 );
-			dynamicsWorld->debugDrawWorld();
-			bul_drawDebugLines ( debugDrawer.GetLines() );
-
+			dynamicsWorld->setDebugDrawer ( &debugDrawer );
 		}
 
 	else
@@ -143,16 +139,16 @@ void phy_applyMovement ( int index, float applyAmount, glm::vec3 direction )
 {
 	btVector3		application;
 
-	if ((index < 0) || (index > physicsObjects.size()))
+	if ( ( index < 0 ) || ( index > physicsObjects.size() ) )
 		return;
 
-	direction = normalize(direction);
+	direction = normalize ( direction );
 
 	application.setX ( direction.x * applyAmount );
 	application.setY ( direction.y * applyAmount );
 	application.setZ ( direction.z * applyAmount );
 
-	physicsObjects[index].rigidBody->applyCentralForce ( application );
+	physicsObjects[index].rigidBody->applyCentralImpulse ( application );
 }
 
 //------------------------------------------------------------
@@ -161,7 +157,7 @@ void phy_applyMovement ( int index, float applyAmount, glm::vec3 direction )
 int bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition )
 //------------------------------------------------------------
 {
-	btCollisionShape*   objectShape;
+//	btCollisionShape*   objectShape;
 	_physicsObject		tempObject;
 
 	if ( false == physicsEngineStarted )
@@ -178,7 +174,7 @@ int bul_addPhysicsObject ( int index, int objectSize, int objectType, float obje
 
 		}
 
-	btVector3 fallInertia ( 0, 0, 0 );
+	btVector3 fallInertia ( 1, 1, 1 );
 	float scalePhysicsBy = 1.0;
 
 	tempObject.shape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
@@ -268,14 +264,12 @@ bool bul_stopPhysics()
 //------------------------------------------------------------
 //
 // Add a physics BSP hull object to the world
-void bul_addPhysicsBSP ( float scalePhysicsBy, btAlignedObjectArray<btVector3>& vertices )
+void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btAlignedObjectArray<btVector3>& vertices )
 //------------------------------------------------------------
 {
 	float		bspMass = 0.0f;
 
-	btCollisionShape*   objectShape;
-
-	btCollisionShape* 		shape;
+	btCollisionShape*		objectShape;
 	btDefaultMotionState* 	motionState;
 	btRigidBody* 			rigidBody;
 
@@ -283,19 +277,38 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, btAlignedObjectArray<btVector3>& 
 	if ( false == physicsEngineStarted )
 		{
 			con_print ( true, true, "Physics engine is not started. Attempting to add object failed." );
-			return false;
+			return;
 		}
 
-	objectShape= new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
+	if ( false == isEntity )
+		{
+			objectShape = new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
 
-	objectShape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
+			objectShape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
 
-	btVector3 fallInertia ( 0, 0, 0 );
-	objectShape->calculateLocalInertia ( bspMass, fallInertia );
+			btVector3 fallInertia ( 0, 0, 0 );
+			objectShape->calculateLocalInertia ( bspMass, fallInertia );
 
-	motionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0.0f, 0.0f, 0.0f ) ) );
-	btRigidBody::btRigidBodyConstructionInfo bspRigidBodyCI ( bspMass, motionState, objectShape, fallInertia );
+			motionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0.0f, 0.0f, 0.0f ) ) );
+			btRigidBody::btRigidBodyConstructionInfo bspRigidBodyCI ( bspMass, motionState, objectShape, fallInertia );
 
-	rigidBody = new btRigidBody ( bspRigidBodyCI );
-	dynamicsWorld->addRigidBody ( rigidBody );
+			rigidBody = new btRigidBody ( bspRigidBodyCI );
+			dynamicsWorld->addRigidBody ( rigidBody );
+		}
+	else
+		{
+			// Manage door
+			doorModels[whichDoor].shape = new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
+
+			doorModels[whichDoor].shape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
+
+			btVector3 fallInertia ( 0, 0, 0 );
+			doorModels[whichDoor].shape->calculateLocalInertia ( bspMass, fallInertia );
+
+			doorModels[whichDoor].motionShape = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0.0f, 0.0f, 0.0f ) ) );
+			btRigidBody::btRigidBodyConstructionInfo bspRigidBodyDoor ( bspMass, doorModels[whichDoor].motionShape, doorModels[whichDoor].shape, fallInertia );
+
+			doorModels[whichDoor].rigidBody = new btRigidBody ( bspRigidBodyDoor );
+			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
+		}
 }

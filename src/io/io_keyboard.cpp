@@ -126,10 +126,6 @@ void io_readGameSpecialKeys ( int key, int action )
 				case GLFW_KEY_DOWN:
 					keyDownDown = false;
 					break;
-
-				case GLFW_KEY_1:
-					drawWireframe = !drawWireframe;
-					break;
 				}
 		}
 }

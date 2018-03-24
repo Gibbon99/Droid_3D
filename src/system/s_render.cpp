@@ -23,6 +23,7 @@
 #include "s_lightPass.h"
 #include "s_bullet.h"
 #include "s_doorsBSP.h"
+#include "s_physicsDebug.h"
 
 GLuint mvp_loc;
 GLuint world_loc;
@@ -229,23 +230,17 @@ void updateScreen ( float interpolate )
 			lib_setMouseCursor ( false );
 
 			sys_renderToFBO();
+		
+//			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
 
-			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
-
-//for (int i = 0; i != numOfLights; i++)
-//	bsp_renderLevel(allLights[i].position, SHADER_GEOMETRY_PASS);
+			bul_drawDebugWorld();
 
 			bspDrawAllDoorTriggerZones();
 
 			sys_renderModels ( SHADER_GEOMETRY_PASS );
 			
-//			bul_showFallingObject( SHADER_GEOMETRY_PASS );
 
-//lt_renderPointLights(SHADER_GEOMETRY_PASS);
-
-//				ass_renderMesh(MODEL_CRATE, SHADER_GEOMETRY_PASS, vec3(144.0f, 64.0f, 8.0f), 0.5f);
-
-//				if (true == g_debugLightPos)
+			if (true == g_debugLightPos)
 			{
 				for ( int i = 0; i != numOfLights; i++ )
 					{
@@ -254,7 +249,6 @@ void updateScreen ( float interpolate )
 					}
 			}
 
-bul_enableDebug(true);
 
 			glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 			glUseProgram ( 0 );

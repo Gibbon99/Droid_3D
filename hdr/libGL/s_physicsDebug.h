@@ -42,9 +42,12 @@ public:
 		return lines;
 	}
 
+
 private:
 	std::vector<LINE> lines;
+
 };
 
 // Show wireframe outlines of physics shapes
 void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines );
+

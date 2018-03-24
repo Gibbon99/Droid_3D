@@ -5,10 +5,10 @@ bool        quitProgram = false;
 char		returnStr[MAX_STRING_SIZE];
 char        fontFileName[TTF_FILENAME_SIZE];       // Max size for font filename
 
-int         currentMode = MODE_GAME;
+int         currentMode = MODE_CONSOLE;
 
-int         winWidth = 640;
-int         winHeight = 480;
+int         winWidth = 800;							// Set from startup script
+int         winHeight = 600;						// Set from startup script
 
 double      freelookMouseX = 0.0;
 double      freelookMouseY = 0.0;

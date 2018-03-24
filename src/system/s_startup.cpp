@@ -86,14 +86,13 @@ bool initAll()
 
 
 	cam_setupCamera();
-	cam_positionCamera ( 0.4f, 10.0f, 60.0f, 0.3f, 11.0f, 53.0f, vecUp.x, vecUp.y, vecUp.z );
+//	cam_positionCamera ( 0.4f, 10.0f, 60.0f, 0.3f, 11.0f, 53.0f, vecUp.x, vecUp.y, vecUp.z );
 
 	if ( true == io_loadAllTextures() )
 		{
 			con_print ( CON_INFO, true, "Loaded textures." );
 
 		}
-
 	else
 		{
 			con_print ( CON_ERROR, true, "Error loading one or more textures." );
@@ -134,20 +133,6 @@ bool initAll()
 //            sys_shutdownToSystem();
 		}
 
-	/*
-		if (true == gl_initShadowMap(winWidth, winHeight))
-			{
-				gl_unbindWriteShadowMap();
-				con_print(CON_INFO, true, "Shadow mapping framebuffer created...");
-
-			}
-
-		else
-			{
-				con_print(CON_ERROR, true, "Shadow mapping framebuffer failed.");
-				sysErrorFatal(__FILE__, __LINE__, "Shadow mapping framebuffer failed.");
-			}
-	*/
 	bsp_loadBSP ( "cube.bsp", true );
 
 	lib_initAntBar();

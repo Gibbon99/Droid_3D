@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-
+#include <bullet/btBulletDynamicsCommon.h>
 
 //-----------------------------------------------------------------------------
 //
@@ -28,30 +28,35 @@ typedef struct
 
 typedef struct
 {
-	int             setID;				// ID number from entity list
-	int				ptrModel;
-	int				currentState;
-	int				angle;				// Angle used for opening/closing
-	int             numVerts;           // Number of verts used for drawing this model
-	GLfloat			pause;				// Time to say open for
-	glm::vec3		min;				// Starting value for the bounding box
-	glm::vec3		max;				// Starting value for the bounding box
+	int					setID;				// ID number from entity list
+	int					ptrModel;
+	int					currentState;
+	int					angle;				// Angle used for opening/closing
+	int					numVerts;           // Number of verts used for drawing this model
+	GLfloat				pause;				// Time to say open for
+	glm::vec3			min;				// Starting value for the bounding box
+	glm::vec3			max;				// Starting value for the bounding box
 
-	glm::vec3		minOriginal;				// Starting value for the bounding box
-	glm::vec3		maxOriginal;				// Starting value for the bounding box
+	glm::vec3			minOriginal;				// Starting value for the bounding box
+	glm::vec3			maxOriginal;				// Starting value for the bounding box
 
-	GLfloat         travelDistance;     // How far does the door move
+	GLfloat         	travelDistance;     // How far does the door move
 
-	GLfloat         minMaxMove;         // Track movement for collision detection
-	GLfloat			startLocation;		// Y Axis to stop closing at
-	GLfloat			currentOffset;		// Where are we at the moment - Use the coords as an offset
-	_triggerZone	trigger;			// Area defining door trigger area
-	glm::vec3        *originalVertPos;   // Used to record original starting position for moving doors verts around
-	int             *sourceIndexPos;    // What's the index that this vert came from in m_pVerts
+	GLfloat         	minMaxMove;         // Track movement for collision detection
+	GLfloat				startLocation;		// Y Axis to stop closing at
+	GLfloat				currentOffset;		// Where are we at the moment - Use the coords as an offset
+	_triggerZone		trigger;			// Area defining door trigger area
+	glm::vec3			*originalVertPos;   // Used to record original starting position for moving doors verts around
+	int					*sourceIndexPos;    // What's the index that this vert came from in m_pVerts
+	btConvexHullShape*		shape = NULL;
+	btDefaultMotionState*	motionShape = NULL;
+	btRigidBody*			rigidBody = NULL;
+
 } _doorModel;
 
 extern vector<_doorModel>	doorModels;
 
+extern int					numOfDoors;
 extern int					numOfDoorsDrawn;
 extern int					numOfDoorsNotDrawn;
 

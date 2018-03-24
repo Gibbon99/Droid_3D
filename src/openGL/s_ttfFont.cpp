@@ -224,23 +224,23 @@ void ttf_startText()
 					vertIndexes[i] = indexCount * i;
 					vertNumber[i] = 4;
 				}
-				
-	//
-	// Setup the Vertex Array Object that will have the VBO's associated to it
-	GL_ASSERT ( glGenVertexArrays ( 1, &g_glyphVAO_ID ) );
-	//
-	// Bind the vertex info
-	GL_ASSERT ( glGenBuffers ( 1, &g_vertVBO_ID ) );
-	GL_ASSERT ( glGenBuffers ( 1, &g_texVBO_ID ) );
-	GL_ASSERT ( glGenBuffers ( 1, &g_colVBO_ID ) );
-				
+
+			//
+			// Setup the Vertex Array Object that will have the VBO's associated to it
+			GL_ASSERT ( glGenVertexArrays ( 1, &g_glyphVAO_ID ) );
+			//
+			// Bind the vertex info
+			GL_ASSERT ( glGenBuffers ( 1, &g_vertVBO_ID ) );
+			GL_ASSERT ( glGenBuffers ( 1, &g_texVBO_ID ) );
+			GL_ASSERT ( glGenBuffers ( 1, &g_colVBO_ID ) );
+
 		}
 
 	if ( NULL == textureBuffer )
 		{
 			textureBuffer = ( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * memCharSize );
-			vertBuffer = ( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * memCharSize );
-			colorBuffer = ( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * 4 * memCharSize ); //4 Color values for each of the 8 verts
+			vertBuffer = 	( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * memCharSize );
+			colorBuffer = 	( float * ) malloc ( ( sizeof ( float ) * NUM_VERTS ) * 4 * memCharSize ); //4 Color values for each of the 8 verts
 
 			if ( ( NULL == vertBuffer ) || ( NULL == textureBuffer ) || ( NULL == colorBuffer ) )
 				{
@@ -252,7 +252,6 @@ void ttf_startText()
 	memCharCount = 0;   // no characters in memory buffer
 	vertCount = 0;
 	colorCount = 0;
-
 }
 
 
@@ -294,7 +293,6 @@ bool ttf_initLibrary ( int fontSize, int whichFont )
 					return false;
 
 				}
-
 			else
 				{
 					printf ( "Could not load font file - [ %s ]\n", fontFileName );
@@ -312,10 +310,7 @@ bool ttf_initLibrary ( int fontSize, int whichFont )
 	// Now setup a texture to hold all our glyphs
 	glGenTextures ( 1, &ttfFont[whichFont].texID );
 
-//    glActiveTexture(GL_TEXTURE0);
-
 	wrapglBindTexture ( GL_TEXTURE0, ttfFont[whichFont].texID );
-	//glBindTexture (GL_TEXTURE_2D, ttfFont[whichFont].texID);
 
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
@@ -419,7 +414,7 @@ bool ttf_initLibrary ( int fontSize, int whichFont )
 			ttfFont[whichFont].glyph[c].texCoord[6] = ( c * texX ) + texX;
 			ttfFont[whichFont].glyph[c].texCoord[7] = 1.0f;
 
-			destX += charWidth; //(bitmap->width + 1.0f);
+			destX += charWidth;
 		}
 
 	return true;
@@ -447,12 +442,8 @@ void ttf_addText ( int whichFont, float startX, float startY, const char *text, 
 
 //    logToFile("All - %s\n", printText);
 
-
 	for ( int i = 0; i != ( int ) strlen ( printText ); i++ )
 		{
-
-// TODO (dberry#1#): Verts are always the same - remove??
-
 			if ( printText[i] == '\n' ) // got a newline in string, move to next line
 				{
 					advanceY += conFontSize;
@@ -517,7 +508,6 @@ void ttf_addText ( int whichFont, float startX, float startY, const char *text, 
 							return;
 						}
 				}
-
 			memCharCount++;
 		}
 }
@@ -537,6 +527,8 @@ void ttf_displayText ( int whichFont )
 
 	wrapglEnable ( GL_BLEND );
 
+//wrapglDisable ( GL_BLEND );
+
 	glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	wrapglDisable ( GL_DEPTH_TEST );
 //
@@ -546,19 +538,19 @@ void ttf_displayText ( int whichFont )
 //
 // Bind the vertex info
 	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, g_vertVBO_ID ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * 8 * memCharCount, vertBuffer, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * NUM_VERTS * memCharSize, vertBuffer, GL_DYNAMIC_DRAW ) );
 	GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_TTF_FONT].inVertsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_TTF_FONT].inVertsID ) );
 //
 // Bind the texture coordinates
 	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, g_texVBO_ID ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * 8 * memCharCount, textureBuffer, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * NUM_VERTS * memCharSize, textureBuffer, GL_DYNAMIC_DRAW ) );
 	GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_TTF_FONT].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_TTF_FONT].inTextureCoordsID ) );
 //
 // Bind color array
 	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, g_colVBO_ID ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * NUM_VERTS * 4 * memCharCount, colorBuffer, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( GLfloat ) * NUM_VERTS * 4 * memCharSize, colorBuffer, GL_DYNAMIC_DRAW ) );
 	GL_CHECK ( glVertexAttribPointer ( shaderProgram[SHADER_TTF_FONT].inColorID, 4, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_TTF_FONT].inColorID ) );
 //
