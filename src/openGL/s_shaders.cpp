@@ -22,7 +22,7 @@ _shaderProgram                shaderProgram[] =             // holds all the inf
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "depthMap.vert",        "depthMap.frag"},
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "ttfFont.vert",         "ttfFont.frag"},
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "justColor.vert",       "justColor.frag"},
-//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag"},
 //	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "shadowMap.vert",       "shadowMap.frag"},
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "geometry_pass.vert",   "geometry_pass.frag"},
 	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "lightPass.vert",       "lightPass.frag"},
@@ -218,24 +218,18 @@ bool gl_setShaderVars ( int whichShader )
 			gl_getAttribVariable ( whichShader, ( char * ) "fontColor", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
 			break;
 
-		/*
-					case SHADER_PHYSIC_DEBUG:
-						//
-						// Get the ID to store the vertex color value in
-						gl_getAttribVariable(whichShader, (char *)"debugColor", gl_getShaderName(whichShader), &shaderProgram[whichShader].inColorID);
-						break;
-		*/
+		case SHADER_PHYSIC_DEBUG:
+			//
+			// Get the ID to store the vertex color value in
+			gl_getAttribVariable ( whichShader, ( char * ) "debugColor", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
+			break;
+			
 		case SHADER_DIR_LIGHT:
 			break;
 
 		case SHADER_GEOMETRY_PASS:
 			break;
 
-		/*
-					case SHADER_SHADOWMAP:
-		//        gl_getShadowMapVariables(whichShader);
-						break;
-		*/
 		case SHADER_POINT_LIGHT:
 			break;
 

@@ -36,6 +36,7 @@ _textureNames		textureNames[] =  	// holds all the information about a texture
 	{"wall"},
 	{"triax_tracks"},
 	{"alltiles"},
+	{"white_square"},
 };
 
 //-----------------------------------------------------------------------------

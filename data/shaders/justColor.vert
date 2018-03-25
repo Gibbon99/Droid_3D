@@ -4,6 +4,7 @@ uniform mat4 u_viewProjectionMat;
 uniform mat4 u_modelMat;
 
 in vec3 inPosition;
+in vec3 inColor;
 
 void main(void)
 {

@@ -11,6 +11,7 @@
 #include "s_shaderLights.h"
 #include "s_assimp.h"
 #include "s_bullet.h"
+#include "s_physicsDebug.h"
 
 _hostScriptFunctions hostVariables[] =
 {
@@ -43,6 +44,7 @@ _hostScriptFunctions hostVariables[] =
 	{"float globalGammaFactor",             &globalGammaFactor},
 	{"float materialShininess",             &materialShininess},
 	{"float bullet_1_speed",                &bullet_1_speed},
+	{"bool g_debugPhysics",					&g_debugPhysics},
 	{"",							        NULL},
 };
 

@@ -25,27 +25,6 @@
 #include "s_doorsBSP.h"
 #include "s_physicsDebug.h"
 
-GLuint mvp_loc;
-GLuint world_loc;
-GLuint light_mvp_loc;
-GLuint light_color_loc;
-GLuint light_pos_loc;
-
-float aspect;
-//glm::mat4 proj_mat = glm::perspective(60.0f, aspect, 0.1f, 100.0f);
-glm::mat4 proj_mat;
-glm::mat4 light_view_mat;
-glm::mat4 cam_view_mat;
-glm::mat4 world_mat;
-glm::mat4 light_mvp_mat;
-glm::mat4 light_view_proj_mat;
-glm::mat4 cam_mvp_mat;
-
-glm::mat4 shadowMat;
-
-glm::mat4 shadowViewMat;
-glm::mat4 shadowProjMat;
-
 bool        drawWireframe = false;
 bool        showGBuffers = false;
 
@@ -68,59 +47,6 @@ void sys_renderModels ( int whichShader )
 	ass_renderMesh ( MODEL_CRATE, whichShader, glm::vec3 ( -210.0, 60.0, 50.0 ), 0.1f, glm::vec3() );
 
 	gam_drawBullets ( whichShader );
-}
-
-//-----------------------------------------------------------------------------
-//
-// Render models to the shadowDepthMap
-void sys_renderToShadowMap ( int whichShader )
-//-----------------------------------------------------------------------------
-{
-//
-// offset matrix that maps from [-1, 1] to [0, 1] range
-	glm::mat4 offsetMat = glm::mat4 (
-	                          glm::vec4 ( 0.5f, 0.0f, 0.0f, 0.0f ),
-	                          glm::vec4 ( 0.0f, 0.5f, 0.0f, 0.0f ),
-	                          glm::vec4 ( 0.0f, 0.0f, 0.5f, 0.0f ),
-	                          glm::vec4 ( 0.5f, 0.5f, 0.5f, 1.0f )
-	                      );
-
-	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
-
-	gl_set3DMode();
-	//
-	// Get shadowDepth map from camera viewpoint
-	cam_look ( gl_lightPos(), gl_lightDir() );
-	//
-	// Pass these to second pass shader
-	shadowViewMat = viewMatrix;
-	shadowProjMat = projMatrix;
-	//
-	// combination of matrices into shadowMat
-	shadowMat = offsetMat * shadowProjMat * shadowViewMat;
-
-	gl_startShadowMap();
-
-	glFrontFace ( GL_CW );
-	//
-	// Clear FBO - not main visible framebuffer
-	glClear ( GL_DEPTH_BUFFER_BIT );
-
-// activate offset for polygons
-	glEnable ( GL_POLYGON_OFFSET_FILL );
-// offset by two units equal to smallest value of change in the shadow map
-// and offset by two units depending on the slope of the polygon
-	glPolygonOffset ( 1.5f, 1.5f );
-
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-
-	sys_renderModels ( whichShader );
-
-	glDisable ( GL_POLYGON_OFFSET_FILL );
-	gl_stopShadowMap();
-	glUseProgram ( 0 );
-
-	glFrontFace ( GL_CCW );
 }
 
 //-----------------------------------------------------------------------------
@@ -161,7 +87,7 @@ void updateScreen ( float interpolate )
 {
 //    char profileText[64];
 
-	glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
+	glClearColor ( 0.0f, 0.0f, 0.6f, 0.0f );
 	glViewport ( 0, 0, winWidth, winHeight );
 	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -231,9 +157,10 @@ void updateScreen ( float interpolate )
 
 			sys_renderToFBO();
 		
-//			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
-
-			bul_drawDebugWorld();
+			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
+			
+			if (true == g_debugPhysics)
+				bul_drawDebugWorld();
 
 			bspDrawAllDoorTriggerZones();
 
@@ -270,11 +197,9 @@ void updateScreen ( float interpolate )
 					lt_renderPointLights ( SHADER_POINT_LIGHT );
 				}
 
-//				bsp_sendLightArrayToShader(SHADER_RENDER_BSP);
+//			TwDraw();
 
-			TwDraw();
-
-			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0 );
+			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
 			ttf_addText ( FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint );
 
 			break;

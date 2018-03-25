@@ -2,14 +2,8 @@
 <CodeLite_Project Name="Droid_3D" Version="10.0.0" InternalType="Console">
   <VirtualDirectory Name="data">
     <VirtualDirectory Name="shaders">
-      <File Name="data/shaders/deferredRendering.vert"/>
-      <File Name="data/shaders/deferredRendering.frag"/>
       <File Name="data/shaders/ttfFont.vert"/>
       <File Name="data/shaders/ttfFont.frag"/>
-      <File Name="data/shaders/shadowMap.vert"/>
-      <File Name="data/shaders/shadowMap.frag"/>
-      <File Name="data/shaders/renderBSP.vert"/>
-      <File Name="data/shaders/renderBSP.frag"/>
       <File Name="data/shaders/pointLight.vert"/>
       <File Name="data/shaders/pointLight.frag"/>
       <File Name="data/shaders/physicsDebug.vert"/>

@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+extern bool	g_debugPhysics;		// Set from script
+
 class GLDebugDrawer : public btIDebugDraw
 {
 	int m_debugMode;

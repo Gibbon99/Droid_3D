@@ -71,6 +71,9 @@ void as_setGameVariables()
 	// BSP collision
 	bspCollisionDetectOn = false;
 	//
+	// Debug physics - show physic objects outlines
+	g_debugPhysics = true;
+	//
 	// Show position of lights in map
 	g_debugLightPos = false;
 	//

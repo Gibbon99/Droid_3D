@@ -9,7 +9,6 @@ layout (location=1) out vec3 NormalOut;
 layout (location=2) out vec3 DiffuseOut;
 
 uniform sampler2D inTexture0;
-//uniform sampler2D inTexture1;
 
 void main()
 {
