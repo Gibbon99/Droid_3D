@@ -30,10 +30,10 @@ void as_setGameVariables()
 	mouseSpeed = 0.01f;
 	//
 	// Player acceleration
-	acceleration = 0.5f;
+	acceleration = 0.2f;
 	//
 	// No faster than this
-	maxSpeed = 2.5f;
+	maxSpeed = 1.5f;
 	//
 	// How much to slowdown by
 	friction = 0.5f;
@@ -58,18 +58,18 @@ void as_setGameVariables()
 	ttf_initLibrary ( fontSizeSmall, 0 );
 
 	gravityX = 0.0f;
-	gravityY = 0.0f;
+	gravityY = -3.0f;
 	gravityZ = 0.0f;
 
 	materialShininess = 140.0f;
 	globalAmbient = 0.3;
 	globalGammaFactor = 0.2;
 	//
-	// Free roam camera
-	cameraLockedToPhysics = true;
-	//
 	// BSP collision
 	bspCollisionDetectOn = false;
+	//
+	// Show the triggers for doors
+	g_debugDoorTriggers = true;
 	//
 	// Debug physics - show physic objects outlines
 	g_debugPhysics = true;

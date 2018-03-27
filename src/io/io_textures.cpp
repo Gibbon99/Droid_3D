@@ -183,12 +183,7 @@ bool io_setupModelTextureMemory ( int numberTextures )
 	if ( NULL == texturesLoaded )
 		RET_FALSE ( "Memory reallocation error for model textures", "" );
 
-	//
-	// Load each texture from the model/mesh information
-	for ( int i = 0; i != numberTextures; i++ )
-		{
-
-		}
+	return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -243,9 +238,6 @@ void io_freeTextureArray()
 bool io_loadAllTextures()
 //-----------------------------------------------------------------------------
 {
-	int totalTextures = 0;
-	int	textureCount = 0;
-
 	if ( false == utilSetupTextureMemory ( NUM_TEXTURES ) )
 		return false;
 

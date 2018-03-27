@@ -10,6 +10,7 @@
 int					numOfDoors;
 int					numOfDoorsDrawn = 0;
 int					numOfDoorsNotDrawn = 0;
+bool				g_debugDoorTriggers;
 
 vector<_doorModel>	doorModels;
 
@@ -286,7 +287,7 @@ static bool					initDone = false;
 
 	// Now render it
 	gl_set3DMode();
-	cam_look ( camPosition, camDirection );
+//	cam_look ( camPosition, camDirection );
 	modelMatrix = glm::mat4();
 
 	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );

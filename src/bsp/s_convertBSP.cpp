@@ -4,7 +4,7 @@
 #include "LinearMath/btGeometryUtil.h"
 
 #include "s_varsBSP.h"
-#include "s_physics.h"
+#include "s_physicsDebug.h"
 #include "s_doorsBSP.h"
 
 //--------------------------------------------------------------------------

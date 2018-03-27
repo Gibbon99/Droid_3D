@@ -339,8 +339,8 @@ extern int              numLeafsNotDrawn;		// Leafs skipped this frame
 #define MAX_ENTITY_STRING_SIZE  64
 #define NUM_TOKEN_KEYS          25
 
-extern      int     g_numEntityKeys;
-extern      int     g_numEntities;
+extern      uint     g_numEntityKeys;
+extern      uint     g_numEntities;
 
 typedef struct
 {

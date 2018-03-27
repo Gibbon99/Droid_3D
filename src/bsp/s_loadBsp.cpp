@@ -466,7 +466,6 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	printf ( "Num doors [ %i ]\n", bsp_findNumOfDoors() );
 
-
 	bspConvertMesh(1.0f);
 
 	// Return a success

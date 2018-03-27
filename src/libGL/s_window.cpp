@@ -7,6 +7,8 @@
 #include "s_physics.h"
 #include "s_bullet.h"
 
+#include "s_camera3.h"
+
 #define API_OPENGL          "gl"
 #define API_OPENGL_ES       "es"
 
@@ -96,7 +98,7 @@ static void libGetMouseButtonCallback ( GLFWwindow* window, int button, int acti
 			if ( GLFW_PRESS == action )
 				if ( GLFW_MOUSE_BUTTON_1 == button )
 					{
-						gam_createBullet ( camDirection, camPosition, bullet_1_speed );
+						gam_createBullet ( cam3_Front, camPosition, bullet_1_speed );
 					}
 
 			break;
@@ -105,7 +107,6 @@ static void libGetMouseButtonCallback ( GLFWwindow* window, int button, int acti
 			break;
 		}
 }
-
 
 //-----------------------------------------------------------------------------
 //

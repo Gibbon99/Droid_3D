@@ -24,7 +24,6 @@
 
 using namespace glm;
 
-
 #include "s_defines.h"
 
 using namespace std;
@@ -39,23 +38,22 @@ using namespace std;
 #include "s_console.h"
 #include "s_camera.h"
 
-extern char		    returnStr[MAX_STRING_SIZE];
+extern char				returnStr[MAX_STRING_SIZE];
 
-extern bool         quitProgram;
+extern bool				quitProgram;
 
-extern int          currentMode;
+extern int				currentMode;
 
-extern int          winWidth;
-extern int          winHeight;
+extern int				winWidth;
+extern int				winHeight;
 
-extern double       freelookMouseX;
-extern double       freelookMouseY;
-extern float        mouseSpeed;
+extern double			freelookMouseX;
+extern double			freelookMouseY;
+extern float			mouseSpeed;
 
-extern bool         verbose;                // Additional logging
+extern bool 			verbose;                // Additional logging
 
-extern char         fontFileName[];       // Max size for font filename
+extern char				fontFileName[];       // Max size for font filename
 
-extern bool        cameraLockedToPhysics;   // Collision detection with physics or free roam camera
 // Change game mode
 void changeMode ( int newMode );

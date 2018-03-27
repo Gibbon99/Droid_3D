@@ -84,10 +84,6 @@ bool initAll()
 			sys_shutdownToSystem();
 		}
 
-
-	cam_setupCamera();
-//	cam_positionCamera ( 0.4f, 10.0f, 60.0f, 0.3f, 11.0f, 53.0f, vecUp.x, vecUp.y, vecUp.z );
-
 	if ( true == io_loadAllTextures() )
 		{
 			con_print ( CON_INFO, true, "Loaded textures." );
@@ -106,12 +102,7 @@ bool initAll()
 	if ( true == bul_startPhysics() )
 		{
 			con_print ( CON_INFO, true, "Physics system started..." );
-
-//        bul_addPhysicsObject(1, 10.0, PHYSICS_OBJECT_BOX, 0.0, glm::vec3(50.0, 25.0, -10.0));
-//            voxelSetupSolid();
-
 		}
-
 	else
 		{
 			con_print ( CON_ERROR, true, "Physics system failed to start." );
@@ -122,9 +113,7 @@ bool initAll()
 	if ( true == gl_initDefRender ( winWidth, winHeight ) )
 		{
 			con_print ( CON_INFO, true, "Forward rendering framebuffer created..." );
-
 		}
-
 	else
 		{
 			gl_stopDefRender();
@@ -138,6 +127,8 @@ bool initAll()
 	lib_initAntBar();
 
 	gl_registerDebugCallback();
+
+//	bul_setPlayerPosition(cam_getPosition(), glm::vec3(0.0, 0.0, 0.0));
 
 	return true;
 }

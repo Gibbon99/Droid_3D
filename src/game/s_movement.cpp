@@ -25,9 +25,6 @@ glm::vec3   previousViewPosition;		// The view from the last movement
 void gam_processPlayerMovement ( float interpolate )
 //-----------------------------------------------------------------------------
 {
-	previousCamPosition = camPosition;
-	previousViewPosition = camDirection;
-
 //
 // Move LEFT
 	if ( true == keyLeftDown )
@@ -41,9 +38,7 @@ void gam_processPlayerMovement ( float interpolate )
 							currentRightSpeed = 0.0f;
 							currentLeftSpeed = 0.0f;
 						}
-
 				}
-
 			else
 				{
 					currentLeftSpeed += acceleration * interpolate;
@@ -53,7 +48,7 @@ void gam_processPlayerMovement ( float interpolate )
 				}
 
 			cameraMoved = true;
-			cam_strafeCamera ( -currentLeftSpeed );
+			cam_strafeCamera ( -currentLeftSpeed, interpolate );
 		}
 
 //
@@ -81,7 +76,7 @@ void gam_processPlayerMovement ( float interpolate )
 				}
 
 			cameraMoved = true;
-			cam_strafeCamera ( currentRightSpeed );
+			cam_strafeCamera ( currentRightSpeed, interpolate );
 		}
 
 //
@@ -186,7 +181,7 @@ void gam_processPlayerMovement ( float interpolate )
 						currentLeftSpeed = 0.0f;
 
 					cameraMoved = true;
-					cam_strafeCamera ( -currentLeftSpeed );
+					cam_strafeCamera ( -currentLeftSpeed, interpolate );
 				}
 		}
 
@@ -202,16 +197,14 @@ void gam_processPlayerMovement ( float interpolate )
 						currentRightSpeed = 0.0f;
 
 					cameraMoved = true;
-					cam_strafeCamera ( currentRightSpeed );
+					cam_strafeCamera ( currentRightSpeed, interpolate );
 				}
 		}
 
 	if ( true == keyUpDown )
-//        gl_moveLightPos(glm::vec3(0.0, -0.1, 0.0));
 		cam_moveCameraYPos ( 1.0f, interpolate );
 
 	if ( true == keyDownDown )
-//        gl_moveLightPos(glm::vec3(0.0, 0.1, 0.0));
 		cam_moveCameraYPos ( -1.0f, interpolate );
 
 	//
@@ -219,15 +212,13 @@ void gam_processPlayerMovement ( float interpolate )
 	if ( true == bspCollisionDetectOn )
 		{
 			testCollisionWithBSP = false;
-			cam_resolveCollisions();
-
+			//cam_resolveCollisions();
 		}
-
 	else
 		{
-			cam_moveTo ( camPosition + wantedCamPosition );
+//			cam_moveTo ( camPosition + wantedCamPosition );
 		}
 
-	wantedCamCopy = wantedCamPosition;
-	wantedCamPosition = glm::vec3 ( 0.0 );
+//	wantedCamCopy = wantedCamPosition;
+//	wantedCamPosition = glm::vec3 ( 0.0 );
 }

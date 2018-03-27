@@ -24,7 +24,9 @@
 #include "s_bullet.h"
 #include "s_doorsBSP.h"
 #include "s_physicsDebug.h"
+#include "s_camera2.h"
 
+#include "s_camera3.h"
 bool        drawWireframe = false;
 bool        showGBuffers = false;
 
@@ -156,25 +158,26 @@ void updateScreen ( float interpolate )
 			lib_setMouseCursor ( false );
 
 			sys_renderToFBO();
-		
+
 			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
-			
-			if (true == g_debugPhysics)
+
+			if ( true == g_debugPhysics )
 				bul_drawDebugWorld();
 
-			bspDrawAllDoorTriggerZones();
+			if ( true == g_debugDoorTriggers )
+				bspDrawAllDoorTriggerZones();
 
 			sys_renderModels ( SHADER_GEOMETRY_PASS );
-			
 
-			if (true == g_debugLightPos)
-			{
-				for ( int i = 0; i != numOfLights; i++ )
-					{
-						drawLightPos ( SHADER_COLOR, allLights[i].position );
-						drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
-					}
-			}
+
+			if ( true == g_debugLightPos )
+				{
+					for ( int i = 0; i != numOfLights; i++ )
+						{
+							drawLightPos ( SHADER_COLOR, allLights[i].position );
+							drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
+						}
+				}
 
 
 			glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
@@ -201,17 +204,15 @@ void updateScreen ( float interpolate )
 
 			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
 			ttf_addText ( FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint );
-
-			break;
-
-		default:
-			break;
+			ttf_addText ( FONT_SMALL, 0.0f, 36.0f, "cam3_Yaw [ %3.3f ] Pitch [ %3.3f ]", cam3_Yaw, cam3_Pitch);
+			ttf_addText ( FONT_SMALL, 0.0f, 54.0f, "cam3_Position[ %3.3f %3.3f %3.3f ]", cam3_Position.x, cam3_Position.y, cam3_Position.z );
+			ttf_addText ( FONT_SMALL, 0.0f, 80.0f, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
 		}
+			//
+			// Render all text in VBO memory
+			gl_set2DMode();
+			ttf_displayText ( FONT_SMALL );
 
-	//
-	// Render all text in VBO memory
-	gl_set2DMode();
-	ttf_displayText ( FONT_SMALL );
-
-	lib_swapBuffers();
+			lib_swapBuffers();
+		
 }

@@ -11,8 +11,6 @@
 #include "s_entitiesBSP.h"
 #include "s_shaderLights.h"
 
-static bool	lightSphereCreated = false;
-
 GLuint	m_diffuseID;
 GLuint	m_positionID;
 GLuint	m_normalsID;
@@ -88,13 +86,8 @@ void lt_renderFullscreenQuad ( int whichShader )
 	glm::vec2			quadVerts[4];
 	static GLuint		vao = -1;
 	static GLuint		buffers[2];
-	int					faceCount = 2;
-
-	unsigned int vertsTriggerIndex[] =
-	{
-		0,1,2,0,2,3,
-	};
-
+	static bool			initDone = false;
+	
 	quadVerts[0].x = -1.0f;
 	quadVerts[0].y = -1.0f;
 
@@ -115,7 +108,7 @@ void lt_renderFullscreenQuad ( int whichShader )
 		0.0, 1.0,
 	};
 
-	if ( vao == -1 )
+	if ( false == initDone )
 		{
 			// create the VAO
 			GL_ASSERT ( glGenVertexArrays ( 1, &vao ) );
@@ -137,6 +130,8 @@ void lt_renderFullscreenQuad ( int whichShader )
 			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( quadTexCoords ), quadTexCoords, GL_DYNAMIC_DRAW ) );
 			GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
 			GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) ) );
+			
+			initDone = true;
 		}
 
 	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );

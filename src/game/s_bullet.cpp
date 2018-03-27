@@ -124,7 +124,7 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 					bullet[i].lightIndex = bsp_addNewLight ( glm::vec3 ( 255.0f, 0.0f, 0.0f ), LIGHT_POINT, LIGHT_POINT );
 					bullet[i].physicsIndex = bul_addPhysicsObject(i, 2.0f, PHYSICS_OBJECT_BOX, 1.0f, position);
 					
-					phy_applyMovement(bullet[i].physicsIndex, 250.0f, bullet[i].direction);
+					bul_applyMovement(bullet[i].physicsIndex, 250.0f, bullet[i].direction);
 
 					return;
 				}

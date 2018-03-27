@@ -1,8 +1,11 @@
 #include "s_camera.h"
 #include "s_varsBSP.h"
+#include "s_physics.h"
+#include "s_camera2.h"
+#include "s_camera3.h"
 
-int     g_numEntities = 0;
-int     g_numEntityKeys = 0;
+uint     g_numEntities = 0;
+uint     g_numEntityKeys = 0;
 
 //-------------------------------------------------------------------------------
 //
@@ -10,8 +13,7 @@ int     g_numEntityKeys = 0;
 bool bsp_setupEntities()
 //-------------------------------------------------------------------------------
 {
-
-	int i, j;
+	uint i, j;
 	char tempEntityStr[256];
 
 	//
@@ -29,10 +31,10 @@ bool bsp_setupEntities()
 	if ( NULL == m_pEntitiesStruct )
 		sysErrorFatal ( __FILE__, __LINE__, "Memory error: q3bspFindNumEntities: Malloc failed" );
 
-	int numOfEntities = 0;
+	uint numOfEntities = 0;
 	int charCount = 0;
 
-	for ( i = 0; i < ( int ) strlen ( m_pEntities ); i++ )
+	for ( i = 0; i < strlen ( m_pEntities ); i++ )
 		{
 			m_pEntitiesStruct[numOfEntities].value[charCount] = m_pEntities[i];
 			charCount++;
@@ -344,6 +346,7 @@ int bsp_findEntityInfo ( char *entityStr, char *entityKey, glm::vec3 *entityValu
 						}
 				}
 		}
+	return 0;
 }
 
 
@@ -385,69 +388,6 @@ char *bsp_findEntityInfoString ( char *entityStr, char *entityKey, int whichSetI
 	return "Error";
 }
 
-/*
-
-// ---------------------------------------------------------------------------
-//
-// Get the number of models in the level
-int bsp_entityGetNumDoors()
-// ---------------------------------------------------------------------------
-{
-	glm::vec3	originCoords;
-	int			doorCount = 0;
-	int i, j;
-
-	// See if we need to free the memory or not on reload
-	if (doorModels)
-	{
-		free(doorModels);
-		doorModels = NULL;
-	}
-
-    doorCount = q3bspGetNumEntities("func_door");
-    if (0 == doorCount)
-        return 0;
-
-	doorModels = (_doorModel *)malloc(sizeof(_doorModel) * (doorCount + 1));
-	if (NULL == doorModels)
-		sysErrorFatal(__FILE__, __LINE__, "Memory allocation failure for [ bspEntityGetNumDoors ]");
-
-   //
-    // Get all the ID's for each entity
-    q3bspResetEntitySearchFlag();
-    for (i = 0; i != doorCount; i++)
-    {
-        doorModels[i].setID = q3bspGetEntitySetID("func_door", true);
-        if (true == verbose)
-            logToFile("Door [ %i ] - setID [ %i ]", i, doorModels[i].setID);
-    }
-
-    char tempKey[16];
-
-    strcpy(tempKey, "model");
-
-    q3bspResetEntitySearchFlag();
-	int index = 0;
-	for (i = 0; i != doorCount; i++)
-	{
-		bsp_findEntityInfo("func_door", tempKey, &originCoords, doorModels[i].setID, VAR_TYPE_TEXT);
-		{
-		    if (true == verbose)
-                con_print (CON_INFO, true, "Door [ %i ] is model index [ %s ]", index, tempKey);
-			tempKey[0] = ' ';
-			doorModels[index].ptrModel = atoi(tempKey);
-			if (true == verbose)
-                con_print (CON_INFO, true, "Door [ %i ] ptrModel [ %i ]", index, doorModels[index].ptrModel);
-			index++;
-			strcpy(tempKey, "model");
-		}
-	}
-
-	return doorCount;
-}
-
-*/
-
 // ---------------------------------------------------------------------------
 //
 // Find the passed in entity and move the camera to it's origin
@@ -478,19 +418,26 @@ int bsp_placeCameraAtEntity ( char *param1 )
 
 	else
 		{
-// TODO (dberry#1#): Check if this needs to be swapped - do we need to swap all entities - or just models
-			/*
-				temp = originCoords.y;
-				originCoords.y = originCoords.z;
-				originCoords.z = -temp;
-			*/
+
 			if ( true == verbose )
 				con_print ( CON_INFO, true, "origin [ %4.2f ] [ %4.2f ] [ %4.2f ]", originCoords.x, originCoords.y, originCoords.z );
 
-			cam_positionCamera ( originCoords.x, originCoords.y, originCoords.z,
-			                     originCoords.x, originCoords.y, originCoords.z - 1,
-			                     0.0f, 1.0f, 0.0f );
+//
+// TODO: Get orientation of player_info_start
+//
+			glm::vec3 rotation (0.0f, 0.0f, 0.0f);
 
+//			cam_initCamera(originCoords, rotation);
+			// Init the camera with known values
+			cam3_initCamera ( originCoords );
+			bul_setPlayerPosition(originCoords, rotation);
+/*
+			cam_positionCamera ( originCoords.x, originCoords.y, originCoords.z,
+			                     orientation.x, orientation.y, orientation.z,
+			                     0.0f, 1.0f, 0.0f );			
+			
+			bul_setPlayerPosition(originCoords, orientation);
+*/
 			return 1;
 		}
 

@@ -131,16 +131,17 @@ void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, in
 {
 	static GLuint			lineVAO = -1;
 	static GLuint			lineVBO = -1;
-	static GLuint			lineColorVBO = -1;
-
+	static bool				initDone = false;
+	
 	glm::vec3		lineCoords[2];
 
 	glm::mat4 		scaleMatrix;
 
-	if ( -1 == lineVAO )
+	if (false == initDone )
 		{
 			GL_ASSERT ( glGenVertexArrays 	( 1, &lineVAO ) );
 			GL_ASSERT ( glGenBuffers 		( 1, &lineVBO ) );
+			initDone = true;
 		}
 
 	switch ( drawType )

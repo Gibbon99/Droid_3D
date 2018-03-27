@@ -12,6 +12,7 @@
 #include "s_assimp.h"
 #include "s_bullet.h"
 #include "s_physicsDebug.h"
+#include "s_doorsBSP.h"
 
 _hostScriptFunctions hostVariables[] =
 {
@@ -34,7 +35,6 @@ _hostScriptFunctions hostVariables[] =
 	{"float gravityX",                      &gravityX},
 	{"float gravityY",                      &gravityY},
 	{"float gravityZ",                      &gravityZ},
-	{"bool cameraLockedToPhysics",          &cameraLockedToPhysics},
 	{"bool showGBuffers",                   &showGBuffers},
 	{"bool bspCollisionDetectOn",           &bspCollisionDetectOn},
 	{"bool g_lockMouse",                    &g_lockMouse},
@@ -45,6 +45,7 @@ _hostScriptFunctions hostVariables[] =
 	{"float materialShininess",             &materialShininess},
 	{"float bullet_1_speed",                &bullet_1_speed},
 	{"bool g_debugPhysics",					&g_debugPhysics},
+	{"bool g_debugDoorTriggers",			&g_debugDoorTriggers},
 	{"",							        NULL},
 };
 
@@ -82,7 +83,7 @@ int util_getVariableIndex ( string whichVar )
 	int 		typeID;
 	string 		variableName;
 
-	for ( int i = 0; i < ( asUINT ) scriptEngine->GetGlobalPropertyCount(); i++ )
+	for ( uint i = 0; i < ( asUINT ) scriptEngine->GetGlobalPropertyCount(); i++ )
 		{
 			scriptEngine->GetGlobalPropertyByIndex ( i, &name, 0, &typeID );
 			variableName = name;

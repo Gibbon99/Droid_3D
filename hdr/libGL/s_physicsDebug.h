@@ -53,3 +53,10 @@ private:
 // Show wireframe outlines of physics shapes
 void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines );
 
+// Create debug line information
+void bul_enableDebug ( bool performDebug );
+
+// Draw debug physics world
+void bul_drawDebugWorld();
+
+extern GLDebugDrawer		debugDrawer;

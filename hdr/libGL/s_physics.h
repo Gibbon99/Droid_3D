@@ -14,6 +14,8 @@ extern float        gravityX;
 extern float        gravityY;
 extern float        gravityZ;
 
+extern btDiscreteDynamicsWorld*                dynamicsWorld;
+
 // Start Physics system
 bool bul_startPhysics();
 
@@ -25,9 +27,6 @@ void bul_processPhysics ( btScalar physicsTime );
 
 // Set gravity to current values in gravity variables
 bool bul_setGravity();
-
-// Create debug line information
-void bul_enableDebug ( bool performDebug );
 
 // Return position of the camera after physics world processed
 glm::vec3   bul_returnCameraPosition();
@@ -45,7 +44,7 @@ glm::vec3 phy_getObjectPosition ( int index );
 void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btAlignedObjectArray<btVector3>& vertices );
 
 // Apply a force to a physics object
-void phy_applyMovement(int index, float applyAmount, glm::vec3 direction);
+void bul_applyMovement(int index, float applyAmount, glm::vec3 direction);
 
-// Draw debug physics world
-void bul_drawDebugWorld();
+// Set player rigid body to the same location as the camera
+void bul_setPlayerPosition(glm::vec3 position, glm::vec3 orientation);

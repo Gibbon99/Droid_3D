@@ -5,12 +5,36 @@
 #include "io_textures.h"
 #include <vector>
 
-bool	g_debugPhysics;		// Set from script
+bool				g_debugPhysics;		// Set from script
+
+GLDebugDrawer		debugDrawer;
 
 GLDebugDrawer::GLDebugDrawer()
 //    :m_debugMode(0)
 {
 
+}
+
+//------------------------------------------------------------
+//
+// Draw debug physics world
+void bul_drawDebugWorld()
+//------------------------------------------------------------
+{
+	dynamicsWorld->debugDrawWorld();
+	bul_drawDebugLines ( debugDrawer.GetLines() );
+}
+
+//------------------------------------------------------------
+//
+// Enable / Disable debug line information
+void bul_enableDebug ( bool performDebug )
+//------------------------------------------------------------
+{
+	if ( true == performDebug )
+		debugDrawer.setDebugMode ( 1 );
+	else
+		debugDrawer.setDebugMode ( 0 );
 }
 
 //------------------------------------------------------------
@@ -69,8 +93,6 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 	int		whichShader = SHADER_PHYSIC_DEBUG;
 
 	unsigned int indexI = 0;
-
-GLfloat	lineTexCoords[] = { 0.0, 0.0, 1.0, 1.0};
 
 	if ( false == initDone )
 		{

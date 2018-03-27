@@ -59,6 +59,7 @@ extern vector<_doorModel>	doorModels;
 extern int					numOfDoors;
 extern int					numOfDoorsDrawn;
 extern int					numOfDoorsNotDrawn;
+extern bool					g_debugDoorTriggers;
 
 // Get the number of doors in the level
 int bsp_findNumOfDoors();

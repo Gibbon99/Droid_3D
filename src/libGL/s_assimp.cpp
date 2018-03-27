@@ -219,7 +219,7 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 		{
 			float *vertices = new float[mesh->mNumVertices * 3];
 
-			for ( int i = 0; i < mesh->mNumVertices; ++i )
+			for ( uint i = 0; i < mesh->mNumVertices; ++i )
 				{
 					vertices[i * 3] = mesh->mVertices[i].x;
 					vertices[i * 3 + 1] = mesh->mVertices[i].y;
@@ -385,7 +385,7 @@ bool ass_loadModel ( int whichModel, std::string fileName, float scaleFactor )
 
 	importer.SetPropertyInteger ( AI_CONFIG_PP_RVC_FLAGS, aiComponent_NORMALS );
 
-	const aiScene *scene = importer.ReadFile ( fileName, aiProcess_RemoveComponent | aiProcess_Triangulate |  aiProcess_GenSmoothNormals | aiProcess_FlipUVs );
+	aiScene *scene = importer.ReadFile ( fileName, aiProcess_RemoveComponent | aiProcess_Triangulate |  aiProcess_GenSmoothNormals | aiProcess_FlipUVs );
 
 	if ( !scene )
 		{

@@ -16,10 +16,10 @@ glm::vec3 STEP_UP ( 0,PLAYER_BOUNDING_SPHERE_RADIUS * 1.5,0 );
 glm::vec3 	camPosition =       glm::vec3 ( 0.0 );
 glm::vec3	camDirection =      glm::vec3 ( 0.0 );
 glm::vec3	wantedCamPosition = glm::vec3 ( 0.0 );
-glm::vec3	wantedCamCopy =     glm::vec3 ( 0.0 );
+glm::vec3	camView =		    glm::vec3 ( 0.0 );
 glm::vec3   vecUp =             glm::vec3 ( 0.0 );
 glm::vec3   camStrafe =         glm::vec3 ( 0.0 );
-
+glm::vec3	camVelocity = 		glm::vec3 ( 0.0 );
 glm::vec3	boxMin;
 glm::vec3	boxMax;
 
@@ -45,6 +45,8 @@ void camRotateView ( float angle, float x, float y, float z )
 	// Get the view vector (The direction we are facing)
 	glm::vec3 vView = camDirection - camPosition;
 
+	camView = camDirection - camPosition;
+	
 	// Calculate the sine and cosine of the angle once
 	float cosTheta = ( float ) cos ( angle );
 	float sinTheta = ( float ) sin ( angle );
@@ -120,29 +122,10 @@ void cam_setViewByMouse ( float x, float y )
 
 //-----------------------------------------------------------------------------
 //
-// Called to point the camera vectors in the right direction
-void cam_setupCamera()
-//-----------------------------------------------------------------------------
-{
-	glm::vec3 vZero = glm::vec3 ( 0.0, 0.0, 0.0 );		// Init a vVector to 0 0 0 for our position
-	glm::vec3 vView = glm::vec3 ( 0.0, 1.0, 0.5 );		// Init a starting view vVector (looking up and out the screen)
-	glm::vec3 vUp   = glm::vec3 ( 0.0, 1.0, 0.0 );		// Init a standard up vVector (Rarely ever changes)
-
-	camPosition		= vZero;					// Init the position to zero
-	camDirection	= vView;					// Init the view to a std starting view
-	vecUp			= vUp;						// Init the UpVector
-}
-
-
-
-//-----------------------------------------------------------------------------
-//
 //	Try to make a step up and if possible, move on or slide
 bool cam_tryMove ( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 //-----------------------------------------------------------------------------
 {
-#define BOX_SIZE        15
-
 	sMoveData   md;
 
 	glm::vec3   boxMin, boxMax;
@@ -212,7 +195,11 @@ bool cam_tryMove ( glm::vec3 vFrom, glm::vec3 vMoveToVector )
 void cam_moveTo ( glm::vec3 newPosition )
 //-----------------------------------------------------------------------------
 {
-	camDirection = camDirection + ( newPosition - camPosition ); // - camPosition;
+	return;
+	camDirection = camDirection + ( newPosition - camPosition );
+	
+	camDirection = glm::normalize(camDirection);
+	
 	camPosition = newPosition;
 }
 
@@ -222,11 +209,12 @@ void cam_moveTo ( glm::vec3 newPosition )
 void cam_moveCamera ( float speed, float interpolate )
 //-----------------------------------------------------------------------------
 {
+	return;
 	glm::vec3 deltha;
 
 	// Get the current view vector (the direction we are looking)
 	deltha = camDirection - camPosition;
-
+	
 	deltha = glm::normalize ( deltha ) * ( speed * interpolate );
 
 	wantedCamPosition.x = wantedCamPosition.x + deltha.x;
@@ -236,29 +224,27 @@ void cam_moveCamera ( float speed, float interpolate )
 //-----------------------------------------------------------------------------
 //
 //	This strafes the camera left and right depending on the speed (-/+)
-void cam_strafeCamera ( float speed )
+void cam_strafeCamera ( float speed, float interpolate )
 //-----------------------------------------------------------------------------
 {
+	return;
 	// Try to move in that direction
-	wantedCamPosition = wantedCamPosition + ( camStrafe * speed );
+	wantedCamPosition = wantedCamPosition + ( camStrafe * (speed * interpolate));
 }
 
 //-----------------------------------------------------------------------------
 //
 //	This updates the camera's view and strafe vector
-void cam_update ( float interpolate )
+void cam_updateStrafe ( float interpolate )
 //-----------------------------------------------------------------------------
 {
+	return;
 	// Initialize a variable for the cross product result
-	glm::vec3 vCross = glm::cross ( camDirection - camPosition, vecUp );
+//	glm::vec3 vCross = glm::cross ( camDirection - camPosition, vecUp );
+	glm::vec3 vCross = glm::cross ( camView, vecUp );
 
 	// Normalize the strafe vector
 	camStrafe = glm::normalize ( vCross );
-
-//	camDoGravity();
-
-	// This checks to see if the keyboard was pressed
-	gam_processPlayerMovement ( interpolate );
 }
 
 //-----------------------------------------------------------------------------
@@ -301,11 +287,10 @@ void cam_positionCamera (     float positionX, float positionY, float positionZ,
 	// The code above just makes it cleaner to set the variables.
 	// Otherwise we would have to set each variable x y and z.
 
-	camPosition     = vPosition;					// Assign the position
-	camDirection    = vView;						// Assign the view
-	vecUp           = vUpVector;					// Assign the up vector
-//	wantedCamPosition = vPosition;
-	wantedCamPosition = glm::vec3 ( 0.0 );
+	camPosition			= vPosition;					// Assign the position
+	camDirection		= vView;						// Assign the view
+	vecUp				= vUpVector;					// Assign the up vector
+	wantedCamPosition	= vPosition;
 }
 
 //-----------------------------------------------------------------------------

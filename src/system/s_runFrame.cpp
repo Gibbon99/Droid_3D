@@ -10,6 +10,8 @@
 #include "s_bullet.h"
 #include "s_doorsBSP.h"
 
+#include "s_camera2.h"
+#include "s_camera3.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -30,44 +32,27 @@ void gameTickRun ( float interpolate )
 
 		case MODE_GAME:
 
-//                cam_update( interpolate );
-//                cam_moveTo( wantedCamPosition );      // Handle BSP collision event here - modify wantedCamPosition if required
+			cam3_processMouseMovement ( freelookMouseX, freelookMouseY, true );
+			cam3_processMovementKeys ( interpolate );
+			
+			// Return the direction vector and turn this into velocity for physics
+			bul_setCameraVelocity(cam3_getVelocity());
 
-cameraLockedToPhysics = true;
+			bul_processPhysics ( 30.0f );
 
-			if ( true == cameraLockedToPhysics )
-				{
-					//vel.y += gravityY;
-					bul_setCameraVelocity ( ( wantedCamPosition ) );
-				}
+			vel = bul_returnCameraPosition();
 
-				bul_setGravity();
-				bul_processPhysics(30.0f);
+			cam3_Position = vel;
+			camPosition = vel + cam3_Front;
+			
+			cam3_CreateViewMatrix(cam3_Position);
 
-			if ( true == cameraLockedToPhysics )
-				{
-					vel = bul_returnCameraPosition();   // Get position after running physics
-					
-					btTransform trans;
-					doorModels[1].rigidBody->getMotionState()->getWorldTransform(trans);
-					printf("Door [ %i ] Pos [ %4.2f %4.2f %4.2f ] \n", 1, trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() );
-					
-					vel.y = 0;
-					wantedCamPosition = vel;
-					cam_update ( interpolate );
-				}
+			/*
+								btTransform trans;
+								doorModels[1].rigidBody->getMotionState()->getWorldTransform(trans);
+								printf("Door [ %i ] Pos [ %4.2f %4.2f %4.2f ] \n", 1, trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() );
+				*/
 
-			else
-				{
-					cam_update ( interpolate );
-				}
-
-			cam_look ( camPosition, camDirection );
-
-			cam_setViewByMouse ( freelookMouseX, freelookMouseY );
-
-//				bsp_processLightEffect(interpolate);
-//				shadowMoveLight(interpolate);
 			gam_processBulletMovement ( interpolate );
 			bsp_checkPlayerVsTrigger();
 			bspProcessAllDoorMovements ( interpolate );
