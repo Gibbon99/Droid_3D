@@ -72,9 +72,9 @@ Console : Registered function [ bool ttf_initLibrary(int fontSize, int whichFont
 Console : Registered function [ bool ass_loadModel(int whichModel, string &in, float scaleFactor) ]
 Console : Size of script [ 4066 ] - [ conCommands.as ]
 Console : Number of functions in script [ 3 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -323202736 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -323202736 ]
-Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -323200880 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1980874512 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1980874512 ]
+Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -1980872656 ]
 Console : Err: Failed to get function ID for [ bool ttf_initLibrary() ].
 Console : -----------------------------------------------------------------------
 Console : Vertex shader compiled ok - [ depthMap.vert ]
@@ -269,28 +269,76 @@ Console : Model [ 4 ] : Texture ID [ -1 ]
 Console : Physics system started...
 Console : Forward rendering framebuffer created...
 Console : BSP [ IBSP. ] Version [ 46 ]
-Console : Texture [ 0 ] - [ textures/e1u1/ggrat4_2 ] flag [ 1 ]
-Console : Texture [ 1 ] - [ textures/NULL ] flag [ 1 ]
-Console : Texture [ 2 ] - [ textures/common/caulk ] flag [ 1 ]
+Console : Texture [ 0 ] - [ textures/backgrounds/whirlpool ] flag [ 1 ]
+Console : Texture [ 1 ] - [ textures/backgrounds/earth-horizon ] flag [ 1 ]
 Console : Lightmap ID [ 16 ] created.
-Console : Info for loaded BSP file [ cube.bsp ]
-Console : numVerts [ 452 ] numFaces [ 76 ] numTextures [ 3 ] numLightmaps [ 1 ]
-Console : numMeshIndexes [ 522 ] nodes [ 95 ] leafs [ 99 ] leafFaces [ 394 ] planes [ 120 ]
-Console : leafBrushes [ 113 ] brushes [ 47 ] brushSides [ 283 ]
+Console : Info for loaded BSP file [ test.bsp ]
+Console : numVerts [ 81 ] numFaces [ 17 ] numTextures [ 2 ] numLightmaps [ 1 ]
+Console : numMeshIndexes [ 60 ] nodes [ 28 ] leafs [ 31 ] leafFaces [ 50 ] planes [ 42 ]
+Console : leafBrushes [ 43 ] brushes [ 10 ] brushSides [ 60 ]
 Console : ---------------------------------------------------------------
-Console : Found [ 14 ] entities.
-Console : Number of keys in Entities [ 14 ]
-Console : numEntityKeys = [ 218 ]
+Console : Found [ 3 ] entities.
+Console : Number of keys in Entities [ 3 ]
+Console : numEntityKeys = [ 16 ]
 Console : Got memory for token list.
 Console : Finished setting up keys into tokens
 Console : Looking for [ info_player_start ]
-Console : origin [ 144.00 ] [ 64.00 ] [ 8.00 ]
+Console : origin [ 24.00 ] [ -344.00 ] [ -0.00 ]
 Console : Door model [ *1 ]
 Console : Door [ 0 ] ptrModel [ 1 ]
-Console : Door model [ *2 ]
-Console : Door [ 1 ] ptrModel [ 2 ]
 Console : Door [ 0 ] numVerts [ 36 ]
-Console : Door [ 1 ] numVerts [ 36 ]
+Console : Added physics for door [ 0 ]
+Console : MLeaf [ 1 ] Brush [ 0 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 1 ] Brush [ 1 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 1 ] Brush [ 2 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 2 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 2 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 3 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 5 ] Brush [ 0 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 5 ] Brush [ 1 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 6 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 9 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 9 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 9 ] Brush [ 2 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 10 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 10 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 10 ] Brush [ 2 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 11 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 11 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 13 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 15 ] Brush [ 0 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 16 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 18 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 19 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 19 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 19 ] Brush [ 2 ] Brush textureID [ -1 ]
+Console : MLeaf [ 20 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 20 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 20 ] Brush [ 2 ] Brush textureID [ 0 ]
+Console : Added physics for non-door objects.
+Console : MLeaf [ 21 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 21 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 23 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 24 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 24 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 24 ] Brush [ 2 ] Brush textureID [ -1 ]
+Console : MLeaf [ 25 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 25 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 25 ] Brush [ 2 ] Brush textureID [ -1 ]
+Console : MLeaf [ 27 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 28 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 28 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 29 ] Brush [ 0 ] Brush textureID [ -1 ]
+Console : MLeaf [ 29 ] Brush [ 1 ] Brush textureID [ -1 ]
+Console : MLeaf [ 29 ] Brush [ 2 ] Brush textureID [ -1 ]
 Console : ID [ 44 ]
 Console : source [ Shader compiler ]
 Console : type [ Other ]
@@ -341,8 +389,3 @@ Console : source [ Shader compiler ]
 Console : type [ Other ]
 Console : severity [ Notification ]
 Console : debug call [ FS SIMD16 shader: 6 inst, 0 loops, 34 cycles, 0:0 spills:fills, Promoted 0 constants, compacted 96 to 96 bytes. ]
-Log file closed:
-Unknown	Unknown
------------------------------------------------------------------------------
-
-

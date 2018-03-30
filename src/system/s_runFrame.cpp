@@ -10,7 +10,6 @@
 #include "s_bullet.h"
 #include "s_doorsBSP.h"
 
-#include "s_camera2.h"
 #include "s_camera3.h"
 
 //-----------------------------------------------------------------------------
@@ -48,10 +47,10 @@ void gameTickRun ( float interpolate )
 			cam3_CreateViewMatrix(cam3_Position);
 
 			/*
-								btTransform trans;
-								doorModels[1].rigidBody->getMotionState()->getWorldTransform(trans);
-								printf("Door [ %i ] Pos [ %4.2f %4.2f %4.2f ] \n", 1, trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() );
-				*/
+			btTransform trans;
+			doorModels[1].rigidBody->getMotionState()->getWorldTransform(trans);
+			printf("Door [ %i ] Pos [ %4.2f %4.2f %4.2f ] \n", 1, trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() );
+			*/
 
 			gam_processBulletMovement ( interpolate );
 			bsp_checkPlayerVsTrigger();

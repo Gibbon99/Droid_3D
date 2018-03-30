@@ -21,15 +21,30 @@ btCollisionShape*                       playerShape;
 btDefaultMotionState*                   playerMotionState;
 btRigidBody*                            playerRigidBody;
 btScalar                                playerMass = 0.2f;
+btScalar								playerMaxSpeed = 20.0f;
 
 vector<_physicsObject>					physicsObjects;
 
+//------------------------------------------------------------
+//
+// Tick Callback to limit velocity of player
+void limitPlayerVelocityCallback ( btDynamicsWorld *world, btScalar timeStep )
+//------------------------------------------------------------
+{
+	btVector3 velocity = playerRigidBody->getLinearVelocity();
+	btScalar speed = velocity.length();
+	if ( speed > playerMaxSpeed )
+		{
+			velocity *= playerMaxSpeed / speed;
+			playerRigidBody->setLinearVelocity ( velocity );
+		}
+}
 
 //------------------------------------------------------------
 //
 // Get position for physics object by index
 glm::vec3 phy_getObjectPosition ( int index )
-//------------------------------------------------------------//class 		bul_applyMovement;
+//------------------------------------------------------------
 
 {
 	btTransform trans;
@@ -64,7 +79,7 @@ glm::vec3 bul_returnCameraPosition()
 void bul_setCameraVelocity ( glm::vec3 camVelocity )
 //------------------------------------------------------------
 {
-	playerRigidBody->clearForces();
+//	playerRigidBody->clearForces();
 
 //	playerRigidBody->setLinearVelocity ( btVector3 ( 0.0, 0.0, 0.0 ) );
 
@@ -104,7 +119,7 @@ void bul_applyMovement ( int index, float applyAmount, glm::vec3 direction )
 {
 	btVector3		application;
 
-	if ( ( index < 0 ) || ( (uint)index > physicsObjects.size() ) )
+	if ( ( index < 0 ) || ( ( uint ) index > physicsObjects.size() ) )
 		return;
 
 	direction = normalize ( direction );
@@ -161,32 +176,32 @@ int bul_addPhysicsObject ( int index, int objectSize, int objectType, float obje
 //------------------------------------------------------------
 //
 // Set player rigid body to the same location as the camera
-void bul_setPlayerPosition(glm::vec3 position, glm::vec3 orientation)
+void bul_setPlayerPosition ( glm::vec3 position, glm::vec3 orientation )
 //------------------------------------------------------------
 {
 	btTransform		newTransform;
-	
-	if (false == physicsEngineStarted)
-	{
-		con_print(CON_ERROR, true, "Error: Physics engine not started. Could not set player position.");
-		return;
-	}
-	
-	newTransform.setOrigin(btVector3(position.x, position.y, position.z));
+
+	if ( false == physicsEngineStarted )
+		{
+			con_print ( CON_ERROR, true, "Error: Physics engine not started. Could not set player position." );
+			return;
+		}
+
+	newTransform.setOrigin ( btVector3 ( position.x, position.y, position.z ) );
 //	newTransform.setRotation(orientation);
 
-	playerRigidBody->setWorldTransform(newTransform);
-	playerMotionState->setWorldTransform(newTransform);
-/*	
-	void LimbBt::reposition(btVector3 position,btVector3 orientation) {
-    btTransform initialTransform;
+	playerRigidBody->setWorldTransform ( newTransform );
+	playerMotionState->setWorldTransform ( newTransform );
+	/*
+		void LimbBt::reposition(btVector3 position,btVector3 orientation) {
+	    btTransform initialTransform;
 
-    initialTransform.setOrigin(position);
-    initialTransform.setRotation(orientation);
+	    initialTransform.setOrigin(position);
+	    initialTransform.setRotation(orientation);
 
-    mBody->setWorldTransform(initialTransform);
-    mMotionState->setWorldTransform(initialTransform);
-*/
+	    mBody->setWorldTransform(initialTransform);
+	    mMotionState->setWorldTransform(initialTransform);
+	*/
 
 }
 //------------------------------------------------------------
@@ -211,7 +226,7 @@ bool bul_startPhysics()
 
 	//
 	// Player collision object
-	playerShape = new btCapsuleShape ( btScalar ( 2.5 ), btScalar ( 4.0f ) );
+	playerShape = new btCapsuleShape ( btScalar ( 1.5 ), btScalar ( 2.0f ) );
 	playerMotionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0, 0, 0 ) ) );
 	btVector3 fallInertiaPlayer ( 0, 0, 0 );
 	playerShape->calculateLocalInertia ( playerMass, fallInertiaPlayer );
@@ -219,11 +234,21 @@ bool bul_startPhysics()
 	btRigidBody::btRigidBodyConstructionInfo playerRigidBodyCI ( playerMass, playerMotionState, playerShape, fallInertiaPlayer );
 	playerRigidBody = new btRigidBody ( playerRigidBodyCI );
 	playerRigidBody->setActivationState ( DISABLE_DEACTIVATION );
-	playerRigidBody->setDamping(0.9999f, 0.9f);
+	playerRigidBody->setDamping ( 0.69f, 0.9f );
+
+	//
+	// Prevent movement in Y direction ( gravity doesn't work )
+	//
+	//playerRigidBody->setLinearFactor(btVector3(1,0,1));
+	//playerRigidBody->setAngularFactor(btVector3(0,1,0));
+
 	dynamicsWorld->addRigidBody ( playerRigidBody );
+
+	dynamicsWorld->setInternalTickCallback ( limitPlayerVelocityCallback );
+
 	//
 	// Stop player collision shape from rotating
-	playerRigidBody->setAngularFactor ( btVector3 ( 0.0, 0.0, 0.0 ) );
+	playerRigidBody->setAngularFactor ( btVector3 ( 1.0f, 1.0f, 1.0f ) );
 
 	//
 	// Point to debug renderer
@@ -287,21 +312,30 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 
 			rigidBody = new btRigidBody ( bspRigidBodyCI );
 			dynamicsWorld->addRigidBody ( rigidBody );
+			
+			con_print(CON_INFO, true, "Added physics for non-door objects.");
 		}
 	else
 		{
+			btScalar		doorMass = 0.9f;
+			
 			// Manage door
 			doorModels[whichDoor].shape = new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
 
 			doorModels[whichDoor].shape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
 
 			btVector3 fallInertia ( 0, 0, 0 );
-			doorModels[whichDoor].shape->calculateLocalInertia ( bspMass, fallInertia );
-
+			doorModels[whichDoor].shape->calculateLocalInertia ( doorMass, fallInertia );
+			
 			doorModels[whichDoor].motionShape = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0.0f, 0.0f, 0.0f ) ) );
-			btRigidBody::btRigidBodyConstructionInfo bspRigidBodyDoor ( bspMass, doorModels[whichDoor].motionShape, doorModels[whichDoor].shape, fallInertia );
+			btRigidBody::btRigidBodyConstructionInfo bspRigidBodyDoor ( doorMass, doorModels[whichDoor].motionShape, doorModels[whichDoor].shape, fallInertia );
 
 			doorModels[whichDoor].rigidBody = new btRigidBody ( bspRigidBodyDoor );
+			
+			doorModels[whichDoor].rigidBody->setGravity(btVector3(0.0f, 0.0f, 0.0f));
+
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
+			
+			con_print(CON_INFO, true, "Added physics for door [ %i ]", whichDoor);
 		}
 }

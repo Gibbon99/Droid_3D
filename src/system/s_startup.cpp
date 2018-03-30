@@ -122,7 +122,7 @@ bool initAll()
 //            sys_shutdownToSystem();
 		}
 
-	bsp_loadBSP ( "cube.bsp", true );
+	bsp_loadBSP ( "test.bsp", true );
 
 	lib_initAntBar();
 

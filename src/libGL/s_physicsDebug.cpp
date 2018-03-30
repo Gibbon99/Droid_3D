@@ -94,37 +94,45 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 
 	unsigned int indexI = 0;
 
+	vertices.clear();
+	color.clear();
+	indices.clear();
+	texCoords.clear();
+
+	//
+	// Extract vertice and color information from lines
+	for ( vector<GLDebugDrawer::LINE>::iterator it = lines.begin(); it != lines.end(); it++ )
+		{
+			GLDebugDrawer::LINE l = ( *it );
+
+			vertices.push_back ( l.a.x );
+			vertices.push_back ( l.a.y );
+			vertices.push_back ( l.a.z );
+			vertices.push_back ( l.b.x );
+			vertices.push_back ( l.b.y );
+			vertices.push_back ( l.b.z );
+
+			color.push_back ( l.color.r );
+			color.push_back ( l.color.g );
+			color.push_back ( l.color.b );
+			color.push_back ( l.color.r );
+			color.push_back ( l.color.g );
+			color.push_back ( l.color.b );
+
+			texCoords.push_back ( 0.0f );
+			texCoords.push_back ( 0.0f );
+			texCoords.push_back ( 1.0f );
+			texCoords.push_back ( 1.0f );
+
+			indices.push_back ( indexI );
+			indices.push_back ( indexI + 1 );
+			indexI += 2;
+		}
+
+	lines.clear();
+
 	if ( false == initDone )
 		{
-			//
-			// Extract vertice and color information from lines
-			for ( vector<GLDebugDrawer::LINE>::iterator it = lines.begin(); it != lines.end(); it++ )
-				{
-					GLDebugDrawer::LINE l = ( *it );
-
-					vertices.push_back ( l.a.x );
-					vertices.push_back ( l.a.y );
-					vertices.push_back ( l.a.z );
-					vertices.push_back ( l.b.x );
-					vertices.push_back ( l.b.y );
-					vertices.push_back ( l.b.z );
-
-					color.push_back ( l.color.r );
-					color.push_back ( l.color.g );
-					color.push_back ( l.color.b );
-					color.push_back ( l.color.r );
-					color.push_back ( l.color.g );
-					color.push_back ( l.color.b );
-
-					texCoords.push_back(0.0f);
-					texCoords.push_back(0.0f);
-					texCoords.push_back(1.0f);
-					texCoords.push_back(1.0f);
-					
-					indices.push_back ( indexI );
-					indices.push_back ( indexI + 1 );
-					indexI += 2;
-				}
 
 			//
 			// Enable the shader program
@@ -147,16 +155,16 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 			glBufferData ( GL_ARRAY_BUFFER, color.size() * sizeof ( GLfloat ), &color[0], GL_STATIC_DRAW );
 			glEnableVertexAttribArray ( shaderProgram[whichShader].inColorID );
 			glVertexAttribPointer ( shaderProgram[whichShader].inColorID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );	// R G B
-			
+
 			//
 			// Use Texture coordinate information
 			glGenBuffers ( 1, &lineTexCoordsVBO );
 			glBindBuffer ( GL_ARRAY_BUFFER, lineTexCoordsVBO );
-			glBufferData (GL_ARRAY_BUFFER, texCoords.size() * sizeof ( GLfloat ), &texCoords[0], GL_STATIC_DRAW );
-			glEnableVertexAttribArray (shaderProgram[whichShader].inTextureCoordsID);
-			glVertexAttribPointer (shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ));
+			glBufferData ( GL_ARRAY_BUFFER, texCoords.size() * sizeof ( GLfloat ), &texCoords[0], GL_STATIC_DRAW );
+			glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID );
+			glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );
 
-			wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[TEX_WHITE_SQUARE].texID);
+			wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[TEX_WHITE_SQUARE].texID );
 
 			initDone = true;
 		}
@@ -166,6 +174,26 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 	glUseProgram ( shaderProgram[whichShader].programID );
 
 	glBindVertexArray ( lineVAO );
+	glBindBuffer ( GL_ARRAY_BUFFER, lineVBO );
+	glBufferData ( GL_ARRAY_BUFFER, vertices.size() * sizeof ( GLfloat ), &vertices[0], GL_STATIC_DRAW );
+	glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID );
+	glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );
+
+	//
+	// Line Color
+	glBindBuffer ( GL_ARRAY_BUFFER, lineColorsVBO );
+	glBufferData ( GL_ARRAY_BUFFER, color.size() * sizeof ( GLfloat ), &color[0], GL_STATIC_DRAW );
+	glEnableVertexAttribArray ( shaderProgram[whichShader].inColorID );
+	glVertexAttribPointer ( shaderProgram[whichShader].inColorID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );	// R G B
+
+	//
+	// Use Texture coordinate information
+	glBindBuffer ( GL_ARRAY_BUFFER, lineTexCoordsVBO );
+	glBufferData ( GL_ARRAY_BUFFER, texCoords.size() * sizeof ( GLfloat ), &texCoords[0], GL_STATIC_DRAW );
+	glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID );
+	glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );
+
+
 	//
 	// Calculate matrix and upload to shader
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
@@ -173,11 +201,11 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 	//
 	// Needs a texture to write to the Diffuse FBO to show up on deferred rendering pass
 	//
-	wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[TEX_WHITE_SQUARE].texID);
-	GL_ASSERT(glUniform1i(shaderProgram[whichShader].inTextureUnit, 0));
+	wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[TEX_WHITE_SQUARE].texID );
+	GL_ASSERT ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
 	//
 	// Draw debug lines
-	glDrawElements ( GL_LINES, indices.size(), GL_UNSIGNED_INT, ( void* ) & ( indices[0] ) );
+	glDrawElements ( GL_LINE_STRIP, indices.size(), GL_UNSIGNED_INT, ( void* ) & ( indices[0] ) );
 
 //	glDrawArrays ( GL_LINES, 0, vertices.size() );
 

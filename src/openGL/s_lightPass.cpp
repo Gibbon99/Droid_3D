@@ -47,6 +47,9 @@ unsigned int faceIndexShadow[] =
 void lt_renderPointLights ( int whichShader )
 //-----------------------------------------------------------------------------
 {
+	if (0 == numOfLights)
+		return;
+		
 	//
 	// Next, we render all the point light soures.
 	// We will be doing our own depth testing in frag shader, so disable depth testing.

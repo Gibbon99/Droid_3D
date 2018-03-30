@@ -1,7 +1,6 @@
 #include "s_camera.h"
 #include "s_varsBSP.h"
 #include "s_physics.h"
-#include "s_camera2.h"
 #include "s_camera3.h"
 
 uint     g_numEntities = 0;

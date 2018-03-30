@@ -24,7 +24,6 @@
 #include "s_bullet.h"
 #include "s_doorsBSP.h"
 #include "s_physicsDebug.h"
-#include "s_camera2.h"
 
 #include "s_camera3.h"
 bool        drawWireframe = false;
@@ -160,7 +159,6 @@ void updateScreen ( float interpolate )
 			sys_renderToFBO();
 
 			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
-
 			if ( true == g_debugPhysics )
 				bul_drawDebugWorld();
 
