@@ -139,16 +139,16 @@ void gl_getGLSLError ( GLint object, int objectType )
 
 	switch ( objectType )
 		{
-		case GLSL_SHADER:
-			glGetShaderiv ( object, GL_INFO_LOG_LENGTH, &logLength );
-			break;
+			case GLSL_SHADER:
+				glGetShaderiv ( object, GL_INFO_LOG_LENGTH, &logLength );
+				break;
 
-		case GLSL_PROGRAM:
-			glGetProgramiv ( object, GL_INFO_LOG_LENGTH, &logLength );
-			break;
+			case GLSL_PROGRAM:
+				glGetProgramiv ( object, GL_INFO_LOG_LENGTH, &logLength );
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 
 	if ( logLength > 0 )
@@ -163,18 +163,18 @@ void gl_getGLSLError ( GLint object, int objectType )
 
 			switch ( objectType )
 				{
-				case GLSL_SHADER:
-					glGetShaderInfoLog ( object, logLength, &charsWritten, infoLog );
-					break;
+					case GLSL_SHADER:
+						glGetShaderInfoLog ( object, logLength, &charsWritten, infoLog );
+						break;
 
-				case GLSL_PROGRAM:
-					glGetProgramInfoLog ( object, logLength, &charsWritten, infoLog );
-					break;
+					case GLSL_PROGRAM:
+						glGetProgramInfoLog ( object, logLength, &charsWritten, infoLog );
+						break;
 
-				default:
-					printf ( "ERROR: Invalid object type passed to sys_GetGLSLError" );
-					return;
-					break;
+					default:
+						printf ( "ERROR: Invalid object type passed to sys_GetGLSLError" );
+						return;
+						break;
 				}
 
 			printf ( "GLSL ERROR [ %s ]\n", infoLog );
@@ -205,36 +205,36 @@ bool gl_setShaderVars ( int whichShader )
 	gl_getUniformVariable ( whichShader, ( char * ) "inTexture1", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inTextureUnit_1 );
 	//
 	// Matrix locations
-//	gl_getUniformVariable(whichShader, (char *)"u_viewProjectionMat", gl_getShaderName(whichShader), &shaderProgram[whichShader].viewProjectionMat);
-	gl_getUniformVariable ( whichShader, ( char * ) "u_modelMat",          gl_getShaderName ( whichShader ), &shaderProgram[whichShader].modelMat );
+	gl_getUniformVariable ( whichShader,  (char * ) "u_viewProjectionMat", gl_getShaderName ( whichShader ), 	&shaderProgram[whichShader].viewProjectionMat);
+	gl_getUniformVariable ( whichShader, ( char * ) "u_modelMat",          gl_getShaderName ( whichShader ), 	&shaderProgram[whichShader].modelMat );
 
 	//
 	// Do variables for each shader unique to each one
 	switch ( whichShader )
 		{
-		case SHADER_TTF_FONT:
-			//
-			// Get the ID to store the colorkey value in
-			gl_getAttribVariable ( whichShader, ( char * ) "fontColor", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
-			break;
+			case SHADER_TTF_FONT:
+				//
+				// Get the ID to store the colorkey value in
+				gl_getAttribVariable ( whichShader, ( char * ) "fontColor", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
+				break;
 
-		case SHADER_PHYSIC_DEBUG:
-			//
-			// Get the ID to store the vertex color value in
-			gl_getAttribVariable ( whichShader, ( char * ) "debugColor", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
-			break;
-			
-		case SHADER_DIR_LIGHT:
-			break;
+			case SHADER_PHYSIC_DEBUG:
+				//
+				// Get the ID to store the vertex color value in
+				gl_getAttribVariable ( whichShader, ( char * ) "debugColor", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
+				break;
 
-		case SHADER_GEOMETRY_PASS:
-			break;
+			case SHADER_DIR_LIGHT:
+				break;
 
-		case SHADER_POINT_LIGHT:
-			break;
+			case SHADER_GEOMETRY_PASS:
+				break;
 
-		default:
-			break;
+			case SHADER_POINT_LIGHT:
+				break;
+
+			default:
+				break;
 		}
 
 	return true;
