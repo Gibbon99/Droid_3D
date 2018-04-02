@@ -248,7 +248,7 @@ bool bul_startPhysics()
 
 	//
 	// Stop player collision shape from rotating
-	playerRigidBody->setAngularFactor ( btVector3 ( 1.0f, 1.0f, 1.0f ) );
+	playerRigidBody->setAngularFactor ( btVector3 ( 0.0f, 0.0f, 0.0f ) );
 
 	//
 	// Point to debug renderer
@@ -333,6 +333,8 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 			doorModels[whichDoor].rigidBody = new btRigidBody ( bspRigidBodyDoor );
 			
 			doorModels[whichDoor].rigidBody->setGravity(btVector3(0.0f, 0.0f, 0.0f));
+			
+			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 0.0f, 0.0f, 0.0f ) );
 
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
 			

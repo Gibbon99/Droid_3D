@@ -440,7 +440,7 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 
 			case DOOR_STATE_OPENING:
 
-				doorModels[whichDoor].rigidBody->setLinearVelocity ( btVector3 ( DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
+				doorModels[whichDoor].rigidBody->applyCentralImpulse ( btVector3 ( DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
 
 				if ( doorModels[whichDoor].currentOffset > doorModels[whichDoor].travelDistance - DOOR_LIP )
 					{
@@ -462,7 +462,7 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 
 			case DOOR_STATE_CLOSING:
 
-				doorModels[whichDoor].rigidBody->setLinearVelocity ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
+				doorModels[whichDoor].rigidBody->applyCentralImpulse ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
 
 				if ( doorModels[whichDoor].currentOffset > 0.0f )
 					{

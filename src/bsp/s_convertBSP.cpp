@@ -116,8 +116,6 @@ void bspConvertMesh ( float scaling )
 					if (true == bspIsDoorTexture(brush.textureID))
 						return;
 
-					con_print(CON_INFO, true, "MLeaf [ %i ] Brush [ %i ] Brush textureID [ %i ]", i, b, brush.textureID);
-
 					if ( brush.textureID != -1 )
 						{
 							if ( m_pTextures [ brush.textureID ].contents & BSPCONTENTS_SOLID )
