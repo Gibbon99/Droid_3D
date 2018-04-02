@@ -102,45 +102,45 @@ int bsp_findNumOfDoors()
 
 					switch ( doorModels[i].angle )
 						{
-						case 270:
-						case 360:
-							doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x;
-							doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
-							doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z + ( TRIGGER_AREA / 2 );
+							case 270:
+							case 360:
+								doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x;
+								doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z + ( TRIGGER_AREA / 2 );
 
-							doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x;
-							doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
-							doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z - ( TRIGGER_AREA / 2 );
+								doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x;
+								doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z - ( TRIGGER_AREA / 2 );
 
-							doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.z;
-							doorModels[i].travelDistance = m_pModels[doorModels[i].ptrModel].max.x - m_pModels[doorModels[i].ptrModel].min.x;
-							break;
+								doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.z;
+								doorModels[i].travelDistance = m_pModels[doorModels[i].ptrModel].max.x - m_pModels[doorModels[i].ptrModel].min.x;
+								break;
 
-						case 90:
-						case 180:
-							doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x - ( TRIGGER_AREA / 2 );
-							doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z;
-							doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
+							case 90:
+							case 180:
+								doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x - ( TRIGGER_AREA / 2 );
+								doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z;
+								doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
 
-							doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x + ( TRIGGER_AREA / 2 );
-							doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z;
-							doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x + ( TRIGGER_AREA / 2 );
+								doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z;
+								doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
 
-							doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.x;
-							doorModels[i].travelDistance = m_pModels[doorModels[i].ptrModel].min.z - m_pModels[doorModels[i].ptrModel].max.z;
-							break;
+								doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.x;
+								doorModels[i].travelDistance = m_pModels[doorModels[i].ptrModel].min.z - m_pModels[doorModels[i].ptrModel].max.z;
+								break;
 
-						case -1:
-						case -2:
-							doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x - ( TRIGGER_AREA / 2 );
-							doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
-							doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z + ( TRIGGER_AREA / 2 );
-							doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x + ( TRIGGER_AREA / 2 );
-							doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
-							doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z - ( TRIGGER_AREA / 2 );
-							doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.y;
-							doorModels[i].travelDistance = fabs ( m_pModels[doorModels[i].ptrModel].max.y - m_pModels[doorModels[i].ptrModel].min.y );
-							break;
+							case -1:
+							case -2:
+								doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x - ( TRIGGER_AREA / 2 );
+								doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z + ( TRIGGER_AREA / 2 );
+								doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x + ( TRIGGER_AREA / 2 );
+								doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z - ( TRIGGER_AREA / 2 );
+								doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].travelDistance = fabs ( m_pModels[doorModels[i].ptrModel].max.y - m_pModels[doorModels[i].ptrModel].min.y );
+								break;
 						}
 				}
 
@@ -196,6 +196,7 @@ int bsp_findNumOfDoors()
 //
 // TODO: Model 0 is the world model
 //
+
 			for ( int j = 0; j != m_pModels[whichModel].numSurfaces; j++ )
 				{
 					ptrFace = &m_pFaces[m_pModels[whichModel].firstSurface + j];
@@ -210,11 +211,13 @@ int bsp_findNumOfDoors()
 							vertCounter++;
 						}
 				}
+
 			//
 			// Now create physics object from convex hull
 			//
 			bspConvertDoors ( whichDoor, 1.0f );
 		}
+
 	return numOfDoors;
 }
 
@@ -338,20 +341,20 @@ void bsp_drawAllDoors()
 		{
 			switch ( sys_boxInFrustum ( doorModels[i].min.x, doorModels[i].min.y, doorModels[i].min.z, doorModels[i].max.x, doorModels[i].max.y, doorModels[i].max.z ) )
 				{
-				case COMPLETE_OUT:
-					numOfDoorsNotDrawn++;
-					break;
+					case COMPLETE_OUT:
+						numOfDoorsNotDrawn++;
+						break;
 
-				case COMPLETE_IN:
-				case INTERSECT:
-					numOfDoorsDrawn++;
+					case COMPLETE_IN:
+					case INTERSECT:
+						numOfDoorsDrawn++;
 
-					for ( int j = 0; j != m_pModels[doorModels[i].ptrModel].numSurfaces; j++ )
-						{
-							bsp_addFaceToArray ( m_pModels[doorModels[i].ptrModel].firstSurface + j, -1 );
-						}
+						for ( int j = 0; j != m_pModels[doorModels[i].ptrModel].numSurfaces; j++ )
+							{
+								bsp_addFaceToArray ( m_pModels[doorModels[i].ptrModel].firstSurface + j, -1 );
+							}
 
-					break;
+						break;
 				}
 		}
 }
@@ -394,14 +397,15 @@ bool bsp_checkPlayerVsTrigger()
 		{
 			switch ( sys_boxInFrustum ( doorModels[i].min.x, doorModels[i].min.y, doorModels[i].min.z, doorModels[i].max.x, doorModels[i].max.y, doorModels[i].max.z ) )
 				{
-				case COMPLETE_IN:
-				case INTERSECT:
-					if ( bspCheckPointDoorCollision ( camPosition, i ) > -1 )
-						{
-							bspStartModelMoveDoor ( i, DOOR_STATE_OPENING );
-						}
+					case COMPLETE_IN:
+					case INTERSECT:
+						if ( bspCheckPointDoorCollision ( camPosition, i ) > -1 )
+							{
+								bspStartModelMoveDoor ( i, DOOR_STATE_OPENING );
+							}
 				}
 		}
+
 	return true;
 }
 
@@ -412,69 +416,69 @@ bool bsp_checkPlayerVsTrigger()
 void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 //-------------------------------------------------------------------------------
 {
-	#define DOOR_PHYSICS_SPEED 6.0f
-	
+#define DOOR_PHYSICS_SPEED 6.0f
+
 	switch ( doorModels[whichDoor].currentState )
 		{
-		case DOOR_STATE_CLOSED:
-			doorModels[whichDoor].minMaxMove = 0.0f;
-			doorModels[whichDoor].currentOffset = 0.0f;
-			break;
+			case DOOR_STATE_CLOSED:
+				doorModels[whichDoor].minMaxMove = 0.0f;
+				doorModels[whichDoor].currentOffset = 0.0f;
+				break;
 
-		case DOOR_STATE_OPEN:
-			doorModels[whichDoor].minMaxMove = 0.0f;
-			doorModels[whichDoor].pause -= PAUSE_DELAY * interpolate;
+			case DOOR_STATE_OPEN:
+				doorModels[whichDoor].minMaxMove = 0.0f;
+				doorModels[whichDoor].pause -= PAUSE_DELAY * interpolate;
 
-			if ( doorModels[whichDoor].pause < 0.0f )
-				{
-					doorModels[whichDoor].pause = 5.0f;
-					doorModels[whichDoor].currentState = DOOR_STATE_CLOSING;
-					con_print ( CON_INFO, false, "Door [ %i ] has finished pausing - closing", whichDoor );
-				}
+				if ( doorModels[whichDoor].pause < 0.0f )
+					{
+						doorModels[whichDoor].pause = 5.0f;
+						doorModels[whichDoor].currentState = DOOR_STATE_CLOSING;
+						con_print ( CON_INFO, false, "Door [ %i ] has finished pausing - closing", whichDoor );
+					}
 
-			break;
+				break;
 
-		case DOOR_STATE_OPENING:
+			case DOOR_STATE_OPENING:
 
-			doorModels[whichDoor].rigidBody->setLinearVelocity ( btVector3 ( DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
+				doorModels[whichDoor].rigidBody->setLinearVelocity ( btVector3 ( DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
 
-			if ( doorModels[whichDoor].currentOffset > doorModels[whichDoor].travelDistance - DOOR_LIP )
-				{
-					doorModels[whichDoor].currentOffset = doorModels[whichDoor].travelDistance - DOOR_LIP;
-					doorModels[whichDoor].currentState = DOOR_STATE_OPEN;
-					doorModels[whichDoor].minMaxMove = doorModels[whichDoor].currentOffset;
-					con_print ( CON_INFO, false, "Door [ %i ] is now open", whichDoor );
-				}
+				if ( doorModels[whichDoor].currentOffset > doorModels[whichDoor].travelDistance - DOOR_LIP )
+					{
+						doorModels[whichDoor].currentOffset = doorModels[whichDoor].travelDistance - DOOR_LIP;
+						doorModels[whichDoor].currentState = DOOR_STATE_OPEN;
+						doorModels[whichDoor].minMaxMove = doorModels[whichDoor].currentOffset;
+						con_print ( CON_INFO, false, "Door [ %i ] is now open", whichDoor );
+					}
 
-			else
-				{
-					doorModels[whichDoor].currentOffset += DOOR_SPEED * interpolate;
-					doorModels[whichDoor].minMaxMove += DOOR_SPEED * interpolate;    // same as offset ??
-				}
+				else
+					{
+						doorModels[whichDoor].currentOffset += DOOR_SPEED * interpolate;
+						doorModels[whichDoor].minMaxMove += DOOR_SPEED * interpolate;    // same as offset ??
+					}
 
-			// TODO Need something to catch sized objects
-			// TODO Blocked unless gap is greater than object height
-			break;
+				// TODO Need something to catch sized objects
+				// TODO Blocked unless gap is greater than object height
+				break;
 
-		case DOOR_STATE_CLOSING:
+			case DOOR_STATE_CLOSING:
 
-			doorModels[whichDoor].rigidBody->setLinearVelocity ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
+				doorModels[whichDoor].rigidBody->setLinearVelocity ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
 
-			if ( doorModels[whichDoor].currentOffset > 0.0f )
-				{
-					doorModels[whichDoor].currentOffset -= DOOR_SPEED * interpolate;
-					doorModels[whichDoor].minMaxMove = 0 - ( doorModels[whichDoor].minMaxMove - ( DOOR_SPEED * interpolate ) );		// Get negative move
-				}
+				if ( doorModels[whichDoor].currentOffset > 0.0f )
+					{
+						doorModels[whichDoor].currentOffset -= DOOR_SPEED * interpolate;
+						doorModels[whichDoor].minMaxMove = 0 - ( doorModels[whichDoor].minMaxMove - ( DOOR_SPEED * interpolate ) );		// Get negative move
+					}
 
-			else
-				{
-					doorModels[whichDoor].currentOffset = 0.0f;
-					doorModels[whichDoor].currentState = DOOR_STATE_CLOSED;
-					doorModels[whichDoor].minMaxMove = 0.0f;
-					con_print ( CON_INFO, false, "Door [ %i ] is now closed", whichDoor );
-				}
+				else
+					{
+						doorModels[whichDoor].currentOffset = 0.0f;
+						doorModels[whichDoor].currentState = DOOR_STATE_CLOSED;
+						doorModels[whichDoor].minMaxMove = 0.0f;
+						con_print ( CON_INFO, false, "Door [ %i ] is now closed", whichDoor );
+					}
 
-			break;
+				break;
 		}
 }
 
@@ -509,41 +513,41 @@ void bspProcessAllDoorMovements ( float interpolate )
 						{
 							switch ( doorModels[whichDoor].angle )
 								{
-								case 90:
-									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z + doorModels[whichDoor].currentOffset;
-									break;
+									case 90:
+										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z + doorModels[whichDoor].currentOffset;
+										break;
 
-								case 270:
+									case 270:
 
-									//doorModels[whichDoor].rigidBody->applyCentralForce ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
+										//doorModels[whichDoor].rigidBody->applyCentralForce ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
 
-									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x - doorModels[whichDoor].currentOffset;
-									break;
+										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x - doorModels[whichDoor].currentOffset;
+										break;
 
-								case 360:
-									//doorModels[whichDoor].rigidBody->applyCentralForce ( btVector3 ( DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
+									case 360:
+										//doorModels[whichDoor].rigidBody->applyCentralForce ( btVector3 ( DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
 
-									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x + doorModels[whichDoor].currentOffset;
-									break;
+										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x + doorModels[whichDoor].currentOffset;
+										break;
 
-								case 180:
+									case 180:
 
-									//doorModels[whichDoor].rigidBody->applyCentralForce ( btVector3 ( 0.0f, 0.0f, -DOOR_PHYSICS_SPEED ) );
+										//doorModels[whichDoor].rigidBody->applyCentralForce ( btVector3 ( 0.0f, 0.0f, -DOOR_PHYSICS_SPEED ) );
 
-									m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z - doorModels[whichDoor].currentOffset;
-									break;
+										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z - doorModels[whichDoor].currentOffset;
+										break;
 
-								case -1:	// Move up
+									case -1:	// Move up
 //                        m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.y = doorModels[whichDoor].originalVertPos[j].y + doorModels[whichDoor].currentOffset;
-									break;
+										break;
 
-								case -2:	// Move down
+									case -2:	// Move down
 //                        m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.y = doorModels[whichDoor].originalVertPos[j].y - doorModels[whichDoor].currentOffset;
-									break;
+										break;
 
-								default:
-									con_print ( CON_INFO, true, "Door [ %i ] has unknown angle [ %i ]", whichDoor, doorModels[whichDoor].angle );
-									break;
+									default:
+										con_print ( CON_INFO, true, "Door [ %i ] has unknown angle [ %i ]", whichDoor, doorModels[whichDoor].angle );
+										break;
 								}
 
 							j++;
@@ -552,39 +556,39 @@ void bspProcessAllDoorMovements ( float interpolate )
 
 			switch ( doorModels[whichDoor].angle )  // used for culling when drawing - needs to be updated correctly
 				{
-				case 90:
-					doorModels[k].min.z = doorModels[k].minOriginal.z + doorModels[whichDoor].currentOffset;
-					doorModels[k].max.z = doorModels[k].maxOriginal.z + doorModels[whichDoor].currentOffset;
-					break;
+					case 90:
+						doorModels[k].min.z = doorModels[k].minOriginal.z + doorModels[whichDoor].currentOffset;
+						doorModels[k].max.z = doorModels[k].maxOriginal.z + doorModels[whichDoor].currentOffset;
+						break;
 
-				case 270:
-					doorModels[k].min.x = doorModels[k].minOriginal.x - doorModels[whichDoor].currentOffset;
-					doorModels[k].max.x = doorModels[k].maxOriginal.x - doorModels[whichDoor].currentOffset;
-					break;
+					case 270:
+						doorModels[k].min.x = doorModels[k].minOriginal.x - doorModels[whichDoor].currentOffset;
+						doorModels[k].max.x = doorModels[k].maxOriginal.x - doorModels[whichDoor].currentOffset;
+						break;
 
-				case 360:
-					doorModels[k].min.x = doorModels[k].minOriginal.x + doorModels[whichDoor].currentOffset;
-					doorModels[k].max.x = doorModels[k].maxOriginal.x + doorModels[whichDoor].currentOffset;
-					break;
+					case 360:
+						doorModels[k].min.x = doorModels[k].minOriginal.x + doorModels[whichDoor].currentOffset;
+						doorModels[k].max.x = doorModels[k].maxOriginal.x + doorModels[whichDoor].currentOffset;
+						break;
 
-				case 180:	// Working
-					doorModels[k].min.z = doorModels[k].minOriginal.z - doorModels[whichDoor].currentOffset;
-					doorModels[k].max.z = doorModels[k].maxOriginal.z - doorModels[whichDoor].currentOffset;
-					break;
+					case 180:	// Working
+						doorModels[k].min.z = doorModels[k].minOriginal.z - doorModels[whichDoor].currentOffset;
+						doorModels[k].max.z = doorModels[k].maxOriginal.z - doorModels[whichDoor].currentOffset;
+						break;
 
-				case -1:	// Move up
-					doorModels[k].min.y += doorModels[whichDoor].minMaxMove;
-					doorModels[k].max.y += doorModels[whichDoor].minMaxMove;
-					break;
+					case -1:	// Move up
+						doorModels[k].min.y += doorModels[whichDoor].minMaxMove;
+						doorModels[k].max.y += doorModels[whichDoor].minMaxMove;
+						break;
 
-				case -2:	// Move down
-					doorModels[k].min.y += doorModels[whichDoor].minMaxMove;
-					doorModels[k].max.y += doorModels[whichDoor].minMaxMove;
-					break;
+					case -2:	// Move down
+						doorModels[k].min.y += doorModels[whichDoor].minMaxMove;
+						doorModels[k].max.y += doorModels[whichDoor].minMaxMove;
+						break;
 
-				default:
+					default:
 //				conPrint (GL_TRUE, "Door [ %i ] has unknown angle [ %i ]", whichDoor, doorModels[whichDoor].angle);
-					break;
+						break;
 				}
 		}
 }

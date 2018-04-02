@@ -25,6 +25,22 @@ void addConvexVerticesCollider ( btAlignedObjectArray<btVector3>& vertices, bool
 
 //--------------------------------------------------------------------------
 //
+// See if passed in Texture ID is used on door models.  If so, don't create
+// physics convex hull
+bool bspIsDoorTexture(int whichTextureID)
+//--------------------------------------------------------------------------
+{
+	for (int i = 0; i != numOfDoors; i++)
+		{
+			if (whichTextureID == doorModels[i].textureID)
+				return true;
+		}
+
+	return false;
+}
+
+//--------------------------------------------------------------------------
+//
 // Physics for BSP models
 void bspConvertDoors ( int whichDoor, float scaling )
 //--------------------------------------------------------------------------
@@ -39,6 +55,9 @@ void bspConvertDoors ( int whichDoor, float scaling )
 			//convert brush
 			const tBSPBrush& brush = m_pBrushes[model.firstBrush+n];
 			{
+
+				doorModels[whichDoor].textureID = brush.textureID;
+
 				for ( int p = 0; p < brush.numOfBrushSides; p++ )
 					{
 						int sideid = brush.brushSide+p;
@@ -91,10 +110,12 @@ void bspConvertMesh ( float scaling )
 					int brushid = m_pLeafBrushes[leaf.leafBrush+b];
 
 					tBSPBrush& brush = m_pBrushes[brushid];
-					
-					if (brush.textureID == 1)
+
+					//
+					// Don't create if this texture is used on a door model
+					if (true == bspIsDoorTexture(brush.textureID))
 						return;
-						
+
 					con_print(CON_INFO, true, "MLeaf [ %i ] Brush [ %i ] Brush textureID [ %i ]", i, b, brush.textureID);
 
 					if ( brush.textureID != -1 )
@@ -138,5 +159,6 @@ void bspConvertMesh ( float scaling )
 						}
 				}
 		}
+
 	bul_enableDebug ( true );
 }

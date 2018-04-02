@@ -30,6 +30,7 @@ typedef struct
 {
 	int					setID;				// ID number from entity list
 	int					ptrModel;
+	uint				textureID;			// Used to draw texture, and in physics to not create brush / solid hull
 	int					currentState;
 	int					angle;				// Angle used for opening/closing
 	int					numVerts;           // Number of verts used for drawing this model

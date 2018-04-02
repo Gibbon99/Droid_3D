@@ -562,7 +562,8 @@ void ttf_displayText ( int whichFont )
 //	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 //
 // viewMatrix is causing flickering on the 3d screen
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * glm::mat4() ) ) );
+//	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * glm::mat4() ) ) );
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
 
 	{
 //        PROFILE("glMultiDrawArrays");
