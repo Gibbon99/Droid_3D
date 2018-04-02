@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="Droid_3D" Version="10.0.0" InternalType="Console">
   <VirtualDirectory Name="data">
+    <VirtualDirectory Name="models">
+      <File Name="data/models/triax_hoover.mtl"/>
+      <File Name="data/models/level.obj"/>
+      <File Name="data/models/box.mtl"/>
+      <File Name="data/models/level.mtl"/>
+      <File Name="data/models/triax_wheels.md2"/>
+      <File Name="data/models/triax_hoover.md2"/>
+      <File Name="data/models/cone.dae"/>
+      <File Name="data/models/sphere2.mtl"/>
+      <File Name="data/models/sphere2.obj"/>
+      <File Name="data/models/triax_tracks.md2"/>
+      <File Name="data/models/crate01.3ds"/>
+      <File Name="data/models/ship.md2"/>
+      <File Name="data/models/sphere.obj"/>
+      <File Name="data/models/box.obj"/>
+      <File Name="data/models/triax_wheels.mtl"/>
+      <File Name="data/models/triax_tracks.mtl"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="maps">
+      <File Name="data/maps/cube.bsp"/>
+      <File Name="data/maps/cube.map"/>
+      <File Name="data/maps/cube.prt"/>
+      <File Name="data/maps/cube.autosave.map"/>
+      <File Name="data/maps/level.bsp"/>
+      <File Name="data/maps/cube.srf"/>
+      <File Name="data/maps/cube.bak"/>
+      <File Name="data/maps/doortest.bsp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="textures">
+      <File Name="data/textures/white_square.jpg"/>
+      <File Name="data/textures/triax_tracks.png"/>
+      <File Name="data/textures/error.jpg"/>
+      <File Name="data/textures/wall_2.jpg"/>
+      <File Name="data/textures/wall.jpg"/>
+      <File Name="data/textures/triax_wheels.bmp"/>
+      <File Name="data/textures/crate01.png"/>
+      <File Name="data/textures/triax_hoover.jpg"/>
+    </VirtualDirectory>
     <VirtualDirectory Name="shaders">
       <File Name="data/shaders/ttfFont.vert"/>
       <File Name="data/shaders/ttfFont.frag"/>
