@@ -7,6 +7,10 @@ extern bool     keyRightDown;
 extern bool		keyUpDown;
 extern bool		keyDownDown;
 
+extern bool		keyDoorLeftDown;
+extern bool		keyDoorRightDown;
+
+
 
 // Read and process the console keyboard
 void io_readConsoleSpecialKeys ( int key, int action );

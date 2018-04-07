@@ -14,6 +14,9 @@ bool        keyRightDown = false;
 bool		keyUpDown = false;
 bool		keyDownDown = false;
 
+bool		keyDoorLeftDown = false;
+bool		keyDoorRightDown = false;
+
 //-----------------------------------------------------------------------------
 //
 // Read a unicode character
@@ -77,6 +80,14 @@ void io_readGameSpecialKeys ( int key, int action )
 				case GLFW_KEY_DOWN:
 					keyDownDown = true;
 					break;
+					
+				case GLFW_KEY_LEFT:
+					keyDoorLeftDown = true;
+					break;
+					
+				case GLFW_KEY_RIGHT:
+					keyDoorRightDown = true;
+					break;
 
 				case GLFW_KEY_F11:
 					g_lockMouse = !g_lockMouse;
@@ -126,6 +137,14 @@ void io_readGameSpecialKeys ( int key, int action )
 				case GLFW_KEY_DOWN:
 					keyDownDown = false;
 					break;
+					
+				case GLFW_KEY_LEFT:
+					keyDoorLeftDown = false;
+					break;
+					
+				case GLFW_KEY_RIGHT:
+					keyDoorRightDown = false;
+					break;					
 				}
 		}
 }

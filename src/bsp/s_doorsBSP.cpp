@@ -6,6 +6,7 @@
 #include "s_shaders.h"
 #include "s_timing.h"
 #include "s_convertBSP.h"
+#include "s_keyboard.h"
 
 int					numOfDoors;
 int					numOfDoorsDrawn = 0;
@@ -416,8 +417,6 @@ bool bsp_checkPlayerVsTrigger()
 void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 //-------------------------------------------------------------------------------
 {
-#define DOOR_PHYSICS_SPEED 6.0f
-
 	switch ( doorModels[whichDoor].currentState )
 		{
 			case DOOR_STATE_CLOSED:
@@ -440,8 +439,6 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 
 			case DOOR_STATE_OPENING:
 
-				doorModels[whichDoor].rigidBody->applyCentralImpulse ( btVector3 ( DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
-
 				if ( doorModels[whichDoor].currentOffset > doorModels[whichDoor].travelDistance - DOOR_LIP )
 					{
 						doorModels[whichDoor].currentOffset = doorModels[whichDoor].travelDistance - DOOR_LIP;
@@ -462,7 +459,7 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 
 			case DOOR_STATE_CLOSING:
 
-				doorModels[whichDoor].rigidBody->applyCentralImpulse ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
+//				doorModels[whichDoor].rigidBody->applyCentralImpulse ( btVector3 ( -DOOR_PHYSICS_SPEED, 0.0f, 0.0f ) );
 
 				if ( doorModels[whichDoor].currentOffset > 0.0f )
 					{
@@ -489,12 +486,35 @@ void bspProcessAllDoorMovements ( float interpolate )
 //-------------------------------------------------------------------------------
 {
 
+	#define DOOR_PHYSICS_SPEED 60.0f
+
 	int         whichModel;
 	int         whichDoor;
 
 	tBSPFace	*ptrFace;
 
 	int j = 0;
+
+
+
+    btTransform initialTransform;
+	btVector3		location;
+	
+	doorModels[1].motionShape->getWorldTransform(initialTransform);
+	
+	location = initialTransform.getOrigin();
+
+	if (true == keyDoorLeftDown)
+		location.setZ(location.z() - 0.5f);
+		
+	if (true == keyDoorRightDown)
+		location.setZ(location.z() + 0.5f);
+
+	initialTransform.setOrigin(location);
+
+	doorModels[1].motionShape->setWorldTransform(initialTransform);
+	doorModels[1].rigidBody->setWorldTransform(initialTransform);
+	
 
 	for ( int k = 0; k != numOfDoors; k++ )
 		{

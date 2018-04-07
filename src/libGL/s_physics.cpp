@@ -312,12 +312,10 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 
 			rigidBody = new btRigidBody ( bspRigidBodyCI );
 			dynamicsWorld->addRigidBody ( rigidBody );
-			
-			con_print(CON_INFO, true, "Added physics for non-door objects.");
 		}
 	else
 		{
-			btScalar		doorMass = 0.9f;
+			btScalar		doorMass = 0.6f;
 			
 			// Manage door
 			doorModels[whichDoor].shape = new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
@@ -334,10 +332,8 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 			
 			doorModels[whichDoor].rigidBody->setGravity(btVector3(0.0f, 0.0f, 0.0f));
 			
-			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 0.0f, 0.0f, 0.0f ) );
+			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 1.0f, 0.0f, 0.0f ) );
 
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
-			
-			con_print(CON_INFO, true, "Added physics for door [ %i ]", whichDoor);
 		}
 }

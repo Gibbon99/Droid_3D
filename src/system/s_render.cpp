@@ -158,7 +158,7 @@ void updateScreen ( float interpolate )
 
 			sys_renderToFBO();
 
-			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
+//			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
 			if ( true == g_debugPhysics )
 				bul_drawDebugWorld();
 
