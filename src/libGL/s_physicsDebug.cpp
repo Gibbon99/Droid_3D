@@ -124,9 +124,8 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 			texCoords.push_back ( 1.0f );
 			texCoords.push_back ( 1.0f );
 
-			indices.push_back ( indexI );
-			indices.push_back ( indexI + 1 );
-			indexI += 2;
+			indices.push_back ( indexI++ );	// Index for first point - line start
+			indices.push_back ( indexI++ );	// Index for second point - line end
 		}
 
 	lines.clear();
@@ -193,7 +192,6 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 	glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID );
 	glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) );
 
-
 	//
 	// Calculate matrix and upload to shader
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
@@ -205,7 +203,7 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 	GL_ASSERT ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
 	//
 	// Draw debug lines
-	glDrawElements ( GL_LINE_STRIP, indices.size(), GL_UNSIGNED_INT, ( void* ) & ( indices[0] ) );
+	glDrawElements ( GL_LINES, indices.size(), GL_UNSIGNED_INT, ( void* ) & ( indices[0] ) );
 
 //	glDrawArrays ( GL_LINES, 0, vertices.size() );
 

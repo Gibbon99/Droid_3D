@@ -47,6 +47,9 @@ glm::vec3 cam3_getVelocity()
 		velocityVector.y = 0.0f;	// Lock movement to the X/Z plane
 		return velocityVector;
 	}
+	
+//	cam3_Position.y = 40.0f;
+	
 	return glm::vec3(0.0f);		// Apply no force / impulse this time
 }
 

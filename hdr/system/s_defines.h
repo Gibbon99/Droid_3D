@@ -94,9 +94,6 @@ extern int __gl_error_code;
 #define MODE_CONSOLE        1
 #define MODE_GAME           2
 
-#define VOXEL_NONE      0
-#define VOXEL_SOLID     1
-
 #define PHYSICS_OBJECT_BOX      0
 #define PHYSICS_OBJECT_BSP		1
 
@@ -141,41 +138,7 @@ extern int __gl_error_code;
 
 //-----------------------------------------------------------------------------
 //
-// Info for importing tiles from old level
-//
-//-----------------------------------------------------------------------------
-
-#define IMPORT_VERSION              112
-
-#define TILE_SIZE 					32      // Used to work out texture coords
-#define TILES_ACROSS			   	84
-#define TILES_DOWN				   	52
-#define NUM_OF_TILES_IN_LEVEL	   	TILES_ACROSS * TILES_DOWN
-
-//-----------------------------------------------------------------------------
-//
 // Bullet settings
 //
 //-----------------------------------------------------------------------------
 #define MAX_NUM_BULLETS             32
-
-//-----------------------------------------------------------------------------
-//
-// Structure to hold 2d points
-//
-//-----------------------------------------------------------------------------
-typedef struct
-{
-	int		x;
-	int		y;
-} _int2DPoint;
-
-typedef struct
-{
-	float     x, y;
-} _myVertex2D;
-
-typedef struct
-{
-	float r, g, b;
-} _myVertex3f;

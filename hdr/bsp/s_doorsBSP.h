@@ -49,9 +49,11 @@ typedef struct
 	_triggerZone		trigger;			// Area defining door trigger area
 	glm::vec3			*originalVertPos;   // Used to record original starting position for moving doors verts around
 	int					*sourceIndexPos;    // What's the index that this vert came from in m_pVerts
+	
 	btConvexHullShape*		shape = NULL;
 	btDefaultMotionState*	motionShape = NULL;
 	btRigidBody*			rigidBody = NULL;
+	btVector3				physicsStartLocation;
 
 } _doorModel;
 

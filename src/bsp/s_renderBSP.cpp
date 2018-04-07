@@ -246,7 +246,6 @@ void bsp_debugBSPData ( tBSPFace *ptrFace, int index )
 void bsp_createFaceGPUInfo ( tBSPFace *ptrFace )
 //-----------------------------------------------------------------------------
 {
-	static  int     vertIndex = 0;
 	vector<int>     indexes;
 	_myVertex       tempVertex;
 	_myFace         tempFace;
@@ -432,24 +431,11 @@ inline int bsp_isClusterVisible ( int current, int test )
 void bsp_addFaceToArray ( int whichFace, int leafIndex )
 //-----------------------------------------------------------------------------
 {
-	tBSPFace		*ptrFace;
-
-	ptrFace = &m_pFaces[whichFace];
 
 	sortedFaces[sortCurrentFaceCount].textureID = m_pFaces[whichFace].textureID;
 	sortedFaces[sortCurrentFaceCount].faceID = whichFace;
 	sortedFaces[sortCurrentFaceCount].leafIndex = leafIndex;
 	sortCurrentFaceCount++;
-
-//	con_print(CON_INFO, true, "[ %i ] Added face to array faceID [ %i ] numVerts [ %i ] index [ %i ]", sortCurrentFaceCount, whichFace, ptrFace->numOfVerts,
-//           ptrFace->startVertIndex);
-	/*
-	    for (int i = 0; i != ptrFace->numOfVerts; i++)
-	    {
-	        con_print(CON_INFO, true, "Face [ %i ] Index [ %i ] Pos [ %3.3f %3.3f %3.3f ]", whichFace, ptrFace->startVertIndex + i,
-	                  m_pVerts[ptrFace->startVertIndex + i].vPosition.x, m_pVerts[ptrFace->startVertIndex + i].vPosition.y, m_pVerts[ptrFace->startVertIndex + i].vPosition.z);
-	    }
-	    */
 }
 
 
@@ -586,7 +572,6 @@ void bsp_drawFacesInArray ( int whichShader )
 	tBSPFace		*ptrFace;
 	glm::vec3       pos;
 	glm::mat4       scaleMatrix;
-	GLuint          m_camPositionID;
 
 	//
 	// create buffers for our vertex data

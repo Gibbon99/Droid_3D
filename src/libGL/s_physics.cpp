@@ -291,6 +291,7 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 	btCollisionShape*		objectShape;
 	btDefaultMotionState* 	motionState;
 	btRigidBody* 			rigidBody;
+	btTransform 			doorTransform;
 
 	if ( false == physicsEngineStarted )
 		{
@@ -335,5 +336,9 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 1.0f, 0.0f, 0.0f ) );
 
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
+			
+			doorModels[whichDoor].motionShape->getWorldTransform(doorTransform);
+			doorModels[whichDoor].physicsStartLocation = doorTransform.getOrigin();
 		}
 }
+
