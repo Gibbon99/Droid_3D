@@ -233,6 +233,8 @@ void ttf_startText()
 			GL_ASSERT ( glGenBuffers ( 1, &g_vertVBO_ID ) );
 			GL_ASSERT ( glGenBuffers ( 1, &g_texVBO_ID ) );
 			GL_ASSERT ( glGenBuffers ( 1, &g_colVBO_ID ) );
+			
+			printf("Done setting TTF memory\n");
 
 		}
 

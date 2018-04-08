@@ -15,7 +15,8 @@ typedef struct
 	int	            height;				// Image Height
 	unsigned int	texID;				// Texture ID Used To Select A Texture
 	unsigned int	type;				// Image Type (GL_RGB, GL_RGBA)
-	bool            loaded;
+	bool            loaded;				// State of the texture
+	int				bspTexID;			// Index into the texture array from BSP. Will be mapped to actual texID on loading; -1 is not a BSP texture
 } _Texture;
 
 typedef struct
@@ -50,7 +51,10 @@ void io_freeTextureArray();
 bool io_setupModelTextureMemory ( int numberTextures );
 
 // Load a texture and set it's TextureID
-GLint utilLoadTexture ( GLuint whichTexture, const char *fileName );
+GLint utilLoadTexture ( GLuint whichTexture, const char *fileName, int bspIndex );
 
 // Save current screen to file
 void io_saveScreenToFile();
+
+// Pass in the BSP texture index and return the OpenGL texID
+int io_getGLTexID(int bspTexID);

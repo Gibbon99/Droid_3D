@@ -72,7 +72,7 @@ void as_setGameVariables()
 	g_debugDoorTriggers = true;
 	//
 	// Debug physics - show physic objects outlines
-	g_debugPhysics = true;
+	g_debugPhysics = false;
 	//
 	// Show position of lights in map
 	g_debugLightPos = false;

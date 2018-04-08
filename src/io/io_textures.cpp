@@ -5,6 +5,7 @@
 #include "io_fileSystem.h"
 #include "s_openGLWrap.h"
 #include "FreeImage.h"
+#include "s_varsBSP.h"
 
 typedef struct
 {
@@ -66,7 +67,7 @@ void io_saveScreenToFile()
 //-----------------------------------------------------------------------------
 //
 // Load a image from disk/archive file and convert to a OpenGL texture
-int loadImageFile ( int whichTexture, char *fileName )
+int loadImageFile ( int whichTexture, char *fileName, int bspIndex )
 //-----------------------------------------------------------------------------
 {
 	stbi_uc     *imageBuffer;
@@ -98,6 +99,8 @@ int loadImageFile ( int whichTexture, char *fileName )
 		}
 
 	texturesLoaded[whichTexture].loaded = true;
+
+	texturesLoaded[whichTexture].bspTexID = bspIndex;
 	//
 	// Create an OpenGL texture for the image
 	GL_CHECK ( glGenTextures ( 1, &texturesLoaded[whichTexture].texID ) );
@@ -123,7 +126,7 @@ int loadImageFile ( int whichTexture, char *fileName )
 //-----------------------------------------------------------------------------
 //
 // Load a texture and set it's TextureID
-GLint utilLoadTexture ( GLuint whichTexture, const char *fileName )
+GLint utilLoadTexture ( GLuint whichTexture, const char *fileName, int bspIndex)
 //-----------------------------------------------------------------------------
 {
 	char          tempFileName[MAX_STRING_SIZE];
@@ -134,7 +137,7 @@ GLint utilLoadTexture ( GLuint whichTexture, const char *fileName )
 			if ( strstr ( fileName, fileTypes[i].fileType ) != NULL )
 				{
 					// Filename already has the extension on it - so load it
-					returnTexID = loadImageFile ( whichTexture, ( char * ) fileName );
+					returnTexID = loadImageFile ( whichTexture, ( char * ) fileName, bspIndex );
 
 					if ( returnTexID != -1 )
 						{
@@ -143,7 +146,6 @@ GLint utilLoadTexture ( GLuint whichTexture, const char *fileName )
 
 							return returnTexID;
 						}
-
 				}
 
 			else
@@ -153,7 +155,7 @@ GLint utilLoadTexture ( GLuint whichTexture, const char *fileName )
 					strcpy ( tempFileName, fileName );
 					strcat ( tempFileName, fileTypes[i].fileType );
 
-					returnTexID = loadImageFile ( whichTexture, tempFileName );
+					returnTexID = loadImageFile ( whichTexture, tempFileName, bspIndex );
 
 					if ( returnTexID != -1 )
 						{
@@ -217,6 +219,7 @@ bool utilSetupTextureMemory ( int numberTextures )
 			texturesLoaded[i].type = 0;
 			texturesLoaded[i].texID = -1;
 			texturesLoaded[i].loaded = false;
+			texturesLoaded[i].bspTexID = -1;
 		}
 
 	RET_TRUE ( "Memory allocated for textures.", 0 );
@@ -238,13 +241,34 @@ void io_freeTextureArray()
 bool io_loadAllTextures()
 //-----------------------------------------------------------------------------
 {
-	if ( false == utilSetupTextureMemory ( NUM_TEXTURES ) )
+	int bspTextureCount = 0;
+
+	if ( false == utilSetupTextureMemory ( NUM_TEXTURES + m_numOfTextures ) )
 		return false;
 
 	for ( int i = 0; i != NUM_TEXTURES; i++ )
 		{
-			utilLoadTexture ( i, textureNames[i].fileName );
+			utilLoadTexture ( i, textureNames[i].fileName, -1 );
+		}
+
+	for (int i = NUM_TEXTURES; i != NUM_TEXTURES + m_numOfTextures; i++)
+		{
+			utilLoadTexture (i, m_pTextures[bspTextureCount].strName, bspTextureCount );
+			bspTextureCount++;
 		}
 
 	RET_TRUE ( "Texture loading complete.", true );
+}
+
+//-----------------------------------------------------------------------------
+//
+// Pass in the BSP texture index and return the OpenGL texID
+int io_getGLTexID(int bspTexID)
+//-----------------------------------------------------------------------------
+{
+	for (int i = 0; i != NUM_TEXTURES + m_numOfTextures; i++)
+	{
+		if (bspTexID = texturesLoaded[i].bspTexID)
+			return texturesLoaded[i].texID;
+	}
 }

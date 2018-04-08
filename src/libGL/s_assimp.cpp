@@ -62,6 +62,9 @@ bool     g_debugBoundingBox;
 void ass_loadModelTextures()
 //-----------------------------------------------------------------------------
 {
+	
+	return;
+	
 	int numTextures = 0;
 
 	for ( int i = 0; i != NUM_MODELS; i++ )
@@ -78,7 +81,7 @@ void ass_loadModelTextures()
 		{
 			for ( int j = 0; j != meshModels[i].numMaterials; j++ )
 				{
-					meshModels[i].mesh[j].textureID = utilLoadTexture ( numTextures + NUM_TEXTURES, meshModels[i].materialName[j].C_Str() );
+					meshModels[i].mesh[j].textureID = utilLoadTexture ( numTextures + NUM_TEXTURES, meshModels[i].materialName[j].C_Str(), -1 );
 					con_print ( CON_INFO, true, "Model [ %i ] : Texture ID [ %i ]", i, meshModels[i].mesh[j].textureID );
 				}
 		}

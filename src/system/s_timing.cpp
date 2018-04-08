@@ -93,7 +93,7 @@ void sys_CalculateFrameRate ( double timeValue )
 			tickDelayCounter = 0.0f;
 			fpsPrint = fps;     // Value to display
 			fps = 0;
-			frameTimeTakenPrint = frameTimeTaken;
+			frameTimeTakenPrint = frameTimeTaken;			
 //            sysAddAverageToGraph(frameTimeTakenPrint);
 		}
 }

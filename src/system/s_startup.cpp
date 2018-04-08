@@ -84,16 +84,6 @@ bool initAll()
 			sys_shutdownToSystem();
 		}
 
-	if ( true == io_loadAllTextures() )
-		{
-			con_print ( CON_INFO, true, "Loaded textures." );
-
-		}
-	else
-		{
-			con_print ( CON_ERROR, true, "Error loading one or more textures." );
-		}
-
 	//
 	// Load Models
 	util_executeScriptFunction ( "scr_loadAllModels", "" );
@@ -124,6 +114,16 @@ bool initAll()
 
 	bsp_loadBSP ( "cube.bsp", true );
 
+	if ( true == io_loadAllTextures() )
+		{
+			con_print ( CON_INFO, true, "Loaded textures." );
+
+		}
+	else
+		{
+			con_print ( CON_ERROR, true, "Error loading one or more textures." );
+		}
+		
 	lib_initAntBar();
 
 	gl_registerDebugCallback();

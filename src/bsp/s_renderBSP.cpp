@@ -25,7 +25,13 @@ GLuint			bspVAO, bspVBO;
 // this will be used to sort the indexes by textureID and
 // then batch call them while changing bound texture
 //
-vector<unsigned int>				g_currentFrameVertexIndex;
+typedef struct
+{
+	unsigned int	vertexIndex;
+	unsigned int	textureID;
+} _myVertexIndex;
+
+vector<_myVertexIndex>				g_currentFrameVertex;
 vector<_myVertex>					g_levelDataVertex;
 
 //-----------------------------------------------------------------------------
@@ -89,15 +95,32 @@ void bsp_debugBSPData ( tBSPFace *ptrFace, int index )
 
 //-----------------------------------------------------------------------------
 //
+// Predicate function used by std::sort
+bool bsp_vertexSorterCallback(_myVertexIndex const& lhs, _myVertexIndex const& rhs)
+//-----------------------------------------------------------------------------
+{
+	return lhs.textureID < rhs.textureID;
+}
+
+//-----------------------------------------------------------------------------
+//
+// Sort the vector of vertex and TexID's into texID order
+void bsp_sortVertexArray()
+//-----------------------------------------------------------------------------
+{
+	std::sort(g_currentFrameVertex.begin(), g_currentFrameVertex.end(), &bsp_vertexSorterCallback);
+}
+
+//-----------------------------------------------------------------------------
+//
 // Create array that holds the vertex index for visible faces this frame
 //
 // Level data is all on GPU, this index is used to draw based on that data
 void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 //-----------------------------------------------------------------------------
 {
-	vector<int>     indexes;
-	_myVertex       tempVertex;
-	_myFace         tempFace;
+	vector<int>			indexes;
+	_myVertexIndex		tempIndex;
 
 	indexes.clear();
 	indexes.reserve ( ptrFace->numMeshVerts );
@@ -106,7 +129,10 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 		{
 			indexes[i] = m_pMeshIndex[ptrFace->startMeshVertIndex + i];
 
-			g_currentFrameVertexIndex.push_back (ptrFace->startVertIndex + indexes[i]);
+			tempIndex.vertexIndex = indexes[i];
+			tempIndex.textureID = ptrFace->textureID;
+
+			g_currentFrameVertex.push_back(tempIndex);
 		}
 
 	vertIndexCounter += ptrFace->numMeshVerts;  // Starting index
@@ -118,6 +144,10 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 void bsp_renderAllFaces ( int whichShader )
 //-----------------------------------------------------------------------------
 {
+	vector<unsigned int>	vertexIndexArray;
+	std::vector<int>::iterator it;
+
+	vertexIndexArray.clear();
 
 	int stride = sizeof ( _myVertex ); // BSP Vertex, not float[3]
 
@@ -128,10 +158,6 @@ void bsp_renderAllFaces ( int whichShader )
 	//
 	// Update vertex data stored on card for moving doors
 	bspUploadDoorVertex();
-	//
-	// Upload vertex indexes
-	GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
-	GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_STATIC_DRAW));
 
 	// Position
 	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
@@ -151,7 +177,29 @@ void bsp_renderAllFaces ( int whichShader )
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
 
-	GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
+	//
+	// Upload vertex indexes
+	GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
+
+	int firstTexture = g_currentFrameVertex[0].textureID;
+
+	for (std::vector<int>::size_type i = 0; i != g_currentFrameVertex.size(); i++)
+		{
+			if  (firstTexture == g_currentFrameVertex[i].textureID)
+				{
+					vertexIndexArray.push_back(g_currentFrameVertex[i].vertexIndex);
+				}
+			else
+				{
+					GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, vertexIndexArray.size() * sizeof(unsigned int), &vertexIndexArray[0], GL_STATIC_DRAW));
+					wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[io_getGLTexID(firstTexture)].texID );
+					firstTexture = g_currentFrameVertex[i].textureID;
+
+					GL_ASSERT ( glDrawElements ( GL_TRIANGLES, vertexIndexArray.size(), GL_UNSIGNED_INT, 0));
+
+					vertexIndexArray.clear();
+				}
+		}
 
 	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, 0 );
@@ -369,16 +417,11 @@ void bsp_drawFacesInArray ( int whichShader )
 
 	GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
-//
-// this moves to bso_renderAllFaces and binds each texture
-//
-	wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[TEX_WALL].texID );
-
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
 
 	vertIndexCounter = 0;
-	g_currentFrameVertexIndex.clear();
+	g_currentFrameVertex.clear();
 
 	for ( int i = 0; i != sortCurrentFaceCount; i++ )
 		{
@@ -386,8 +429,7 @@ void bsp_drawFacesInArray ( int whichShader )
 			bsp_createVextexIndexArray ( ptrFace );
 		}
 
-//        bspTextureSortOrNot(ptrFace);
-
+	bsp_sortVertexArray();
 	bsp_renderAllFaces ( whichShader );
 }
 
