@@ -268,7 +268,7 @@ int io_getGLTexID(int bspTexID)
 {
 	for (int i = 0; i != NUM_TEXTURES + m_numOfTextures; i++)
 	{
-		if (bspTexID = texturesLoaded[i].bspTexID)
+		if (bspTexID == texturesLoaded[i].bspTexID)
 			return texturesLoaded[i].texID;
 	}
 }

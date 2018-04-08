@@ -60,7 +60,7 @@ void bsp_uploadLevelVertex()
 
 	GL_CHECK ( glGenBuffers (1, &bspVBO) );
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
-	GL_CHECK ( glBufferData (GL_ARRAY_BUFFER, m_numOfVerts * sizeof ( _myVertex ), &g_levelDataVertex[0], GL_STATIC_DRAW ) );
+	GL_CHECK ( glBufferData (GL_ARRAY_BUFFER, m_numOfVerts * sizeof ( _myVertex ), &g_levelDataVertex[0], GL_DYNAMIC_DRAW ) );
 	//
 	// Generate indexArray ID - indexes into currently visible faces in current frame
 	GL_CHECK ( glGenBuffers ( 1, &elementArrayID ) );
@@ -144,6 +144,9 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 void bsp_renderAllFaces ( int whichShader )
 //-----------------------------------------------------------------------------
 {
+	int vertCounter = 0;
+	int texChanges = 0;
+	
 	vector<unsigned int>	vertexIndexArray;
 	std::vector<int>::iterator it;
 
@@ -182,24 +185,36 @@ void bsp_renderAllFaces ( int whichShader )
 	GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
 
 	int firstTexture = g_currentFrameVertex[0].textureID;
-
+	
+	vertCounter = 0;
+	texChanges = 0;
+	
 	for (std::vector<int>::size_type i = 0; i != g_currentFrameVertex.size(); i++)
 		{
 			if  (firstTexture == g_currentFrameVertex[i].textureID)
 				{
 					vertexIndexArray.push_back(g_currentFrameVertex[i].vertexIndex);
+					vertCounter++;	
 				}
 			else
 				{
+					texChanges++;
 					GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, vertexIndexArray.size() * sizeof(unsigned int), &vertexIndexArray[0], GL_STATIC_DRAW));
-					wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[io_getGLTexID(firstTexture)].texID );
+					
+					wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(firstTexture) );
 					firstTexture = g_currentFrameVertex[i].textureID;
 
 					GL_ASSERT ( glDrawElements ( GL_TRIANGLES, vertexIndexArray.size(), GL_UNSIGNED_INT, 0));
 
 					vertexIndexArray.clear();
+					
+					vertexIndexArray.push_back(g_currentFrameVertex[i].vertexIndex);
+
 				}
 		}
+
+printf("vertCounter [ %i ] size [ %i ] texChanges [ %i ]\n", vertCounter, g_currentFrameVertex.size(), texChanges);
+
 
 	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, 0 );
