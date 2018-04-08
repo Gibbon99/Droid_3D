@@ -10,6 +10,15 @@
 
 //------------------------------------------------------------
 //
+// Upload vertex from BSP to GPU
+void bsp_uploadVertices()
+//------------------------------------------------------------
+{
+	bsp_uploadLevelVertex();
+}
+
+//------------------------------------------------------------
+//
 // Setup initial values for BSP structures
 void bsp_initBSP()
 //------------------------------------------------------------
@@ -468,6 +477,8 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	bspConvertMesh(1.0f);
 
+	bsp_uploadVertices();
+	
 	// Return a success
 	return true;
 }

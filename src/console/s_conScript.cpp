@@ -72,7 +72,7 @@ _hostScriptFunctions hostScriptFunctions[] =
 {
 	{"void printCon_AS(string &in, string &in)",            ( void * )&sys_scriptPrintStr},
 
-	{"void sys_addScriptCommand(string &in, string &in, string &in, bool setParam)", ( const void * ) &con_addScriptCommand},
+	{"void sys_addScriptCommand(string &in, string &in, string &in, bool setParam)", ( void * ) &con_addScriptCommand},
 
 	{"void conPushCommand_AS(string &in)",                  ( void * ) con_pushScriptCommand},
 	{"bool startPackFile(string &in, string &in)",          ( void * ) io_startFileSystem},
@@ -332,7 +332,7 @@ bool util_cacheFunctionIDs()
 	//
 	// Get function ID's for each function we will call in the script
 	//
-	for ( int i = 0; i != numFunctionsInScripts; i++ )
+	for ( unsigned int i = 0; i != numFunctionsInScripts; i++ )
 		{
 			tempFunctionName.funcID = scriptEngine->GetModule ( "ModuleName" )->GetFunctionByDecl ( scriptFunctionName[i].functionName.c_str() );
 
@@ -488,7 +488,7 @@ bool util_loadAndCompileScripts()
 bool util_executeScriptFunction ( string functionName, string funcParam )
 //-----------------------------------------------------------------------------
 {
-	int i = 0;
+	unsigned int i = 0;
 
 	//
 	// Check for function name passed in

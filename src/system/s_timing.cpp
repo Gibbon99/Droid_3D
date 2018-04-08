@@ -20,7 +20,7 @@ void sys_initTimingVars()
 
 	ticksPerSecond = 60;
 	skipTicks = ( 1000.0f / ticksPerSecond ) * 0.001f;;
-	maxFrameSkip = 5;
+	maxFrameSkip = 2;
 	nextGameTick = 0;
 }
 

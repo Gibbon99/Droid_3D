@@ -158,7 +158,8 @@ void updateScreen ( float interpolate )
 
 			sys_renderToFBO();
 
-//			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
+			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
+			
 			if ( true == g_debugPhysics )
 				bul_drawDebugWorld();
 
@@ -166,7 +167,6 @@ void updateScreen ( float interpolate )
 				bspDrawAllDoorTriggerZones();
 
 			sys_renderModels ( SHADER_GEOMETRY_PASS );
-
 
 			if ( true == g_debugLightPos )
 				{
@@ -176,7 +176,6 @@ void updateScreen ( float interpolate )
 							drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
 						}
 				}
-
 
 			glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 			glUseProgram ( 0 );
@@ -200,11 +199,12 @@ void updateScreen ( float interpolate )
 
 //			TwDraw();
 
+#define LINE_SPACE 21.0f 
 			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
-			ttf_addText ( FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint );
-			ttf_addText ( FONT_SMALL, 0.0f, 36.0f, "cam3_Yaw [ %3.3f ] Pitch [ %3.3f ]", cam3_Yaw, cam3_Pitch);
-			ttf_addText ( FONT_SMALL, 0.0f, 54.0f, "cam3_Position[ %3.3f %3.3f %3.3f ]", cam3_Position.x, cam3_Position.y, cam3_Position.z );
-			ttf_addText ( FONT_SMALL, 0.0f, 80.0f, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
+			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 1, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Average [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenAvg );
+			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 2, "cam3_Yaw [ %3.3f ] Pitch [ %3.3f ]", cam3_Yaw, cam3_Pitch);
+			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 3, "cam3_Position[ %3.3f %3.3f %3.3f ]", cam3_Position.x, cam3_Position.y, cam3_Position.z );
+			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 4, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
 		}
 			//
 			// Render all text in VBO memory

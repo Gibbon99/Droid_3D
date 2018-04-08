@@ -72,9 +72,9 @@ Console : Registered function [ bool ttf_initLibrary(int fontSize, int whichFont
 Console : Registered function [ bool ass_loadModel(int whichModel, string &in, float scaleFactor) ]
 Console : Size of script [ 4066 ] - [ conCommands.as ]
 Console : Number of functions in script [ 3 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -242426256 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -242426256 ]
-Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -242424400 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1725460096 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1725460096 ]
+Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ 1725461952 ]
 Console : Err: Failed to get function ID for [ bool ttf_initLibrary() ].
 Console : -----------------------------------------------------------------------
 Console : Vertex shader compiled ok - [ depthMap.vert ]
@@ -305,8 +305,6 @@ Console : Door model [ *2 ]
 Console : Door [ 1 ] ptrModel [ 2 ]
 Console : Door [ 0 ] numVerts [ 36 ]
 Console : Door [ 1 ] numVerts [ 36 ]
-Log file closed:
-Unknown	Unknown
------------------------------------------------------------------------------
-
-
+Console : Upload vertices to GPU. Size [ 7008 bytes ]
+Console : Looking for [ info_player_start ]
+Console : origin [ 0.00 ] [ -32.00 ] [ -0.00 ]

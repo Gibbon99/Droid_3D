@@ -332,6 +332,8 @@ extern int              numFacesNotDrawn;		// Faces not drawn this frame
 extern int              numLeafsDrawn;			// Leafs drawn this frame
 extern int              numLeafsNotDrawn;		// Leafs skipped this frame
 
+extern GLuint			bspVAO, bspVBO;			// Handle to the BSP info stored on the GPU
+
 
 //
 // struct array to hold each token from entity string

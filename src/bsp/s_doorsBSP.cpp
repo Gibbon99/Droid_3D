@@ -179,7 +179,7 @@ int bsp_findNumOfDoors()
 			if ( NULL == doorModels[i].sourceIndexPos )
 				{
 					con_print ( CON_ERROR, true, "Error: Memory allocation error in bsp_findNumDoors" );
-					sys_shutdownToSystem();	//TOD): Free memory or use vectors
+					sys_shutdownToSystem();	//TODO: Free memory or use vectors
 				}
 
 			//
@@ -189,6 +189,8 @@ int bsp_findNumOfDoors()
 			int index = 0;
 			int whichDoor;
 
+			_myVertex		tempVertex;
+
 			whichModel = doorModels[i].ptrModel;
 			whichDoor = i;
 
@@ -197,18 +199,27 @@ int bsp_findNumOfDoors()
 //
 // TODO: Model 0 is the world model
 //
+			doorModels[whichDoor].vertexInfo.reserve(doorModels[i].numVerts );
 
 			for ( int j = 0; j != m_pModels[whichModel].numSurfaces; j++ )
 				{
 					ptrFace = &m_pFaces[m_pModels[whichModel].firstSurface + j];
 					offset = ptrFace->startVertIndex;
 
-					for ( int i = 0; i != ptrFace->numMeshVerts; i++ )
+					for ( int k = 0; k != ptrFace->numMeshVerts; k++ )
 						{
-							index = m_pMeshIndex[ptrFace->startMeshVertIndex + i];
+							index = m_pMeshIndex[ptrFace->startMeshVertIndex + k];
 
 							doorModels[whichDoor].originalVertPos[vertCounter] = m_pVerts[offset + index].vPosition;
 							doorModels[whichDoor].sourceIndexPos[vertCounter] = offset + index;
+							//
+							// Take a copy of the data to upload to the GPU when the position changes
+							tempVertex.position =  m_pVerts[offset + index].vPosition;;
+							tempVertex.normals =   m_pVerts[offset + index].vNormal;
+							tempVertex.texCoords = m_pVerts[offset + index].vTextureCoord;
+
+							doorModels[whichDoor].vertexInfo.push_back(tempVertex);
+
 							vertCounter++;
 						}
 				}
@@ -247,7 +258,6 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 	GLuint					vao;
 	GLuint					buffers[2];
 	int                     faceCount = 2;
-	static bool				initDone = false;
 
 	unsigned int vertsTriggerIndex[] =
 	{
@@ -313,7 +323,7 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 
 	glUseProgram ( 0 );
 	glBindVertexArray ( 0 );
-	
+
 	glDeleteBuffers( 2, buffers );
 	glDeleteVertexArrays(1, &vao);
 }
@@ -434,7 +444,6 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 					{
 						doorModels[whichDoor].pause = 5.0f;
 						doorModels[whichDoor].currentState = DOOR_STATE_CLOSING;
-						con_print ( CON_INFO, false, "Door [ %i ] has finished pausing - closing", whichDoor );
 					}
 
 				break;
@@ -446,7 +455,6 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 						doorModels[whichDoor].currentOffset = doorModels[whichDoor].travelDistance - DOOR_LIP;
 						doorModels[whichDoor].currentState = DOOR_STATE_OPEN;
 						doorModels[whichDoor].minMaxMove = doorModels[whichDoor].currentOffset;
-						con_print ( CON_INFO, false, "Door [ %i ] is now open", whichDoor );
 					}
 
 				else
@@ -454,9 +462,6 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 						doorModels[whichDoor].currentOffset += DOOR_SPEED * interpolate;
 						doorModels[whichDoor].minMaxMove += DOOR_SPEED * interpolate;    // same as offset ??
 					}
-
-				// TODO Need something to catch sized objects
-				// TODO Blocked unless gap is greater than object height
 				break;
 
 			case DOOR_STATE_CLOSING:
@@ -472,9 +477,7 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 						doorModels[whichDoor].currentOffset = 0.0f;
 						doorModels[whichDoor].currentState = DOOR_STATE_CLOSED;
 						doorModels[whichDoor].minMaxMove = 0.0f;
-						con_print ( CON_INFO, false, "Door [ %i ] is now closed", whichDoor );
 					}
-
 				break;
 		}
 }
@@ -488,37 +491,57 @@ void bspMoveDoorPhysics(int whichDoor, int doorAngle)
 
 	btTransform		doorTransform;
 	btVector3		location;
-	
+
 	doorModels[whichDoor].motionShape->getWorldTransform(doorTransform);
-	
+
 	location = doorModels[whichDoor].physicsStartLocation;
-	
+
 	switch (doorAngle)
-	{
-		case 90:
-			location.setZ(location.z() + doorModels[whichDoor].currentOffset);
-		break;
-		
-		case 180:
-			location.setZ(location.z() - doorModels[whichDoor].currentOffset);
-		break;
-		
-		case 270:
-			location.setZ(location.x() - doorModels[whichDoor].currentOffset);
-		break;
-		
-		case 360:
-			location.setZ(location.x() + doorModels[whichDoor].currentOffset);
-		break;
-	}
+		{
+			case 90:
+				location.setZ(location.z() + doorModels[whichDoor].currentOffset);
+				break;
+
+			case 180:
+				location.setZ(location.z() - doorModels[whichDoor].currentOffset);
+				break;
+
+			case 270:
+				location.setZ(location.x() - doorModels[whichDoor].currentOffset);
+				break;
+
+			case 360:
+				location.setZ(location.x() + doorModels[whichDoor].currentOffset);
+				break;
+		}
 
 	doorTransform.setOrigin(location);
 
 	doorModels[whichDoor].motionShape->setWorldTransform(doorTransform);
 	doorModels[whichDoor].rigidBody->setWorldTransform(doorTransform);
 }
-	
-	
+
+//-------------------------------------------------------------------------------
+//
+// Upload door vertex information to the GPU
+void bspUploadDoorVertex()
+//-------------------------------------------------------------------------------
+{
+	GLintptr		offset;
+	GLsizeiptr		size;
+
+	size = sizeof(_myVertex);
+
+	for (int i = 0; i != numOfDoors; i++)
+		{
+			for (int j = 0; j != doorModels[i].numVerts; j++)
+				{
+					offset = doorModels[i].sourceIndexPos[j];
+					glBufferSubData(GL_ARRAY_BUFFER, offset * size, size, (void *)&doorModels[i].vertexInfo[j]);
+				}
+		}
+}
+
 //-------------------------------------------------------------------------------
 //
 // Process the movements of all doors
@@ -552,27 +575,27 @@ void bspProcessAllDoorMovements ( float interpolate )
 							switch ( doorModels[whichDoor].angle )
 								{
 									case 90:
-										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z + doorModels[whichDoor].currentOffset;
+										doorModels[whichDoor].vertexInfo[j].position.z = doorModels[whichDoor].originalVertPos[j].z + doorModels[whichDoor].currentOffset;
 										break;
 
 									case 270:
-										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x - doorModels[whichDoor].currentOffset;
+										doorModels[whichDoor].vertexInfo[j].position.x = doorModels[whichDoor].originalVertPos[j].x - doorModels[whichDoor].currentOffset;
 										break;
 
 									case 360:
-										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.x = doorModels[whichDoor].originalVertPos[j].x + doorModels[whichDoor].currentOffset;
+										doorModels[whichDoor].vertexInfo[j].position.x = doorModels[whichDoor].originalVertPos[j].x + doorModels[whichDoor].currentOffset;
 										break;
 
 									case 180:
-										m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.z = doorModels[whichDoor].originalVertPos[j].z - doorModels[whichDoor].currentOffset;
+										doorModels[whichDoor].vertexInfo[j].position.z = doorModels[whichDoor].originalVertPos[j].z - doorModels[whichDoor].currentOffset;
 										break;
 
 									case -1:	// Move up
-//                        m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.y = doorModels[whichDoor].originalVertPos[j].y + doorModels[whichDoor].currentOffset;
+										doorModels[whichDoor].vertexInfo[j].position.y = doorModels[whichDoor].originalVertPos[j].y + doorModels[whichDoor].currentOffset;
 										break;
 
 									case -2:	// Move down
-//                        m_pVerts[doorModels[whichDoor].sourceIndexPos[j]].vPosition.y = doorModels[whichDoor].originalVertPos[j].y - doorModels[whichDoor].currentOffset;
+										doorModels[whichDoor].vertexInfo[j].position.y = doorModels[whichDoor].originalVertPos[j].y - doorModels[whichDoor].currentOffset;
 										break;
 
 									default:
@@ -607,17 +630,17 @@ void bspProcessAllDoorMovements ( float interpolate )
 						break;
 
 					case -1:	// Move up
-						doorModels[k].min.y += doorModels[whichDoor].minMaxMove;
-						doorModels[k].max.y += doorModels[whichDoor].minMaxMove;
+						doorModels[k].min.y = doorModels[k].minOriginal.y + doorModels[whichDoor].currentOffset;
+						doorModels[k].max.y = doorModels[k].maxOriginal.z + doorModels[whichDoor].currentOffset;
 						break;
 
 					case -2:	// Move down
-						doorModels[k].min.y += doorModels[whichDoor].minMaxMove;
-						doorModels[k].max.y += doorModels[whichDoor].minMaxMove;
+						doorModels[k].min.y = doorModels[k].minOriginal.y - doorModels[whichDoor].currentOffset;
+						doorModels[k].max.y = doorModels[k].maxOriginal.z - doorModels[whichDoor].currentOffset;
 						break;
 
 					default:
-//				conPrint (GL_TRUE, "Door [ %i ] has unknown angle [ %i ]", whichDoor, doorModels[whichDoor].angle);
+						con_print (CON_ERROR, GL_TRUE, "Door [ %i ] has unknown angle [ %i ]", whichDoor, doorModels[whichDoor].angle);
 						break;
 				}
 		}

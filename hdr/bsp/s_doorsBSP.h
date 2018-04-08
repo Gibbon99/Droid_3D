@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <bullet/btBulletDynamicsCommon.h>
+#include "s_renderBSP.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -34,17 +35,17 @@ typedef struct
 	int					currentState;
 	int					angle;				// Angle used for opening/closing
 	int					numVerts;           // Number of verts used for drawing this model
-	GLfloat				pause;				// Time to say open for
-	glm::vec3			min;				// Starting value for the bounding box
-	glm::vec3			max;				// Starting value for the bounding box
+	GLfloat				pause;				// Time to stay open for
+	glm::vec3			min;				// Current location for the bounding box
+	glm::vec3			max;				// Current location for the bounding box
 
-	glm::vec3			minOriginal;				// Starting value for the bounding box
-	glm::vec3			maxOriginal;				// Starting value for the bounding box
+	glm::vec3			minOriginal;		// Starting value for the bounding box
+	glm::vec3			maxOriginal;		// Starting value for the bounding box
 
 	GLfloat         	travelDistance;     // How far does the door move
 
 	GLfloat         	minMaxMove;         // Track movement for collision detection
-	GLfloat				startLocation;		// Y Axis to stop closing at
+	GLfloat				startLocation;		// 
 	GLfloat				currentOffset;		// Where are we at the moment - Use the coords as an offset
 	_triggerZone		trigger;			// Area defining door trigger area
 	glm::vec3			*originalVertPos;   // Used to record original starting position for moving doors verts around
@@ -54,6 +55,8 @@ typedef struct
 	btDefaultMotionState*	motionShape = NULL;
 	btRigidBody*			rigidBody = NULL;
 	btVector3				physicsStartLocation;
+	
+	vector<_myVertex>		vertexInfo;		// Copy the vertex for updating and uploading to GPU on move
 
 } _doorModel;
 
@@ -82,3 +85,6 @@ void bspProcessAllDoorMovements ( float interpolate );
 
 // Free door memory
 void bspFreeDoorMemory();
+
+// Upload door vertex information to the GPU
+void bspUploadDoorVertex();
