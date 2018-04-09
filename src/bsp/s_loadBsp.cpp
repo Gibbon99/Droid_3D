@@ -154,8 +154,8 @@ void bsp_freeMem()
 
 	m_FacesDrawn.FreeMem();
 
-	if ( sortedFaces )
-		free ( sortedFaces );
+//	if ( sortedFaces )
+//		free ( sortedFaces );
 
 	bspFreeDoorMemory();
 }
@@ -446,6 +446,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Here we allocate enough bits to store all the faces for our bitset
 	m_FacesDrawn.Resize ( m_numOfFaces );
 
+/*
 	if ( sortedFaces )
 		free ( sortedFaces );
 
@@ -453,7 +454,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	if ( NULL == sortedFaces )
 		sysErrorFatal ( __FILE__, __LINE__, "Memory allocation error. Sorted face array." );
-
+*/
 
 	// Setup the entities into searchable string array
 

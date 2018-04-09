@@ -25,7 +25,7 @@ bool bsp_uploadBspToGPU();
 void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader );
 
 // Add the faces to the unsorted face array
-void bsp_addFaceToArray ( int whichFace, int leafIndex );
+void bsp_addFaceToArray ( int whichFace );
 
 // Upload all the vertex data in our own structure used to render the level
 void bsp_uploadLevelVertex();

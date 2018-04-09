@@ -275,10 +275,12 @@ typedef struct
 {
 	int				faceID;
 	int				textureID;
-	int				leafIndex;			// which leaf in the BSP tree does this face belong to
+//	int				leafIndex;			// which leaf in the BSP tree does this face belong to
 } _sortedFaces;
 
-extern _sortedFaces	*sortedFaces;
+extern vector<_sortedFaces>	sortedFaces;
+
+//extern _sortedFaces	*sortedFaces;
 
 extern CBitset			m_FacesDrawn;		// The bitset for the faces that have/haven't been drawn
 
