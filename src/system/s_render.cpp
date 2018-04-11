@@ -203,7 +203,7 @@ void updateScreen ( float interpolate )
 			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
 			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 1, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Average [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenAvg );
 			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 2, "Faces Drawn [ %i ] NotDrawn [ %i ]", numFacesDrawn, numFacesNotDrawn);
-			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 3, "cam3_Position[ %3.3f %3.3f %3.3f ]", cam3_Position.x, cam3_Position.y, cam3_Position.z );
+			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 3, "textureChanges [ %i ] VertIndexes [ %i ] Verts [ %i ] Tris [ %i ]", g_texturesChanges, g_vertIndexCounter, g_numVertexPerFrame, g_numVertexPerFrame / 3);
 			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 4, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
 		}
 			//

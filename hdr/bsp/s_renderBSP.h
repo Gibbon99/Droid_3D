@@ -6,29 +6,24 @@ typedef struct
 {
 	glm::vec3   position;
 	glm::vec2   texCoords;
-//	glm::vec2   lightmapCoords;
 	glm::vec3   normals;
 } _myVertex;
 
-typedef struct
-{
-	int                 vertIndex;      // Index into vertex array - starting point
-	int                 numVerts;
-	int                 textureID;
-//	int                 lightmapID;
-} _myFace;
-
-// Upload vertex arrays to GPU
-bool bsp_uploadBspToGPU();
+extern int				g_texturesChanges;
+extern int				g_vertIndexCounter;
+extern int				g_numVertexPerFrame;
 
 //	Goes through all of the faces and draws them if the type is FACE_POLYGON
 void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader );
-
-// Add the faces to the unsorted face array
-void bsp_addFaceToArray ( int whichFace );
 
 // Upload all the vertex data in our own structure used to render the level
 void bsp_uploadLevelVertex();
 
 // Level data is all on GPU, this index is used to draw based on that data
 void bsp_createVextexIndexArray ( tBSPFace *ptrFace );
+
+// Actually draw the BSP face
+void bsp_renderFace ( int whichFace );
+
+// Add the index for the face into vector array
+void bsp_addFaceToArray(int whichFace );
