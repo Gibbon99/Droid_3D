@@ -29,3 +29,6 @@ void bsp_addFaceToArray ( int whichFace );
 
 // Upload all the vertex data in our own structure used to render the level
 void bsp_uploadLevelVertex();
+
+// Level data is all on GPU, this index is used to draw based on that data
+void bsp_createVextexIndexArray ( tBSPFace *ptrFace );

@@ -202,7 +202,7 @@ void updateScreen ( float interpolate )
 #define LINE_SPACE 21.0f 
 			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
 			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 1, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Average [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenAvg );
-			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 2, "cam3_Yaw [ %3.3f ] Pitch [ %3.3f ]", cam3_Yaw, cam3_Pitch);
+			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 2, "Faces Drawn [ %i ] NotDrawn [ %i ]", numFacesDrawn, numFacesNotDrawn);
 			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 3, "cam3_Position[ %3.3f %3.3f %3.3f ]", cam3_Position.x, cam3_Position.y, cam3_Position.z );
 			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 4, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
 		}
