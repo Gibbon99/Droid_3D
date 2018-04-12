@@ -9,6 +9,9 @@
 #include "s_shaderLights.h"
 #include <vector>
 
+#define FACE_RENDER		0
+#define FACE_ADD		1
+
 GLuint          elementArrayID;
 
 glm::vec3       g_cameraPosition;
@@ -58,7 +61,7 @@ void bsp_prepareFaceRender(int whichShader)
 //-----------------------------------------------------------------------------
 {
 	int stride = sizeof ( _myVertex ); // BSP Vertex, not float[3]
-		
+
 	GL_CHECK ( glBindVertexArray ( bspVAO ) );
 	//
 	// Bind data buffer holding all the vertices
@@ -84,7 +87,7 @@ void bsp_prepareFaceRender(int whichShader)
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inVertsID ) );
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inNormalsID ) );
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inTextureCoordsID ) );
-	
+
 	g_facesForFrame.clear();
 	g_currentFrameVertexIndex.clear();
 	g_texturesChanges = 0;
@@ -100,30 +103,51 @@ bool bsp_sortFacesCallback(int lhs, int rhs)
 {
 	tBSPFace		*faceOne;
 	tBSPFace		*faceTwo;
-	
+
 	faceOne = &m_pFaces[lhs];
 	faceTwo = &m_pFaces[rhs];
-	
+
 	return faceOne->textureID < faceTwo->textureID;
 }
 
 //-----------------------------------------------------------------------------
 //
-// Go through the vector face indexes and render the face
+// Go through the vector face indexes and render the face - including door models
 //
 // Sort the faces based on textureID
 void bsp_renderAllFaces()
 //-----------------------------------------------------------------------------
+
 {
+	tBSPFace				*ptrFace;
+	static int 				previousTexture = 9999;
+	unsigned int 			i = 0;
+
 	std::sort(g_facesForFrame.begin(), g_facesForFrame.end(), bsp_sortFacesCallback);
-	
-	//
-	// Change this to while previousTexture != face->texture then render
-	// calling createVertexIndex each loop - adding the verts for the same TEXID to array
-	for (int i = 0; i != g_facesForFrame.size(); i++)
-	{
-		bsp_renderFace(g_facesForFrame[i]);
-	}
+
+	ptrFace = &m_pFaces[g_facesForFrame[0]];
+	previousTexture = ptrFace->textureID;
+
+	for (i = 0; i != g_facesForFrame.size(); i++)
+		{
+			ptrFace = &m_pFaces[g_facesForFrame[i]];
+
+			if (previousTexture == ptrFace->textureID)
+				{
+					bsp_renderFace(g_facesForFrame[i], FACE_ADD);
+					ptrFace = &m_pFaces[g_facesForFrame[i]];
+					previousTexture = ptrFace->textureID;
+				}
+			else
+				{
+					bsp_renderFace(-1, FACE_RENDER);
+					bsp_renderFace(g_facesForFrame[i], FACE_ADD);
+					ptrFace = &m_pFaces[g_facesForFrame[i]];
+					previousTexture = ptrFace->textureID;
+				}
+		}
+
+	bsp_renderFace(-1, FACE_RENDER);
 }
 
 //-----------------------------------------------------------------------------
@@ -157,40 +181,39 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 			g_numVertexPerFrame++;
 		}
 
-	g_vertIndexCounter++; 
+	g_vertIndexCounter++;
 }
 
 //-----------------------------------------------------------------------------
 //
 // Actually draw the BSP face
-void bsp_renderFace ( int whichFace )
+void bsp_renderFace ( int whichFace, int whichAction )
 //-----------------------------------------------------------------------------
+
 {
-	tBSPFace				*ptrFace;
-	static unsigned int		previousTexture = -1;
+	tBSPFace			*ptrFace;
 
-	ptrFace = &m_pFaces[whichFace];
+	switch (whichAction)
+		{
+			case FACE_ADD:
+				ptrFace = &m_pFaces[whichFace];
 
-	bsp_createVextexIndexArray ( ptrFace );
-	//
-	// Upload vertex indexes
-	GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
-	GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_STATIC_DRAW));
-	
-	if (previousTexture != io_getGLTexID(ptrFace->textureID))
-	{
-		wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(ptrFace->textureID));
-		previousTexture = io_getGLTexID(ptrFace->textureID);
-		g_texturesChanges++;
-	}
+				bsp_createVextexIndexArray ( ptrFace );
+				break;
 
-	GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
-	
-	g_currentFrameVertexIndex.clear();
+			case FACE_RENDER:
+				//
+				// Upload vertex indexes
+				wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(ptrFace->textureID));
+				GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
+				GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_STATIC_DRAW));
+				GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
+				g_currentFrameVertexIndex.clear();
+				break;
+				gl_getAllGLErrors ( glGetError(), __FILE__, __LINE__ );
 
-	gl_getAllGLErrors ( glGetError(), __FILE__, __LINE__ );
+		}
 }
-
 
 //-----------------------------------------------------------------------------
 //
@@ -326,10 +349,10 @@ void bsp_renderLeaf ( int iLeaf, bool CheckFrustum )
 				{
 					// Set this face as drawn and render it
 					m_FacesDrawn.Set ( faceIndex );
-//					bsp_renderFace(faceIndex);
 					bsp_addFaceToArray(faceIndex);
 					numFacesDrawn++;
 				}
+
 			else
 				numFacesNotDrawn++;
 		}
@@ -437,10 +460,10 @@ void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
 
 	bspUploadDoorVertex();
 
-	bsp_drawAllDoors();
+	bsp_drawAllDoors();	// Call before renderAllFaces ?
 
 	bsp_renderAllFaces();
-	
+
 	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }

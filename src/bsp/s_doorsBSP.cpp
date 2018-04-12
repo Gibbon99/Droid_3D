@@ -364,7 +364,6 @@ void bsp_drawAllDoors()
 
 						for ( int j = 0; j != m_pModels[doorModels[i].ptrModel].numSurfaces; j++ )
 							{
-//								bsp_renderFace (m_pModels[doorModels[i].ptrModel].firstSurface + j);
 								bsp_addFaceToArray ( m_pModels[doorModels[i].ptrModel].firstSurface + j );
 							}
 
