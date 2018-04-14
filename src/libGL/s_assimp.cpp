@@ -9,11 +9,12 @@
 #include "s_maths.h"
 #include <vector>
 #include "s_defRender.h"
+#include "s_camera3.h"
 
 //#include <ProcessHelper.h>
-class id_textures;
-Assimp::Importer    importer;
-int     numSkippedModels = 0;
+//class 				id_textures;
+Assimp::Importer	importer;
+int					numSkippedModels = 0;
 
 enum
 {
@@ -25,12 +26,12 @@ enum
 
 typedef struct
 {
-	int         materialIndex;
-	int         elementCount;
-	int         numFaces;
-	int         numVertices;
-	GLuint      textureID;
-	GLuint      vbo[4];
+	int			materialIndex;
+	int			elementCount;
+	int			numFaces;
+	int			numVertices;
+	GLuint		textureID;
+	GLuint		vbo[4];
 } _mesh;
 
 typedef struct
@@ -38,23 +39,23 @@ typedef struct
 	bool                loaded;
 	bool				hasNormals;
 	bool				hasTextures;
-	int                 numMeshes;
-	int                 numMaterials;
-	GLuint              vao_ID;
-	GLfloat             scaleFactor;
-	_boundingBox        boundingBox;
-//    int                 numFaces;
-//    int                 numVertices;
-	vector<_mesh>       mesh;
-	vector<aiString>    materialName;
+	bool				isPhysicsObject;
+	int					physicsIndex;
+	int					numMeshes;
+	int					numMaterials;
+	GLuint				vao_ID;
+	GLfloat				scaleFactor;
+	_boundingBox		boundingBox;
+	vector<_mesh>		mesh;
+	vector<aiString>	materialName;
 } _meshModel;
 
-_meshModel              meshModels[NUM_MODELS];
+_meshModel				meshModels[NUM_MODELS];
 
-GLuint vbo[4];
+GLuint 					vbo[4];
 
-int      elementCount = 0;
-bool     g_debugBoundingBox;
+int						elementCount = 0;
+bool					g_debugBoundingBox;
 
 //-----------------------------------------------------------------------------
 //
@@ -62,26 +63,11 @@ bool     g_debugBoundingBox;
 void ass_loadModelTextures()
 //-----------------------------------------------------------------------------
 {
-	
-	return;
-	
-	int numTextures = 0;
-
-	for ( int i = 0; i != NUM_MODELS; i++ )
-		numTextures += meshModels[i].numMaterials;
-
-	//
-	// Allocate memory for texture structure
-	io_setupModelTextureMemory ( numTextures );
-	//
-	// Load each of the textures
-	numTextures = 0;
-
 	for ( int i = 0; i != NUM_MODELS; i++ )
 		{
 			for ( int j = 0; j != meshModels[i].numMaterials; j++ )
 				{
-					meshModels[i].mesh[j].textureID = utilLoadTexture ( numTextures + NUM_TEXTURES, meshModels[i].materialName[j].C_Str(), -1 );
+					meshModels[i].mesh[j].textureID = utilLoadTexture ( meshModels[i].materialName[j].C_Str(), -1 );
 					con_print ( CON_INFO, true, "Model [ %i ] : Texture ID [ %i ]", i, meshModels[i].mesh[j].textureID );
 				}
 		}
@@ -123,6 +109,7 @@ void ass_renderMesh ( int whichModel, int whichShader, glm::vec3 pos, GLfloat sc
 	//
 	// Adjust the size and position of the mesh
 	scaleMatrix = glm::translate ( glm::mat4(), pos );
+		
 	scaleMatrix = glm::scale ( scaleMatrix, glm::vec3 ( scaleFactor, scaleFactor, scaleFactor ) );
 	//
 	// Translate model bounding box for testing against frustrum
@@ -165,7 +152,7 @@ void ass_renderMesh ( int whichModel, int whichShader, glm::vec3 pos, GLfloat sc
 			wrapglBindTexture ( GL_TEXTURE0 + 3, id_depthTexture );
 
 
-			GL_CHECK ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( camPosition ) ) );
+			GL_CHECK ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( cam3_Position ) ) );
 		}
 
 	//
@@ -267,13 +254,11 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, 3 * mesh->mNumVertices * sizeof ( GLfloat ), vertices, GL_STATIC_DRAW ) );
 
-//            GL_CHECK(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL));
-//            GL_CHECK(glEnableVertexAttribArray (0));
-
 			delete vertices;
 		}
 
 	meshModels[whichModel].hasTextures = false;
+
 	if ( mesh->HasTextureCoords ( 0 ) )
 		{
 			float *texCoords = new float[mesh->mNumVertices * 2];
@@ -288,17 +273,14 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, 2 * mesh->mNumVertices * sizeof ( GLfloat ), texCoords, GL_STATIC_DRAW ) );
 
-//            GL_CHECK(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL));
-//            GL_CHECK(glEnableVertexAttribArray (1));
 			meshModels[whichModel].hasTextures = true;
 			delete texCoords;
 		}
 
 	meshModels[whichModel].hasNormals = false;
+
 	if ( mesh->HasNormals() )
 		{
-
-			con_print ( CON_INFO, true, "Model [ %i ] contains normals", whichModel );
 
 			float *normals = new float[mesh->mNumVertices * 3];
 
@@ -313,8 +295,6 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, 3 * mesh->mNumVertices * sizeof ( GLfloat ), normals, GL_STATIC_DRAW ) );
 
-//            GL_CHECK(glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, NULL));
-//            GL_CHECK(glEnableVertexAttribArray (2));
 			meshModels[whichModel].hasNormals = true;
 			delete normals;
 		}
@@ -333,9 +313,6 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 			GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[INDEX_BUFFER] ) );
 			GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[INDEX_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, 3 * mesh->mNumFaces * sizeof ( GLuint ), indices, GL_STATIC_DRAW ) );
-
-//            GL_CHECK(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, NULL));
-//            GL_CHECK(glEnableVertexAttribArray (3));
 
 			delete indices;
 		}
@@ -360,16 +337,13 @@ bool ass_getMaterials ( aiScene *scene, int whichModel )
 					texturePath.data[strlen ( texturePath.data ) - 4] = '\0';
 					strcpy ( meshModels[whichModel].materialName[i].C_Str(), texturePath.data );
 					con_print ( CON_INFO, true, "Model [ %i ] Material [ %i ] : [ %s ]", whichModel, i, meshModels[whichModel].materialName[i].C_Str() );
-
 				}
-
 			else
 				{
 					strcpy ( meshModels[whichModel].materialName[i].C_Str(), "Material load error" );
 					con_print ( CON_INFO, true, "Model [ %i ] Material [ %i ] : [ %s ]", whichModel, i, meshModels[whichModel].materialName[i].C_Str() );
 				}
 		}
-
 }
 
 //-----------------------------------------------------------------------------

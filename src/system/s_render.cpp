@@ -24,6 +24,7 @@
 #include "s_bullet.h"
 #include "s_doorsBSP.h"
 #include "s_physicsDebug.h"
+#include "s_objects.h"
 
 #include "s_camera3.h"
 bool        drawWireframe = false;
@@ -35,19 +36,11 @@ bool        showGBuffers = false;
 void sys_renderModels ( int whichShader )
 //-----------------------------------------------------------------------------
 {
-
 	//
 	// Reset counter
 	numSkippedModels = 0;
 
-	ass_renderMesh ( MODEL_TANK,  whichShader, glm::vec3 ( 10.0, 35.0, 50.0 ), 0.3f, glm::vec3() );
-	ass_renderMesh ( MODEL_TANK,  whichShader, glm::vec3 ( 50.0, 35.0, 100.0 ), 0.3f, glm::vec3() );
-	ass_renderMesh ( MODEL_TANK,  whichShader, glm::vec3 ( 90.0, 35.0, 150.0 ), 0.3f, glm::vec3() );
-	ass_renderMesh ( MODEL_CRATE, whichShader, glm::vec3 ( -150.0, 40.0, 10.0 ), 0.1f, glm::vec3() );
-	ass_renderMesh ( MODEL_CRATE, whichShader, glm::vec3 ( -180.0, 50.0, 30.0 ), 0.1f, glm::vec3() );
-	ass_renderMesh ( MODEL_CRATE, whichShader, glm::vec3 ( -210.0, 60.0, 50.0 ), 0.1f, glm::vec3() );
-
-	gam_drawBullets ( whichShader );
+	
 }
 
 //-----------------------------------------------------------------------------
@@ -121,7 +114,7 @@ void updateScreen ( float interpolate )
 
 				sprintf ( antParams, "Frame position='%i %i'", antPosX, antPosY );
 				TwDefine ( antParams ); // position bar
-				TwDraw();
+//				TwDraw();
 			}
 
 
@@ -158,7 +151,7 @@ void updateScreen ( float interpolate )
 
 			sys_renderToFBO();
 
-			bsp_renderLevel ( cam_getPosition(), SHADER_GEOMETRY_PASS );
+			bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
 			
 			if ( true == g_debugPhysics )
 				bul_drawDebugWorld();
@@ -166,7 +159,9 @@ void updateScreen ( float interpolate )
 			if ( true == g_debugDoorTriggers )
 				bspDrawAllDoorTriggerZones();
 
-			sys_renderModels ( SHADER_GEOMETRY_PASS );
+			obj_renderAllObjects ( SHADER_GEOMETRY_PASS );
+
+			gam_drawBullets ( SHADER_GEOMETRY_PASS );
 
 			if ( true == g_debugLightPos )
 				{

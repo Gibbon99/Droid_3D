@@ -40,6 +40,8 @@ int bsp_findNumOfLights()
 	// Save value for use later on
 	numOfLights = bsp_getNumEntities ( "myLight" );
 
+	con_print(CON_INFO, true, "Number of lights [ %i ]", numOfLights);
+
 	if ( numOfLights == 0 )
 		return 0;
 
@@ -220,6 +222,9 @@ int bsp_processLightEffect ( float interpolate )
 int bsp_addNewLight ( glm::vec3 color, int effect, int type )
 //-------------------------------------------------------------------------------
 {
+	if (numOfLights == 0)
+		return -1;
+		
 	for ( int i = numOfLights; i != numOfLights + MAX_NUM_BULLETS; i++ )
 		{
 			if ( false == allLights[i].active )

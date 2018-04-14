@@ -15,6 +15,7 @@
 #include "s_defRender.h"
 #include "s_assimp.h"
 #include "s_loadBsp.h"
+#include "s_objects.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -84,11 +85,6 @@ bool initAll()
 			sys_shutdownToSystem();
 		}
 
-	//
-	// Load Models
-	util_executeScriptFunction ( "scr_loadAllModels", "" );
-	ass_loadModelTextures();
-
 	if ( true == bul_startPhysics() )
 		{
 			con_print ( CON_INFO, true, "Physics system started..." );
@@ -98,7 +94,6 @@ bool initAll()
 			con_print ( CON_ERROR, true, "Physics system failed to start." );
 			sysErrorFatal ( __FILE__, __LINE__, "Physics system failed." );
 		}
-
 
 	if ( true == gl_initDefRender ( winWidth, winHeight ) )
 		{
@@ -114,6 +109,11 @@ bool initAll()
 
 	bsp_loadBSP ( "cube.bsp", true );
 
+	//
+	// Load Models
+	util_executeScriptFunction ( "scr_loadAllModels", "" );
+	ass_loadModelTextures();
+	
 	if ( true == io_loadAllTextures() )
 		{
 			con_print ( CON_INFO, true, "Loaded textures." );
@@ -128,6 +128,8 @@ bool initAll()
 
 	gl_registerDebugCallback();
 
+	obj_addSomeObjects();
+	
 //	bul_setPlayerPosition(cam_getPosition(), glm::vec3(0.0, 0.0, 0.0));
 
 	return true;

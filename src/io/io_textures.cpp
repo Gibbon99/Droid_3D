@@ -22,7 +22,7 @@ _fileTypes	fileTypes[] =
 
 #define NUM_SUPPORTED_FILES 4
 
-_Texture     *texturesLoaded = NULL;        // Unknown number of textures to be loaded from BSP info
+vector<_Texture>		texturesLoaded;
 
 //-----------------------------------------------------------------------------
 //
@@ -34,9 +34,6 @@ _Texture     *texturesLoaded = NULL;        // Unknown number of textures to be 
 
 _textureNames		textureNames[] =  	// holds all the information about a texture
 {
-	{"wall"},
-	{"triax_tracks"},
-	{"alltiles"},
 	{"white_square"},
 };
 
@@ -60,6 +57,7 @@ void io_saveScreenToFile()
 
 	// Free resources
 	FreeImage_Unload ( image );
+	
 	delete [] pixels;
 }
 
@@ -67,15 +65,17 @@ void io_saveScreenToFile()
 //-----------------------------------------------------------------------------
 //
 // Load a image from disk/archive file and convert to a OpenGL texture
-int loadImageFile ( int whichTexture, char *fileName, int bspIndex )
+int loadImageFile ( char *fileName, int bspIndex )
 //-----------------------------------------------------------------------------
 {
+	_Texture	tempTexture;
+	
 	stbi_uc     *imageBuffer;
 	int         imageLength;
 
 	//
 	// Setup initial value for each slot
-	texturesLoaded[whichTexture].loaded = false;
+	tempTexture.loaded = false;
 
 	imageLength = io_getFileSize ( fileName );
 
@@ -90,22 +90,22 @@ int loadImageFile ( int whichTexture, char *fileName, int bspIndex )
 	if ( -1 == io_getFileIntoMemory ( fileName, ( char * ) imageBuffer ) )
 		return -1;
 
-	texturesLoaded[whichTexture].imageData = stbi_load_from_memory ( imageBuffer, imageLength, &texturesLoaded[whichTexture].width, &texturesLoaded[whichTexture].height, &texturesLoaded[whichTexture].bpp, 0 );
+	tempTexture.imageData = stbi_load_from_memory ( imageBuffer, imageLength, &tempTexture.width, &tempTexture.height, &tempTexture.bpp, 0 );
 
-	if ( !texturesLoaded[whichTexture].imageData )
+	if ( !tempTexture.imageData )
 		{
-			texturesLoaded[whichTexture].loaded = false;
+			tempTexture.loaded = false;
 			return -1;
 		}
 
-	texturesLoaded[whichTexture].loaded = true;
+	tempTexture.loaded = true;
 
-	texturesLoaded[whichTexture].bspTexID = bspIndex;
+	tempTexture.bspTexID = bspIndex;
 	//
 	// Create an OpenGL texture for the image
-	GL_CHECK ( glGenTextures ( 1, &texturesLoaded[whichTexture].texID ) );
+	GL_CHECK ( glGenTextures ( 1, &tempTexture.texID ) );
 
-	wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[whichTexture].texID );
+	wrapglBindTexture ( GL_TEXTURE0, tempTexture.texID );
 	// Set texture parameters
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -116,17 +116,19 @@ int loadImageFile ( int whichTexture, char *fileName, int bspIndex )
 // GL_SRGB is here instead of GL_RGB to change gamma corrected textures back to linear color space
 // TODO (dberry#1#): Put in paramter for textures/shaders not doing gamma correction
 //
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, texturesLoaded[whichTexture].width, texturesLoaded[whichTexture].height, 0, GL_RGB, GL_UNSIGNED_BYTE, texturesLoaded[whichTexture].imageData );
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, tempTexture.width, tempTexture.height, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTexture.imageData );
 	free ( imageBuffer );
 	// Free imagedata as well?
 
-	return texturesLoaded[whichTexture].texID;
+	texturesLoaded.push_back(tempTexture);
+	
+	return tempTexture.texID;
 }
 
 //-----------------------------------------------------------------------------
 //
 // Load a texture and set it's TextureID
-GLint utilLoadTexture ( GLuint whichTexture, const char *fileName, int bspIndex)
+GLint utilLoadTexture ( const char *fileName, int bspIndex)
 //-----------------------------------------------------------------------------
 {
 	char          tempFileName[MAX_STRING_SIZE];
@@ -137,7 +139,7 @@ GLint utilLoadTexture ( GLuint whichTexture, const char *fileName, int bspIndex)
 			if ( strstr ( fileName, fileTypes[i].fileType ) != NULL )
 				{
 					// Filename already has the extension on it - so load it
-					returnTexID = loadImageFile ( whichTexture, ( char * ) fileName, bspIndex );
+					returnTexID = loadImageFile ( ( char * ) fileName, bspIndex );
 
 					if ( returnTexID != -1 )
 						{
@@ -155,7 +157,7 @@ GLint utilLoadTexture ( GLuint whichTexture, const char *fileName, int bspIndex)
 					strcpy ( tempFileName, fileName );
 					strcat ( tempFileName, fileTypes[i].fileType );
 
-					returnTexID = loadImageFile ( whichTexture, tempFileName, bspIndex );
+					returnTexID = loadImageFile ( tempFileName, bspIndex );
 
 					if ( returnTexID != -1 )
 						{
@@ -173,66 +175,11 @@ GLint utilLoadTexture ( GLuint whichTexture, const char *fileName, int bspIndex)
 
 //-----------------------------------------------------------------------------
 //
-// Setp the memory to hold info for textures for the models
-bool io_setupModelTextureMemory ( int numberTextures )
-//-----------------------------------------------------------------------------
-{
-	if ( !texturesLoaded )
-		RET_FALSE ( "Texture memory not allocated yet - call before loading models.", "" );
-
-	texturesLoaded = ( _Texture * ) realloc ( texturesLoaded, sizeof ( _Texture ) * ( numberTextures + NUM_TEXTURES ) );
-
-	if ( NULL == texturesLoaded )
-		RET_FALSE ( "Memory reallocation error for model textures", "" );
-
-	return true;
-}
-
-//-----------------------------------------------------------------------------
-//
-// Setup the memory to hold info for all the loaded textures
-bool utilSetupTextureMemory ( int numberTextures )
-//-----------------------------------------------------------------------------
-{
-	if ( texturesLoaded )
-		{
-			con_print ( CON_TEXT, true, "Memory already allocated for texturesLoaded. Freeing..." );
-			free ( texturesLoaded );
-		}
-
-	if ( numberTextures < 1 )
-		RET_FALSE ( "Invalid number of textures", true );
-
-	texturesLoaded = ( _Texture * ) malloc ( sizeof ( _Texture ) * numberTextures );
-
-	if ( NULL == texturesLoaded )
-		RET_FALSE ( "Memory allocation error. [ %s ]", __FILE__ );
-
-	//
-	// Now clear out the structure
-	for ( int i = 0; i != numberTextures; i++ )
-		{
-			texturesLoaded[i].imageData = NULL;
-			texturesLoaded[i].bpp = 0;
-			texturesLoaded[i].width = 0;
-			texturesLoaded[i].height = 0;
-			texturesLoaded[i].type = 0;
-			texturesLoaded[i].texID = -1;
-			texturesLoaded[i].loaded = false;
-			texturesLoaded[i].bspTexID = -1;
-		}
-
-	RET_TRUE ( "Memory allocated for textures.", 0 );
-}
-
-//-----------------------------------------------------------------------------
-//
 // Free memory used by texture array
 void io_freeTextureArray()
 //-----------------------------------------------------------------------------
 {
-	if ( texturesLoaded )
-		free ( texturesLoaded );
+	texturesLoaded.clear();
 }
 
 //-----------------------------------------------------------------------------
@@ -241,20 +188,15 @@ void io_freeTextureArray()
 bool io_loadAllTextures()
 //-----------------------------------------------------------------------------
 {
-	int bspTextureCount = 0;
-
-	if ( false == utilSetupTextureMemory ( NUM_TEXTURES + m_numOfTextures ) )
-		return false;
 
 	for ( int i = 0; i != NUM_TEXTURES; i++ )
 		{
-			utilLoadTexture ( i, textureNames[i].fileName, -1 );
+			utilLoadTexture ( textureNames[i].fileName, -1 );
 		}
 
-	for (int i = NUM_TEXTURES; i != NUM_TEXTURES + m_numOfTextures; i++)
+	for (int i = 0; i != m_numOfTextures; i++)
 		{
-			utilLoadTexture (i, m_pTextures[bspTextureCount].strName, bspTextureCount );
-			bspTextureCount++;
+			utilLoadTexture (m_pTextures[i].strName, i );
 		}
 
 	RET_TRUE ( "Texture loading complete.", true );
@@ -266,7 +208,7 @@ bool io_loadAllTextures()
 int io_getGLTexID(int bspTexID)
 //-----------------------------------------------------------------------------
 {
-	for (int i = 0; i != NUM_TEXTURES + m_numOfTextures; i++)
+	for (int i = 0; i != texturesLoaded.size(); i++)
 	{
 		if (bspTexID == texturesLoaded[i].bspTexID)
 			return texturesLoaded[i].texID;

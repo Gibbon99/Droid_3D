@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=dberry
-Date                   :=04/12/18
+Date                   :=04/14/18
 CodeLitePath           :=/home/dberry/.codelite
 LinkerName             :=g++
 SharedObjectLinkerName :=g++ -shared -fPIC
@@ -71,15 +71,15 @@ Objects2=$(IntermediateDirectory)/src_openGL_s_fontUtil.cpp$(ObjectSuffix) $(Int
 	$(IntermediateDirectory)/src_script_as_outputbuffer.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_datatype.cpp$(ObjectSuffix) 
 
 Objects3=$(IntermediateDirectory)/src_script_as_string.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_runFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_console_s_comQuit.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_platform_unix.c$(ObjectSuffix) $(IntermediateDirectory)/src_openGL_s_openGL.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_compiler.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_hog.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_slb.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_console_s_comHelp.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_module.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptarray.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_ppc_64.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_game_s_movement.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_sh4.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptbuilder.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_platform_winrt.cpp$(ObjectSuffix) 
+	$(IntermediateDirectory)/src_console_s_comHelp.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_module.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptarray.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_ppc_64.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_sh4.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptbuilder.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_platform_winrt.cpp$(ObjectSuffix) 
 
-Objects4=$(IntermediateDirectory)/src_physfs_physfs_platform_windows.c$(ObjectSuffix) $(IntermediateDirectory)/src_io_io_loadImage.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_physfs_physfs_platform_posix.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_platform_os2.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_platform_haiku.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_byteorder.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_wad.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_vdf.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_qpak.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_grp.c$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_varsBSP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_7z.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_bsp_s_loadBsp.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_generic.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_io_io_keyboard.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_doorsBSP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_collideBSP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_shaderLights.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_parser.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_game_s_bullet.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_console_s_comOpenGLInfo.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_openGL_s_defRender.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_openGL_s_shadowMap.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_physicsDebug.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_ppc.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_assimp.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_physics.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_antBar.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_vsProfileLib.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_io_io_fileSystem.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptengine.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_objecttype.cpp$(ObjectSuffix) \
+Objects4=$(IntermediateDirectory)/src_physfs_physfs_platform_windows.c$(ObjectSuffix) $(IntermediateDirectory)/src_io_io_loadImage.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_platform_posix.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_physfs_physfs_platform_os2.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_platform_haiku.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_byteorder.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_wad.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_vdf.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_qpak.c$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_grp.c$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_varsBSP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_7z.c$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_loadBsp.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_script_as_generic.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_io_io_keyboard.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_doorsBSP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_collideBSP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_bsp_s_shaderLights.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_parser.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_game_s_bullet.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_console_s_comOpenGLInfo.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_openGL_s_defRender.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_openGL_s_shadowMap.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_libGL_s_physicsDebug.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_ppc.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_assimp.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_physics.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_antBar.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_game_s_objects.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_libGL_s_vsProfileLib.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_io_io_fileSystem.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptengine.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_objecttype.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_script_as_callfunc_arm.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_atomic.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_scriptstdstring.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_configgroup.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptcode.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_memory.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_tokenizer.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptfunction.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_bytecode.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_script_as_variablescope.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_startup.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_builder.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_x64_gcc.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptnode.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_gc.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_leakDetector.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_globals.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_system_s_render.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_physfs_physfs_archiver_dir.c$(ObjectSuffix) 
+	$(IntermediateDirectory)/src_script_as_variablescope.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_startup.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_builder.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_callfunc_x64_gcc.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_scriptnode.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_script_as_gc.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_leakDetector.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_globals.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_system_s_render.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_physfs_physfs_archiver_dir.c$(ObjectSuffix) 
 
 
 
@@ -546,14 +546,6 @@ $(IntermediateDirectory)/src_script_as_callfunc_ppc_64.cpp$(DependSuffix): src/s
 $(IntermediateDirectory)/src_script_as_callfunc_ppc_64.cpp$(PreprocessSuffix): src/script/as_callfunc_ppc_64.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_script_as_callfunc_ppc_64.cpp$(PreprocessSuffix) src/script/as_callfunc_ppc_64.cpp
 
-$(IntermediateDirectory)/src_game_s_movement.cpp$(ObjectSuffix): src/game/s_movement.cpp $(IntermediateDirectory)/src_game_s_movement.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dberry/Documents/Devel/1_Current/GL3/Current/Droid_3D/src/game/s_movement.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_game_s_movement.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_game_s_movement.cpp$(DependSuffix): src/game/s_movement.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_game_s_movement.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_game_s_movement.cpp$(DependSuffix) -MM src/game/s_movement.cpp
-
-$(IntermediateDirectory)/src_game_s_movement.cpp$(PreprocessSuffix): src/game/s_movement.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_game_s_movement.cpp$(PreprocessSuffix) src/game/s_movement.cpp
-
 $(IntermediateDirectory)/src_script_as_callfunc_sh4.cpp$(ObjectSuffix): src/script/as_callfunc_sh4.cpp $(IntermediateDirectory)/src_script_as_callfunc_sh4.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dberry/Documents/Devel/1_Current/GL3/Current/Droid_3D/src/script/as_callfunc_sh4.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_script_as_callfunc_sh4.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_script_as_callfunc_sh4.cpp$(DependSuffix): src/script/as_callfunc_sh4.cpp
@@ -802,6 +794,14 @@ $(IntermediateDirectory)/src_libGL_s_antBar.cpp$(DependSuffix): src/libGL/s_antB
 $(IntermediateDirectory)/src_libGL_s_antBar.cpp$(PreprocessSuffix): src/libGL/s_antBar.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_libGL_s_antBar.cpp$(PreprocessSuffix) src/libGL/s_antBar.cpp
 
+$(IntermediateDirectory)/src_game_s_objects.cpp$(ObjectSuffix): src/game/s_objects.cpp $(IntermediateDirectory)/src_game_s_objects.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dberry/Documents/Devel/1_Current/GL3/Current/Droid_3D/src/game/s_objects.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_game_s_objects.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_game_s_objects.cpp$(DependSuffix): src/game/s_objects.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_game_s_objects.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_game_s_objects.cpp$(DependSuffix) -MM src/game/s_objects.cpp
+
+$(IntermediateDirectory)/src_game_s_objects.cpp$(PreprocessSuffix): src/game/s_objects.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_game_s_objects.cpp$(PreprocessSuffix) src/game/s_objects.cpp
+
 $(IntermediateDirectory)/src_libGL_s_vsProfileLib.cpp$(ObjectSuffix): src/libGL/s_vsProfileLib.cpp $(IntermediateDirectory)/src_libGL_s_vsProfileLib.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dberry/Documents/Devel/1_Current/GL3/Current/Droid_3D/src/libGL/s_vsProfileLib.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_libGL_s_vsProfileLib.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_libGL_s_vsProfileLib.cpp$(DependSuffix): src/libGL/s_vsProfileLib.cpp
@@ -977,14 +977,6 @@ $(IntermediateDirectory)/src_system_s_main.cpp$(DependSuffix): src/system/s_main
 
 $(IntermediateDirectory)/src_system_s_main.cpp$(PreprocessSuffix): src/system/s_main.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_system_s_main.cpp$(PreprocessSuffix) src/system/s_main.cpp
-
-$(IntermediateDirectory)/src_system_s_camera.cpp$(ObjectSuffix): src/system/s_camera.cpp $(IntermediateDirectory)/src_system_s_camera.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dberry/Documents/Devel/1_Current/GL3/Current/Droid_3D/src/system/s_camera.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_system_s_camera.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_system_s_camera.cpp$(DependSuffix): src/system/s_camera.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_system_s_camera.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_system_s_camera.cpp$(DependSuffix) -MM src/system/s_camera.cpp
-
-$(IntermediateDirectory)/src_system_s_camera.cpp$(PreprocessSuffix): src/system/s_camera.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_system_s_camera.cpp$(PreprocessSuffix) src/system/s_camera.cpp
 
 $(IntermediateDirectory)/src_system_s_globals.cpp$(ObjectSuffix): src/system/s_globals.cpp $(IntermediateDirectory)/src_system_s_globals.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/dberry/Documents/Devel/1_Current/GL3/Current/Droid_3D/src/system/s_globals.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_system_s_globals.cpp$(ObjectSuffix) $(IncludePath)

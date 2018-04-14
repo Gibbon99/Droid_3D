@@ -40,12 +40,7 @@ void lib_initAntBar()
 	TwAddVarRW ( antBarGUI, "Doors skip", TW_TYPE_INT32, &numOfDoorsNotDrawn, NULL );
 	TwAddVarRW ( antBarGUI, "Doors drawn", TW_TYPE_INT32, &numOfDoorsDrawn, NULL );
 	TwAddVarRO ( antBarGUI, "Collide", TW_TYPE_BOOL8, &testCollisionWithBSP, NULL );
-	TwAddVarRO ( antBarGUI, "camView", TW_TYPE_DIR3F, &camView, NULL );
-	TwAddVarRO ( antBarGUI, "CamPos", TW_TYPE_DIR3F, &camPosition, NULL );
 
-	TwAddVarRO ( antBarGUI, "CamMove", TW_TYPE_FLOAT, &camMoveDistance, NULL );
-
-	TwAddVarRO ( antBarGUI, "CamDir", TW_TYPE_DIR3F, &camDirection, NULL );
 	TwAddVarRW ( antBarGUI, "Faces Drawn",  TW_TYPE_INT16, &numFacesDrawn, NULL );
 	TwAddVarRW ( antBarGUI, "Faces Not Drawn", TW_TYPE_INT16, &numFacesNotDrawn, NULL );
 

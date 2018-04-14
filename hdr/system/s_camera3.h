@@ -28,3 +28,6 @@ void cam3_initCamera ( glm::vec3 location );
 // Return the direction vector and turn this into velocity for physics
 glm::vec3 cam3_getVelocity();
 
+// Return the current camera position
+glm::vec3 cam3_getCameraPosition();
+

@@ -98,7 +98,7 @@ static void libGetMouseButtonCallback ( GLFWwindow* window, int button, int acti
 			if ( GLFW_PRESS == action )
 				if ( GLFW_MOUSE_BUTTON_1 == button )
 					{
-						gam_createBullet ( cam3_Front, camPosition, bullet_1_speed );
+						gam_createBullet ( cam3_Front, cam3_Position, bullet_1_speed );
 					}
 
 			break;

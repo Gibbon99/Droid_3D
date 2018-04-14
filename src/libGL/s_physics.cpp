@@ -3,7 +3,6 @@
 #include "s_render.h"
 #include "s_doorsBSP.h"
 #include "s_camera.h"       // Need to set camera position before calling this
-#include "s_physicsDebug.h"
 
 float        gravityX;      // Set from startup script
 float        gravityY;

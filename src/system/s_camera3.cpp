@@ -27,6 +27,15 @@ float cam3_MouseSensitivity;
 
 //-------------------------------------------------------------------------------
 //
+// Return the current camera position
+glm::vec3 cam3_getCameraPosition()
+//-------------------------------------------------------------------------------
+{
+	return cam3_Position;
+}
+
+//-------------------------------------------------------------------------------
+//
 // Return the direction vector and turn this into velocity for physics
 glm::vec3 cam3_getVelocity()
 //-------------------------------------------------------------------------------
@@ -77,7 +86,6 @@ void cam3_initCamera ( glm::vec3 location )
 //-------------------------------------------------------------------------------
 {
 	cam3_Position = location;
-	camPosition = location;
 	cam3_Front = glm::vec3 ( 0.0f, 0.0f, -0.2f );
 	cam3_WorldUp = glm::vec3 ( 0.0f, 1.0f, 0.0f );
 	cam3_Up = glm::vec3 (0.0f, 1.0f, 0.0f );

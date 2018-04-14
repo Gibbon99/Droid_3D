@@ -29,15 +29,6 @@ void as_setGameVariables()
 	// Freelook mouse speed
 	mouseSpeed = 0.01f;
 	//
-	// Player acceleration
-	acceleration = 0.2f;
-	//
-	// No faster than this
-	maxSpeed = 1.5f;
-	//
-	// How much to slowdown by
-	friction = 0.5f;
-	//
 	// Change window size and set new global variables
 	lib_resizeWindow ( winWidth,winHeight );
 	//
@@ -81,7 +72,7 @@ void as_setGameVariables()
 	g_debugBoundingBox = true;
 	//
 	// Bullet travels at this speed
-	bullet_1_speed = 1.3f;
+	bullet_1_speed = 200.0f;
 }
 
 //-----------------------------------------------------------------------------
@@ -125,11 +116,11 @@ bool as_conCommandOpenGLVer()
 void as_loadAllModels()
 //-----------------------------------------------------------------------------
 {
-	ass_loadModel ( MODEL_CRATE, 		"data/models/crate01.3ds",  		0.8f );
-	ass_loadModel ( MODEL_TANK, 		"data/models/triax_tracks.md2",  	0.3f );
-	ass_loadModel ( MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2",  	0.3f );
-	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj",			0.4f );
-	ass_loadModel ( MODEL_CONE,			"data/models/cone.dae",				0.5f );
+	ass_loadModel ( MODEL_CRATE, 		"data/models/crate01.3ds",  		0.8f,	true );
+	ass_loadModel ( MODEL_TANK, 		"data/models/triax_tracks.md2",  	0.3f, 	false );
+	ass_loadModel ( MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2",  	0.3f,	false );
+	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj",			0.4f,	false );
+	ass_loadModel ( MODEL_CONE,			"data/models/cone.dae",				0.5f,	false );
 }
 
 //-----------------------------------------------------------------------------

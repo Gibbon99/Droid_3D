@@ -90,8 +90,8 @@
       <File Name="hdr/bsp/s_varsBSP.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="game">
+      <File Name="hdr/game/s_objects.h"/>
       <File Name="hdr/game/s_bullet.h"/>
-      <File Name="hdr/game/s_movement.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="console">
       <File Name="hdr/console/s_console.h"/>
@@ -435,7 +435,6 @@
       <File Name="hdr/system/s_defines.h"/>
       <File Name="hdr/system/s_runFrame.h"/>
       <File Name="hdr/system/s_maths.h"/>
-      <File Name="hdr/system/s_camera.h"/>
       <File Name="hdr/system/s_globals.h"/>
       <File Name="hdr/system/s_debug.h"/>
       <File Name="hdr/system/s_timing.h"/>
@@ -478,8 +477,8 @@
       <File Name="src/bsp/s_shaderLights.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="game">
+      <File Name="src/game/s_objects.cpp"/>
       <File Name="src/game/s_bullet.cpp"/>
-      <File Name="src/game/s_movement.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="console">
       <File Name="src/console/s_console.cpp"/>
@@ -564,7 +563,6 @@
       <File Name="src/system/s_timing.cpp"/>
       <File Name="src/system/s_startup.cpp"/>
       <File Name="src/system/s_main.cpp"/>
-      <File Name="src/system/s_camera.cpp"/>
       <File Name="src/system/s_shutdown.cpp"/>
       <File Name="src/system/s_globals.cpp"/>
       <File Name="src/system/s_debug.cpp"/>

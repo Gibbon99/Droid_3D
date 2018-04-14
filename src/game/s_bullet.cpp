@@ -12,48 +12,6 @@ int                 numActiveBullets = 0;
 
 //----------------------------------------------------------------
 //
-// Check if the bullet collides with the world
-bool bul_checkWorldCollide ( int whichBullet )
-//-----------------------------------------------------------------------------
-{
-#define BOX_SIZE        15
-
-	sMoveData   md;
-
-	glm::vec3   boxMin, boxMax;
-
-	boxMin.x = -BOX_SIZE;
-	boxMin.y = -BOX_SIZE;
-	boxMin.z = -BOX_SIZE;
-
-	boxMax.x = BOX_SIZE;
-	boxMax.y = BOX_SIZE;
-	boxMax.z = BOX_SIZE;
-
-//    bsp_checkSphereMove(bullet[whichBullet].position, bullet[whichBullet].position + bullet[whichBullet].direction, BOX_SIZE, md);
-
-	bsp_checkBoxMove ( bullet[whichBullet].position, bullet[whichBullet].position + bullet[whichBullet].direction, boxMin, boxMax, md );
-
-	//
-	// No collision
-	if ( true == md.AllSolid )
-		{
-			return false;
-		}
-
-	//
-	// Will collide, so reduce amount of movement
-	if ( md.Fraction > 0 )
-		{
-			bullet[whichBullet].position = md.EndPoint;    // This is where we hit something
-			return true;
-		}
-
-	return true;
-}
-
-//----------------------------------------------------------------
-//
 // Draw the bullet model at the passed in position
 void gam_drawBullet ( glm::vec3 position, int whichShader )
 //----------------------------------------------------------------
@@ -73,7 +31,7 @@ void gam_drawBullets ( int whichShader )
 		{
 			if ( true == bullet[i].active )
 				{
-					gam_drawBullet ( phy_getObjectPosition(i), whichShader );
+					gam_drawBullet ( phy_getObjectPosition(bullet[i].physicsIndex), whichShader );
 				}
 		}
 }
@@ -92,15 +50,7 @@ void gam_processBulletMovement ( GLfloat interpolate )
 					
 //					bullet[i].position += ( bullet[i].direction * ( bullet[i].speed * interpolate ) );
 					if ( bullet[i].lightIndex != -1 )
-						allLights[bullet[i].lightIndex].position = phy_getObjectPosition(i);
-
-					if ( false == bul_checkWorldCollide ( i ) )
-						{
-							allLights[bullet[i].lightIndex].active = false;
-							bullet[i].lightIndex = -1;	// Just in case
-							bullet[i].active = false;
-							numActiveBullets--;
-						}
+						allLights[bullet[i].lightIndex].position = phy_getObjectPosition(bullet[i].physicsIndex);
 				}
 		}
 }
@@ -118,13 +68,13 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 					numActiveBullets++;
 					bullet[i].active = true;
 					bullet[i].speed = speed;
-					bullet[i].direction = direction - position;
+					bullet[i].direction = direction; // - position;
 					bullet[i].position = position;
 
 					bullet[i].lightIndex = bsp_addNewLight ( glm::vec3 ( 255.0f, 0.0f, 0.0f ), LIGHT_POINT, LIGHT_POINT );
 					bullet[i].physicsIndex = bul_addPhysicsObject(i, 2.0f, PHYSICS_OBJECT_BOX, 1.0f, position);
 					
-					bul_applyMovement(bullet[i].physicsIndex, 250.0f, bullet[i].direction);
+					bul_applyMovement(bullet[i].physicsIndex, bullet[i].speed, bullet[i].direction);
 
 					return;
 				}

@@ -7,6 +7,7 @@
 #include "s_timing.h"
 #include "s_convertBSP.h"
 #include "s_keyboard.h"
+#include "s_camera3.h"
 
 int					numOfDoors;
 int					numOfDoorsDrawn = 0;
@@ -412,7 +413,7 @@ bool bsp_checkPlayerVsTrigger()
 				{
 					case COMPLETE_IN:
 					case INTERSECT:
-						if ( bspCheckPointDoorCollision ( camPosition, i ) > -1 )
+						if ( bspCheckPointDoorCollision ( cam3_Position, i ) > -1 )
 							{
 								bspStartModelMoveDoor ( i, DOOR_STATE_OPENING );
 							}

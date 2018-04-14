@@ -23,10 +23,6 @@ void showDebugInfo()
 //    gl_setFontColor(1.0f, 1.0f, 1.0f, 1.0f);
 //    ttf_printString(FONT_SMALL, 0.0f, 50.0f, "rayDir    [ %3.3f - %3.3f - %3.3f ]", clickRayDirection.x, clickRayDirection.y, clickRayDirection.z);
 //    ttf_printString(FONT_SMALL, 0.0f, 75.0f, "rayOrigin [ %3.3f - %3.3f - %3.3f ]", clickRayOrigin.x, clickRayOrigin.y, clickRayOrigin.z);
-
-	ttf_addText ( FONT_SMALL, 0.0f, 100.0f, "CamDir  [ %3.3f - %3.3f - %3.3f ]", camDirection.x, camDirection.y, camDirection.z );
-	ttf_addText ( FONT_SMALL, 0.0f, 125.0f, "CamPos [ %3.3f - %3.3f - %3.3f ]", camPosition.x, camPosition.y, camPosition.z );
-
 }
 
 //------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #include "s_globals.h"
-#include "s_camera.h"
+#include "s_camera3.h"
 #include "s_openGLWrap.h"
 #include "s_shaders.h"
 #include "s_lightPass.h"
@@ -153,7 +153,7 @@ void lt_renderFullscreenQuad ( int whichShader )
 	GL_CHECK ( glBindTexture ( GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE] ) );
 	GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "tDiffuse" ), 2 ) );
 
-	GL_CHECK ( glUniform3f ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), camPosition.x, camPosition.y, camPosition.z ) );
+	GL_CHECK ( glUniform3f ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), cam3_Position.x, cam3_Position.y, cam3_Position.z ) );
 
 	GL_CHECK ( glBindVertexArray ( vao ) );
 	//

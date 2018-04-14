@@ -42,7 +42,7 @@ void gameTickRun ( float interpolate )
 			vel = bul_returnCameraPosition();
 
 			cam3_Position = vel;
-			camPosition = vel + cam3_Front;
+//			camPosition = vel + cam3_Front;
 			
 			cam3_CreateViewMatrix(cam3_Position);
 
