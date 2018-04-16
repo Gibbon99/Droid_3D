@@ -28,7 +28,7 @@ bool bsp_setupEntities()
 	m_pEntitiesStruct = ( tBSPEntity * ) malloc ( sizeof ( tBSPEntity ) * ( g_numEntities + 1 ) );
 
 	if ( NULL == m_pEntitiesStruct )
-		sysErrorFatal ( __FILE__, __LINE__, "Memory error: q3bspFindNumEntities: Malloc failed" );
+		sysErrorFatal ( __FILE__, __LINE__, "Memory error: bsp_setupEntities: Malloc failed" );
 
 	uint numOfEntities = 0;
 	int charCount = 0;
@@ -87,7 +87,7 @@ bool bsp_setupEntities()
 	for ( j = 0; j != numOfEntities; j++ )
 		{
 			//
-			// strtok seems to destroy the original string
+			// strtok destroys the original string
 			strcpy ( tempEntityStr, m_pEntitiesStruct[j].value );
 			result = strtok ( tempEntityStr, delimiter );
 
@@ -162,7 +162,6 @@ bool bsp_setupEntities()
 									useTokenValue = true;
 
 								}
-
 							else
 								{
 									strcpy ( entityList[tokenCounter].tokenValue, result );
@@ -213,15 +212,6 @@ int bsp_getNumEntities ( char *whichEntity )
 
 	return entCount;
 }
-/*
-Pass in entity value and key to get value for
-
-Return value for key
-
-Return setID
-
-Get number of entities with string
-*/
 
 //-------------------------------------------------------------------------------
 //
@@ -412,12 +402,9 @@ int bsp_placeCameraAtEntity ( char *param1 )
 		{
 			con_print ( CON_INFO, true, "String [ %s ] not found in entity list.", param1 );
 			return -1;
-
 		}
-
 	else
 		{
-
 			if ( true == verbose )
 				con_print ( CON_INFO, true, "origin [ %4.2f ] [ %4.2f ] [ %4.2f ]", originCoords.x, originCoords.y, originCoords.z );
 
@@ -426,17 +413,9 @@ int bsp_placeCameraAtEntity ( char *param1 )
 //
 			glm::vec3 rotation (0.0f, 0.0f, 0.0f);
 
-//			cam_initCamera(originCoords, rotation);
 			// Init the camera with known values
 			cam3_initCamera ( originCoords );
 			bul_setPlayerPosition(originCoords, rotation);
-/*
-			cam_positionCamera ( originCoords.x, originCoords.y, originCoords.z,
-			                     orientation.x, orientation.y, orientation.z,
-			                     0.0f, 1.0f, 0.0f );			
-			
-			bul_setPlayerPosition(originCoords, orientation);
-*/
 			return 1;
 		}
 

@@ -41,8 +41,8 @@ void lib_initAntBar()
 	TwAddVarRW ( antBarGUI, "Doors drawn", TW_TYPE_INT32, &numOfDoorsDrawn, NULL );
 	TwAddVarRO ( antBarGUI, "Collide", TW_TYPE_BOOL8, &testCollisionWithBSP, NULL );
 
-	TwAddVarRW ( antBarGUI, "Faces Drawn",  TW_TYPE_INT16, &numFacesDrawn, NULL );
-	TwAddVarRW ( antBarGUI, "Faces Not Drawn", TW_TYPE_INT16, &numFacesNotDrawn, NULL );
+	TwAddVarRW ( antBarGUI, "Faces Drawn",  TW_TYPE_INT16, &g_numFacesDrawn, NULL );
+	TwAddVarRW ( antBarGUI, "Faces Not Drawn", TW_TYPE_INT16, &g_numFacesNotDrawn, NULL );
 
 	TwAddVarRW ( antBarGUI,   "Shininess",    TW_TYPE_FLOAT, &materialShininess, "label='Reflectiness'       min=0.0 max=300.0 keyIncr=c keyDecr=C help='Show reflection.' " );
 

@@ -62,10 +62,10 @@ void bsp_initBSP()
 	m_pEntities     = NULL;
 	m_pEntitiesStruct   = NULL;
 
-	numFacesDrawn       = 0;		// Faces drawn this frame
-	numFacesNotDrawn    = 0;		// Faces not drawn this frame
-	numLeafsDrawn       = 0;		// Leafs drawn this frame
-	numLeafsNotDrawn    = 0;		// Leafs skipped this frame
+	g_numFacesDrawn       = 0;		// Faces drawn this frame
+	g_numFacesNotDrawn    = 0;		// Faces not drawn this frame
+	g_numLeafsDrawn       = 0;		// Leafs drawn this frame
+	g_numLeafsNotDrawng    = 0;		// Leafs skipped this frame
 }
 
 //------------------------------------------------------------
@@ -188,7 +188,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	tBSPLump lumps[kMaxLumps] = {0};
 
 	// Read in the header and lump data
-	PHYSFS_read ( filePtr,  &header, sizeof ( tBSPHeader ), 1 );
+	PHYSFS_readBytes ( filePtr,  &header, sizeof ( tBSPHeader ));
 	con_print ( CON_INFO, true, "BSP [ %s ] Version [ %i ]", header.strID, header.version );
 
 	if ( header.version != 0x2e )
@@ -197,7 +197,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			return false;
 		}
 
-	PHYSFS_read ( filePtr, &lumps, sizeof ( tBSPLump ) * kMaxLumps, 1 );
+	PHYSFS_readBytes ( filePtr, &lumps, sizeof ( tBSPLump ) * kMaxLumps);
 
 	// Now we know all the information about our file.  We can
 	// then allocate the needed memory for our member variables.
@@ -230,7 +230,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Get the string containing all the entities
 
 	PHYSFS_seek ( filePtr, lumps[kEntities].offset );
-	PHYSFS_read ( filePtr, m_pEntities, sizeof ( char ) * lumps[kEntities].length, 1 );
+	PHYSFS_readBytes ( filePtr, m_pEntities, sizeof ( char ) * lumps[kEntities].length);
 // TODO (dberry#1#): Causes crash writing text to logfile - too long and overwrites memory
 
 //	con_print(CON_INFO, true, "Entities [ %s ]", m_pEntities);
@@ -243,7 +243,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	for ( i = 0; i < m_numOfVerts; i++ )
 		{
 			// Read in the current vertex
-			PHYSFS_read ( filePtr, &m_pVerts[i], sizeof ( tBSPVertex ) * 1, 1 );
+			PHYSFS_readBytes ( filePtr, &m_pVerts[i], sizeof ( tBSPVertex ) * 1);
 
 			// Swap the y and z values, and negate the new z so Y is up.
 			float temp = m_pVerts[i].vPosition.y;
@@ -258,13 +258,13 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 		}
 
 	PHYSFS_seek ( filePtr, lumps[kMeshVerts].offset );
-	PHYSFS_read ( filePtr, m_pMeshIndex, sizeof ( int ) * m_numOfMeshIndexes, 1 );
+	PHYSFS_readBytes ( filePtr, m_pMeshIndex, sizeof ( int ) * m_numOfMeshIndexes);
 
 	// Seek to the position in the file that stores the face information
 	PHYSFS_seek ( filePtr, lumps[kFaces].offset );
 
 	// Read in all the face information
-	PHYSFS_read ( filePtr, m_pFaces, sizeof ( tBSPFace ) * m_numOfFaces, 1 );
+	PHYSFS_readBytes ( filePtr, m_pFaces, sizeof ( tBSPFace ) * m_numOfFaces);
 
 	//
 	// Swap normals for each face
@@ -281,7 +281,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	PHYSFS_seek ( filePtr, lumps[kTextures].offset );
 
 	// Read in all the texture information
-	PHYSFS_read ( filePtr, m_pTextures, sizeof ( tBSPTexture ) * m_numOfTextures, 1 );
+	PHYSFS_readBytes ( filePtr, m_pTextures, sizeof ( tBSPTexture ) * m_numOfTextures);
 
 	for ( i = 0; i < m_numOfTextures; i++ )
 		{
@@ -295,7 +295,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	for ( i = 0; i < m_numOfLightmaps ; i++ )
 		{
 			// Read in the RGB data for each lightmap
-			PHYSFS_read ( filePtr, &pLightmaps[i], sizeof ( tBSPLightmap ) * 1, 1 );
+			PHYSFS_readBytes ( filePtr, &pLightmaps[i], sizeof ( tBSPLightmap ) * 1);
 
 			// Create a texture map for each lightmap that is read in.  The lightmaps
 			// are always 128 by 128.
@@ -317,7 +317,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	// Seek to the position in the file that hold the nodes and store them in m_pNodes
 	PHYSFS_seek ( filePtr, lumps[kNodes].offset );
-	PHYSFS_read ( filePtr, m_pNodes, sizeof ( tBSPNode ) * m_numOfNodes, 1 );
+	PHYSFS_readBytes ( filePtr, m_pNodes, sizeof ( tBSPNode ) * m_numOfNodes);
 
 	for ( i = 0; i < m_numOfNodes; i++ )
 		{
@@ -337,7 +337,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	// Seek to the position in the file that holds the leafs and store them in m_pLeafs
 	PHYSFS_seek ( filePtr, lumps[kLeafs].offset );
-	PHYSFS_read ( filePtr, m_pLeafs, sizeof ( tBSPLeaf ) * m_numOfLeafs, 1 );
+	PHYSFS_readBytes ( filePtr, m_pLeafs, sizeof ( tBSPLeaf ) * m_numOfLeafs);
 
 	// Now we need to go through and convert all the leaf bounding boxes
 	// to the normal OpenGL Y up axis.
@@ -360,7 +360,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	// Seek to the leaf faces lump, then read it's data
 	PHYSFS_seek ( filePtr, lumps[kLeafFaces].offset );
-	PHYSFS_read ( filePtr, m_pLeafFaces, sizeof ( int ) * m_numOfLeafFaces, 1 );
+	PHYSFS_readBytes ( filePtr, m_pLeafFaces, sizeof ( int ) * m_numOfLeafFaces);
 
 	// Store the number of planes, then allocate memory to hold them
 	m_numOfPlanes = lumps[kPlanes].length / sizeof ( tBSPPlane );
@@ -368,7 +368,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	// Seek to the planes lump in the file, then read them into m_pPlanes
 	PHYSFS_seek ( filePtr, lumps[kPlanes].offset );
-	PHYSFS_read ( filePtr, m_pPlanes, sizeof ( tBSPPlane ) * m_numOfPlanes, 1 );
+	PHYSFS_readBytes ( filePtr, m_pPlanes, sizeof ( tBSPPlane ) * m_numOfPlanes);
 
 	// Go through every plane and convert it's normal to the Y-axis being up
 	for ( i = 0; i < m_numOfPlanes; i++ )
@@ -385,15 +385,15 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	if ( lumps[kVisData].length )
 		{
 			// Read in the number of vectors and each vector's size
-			PHYSFS_read ( filePtr, & ( m_clusters.numOfClusters ), sizeof ( int ) * 1, 1 );
-			PHYSFS_read ( filePtr, & ( m_clusters.bytesPerCluster ), sizeof ( int ) * 1, 1 );
+			PHYSFS_readBytes ( filePtr, & ( m_clusters.numOfClusters ), sizeof ( int ) * 1);
+			PHYSFS_readBytes ( filePtr, & ( m_clusters.bytesPerCluster ), sizeof ( int ) * 1);
 
 			// Allocate the memory for the cluster bitsets
 			int size = m_clusters.numOfClusters * m_clusters.bytesPerCluster;
 			m_clusters.pBitsets = new byte [size];
 
 			// Read in the all the visibility bitsets for each cluster
-			PHYSFS_read ( filePtr, m_clusters.pBitsets, sizeof ( byte ) * size * 1, 1 );
+			PHYSFS_readBytes ( filePtr, m_clusters.pBitsets, sizeof ( byte ) * size * 1);
 		}
 
 	// Otherwise, we don't have any visibility data (prevents a crash)
@@ -404,13 +404,13 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	m_numOfLeafBrushes = lumps[kLeafBrushes].length / sizeof ( int );
 	m_pLeafBrushes = new int[m_numOfLeafBrushes];
 	PHYSFS_seek ( filePtr, lumps[kLeafBrushes].offset );
-	PHYSFS_read ( filePtr, m_pLeafBrushes, sizeof ( int ) * m_numOfLeafBrushes, 1 );
+	PHYSFS_readBytes ( filePtr, m_pLeafBrushes, sizeof ( int ) * m_numOfLeafBrushes);
 
 	// Read in information about the solid models used - doors etc
 	m_numOfModels = lumps[kModels].length / sizeof ( tBSPModel );
 	m_pModels = new tBSPModel[m_numOfModels];
 	PHYSFS_seek ( filePtr, lumps[kModels].offset );
-	PHYSFS_read ( filePtr, m_pModels, sizeof ( tBSPModel ) * m_numOfModels, 1 );
+	PHYSFS_readBytes ( filePtr, m_pModels, sizeof ( tBSPModel ) * m_numOfModels);
 
 	//
 	// Now we need to convert all the bounding boxes to OpenGL - Y axis up
@@ -432,13 +432,13 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	m_pBrushes = new tBSPBrush[m_numOfBrushes];
 
 	PHYSFS_seek ( filePtr, lumps[kBrushes].offset );
-	PHYSFS_read ( filePtr, m_pBrushes, sizeof ( tBSPBrush ) * m_numOfBrushes, 1 );
+	PHYSFS_readBytes ( filePtr, m_pBrushes, sizeof ( tBSPBrush ) * m_numOfBrushes);
 
 	// Read in the brush sides
 	m_numOfBrushSides =	lumps[kBrushSides].length / sizeof ( tBSPBrushSide );
 	m_pBrushSides = new tBSPBrushSide[m_numOfBrushSides];
 	PHYSFS_seek ( filePtr, lumps[kBrushSides].offset );
-	PHYSFS_read ( filePtr, m_pBrushSides, sizeof ( tBSPBrushSide ) * m_numOfBrushSides, 1 );
+	PHYSFS_readBytes ( filePtr, m_pBrushSides, sizeof ( tBSPBrushSide ) * m_numOfBrushSides);
 	//
 	// Close the file
 	PHYSFS_close ( filePtr );
@@ -469,7 +469,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	bsp_setupEntities();
 
-	if ( -1 == bsp_placeCameraAtEntity ( "info_player_start" ) )
+	if ( -1 == bsp_placeCameraAtEntity ( (char *)"info_player_start" ) )
 		printf ( "Couldn't find player start\n" );
 
 	bsp_setLightArrayData();

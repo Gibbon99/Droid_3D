@@ -33,7 +33,7 @@ int bsp_findNumOfDoors()
 	glm::vec3	tempValue;
 	//
 	// Save value for use later on
-	numOfDoors = bsp_getNumEntities ( "func_door" );
+	numOfDoors = bsp_getNumEntities ( (char *)"func_door" );
 
 	if ( numOfDoors == 0 )
 		return 0;
@@ -48,7 +48,7 @@ int bsp_findNumOfDoors()
 
 	for ( int i = 0; i != numOfDoors; i++ )
 		{
-			tempDoor.setID = bsp_getEntitySetID ( "func_door", true );
+			tempDoor.setID = bsp_getEntitySetID ( (char *)"func_door", true );
 			doorModels.push_back ( tempDoor );
 		}
 
@@ -63,7 +63,7 @@ int bsp_findNumOfDoors()
 
 	for ( int i = 0; i != numOfDoors; i++ )
 		{
-			bsp_findEntityInfo ( "func_door", tempKey, &tempValue, false, doorModels[i].setID, VAR_TYPE_TEXT );
+			bsp_findEntityInfo ( (char *)"func_door", tempKey, &tempValue, false, doorModels[i].setID, VAR_TYPE_TEXT );
 			{
 				con_print ( CON_INFO, true, "Door model [ %s ]", tempKey );
 				tempKey[0] = ' ';
@@ -98,7 +98,7 @@ int bsp_findNumOfDoors()
 			//
 			// Get the angle for the door and calculate the trigger area
 			//
-			if ( bsp_findEntityInfo ( "func_door", "angle", &tempValue, false, doorModels[i].setID, VAR_TYPE_INT ) > 0 )
+			if ( bsp_findEntityInfo ( (char *)"func_door", (char *)"angle", &tempValue, false, doorModels[i].setID, VAR_TYPE_INT ) > 0 )
 				{
 					doorModels[i].angle = ( int ) tempValue.x;
 

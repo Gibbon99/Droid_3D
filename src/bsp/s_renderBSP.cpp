@@ -76,11 +76,11 @@ void bsp_prepareFaceRender(int whichShader)
 
 	// Normals
 	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inNormalsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[SHADER_GEOMETRY_PASS].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, normals ) ) ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[SHADER_GEOMETRY_PASS].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
 
 	// Texture coords
 	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inTextureCoordsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[SHADER_GEOMETRY_PASS].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, texCoords ) ) ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[SHADER_GEOMETRY_PASS].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoords ) ) ) );
 
 	//
 	// Enable attribute to hold vertex information
@@ -204,6 +204,7 @@ void bsp_renderFace ( int whichFace, int whichAction )
 			case FACE_RENDER:
 				//
 				// Upload vertex indexes
+				ptrFace = &m_pFaces[whichFace];
 				wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(ptrFace->textureID));
 				GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
 				GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_STATIC_DRAW));
@@ -314,7 +315,6 @@ inline int bsp_isClusterVisible ( int current, int test )
 void bsp_renderLeaf ( int iLeaf, bool CheckFrustum )
 //-----------------------------------------------------------------------------
 {
-
 	// get the leaf we are in
 	tBSPLeaf* pLeaf = &m_pLeafs[ iLeaf ];
 
@@ -350,11 +350,11 @@ void bsp_renderLeaf ( int iLeaf, bool CheckFrustum )
 					// Set this face as drawn and render it
 					m_FacesDrawn.Set ( faceIndex );
 					bsp_addFaceToArray(faceIndex);
-					numFacesDrawn++;
+					g_numFacesDrawn++;
 				}
 
 			else
-				numFacesNotDrawn++;
+				g_numFacesNotDrawn++;
 		}
 }
 
@@ -378,7 +378,7 @@ void bsp_renderTree ( int Node, bool CheckFrustum )
 			switch ( sys_boxInFrustum ( ( float ) pNode->min.x, ( float ) pNode->min.y, ( float ) pNode->min.z, ( float ) pNode->max.x, ( float ) pNode->max.y, ( float ) pNode->max.z ) )
 				{
 					case COMPLETE_OUT:
-						numLeafsNotDrawn++;
+						g_numLeafsNotDrawng++;
 						return;
 
 					// if this one is complete_out, stop analysing this branch
@@ -386,7 +386,7 @@ void bsp_renderTree ( int Node, bool CheckFrustum )
 
 					case COMPLETE_IN:
 						CheckFrustum = false;
-						numLeafsDrawn++;
+						g_numLeafsDrawn++;
 						break;
 						// if we are complete_in, Set CheckFrustum to false to not
 						// check frustum on any of my childs, CheckFrustum will be used
@@ -437,8 +437,8 @@ void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
 	glm::vec3		drawAtModel;
 
 	sortCurrentFaceCount = 0;
-	numFacesDrawn = 0;
-	numFacesNotDrawn = 0;
+	g_numFacesDrawn = 0;
+	g_numFacesNotDrawn = 0;
 
 	// Reset our bitset so all the slots are zero.
 	m_FacesDrawn.ClearAll();

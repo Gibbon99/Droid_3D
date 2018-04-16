@@ -283,7 +283,7 @@ VSProfileLib::DumpLevels()
 
 	char t1[5]="Name";
 	char t2[7]="#c";
-	char t3[9]="#tc";
+//	char t3[9]="#tc";
 	char t4[8]="CPU(ms)";
 	char t41[8] ="GPU(ms)";
 	char t5[3]="wt";
@@ -312,7 +312,7 @@ VSProfileLib::DumpLevels ( int l, int p, pTime calls )
 
 
 	int siz;
-	char a[2] = "";
+//	char a[2] = "";
 	char s[200];
 	char s2[2000];
 	section *sec;
@@ -366,7 +366,7 @@ VSProfileLib::CollectQueryResults()
 #if VSPL_PROFILE == VSPL_PROFILE_CPU_AND_GPU
 	int siz;
 	section *sec;
-	int availableEnd = 0;
+//	int availableEnd = 0;
 	GLuint64 timeStart=0, timeEnd = 0;
 	unsigned long long int aux = 0;
 

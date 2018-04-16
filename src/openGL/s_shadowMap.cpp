@@ -51,8 +51,6 @@ void shadowMoveLight ( float interpolate )
 	static float delayCount = 0;
 	static int angleCounter;
 
-	int radius = 30;
-
 	if ( false == animateLight )
 		return;
 

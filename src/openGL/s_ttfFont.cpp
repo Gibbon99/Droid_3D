@@ -128,8 +128,8 @@ float ttf_getCharsWidth ( float *getHeight, float *charWidth )
 //----------------------------------------------------------------------
 {
 	int advanceX = 0;
-	int maxHeight = 0;
-	int charMaxWidth = 0;
+	unsigned int maxHeight = 0;
+	unsigned int charMaxWidth = 0;
 
 	//
 	// Find the char with the largest width
@@ -363,7 +363,7 @@ bool ttf_initLibrary ( int fontSize, int whichFont )
 			int dsize = bitmap->width * bitmap->rows;
 			data = new GLubyte[dsize];
 
-			int x, y, i = 0;
+			unsigned int x, y, i = 0;
 
 			for ( y = 0; y < bitmap->rows; y++ )
 				for ( x = 0; x < bitmap->width; x++ )

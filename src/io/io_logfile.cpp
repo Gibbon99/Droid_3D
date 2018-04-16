@@ -67,9 +67,10 @@ void io_logToFile ( const char *format, ... )
 {
 	va_list		args;
 	char		logText[MAX_STRING_SIZE];
-	unsigned	byteswritten;
+	int			byteswritten;
+#if defined (WIN32)
 	char		tmpTime[32];
-
+#endif
 	//
 	// check if filelogging is actually enabled
 	//

@@ -41,7 +41,7 @@ void obj_renderAllObjects(int whichShader)
 	if (gameObject.size() == 0)
 		return;
 		
-	for (int i = 0; i != gameObject.size(); i++)
+	for (unsigned int i = 0; i != gameObject.size(); i++)
 	{
 		if (true == gameObject[i].usesPhysics)
 			ass_renderMesh (gameObject[i].meshType, whichShader, phy_getObjectPosition ( gameObject[i].physicsPtr ), gameObject[i].scaleBy, gameObject[i].lightColor );

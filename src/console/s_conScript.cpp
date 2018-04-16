@@ -410,7 +410,7 @@ bool sys_fileIntoMemory ( char *whichFile )
 			return false;
 		}
 
-	if ( PHYSFS_read ( fileHandle, ( void * ) fileLocation, ( size_t ) fileSize, 1 ) <= 0 )
+	if ( PHYSFS_readBytes ( fileHandle, ( void * ) fileLocation, ( size_t ) fileSize) <= 0 )
 		//sys_errorFatal ( "sys_fileIntoMemory", __LINE__, ( char * ) "Read error [ %s ]", fileName );
 		return false;
 

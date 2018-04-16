@@ -326,10 +326,10 @@ extern int              sortCurrentFaceCount;       // Counter for sorting faces
 
 extern float            m_Frustum[6][4];
 
-extern int              numFacesDrawn;			// Faces drawn this frame
-extern int              numFacesNotDrawn;		// Faces not drawn this frame
-extern int              numLeafsDrawn;			// Leafs drawn this frame
-extern int              numLeafsNotDrawn;		// Leafs skipped this frame
+extern int              g_numFacesDrawn;			// Faces drawn this frame
+extern int              g_numFacesNotDrawn;		// Faces not drawn this frame
+extern int              g_numLeafsDrawn;			// Leafs drawn this frame
+extern int              g_numLeafsNotDrawng;		// Leafs skipped this frame
 
 extern GLuint			bspVAO, bspVBO;			// Handle to the BSP info stored on the GPU
 

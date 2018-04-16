@@ -371,7 +371,7 @@ void sys_reportMemLeak ( std::string fileName )
 
 			for ( leak_info = ptr_start; leak_info != NULL; leak_info = leak_info->next )
 				{
-					sprintf ( info, "address : 0x%8x    size    : %d bytes\n", ( int ) leak_info->mem_info.address,leak_info->mem_info.size );
+					sprintf ( info, "address : 0x%8x     size    : %d bytes\n", ( unsigned int ) leak_info->mem_info.address,leak_info->mem_info.size );
 					fwrite ( info, ( strlen ( info ) ), 1, fp_write );
 
 					print_size=leak_info->mem_info.size>64?64:leak_info->mem_info.size;

@@ -43,10 +43,10 @@ int              sortCurrentFaceCount;       // Counter for sorting faces
 
 float            m_Frustum[6][4];
 
-int              numFacesDrawn;			// Faces drawn this frame
-int              numFacesNotDrawn;		// Faces not drawn this frame
-int              numLeafsDrawn;			// Leafs drawn this frame
-int              numLeafsNotDrawn;		// Leafs skipped this frame
+int              g_numFacesDrawn;			// Faces drawn this frame
+int              g_numFacesNotDrawn;		// Faces not drawn this frame
+int              g_numLeafsDrawn;			// Leafs drawn this frame
+int              g_numLeafsNotDrawng;		// Leafs skipped this frame
 
 //_sortedFaces	*sortedFaces;
 vector<_sortedFaces>	sortedFaces;

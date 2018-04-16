@@ -263,7 +263,7 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 		{
 			float *texCoords = new float[mesh->mNumVertices * 2];
 
-			for ( int i = 0; i < mesh->mNumVertices; ++i )
+			for ( unsigned int i = 0; i < mesh->mNumVertices; ++i )
 				{
 					texCoords[i * 2] = mesh->mTextureCoords[0][i].x;
 					texCoords[i * 2 + 1] = mesh->mTextureCoords[0][i].y;
@@ -284,7 +284,7 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 
 			float *normals = new float[mesh->mNumVertices * 3];
 
-			for ( int i = 0; i < mesh->mNumVertices; ++i )
+			for ( unsigned int i = 0; i < mesh->mNumVertices; ++i )
 				{
 					normals[i * 3] = mesh->mNormals[i].x;
 					normals[i * 3 + 1] = mesh->mNormals[i].y;
@@ -303,7 +303,7 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 		{
 			unsigned int *indices = new unsigned int[mesh->mNumFaces * 3];
 
-			for ( int i = 0; i < mesh->mNumFaces; ++i )
+			for ( unsigned int i = 0; i < mesh->mNumFaces; ++i )
 				{
 					indices[i * 3] = mesh->mFaces[i].mIndices[0];
 					indices[i * 3 + 1] = mesh->mFaces[i].mIndices[1];
@@ -337,13 +337,16 @@ bool ass_getMaterials ( aiScene *scene, int whichModel )
 					texturePath.data[strlen ( texturePath.data ) - 4] = '\0';
 					strcpy ( meshModels[whichModel].materialName[i].C_Str(), texturePath.data );
 					con_print ( CON_INFO, true, "Model [ %i ] Material [ %i ] : [ %s ]", whichModel, i, meshModels[whichModel].materialName[i].C_Str() );
+					return true;
 				}
 			else
 				{
-					strcpy ( meshModels[whichModel].materialName[i].C_Str(), "Material load error" );
+					strcpy ( meshModels[whichModel].materialName[i].C_Str(), (const char *)"Material load error" );
 					con_print ( CON_INFO, true, "Model [ %i ] Material [ %i ] : [ %s ]", whichModel, i, meshModels[whichModel].materialName[i].C_Str() );
+					return false;
 				}
 		}
+	return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -362,7 +365,7 @@ bool ass_loadModel ( int whichModel, std::string fileName, float scaleFactor )
 
 	importer.SetPropertyInteger ( AI_CONFIG_PP_RVC_FLAGS, aiComponent_NORMALS );
 
-	aiScene *scene = importer.ReadFile ( fileName, aiProcess_RemoveComponent | aiProcess_Triangulate |  aiProcess_GenSmoothNormals | aiProcess_FlipUVs );
+	aiScene *scene = (aiScene *)importer.ReadFile ( fileName, aiProcess_RemoveComponent | aiProcess_Triangulate |  aiProcess_GenSmoothNormals | aiProcess_FlipUVs );
 
 	if ( !scene )
 		{
@@ -386,7 +389,7 @@ bool ass_loadModel ( int whichModel, std::string fileName, float scaleFactor )
 
 	con_print ( CON_INFO, true, "Mesh [ %i ] : [ %s ] numMeshes [ %i ] numMaterials [ %i ]", whichModel, fileName.c_str(), meshModels[whichModel].numMeshes, meshModels[whichModel].numMaterials );
 
-	for ( int i = 0; i < scene->mNumMeshes; ++i )
+	for ( unsigned int i = 0; i < scene->mNumMeshes; ++i )
 		{
 			ass_uploadMesh ( scene->mMeshes[i], whichModel, i );
 			meshModels[whichModel].mesh[i].materialIndex = scene->mMeshes[i]->mMaterialIndex;
