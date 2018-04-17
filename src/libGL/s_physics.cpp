@@ -26,6 +26,44 @@ vector<_physicsObject>					physicsObjects;
 
 //------------------------------------------------------------
 //
+// Translate bullet results into GLM matrix
+// https://pybullet.org/Bullet/phpBB3/viewtopic.php?t=11462
+glm::mat4 phy_bulletToGlmMatrix ( int index )
+//------------------------------------------------------------
+{
+	glm::mat4 			m;
+	btTransform 		trans;
+	btMatrix3x3 		basis;
+	
+	physicsObjects[index].rigidBody->getMotionState()->getWorldTransform ( trans );
+	basis = trans.getBasis();
+		
+	// rotation
+	for ( int r = 0; r < 3; r++ )
+		{
+			for ( int c = 0; c < 3; c++ )
+				{
+					m[c][r] = basis[r][c];
+				}
+		}
+		
+	// traslation
+	btVector3 origin = trans.getOrigin();
+	m[3][0] = origin.getX();
+	m[3][1] = origin.getY();
+	m[3][2] = origin.getZ();
+	
+	// unit scale
+	m[0][3] = 0.0f;
+	m[1][3] = 0.0f;
+	m[2][3] = 0.0f;
+	m[3][3] = 1.0f;
+	
+	return m;
+}
+
+//------------------------------------------------------------
+//
 // Tick Callback to limit velocity of player
 void limitPlayerVelocityCallback ( btDynamicsWorld *world, btScalar timeStep )
 //------------------------------------------------------------
@@ -44,7 +82,6 @@ void limitPlayerVelocityCallback ( btDynamicsWorld *world, btScalar timeStep )
 // Get position for physics object by index
 glm::vec3 phy_getObjectPosition ( int index )
 //------------------------------------------------------------
-
 {
 	btTransform trans;
 
@@ -133,7 +170,7 @@ void bul_applyMovement ( int index, float applyAmount, glm::vec3 direction )
 //------------------------------------------------------------
 //
 // Add a physics object to the world
-int bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition )
+int bul_addPhysicsObject ( int index, glm::vec4 objectSize, int objectType, float objectMass, glm::vec3 objectPosition )
 //------------------------------------------------------------
 {
 	_physicsObject		tempObject;
@@ -147,7 +184,7 @@ int bul_addPhysicsObject ( int index, int objectSize, int objectType, float obje
 	switch ( objectType )
 		{
 		case PHYSICS_OBJECT_BOX:
-			tempObject.shape = new btBoxShape ( btVector3 ( objectSize / 2, objectSize / 2, objectSize / 2 ) );
+			tempObject.shape = new btBoxShape ( btVector3 ( objectSize.x / 2, objectSize.y / 2, objectSize.z / 2 ) );
 			break;
 
 		}
@@ -316,7 +353,7 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 	else
 		{
 			btScalar		doorMass = 0.6f;
-			
+
 			// Manage door
 			doorModels[whichDoor].shape = new btConvexHullShape ( & ( vertices[0].getX() ),vertices.size() );
 
@@ -324,20 +361,19 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 
 			btVector3 fallInertia ( 0, 0, 0 );
 			doorModels[whichDoor].shape->calculateLocalInertia ( doorMass, fallInertia );
-			
+
 			doorModels[whichDoor].motionShape = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0.0f, 0.0f, 0.0f ) ) );
 			btRigidBody::btRigidBodyConstructionInfo bspRigidBodyDoor ( doorMass, doorModels[whichDoor].motionShape, doorModels[whichDoor].shape, fallInertia );
 
 			doorModels[whichDoor].rigidBody = new btRigidBody ( bspRigidBodyDoor );
-			
-			doorModels[whichDoor].rigidBody->setGravity(btVector3(0.0f, 0.0f, 0.0f));
-			
+
+			doorModels[whichDoor].rigidBody->setGravity ( btVector3 ( 0.0f, 0.0f, 0.0f ) );
+
 			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 1.0f, 0.0f, 0.0f ) );
 
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
-			
-			doorModels[whichDoor].motionShape->getWorldTransform(doorTransform);
+
+			doorModels[whichDoor].motionShape->getWorldTransform ( doorTransform );
 			doorModels[whichDoor].physicsStartLocation = doorTransform.getOrigin();
 		}
 }
-

@@ -1,6 +1,7 @@
 #include "s_globals.h"
 #include "s_physics.h"
 #include "s_objects.h"
+#include "s_assimp.h"
 
  vector<_object>		gameObject;
  
@@ -10,7 +11,7 @@
 void obj_addObject(glm::vec3 position, int meshType, bool usesPhysics, float scaleBy, glm::vec3 lightColor)
 //----------------------------------------------------------
 {
-	_object tempGameObject;
+	_object 	tempGameObject;
 	
 	tempGameObject.position = position;
 	tempGameObject.meshType = meshType;
@@ -18,12 +19,15 @@ void obj_addObject(glm::vec3 position, int meshType, bool usesPhysics, float sca
 	tempGameObject.scaleBy = scaleBy;
 	tempGameObject.usesPhysics = usesPhysics;
 	
+	tempGameObject.finalSize = ass_getModelFinalsize(tempGameObject.meshType, tempGameObject.scaleBy );
+	
 	if (true == usesPhysics)
 	{
 		switch (meshType)
 		{
 			case PHYSICS_OBJECT_BOX:
-			tempGameObject.physicsPtr = bul_addPhysicsObject ( -1, 1.0f, PHYSICS_OBJECT_BOX, 0.5f, position );
+			
+			tempGameObject.physicsPtr = bul_addPhysicsObject ( -1, tempGameObject.finalSize, PHYSICS_OBJECT_BOX, 0.5f, position );
 			break;
 		}
 	}
@@ -44,9 +48,9 @@ void obj_renderAllObjects(int whichShader)
 	for (unsigned int i = 0; i != gameObject.size(); i++)
 	{
 		if (true == gameObject[i].usesPhysics)
-			ass_renderMesh (gameObject[i].meshType, whichShader, phy_getObjectPosition ( gameObject[i].physicsPtr ), gameObject[i].scaleBy, gameObject[i].lightColor );
+			ass_renderMeshMat4 (gameObject[i].meshType, whichShader, phy_bulletToGlmMatrix ( gameObject[i].physicsPtr ), gameObject[i].scaleBy, gameObject[i].lightColor );
 		else
-			ass_renderMesh (gameObject[i].meshType, whichShader, gameObject[i].position, gameObject[i].scaleBy, gameObject[i].lightColor );
+			ass_renderMeshVec3Position (gameObject[i].meshType, whichShader, gameObject[i].position, gameObject[i].scaleBy, gameObject[i].lightColor );
 	}
 }
 

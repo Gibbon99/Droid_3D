@@ -33,7 +33,6 @@ _hostScriptFunctions hostVariables[] =
 	{"float gravityY",                      &gravityY},
 	{"float gravityZ",                      &gravityZ},
 	{"bool showGBuffers",                   &showGBuffers},
-	{"bool bspCollisionDetectOn",           &bspCollisionDetectOn},
 	{"bool g_lockMouse",                    &g_lockMouse},
 	{"bool g_debugLightPos",                &g_debugLightPos},
 	{"bool g_debugBoundingBox",             &g_debugBoundingBox},

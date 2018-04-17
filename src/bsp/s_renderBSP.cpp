@@ -134,20 +134,20 @@ void bsp_renderAllFaces()
 
 			if (previousTexture == ptrFace->textureID)
 				{
-					bsp_renderFace(g_facesForFrame[i], FACE_ADD);
+					bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
 					ptrFace = &m_pFaces[g_facesForFrame[i]];
 					previousTexture = ptrFace->textureID;
 				}
 			else
 				{
-					bsp_renderFace(-1, FACE_RENDER);
-					bsp_renderFace(g_facesForFrame[i], FACE_ADD);
+					bsp_renderFace(-1, FACE_RENDER, previousTexture);
+					bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
 					ptrFace = &m_pFaces[g_facesForFrame[i]];
 					previousTexture = ptrFace->textureID;
 				}
 		}
 
-	bsp_renderFace(-1, FACE_RENDER);
+	bsp_renderFace(-1, FACE_RENDER, previousTexture);
 }
 
 //-----------------------------------------------------------------------------
@@ -187,7 +187,7 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 //-----------------------------------------------------------------------------
 //
 // Actually draw the BSP face
-void bsp_renderFace ( int whichFace, int whichAction )
+void bsp_renderFace ( int whichFace, int whichAction, int whichTexture )
 //-----------------------------------------------------------------------------
 
 {
@@ -204,15 +204,16 @@ void bsp_renderFace ( int whichFace, int whichAction )
 			case FACE_RENDER:
 				//
 				// Upload vertex indexes
-				ptrFace = &m_pFaces[whichFace];
-				wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(ptrFace->textureID));
+				wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(whichTexture));
 				GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
-				GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_STATIC_DRAW));
+
+				GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
+				
 				GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
 				g_currentFrameVertexIndex.clear();
 				break;
+				
 				gl_getAllGLErrors ( glGetError(), __FILE__, __LINE__ );
-
 		}
 }
 
@@ -242,7 +243,7 @@ void bsp_uploadLevelVertex()
 
 	GL_CHECK ( glGenBuffers (1, &bspVBO) );
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
-	GL_CHECK ( glBufferData (GL_ARRAY_BUFFER, m_numOfVerts * sizeof ( _myVertex ), &g_levelDataVertex[0], GL_STATIC_DRAW ) );
+	GL_CHECK ( glBufferData (GL_ARRAY_BUFFER, m_numOfVerts * sizeof ( _myVertex ), &g_levelDataVertex[0], GL_DYNAMIC_DRAW ) );
 	//
 	// Generate indexArray ID - indexes into currently visible faces in current frame
 	GL_CHECK ( glGenBuffers ( 1, &elementArrayID ) );

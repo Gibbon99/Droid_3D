@@ -35,7 +35,7 @@ glm::vec3   bul_returnCameraPosition();
 void bul_setCameraVelocity ( glm::vec3 camVelocity );
 
 // Add a physics object to the world
-int bul_addPhysicsObject ( int index, int objectSize, int objectType, float objectMass, glm::vec3 objectPosition);
+int bul_addPhysicsObject ( int index, glm::vec4 objectSize, int objectType, float objectMass, glm::vec3 objectPosition);
 
 // Get position for physics object by index
 glm::vec3 phy_getObjectPosition ( int index );
@@ -48,3 +48,6 @@ void bul_applyMovement(int index, float applyAmount, glm::vec3 direction);
 
 // Set player rigid body to the same location as the camera
 void bul_setPlayerPosition(glm::vec3 position, glm::vec3 orientation);
+
+// Translate bullet results into GLM matrix
+glm::mat4 phy_bulletToGlmMatrix ( int index );

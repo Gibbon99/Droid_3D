@@ -57,7 +57,7 @@ void io_saveScreenToFile()
 
 	// Free resources
 	FreeImage_Unload ( image );
-	
+
 	delete [] pixels;
 }
 
@@ -69,7 +69,7 @@ int loadImageFile ( char *fileName, int bspIndex )
 //-----------------------------------------------------------------------------
 {
 	_Texture	tempTexture;
-	
+
 	stbi_uc     *imageBuffer;
 	int         imageLength;
 
@@ -120,19 +120,25 @@ int loadImageFile ( char *fileName, int bspIndex )
 	free ( imageBuffer );
 	// Free imagedata as well?
 
-	texturesLoaded.push_back(tempTexture);
-	
+	texturesLoaded.push_back ( tempTexture );
+
 	return tempTexture.texID;
 }
 
 //-----------------------------------------------------------------------------
 //
 // Load a texture and set it's TextureID
-GLint utilLoadTexture ( const char *fileName, int bspIndex)
+GLint utilLoadTexture ( const char *fileName, int bspIndex )
 //-----------------------------------------------------------------------------
 {
+	//
+	// TODO: Something is passing invalid filename - bspIndex is -1 - must be from model
+	//
 	char          tempFileName[MAX_STRING_SIZE];
 	GLint         returnTexID = 0;    // Not GLUint - as it returns -1 on error
+
+	if ( strlen ( fileName ) < 1 )
+		return -1;		//TODO: Models passing in invalid filename??
 
 	for ( int i = 0; i != NUM_SUPPORTED_FILES; i++ )
 		{
@@ -194,9 +200,9 @@ bool io_loadAllTextures()
 			utilLoadTexture ( textureNames[i].fileName, -1 );
 		}
 
-	for (int i = 0; i != m_numOfTextures; i++)
+	for ( int i = 0; i != m_numOfTextures; i++ )
 		{
-			utilLoadTexture (m_pTextures[i].strName, i );
+			utilLoadTexture ( m_pTextures[i].strName, i );
 		}
 
 	RET_TRUE ( "Texture loading complete.", true );
@@ -205,12 +211,14 @@ bool io_loadAllTextures()
 //-----------------------------------------------------------------------------
 //
 // Pass in the BSP texture index and return the OpenGL texID
-int io_getGLTexID(int bspTexID)
+int io_getGLTexID ( int bspTexID )
 //-----------------------------------------------------------------------------
 {
-	for (int i = 0; i != texturesLoaded.size(); i++)
-	{
-		if (bspTexID == texturesLoaded[i].bspTexID)
-			return texturesLoaded[i].texID;
-	}
+	for ( unsigned int i = 0; i != texturesLoaded.size(); i++ )
+		{
+			if ( bspTexID == texturesLoaded[i].bspTexID )
+				return texturesLoaded[i].texID;
+		}
+	con_print(CON_ERROR, true, "Could not find matching texture for id [ %i ]", bspTexID);
+	return -1;
 }

@@ -56,14 +56,11 @@ void as_setGameVariables()
 	globalAmbient = 0.3;
 	globalGammaFactor = 0.2;
 	//
-	// BSP collision
-	bspCollisionDetectOn = false;
-	//
 	// Show the triggers for doors
 	g_debugDoorTriggers = true;
 	//
 	// Debug physics - show physic objects outlines
-	g_debugPhysics = false;
+	g_debugPhysics = true;
 	//
 	// Show position of lights in map
 	g_debugLightPos = false;

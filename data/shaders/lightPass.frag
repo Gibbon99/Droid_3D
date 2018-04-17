@@ -31,5 +31,5 @@ void main()
 	outColor = vec4(color, 1.0);
 
 
-	outColor.rgb = texture(tDiffuse, fragTexCoord0).rgb * 0.4f;	// Factor to darken level by
+	outColor.rgb = texture(tDiffuse, fragTexCoord0).rgb;  // * 0.4f;	// Factor to darken level by
 }

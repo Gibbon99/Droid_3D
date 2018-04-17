@@ -39,7 +39,6 @@ void lib_initAntBar()
 	TwAddVarRW ( antBarGUI, "Skip Models", TW_TYPE_INT32, &numSkippedModels, NULL );
 	TwAddVarRW ( antBarGUI, "Doors skip", TW_TYPE_INT32, &numOfDoorsNotDrawn, NULL );
 	TwAddVarRW ( antBarGUI, "Doors drawn", TW_TYPE_INT32, &numOfDoorsDrawn, NULL );
-	TwAddVarRO ( antBarGUI, "Collide", TW_TYPE_BOOL8, &testCollisionWithBSP, NULL );
 
 	TwAddVarRW ( antBarGUI, "Faces Drawn",  TW_TYPE_INT16, &g_numFacesDrawn, NULL );
 	TwAddVarRW ( antBarGUI, "Faces Not Drawn", TW_TYPE_INT16, &g_numFacesNotDrawn, NULL );

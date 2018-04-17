@@ -70,7 +70,7 @@ void lt_renderPointLights ( int whichShader )
 		{
 			if ( allLights[i].active == true )
 				{
-					ass_renderMesh ( MODEL_SPHERE,  whichShader, allLights[i].position, allLights[i].attenuation * 100, allLights[i].color );
+					ass_renderMeshVec3Position ( MODEL_SPHERE,  whichShader, allLights[i].position, allLights[i].attenuation * 100, allLights[i].color );
 				}
 		}
 

@@ -75,11 +75,130 @@ void ass_loadModelTextures()
 
 //-----------------------------------------------------------------------------
 //
-// Render the mesh
+// Render the mesh using a transform/rotation/scale matrix from bullet
+//
+void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatrix, GLfloat scaleBy, glm::vec3 lightColor )
+//-----------------------------------------------------------------------------
+{
+	GLfloat     	scaleFactor;
+	glm::vec4       minSize;
+	glm::vec4       maxSize;
+
+	if ( false == meshModels[whichModel].loaded )
+		return;
+	
+	int whichMesh = 0;	// Which mesh to use from the loaded model
+	
+	//
+	// Work out translation and scale matrix
+	if ( -1.0f == scaleBy )
+		scaleFactor = meshModels[whichModel].scaleFactor;
+	else
+		scaleFactor = scaleBy;
+
+	physicsMatrix = glm::scale ( physicsMatrix, glm::vec3 ( scaleFactor, scaleFactor, scaleFactor ) );
+	
+	//
+	// Translate model bounding box for testing against frustrum
+	minSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].boundingBox.minSize, 1.0 );
+	maxSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].boundingBox.maxSize, 1.0 );
+
+	if ( COMPLETE_OUT == sys_boxInFrustum ( minSize.x, minSize.y, minSize.z,
+	                                        maxSize.x, maxSize.y, maxSize.z ) )
+		{
+			numSkippedModels++;
+			return;
+		}
+
+
+	GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].vao_ID ) );
+	GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
+
+	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( physicsMatrix ) ) );
+	GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( physicsMatrix ) ) ) ) );
+
+	if ( MODEL_SPHERE == whichModel )
+		{
+
+			GL_ASSERT ( glUniform1f ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightRadius" ), scaleBy ) );
+			GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightColor" ), 1, glm::value_ptr ( lightColor ) ) );
+//			GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightPosition" ), 1, glm::value_ptr ( pos ) ) );
+
+			GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uPositionTex" ), 0 ) );
+			wrapglBindTexture ( GL_TEXTURE0 + 0, id_textures[GBUFFER_TEXTURE_TYPE_POSITION] );
+
+			GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uNormalTex" ), 1 ) );
+			wrapglBindTexture ( GL_TEXTURE0 + 1, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL] );
+
+			GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDiffuseTex" ), 2 ) );
+			wrapglBindTexture ( GL_TEXTURE0 + 2, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE] );
+
+			GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDepthTex" ), 3 ) );
+			wrapglBindTexture ( GL_TEXTURE0 + 3, id_depthTexture );
+
+			GL_CHECK ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( cam3_Position ) ) );
+		}
+
+	//
+	// Always use vertex information
+	GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+
+	if ( meshModels[whichModel].hasNormals == true )
+		{
+			//
+			// Use Normal information
+			GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+		}
+
+	if ( meshModels[whichModel].hasTextures == true )
+		{
+			//
+			// Use Texture coordinate information
+			GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+
+			wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+		}
+
+	GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL ) );
+
+	glBindVertexArray ( 0 );
+	glUseProgram ( 0 );
+}
+
+//-----------------------------------------------------------------------------
+//
+// Return the physical size of the model after scaling
+glm::vec4 ass_getModelFinalsize(int whichModel, float scaleFactor)
+//-----------------------------------------------------------------------------
+{
+	glm::mat4		scaleMatrix;
+	glm::vec4		minSize, maxSize;
+	
+	scaleMatrix = glm::mat4();
+	
+	scaleMatrix = glm::scale ( scaleMatrix, glm::vec3 ( scaleFactor, scaleFactor, scaleFactor ) );
+	//
+	// Translate model bounding box for testing against frustrum
+	minSize = scaleMatrix * glm::vec4 ( meshModels[whichModel].boundingBox.minSize, 1.0 );
+	maxSize = scaleMatrix * glm::vec4 ( meshModels[whichModel].boundingBox.maxSize, 1.0 );
+	
+	return maxSize - minSize;
+}
+	
+//-----------------------------------------------------------------------------
+//
+// Render the mesh using just a GLM::VEC3 position
 //
 // Pass in -1.0f to scaleBy to use setting from model loading
 //
-void ass_renderMesh ( int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy, glm::vec3 lightColor )
+void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy, glm::vec3 lightColor )
 //-----------------------------------------------------------------------------
 {
 	GLfloat     	scaleFactor;
@@ -126,7 +245,6 @@ void ass_renderMesh ( int whichModel, int whichShader, glm::vec3 pos, GLfloat sc
 
 	GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].vao_ID ) );
 	GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
-
 
 	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
 	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( scaleMatrix ) ) );
@@ -186,6 +304,7 @@ void ass_renderMesh ( int whichModel, int whichShader, glm::vec3 pos, GLfloat sc
 	glBindVertexArray ( 0 );
 	glUseProgram ( 0 );
 }
+
 
 //-----------------------------------------------------------------------------
 //

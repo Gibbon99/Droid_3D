@@ -23,7 +23,7 @@ void bsp_uploadLevelVertex();
 void bsp_createVextexIndexArray ( tBSPFace *ptrFace );
 
 // Actually draw the BSP face
-void bsp_renderFace ( int whichFace, int whichAction );
+void bsp_renderFace ( int whichFace, int whichAction, int whichTexture );
 
 // Add the index for the face into vector array
 void bsp_addFaceToArray(int whichFace );

@@ -13,6 +13,9 @@ typedef struct
 	GLfloat         speed;
 	int				lightIndex;
 	int				physicsIndex;
+	int				whichMesh;
+	glm::vec4		physicsSize;
+	float			meshScaleFactor;
 } _bullet;
 
 extern _bullet             bullet[];

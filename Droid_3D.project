@@ -473,7 +473,6 @@
       <File Name="src/bsp/s_doorsBSP.cpp"/>
       <File Name="src/bsp/s_entitiesBSP.cpp"/>
       <File Name="src/bsp/s_varsBSP.cpp"/>
-      <File Name="src/bsp/s_collideBSP.cpp"/>
       <File Name="src/bsp/s_shaderLights.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="game">
