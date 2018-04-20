@@ -61,10 +61,10 @@ void obj_renderAllObjects(int whichShader)
 void obj_addSomeObjects()
 //----------------------------------------------------------
 {
-	obj_addObject( glm::vec3 ( 10.0, 15.0, 50.0 ), MODEL_TANK, false, 0.3f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 50.0, 15.0, 100.0 ), MODEL_TANK, false, 0.3f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 10.0, 10.0, 50.0 ), MODEL_TANK, true, 0.3f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 50.0, 10.0, 100.0 ), MODEL_TANK, true, 0.3f, glm::vec3() );
 	
-	obj_addObject( glm::vec3 ( 100.0, 5.0, 10.0 ), MODEL_CRATE, true, 0.1f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 120.0, 5.0, 10.0 ), MODEL_CRATE, true, 0.2f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 140.0, 5.0, 10.0 ), MODEL_CRATE, true, 0.3f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 100.0, 5.0, 10.0 ), MODEL_CRATE, true, 10.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 120.0, 5.0, 10.0 ), MODEL_CRATE, true, 10.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 140.0, 5.0, 10.0 ), MODEL_CRATE, true, 10.0f, glm::vec3() );
 }

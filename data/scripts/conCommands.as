@@ -113,7 +113,7 @@ bool as_conCommandOpenGLVer()
 void as_loadAllModels()
 //-----------------------------------------------------------------------------
 {
-	ass_loadModel ( MODEL_CRATE, 		"data/models/crate01.3ds",  		0.8f,	true );
+	ass_loadModel ( MODEL_CRATE, 		"data/models/Crate1.obj",  			1.8f,	true );
 	ass_loadModel ( MODEL_TANK, 		"data/models/triax_tracks.md2",  	0.3f, 	false );
 	ass_loadModel ( MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2",  	0.3f,	false );
 	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj",			0.4f,	false );

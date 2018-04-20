@@ -80,7 +80,6 @@ void ass_loadModelTextures()
 void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatrix, GLfloat scaleBy, glm::vec3 lightColor )
 //-----------------------------------------------------------------------------
 {
-	GLfloat     	scaleFactor;
 	glm::vec4       minSize;
 	glm::vec4       maxSize;
 
@@ -89,14 +88,7 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 	
 	int whichMesh = 0;	// Which mesh to use from the loaded model
 	
-	//
-	// Work out translation and scale matrix
-	if ( -1.0f == scaleBy )
-		scaleFactor = meshModels[whichModel].scaleFactor;
-	else
-		scaleFactor = scaleBy;
-
-	physicsMatrix = glm::scale ( physicsMatrix, glm::vec3 ( scaleFactor, scaleFactor, scaleFactor ) );
+	physicsMatrix = glm::scale ( physicsMatrix, glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
 	
 	//
 	// Translate model bounding box for testing against frustrum
