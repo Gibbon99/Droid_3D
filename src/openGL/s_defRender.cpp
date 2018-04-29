@@ -186,7 +186,7 @@ void gl_showGBuffers()
 	GLint halfWidth = winWidth / 2.0f;
 	GLint halfHeight = winHeight / 2.0f;
 
-	gl_setFontColor ( 1.0, 1.0, 1.0, 1.0 );
+	ttf_setFontColor ( 1.0, 1.0, 1.0, 1.0 );
 
 	//
 	// Bottom left
@@ -206,7 +206,7 @@ void gl_showGBuffers()
 	//
 	// Bottom right
 	lt_renderDepthQuad ( SHADER_DEPTHMAP );
-	gl_setFontColor ( 1.0, 1.0, 0.0, 1.0 );
+	ttf_setFontColor ( 1.0, 1.0, 0.0, 1.0 );
 	ttf_addText ( FONT_SMALL, halfWidth, winHeight - 40.0f, "DEPTH" );
 }
 

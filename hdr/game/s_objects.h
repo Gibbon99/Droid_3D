@@ -10,7 +10,6 @@ typedef struct
 	int			meshType;
 	int			physicsPtr;
 	float		scaleBy;
-	glm::vec4	finalSize;
 } _object;
 
 extern vector<_object>		gameObject;

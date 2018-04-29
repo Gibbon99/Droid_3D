@@ -3,6 +3,7 @@
 #include "s_render.h"
 #include "s_doorsBSP.h"
 #include "s_camera.h"       // Need to set camera position before calling this
+#include "s_assimp.h"
 
 float        gravityX;      // Set from startup script
 float        gravityY;
@@ -170,7 +171,7 @@ void bul_applyMovement ( int index, float applyAmount, glm::vec3 direction )
 //------------------------------------------------------------
 //
 // Add a physics object to the world
-int bul_addPhysicsObject ( int index, glm::vec4 objectSize, int objectType, float objectMass, glm::vec3 objectPosition )
+int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectType, float objectMass, glm::vec3 objectPosition )
 //------------------------------------------------------------
 {
 	_physicsObject		tempObject;
@@ -183,16 +184,21 @@ int bul_addPhysicsObject ( int index, glm::vec4 objectSize, int objectType, floa
 
 	switch ( objectType )
 		{
-		case PHYSICS_OBJECT_BOX:
-			tempObject.shape = new btBoxShape ( btVector3 ( objectSize.x / 2, objectSize.y / 2, objectSize.z / 2 ) );
+			case MODEL_TANK:
+			case MODEL_FEMADROID:
+			tempObject.shape = meshModels[objectType].mesh[whichMesh].physicsShapeConvexHull;
+			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy, scaleBy, scaleBy ) );
+			break;
+			
+			case MODEL_CRATE:
+			tempObject.shape = meshModels[objectType].mesh[whichMesh].physicsShapeConvexHull;
+//			tempObject.shape = new btBoxShape ( btVector3 ( scaleBy / 2, scaleBy / 2, scaleBy / 2) );
+			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy / 2, scaleBy / 2, scaleBy / 2 ) );
 			break;
 
 		}
 
 	btVector3 fallInertia ( 1, 1, 1 );
-	float scalePhysicsBy = 1.0;
-
-	tempObject.shape->setLocalScaling ( btVector3 ( scalePhysicsBy, scalePhysicsBy, scalePhysicsBy ) );
 
 	tempObject.shape->calculateLocalInertia ( objectMass, fallInertia );
 	tempObject.motionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( objectPosition.x, objectPosition.y, objectPosition.z ) ) );

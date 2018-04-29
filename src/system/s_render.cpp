@@ -26,6 +26,7 @@
 #include "s_physicsDebug.h"
 #include "s_objects.h"
 
+#include "s_fontUtil.h"
 #include "s_camera3.h"
 bool        drawWireframe = false;
 bool        showGBuffers = false;
@@ -40,7 +41,7 @@ void sys_renderModels ( int whichShader )
 	// Reset counter
 	numSkippedModels = 0;
 
-	
+
 }
 
 //-----------------------------------------------------------------------------
@@ -76,12 +77,12 @@ void sys_renderToFBO()
 //-----------------------------------------------------------------------------
 //
 // Draw everything to the screen
-void updateScreen ( float interpolate )
+void sys_displayScreen ( float interpolate )
 //-----------------------------------------------------------------------------
 {
 //    char profileText[64];
 
-	glClearColor ( 0.0f, 0.0f, 0.6f, 0.0f );
+	glClearColor ( 1.0f, 1.0f, 1.0f, 0.0f );
 	glViewport ( 0, 0, winWidth, winHeight );
 	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -91,121 +92,129 @@ void updateScreen ( float interpolate )
 
 	switch ( currentMode )
 		{
-		case MODE_CONSOLE:
-		{
-
-			lib_setMouseCursor ( true );
-			PROFILE ( "Frame" );
-
-			gl_set2DMode();
-
-			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 0.5 );
-			ttf_addText ( FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint );
-
-			gl_setFontColor ( 1.0f, 0.0f, 1.0f, 1.0f );
-			gl_drawScreen ( );
-
-			// Draw GUI
+			case MODE_CONSOLE:
 			{
-				PROFILE ( "GUI" );
-				char        antParams[32];
-				sprintf ( antParams, "Frame size='%i %i'", antBarWidth, antBarHeight );
-				TwDefine ( antParams ); // resize bar
 
-				sprintf ( antParams, "Frame position='%i %i'", antPosX, antPosY );
-				TwDefine ( antParams ); // position bar
+				lib_setMouseCursor ( true );
+				PROFILE ( "Frame" );
+
+				gl_set2DMode();
+
+				ttf_setFontColor ( 0.7f, 0.7f, 0.0f, 0.5 );
+				ttf_addText ( FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint );
+
+				ttf_setFontColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+				con_createConsoleScreen ( );
+
+
+				
+				// Draw GUI
+				{
+					PROFILE ( "GUI" );
+					char        antParams[32];
+					sprintf ( antParams, "Frame size='%i %i'", antBarWidth, antBarHeight );
+					TwDefine ( antParams ); // resize bar
+
+					sprintf ( antParams, "Frame position='%i %i'", antPosX, antPosY );
+					TwDefine ( antParams ); // position bar
 //				TwDraw();
-			}
+				}
 
+				gl_set2DMode();
+				con_showConsole();
 
 #ifdef SHOW_PROFILE_STATS
-			std::string s = VSProfileLib::DumpLevels();
+				std::string s = VSProfileLib::DumpLevels();
 
-			char tempString[128];
-			int j = 0;
-			int posY = 300;
-			int yCount = 0;
-			strcpy ( tempString, "" );
+				char tempString[128];
+				int j = 0;
+				int posY = 300;
+				int yCount = 0;
+				strcpy ( tempString, "" );
 
-			//    ttf_printString(FONT_SMALL, 300, 100, s.c_str());
-			ttf_addText ( FONT_SMALL, 50, 200, s.c_str() );
-			io_logToFile ( "Render \n %s", s.c_str() );
+				//    ttf_printString(FONT_SMALL, 300, 100, s.c_str());
+				ttf_addText ( FONT_SMALL, 50, 200, s.c_str() );
+				io_logToFile ( "Render \n %s", s.c_str() );
 
 
-			for ( int i = 0; i != s.length(); i++ )
-				{
-					tempString[j++] = s.c_str() [i];
-					if ( s.c_str() [i] == '\n' )
-						{
-							j = 0;
-							yCount++;
-							ttf_addText ( 0, 450, posY + ( conFontSize * yCount ), tempString );
-						}
-				}
+				for ( int i = 0; i != s.length(); i++ )
+					{
+						tempString[j++] = s.c_str() [i];
+
+						if ( s.c_str() [i] == '\n' )
+							{
+								j = 0;
+								yCount++;
+								ttf_addText ( 0, 450, posY + ( conFontSize * yCount ), tempString );
+							}
+					}
+
 #endif
-		}	// end of case
-		break;
+			}	// end of case
+			break;
 
-		case MODE_GAME:
-			lib_setMouseCursor ( false );
+			case MODE_GAME:
+				lib_setMouseCursor ( false );
 
-			sys_renderToFBO();
+				sys_renderToFBO();
 
-			bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
-			
-			if ( true == g_debugPhysics )
-				bul_drawDebugWorld();
+				bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
 
-			if ( true == g_debugDoorTriggers )
-				bspDrawAllDoorTriggerZones();
+				if ( true == g_debugPhysics )
+					bul_drawDebugWorld();
 
-			obj_renderAllObjects ( SHADER_GEOMETRY_PASS );
+				if ( true == g_debugDoorTriggers )
+					bspDrawAllDoorTriggerZones();
 
-			gam_drawBullets ( SHADER_GEOMETRY_PASS );
+				obj_renderAllObjects ( SHADER_GEOMETRY_PASS );
 
-			if ( true == g_debugLightPos )
-				{
-					for ( int i = 0; i != numOfLights; i++ )
-						{
-							drawLightPos ( SHADER_COLOR, allLights[i].position );
-							drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
-						}
-				}
+				gam_drawBullets ( SHADER_GEOMETRY_PASS );
 
-			glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
-			glUseProgram ( 0 );
+				if ( true == g_debugLightPos )
+					{
+						for ( int i = 0; i != numOfLights; i++ )
+							{
+								drawLightPos ( SHADER_COLOR, allLights[i].position );
+								drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
+							}
+					}
 
-			if ( true == showGBuffers )
-				gl_showGBuffers();
+				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
+				glUseProgram ( 0 );
 
-			glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
-			glUseProgram ( 0 );
+				if ( true == showGBuffers )
+					gl_showGBuffers();
 
-			wrapglEnable ( GL_DEPTH_TEST );
-			wrapglDisable ( GL_CULL_FACE );
+				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
+				glUseProgram ( 0 );
 
-			if ( false == showGBuffers )
-				{
-					gl_bindForReading();
-					lt_renderFullscreenQuad ( SHADER_DIR_LIGHT );
+				wrapglEnable ( GL_DEPTH_TEST );
+				wrapglDisable ( GL_CULL_FACE );
 
-					lt_renderPointLights ( SHADER_POINT_LIGHT );
-				}
+				if ( false == showGBuffers )
+					{
+						gl_bindForReading();
+						lt_renderFullscreenQuad ( SHADER_DIR_LIGHT );
+
+						lt_renderPointLights ( SHADER_POINT_LIGHT );
+					}
 
 //			TwDraw();
-
-#define LINE_SPACE 21.0f 
-			gl_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
-			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 1, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Average [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenAvg );
-			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 2, "Faces Drawn [ %i ] NotDrawn [ %i ]", g_numFacesDrawn, g_numFacesNotDrawn);
-			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 3, "textureChanges [ %i ] VertIndexes [ %i ] Verts [ %i ] Tris [ %i ]", g_texturesChanges, g_vertIndexCounter, g_numVertexPerFrame, g_numVertexPerFrame / 3);
-			ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 4, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
+/*
+#define LINE_SPACE 21.0f
+				ttf_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
+				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 1, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Average [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenAvg );
+				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 2, "Faces Drawn [ %i ] NotDrawn [ %i ]", g_numFacesDrawn, g_numFacesNotDrawn);
+				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 3, "textureChanges [ %i ] VertIndexes [ %i ] Verts [ %i ] Tris [ %i ]", g_texturesChanges, g_vertIndexCounter, g_numVertexPerFrame, g_numVertexPerFrame / 3);
+				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 4, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
+				 * */
 		}
-			//
-			// Render all text in VBO memory
-			gl_set2DMode();
-			ttf_displayText ( FONT_SMALL );
 
-			lib_swapBuffers();
-		
+	//
+	// Render all text in VBO memory
+	
+//	ttf_displayText ( FONT_SMALL );
+
+
+	lib_swapBuffers();
 }

@@ -63,17 +63,13 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 					numActiveBullets++;
 					bullet[i].active = true;
 					bullet[i].speed = speed;
-					bullet[i].direction = direction; // - position;
+					bullet[i].direction = direction;
 					bullet[i].position = position;
 					bullet[i].whichMesh = MODEL_CRATE;
 					bullet[i].meshScaleFactor = 5.0f;
-					
-					bullet[i].physicsSize = ass_getModelFinalsize(bullet[i].whichMesh, bullet[i].meshScaleFactor);
-
-//con_print(CON_INFO, true, "Bullet physics size [ %3.3f %3.3f %3.3f ]", bullet[i].physicsSize.x, bullet[i].physicsSize.y, bullet[i].physicsSize.z);
 
 					bullet[i].lightIndex = bsp_addNewLight ( glm::vec3 ( 055.0f, 0.0f, 0.0f ), LIGHT_POINT, LIGHT_POINT );
-					bullet[i].physicsIndex = bul_addPhysicsObject(i, bullet[i].physicsSize, PHYSICS_OBJECT_BOX, 1.0f, position);
+					bullet[i].physicsIndex = bul_addPhysicsObject(i, -1, bullet[i].meshScaleFactor, PHYSICS_OBJECT_BOX, 1.0f, position);
 					
 					bul_applyMovement(bullet[i].physicsIndex, bullet[i].speed, bullet[i].direction);
 

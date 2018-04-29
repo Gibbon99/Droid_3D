@@ -35,7 +35,7 @@ glm::vec3   bul_returnCameraPosition();
 void bul_setCameraVelocity ( glm::vec3 camVelocity );
 
 // Add a physics object to the world
-int bul_addPhysicsObject ( int index, glm::vec4 objectSize, int objectType, float objectMass, glm::vec3 objectPosition);
+int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectType, float objectMass, glm::vec3 objectPosition );
 
 // Get position for physics object by index
 glm::vec3 phy_getObjectPosition ( int index );

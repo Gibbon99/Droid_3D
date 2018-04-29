@@ -368,6 +368,23 @@
       <File Name="hdr/openGL/s_ttfFont.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="libGL">
+      <VirtualDirectory Name="freetype-gl">
+        <File Name="hdr/libGL/freetype-gl/vertex-buffer.h"/>
+        <File Name="hdr/libGL/freetype-gl/vertex-attribute.h"/>
+        <File Name="hdr/libGL/freetype-gl/vector.h"/>
+        <File Name="hdr/libGL/freetype-gl/vec234.h"/>
+        <File Name="hdr/libGL/freetype-gl/utf8-utils.h"/>
+        <File Name="hdr/libGL/freetype-gl/texture-font.h"/>
+        <File Name="hdr/libGL/freetype-gl/texture-atlas.h"/>
+        <File Name="hdr/libGL/freetype-gl/text-buffer.h"/>
+        <File Name="hdr/libGL/freetype-gl/platform.h"/>
+        <File Name="hdr/libGL/freetype-gl/opengl.h"/>
+        <File Name="hdr/libGL/freetype-gl/markup.h"/>
+        <File Name="hdr/libGL/freetype-gl/freetype-gl.h"/>
+        <File Name="hdr/libGL/freetype-gl/font-manager.h"/>
+        <File Name="hdr/libGL/freetype-gl/edtaa3func.h"/>
+        <File Name="hdr/libGL/freetype-gl/distance-field.h"/>
+      </VirtualDirectory>
       <File Name="hdr/libGL/s_assimp.h"/>
       <File Name="hdr/libGL/s_antBar.h"/>
       <File Name="hdr/libGL/s_vsProfileLib.h"/>
@@ -498,6 +515,19 @@
       <File Name="src/openGL/s_shadowMap.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="libGL">
+      <VirtualDirectory Name="freetype-gl">
+        <File Name="src/libGL/freetype-gl/vertex-buffer.c"/>
+        <File Name="src/libGL/freetype-gl/vertex-attribute.c"/>
+        <File Name="src/libGL/freetype-gl/vector.c"/>
+        <File Name="src/libGL/freetype-gl/utf8-utils.c"/>
+        <File Name="src/libGL/freetype-gl/texture-font.c"/>
+        <File Name="src/libGL/freetype-gl/texture-atlas.c"/>
+        <File Name="src/libGL/freetype-gl/text-buffer.c"/>
+        <File Name="src/libGL/freetype-gl/platform.c"/>
+        <File Name="src/libGL/freetype-gl/font-manager.c"/>
+        <File Name="src/libGL/freetype-gl/edtaa3func.c"/>
+        <File Name="src/libGL/freetype-gl/distance-field.c"/>
+      </VirtualDirectory>
       <File Name="src/libGL/s_physicsDebug.cpp"/>
       <File Name="src/libGL/s_assimp.cpp"/>
       <File Name="src/libGL/s_physics.cpp"/>
@@ -572,6 +602,8 @@
   </VirtualDirectory>
   <Description/>
   <Dependencies/>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -583,7 +615,7 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-Wall;-fpermissive" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-g;-O0;-fpermissive;-Wnarrowing" C_Options="-g;-O0;-Wall;-Wnarrowing" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="hdr/system"/>
         <IncludePath Value="hdr/bsp"/>
@@ -598,6 +630,7 @@
         <IncludePath Value="hdr/physfs"/>
         <IncludePath Value="/usr/include/bullet"/>
         <IncludePath Value="/usr/include/freetype2"/>
+        <IncludePath Value="hdr/libGL/freetype-gl"/>
       </Compiler>
       <Linker Options="" Required="yes">
         <Library Value="glfw"/>
@@ -703,6 +736,4 @@ hdr/system</SearchPaths>
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
 </CodeLite_Project>

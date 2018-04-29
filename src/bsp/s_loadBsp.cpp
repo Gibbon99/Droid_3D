@@ -157,7 +157,7 @@ void bsp_freeMem()
 //	if ( sortedFaces )
 //		free ( sortedFaces );
 
-	bspFreeDoorMemory();
+	bsp_freeDoorMemory();
 }
 
 
@@ -482,110 +482,4 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	
 	// Return a success
 	return true;
-}
-
-//////////////////////////// DESTROY \\\\\\\\\\\\\\\\\\\\\\\\\\\*
-/////
-/////	This cleans up our object and frees allocated memory
-/////
-//////////////////////////// DESTROY \\\\\\\\\\\\\\\\\\\\\\\\\\\*
-
-void bspDestroy()
-{
-	// If we still have valid memory for our vertices, free them
-	if ( m_pVerts )
-		{
-			delete [] m_pVerts;
-			m_pVerts = NULL;
-		}
-
-	// If we still have valid memory for our faces, free them
-	if ( m_pFaces )
-		{
-			delete [] m_pFaces;
-			m_pFaces = NULL;
-		}
-
-	// If we still have valid memory for our nodes, free them
-	if ( m_pNodes )
-		{
-			delete [] m_pNodes;
-			m_pNodes = NULL;
-		}
-
-	// If we still have valid memory for our leafs, free them
-	if ( m_pLeafs )
-		{
-			delete [] m_pLeafs;
-			m_pLeafs = NULL;
-		}
-
-	// If we still have valid memory for our leaf faces, free them
-	if ( m_pLeafFaces )
-		{
-			delete [] m_pLeafFaces;
-			m_pLeafFaces = NULL;
-		}
-
-	if ( m_pLeafBrushes )
-		{
-			delete [] m_pLeafBrushes;
-			m_pLeafBrushes = NULL;
-		}
-
-	if ( m_pBrushes )
-		{
-			delete [] m_pBrushes;
-			m_pBrushes = NULL;
-		}
-
-	if ( m_pBrushSides )
-		{
-			delete [] m_pBrushSides;
-			m_pBrushSides = NULL;
-		}
-
-	// If we still have valid memory for our planes, free them
-	if ( m_pPlanes )
-		{
-			delete [] m_pPlanes;
-			m_pPlanes = NULL;
-		}
-
-	if ( m_pModels )
-		{
-			delete [] m_pModels;
-			m_pModels = NULL;
-		}
-
-	// If we still have valid memory for our clusters, free them
-	if ( m_clusters.pBitsets )
-		{
-			delete [] m_clusters.pBitsets;
-			m_clusters.pBitsets = NULL;
-		}
-
-	if ( m_pTextures )
-		{
-			delete [] m_pTextures;
-			m_pTextures = NULL;
-		}
-
-	if ( m_pEntities )
-		delete [] m_pEntities;
-
-	m_pEntities = NULL; //free(m_pEntities);
-
-	if ( m_pEntitiesStruct )
-		delete [] m_pEntitiesStruct;
-
-	m_pEntitiesStruct = NULL; //free(m_pEntitiesStruct);
-
-	m_FacesDrawn.FreeMem();
-
-	// Free all the textures
-//	glDeleteTextures(m_numOfTextures, m_textures);
-
-	// Delete the lightmap textures
-	glDeleteTextures ( m_numOfLightmaps, m_lightmaps );
 }

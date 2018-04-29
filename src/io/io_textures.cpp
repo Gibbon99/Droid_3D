@@ -139,6 +139,12 @@ GLint utilLoadTexture ( const char *fileName, int bspIndex )
 
 	if ( strlen ( fileName ) < 1 )
 		return -1;		//TODO: Models passing in invalid filename??
+		
+	if (strcmp(fileName, "Material load error") == 1)
+	{
+		con_print(CON_INFO, true, "ERROR: Could not load material for model [ %s ]", fileName);
+		return -1;
+	}
 
 	for ( int i = 0; i != NUM_SUPPORTED_FILES; i++ )
 		{

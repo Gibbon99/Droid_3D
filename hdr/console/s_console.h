@@ -91,8 +91,11 @@ extern bool			conCursorIsOn;
 
 extern GLuint		conHistoryPtr;			// Which history command are we at
 
+// Show the console
+void con_showConsole();
+
 // Draw the console screen
-void gl_drawScreen ( );
+void con_createConsoleScreen ();
 
 // Add a line to the console
 void con_print ( int type, bool fileLog, const char *printText, ... );

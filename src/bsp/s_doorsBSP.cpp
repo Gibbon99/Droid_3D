@@ -237,7 +237,7 @@ int bsp_findNumOfDoors()
 //-----------------------------------------------------------------------------
 //
 // Free door memory
-void bspFreeDoorMemory()
+void bsp_freeDoorMemory()
 //-----------------------------------------------------------------------------
 {
 	for ( int i = 0; i != numOfDoors; i++ )

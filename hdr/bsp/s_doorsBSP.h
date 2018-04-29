@@ -84,7 +84,7 @@ bool bsp_checkPlayerVsTrigger();
 void bspProcessAllDoorMovements ( float interpolate );
 
 // Free door memory
-void bspFreeDoorMemory();
+void bsp_freeDoorMemory();
 
 // Upload door vertex information to the GPU
 void bspUploadDoorVertex();

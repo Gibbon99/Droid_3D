@@ -35,33 +35,14 @@ bool initAll()
 
 	if ( ogl_LOAD_FAILED == ogl_LoadFunctions() )
 		{
-			io_logToFile ( "Error: Failed to load openGL functions" );
+			io_logToFile ( "Error: Failed to load openGL functions.\n" );
 			sys_shutdownToSystem();
 		}
-
-	lib_getVersion();
 
 	// Start the packfile system
 	if ( false == io_startFileSystem() )
 		sys_shutdownToSystem();
-
-
-	if ( false == util_startScriptEngine() )
-		{
-			printf ( "Error: Unable to start scripting engine\n" );
-			//sys_errorFatal("sys_runOnce()", __LINE__, "Unable to start the scripting engine.\n");
-			return false;
-		}
-
-	sys_registerVariables();
-	util_registerFunctions();
-	util_loadAndCompileScripts();
-	util_cacheFunctionIDs();
-
-
-	util_executeScriptFunction ( "scr_setGameVariables", "" );
-	util_executeScriptFunction ( "scr_addAllScriptCommands", "" );
-
+		
 	for ( int i = 0; i != NUM_SHADERS; i++ )
 		{
 			if ( false == gl_loadCompileShaders ( i ) )
@@ -76,6 +57,30 @@ bool initAll()
 					con_print ( CON_TEXT, true, "Compiled shader [ %s ] - [ %s ] - ID [ %i ]", shaderProgram[i].fragFileName, shaderProgram[i].vertFileName, shaderProgram[i].programID );
 				}
 		}
+
+//--------------------------
+
+
+	lib_getVersion();
+
+
+
+	if ( false == util_startScriptEngine() )
+		{
+			printf ( "Error: Unable to start scripting engine.\n" );
+			//sys_errorFatal("sys_runOnce()", __LINE__, "Unable to start the scripting engine.\n");
+			return false;
+		}
+
+	util_registerVariables();
+	util_registerFunctions();
+	util_loadAndCompileScripts();
+	util_cacheFunctionIDs();
+
+	util_executeScriptFunction ( "scr_setGameVariables", "" );
+	util_executeScriptFunction ( "scr_addAllScriptCommands", "" );
+
+
 
 	//
 	// TTF Library

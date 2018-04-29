@@ -1,7 +1,20 @@
 #pragma once
 
+
+#define NUM_CHARS           128
+#define START_CHAR          0
+#define NUM_TTF_FONTS       3
+
+#define NUM_VERTS           8
+
+extern _glColor       fontColor;
+
 // Switch to change text render method
 extern int             renderText;
+
+extern float          fontSizeSmall;
+extern float          fontSizeMedium;
+extern float          fontSizeLarge;
 
 // Print a text string using TTF
 void ttf_printString ( int whichFont, float startX, float startY, const char *text, ... );
@@ -28,7 +41,7 @@ void ttf_addText ( int whichFont, float startX, float startY, const char *text, 
 bool ttf_setFontName ( std::string fontFileName );
 
 // Set the font color
-void gl_setFontColor ( float red, float green, float blue, float alpha );
+void ttf_setFontColor ( float red, float green, float blue, float alpha );
 
 // ---- testing
 int ttf_returnTexID ( int whichFont );

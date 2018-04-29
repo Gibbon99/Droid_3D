@@ -12,9 +12,10 @@ const int   TEXT_DRAW_ARRAY    = 1;
 const int   MODEL_CRATE = 0;
 const int   MODEL_TANK = 1;
 const int   MODEL_TANK_WHEELS = 2;
-const int	MODEL_SPHERE = 3;
-const int	MODEL_CONE = 4;
-const int   MODEL_BSP = 5;
+const int	MODEL_FEMADROID = 3;
+const int	MODEL_SPHERE = 4;
+const int	MODEL_CONE = 5;
+const int   MODEL_BSP = 6;
 
 
 //-----------------------------------------------------------------------------
@@ -113,11 +114,12 @@ bool as_conCommandOpenGLVer()
 void as_loadAllModels()
 //-----------------------------------------------------------------------------
 {
-	ass_loadModel ( MODEL_CRATE, 		"data/models/Crate1.obj",  			1.8f,	true );
-	ass_loadModel ( MODEL_TANK, 		"data/models/triax_tracks.md2",  	0.3f, 	false );
-	ass_loadModel ( MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2",  	0.3f,	false );
-	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj",			0.4f,	false );
-	ass_loadModel ( MODEL_CONE,			"data/models/cone.dae",				0.5f,	false );
+	ass_loadModel ( MODEL_CRATE, 		"data/models/Crate1.3ds");
+	ass_loadModel ( MODEL_TANK, 		"data/models/triax_tracks.md2");
+	ass_loadModel ( MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2");
+	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj");
+	ass_loadModel ( MODEL_CONE,			"data/models/cone.dae");
+	ass_loadModel ( MODEL_FEMADROID,	"data/models/house.3ds");
 }
 
 //-----------------------------------------------------------------------------

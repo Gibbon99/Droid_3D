@@ -13,25 +13,27 @@ void obj_addObject(glm::vec3 position, int meshType, bool usesPhysics, float sca
 {
 	_object 	tempGameObject;
 	
-	tempGameObject.position = position;
-	tempGameObject.meshType = meshType;
-	tempGameObject.lightColor = lightColor;
-	tempGameObject.scaleBy = scaleBy;
-	tempGameObject.usesPhysics = usesPhysics;
-	
-	tempGameObject.finalSize = ass_getModelFinalsize(tempGameObject.meshType, tempGameObject.scaleBy );
-	
-	if (true == usesPhysics)
+	for (int whichMesh = 0; whichMesh != meshModels[meshType].numMeshes; whichMesh++)
 	{
-		switch (meshType)
+		tempGameObject.position = position;
+		tempGameObject.meshType = meshType;
+		tempGameObject.lightColor = lightColor;
+		tempGameObject.scaleBy = scaleBy;
+		tempGameObject.usesPhysics = usesPhysics;
+		
+		if (true == usesPhysics)
 		{
-			case PHYSICS_OBJECT_BOX:
-			
-			tempGameObject.physicsPtr = bul_addPhysicsObject ( -1, tempGameObject.finalSize, PHYSICS_OBJECT_BOX, 0.5f, position );
-			break;
+			switch (meshType)
+			{
+				case MODEL_CRATE:
+				case MODEL_TANK:
+				case MODEL_FEMADROID:
+				
+				tempGameObject.physicsPtr = bul_addPhysicsObject ( -1, whichMesh, scaleBy, meshType, 0.5f, position );
+				break;
+			}
 		}
 	}
-	
 	gameObject.push_back(tempGameObject);
 }  
 
@@ -61,10 +63,10 @@ void obj_renderAllObjects(int whichShader)
 void obj_addSomeObjects()
 //----------------------------------------------------------
 {
-	obj_addObject( glm::vec3 ( 10.0, 10.0, 50.0 ), MODEL_TANK, true, 0.3f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 50.0, 10.0, 100.0 ), MODEL_TANK, true, 0.3f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 10.0, 10.0, 50.0 ), 	MODEL_FEMADROID, 	true, 8.7f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 50.0, 10.0, 100.0 ), MODEL_TANK, 		true, 0.3f, glm::vec3() );
 	
-	obj_addObject( glm::vec3 ( 100.0, 5.0, 10.0 ), MODEL_CRATE, true, 10.0f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 120.0, 5.0, 10.0 ), MODEL_CRATE, true, 10.0f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 140.0, 5.0, 10.0 ), MODEL_CRATE, true, 10.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 80.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 3.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 95.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 7.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 130.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 10.0f, glm::vec3() );
 }

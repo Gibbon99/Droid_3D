@@ -2,6 +2,7 @@
 #include "s_console.h"
 #include "s_openGLWrap.h"
 #include "s_ttfFont.h"
+#include "s_fontUtil.h"
 
 #include <stdarg.h>
 #include <sstream>
@@ -29,7 +30,7 @@ _conLine		conCurrentPrompt;
 
 float			conBackSpaceDelay;
 
-int		conNumInHistory = 0;
+int				conNumInHistory = 0;
 
 //-----------------------------------------------------------------------------
 //
@@ -48,11 +49,40 @@ void con_addConsoleCommands()
 //	conAddCommand("scDo",		"Execute script function",		(ExternFunc)conScriptExecute);
 }
 
+//-----------------------------------------------------------------------------
+//
+// Show the console
+void con_showConsole()
+//-----------------------------------------------------------------------------
+{
+#define EMBEDDED_FONT_HEIGHT 16.0f
+
+	float 			currentY;
+	glm::vec4		lineColor;
+	glm::vec2		linePosition;
+	int loopCount = (winHeight / EMBEDDED_FONT_HEIGHT);
+
+	currentY = EMBEDDED_FONT_HEIGHT;
+
+	for ( int i = 0; i != loopCount; i++ )
+		{
+			lineColor.r = 0.0f; //conLines[i].conLineColor.red;
+			lineColor.g = 0.0f; //conLines[i].conLineColor.green;
+			lineColor.b = 0.0f; //conLines[i].conLineColor.blue;
+			lineColor.a = 1.0f; //conLines[i].conLineColor.alpha;
+
+			linePosition.x = 1.0f;
+			linePosition.y = currentY;
+			currentY = currentY + (EMBEDDED_FONT_HEIGHT);
+
+			fnt_printText(linePosition, lineColor, "%s", conLines[i].conLine.c_str() );
+		}
+}
 
 //-----------------------------------------------------------------------------
 //
 // Draw the console screen
-void gl_drawScreen ( )
+void con_createConsoleScreen ()
 //-----------------------------------------------------------------------------
 {
 	_conLine	conTempLine;
@@ -62,7 +92,7 @@ void gl_drawScreen ( )
 
 	for ( int i = 0; i != ( winHeight / conFontSize ) - 2; i++ )
 		{
-			gl_setFontColor ( conLines[i].conLineColor.red, conLines[i].conLineColor.green, conLines[i].conLineColor.blue, conLines[i].conLineColor.alpha );
+			ttf_setFontColor ( conLines[i].conLineColor.red, conLines[i].conLineColor.green, conLines[i].conLineColor.blue, conLines[i].conLineColor.alpha );
 			ttf_addText ( FONT_SMALL, 0.0f, ( conStartY - ( ( i * conFontSize ) + conFontSize ) ), "%s", conLines[i].conLine.c_str() );
 		}
 
@@ -70,12 +100,26 @@ void gl_drawScreen ( )
 
 	if ( true == conCursorIsOn )
 		conTempLine.conLine += "_";
+
 	else
 		conTempLine.conLine += " ";
 
 	con_setColor(0.8f, 0.8f, 0.8f, 0.8f);
 	ttf_addText ( FONT_SMALL, 0.0f, ( GLfloat ) ( winHeight - ( conFontSize * 1 ) ), "%s", conTempLine.conLine.c_str() );
+
+	/*
+		if (true == updateNow)
+			{
+				//
+				// Render all text in VBO memory
+				gl_set2DMode();
+				ttf_displayText ( FONT_SMALL );
+
+				lib_swapBuffers();
+			}
+			 * */
 }
+
 
 
 //-----------------------------------------------------------------------------
@@ -330,25 +374,25 @@ void con_print ( int type, bool fileLog, const char *printText, ... )
 
 	switch ( type )
 		{
-		case CON_NOCHANGE:
-			break;
+			case CON_NOCHANGE:
+				break;
 
-		case CON_TEXT:
-			con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
-			break;
+			case CON_TEXT:
+				con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+				break;
 
-		case CON_INFO:
-			con_setColor ( 1.0f, 1.f, 0.0f, 1.0f );
-			break;
+			case CON_INFO:
+				con_setColor ( 1.0f, 1.f, 0.0f, 1.0f );
+				break;
 
-		case CON_ERROR:
-			con_setColor ( 1.0f, 0.0f, 0.0f, 0.0f );
-			break;
+			case CON_ERROR:
+				con_setColor ( 1.0f, 0.0f, 0.0f, 0.0f );
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
-		
+
 	con_incLine ( conText );
 }
 
@@ -366,9 +410,10 @@ void con_processCommand ( string comLine )
 	string              param;
 	string				param2;
 	bool    			conMatchFound = false;
-	
+
 	if (comLine.size() == 0)
 		return;
+
 	//
 	// Start the string with known empty value
 	command = "";
@@ -466,27 +511,27 @@ void con_printUpdate ( int type, bool fileLog, const char *printText, ... )
 
 	switch ( type )
 		{
-		case CON_NOCHANGE:
-			break;
+			case CON_NOCHANGE:
+				break;
 
-		case CON_TEXT:
-			con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
-			break;
+			case CON_TEXT:
+				con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+				break;
 
-		case CON_INFO:
-			con_setColor ( 1.0f, 1.f, 0.0f, 1.0f );
-			break;
+			case CON_INFO:
+				con_setColor ( 1.0f, 1.f, 0.0f, 1.0f );
+				break;
 
-		case CON_ERROR:
-			con_setColor ( 1.0f, 0.0f, 0.0f, 0.0f );
-			break;
+			case CON_ERROR:
+				con_setColor ( 1.0f, 0.0f, 0.0f, 0.0f );
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 
 	if ( currentMode == MODE_CONSOLE )
-		gl_drawScreen ( );
+		con_createConsoleScreen ( );
 }
 
 //-----------------------------------------------------------------------------

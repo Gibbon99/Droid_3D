@@ -237,7 +237,9 @@ void gl_getAllGLErrors ( int errorNum, const char *calledFrom, int line )
 void gl_set2DMode()
 //-----------------------------------------------------------------------------
 {
-	projMatrix = ortho<float> ( 0.0, winWidth, winHeight, 0.0, 1.0, -1.0 );
+	projMatrix = ortho<float> ( 0.0, (float)winWidth, 0.0f, (float)winHeight, 1.0, -1.0 );	// upside down
+//	projMatrix = glm::ortho<float> ( 0.0, (float)winWidth, (float)winHeight, 0.0, 1.0, -1.0 );
+//	projMatrix = glm::ortho<float> ( -(winWidth / 2.0f), winWidth / 2.0f, winHeight / 2.0f, -(winHeight / 2.0f), -1.0f, 1.0f);
 }
 
 //-----------------------------------------------------------------------------

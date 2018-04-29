@@ -10,6 +10,8 @@ out     vec4        outColor;
 
 void main(void)
 {
-    outColor = vec4(1, 1, 1, texture2D(inTexture0, texCoord0).a) * theFontColor;
+	float alpha = texture2D(inTexture0, texCoord0).r;
+	outColor = vec4(theFontColor.rgb, theFontColor.a) * alpha;
+//    outColor = vec4(1, 1, 1, texture2D(inTexture0, texCoord0).r) * theFontColor;
 }
 

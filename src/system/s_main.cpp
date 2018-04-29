@@ -30,7 +30,7 @@ int main ( int argc, char *argv[] )
 
 			while ( singleTimeValue > nextGameTick && loops < maxFrameSkip )
 				{
-					gameTickRun ( interpolation );
+					sys_gameTickRun ( interpolation );
 					nextGameTick += skipTicks;
 					loops++;
 					sys_CalculateThinkFrameRate ( singleTimeValue );
@@ -40,7 +40,7 @@ int main ( int argc, char *argv[] )
 			//
 			// draw all to the screen
 			frameTimeStart = glfwGetTime();
-			updateScreen ( interpolation );
+			sys_displayScreen ( interpolation );
 			frameTimeTaken = glfwGetTime() - frameTimeStart;
 
 			sys_CalculateFrameRate ( singleTimeValue );

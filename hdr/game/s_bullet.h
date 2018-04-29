@@ -14,7 +14,6 @@ typedef struct
 	int				lightIndex;
 	int				physicsIndex;
 	int				whichMesh;
-	glm::vec4		physicsSize;
 	float			meshScaleFactor;
 } _bullet;
 

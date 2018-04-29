@@ -15,7 +15,7 @@
 //-----------------------------------------------------------------------------
 //
 // Process everything not drawing related
-void gameTickRun ( float interpolate )
+void sys_gameTickRun ( float interpolate )
 //-----------------------------------------------------------------------------
 {
 	glm::vec3   vel;
@@ -42,15 +42,8 @@ void gameTickRun ( float interpolate )
 			vel = bul_returnCameraPosition();
 
 			cam3_Position = vel;
-//			camPosition = vel + cam3_Front;
 			
 			cam3_CreateViewMatrix(cam3_Position);
-
-			/*
-			btTransform trans;
-			doorModels[1].rigidBody->getMotionState()->getWorldTransform(trans);
-			printf("Door [ %i ] Pos [ %4.2f %4.2f %4.2f ] \n", 1, trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ() );
-			*/
 
 			gam_processBulletMovement ( interpolate );
 			bsp_checkPlayerVsTrigger();

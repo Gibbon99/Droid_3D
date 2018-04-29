@@ -11,83 +11,62 @@
 
 #include "s_vsProfileLib.h"
 #include "s_shaders.h"
-#include "s_fontUtil.h"
+#include "s_ttfFont.h"
 #include "s_openGLWrap.h"
 
-#define NUM_CHARS           128
-#define START_CHAR          0
-#define NUM_TTF_FONTS       3
-
-#define NUM_VERTS           8
-
-float               *vertBuffer = NULL;    // Make global
-float               *textureBuffer = NULL;
-float               *colorBuffer = NULL;
+float				*vertBuffer = NULL;    // Make global
+float				*textureBuffer = NULL;
+float				*colorBuffer = NULL;
 
 GLint 				*vertIndexes = NULL;
 GLsizei 			*vertNumber = NULL;
 
-GLuint              g_glyphVAO_ID;
-GLuint              g_vertVBO_ID;
-GLuint              g_texVBO_ID;
-GLuint              g_colVBO_ID;
+GLuint				g_glyphVAO_ID;
+GLuint				g_vertVBO_ID;
+GLuint				g_texVBO_ID;
+GLuint				g_colVBO_ID;
 
-int                 memCharCount = 0;       // How many chars in vertex memory buffer
-int                 memCharSize = 0;        // How many chars will memory buffer hold
-int                 vertCount = 0;          // Vertex index for each glyph
-int                 colorCount = 0;         // Index counter for color array
+_glColor			fontColor;
 
-int                 renderText;
+int					memCharCount = 0;       // How many chars in vertex memory buffer
+int					memCharSize = 0;        // How many chars will memory buffer hold
+int					vertCount = 0;          // Vertex index for each glyph
+int					colorCount = 0;         // Index counter for color array
 
-extern char         fontFileName[];       // Max size for font filename
+int					renderText;
 
+extern char			fontFileName[];       // Max size for font filename
 
-//
-// Version 2
-typedef struct
-{
-	float ax;    // advance.x
-	float ay;    // advance.y
-
-	float bw;    // bitmap.width;
-	float bh;    // bitmap.height;
-
-	float bl;    // bitmap_left;
-	float bt;    // bitmap_top;
-
-	float tx;    // x offset of glyph in texture coordinates
-	float ty;    // y offset of glyph in texture coordinates
-} c[NUM_CHARS];        // character information
-
-
-
+float 				fontSizeSmall;
+float 				fontSizeMedium;
+float 				fontSizeLarge;
 
 typedef struct
 {
-	float           advanceX;		// How far to move the cursor for the next character, horizontally
-	float           advanceY;       // How far to move the cursor vertically
-	float           texCoord[8];
-	float           vertex[8];
-	float           height;			// Height of the bitmap in pixels
-	float           width;			// Width of the bitmap in pixels
+	float			advanceX;		// How far to move the cursor for the next character, horizontally
+	float			advanceY;       // How far to move the cursor vertically
+	float			texCoord[8];
+	float			vertex[8];
+	float			height;			// Height of the bitmap in pixels
+	float			width;			// Width of the bitmap in pixels
 	float			left;			// Horizontal position in pixels relative to the cursor
 	float			top;			// Vertical position relative to the baseline in pixels
 } _ttfGlyph;
 
 typedef struct
 {
-	_ttfGlyph       glyph[NUM_CHARS];
-	GLuint          texID;
-	int		        texWidth;
-	int		        texHeight;
-	GLfloat         size;
+	_ttfGlyph		glyph[NUM_CHARS];
+	GLuint			texID;
+	int				texWidth;
+	int				texHeight;
+	GLfloat			size;
 } _ttfFont;
 
-_ttfFont            ttfFont[NUM_TTF_FONTS];
+_ttfFont			ttfFont[NUM_TTF_FONTS];
 
-FT_Library          library;        //Create a freetype library instance
-FT_Face             fontInfo;       //Stores information on the loaded font
-bool                usePowerOf2 = false;
+FT_Library			library;        //Create a freetype library instance
+FT_Face				fontInfo;       //Stores information on the loaded font
+bool				usePowerOf2 = false;
 
 //----------------------------------------------------------------------------
 //
@@ -109,7 +88,7 @@ bool ttf_setFontName ( std::string fontFileNameIn )
 //----------------------------------------------------------------------------
 //
 // Return power of two
-int gl_ttfNextPow2 ( int a )
+int ttf_nextPow2 ( int a )
 //----------------------------------------------------------------------------
 {
 	int rval = 1;
@@ -326,8 +305,8 @@ bool ttf_initLibrary ( int fontSize, int whichFont )
 	// See if we need to use a power of 2 texture or not
 	if ( true == usePowerOf2 )
 		{
-			tmpWidth = gl_ttfNextPow2 ( tmpWidth );
-			tmpHeight = gl_ttfNextPow2 ( tmpHeight );
+			tmpWidth = ttf_nextPow2 ( tmpWidth );
+			tmpHeight = ttf_nextPow2 ( tmpHeight );
 		}
 
 	ttfFont[whichFont].texWidth = tmpWidth * scaleX;
@@ -529,8 +508,6 @@ void ttf_displayText ( int whichFont )
 
 	wrapglEnable ( GL_BLEND );
 
-//wrapglDisable ( GL_BLEND );
-
 	glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	wrapglDisable ( GL_DEPTH_TEST );
 //
@@ -561,11 +538,9 @@ void ttf_displayText ( int whichFont )
 //
 // Load the matrixes into the vertex shader
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
-//	GL_CHECK(glUniformMatrix4fv(shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr(projMatrix * viewMatrix)));
 //
 // viewMatrix is causing flickering on the 3d screen
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * glm::mat4() ) ) );
-//	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_TTF_FONT].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
 
 	{
 //        PROFILE("glMultiDrawArrays");
@@ -578,7 +553,6 @@ void ttf_displayText ( int whichFont )
 			case TEXT_DRAW_ARRAY:
 				for ( int i = 0; i != memCharCount; i++ )
 					GL_CHECK ( glDrawArrays ( GL_TRIANGLE_FAN, vertIndexes[i], vertNumber[i] ) );
-
 				break;
 			}
 	}
@@ -605,7 +579,7 @@ int ttf_returnTexID ( int whichFont )
 //-----------------------------------------------------------------------------
 //
 // Set the font color
-void gl_setFontColor ( float red, float green, float blue, float alpha )
+void ttf_setFontColor ( float red, float green, float blue, float alpha )
 //-----------------------------------------------------------------------------
 {
 	fontColor.red = red;

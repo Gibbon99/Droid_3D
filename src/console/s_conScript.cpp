@@ -80,7 +80,7 @@ _hostScriptFunctions hostScriptFunctions[] =
 	{"void lib_resizeWindow(int newWidth, int newHeight)",  ( void * ) lib_resizeWindow},
 	{"bool ttf_setFontName(string &in)",                    ( void * ) ttf_setFontName},
 	{"bool ttf_initLibrary(int fontSize, int whichFont)",   ( void * ) ttf_initLibrary},
-	{"bool ass_loadModel(int whichModel, string &in, float scaleFactor, bool createPhysicsObject)", ( void * ) ass_loadModel},
+	{"bool ass_loadModel(int whichModel, string &in)", ( void * ) ass_loadModel},
 	{"",							NULL},
 };
 
@@ -282,7 +282,7 @@ bool util_registerFunctions()
 //-----------------------------------------------------------------------------
 //
 // Add global variables to be used by the scriptEngine
-bool sys_registerVariables()
+bool util_registerVariables()
 //-----------------------------------------------------------------------------
 {
 	int result = 0;
