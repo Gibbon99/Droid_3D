@@ -6,6 +6,57 @@
 
 #include "s_defRender.h"
 
+
+#define MAXIMUM_FRAME_RATE 60
+#define MINIMUM_FRAME_RATE 15
+#define UPDATE_INTERVAL (1.0 / MAXIMUM_FRAME_RATE)
+#define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
+	
+int main ( int argc, char *argv[] )
+{
+	double			frameTimeStart;
+	double			currentTime;
+	double			updateIterations;
+	static double	lastFrameTime = 0.0;
+	static double	cyclesLeftOver = 0.0;
+
+	if ( false == initAll() )
+		sys_shutdownToSystem();
+
+	while ( !quitProgram )
+		{
+			currentTime = glfwGetTime();
+			updateIterations = ((currentTime - lastFrameTime) + cyclesLeftOver);
+
+			if (updateIterations > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL))
+				{
+					updateIterations = (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL);
+				}
+				
+			while (updateIterations > UPDATE_INTERVAL)
+				{
+					updateIterations -= UPDATE_INTERVAL;
+					//
+					// Update game state a variable number of times
+					sys_gameTickRun(UPDATE_INTERVAL ); 
+					sys_CalculateThinkFrameRate ( currentTime );
+				}
+
+			cyclesLeftOver = updateIterations;
+			lastFrameTime = currentTime;
+
+			frameTimeStart = glfwGetTime();
+			//
+			// Draw the scene only once
+			sys_displayScreen ( UPDATE_INTERVAL );
+			frameTimeTaken = glfwGetTime() - frameTimeStart;
+
+			sys_CalculateFrameRate ( currentTime );
+		}
+}
+
+
+/*
 //-----------------------------------------------------------------------------
 //
 // Main function - called first
@@ -48,7 +99,7 @@ int main ( int argc, char *argv[] )
 
 	sys_shutdownToSystem();
 }
-
+*/
 //-----------------------------------------------------------------------------
 //
 // Change game mode

@@ -193,7 +193,8 @@ int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectTy
 			case MODEL_CRATE:
 			tempObject.shape = meshModels[objectType].mesh[whichMesh].physicsShapeConvexHull;
 //			tempObject.shape = new btBoxShape ( btVector3 ( scaleBy / 2, scaleBy / 2, scaleBy / 2) );
-			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy / 2, scaleBy / 2, scaleBy / 2 ) );
+//			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy / 2, scaleBy / 2, scaleBy / 2 ) );
+			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy, scaleBy, scaleBy ) );
 			break;
 
 		}

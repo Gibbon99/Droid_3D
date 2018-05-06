@@ -61,14 +61,15 @@ void con_showConsole()
 	glm::vec4		lineColor;
 	glm::vec2		linePosition;
 	int loopCount = (winHeight / EMBEDDED_FONT_HEIGHT);
-
+	_conLine		conTempLine;
+	
 	currentY = EMBEDDED_FONT_HEIGHT;
 
 	for ( int i = 0; i != loopCount; i++ )
 		{
-			lineColor.r = 0.0f; //conLines[i].conLineColor.red;
-			lineColor.g = 0.0f; //conLines[i].conLineColor.green;
-			lineColor.b = 0.0f; //conLines[i].conLineColor.blue;
+			lineColor.r = conLines[i].conLineColor.red;
+			lineColor.g = conLines[i].conLineColor.green;
+			lineColor.b = conLines[i].conLineColor.blue;
 			lineColor.a = 1.0f; //conLines[i].conLineColor.alpha;
 
 			linePosition.x = 1.0f;
@@ -77,6 +78,18 @@ void con_showConsole()
 
 			fnt_printText(linePosition, lineColor, "%s", conLines[i].conLine.c_str() );
 		}
+		
+	conTempLine.conLine = conCurrentLine.conLine;
+
+	if ( true == conCursorIsOn )
+		conTempLine.conLine += "<";	//TODO: Check timing and animation
+	else
+		conTempLine.conLine += " ";
+		
+	linePosition.x = 1.0f;
+	linePosition.y = 0.0f;
+	
+	fnt_printText(linePosition, lineColor, "%s", conTempLine.conLine.c_str() );
 }
 
 //-----------------------------------------------------------------------------
@@ -92,20 +105,19 @@ void con_createConsoleScreen ()
 
 	for ( int i = 0; i != ( winHeight / conFontSize ) - 2; i++ )
 		{
-			ttf_setFontColor ( conLines[i].conLineColor.red, conLines[i].conLineColor.green, conLines[i].conLineColor.blue, conLines[i].conLineColor.alpha );
-			ttf_addText ( FONT_SMALL, 0.0f, ( conStartY - ( ( i * conFontSize ) + conFontSize ) ), "%s", conLines[i].conLine.c_str() );
+//			ttf_setFontColor ( conLines[i].conLineColor.red, conLines[i].conLineColor.green, conLines[i].conLineColor.blue, conLines[i].conLineColor.alpha );
+//			ttf_addText ( FONT_SMALL, 0.0f, ( conStartY - ( ( i * conFontSize ) + conFontSize ) ), "%s", conLines[i].conLine.c_str() );
 		}
 
 	conTempLine.conLine = conCurrentLine.conLine;
 
 	if ( true == conCursorIsOn )
 		conTempLine.conLine += "_";
-
 	else
 		conTempLine.conLine += " ";
 
 	con_setColor(0.8f, 0.8f, 0.8f, 0.8f);
-	ttf_addText ( FONT_SMALL, 0.0f, ( GLfloat ) ( winHeight - ( conFontSize * 1 ) ), "%s", conTempLine.conLine.c_str() );
+//	ttf_addText ( FONT_SMALL, 0.0f, ( GLfloat ) ( winHeight - ( conFontSize * 1 ) ), "%s", conTempLine.conLine.c_str() );
 
 	/*
 		if (true == updateNow)
@@ -227,12 +239,12 @@ void con_processCursor ( float frameInterval )
 {
 	static float conCursorCount = 0.0f;
 
-	conCursorCount += ( GLfloat ) ( 10.0f * frameInterval );
+	conCursorCount += ( GLfloat ) ( 180.0f * frameInterval );
 
 	if ( conCursorCount > CON_CURSOR_MAX_COUNT )
 		{
 			conCursorCount = 0.0f;
-			conCursorIsOn =!conCursorIsOn;
+			conCursorIsOn =! conCursorIsOn;
 		}
 }
 

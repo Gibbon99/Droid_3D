@@ -365,9 +365,9 @@
       <File Name="hdr/openGL/s_defRender.h"/>
       <File Name="hdr/openGL/s_fontUtil.h"/>
       <File Name="hdr/openGL/s_bmpFont.h"/>
-      <File Name="hdr/openGL/s_ttfFont.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="libGL">
+      <File Name="hdr/libGL/s_signedFont.h"/>
       <VirtualDirectory Name="freetype-gl">
         <File Name="hdr/libGL/freetype-gl/vertex-buffer.h"/>
         <File Name="hdr/libGL/freetype-gl/vertex-attribute.h"/>
@@ -506,7 +506,6 @@
     </VirtualDirectory>
     <VirtualDirectory Name="openGL">
       <File Name="src/openGL/s_defRender.cpp"/>
-      <File Name="src/openGL/s_ttfFont.cpp"/>
       <File Name="src/openGL/s_lightPass.cpp"/>
       <File Name="src/openGL/s_openGL.cpp"/>
       <File Name="src/openGL/s_shaders.cpp"/>
@@ -515,6 +514,7 @@
       <File Name="src/openGL/s_shadowMap.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="libGL">
+      <File Name="src/libGL/s_signedFont.cpp"/>
       <VirtualDirectory Name="freetype-gl">
         <File Name="src/libGL/freetype-gl/vertex-buffer.c"/>
         <File Name="src/libGL/freetype-gl/vertex-attribute.c"/>
@@ -692,7 +692,8 @@ hdr/libGL
 hdr/openGL
 hdr/physfs
 hdr/script
-hdr/system</SearchPaths>
+hdr/system
+hdr/libGL/freetype-gl</SearchPaths>
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="gnu gcc" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">

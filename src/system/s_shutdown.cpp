@@ -21,7 +21,6 @@ void sys_shutdownToSystem()
 	gl_stopDefRender();
 	lib_destroyWindow();
 	glfwTerminate();
-	ttf_freeTextMemory();
 	io_freeTextureArray();
 	bsp_freeMem();
 	bul_stopPhysics();

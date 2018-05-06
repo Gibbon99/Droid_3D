@@ -16,6 +16,12 @@
 #include "s_assimp.h"
 #include "s_loadBsp.h"
 #include "s_objects.h"
+#include "s_signedFont.h"
+
+void runThread()
+{
+	lib_swapBuffers();
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -39,31 +45,29 @@ bool initAll()
 			sys_shutdownToSystem();
 		}
 
+//-------------------------- CONSOLE IS RUNNING AFTER HERE ---------------------------
+
 	// Start the packfile system
 	if ( false == io_startFileSystem() )
 		sys_shutdownToSystem();
-		
+
 	for ( int i = 0; i != NUM_SHADERS; i++ )
 		{
 			if ( false == gl_loadCompileShaders ( i ) )
 				{
 					con_print ( CON_TEXT, true, "ERROR: Compile error with shader [ %s ]", shaderProgram[i].fragFileName );
 					return false;
-
 				}
-
 			else
 				{
 					con_print ( CON_TEXT, true, "Compiled shader [ %s ] - [ %s ] - ID [ %i ]", shaderProgram[i].fragFileName, shaderProgram[i].vertFileName, shaderProgram[i].programID );
 				}
 		}
 
-//--------------------------
+
 
 
 	lib_getVersion();
-
-
 
 	if ( false == util_startScriptEngine() )
 		{
@@ -81,7 +85,7 @@ bool initAll()
 	util_executeScriptFunction ( "scr_addAllScriptCommands", "" );
 
 
-
+/*
 	//
 	// TTF Library
 	if ( false == ttf_initLibrary ( fontSizeSmall, 0 ) )
@@ -89,11 +93,12 @@ bool initAll()
 			io_logToFile ( "Unable to start TTF Library. Missing file?" );
 			sys_shutdownToSystem();
 		}
-
+*/
 	if ( true == bul_startPhysics() )
 		{
 			con_print ( CON_INFO, true, "Physics system started..." );
 		}
+
 	else
 		{
 			con_print ( CON_ERROR, true, "Physics system failed to start." );
@@ -104,6 +109,7 @@ bool initAll()
 		{
 			con_print ( CON_INFO, true, "Forward rendering framebuffer created..." );
 		}
+
 	else
 		{
 			gl_stopDefRender();
@@ -118,23 +124,24 @@ bool initAll()
 	// Load Models
 	util_executeScriptFunction ( "scr_loadAllModels", "" );
 	ass_loadModelTextures();
-	
+
 	if ( true == io_loadAllTextures() )
 		{
 			con_print ( CON_INFO, true, "Loaded textures." );
 
 		}
+
 	else
 		{
 			con_print ( CON_ERROR, true, "Error loading one or more textures." );
 		}
-		
+
 	lib_initAntBar();
 
 	gl_registerDebugCallback();
 
 	obj_addSomeObjects();
-	
+
 //	bul_setPlayerPosition(cam_getPosition(), glm::vec3(0.0, 0.0, 0.0));
 
 	return true;

@@ -5,6 +5,7 @@
 #include "s_ttfFont.h"
 #include "s_assimp.h"
 #include "as_scriptbuilder.h"
+#include "s_signedFont.h"
 
 unsigned int		numFunctionsInScripts;
 unsigned int		numHostScriptFunctions;
@@ -78,9 +79,10 @@ _hostScriptFunctions hostScriptFunctions[] =
 	{"bool startPackFile(string &in, string &in)",          ( void * ) io_startFileSystem},
 	{"bool startLogFile(string &in)",                       ( void * ) io_startLogFile},
 	{"void lib_resizeWindow(int newWidth, int newHeight)",  ( void * ) lib_resizeWindow},
-	{"bool ttf_setFontName(string &in)",                    ( void * ) ttf_setFontName},
-	{"bool ttf_initLibrary(int fontSize, int whichFont)",   ( void * ) ttf_initLibrary},
 	{"bool ass_loadModel(int whichModel, string &in)", ( void * ) ass_loadModel},
+	
+	{"void sdf_addFontInfo(uint whichFont, string &in, uint fontSize)", (void * ) sdf_addFontInfo},
+	{"bool sdf_initFontSystem()",	 ( void * ) sdf_initFontSystem},
 	{"",							NULL},
 };
 

@@ -12,19 +12,20 @@
 // Every shader will have these common variables which will be used by the current
 // object being drawn
 
-typedef struct
+typedef struct		// Changes need to be relfect in shaders.cpp as well - fields must match
 {
 	GLint           programID;
 	GLint	        inVertsID;
 	GLint           inNormalsID;
 	GLint		    inTextureCoordsID;
 	GLint		    inTextureCoordsID_1;
-	GLint		    inColorID;	    // used for colorkey, fade value
-	GLint           inColorID_2;    // used for holding secondary color info
-	GLint           inTextureUnit;  // which texture is bound
-	GLint           inTextureUnit_1;  // which texture is bound
+	GLint		    inColorID;	    		// used for colorkey, fade value
+	GLint           inColorID_2;    		// used for holding secondary color info
+	GLint           inTextureUnit;  		// which primary texture is bound
+	GLint           inTextureUnit_1;  		// which secondary texture is bound
 	GLint           viewProjectionMat;
 	GLint           modelMat;
+	GLint			screenSizeID;
 //        GLint           MVPLocation;
 	bool            linkedOK;
 	char            vertFileName[MAX_STRING_SIZE];

@@ -41,17 +41,16 @@ void ass_loadModelTextures()
 		{
 			int j = 0;	// Only load first material
 //			for ( int j = 0; j != meshModels[i].numMaterials; j++ )
-				{
-					meshModels[i].mesh[j].textureID = utilLoadTexture ( meshModels[i].materialName[j].C_Str(), -1 );
-					con_print ( CON_INFO, true, "Model [ %i ] : Texture ID [ %i ]", i, meshModels[i].mesh[j].textureID );
-				}
+			{
+				meshModels[i].mesh[j].textureID = utilLoadTexture ( meshModels[i].materialName[j].C_Str(), -1 );
+				con_print ( CON_INFO, true, "Model [ %i ] : Texture ID [ %i ]", i, meshModels[i].mesh[j].textureID );
+			}
 		}
 }
 
 //-----------------------------------------------------------------------------
 //
 // Render the mesh using a transform/rotation/scale matrix from bullet
-//
 void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatrix, GLfloat scaleBy, glm::vec3 lightColor )
 //-----------------------------------------------------------------------------
 {
@@ -60,82 +59,82 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 
 	if ( false == meshModels[whichModel].loaded )
 		return;
-	
+
 	for (int whichMesh = 0; whichMesh != meshModels[whichModel].numMeshes; whichMesh++)
-	{
-		physicsMatrix = glm::scale ( physicsMatrix, glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
-		
-		//
-		// Translate model bounding box for testing against frustrum
-		minSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.minSize, 1.0 );
-		maxSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize, 1.0 );
+		{
+			physicsMatrix = glm::scale ( physicsMatrix, glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
 
-		if ( COMPLETE_OUT == sys_boxInFrustum ( minSize.x, minSize.y, minSize.z,
-												maxSize.x, maxSize.y, maxSize.z ) )
-			{
-				numSkippedModels++;
-				return;
-			}
+			//
+			// Translate model bounding box for testing against frustrum
+			minSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.minSize, 1.0 );
+			maxSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize, 1.0 );
+
+			if ( COMPLETE_OUT == sys_boxInFrustum ( minSize.x, minSize.y, minSize.z,
+			                                        maxSize.x, maxSize.y, maxSize.z ) )
+				{
+					numSkippedModels++;
+					return;
+				}
 
 
-		GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].mesh[whichMesh].vao_ID ) );
-		GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
+			GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].mesh[whichMesh].vao_ID ) );
+			GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
-		GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-		GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( physicsMatrix ) ) );
-		GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( physicsMatrix ) ) ) ) );
+			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( physicsMatrix ) ) );
+//			GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( physicsMatrix ) ) ) ) );
 
-		if ( MODEL_SPHERE == whichModel )
-			{
+			if ( MODEL_SPHERE == whichModel )
+				{
+					GL_ASSERT ( glUniform1f ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightRadius" ), scaleBy ) );
+					GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightColor" ), 1, glm::value_ptr ( lightColor ) ) );
 
-				GL_ASSERT ( glUniform1f ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightRadius" ), scaleBy ) );
-				GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightColor" ), 1, glm::value_ptr ( lightColor ) ) );
-	//			GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightPosition" ), 1, glm::value_ptr ( pos ) ) );
+					GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uPositionTex" ), 0 ) );
+					wrapglBindTexture ( GL_TEXTURE0 + 0, id_textures[GBUFFER_TEXTURE_TYPE_POSITION] );
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uPositionTex" ), 0 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 0, id_textures[GBUFFER_TEXTURE_TYPE_POSITION] );
+					GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uNormalTex" ), 1 ) );
+					wrapglBindTexture ( GL_TEXTURE0 + 1, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL] );
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uNormalTex" ), 1 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 1, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL] );
+					GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDiffuseTex" ), 2 ) );
+					wrapglBindTexture ( GL_TEXTURE0 + 2, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE] );
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDiffuseTex" ), 2 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 2, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE] );
+					GL_CHECK ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( cam3_Position ) ) );
+				}
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDepthTex" ), 3 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 3, id_depthTexture );
+			else
+				{
+					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+//					glBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+					GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
+				}
 
-				GL_CHECK ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( cam3_Position ) ) );
-			}
+			//
+			// Always use vertex information
+			GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 
-		//
-		// Always use vertex information
-		GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
-		GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
-		GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+			if ( meshModels[whichModel].hasNormals == true )
+				{
+					//
+					// Use Normal information
+					GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
+					GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+					GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+				}
 
-		if ( meshModels[whichModel].hasNormals == true )
-			{
-				//
-				// Use Normal information
-				GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
-				GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
-				GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
-			}
+			if ( meshModels[whichModel].hasTextures == true )
+				{
+					//
+					// Use Texture coordinate information
+					GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
+					GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+					GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+				}
 
-		if ( meshModels[whichModel].hasTextures == true )
-			{
-				//
-				// Use Texture coordinate information
-				GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
-				GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
-				GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+			GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL ) );
+		}
 
-				wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
-			}
-
-		GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL ) );
-	}
-	
 	glBindVertexArray ( 0 );
 	glUseProgram ( 0 );
 }
@@ -149,7 +148,7 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos, GLfloat scaleBy, glm::vec3 lightColor )
 //-----------------------------------------------------------------------------
 {
-	#define FRUSTUM_PADDING 50.0f
+#define FRUSTUM_PADDING 50.0f
 	GLfloat     	scaleFactor;
 	glm::vec4       minSize;
 	glm::vec4       maxSize;
@@ -159,88 +158,87 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 		return;
 
 	for (int whichMesh = 0; whichMesh != meshModels[whichModel].numMeshes; whichMesh++)
-	{
-		
-		scaleMatrix = glm::mat4();
-		modelMatrix = glm::mat4();
+		{
 
-		//
-		// Adjust the size and position of the mesh
-		scaleMatrix = glm::translate ( glm::mat4(), pos );
-			
-		scaleMatrix = glm::scale ( scaleMatrix, glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
-		//
-		// Translate model bounding box for testing against frustrum
-		minSize = scaleMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.minSize, 1.0 );
-		maxSize = scaleMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize, 1.0 );
+			scaleMatrix = glm::mat4();
+			modelMatrix = glm::mat4();
 
-		if ( COMPLETE_OUT == sys_boxInFrustum ( minSize.x - FRUSTUM_PADDING, minSize.y - FRUSTUM_PADDING, minSize.z - FRUSTUM_PADDING,
-												maxSize.x + FRUSTUM_PADDING, maxSize.y + FRUSTUM_PADDING, maxSize.z + FRUSTUM_PADDING) )
-			{
-				numSkippedModels++;
-				return;
-			}
+			//
+			// Adjust the size and position of the mesh
+			scaleMatrix = glm::translate ( glm::mat4(), pos );
 
+			scaleMatrix = glm::scale ( scaleMatrix, glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
+			//
+			// Translate model bounding box for testing against frustrum
+			minSize = scaleMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.minSize, 1.0 );
+			maxSize = scaleMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize, 1.0 );
 
-		GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].mesh[whichMesh].vao_ID ) );
-		GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
+			if ( COMPLETE_OUT == sys_boxInFrustum ( minSize.x - FRUSTUM_PADDING, minSize.y - FRUSTUM_PADDING, minSize.z - FRUSTUM_PADDING,
+			                                        maxSize.x + FRUSTUM_PADDING, maxSize.y + FRUSTUM_PADDING, maxSize.z + FRUSTUM_PADDING) )
+				{
+					numSkippedModels++;
+					return;
+				}
 
-		GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-		GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( scaleMatrix ) ) );
-		GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( scaleMatrix ) ) ) ) );
+			GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].mesh[whichMesh].vao_ID ) );
+			GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
-		if ( MODEL_SPHERE == whichModel )
-			{
+			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( scaleMatrix ) ) );
+			GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( scaleMatrix ) ) ) ) );
 
-				GL_ASSERT ( glUniform1f ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightRadius" ), scaleBy ) );
-				GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightColor" ), 1, glm::value_ptr ( lightColor ) ) );
-				GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightPosition" ), 1, glm::value_ptr ( pos ) ) );
+			if ( MODEL_SPHERE == whichModel )
+				{
+					GL_ASSERT ( glUniform1f  ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightRadius" ), scaleBy ) );
+					GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightColor" ), 1, glm::value_ptr ( lightColor ) ) );
+					GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uLightPosition" ), 1, glm::value_ptr ( pos ) ) );
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uPositionTex" ), 0 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 0, id_textures[GBUFFER_TEXTURE_TYPE_POSITION] );
+					GL_CHECK ( glUniform3fv  ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( cam3_Position ) ) );
+					
+					GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uPositionTex" ), 0 ) );
+					wrapglBindTexture ( GL_TEXTURE0 + 0, id_textures[GBUFFER_TEXTURE_TYPE_POSITION] );
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uNormalTex" ), 1 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 1, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL] );
+					GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uNormalTex" ), 1 ) );
+					wrapglBindTexture ( GL_TEXTURE0 + 1, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL] );
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDiffuseTex" ), 2 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 2, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE] );
+					GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDiffuseTex" ), 2 ) );
+					wrapglBindTexture ( GL_TEXTURE0 + 2, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE] );
+				}
+			if ( MODEL_CRATE == whichModel)
+				{
+					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+					GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
+				}				
 
-				GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDepthTex" ), 3 ) );
-				wrapglBindTexture ( GL_TEXTURE0 + 3, id_depthTexture );
+			//
+			// Always use vertex information
+			GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 
+			if ( meshModels[whichModel].hasNormals == true )
+				{
+					//
+					// Use Normal information
+					GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
+					GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+					GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+				}
 
-				GL_CHECK ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( cam3_Position ) ) );
-			}
+			if ( meshModels[whichModel].hasTextures == true )
+				{
+					//
+					// Use Texture coordinate information
+					GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
+					GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+					GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 
-		//
-		// Always use vertex information
-		GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
-		GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
-		GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+				}
 
-		if ( meshModels[whichModel].hasNormals == true )
-			{
-				//
-				// Use Normal information
-				GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
-				GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
-				GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
-			}
+			GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL ) );
+		}
 
-		if ( meshModels[whichModel].hasTextures == true )
-			{
-				//
-				// Use Texture coordinate information
-				GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
-				GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
-				GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
-
-				wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
-			}
-
-		GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL ) );
-	}
-	
 	glBindVertexArray ( 0 );
 	glUseProgram ( 0 );
 }
@@ -278,7 +276,7 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 					vertices[i * 3 + 2] = mesh->mVertices[i].z;
 
 					btVector3 tempVector = btVector3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
-					
+
 					meshModels[whichModel].mesh[whichMesh].physicsShapeConvexHull->addPoint(tempVector);
 
 					tempVec3.x = mesh->mVertices[i].x;
@@ -311,18 +309,18 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 //        Assimp::FindMeshCenter (mesh, boxCenter, boxMin, boxMax );
 
 			meshModels[whichModel].mesh[whichMesh].boundingBox = tempBox;
-/*
-      btShapeHull* HullOfOriginalShape = new btShapeHull(NewStaticMesh);
-      btScalar CurrentMargin = NewStaticMesh->getMargin();
-      HullOfOriginalShape->buildHull(CurrentMargin);
-      ReducedPolygonStaticMesh = new btConvexHullShape();
+			/*
+			      btShapeHull* HullOfOriginalShape = new btShapeHull(NewStaticMesh);
+			      btScalar CurrentMargin = NewStaticMesh->getMargin();
+			      HullOfOriginalShape->buildHull(CurrentMargin);
+			      ReducedPolygonStaticMesh = new btConvexHullShape();
 
-      for (int i = 0; i < HullOfOriginalShape->numVertices(); i++) {
-         ReducedPolygonStaticMesh->addPoint(HullOfOriginalShape->getVertexPointer()[i], false);
-      }
+			      for (int i = 0; i < HullOfOriginalShape->numVertices(); i++) {
+			         ReducedPolygonStaticMesh->addPoint(HullOfOriginalShape->getVertexPointer()[i], false);
+			      }
 
-      ReducedPolygonStaticMesh->recalcLocalAabb();
-*/
+			      ReducedPolygonStaticMesh->recalcLocalAabb();
+			*/
 			con_print ( CON_INFO, true, "Bounding box size:" );
 			con_print ( CON_INFO, true, "Min [ %3.3f %3.3f %3.3f ]", meshModels[whichModel].mesh[whichMesh].boundingBox.minSize.x, meshModels[whichModel].mesh[whichMesh].boundingBox.minSize.y, meshModels[whichModel].mesh[whichMesh].boundingBox.minSize.z );
 			con_print ( CON_INFO, true, "Max [ %3.3f %3.3f %3.3f ]", meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize.x, meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize.y, meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize.z );
@@ -416,6 +414,7 @@ bool ass_getMaterials ( aiScene *scene, int whichModel )
 					con_print ( CON_INFO, true, "Model [ %i ] Material [ %i ] : [ %s ]", whichModel, i, meshModels[whichModel].materialName[i].C_Str() );
 					return true;
 				}
+
 			else
 				{
 					strcpy ( meshModels[whichModel].materialName[i].C_Str(), (const char *)"white_square" );
@@ -423,6 +422,7 @@ bool ass_getMaterials ( aiScene *scene, int whichModel )
 					return false;
 				}
 		}
+
 	return false;
 }
 
@@ -451,7 +451,7 @@ bool ass_loadModel ( int whichModel, std::string fileName )
 		}
 
 	meshModels[whichModel].loaded = true;
-	
+
 	meshModels[whichModel].numMeshes = scene->mNumMeshes;
 	meshModels[whichModel].numMaterials = scene->mNumMaterials;
 	//
@@ -467,7 +467,7 @@ bool ass_loadModel ( int whichModel, std::string fileName )
 			// Store each mesh in the model in it's own VAO
 			glGenVertexArrays ( 1, &meshModels[whichModel].mesh[i].vao_ID );
 			glBindVertexArray ( meshModels[whichModel].mesh[i].vao_ID );
-			
+
 			ass_uploadMesh ( scene->mMeshes[i], whichModel, i );
 			meshModels[whichModel].mesh[i].materialIndex = scene->mMeshes[i]->mMaterialIndex;
 			meshModels[whichModel].mesh[i].numFaces = scene->mMeshes[i]->mNumFaces;

@@ -19,16 +19,16 @@
 
 _shaderProgram                shaderProgram[] =             // holds all the information about shader program
 {
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "depthMap.vert",        "depthMap.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "ttfFont.vert",         "ttfFont.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "justColor.vert",       "justColor.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag"},
-//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "shadowMap.vert",       "shadowMap.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "geometry_pass.vert",   "geometry_pass.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "lightPass.vert",       "lightPass.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "pointLight.vert",      "pointLight.frag"},
-//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "renderBSP.vert",       "renderBSP.frag"},
-//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0,  0, false,  "deferredRendering.vert",       "deferredRendering.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "depthMap.vert",        "depthMap.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "ttfFont.vert",         "ttfFont.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "justColor.vert",       "justColor.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag"},
+//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "shadowMap.vert",       "shadowMap.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",   "geometry_pass.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "lightPass.vert",       "lightPass.frag"},
+	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointLight.vert",      "pointLight.frag"},
+//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "renderBSP.vert",       "renderBSP.frag"},
+//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "deferredRendering.vert",       "deferredRendering.frag"},
 };
 
 //-----------------------------------------------------------------------------
@@ -216,6 +216,8 @@ bool gl_setShaderVars ( int whichShader )
 				//
 				// Get the ID to store the colorkey value in
 				gl_getAttribVariable ( whichShader, ( char * ) "fontColor", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
+				
+//				gl_getUniformVariable (whichShader, ( char *) "inScreenSize", gl_getShaderName (whichShader), &shaderProgram[whichShader].screenSizeID );
 				break;
 
 			case SHADER_PHYSIC_DEBUG:

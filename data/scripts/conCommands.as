@@ -38,24 +38,23 @@ void as_setGameVariables()
 	antBarHeight = 200;
 	antPosX = winWidth - ( antBarWidth + 2 );
 	antPosY = 2;
-	//
-	// Set font sizes
-	fontSizeSmall = 18.0f;
-	fontSizeMedium = 20.0f;
-	fontSizeLarge = 24.0f;
 
-	renderText = TEXT_DRAW_ARRAY;
+	sdf_addFontInfo(0, "Digital.ttf", 24);
+	sdf_addFontInfo(1, "oldDigital.ttf", 28);
+	sdf_addFontInfo(2, "President.ttf", 32);
 
-	ttf_setFontName ( "data/President.ttf" );
-	ttf_initLibrary ( fontSizeSmall, 0 );
-
+	sdf_initFontSystem();
+	
 	gravityX = 0.0f;
-	gravityY = -3.0f;
+	gravityY = -8.0f;
 	gravityZ = 0.0f;
 
 	materialShininess = 140.0f;
 	globalAmbient = 0.3;
 	globalGammaFactor = 0.2;
+	//
+	// Echo OpenGL debug callback to console and file or not
+	g_debugOpenGL = true;
 	//
 	// Show the triggers for doors
 	g_debugDoorTriggers = true;

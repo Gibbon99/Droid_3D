@@ -14,6 +14,8 @@ glm::mat4       projMatrix;
 glm::mat4       modelMatrix;
 glm::mat4       viewMatrix;
 
+bool			g_debugOpenGL = true;
+
 //--------------------------------------------------------------------------------------------
 //
 // OpenGL Debug - return string of type source
@@ -101,6 +103,10 @@ void gl_DebugCallback ( GLenum source, GLenum type, GLenum id, GLenum severity,
                         GLsizei length, const GLchar *msg, const void *data )
 //--------------------------------------------------------------------------------------------
 {
+	
+	if (false == g_debugOpenGL)
+		return;	
+	
 	if ( ( 131185 == id ) || ( 131204 == id ) )
 		return;
 

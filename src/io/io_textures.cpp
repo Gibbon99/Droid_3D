@@ -181,7 +181,7 @@ GLint utilLoadTexture ( const char *fileName, int bspIndex )
 				}
 		}
 
-	con_printUpdate ( true, "File not found or not supported - [ %s ]", fileName );
+	con_print ( CON_ERROR, true, "ERROR: File not found or not supported - [ %s ]", fileName );
 	return -1;
 }
 

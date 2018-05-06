@@ -171,7 +171,7 @@ int io_getFileSize ( char *fileName )
 }
 // ---------------------------------------------------------------------------
 //
-// Load a text file into a pointer
+// Load a file into a pointer
 int io_getFileIntoMemory ( char *fileName, char *results )
 // ---------------------------------------------------------------------------
 {
@@ -220,4 +220,19 @@ int io_getFileIntoMemory ( char *fileName, char *results )
 	PHYSFS_close ( compFile );
 
 	return 1;
+}
+
+// ---------------------------------------------------------------------------
+//
+// Check if a file exists
+bool io_doesFileExist(string fileName)
+// ---------------------------------------------------------------------------
+{
+	if ( false == fileSystemReady )
+	{
+		con_print(CON_ERROR, true, "File system not ready. Can not check for file [ %s ]", fileName.c_str());
+		return false;
+	}
+	
+	return PHYSFS_exists(fileName.c_str());
 }

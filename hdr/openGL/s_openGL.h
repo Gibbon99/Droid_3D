@@ -9,6 +9,8 @@ extern glm::mat4       projMatrix;
 extern glm::mat4       modelMatrix;
 extern glm::mat4       viewMatrix;
 
+extern bool				g_debugOpenGL;
+
 //-----------------------------------------------------------------------------
 //
 // Structure to hold OpenGL colors

@@ -10,9 +10,10 @@
 
 const char *vertex_src = "#version 330\n"
                          "\n"
-                         "in vec3 inPosition;\n"
+                         "in vec2 inPosition;\n"
                          "in vec2 inTextureCoords;\n"
-                         "in vec4 fontColor;\n"
+                         "in vec4 inFontColor;\n"
+                         "uniform vec2 inScreenSize;\n"
                          "\n"
                          "out vec4 theFontColor;\n"
                          "out vec2 texCoord0;\n"
@@ -21,75 +22,39 @@ const char *vertex_src = "#version 330\n"
                          "{\n"
                          "    texCoord0 = inTextureCoords;\n"
                          "\n"
-                         "    theFontColor = fontColor;\n"
+                         "    theFontColor = inFontColor;\n"
                          "\n"
-                         "    vec2 vertexPosition_homoneneousspace = inPosition.xy - vec2(400,300); // [0..800][0..600] -> [-400..400][-300..300]\n"
-                         "    vertexPosition_homoneneousspace /= vec2(400,300);\n"
-                         "    gl_Position =  vec4(vertexPosition_homoneneousspace,0,1);\n"
+                         "    vec2 vertexPosition = inPosition.xy - inScreenSize.xy; // [0..800][0..600] -> [-400..400][-300..300]\n"
+                         "    vertexPosition /= inScreenSize.xy;\n"
+                         "    gl_Position =  vec4(vertexPosition,0,1);\n"
                          "}\n"
                          "";
 
 const char *fragment_src=""
-                       "#version 330\n"
-                       "uniform sampler2D   inTexture0;\n"
-                       "in      vec2        texCoord0;\n"
-                       "in      vec4        theFontColor;\n"
-                       "out     vec4        outColor;\n"
-                       "\n"
-                       "void main(void)\n"
-                       "{\n"
-                       "	float alpha = texture2D(inTexture0, texCoord0).r;\n"
-                       "	outColor = vec4(theFontColor.rgb, theFontColor.a) * alpha;\n"
-                       "}\n"
-                       "";
+                         "#version 330\n"
+                         "uniform sampler2D   inTexture0;\n"
+                         "in      vec2        texCoord0;\n"
+                         "in      vec4        theFontColor;\n"
+                         "out     vec4        outColor;\n"
+                         "\n"
+                         "void main(void)\n"
+                         "{\n"
+                         "	float alpha = texture2D(inTexture0, texCoord0).r;\n"
+                         "	outColor = vec4(theFontColor.rgb, theFontColor.a) * alpha;\n"
+                         "}\n"
+                         "";
 
 typedef struct
 {
-	glm::vec2		screenPosition;
-} _fnt_glyph;
-
-_fnt_glyph			fnt_glyph;
-
-typedef struct
-{
-	glm::vec4		P0;
-	glm::vec4		P1;
-	glm::vec4		P2;
-
-	glm::vec4		P3;
-	glm::vec4		P4;
-	glm::vec4		P5;
-} _fnt_colorBuffer;
-
-typedef struct
-{
-	glm::vec3		P0;		// Triangle One
-	glm::vec3		P1;
-	glm::vec3		P2;
-
-	glm::vec3		P3;		// Triangle Two
-	glm::vec3		P4;
-	glm::vec3		P5;
-
-} _fnt_vertBuffer;
-
-typedef struct
-{
-	glm::vec2		P0;
-	glm::vec2		P1;
-	glm::vec2		P2;
-
-	glm::vec2		P3;
-	glm::vec2		P4;
-	glm::vec2		P5;
-} _fnt_textureBuffer;
+	glm::vec2		position;
+	glm::vec2		textureCoord;
+	glm::vec4		color;
+} _fnt_vertex;
 
 GLuint 				embeddedTexID;
 
 GLuint				fnt_g_glyphVAO_ID;
 GLuint				fnt_g_vertVBO_ID;
-GLuint				fnt_g_texVBO_ID;
-GLuint				fnt_g_colVBO_ID;
 
 GLuint				fnt_vertexShader_ID;
 GLuint				fnt_fragmentShader_ID;
@@ -99,11 +64,9 @@ GLuint				fnt_inPosition_ID;
 GLuint				fnt_inTextureCoords_ID;
 GLuint				fnt_inColor_ID;
 GLuint				fnt_inTextureUnit_ID;
+GLuint				fnt_inScreenSize_ID;
 
-vector<_fnt_vertBuffer>			fnt_vertBuffer;
-vector<_fnt_textureBuffer>		fnt_textureBuffer;
-vector<_fnt_colorBuffer>		fnt_colorBuffer;
-
+vector<_fnt_vertex>				fnt_vertex;
 
 // -------------------------------------------------------------------
 //
@@ -126,7 +89,7 @@ void fnt_printGLInfoLog (const char *log_title, GLuint handle, const char *shade
 			if(shader_name != 0)
 				con_print(CON_INFO, true, " for %s:\n", shader_name);
 
-			printf("-----------\n%s\n-----------\n", glString);
+			con_print(CON_INFO, true, "-----------\n%s\n-----------\n", glString);
 			delete [] glString;
 		}
 }
@@ -140,7 +103,7 @@ bool fnt_compileLinkShaders()
 {
 	GLint		linked;
 	GLint		len;
-	
+
 	fnt_vertexShader_ID = glCreateShader(GL_VERTEX_SHADER);
 	len = (GLint)strlen(vertex_src);
 	glShaderSource(fnt_vertexShader_ID, 1, &vertex_src, &len);
@@ -158,25 +121,27 @@ bool fnt_compileLinkShaders()
 	glAttachShader(fnt_shaderProgram_ID, fnt_fragmentShader_ID);
 
 	glLinkProgram(fnt_shaderProgram_ID);
-	
+
 	glGetProgramiv ( fnt_shaderProgram_ID, GL_LINK_STATUS, &linked );
 
 	if ( true == linked )
 		{
 			con_print ( CON_TEXT, true, "INFO: Shaders linked ok - [ %s ]", "Embedded font Shader." );
-			
+
 			glDetachShader(fnt_shaderProgram_ID, fnt_vertexShader_ID);
 			glDeleteShader(fnt_vertexShader_ID);
 
 			glDetachShader(fnt_shaderProgram_ID, fnt_fragmentShader_ID);
 			glDeleteShader(fnt_fragmentShader_ID);
-			
+
 			glUseProgram(fnt_shaderProgram_ID);
-			
-			fnt_inPosition_ID = glGetAttribLocation(fnt_shaderProgram_ID, 		"inPosition");
-			fnt_inTextureCoords_ID = glGetAttribLocation(fnt_shaderProgram_ID, "inTextureCoords");
-			fnt_inColor_ID = glGetAttribLocation(fnt_shaderProgram_ID, 		"fontColor");
-			fnt_inTextureUnit_ID = glGetUniformLocation(fnt_shaderProgram_ID,  	"inTexture0");
+
+			fnt_inPosition_ID = 	glGetAttribLocation(fnt_shaderProgram_ID, 	"inPosition");
+			fnt_inTextureCoords_ID = glGetAttribLocation(fnt_shaderProgram_ID, 	"inTextureCoords");
+			fnt_inColor_ID = 		glGetAttribLocation(fnt_shaderProgram_ID, 	"inFontColor");
+
+			fnt_inScreenSize_ID = 	glGetUniformLocation(fnt_shaderProgram_ID, 	"inScreenSize");
+			fnt_inTextureUnit_ID = 	glGetUniformLocation(fnt_shaderProgram_ID,  "inTexture0");
 			return true;
 		}
 
@@ -189,20 +154,30 @@ bool fnt_compileLinkShaders()
 
 // -------------------------------------------------------------------
 //
+// Populate the temporary vector and push into array
+void fnt_addVertexInfo(glm::vec2 position, glm::vec2 texCoord, glm::vec4 color)
+// -------------------------------------------------------------------
+{
+	_fnt_vertex					fnt_vertexTemp;
+
+	fnt_vertexTemp.position = position;
+	fnt_vertexTemp.textureCoord = texCoord;
+	fnt_vertexTemp.color = color;
+	fnt_vertex.push_back(fnt_vertexTemp);
+}
+
+// -------------------------------------------------------------------
+//
 // Create texture containing the embedded font data
 // Construct the texture and vertex positions and upload to card
 // Render buffers using GL_TRIANGLES
 void fnt_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ... )
 // -------------------------------------------------------------------
 {
-#define POS_Z	0.0
-
 	static bool					initDone = false;
 	size_t						i, j;
 	float						currentX, currentY;
-	_fnt_vertBuffer				fnt_vertBufferTemp;
-	_fnt_textureBuffer			fnt_textureBufferTemp;
-	_fnt_colorBuffer			fnt_colorBufferTemp;
+	glm::vec2					fnt_screenSize;
 
 	va_list						args;
 	char						textLine[MAX_STRING_SIZE];
@@ -216,9 +191,7 @@ void fnt_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ..
 	currentX = position.x;
 	currentY = position.y;
 
-	fnt_vertBuffer.clear();
-	fnt_textureBuffer.clear();
-	fnt_colorBuffer.clear();
+	fnt_vertex.clear();
 
 	if (initDone == false)
 		{
@@ -235,14 +208,15 @@ void fnt_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ..
 			// Setup the Vertex Array Object that will have the VBO's associated to it
 			GL_ASSERT ( glGenVertexArrays ( 1, &fnt_g_glyphVAO_ID ) );
 			//
-			// Bind the vertex info
+			// Generate the VBO ID's for each vector
 			GL_ASSERT ( glGenBuffers ( 1, &fnt_g_vertVBO_ID ) );
-			GL_ASSERT ( glGenBuffers ( 1, &fnt_g_texVBO_ID ) );
-			GL_ASSERT ( glGenBuffers ( 1, &fnt_g_colVBO_ID ) );
 
 			if (false == fnt_compileLinkShaders())
 				return;
-				
+
+			fnt_screenSize.x = winWidth / 2;
+			fnt_screenSize.y = winHeight / 2;
+
 			initDone = true;
 		}
 
@@ -266,74 +240,21 @@ void fnt_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ..
 
 			if (!glyph)
 				continue;
+			// Triangle One - First point
+			fnt_addVertexInfo(glm::vec2{currentX + glyph->offset_x, currentY - offset_y}, glm::vec2 {glyph->s0, glyph->t1}, lineColor);
 
-			fnt_textureBufferTemp.P0.x = glyph->s0;		// 1st Triangle vertex 0
-			fnt_textureBufferTemp.P0.y = glyph->t1;
-			fnt_vertBufferTemp.P0.x = currentX + glyph->offset_x;
-			fnt_vertBufferTemp.P0.y = currentY - offset_y;
-			fnt_vertBufferTemp.P0.z = POS_Z;
-			fnt_colorBufferTemp.P0.r = lineColor.r;
-			fnt_colorBufferTemp.P0.g = lineColor.g;
-			fnt_colorBufferTemp.P0.b = lineColor.b;
-			fnt_colorBufferTemp.P0.a = lineColor.a;
+			fnt_addVertexInfo(glm::vec2{currentX + glyph->offset_x, (currentY + glyph->height) - offset_y}, glm::vec2 {glyph->s0, glyph->t0}, lineColor);
 
-			fnt_textureBufferTemp.P1.x = glyph->s0;
-			fnt_textureBufferTemp.P1.y = glyph->t0;
-			fnt_vertBufferTemp.P1.x = currentX + glyph->offset_x;
-			fnt_vertBufferTemp.P1.y = (currentY + glyph->height) - offset_y;
-			fnt_vertBufferTemp.P1.z = POS_Z;
-			fnt_colorBufferTemp.P1.r = lineColor.r;
-			fnt_colorBufferTemp.P1.g = lineColor.g;
-			fnt_colorBufferTemp.P1.b = lineColor.b;
-			fnt_colorBufferTemp.P1.a = lineColor.a;
+			fnt_addVertexInfo(glm::vec2{currentX + glyph->width + glyph->offset_x, (currentY + glyph->height) - offset_y}, glm::vec2 {glyph->s1, glyph->t0}, lineColor);
+			// Triangle Two - First point
+			fnt_addVertexInfo(glm::vec2{currentX + glyph->offset_x, currentY - offset_y}, glm::vec2 {glyph->s0, glyph->t1}, lineColor);
 
-			fnt_textureBufferTemp.P2.x = glyph->s1;
-			fnt_textureBufferTemp.P2.y = glyph->t0;
-			fnt_vertBufferTemp.P2.x = currentX + glyph->width + glyph->offset_x;
-			fnt_vertBufferTemp.P2.y = (currentY + glyph->height) - offset_y;
-			fnt_vertBufferTemp.P2.z = POS_Z;
-			fnt_colorBufferTemp.P2.r = lineColor.r;
-			fnt_colorBufferTemp.P2.g = lineColor.g;
-			fnt_colorBufferTemp.P2.b = lineColor.b;
-			fnt_colorBufferTemp.P2.a = lineColor.a;
+			fnt_addVertexInfo(glm::vec2{currentX + glyph->width + glyph->offset_x, (currentY + glyph->height) - offset_y}, glm::vec2 {glyph->s1, glyph->t0}, lineColor);
 
-
-			fnt_textureBufferTemp.P3.x = glyph->s0;		// 2nd Triangle vertex 0
-			fnt_textureBufferTemp.P3.y = glyph->t1;
-			fnt_vertBufferTemp.P3.x = currentX + glyph->offset_x;
-			fnt_vertBufferTemp.P3.y = currentY - offset_y;
-			fnt_vertBufferTemp.P3.z = POS_Z;
-			fnt_colorBufferTemp.P3.r = lineColor.r;
-			fnt_colorBufferTemp.P3.g = lineColor.g;
-			fnt_colorBufferTemp.P3.b = lineColor.b;
-			fnt_colorBufferTemp.P3.a = lineColor.a;
-
-			fnt_textureBufferTemp.P4.x = glyph->s1;
-			fnt_textureBufferTemp.P4.y = glyph->t0;
-			fnt_vertBufferTemp.P4.x = currentX + glyph->width + glyph->offset_x;
-			fnt_vertBufferTemp.P4.y = (currentY + glyph->height) - offset_y;
-			fnt_vertBufferTemp.P4.z = POS_Z;
-			fnt_colorBufferTemp.P4.r = lineColor.r;
-			fnt_colorBufferTemp.P4.g = lineColor.g;
-			fnt_colorBufferTemp.P4.b = lineColor.b;
-			fnt_colorBufferTemp.P4.a = lineColor.a;
-
-			fnt_textureBufferTemp.P5.x = glyph->s1;
-			fnt_textureBufferTemp.P5.y = glyph->t1;
-			fnt_vertBufferTemp.P5.x = currentX + glyph->width + glyph->offset_x;
-			fnt_vertBufferTemp.P5.y = currentY - offset_y;
-			fnt_vertBufferTemp.P5.z = POS_Z;
-			fnt_colorBufferTemp.P5.r = lineColor.r;
-			fnt_colorBufferTemp.P5.g = lineColor.g;
-			fnt_colorBufferTemp.P5.b = lineColor.b;
-			fnt_colorBufferTemp.P5.a = lineColor.a;
+			fnt_addVertexInfo(glm::vec2{currentX + glyph->width + glyph->offset_x, currentY - offset_y}, glm::vec2 {glyph->s1, glyph->t1}, lineColor);
 
 			currentX += glyph->advance_x;
 			currentY += glyph->advance_y;
-
-			fnt_textureBuffer.push_back(fnt_textureBufferTemp);
-			fnt_vertBuffer.push_back(fnt_vertBufferTemp);
-			fnt_colorBuffer.push_back(fnt_colorBufferTemp);
 		}
 
 	//
@@ -355,26 +276,23 @@ void fnt_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ..
 	// Bind texture if it's not already bound as current texture
 	wrapglBindTexture ( GL_TEXTURE0, embeddedTexID );
 	GL_CHECK ( glUniform1i ( fnt_inTextureUnit_ID, 0 ) );
+
+	GL_CHECK ( glUniform2f (fnt_inScreenSize_ID, (float)winWidth / 2, (float)winHeight / 2) );	// Pass screen size for
 	//
 	// Bind the vertex info
 	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, fnt_g_vertVBO_ID ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( glm::vec3 ) * 6 * strlen(textLine), &fnt_vertBuffer[0], GL_DYNAMIC_DRAW ) );
-	GL_CHECK ( glVertexAttribPointer ( fnt_inPosition_ID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( _fnt_vertex ) *fnt_vertex.size(), &fnt_vertex[0].position, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glVertexAttribPointer ( fnt_inPosition_ID, 2, GL_FLOAT, GL_FALSE, sizeof(_fnt_vertex), (GLvoid *)offsetof(_fnt_vertex, position) ) );
 	GL_CHECK ( glEnableVertexAttribArray ( fnt_inPosition_ID ) );
 	//
 	// Bind the texture coordinates
-	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, fnt_g_texVBO_ID ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( _fnt_textureBuffer ) * 6 * strlen(textLine), &fnt_textureBuffer[0], GL_DYNAMIC_DRAW ) );
-	GL_CHECK ( glVertexAttribPointer ( fnt_inTextureCoords_ID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_CHECK ( glVertexAttribPointer ( fnt_inTextureCoords_ID, 2, GL_FLOAT, GL_FALSE, sizeof(_fnt_vertex), (GLvoid *)offsetof(_fnt_vertex, textureCoord) ) );
 	GL_CHECK ( glEnableVertexAttribArray ( fnt_inTextureCoords_ID ) );
 	//
 	// Bind color array
-	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, fnt_g_colVBO_ID ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( _fnt_colorBuffer ) * 6 * strlen(textLine), &fnt_colorBuffer[0], GL_DYNAMIC_DRAW ) );
-	GL_CHECK ( glVertexAttribPointer ( fnt_inColor_ID, 4, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_CHECK ( glVertexAttribPointer ( fnt_inColor_ID, 4, GL_FLOAT, GL_FALSE, sizeof(_fnt_vertex), (GLvoid *)offsetof(_fnt_vertex, color) ) );
 	GL_CHECK ( glEnableVertexAttribArray ( fnt_inColor_ID ) );
 	//
 	// No matrices used - transform is done in the shader
-	// TODO: Pass in screen size dimensions to the shader to work out the proper screen size
-	GL_CHECK ( glDrawArrays(GL_TRIANGLES, 0, sizeof ( glm::vec3 ) * 4 * strlen(textLine)));	// 4 should be 6 ??
+	GL_CHECK ( glDrawArrays(GL_TRIANGLES, 0, fnt_vertex.size()));
 }

@@ -3,7 +3,6 @@
 uniform sampler2D uPositionTex;
 uniform sampler2D uNormalTex;
 uniform sampler2D uDiffuseTex;
-uniform sampler2D uDepthTex;
 
 out vec4 outColor;
 

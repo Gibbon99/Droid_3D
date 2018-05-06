@@ -37,7 +37,7 @@ void sys_gameTickRun ( float interpolate )
 			// Return the direction vector and turn this into velocity for physics
 			bul_setCameraVelocity(cam3_getVelocity());
 
-			bul_processPhysics ( 30.0f );
+			bul_processPhysics ( 60.0f );
 
 			vel = bul_returnCameraPosition();
 

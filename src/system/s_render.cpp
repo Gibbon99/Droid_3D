@@ -27,6 +27,7 @@
 #include "s_objects.h"
 
 #include "s_fontUtil.h"
+#include "s_signedFont.h"
 #include "s_camera3.h"
 bool        drawWireframe = false;
 bool        showGBuffers = false;
@@ -82,13 +83,9 @@ void sys_displayScreen ( float interpolate )
 {
 //    char profileText[64];
 
-	glClearColor ( 1.0f, 1.0f, 1.0f, 0.0f );
+	glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 	glViewport ( 0, 0, winWidth, winHeight );
 	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-	//
-	// Get memory to hold vertex and char information
-	ttf_startText();
 
 	switch ( currentMode )
 		{
@@ -100,14 +97,6 @@ void sys_displayScreen ( float interpolate )
 
 				gl_set2DMode();
 
-				ttf_setFontColor ( 0.7f, 0.7f, 0.0f, 0.5 );
-				ttf_addText ( FONT_SMALL, 0.0f, 16.0f, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint );
-
-				ttf_setFontColor ( 1.0f, 1.0f, 1.0f, 1.0f );
-				con_createConsoleScreen ( );
-
-
-				
 				// Draw GUI
 				{
 					PROFILE ( "GUI" );
@@ -122,6 +111,10 @@ void sys_displayScreen ( float interpolate )
 
 				gl_set2DMode();
 				con_showConsole();
+				sdf_addText(FONT_SMALL, glm::vec2{50.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+				sdf_addText(FONT_MEDIUM, glm::vec2{70.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+				sdf_addText(FONT_LARGE, glm::vec2{90.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+				sdf_displayText();
 
 #ifdef SHOW_PROFILE_STATS
 				std::string s = VSProfileLib::DumpLevels();
@@ -200,21 +193,13 @@ void sys_displayScreen ( float interpolate )
 					}
 
 //			TwDraw();
-/*
-#define LINE_SPACE 21.0f
-				ttf_setFontColor ( 0.7f, 0.7f, 0.0f, 1.0f );
-				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 1, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Average [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenAvg );
-				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 2, "Faces Drawn [ %i ] NotDrawn [ %i ]", g_numFacesDrawn, g_numFacesNotDrawn);
-				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 3, "textureChanges [ %i ] VertIndexes [ %i ] Verts [ %i ] Tris [ %i ]", g_texturesChanges, g_vertIndexCounter, g_numVertexPerFrame, g_numVertexPerFrame / 3);
-				ttf_addText ( FONT_SMALL, 0.0f, LINE_SPACE * 4, "cam3_Front [ %3.3f %3.3f %3.3f ]", cam3_Front.x, cam3_Front.y, cam3_Front.z );
-				 * */
 		}
 
 	//
 	// Render all text in VBO memory
 	
-//	ttf_displayText ( FONT_SMALL );
-
+		gl_set2DMode();
+		sdf_printText(glm::vec2{50.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
 
 	lib_swapBuffers();
 }

@@ -8,6 +8,9 @@
 //----------------------------------------------------------
 //
 // Add a new object to the game world
+//
+// Need an object index for collisions in physics
+//
 void obj_addObject(glm::vec3 position, int meshType, bool usesPhysics, float scaleBy, glm::vec3 lightColor)
 //----------------------------------------------------------
 {
@@ -66,7 +69,7 @@ void obj_addSomeObjects()
 	obj_addObject( glm::vec3 ( 10.0, 10.0, 50.0 ), 	MODEL_FEMADROID, 	true, 8.7f, glm::vec3() );
 	obj_addObject( glm::vec3 ( 50.0, 10.0, 100.0 ), MODEL_TANK, 		true, 0.3f, glm::vec3() );
 	
-	obj_addObject( glm::vec3 ( 80.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 3.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( 80.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 5.0f, glm::vec3() );
 	obj_addObject( glm::vec3 ( 95.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 7.0f, glm::vec3() );
 	obj_addObject( glm::vec3 ( 130.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 10.0f, glm::vec3() );
 }

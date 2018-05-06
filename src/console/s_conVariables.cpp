@@ -25,10 +25,6 @@ _hostScriptFunctions hostVariables[] =
 	{"int antBarHeight",                    &antBarHeight},
 	{"int antPosX",                         &antPosX},
 	{"int antPosY",                         &antPosY},
-	{"float fontSizeSmall",					&fontSizeSmall},
-	{"float fontSizeMedium",				&fontSizeMedium},
-	{"float fontSizeLarge",					&fontSizeLarge},
-	{"int renderText",                      &renderText},
 	{"float gravityX",                      &gravityX},
 	{"float gravityY",                      &gravityY},
 	{"float gravityZ",                      &gravityZ},
@@ -42,6 +38,7 @@ _hostScriptFunctions hostVariables[] =
 	{"float bullet_1_speed",                &bullet_1_speed},
 	{"bool g_debugPhysics",					&g_debugPhysics},
 	{"bool g_debugDoorTriggers",			&g_debugDoorTriggers},
+	{"bool g_debugOpenGL",					&g_debugOpenGL},
 	{"",							        NULL},
 };
 

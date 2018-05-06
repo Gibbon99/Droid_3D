@@ -186,28 +186,28 @@ void gl_showGBuffers()
 	GLint halfWidth = winWidth / 2.0f;
 	GLint halfHeight = winHeight / 2.0f;
 
-	ttf_setFontColor ( 1.0, 1.0, 1.0, 1.0 );
+//	ttf_setFontColor ( 1.0, 1.0, 1.0, 1.0 );
 
 	//
 	// Bottom left
 	GL_ASSERT ( gl_setReadBuffer ( GBUFFER_TEXTURE_TYPE_DIFFUSE ) );
 	GL_ASSERT ( glBlitFramebuffer ( 0, 0, winWidth, winHeight, 0, 0, halfWidth, halfHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR ) );
-	ttf_addText ( FONT_SMALL, 0.0f, winHeight - 40, "DIFFUSE" );
+//	ttf_addText ( FONT_SMALL, 0.0f, winHeight - 40, "DIFFUSE" );
 	//
 	// Top Left
 	GL_ASSERT ( gl_setReadBuffer ( GBUFFER_TEXTURE_TYPE_POSITION ) );
 	GL_ASSERT ( glBlitFramebuffer ( 0, 0, winWidth, winHeight, 0, halfHeight, halfWidth, winHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR ) );
-	ttf_addText ( FONT_SMALL, 0.0f, 5.0f, "POSITION" );
+//	ttf_addText ( FONT_SMALL, 0.0f, 5.0f, "POSITION" );
 	//
 	// Top right
 	GL_ASSERT ( gl_setReadBuffer ( GBUFFER_TEXTURE_TYPE_NORMAL ) );
 	GL_ASSERT ( glBlitFramebuffer ( 0, 0, winWidth, winHeight, halfWidth, halfHeight, winWidth, winHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR ) );
-	ttf_addText ( FONT_SMALL, halfWidth, 5.0f, "NORMALS" );
+//	ttf_addText ( FONT_SMALL, halfWidth, 5.0f, "NORMALS" );
 	//
 	// Bottom right
 	lt_renderDepthQuad ( SHADER_DEPTHMAP );
-	ttf_setFontColor ( 1.0, 1.0, 0.0, 1.0 );
-	ttf_addText ( FONT_SMALL, halfWidth, winHeight - 40.0f, "DEPTH" );
+//	ttf_setFontColor ( 1.0, 1.0, 0.0, 1.0 );
+//	ttf_addText ( FONT_SMALL, halfWidth, winHeight - 40.0f, "DEPTH" );
 }
 
 

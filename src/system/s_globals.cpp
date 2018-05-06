@@ -14,7 +14,7 @@ double      freelookMouseX = 0.0;
 double      freelookMouseY = 0.0;
 float       mouseSpeed = 0.001f;
 
-bool        verbose = true;
+bool        verbose = false;
 
 bool        cameraLockedToPhysics = false;
 
