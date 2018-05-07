@@ -163,14 +163,14 @@ Console : Registered function [ void lib_resizeWindow(int newWidth, int newHeigh
 Console : Registered function [ bool ass_loadModel(int whichModel, string &in) ]
 Console : Registered function [ void sdf_addFontInfo(uint whichFont, string &in, uint fontSize) ]
 Console : Registered function [ bool sdf_initFontSystem() ]
-Console : Size of script [ 3937 ] - [ conCommands.as ]
+Console : Size of script [ 3941 ] - [ conCommands.as ]
 Console : Number of functions in script [ 3 ]
 Console : Font [ Digital.ttf ] is available for use.
 Console : Font [ oldDigital.ttf ] is available for use.
 Console : Font [ President.ttf ] is available for use.
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -535551680 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -535551680 ]
-Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -535549824 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 610066736 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 610066736 ]
+Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ 610068592 ]
 Console : Err: Failed to get function ID for [ bool ttf_initLibrary() ].
 Console : Physics system started...
 Console : Forward rendering framebuffer created...

@@ -39,9 +39,9 @@ void as_setGameVariables()
 	antPosX = winWidth - ( antBarWidth + 2 );
 	antPosY = 2;
 
-	sdf_addFontInfo(0, "Digital.ttf", 24);
-	sdf_addFontInfo(1, "oldDigital.ttf", 28);
-	sdf_addFontInfo(2, "President.ttf", 32);
+	sdf_addFontInfo(0, "Digital.ttf", 		24);
+	sdf_addFontInfo(1, "oldDigital.ttf", 	32);
+	sdf_addFontInfo(2, "President.ttf", 	38);
 
 	sdf_initFontSystem();
 	

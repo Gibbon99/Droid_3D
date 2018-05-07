@@ -55,7 +55,7 @@ void con_addConsoleCommands()
 void con_showConsole()
 //-----------------------------------------------------------------------------
 {
-#define EMBEDDED_FONT_HEIGHT 16.0f
+#define EMBEDDED_FONT_HEIGHT 17.0f
 
 	float 			currentY;
 	glm::vec4		lineColor;

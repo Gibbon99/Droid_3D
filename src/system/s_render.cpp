@@ -111,10 +111,8 @@ void sys_displayScreen ( float interpolate )
 
 				gl_set2DMode();
 				con_showConsole();
-				sdf_addText(FONT_SMALL, glm::vec2{50.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
-				sdf_addText(FONT_MEDIUM, glm::vec2{70.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
-				sdf_addText(FONT_LARGE, glm::vec2{90.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
-				sdf_displayText();
+				sdf_addText(FONT_SMALL,  glm::vec2{50.0f, 80.0f},  glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font 1 FPS [ %i ] ThinkFPS [ %i ]", fpsPrint, thinkFpsPrint );
+				sdf_addText(FONT_MEDIUM, glm::vec2{50.0f, 100.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font 2 Frametime [ %3.3f ] Max [ %3.3f ]", frameTimeTakenPrint, frameTimeTakenMax );
 
 #ifdef SHOW_PROFILE_STATS
 				std::string s = VSProfileLib::DumpLevels();
@@ -197,9 +195,9 @@ void sys_displayScreen ( float interpolate )
 
 	//
 	// Render all text in VBO memory
-	
-		gl_set2DMode();
-		sdf_printText(glm::vec2{50.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+	gl_set2DMode();
+	sdf_addText(FONT_SMALL,  glm::vec2{50.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font 3 FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+	sdf_displayText();
 
 	lib_swapBuffers();
 }
