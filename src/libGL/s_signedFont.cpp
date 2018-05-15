@@ -190,7 +190,7 @@ void sdf_addText(uint whichFont, glm::vec2 position, glm::vec4 lineColor, const 
 
 	font[whichFont].currentX = position.x;
 	font[whichFont].currentY = position.y;
-	font[whichFont].baseIndex = 0;
+//	font[whichFont].baseIndex = 0;
 
 	for( size_t i = 0; i < strlen(textLine); ++i )
 		{
@@ -301,7 +301,59 @@ void sdf_displayText()
 
 					vertIndex[i].clear();
 					fontVertex[i].clear();
+					font[i].baseIndex = 0;
 				}
 		}
+}
+
+//------------------------------------------------------------------
+//
+// Get the width of a passed in text string using passed in font
+float sdf_getTextWidth(int whichFont, const char *text, ...)
+//------------------------------------------------------------------
+{
+	va_list				args;
+	char				textLine[MAX_STRING_SIZE];
+	float				textWidth = 0.0f;
+	//
+	// get out the passed in parameters
+	//
+	va_start ( args, text );
+	vsnprintf ( textLine, MAX_STRING_SIZE, text, args );
+	va_end ( args );
+
+	if (!fontInitDone)
+		{
+			sdf_initFontSystem();
+		}
+
+	for( size_t i = 0; i < strlen(textLine); ++i )
+		{
+			texture_glyph_t *glyph = texture_font_get_glyph( font[whichFont].font, textLine + i );
+
+			if( glyph != NULL )
+				{
+					float kerning = 0.0f;
+
+					if ( i > 0)
+						{
+							kerning = texture_glyph_get_kerning( glyph, textLine + i - 1 );
+						}
+
+					textWidth += kerning;
+					textWidth += glyph->advance_x;
+				}
+		}
+
+	return textWidth;
+}
+
+//------------------------------------------------------------------
+//
+// Get the width of a passed in text string using passed in font
+float sdf_getTextHeight(int whichFont)
+//------------------------------------------------------------------
+{
+	return font[whichFont].size;
 }
 

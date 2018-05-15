@@ -405,7 +405,7 @@ int bsp_placeCameraAtEntity ( char *param1 )
 		}
 	else
 		{
-			if ( true == verbose )
+//			if ( true == verbose )
 				con_print ( CON_INFO, true, "origin [ %4.2f ] [ %4.2f ] [ %4.2f ]", originCoords.x, originCoords.y, originCoords.z );
 
 //

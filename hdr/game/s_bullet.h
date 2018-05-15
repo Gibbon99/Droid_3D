@@ -13,6 +13,7 @@ typedef struct
 	GLfloat         speed;
 	int				lightIndex;
 	int				physicsIndex;
+	int				collisionIndex;
 	int				whichMesh;
 	float			meshScaleFactor;
 } _bullet;
@@ -29,3 +30,6 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 
 // Draw bullet model
 void gam_drawBullets ( int whichShader );
+
+// Remove a bullet from the World
+void gam_removeBullet (int bulletIndex );

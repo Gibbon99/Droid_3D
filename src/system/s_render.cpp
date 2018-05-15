@@ -29,6 +29,7 @@
 #include "s_fontUtil.h"
 #include "s_signedFont.h"
 #include "s_camera3.h"
+
 bool        drawWireframe = false;
 bool        showGBuffers = false;
 
@@ -111,8 +112,9 @@ void sys_displayScreen ( float interpolate )
 
 				gl_set2DMode();
 				con_showConsole();
-				sdf_addText(FONT_SMALL,  glm::vec2{50.0f, 80.0f},  glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font 1 FPS [ %i ] ThinkFPS [ %i ]", fpsPrint, thinkFpsPrint );
-				sdf_addText(FONT_MEDIUM, glm::vec2{50.0f, 100.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font 2 Frametime [ %3.3f ] Max [ %3.3f ]", frameTimeTakenPrint, frameTimeTakenMax );
+//				sdf_addText(FONT_SMALL,  glm::vec2{50.0f, 80.0f},  glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font Size [ %3.3f ]", sdf_getTextWidth(FONT_SMALL, "%s", "This is to test width."));
+
+//#define SHOW_PROFILE_STATS 1
 
 #ifdef SHOW_PROFILE_STATS
 				std::string s = VSProfileLib::DumpLevels();
@@ -123,11 +125,6 @@ void sys_displayScreen ( float interpolate )
 				int yCount = 0;
 				strcpy ( tempString, "" );
 
-				//    ttf_printString(FONT_SMALL, 300, 100, s.c_str());
-				ttf_addText ( FONT_SMALL, 50, 200, s.c_str() );
-				io_logToFile ( "Render \n %s", s.c_str() );
-
-
 				for ( int i = 0; i != s.length(); i++ )
 					{
 						tempString[j++] = s.c_str() [i];
@@ -136,7 +133,7 @@ void sys_displayScreen ( float interpolate )
 							{
 								j = 0;
 								yCount++;
-								ttf_addText ( 0, 450, posY + ( conFontSize * yCount ), tempString );
+								sdf_addText ( FONT_SMALL, glm::vec2{50, posY - ( sdf_getTextHeight(FONT_SMALL) * yCount )}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", tempString );
 							}
 					}
 
@@ -196,7 +193,12 @@ void sys_displayScreen ( float interpolate )
 	//
 	// Render all text in VBO memory
 	gl_set2DMode();
-	sdf_addText(FONT_SMALL,  glm::vec2{50.0f, 50.0f}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font 3 FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", 
+				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+	#if defined DEBUG
+		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "DEBUG"), winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "DEBUG" );
+	#endif
+	
 	sdf_displayText();
 
 	lib_swapBuffers();

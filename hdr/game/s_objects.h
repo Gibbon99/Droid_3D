@@ -7,8 +7,10 @@ typedef struct
 	glm::vec3	position;
 	glm::vec3	lightColor;
 	bool		usesPhysics;
-	int			meshType;
-	int			physicsPtr;
+	uint		meshType;
+	uint		physicsPtr;
+	uint		objectID;
+	uint		collisionID;
 	float		scaleBy;
 } _object;
 

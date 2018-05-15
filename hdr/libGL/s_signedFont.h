@@ -23,3 +23,9 @@ void sdf_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ..
 // Also checks if the fileName exists - should be called
 // after the filesystem is active.
 void sdf_addFontInfo(uint whichFont, string fileName, uint fontSize);
+
+// Get the width of a passed in text string using passed in font
+float sdf_getTextWidth(int whichFont, const char *text, ...);
+
+// Get the width of a passed in text string using passed in font
+float sdf_getTextHeight(int whichFont);

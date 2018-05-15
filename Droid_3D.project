@@ -514,6 +514,8 @@
       <File Name="src/openGL/s_shadowMap.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="libGL">
+      <File Name="hdr/libGL/s_physicsCollision.h"/>
+      <File Name="src/libGL/s_physicsCollision.cpp"/>
       <File Name="src/libGL/s_signedFont.cpp"/>
       <VirtualDirectory Name="freetype-gl">
         <File Name="src/libGL/freetype-gl/vertex-buffer.c"/>
@@ -615,7 +617,7 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-O0;-fpermissive;-Wnarrowing" C_Options="-g;-O0;-Wall;-Wnarrowing" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+      <Compiler Options="-pg;-g;-O0;-fpermissive" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="hdr/system"/>
         <IncludePath Value="hdr/bsp"/>
@@ -628,11 +630,14 @@
         <IncludePath Value="hdr/openGL"/>
         <IncludePath Value="hdr/script"/>
         <IncludePath Value="hdr/physfs"/>
-        <IncludePath Value="/usr/include/bullet"/>
+        <IncludePath Value="/usr/local/include/bullet"/>
+        <IncludePath Value="/usr/local/include/bullet/LinearMath"/>
         <IncludePath Value="/usr/include/freetype2"/>
         <IncludePath Value="hdr/libGL/freetype-gl"/>
+        <Preprocessor Value="DEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
+        <LibraryPath Value="/usr/local/lib"/>
         <Library Value="glfw"/>
         <Library Value="GL"/>
         <Library Value="GLU"/>
@@ -643,8 +648,8 @@
         <Library Value="AntTweakBar"/>
         <Library Value="X11"/>
         <Library Value="GLEW"/>
-        <Library Value="BulletCollision"/>
         <Library Value="BulletDynamics"/>
+        <Library Value="BulletCollision"/>
         <Library Value="LinearMath"/>
         <Library Value="assimp"/>
         <Library Value="freeimage"/>
@@ -652,7 +657,7 @@
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="./$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
-      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+      <Environment EnvVarSetName="Default" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
@@ -696,14 +701,14 @@ hdr/system
 hdr/libGL/freetype-gl</SearchPaths>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="gnu gcc" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="./$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>

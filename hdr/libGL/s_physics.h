@@ -51,3 +51,6 @@ void bul_setPlayerPosition(glm::vec3 position, glm::vec3 orientation);
 
 // Translate bullet results into GLM matrix
 glm::mat4 phy_bulletToGlmMatrix ( int index );
+
+// Remove a physics object from the world
+void bul_removePhysicsObject( int physicsIndex );

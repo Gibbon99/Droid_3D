@@ -4,6 +4,8 @@
 #include "s_doorsBSP.h"
 #include "s_camera.h"       // Need to set camera position before calling this
 #include "s_assimp.h"
+#include "s_physicsCollision.h"
+#include <BulletCollision/CollisionDispatch/btCollisionObject.h>
 
 float        gravityX;      // Set from startup script
 float        gravityY;
@@ -35,10 +37,10 @@ glm::mat4 phy_bulletToGlmMatrix ( int index )
 	glm::mat4 			m;
 	btTransform 		trans;
 	btMatrix3x3 		basis;
-	
+
 	physicsObjects[index].rigidBody->getMotionState()->getWorldTransform ( trans );
 	basis = trans.getBasis();
-		
+
 	// rotation
 	for ( int r = 0; r < 3; r++ )
 		{
@@ -47,19 +49,19 @@ glm::mat4 phy_bulletToGlmMatrix ( int index )
 					m[c][r] = basis[r][c];
 				}
 		}
-		
+
 	// traslation
 	btVector3 origin = trans.getOrigin();
 	m[3][0] = origin.getX();
 	m[3][1] = origin.getY();
 	m[3][2] = origin.getZ();
-	
+
 	// unit scale
 	m[0][3] = 0.0f;
 	m[1][3] = 0.0f;
 	m[2][3] = 0.0f;
 	m[3][3] = 1.0f;
-	
+
 	return m;
 }
 
@@ -71,6 +73,7 @@ void limitPlayerVelocityCallback ( btDynamicsWorld *world, btScalar timeStep )
 {
 	btVector3 velocity = playerRigidBody->getLinearVelocity();
 	btScalar speed = velocity.length();
+
 	if ( speed > playerMaxSpeed )
 		{
 			velocity *= playerMaxSpeed / speed;
@@ -97,18 +100,17 @@ glm::vec3 phy_getObjectPosition ( int index )
 glm::vec3 bul_returnCameraPosition()
 //------------------------------------------------------------
 {
-	glm::vec3   tempPosition;
+	glm::vec3   	tempPosition;
+	btTransform 	trans;
 
-	btTransform trans;
 	playerRigidBody->getMotionState()->getWorldTransform ( trans );
 
 	tempPosition.x = trans.getOrigin().getX();
-	tempPosition.y = trans.getOrigin().getY();
+	tempPosition.y = trans.getOrigin().getY();		// TODO: Make camera height
 	tempPosition.z = trans.getOrigin().getZ();
 
 	return tempPosition;
 }
-//class 		bul_applyMovement;
 
 //------------------------------------------------------------
 //
@@ -170,6 +172,18 @@ void bul_applyMovement ( int index, float applyAmount, glm::vec3 direction )
 
 //------------------------------------------------------------
 //
+// Remove a physics object from the world
+void bul_removePhysicsObject( int physicsIndex )
+//------------------------------------------------------------
+{
+//	delete physicsObjects[physicsIndex].rigidBody->getMotionState();
+//	delete physicsObjects[physicsIndex].rigidBody->getCollisionShape();
+	dynamicsWorld->removeRigidBody(physicsObjects[physicsIndex].rigidBody);
+	delete physicsObjects[physicsIndex].rigidBody;
+}
+
+//------------------------------------------------------------
+//
 // Add a physics object to the world
 int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectType, float objectMass, glm::vec3 objectPosition )
 //------------------------------------------------------------
@@ -186,16 +200,16 @@ int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectTy
 		{
 			case MODEL_TANK:
 			case MODEL_FEMADROID:
-			tempObject.shape = meshModels[objectType].mesh[whichMesh].physicsShapeConvexHull;
-			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy, scaleBy, scaleBy ) );
-			break;
-			
+				tempObject.shape = meshModels[objectType].mesh[whichMesh].physicsShapeConvexHull;
+				tempObject.shape->setLocalScaling ( btVector3 ( scaleBy, scaleBy, scaleBy ) );
+				break;
+
 			case MODEL_CRATE:
-			tempObject.shape = meshModels[objectType].mesh[whichMesh].physicsShapeConvexHull;
+				tempObject.shape = meshModels[objectType].mesh[whichMesh].physicsShapeConvexHull;
 //			tempObject.shape = new btBoxShape ( btVector3 ( scaleBy / 2, scaleBy / 2, scaleBy / 2) );
 //			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy / 2, scaleBy / 2, scaleBy / 2 ) );
-			tempObject.shape->setLocalScaling ( btVector3 ( scaleBy, scaleBy, scaleBy ) );
-			break;
+				tempObject.shape->setLocalScaling ( btVector3 ( scaleBy, scaleBy, scaleBy ) );
+				break;
 
 		}
 
@@ -207,7 +221,7 @@ int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectTy
 
 	//
 	// Need more work on this
-	tempObject.rigidBody->setUserPointer ( ( void * ) index );
+	tempObject.rigidBody->setUserIndex ( ( void * ) index );
 
 	dynamicsWorld->addRigidBody ( tempObject.rigidBody );
 
@@ -231,9 +245,9 @@ void bul_setPlayerPosition ( glm::vec3 position, glm::vec3 orientation )
 		}
 
 	newTransform.setOrigin ( btVector3 ( position.x, position.y, position.z ) );
-//	newTransform.setRotation(orientation);
+//	newTransform.setRotation ( btVector3 ( orientation.x, orientation.y, orientation.z ) );
 
-	playerRigidBody->setWorldTransform ( newTransform );
+//	playerRigidBody->setWorldTransform ( newTransform );	// This causes NAN's and crashes in debug mode
 	playerMotionState->setWorldTransform ( newTransform );
 	/*
 		void LimbBt::reposition(btVector3 position,btVector3 orientation) {
@@ -253,6 +267,8 @@ void bul_setPlayerPosition ( glm::vec3 position, glm::vec3 orientation )
 bool bul_startPhysics()
 //------------------------------------------------------------
 {
+	uint	playerCollisionID;
+
 	// Build the broadphase
 	broadphase = new btDbvtBroadphase();
 
@@ -269,8 +285,8 @@ bool bul_startPhysics()
 
 	//
 	// Player collision object
-	playerShape = new btCapsuleShape ( btScalar ( 1.5 ), btScalar ( 2.0f ) );
-	playerMotionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0, 0, 0 ) ) );
+	playerShape = new btCapsuleShape ( btScalar ( 3.5 ), btScalar ( 10.0f ) );
+	playerMotionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( 0.0f, -32.0f, 0.0f ) ) );
 	btVector3 fallInertiaPlayer ( 0, 0, 0 );
 	playerShape->calculateLocalInertia ( playerMass, fallInertiaPlayer );
 
@@ -278,6 +294,10 @@ bool bul_startPhysics()
 	playerRigidBody = new btRigidBody ( playerRigidBodyCI );
 	playerRigidBody->setActivationState ( DISABLE_DEACTIVATION );
 	playerRigidBody->setDamping ( 0.69f, 0.9f );
+
+	playerCollisionID = phy_addCollisionObject(COL_OBJECT_PLAYER, -1);
+
+	playerRigidBody->setUserIndex ( (void *) playerCollisionID );
 
 	//
 	// Prevent movement in Y direction ( gravity doesn't work )
@@ -355,8 +375,13 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 			btRigidBody::btRigidBodyConstructionInfo bspRigidBodyCI ( bspMass, motionState, objectShape, fallInertia );
 
 			rigidBody = new btRigidBody ( bspRigidBodyCI );
+			//
+			// Need more work on this
+			rigidBody->setUserIndex ( ( void *) phy_addCollisionObject(COL_OBJECT_BSP, 0) );
+
 			dynamicsWorld->addRigidBody ( rigidBody );
 		}
+
 	else
 		{
 			btScalar		doorMass = 0.6f;

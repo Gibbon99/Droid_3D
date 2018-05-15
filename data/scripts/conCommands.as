@@ -40,7 +40,7 @@ void as_setGameVariables()
 	antPosY = 2;
 
 	sdf_addFontInfo(0, "Digital.ttf", 		24);
-	sdf_addFontInfo(1, "oldDigital.ttf", 	32);
+	sdf_addFontInfo(1, "oldDigital.ttf", 	28);
 	sdf_addFontInfo(2, "President.ttf", 	38);
 
 	sdf_initFontSystem();
@@ -60,7 +60,7 @@ void as_setGameVariables()
 	g_debugDoorTriggers = true;
 	//
 	// Debug physics - show physic objects outlines
-	g_debugPhysics = true;
+	g_debugPhysics = false;
 	//
 	// Show position of lights in map
 	g_debugLightPos = false;

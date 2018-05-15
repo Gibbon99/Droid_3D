@@ -61,3 +61,7 @@ int bsp_processLightEffect ( float interpolate );
 //
 // Return pointer to new light index
 int bsp_addNewLight ( glm::vec3 color, int effect, int type );
+
+// Remove a light from the world
+void bsp_removeLight( int lightIndex );
+

@@ -3,6 +3,7 @@
 #include "s_openGLWrap.h"
 #include "s_ttfFont.h"
 #include "s_fontUtil.h"
+#include "s_physicsCollision.h"
 
 #include <stdarg.h>
 #include <sstream>
@@ -46,6 +47,8 @@ void con_addConsoleCommands()
 	con_addCommand ( "setVar",     		"Set the value of a variable",  ( ExternFunc ) conSetVariableValue );
 	con_addCommand ( "scShowFunc", 		"Show all script added commands", ( ExternFunc ) showScriptAddedCommands );
 	con_addCommand ( "showCounters",	"Show openGL wrap counters",   ( ExternFunc ) wrapShowCounters );
+	con_addCommand ( "debugColObjects",	"Show collision objects",		( ExternFunc ) phy_debugShowCollisionData );
+	
 //	conAddCommand("scDo",		"Execute script function",		(ExternFunc)conScriptExecute);
 }
 

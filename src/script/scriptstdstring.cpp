@@ -36,7 +36,9 @@ public:
 	{
 		// The script engine must release each string
 		// constant that it has requested
-		assert ( stringCache.size() == 0 );
+//		assert ( stringCache.size() == 0 );
+//
+// TODO: Causing crash on debug exit of program
 	}
 
 	const void *GetStringConstant ( const char *data, asUINT length )

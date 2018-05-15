@@ -118,7 +118,7 @@ Console : Compiled shader [ pointLight.frag ] - [ pointLight.vert ] - ID [ 21 ]
 GLFW header version: 3.2.1
 GLFW library version: 3.2.1
 GLFW library version string: "3.2.1 X11 GLX EGL clock_gettime /dev/js Xf86vm shared"
-OpenGL context version string: "4.3.0 NVIDIA 375.82"
+OpenGL context version string: "4.3.0 NVIDIA 390.48"
 OpenGL context version parsed by GLFW: 4.3.0
 OpenGL context flags (0x00000000):
 OpenGL context flags parsed by GLFW:
@@ -163,14 +163,14 @@ Console : Registered function [ void lib_resizeWindow(int newWidth, int newHeigh
 Console : Registered function [ bool ass_loadModel(int whichModel, string &in) ]
 Console : Registered function [ void sdf_addFontInfo(uint whichFont, string &in, uint fontSize) ]
 Console : Registered function [ bool sdf_initFontSystem() ]
-Console : Size of script [ 3941 ] - [ conCommands.as ]
+Console : Size of script [ 3942 ] - [ conCommands.as ]
 Console : Number of functions in script [ 3 ]
 Console : Font [ Digital.ttf ] is available for use.
 Console : Font [ oldDigital.ttf ] is available for use.
 Console : Font [ President.ttf ] is available for use.
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 610066736 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 610066736 ]
-Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ 610068592 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 807070144 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 807070144 ]
+Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ 807072000 ]
 Console : Err: Failed to get function ID for [ bool ttf_initLibrary() ].
 Console : Physics system started...
 Console : Forward rendering framebuffer created...
@@ -194,6 +194,7 @@ Console : ---------------------------------------------------------------
 Console : Found [ 7 ] entities.
 Console : Number of keys in Entities [ 7 ]
 Console : numEntityKeys = [ 50 ]
+Console : origin [ 0.00 ] [ -32.00 ] [ -0.00 ]
 Console : Number of lights [ 3 ]
 Console : Door model [ *1 ]
 Console : Door [ 0 ] ptrModel [ 1 ]

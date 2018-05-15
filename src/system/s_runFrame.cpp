@@ -11,6 +11,7 @@
 #include "s_doorsBSP.h"
 
 #include "s_camera3.h"
+#include "s_physicsCollision.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -40,6 +41,8 @@ void sys_gameTickRun ( float interpolate )
 			bul_processPhysics ( 60.0f );
 
 			vel = bul_returnCameraPosition();
+			bul_setPlayerPosition(cam3_Position, glm::vec3(0,0,0));
+//			con_print(CON_INFO, true, "vel [ %3.3f %3.3f %3.3f ]", vel.x, vel.y, vel.z);
 
 			cam3_Position = vel;
 			
@@ -48,7 +51,8 @@ void sys_gameTickRun ( float interpolate )
 			gam_processBulletMovement ( interpolate );
 			bsp_checkPlayerVsTrigger();
 			bspProcessAllDoorMovements ( interpolate );
-
+			phy_doCollisionDetection();
+			
 			break;
 
 		default:

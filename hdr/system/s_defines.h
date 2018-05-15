@@ -142,3 +142,14 @@ extern int __gl_error_code;
 //
 //-----------------------------------------------------------------------------
 #define MAX_NUM_BULLETS             32
+
+//-----------------------------------------------------------------------------
+//
+// Collision types passed to work out which object in collision routine
+//
+//-----------------------------------------------------------------------------
+
+#define COL_OBJECT_BSP		0
+#define COL_OBJECT_PLAYER	1
+#define COL_OBJECT_MESH		2
+#define COL_OBJECT_BULLET	3

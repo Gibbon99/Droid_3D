@@ -239,3 +239,13 @@ int bsp_addNewLight ( glm::vec3 color, int effect, int type )
 		}
 	return -1;	// No slots available
 }
+
+//-------------------------------------------------------------------------------
+//
+// Remove a light from the world
+void bsp_removeLight( int lightIndex )
+//-------------------------------------------------------------------------------
+{
+	allLights[lightIndex].active = false;
+	// TODO - decrement numOfLights?
+}

@@ -9,21 +9,21 @@ const float SPEED       =  2.5f;
 const float SENSITIVITY =  0.1f;
 
 // Camera Attributes
-glm::vec3 cam3_Position;
-glm::vec3 cam3_Front;
-glm::vec3 cam3_Up;
-glm::vec3 cam3_Right;
-glm::vec3 cam3_WorldUp;
+glm::vec3		cam3_Position;
+glm::vec3		cam3_Front;
+glm::vec3		cam3_Up;
+glm::vec3		cam3_Right;
+glm::vec3		cam3_WorldUp;
 
-glm::vec3	cam3_WantedPosition;
+glm::vec3		cam3_WantedPosition;
 
 // Euler Angles
-float cam3_Yaw;
-float cam3_Pitch;
+float			cam3_Yaw;
+float			cam3_Pitch;
 
 // Camera options
-float cam3_MovementSpeed;
-float cam3_MouseSensitivity;
+float			cam3_MovementSpeed;
+float			cam3_MouseSensitivity;
 
 //-------------------------------------------------------------------------------
 //
@@ -49,6 +49,12 @@ glm::vec3 cam3_getVelocity()
 	// Otherwise return 0.0 to indicate no force is applied
 	// to the player body
 	//
+	if (isnan(cam3_WantedPosition.x))
+		return glm::vec3(0.0, 0.0, 0.0);
+		
+	if (isnan(cam3_Position.x))
+		return glm::vec3(0.0, 0.0, 0.0);
+		
 	if (cam3_WantedPosition != cam3_Position)
 	{
 		velocityVector = cam3_Position - cam3_WantedPosition;
@@ -68,7 +74,8 @@ void cam3_updateCameraVectors()
 //-------------------------------------------------------------------------------
 {
 	// Calculate the new Front vector
-	glm::vec3 front;
+	glm::vec3		front;
+	
 	front.x = cos ( glm::radians ( cam3_Yaw ) ) * cos ( glm::radians ( cam3_Pitch ) );
 	front.y = sin ( glm::radians ( cam3_Pitch ) );
 	front.z = sin ( glm::radians ( cam3_Yaw ) ) * cos ( glm::radians ( cam3_Pitch ) );
@@ -86,6 +93,7 @@ void cam3_initCamera ( glm::vec3 location )
 //-------------------------------------------------------------------------------
 {
 	cam3_Position = location;
+	cam3_WantedPosition = location;
 	cam3_Front = glm::vec3 ( 0.0f, 0.0f, -0.2f );
 	cam3_WorldUp = glm::vec3 ( 0.0f, 1.0f, 0.0f );
 	cam3_Up = glm::vec3 (0.0f, 1.0f, 0.0f );
@@ -104,6 +112,9 @@ void cam3_initCamera ( glm::vec3 location )
 void cam3_CreateViewMatrix(glm::vec3 newPosition)
 //-------------------------------------------------------------------------------
 {
+	if (isnan(newPosition.x))
+		return;
+		
 	viewMatrix = glm::lookAt ( newPosition, newPosition + cam3_Front, cam3_Up );
 }
 
