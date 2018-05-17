@@ -367,6 +367,7 @@
       <File Name="hdr/openGL/s_bmpFont.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="libGL">
+      <File Name="hdr/libGL/s_physicsCollision.h"/>
       <File Name="hdr/libGL/s_signedFont.h"/>
       <VirtualDirectory Name="freetype-gl">
         <File Name="hdr/libGL/freetype-gl/vertex-buffer.h"/>
@@ -514,7 +515,6 @@
       <File Name="src/openGL/s_shadowMap.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="libGL">
-      <File Name="hdr/libGL/s_physicsCollision.h"/>
       <File Name="src/libGL/s_physicsCollision.cpp"/>
       <File Name="src/libGL/s_signedFont.cpp"/>
       <VirtualDirectory Name="freetype-gl">

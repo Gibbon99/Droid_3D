@@ -6,7 +6,7 @@ default
 	longestCurve 0.000000
 }
 
-0 // SURFACE_META V: 10 I: 18 planar
+0 // SURFACE_META V: 15 I: 33 planar
 {
 	shader textures/Metals/METL038
 	lightmapAxis ( 0.000000 0.000000 1.000000 )
@@ -120,16 +120,16 @@ default
 	lightmapAxis ( 0.000000 -1.000000 0.000000 )
 }
 
-19 // SURFACE_META V: 4 I: 6 planar
-{
-	shader textures/Metals/METL081
-	lightmapAxis ( 1.000000 0.000000 0.000000 )
-}
-
-20 // SURFACE_META V: 6 I: 12 planar
+19 // SURFACE_META V: 6 I: 12 planar
 {
 	shader textures/Metals/METL081
 	lightmapAxis ( 0.000000 0.000000 1.000000 )
+}
+
+20 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL081
+	lightmapAxis ( 1.000000 0.000000 0.000000 )
 }
 
 21 // SURFACE_META V: 4 I: 6 planar
@@ -156,37 +156,37 @@ default
 	lightmapAxis ( 0.000000 0.000000 -1.000000 )
 }
 
-25 // SURFACE_META V: 14 I: 24 planar
+25 // SURFACE_META V: 5 I: 9 planar
 {
-	shader textures/Metals/METL010
-	lightmapAxis ( 1.000000 0.000000 0.000000 )
+	shader textures/Metals/METL081
+	lightmapAxis ( 0.000000 0.000000 -1.000000 )
 }
 
 26 // SURFACE_META V: 14 I: 24 planar
 {
 	shader textures/Metals/METL010
-	lightmapAxis ( -1.000000 0.000000 0.000000 )
+	lightmapAxis ( 1.000000 0.000000 0.000000 )
 }
 
-27 // SURFACE_META V: 4 I: 6 planar
+27 // SURFACE_META V: 14 I: 24 planar
 {
 	shader textures/Metals/METL010
-	lightmapAxis ( 0.000000 -1.000000 0.000000 )
+	lightmapAxis ( -1.000000 0.000000 0.000000 )
 }
 
 28 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL010
-	lightmapAxis ( 0.000000 0.000000 -1.000000 )
+	lightmapAxis ( 0.000000 -1.000000 0.000000 )
 }
 
 29 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL010
-	lightmapAxis ( 0.000000 1.000000 0.000000 )
+	lightmapAxis ( 0.000000 0.000000 -1.000000 )
 }
 
-30 // SURFACE_META V: 14 I: 24 planar
+30 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL010
 	lightmapAxis ( 0.000000 1.000000 0.000000 )
@@ -195,19 +195,19 @@ default
 31 // SURFACE_META V: 14 I: 24 planar
 {
 	shader textures/Metals/METL010
+	lightmapAxis ( 0.000000 1.000000 0.000000 )
+}
+
+32 // SURFACE_META V: 15 I: 27 planar
+{
+	shader textures/Metals/METL010
 	lightmapAxis ( 0.000000 -1.000000 0.000000 )
 }
 
-32 // SURFACE_META V: 4 I: 6 planar
+33 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL010
 	lightmapAxis ( -1.000000 0.000000 0.000000 )
-}
-
-33 // SURFACE_META V: 5 I: 9 planar
-{
-	shader textures/Metals/METL010
-	lightmapAxis ( 0.000000 1.000000 0.000000 )
 }
 
 34 // SURFACE_META V: 4 I: 6 planar
@@ -222,104 +222,200 @@ default
 	lightmapAxis ( 1.000000 0.000000 0.000000 )
 }
 
-36 // SURFACE_META V: 5 I: 9 planar
+36 // SURFACE_META V: 9 I: 18 planar
 {
 	shader textures/Metals/METL010
 	lightmapAxis ( 1.000000 0.000000 0.000000 )
 }
 
-37 // SURFACE_META V: 4 I: 6 planar
+37 // SURFACE_META V: 6 I: 12 planar
 {
-	shader textures/Metals/CORR002
-	entity 2
-	castShadows 0
-	lightmapAxis ( 1.000000 0.000000 0.000000 )
+	shader textures/Metals/METL010
+	lightmapAxis ( 0.000000 1.000000 0.000000 )
 }
 
-38 // SURFACE_META V: 4 I: 6 planar
+38 // SURFACE_META V: 5 I: 9 planar
 {
-	shader textures/Metals/CORR002
-	entity 2
-	castShadows 0
-	lightmapAxis ( 0.000000 1.000000 0.000000 )
+	shader textures/Metals/METL010
+	lightmapAxis ( 0.000000 0.000000 -1.000000 )
 }
 
 39 // SURFACE_META V: 4 I: 6 planar
 {
-	shader textures/Metals/CORR002
-	entity 2
-	castShadows 0
-	lightmapAxis ( 0.000000 0.000000 1.000000 )
+	shader textures/Metals/METL010
+	lightmapAxis ( 1.000000 0.000000 0.000000 )
 }
 
 40 // SURFACE_META V: 4 I: 6 planar
 {
-	shader textures/Metals/CORR002
-	entity 2
-	castShadows 0
-	lightmapAxis ( -1.000000 0.000000 0.000000 )
+	shader textures/Metals/METL010
+	lightmapAxis ( 0.000000 1.000000 0.000000 )
 }
 
 41 // SURFACE_META V: 4 I: 6 planar
 {
-	shader textures/Metals/CORR002
-	entity 2
-	castShadows 0
-	lightmapAxis ( 0.000000 -1.000000 0.000000 )
+	shader textures/Metals/METL010
+	lightmapAxis ( -1.000000 0.000000 0.000000 )
 }
 
 42 // SURFACE_META V: 4 I: 6 planar
 {
-	shader textures/Metals/CORR002
-	entity 2
-	castShadows 0
-	lightmapAxis ( 0.000000 0.000000 -1.000000 )
+	shader textures/Metals/METL010
+	lightmapAxis ( 0.000000 -1.000000 0.000000 )
 }
 
 43 // SURFACE_META V: 4 I: 6 planar
 {
-	shader textures/Metals/METL004
-	entity 3
-	castShadows 0
+	shader textures/Metals/METL010
 	lightmapAxis ( 1.000000 0.000000 0.000000 )
 }
 
 44 // SURFACE_META V: 4 I: 6 planar
 {
-	shader textures/Metals/METL004
-	entity 3
-	castShadows 0
+	shader textures/Metals/METL010
 	lightmapAxis ( 0.000000 1.000000 0.000000 )
 }
 
 45 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL004
-	entity 3
+	entity 2
 	castShadows 0
-	lightmapAxis ( 0.000000 0.000000 1.000000 )
+	lightmapAxis ( 1.000000 0.000000 0.000000 )
 }
 
 46 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL004
-	entity 3
+	entity 2
 	castShadows 0
-	lightmapAxis ( -1.000000 0.000000 0.000000 )
+	lightmapAxis ( 0.000000 1.000000 0.000000 )
 }
 
 47 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL004
-	entity 3
+	entity 2
 	castShadows 0
-	lightmapAxis ( 0.000000 -1.000000 0.000000 )
+	lightmapAxis ( 0.000000 0.000000 1.000000 )
 }
 
 48 // SURFACE_META V: 4 I: 6 planar
 {
 	shader textures/Metals/METL004
-	entity 3
+	entity 2
+	castShadows 0
+	lightmapAxis ( -1.000000 0.000000 0.000000 )
+}
+
+49 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 2
+	castShadows 0
+	lightmapAxis ( 0.000000 -1.000000 0.000000 )
+}
+
+50 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 2
+	castShadows 0
+	lightmapAxis ( 0.000000 0.000000 -1.000000 )
+}
+
+51 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 10
+	castShadows 0
+	lightmapAxis ( 1.000000 0.000000 0.000000 )
+}
+
+52 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 10
+	castShadows 0
+	lightmapAxis ( 0.000000 1.000000 0.000000 )
+}
+
+53 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 10
+	castShadows 0
+	lightmapAxis ( 0.000000 0.000000 1.000000 )
+}
+
+54 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 10
+	castShadows 0
+	lightmapAxis ( -1.000000 0.000000 0.000000 )
+}
+
+55 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 10
+	castShadows 0
+	lightmapAxis ( 0.000000 -1.000000 0.000000 )
+}
+
+56 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 10
+	castShadows 0
+	lightmapAxis ( 0.000000 0.000000 -1.000000 )
+}
+
+57 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 11
+	castShadows 0
+	lightmapAxis ( 1.000000 0.000000 0.000000 )
+}
+
+58 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 11
+	castShadows 0
+	lightmapAxis ( 0.000000 1.000000 0.000000 )
+}
+
+59 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 11
+	castShadows 0
+	lightmapAxis ( 0.000000 0.000000 1.000000 )
+}
+
+60 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 11
+	castShadows 0
+	lightmapAxis ( -1.000000 0.000000 0.000000 )
+}
+
+61 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 11
+	castShadows 0
+	lightmapAxis ( 0.000000 -1.000000 0.000000 )
+}
+
+62 // SURFACE_META V: 4 I: 6 planar
+{
+	shader textures/Metals/METL004
+	entity 11
 	castShadows 0
 	lightmapAxis ( 0.000000 0.000000 -1.000000 )
 }

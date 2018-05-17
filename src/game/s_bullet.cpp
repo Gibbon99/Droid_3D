@@ -65,7 +65,7 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 					bullet[i].active = true;
 					bullet[i].speed = speed;
 					bullet[i].direction = direction;
-					bullet[i].position = position + (direction * 5.0f);		// Put in front of players rigid body
+					bullet[i].position = position + (direction * 5.0f);		// Put in front of players rigid body - need to add forward velocity as well
 					bullet[i].whichMesh = MODEL_CRATE;
 					bullet[i].meshScaleFactor = 5.0f;
 

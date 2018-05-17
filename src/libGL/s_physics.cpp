@@ -221,7 +221,7 @@ int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectTy
 
 	//
 	// Need more work on this
-	tempObject.rigidBody->setUserIndex ( ( void * ) index );
+	tempObject.rigidBody->setUserIndex ( index );
 
 	dynamicsWorld->addRigidBody ( tempObject.rigidBody );
 
@@ -229,6 +229,36 @@ int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectTy
 
 	return physicsObjects.size() - 1;	// Return index into array
 }
+
+/*
+//------------------------------------------------------------
+//
+// Face the player in the starting direction
+void setLookDirection(const btVector3& newLook)
+//------------------------------------------------------------
+{
+
+    // assume that "forward" for the player in local-frame is +zAxis
+    // and that the player is constrained to rotate about yAxis (+yAxis is "up")
+    btVector3 localLook(0.0f, 0.0f, 1.0f); // zAxis
+    btVector3 rotationAxis(0.0f, 1.0f, 0.0f); // yAxis
+
+    // compute currentLook and angle
+    btTransform transform = playerRigidBody->getCenterOfMassTransform();
+    btQuaternion rotation = transform.getRotation();
+    btVector3 currentLook = rotation * localLook;
+    btScalar angle = currentLook.angle(newLook);
+
+    // compute new rotation
+    btQuaternion deltaRotation(axis, angle);
+    btQuaternion newRotation = deltaRotation * rotation;
+
+    // apply new rotation
+    transform.setRotation(newRotation);
+    playerRigidBody->setCenterOfMassTransform(transform);
+}
+*/
+
 
 //------------------------------------------------------------
 //
@@ -238,6 +268,8 @@ void bul_setPlayerPosition ( glm::vec3 position, glm::vec3 orientation )
 {
 	btTransform		newTransform;
 
+	btVector3 		lookDirection;
+
 	if ( false == physicsEngineStarted )
 		{
 			con_print ( CON_ERROR, true, "Error: Physics engine not started. Could not set player position." );
@@ -245,7 +277,7 @@ void bul_setPlayerPosition ( glm::vec3 position, glm::vec3 orientation )
 		}
 
 	newTransform.setOrigin ( btVector3 ( position.x, position.y, position.z ) );
-//	newTransform.setRotation ( btVector3 ( orientation.x, orientation.y, orientation.z ) );
+//	setLookDirection(orientation);
 
 //	playerRigidBody->setWorldTransform ( newTransform );	// This causes NAN's and crashes in debug mode
 	playerMotionState->setWorldTransform ( newTransform );
@@ -297,7 +329,7 @@ bool bul_startPhysics()
 
 	playerCollisionID = phy_addCollisionObject(COL_OBJECT_PLAYER, -1);
 
-	playerRigidBody->setUserIndex ( (void *) playerCollisionID );
+	playerRigidBody->setUserIndex ( playerCollisionID );
 
 	//
 	// Prevent movement in Y direction ( gravity doesn't work )
@@ -377,7 +409,7 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 			rigidBody = new btRigidBody ( bspRigidBodyCI );
 			//
 			// Need more work on this
-			rigidBody->setUserIndex ( ( void *) phy_addCollisionObject(COL_OBJECT_BSP, 0) );
+			rigidBody->setUserIndex ( phy_addCollisionObject(COL_OBJECT_BSP, 0) );
 
 			dynamicsWorld->addRigidBody ( rigidBody );
 		}
@@ -402,6 +434,8 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 			doorModels[whichDoor].rigidBody->setGravity ( btVector3 ( 0.0f, 0.0f, 0.0f ) );
 
 			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 1.0f, 0.0f, 0.0f ) );
+
+			rigidBody->setUserIndex ( phy_addCollisionObject(COL_OBJECT_BSP, 0) );
 
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
 
