@@ -200,10 +200,7 @@ void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, in
 void gl_getAllGLErrors ( int errorNum, const char *calledFrom, int line )
 //-----------------------------------------------------------------------------
 {
-	if ( NULL == errorNum )
-		{
-			errorNum = glGetError();
-		}
+	errorNum = glGetError();
 
 	while ( errorNum != GL_NO_ERROR )
 		{

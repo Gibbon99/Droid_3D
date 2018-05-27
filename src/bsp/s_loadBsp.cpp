@@ -143,17 +143,20 @@ void bsp_freeMem()
 	m_pTextures = NULL;
 
 	if ( m_pEntities )
-		delete [] m_pEntities;
+		free(m_pEntities);
 
 	m_pEntities = NULL;
 
 	if ( m_pEntitiesStruct )
-		delete [] m_pEntitiesStruct;
+		free (m_pEntitiesStruct);
 
 	m_pEntitiesStruct = NULL;
 
 	m_FacesDrawn.FreeMem();
 
+	if (entityList)
+		free(entityList);
+		
 //	if ( sortedFaces )
 //		free ( sortedFaces );
 
@@ -469,7 +472,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	bsp_setupEntities();
 
-	if ( -1 == bsp_placeCameraAtEntity ( (char *)"info_player_start" ) )
+	if ( -1 == bsp_placeCameraAtEntity ("info_player_start" ) )
 		printf ( "Couldn't find player start\n" );
 
 	bsp_setLightArrayData();

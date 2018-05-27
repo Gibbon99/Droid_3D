@@ -410,14 +410,14 @@ bool ass_getMaterials ( aiScene *scene, int whichModel )
 			if ( AI_SUCCESS == pMaterial->GetTexture ( aiTextureType_DIFFUSE, 0, &texturePath, NULL, NULL, NULL, NULL, NULL ) )
 				{
 					texturePath.data[strlen ( texturePath.data ) - 4] = '\0';
-					strcpy ( meshModels[whichModel].materialName[i].C_Str(), texturePath.data );
+					meshModels[whichModel].materialName[i] = texturePath.data;
 					con_print ( CON_INFO, true, "Model [ %i ] Material [ %i ] : [ %s ]", whichModel, i, meshModels[whichModel].materialName[i].C_Str() );
 					return true;
 				}
 
 			else
 				{
-					strcpy ( meshModels[whichModel].materialName[i].C_Str(), (const char *)"white_square" );
+					meshModels[whichModel].materialName[i] = "white_square";
 					con_print ( CON_INFO, true, "Model [ %i ] Material [ %i ] : [ %s ]", whichModel, i, meshModels[whichModel].materialName[i].C_Str() );
 					return false;
 				}

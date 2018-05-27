@@ -172,7 +172,7 @@ int io_getFileSize ( char *fileName )
 // ---------------------------------------------------------------------------
 //
 // Load a file into a pointer
-int io_getFileIntoMemory ( char *fileName, char *results )
+int io_getFileIntoMemory ( char *fileName, void *results )
 // ---------------------------------------------------------------------------
 {
 

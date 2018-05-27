@@ -107,9 +107,8 @@ bool sdf_initFontSystem()
 							break;
 						}
 
-					if ( -1 == io_getFileIntoMemory ( (char *)font[i].fileName.c_str(), (void *)filePointer ) )
+					if ( -1 == io_getFileIntoMemory ( (char *)font[i].fileName.c_str(), filePointer ) )
 						return false;
-
 
 					//font[i].font = texture_font_new_from_file (font[i].atlas, font[i].size, font[i].fileName.c_str());
 					font[i].font = texture_font_new_from_memory (font[i].atlas, font[i].size, filePointer, fontFileSize);
@@ -120,7 +119,6 @@ bool sdf_initFontSystem()
 							font[i].isAvailable = false;
 							font[i].isLoaded = false;
 						}
-
 					else
 						{
 							font[i].font ->rendermode = RENDER_SIGNED_DISTANCE_FIELD;
@@ -144,6 +142,9 @@ bool sdf_initFontSystem()
 							GL_ASSERT ( glGenBuffers ( 1, &font[i].vertexVBO_ID) );
 						}
 
+					if (filePointer)
+						free(filePointer);
+						
 					fontVertex[i].clear();
 					vertIndex[i].clear();
 				}

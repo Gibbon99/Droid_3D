@@ -33,7 +33,7 @@ int bsp_findNumOfDoors()
 	glm::vec3	tempValue;
 	//
 	// Save value for use later on
-	numOfDoors = bsp_getNumEntities ( (char *)"func_door" );
+	numOfDoors = bsp_getNumEntities ( "func_door" );
 
 	if ( numOfDoors == 0 )
 		return 0;
@@ -52,10 +52,12 @@ int bsp_findNumOfDoors()
 			doorModels.push_back ( tempDoor );
 		}
 
-	char tempKey[16];
+//	char tempKey[16];
+	string tempKey;
 	int index = 0;
 
-	strcpy ( tempKey, "model" );	// Store text result in here
+//	strcpy ( tempKey, "model" );	// Store text result in here
+	tempKey = "model";
 	//
 	// Get the BSP model reference index and store for the door
 	//
@@ -63,14 +65,16 @@ int bsp_findNumOfDoors()
 
 	for ( int i = 0; i != numOfDoors; i++ )
 		{
-			bsp_findEntityInfo ( (char *)"func_door", tempKey, &tempValue, false, doorModels[i].setID, VAR_TYPE_TEXT );
+			bsp_findEntityInfo ( "func_door", tempKey, &tempValue, false, doorModels[i].setID, VAR_TYPE_INT );
 			{
-				con_print ( CON_INFO, true, "Door model [ %s ]", tempKey );
-				tempKey[0] = ' ';
-				doorModels[index].ptrModel = atoi ( tempKey );
+//				con_print ( CON_INFO, true, "Door model [ %s ]", tempKey.c_str() );
+//				tempKey[0] = ' ';
+//				doorModels[index].ptrModel = atoi ( tempKey.c_str() );
+				doorModels[index].ptrModel = (int) tempValue.x;
 				con_print ( CON_INFO, true, "Door [ %i ] ptrModel [ %i ]", index, doorModels[index].ptrModel );
 				index++;
-				strcpy ( tempKey, "model" );
+				//strcpy ( tempKey, "model" );
+				tempKey = "model";
 			}
 		}
 
@@ -98,7 +102,7 @@ int bsp_findNumOfDoors()
 			//
 			// Get the angle for the door and calculate the trigger area
 			//
-			if ( bsp_findEntityInfo ( (char *)"func_door", (char *)"angle", &tempValue, false, doorModels[i].setID, VAR_TYPE_INT ) > 0 )
+			if ( bsp_findEntityInfo ( "func_door", "angle", &tempValue, false, doorModels[i].setID, VAR_TYPE_INT ) > 0 )
 				{
 					doorModels[i].angle = ( int ) tempValue.x;
 
@@ -434,8 +438,6 @@ bool bsp_checkPlayerVsTrigger()
 						if ( bspCheckPointDoorCollision ( cam3_Position, i ) > -1 )
 							{
 								bspStartModelMoveDoor ( i, DOOR_STATE_OPENING );
-
-								con_print(CON_INFO, true, "Player is in trigger area for door [ %i ]", i);
 							}
 				}
 		}

@@ -190,14 +190,13 @@ bool bsp_setupEntities()
 //					con_print (CON_INFO, true, "Token [ %i ] Name [ %s ] Value [ %s ]", entityList[i].setID, entityList[i].tokenName, entityList[i].tokenValue);
 				}
 		}
-
 	return true;
 }
 
 //-------------------------------------------------------------------------------
 //
 // Get number of entities matching the string
-int bsp_getNumEntities ( char *whichEntity )
+int bsp_getNumEntities ( string whichEntity )
 //-------------------------------------------------------------------------------
 {
 	int i, entCount;
@@ -206,7 +205,7 @@ int bsp_getNumEntities ( char *whichEntity )
 
 	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
-			if ( strcmp ( entityList[i].tokenValue, whichEntity ) == 0 )
+			if ( strcmp ( entityList[i].tokenValue, whichEntity.c_str() ) == 0 )
 				entCount++;
 		}
 
@@ -230,7 +229,7 @@ void bsp_resetEntitySearchFlag()
 //-------------------------------------------------------------------------------
 //
 // Return the setID for the entity
-int bsp_getEntitySetID ( char *entityStr, bool checkAll )
+int bsp_getEntitySetID ( string entityStr, bool checkAll )
 //-------------------------------------------------------------------------------
 {
 	int i;
@@ -241,7 +240,7 @@ int bsp_getEntitySetID ( char *entityStr, bool checkAll )
 				{
 					if ( false == entityList[i].checked )
 						{
-							if ( strcmp ( entityList[i].tokenValue, entityStr ) == 0 )
+							if ( strcmp ( entityList[i].tokenValue, entityStr.c_str() ) == 0 )
 								{
 									entityList[i].checked = true;
 									return entityList[i].setID;
@@ -252,7 +251,7 @@ int bsp_getEntitySetID ( char *entityStr, bool checkAll )
 
 			else     // Just get the first occurance
 				{
-					if ( strcmp ( entityList[i].tokenValue, entityStr ) == 0 )
+					if ( strcmp ( entityList[i].tokenValue, entityStr.c_str() ) == 0 )
 						return entityList[i].setID;
 				}
 		}
@@ -264,7 +263,8 @@ int bsp_getEntitySetID ( char *entityStr, bool checkAll )
 //-------------------------------------------------------------------------------
 //
 // Find the location and values for a entity class - return value in entityValue
-int bsp_findEntityInfo ( char *entityStr, char *entityKey, glm::vec3 *entityValue, bool swapValues, int whichSetID, int valueType )
+//int bsp_findEntityInfo ( string entityStr, char *entityKey, glm::vec3 *entityValue, bool swapValues, int whichSetID, int valueType )
+int bsp_findEntityInfo ( string entityStr, string entityKey, glm::vec3 *entityValue, bool swapValues, int whichSetID, int valueType )
 //-------------------------------------------------------------------------------
 {
 	int i;
@@ -288,7 +288,7 @@ int bsp_findEntityInfo ( char *entityStr, char *entityKey, glm::vec3 *entityValu
 
 	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
-			if ( strcmp ( entityList[i].tokenName, entityKey ) == 0 )
+			if ( strcmp ( entityList[i].tokenName, entityKey.c_str() ) == 0 )
 				{
 					if ( entitySetID == entityList[i].setID )
 						{
@@ -312,23 +312,15 @@ int bsp_findEntityInfo ( char *entityStr, char *entityKey, glm::vec3 *entityValu
 									break;
 
 								case VAR_TYPE_INT:
+									if (entityList[i].tokenValue[0] == '*')		// See if it's a model pointer or not
+										entityList[i].tokenValue[0] = ' ';
 									sscanf ( entityList[i].tokenValue,"%f",&entityValue->x );
 									return 1;   // Need to return value greater than 0
 									break;
 
-//
-// Need to pass string back
-								/*
-								                case TYPE_STRING:
-								                    sscanf(entityList[i].tokenValue, "%s",modelIndex);
-								                    modelIndex[0] = ' ';
-								                    tempIndex = atof(modelIndex);
-								                    entityValue->x = (float)tempIndex;
-								                    break;
-								                    */
-								case VAR_TYPE_TEXT:
-									sscanf ( entityList[i].tokenValue, "%s", entityKey );
-//                    strcpy(entityKey, modelIndex);
+								case VAR_TYPE_TEXT:	// NOT working
+									sscanf ( entityList[i].tokenValue, "%s", entityKey.c_str() );
+									strcpy(entityList[i].tokenValue, entityKey.c_str());
 									return 1;
 									break;
 								}
@@ -338,69 +330,31 @@ int bsp_findEntityInfo ( char *entityStr, char *entityKey, glm::vec3 *entityValu
 	return 0;
 }
 
-
-//-------------------------------------------------------------------------------
-//
-// Find the location and values for a entity class - return value in entityValue
-char *bsp_findEntityInfoString ( char *entityStr, char *entityKey, int whichSetID )
-//-------------------------------------------------------------------------------
-{
-	int i;
-	int entitySetID = 0;
-
-	//
-	// Pass in required set to look for - only do this if required set is -1
-	//
-	if ( -1 == whichSetID )
-		{
-			entitySetID = bsp_getEntitySetID ( entityStr, false );
-
-			if ( -1 == entitySetID )
-				return "";
-
-		}
-
-	else
-		entitySetID = whichSetID;
-
-	for ( i = 0; i != g_numEntityKeys / 2; i++ )
-		{
-			if ( strcmp ( entityList[i].tokenName, entityKey ) == 0 )
-				{
-					if ( entitySetID == entityList[i].setID )
-						{
-							return entityList[i].tokenValue;
-						}
-				}
-		}
-
-	return "Error";
-}
-
 // ---------------------------------------------------------------------------
 //
 // Find the passed in entity and move the camera to it's origin
-int bsp_placeCameraAtEntity ( char *param1 )
+int bsp_placeCameraAtEntity ( string param1 )
 // ---------------------------------------------------------------------------
 // TODO (dberry#1#): Handle missing entity
 {
 	glm::vec3	originCoords;
 	float    temp;
 
-	if ( strlen ( param1 ) < 1 )
+	if (param1.length() < 1)
+//	if ( strlen ( param1 ) < 1 )
 		{
 			con_print ( CON_INFO, true, "Usage: findent <str>" );
 			return -1;
 		}
 
 	if ( true == verbose )
-		con_print ( CON_INFO, true, "Looking for [ %s ]", param1 );
+		con_print ( CON_INFO, true, "Looking for [ %s ]", param1.c_str() );
 
 	bsp_resetEntitySearchFlag();
 
-	if ( bsp_findEntityInfo ( param1, "origin", &originCoords, true, -1, VAR_TYPE_VEC3 ) < 0 )
+	if ( bsp_findEntityInfo ( param1.c_str(), "origin", &originCoords, true, -1, VAR_TYPE_VEC3 ) < 0 )
 		{
-			con_print ( CON_INFO, true, "String [ %s ] not found in entity list.", param1 );
+			con_print ( CON_INFO, true, "String [ %s ] not found in entity list.", param1.c_str() );
 			return -1;
 		}
 	else
