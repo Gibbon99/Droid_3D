@@ -149,7 +149,7 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 //-----------------------------------------------------------------------------
 {
 #define FRUSTUM_PADDING 50.0f
-	GLfloat     	scaleFactor;
+
 	glm::vec4       minSize;
 	glm::vec4       maxSize;
 	glm::mat4		scaleMatrix;

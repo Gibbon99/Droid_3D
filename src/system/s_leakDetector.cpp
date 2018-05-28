@@ -3,6 +3,8 @@
 #include <string.h>
 #include "assert.h"
 #include <string>
+#include <sstream>
+#include <fstream>
 
 #define  FILE_NAME_LENGTH			256
 #define  OUTPUT_FILE				"leak_info.txt"
@@ -388,4 +390,24 @@ void sys_reportMemLeak ( std::string fileName )
 		}
 	clear();
 	MUTEX_DESTROY ( leak_ctx.g_cs );
+}
+
+//----------------------------------------------------------------
+//
+// Check memLeak file from last run and see if there is a leak or not
+bool sys_checkMemLeak( std::string fileName )
+//----------------------------------------------------------------
+{
+	std::ifstream	inFile;
+	
+	inFile.open(fileName.c_str());
+	std::stringstream strStream;
+	strStream << inFile.rdbuf();
+	
+	std::string fileContents = strStream.str();
+	
+	if (fileContents.find("leak total:0") != std::string::npos)
+		return true;
+	else
+		return false;	// Not found - memory leak from last run
 }

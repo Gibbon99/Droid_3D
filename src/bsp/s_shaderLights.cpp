@@ -72,7 +72,6 @@ int bsp_findNumOfLights()
 void bsp_setLightArrayData()
 //-------------------------------------------------------------------------------
 {
-	char        tempString[MAX_STRING_SIZE];
 	glm::vec3   tempVar;
 
 	if ( numOfLights == -1 )
@@ -207,11 +206,10 @@ int bsp_processLightEffect ( float interpolate )
 									allLights[i].color = glm::vec3 ( 0 );
 								}
 						}
-
 					break;
 				}
 		}
-
+	return 0;
 }
 
 //-------------------------------------------------------------------------------

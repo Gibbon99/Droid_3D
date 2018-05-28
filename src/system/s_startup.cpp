@@ -33,6 +33,17 @@ bool initAll()
 		sys_shutdownToSystem();
 
 	con_initConsole();
+	
+	if (true == sys_checkMemLeak( "leakReport.txt" ))
+	{
+		con_print(CON_INFO, true, "No memory leak from last run.");
+		g_memLeakLastRun = false;
+	}
+	else
+	{
+		con_print(CON_ERROR, true, "MEMORY LEAK: Check logfile for details.");
+		g_memLeakLastRun = true;
+	}
 
 	sys_initTimingVars();
 

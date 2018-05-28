@@ -13,7 +13,7 @@ void phy_debugShowCollisionData()
 {
 	con_print(CON_INFO, true, "---------------------------");
 
-	for (int i = 0; i != collisionObjects.size(); i++)
+	for (unsigned int i = 0; i != collisionObjects.size(); i++)
 		{
 			con_print(CON_INFO, true, "%i - source [ %i ] index [ %i ]", i, collisionObjects[i].objectSource, collisionObjects[i].objectIndex);
 		}
@@ -34,7 +34,7 @@ int phy_addCollisionObject(int objectType, int objectIndex)
 	//
 	_collisionObject		tempCollisionObject;
 
-	for (int i = 0; i != collisionObjects.size(); i++)
+	for (unsigned int i = 0; i != collisionObjects.size(); i++)
 	{
 		if (false == collisionObjects[i].active)
 		{

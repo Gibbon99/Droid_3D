@@ -2,6 +2,7 @@
 Log file opened:
 Unknown	Unknown
 Console logfile started...
+Console : No memory leak from last run.
 Compiled against PhysFS version 3.0.1.
 Linked against PhysFS version 3.0.1.
 Packfile: Supported archive types.
@@ -168,9 +169,9 @@ Console : Number of functions in script [ 3 ]
 Console : Font [ Digital.ttf ] is available for use.
 Console : Font [ oldDigital.ttf ] is available for use.
 Console : Font [ President.ttf ] is available for use.
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -49772208 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -49772208 ]
-Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -49770352 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1103464832 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1103464832 ]
+Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ 1103466688 ]
 Console : Err: Failed to get function ID for [ bool ttf_initLibrary() ].
 Console : Physics system started...
 Console : Forward rendering framebuffer created...

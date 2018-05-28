@@ -18,5 +18,7 @@ bool        verbose = false;
 
 bool        cameraLockedToPhysics = false;
 
+bool		g_memLeakLastRun;		// Was there a memory last time we ran
+
 // Global variable to hold GL errors
 int         __gl_error_code;

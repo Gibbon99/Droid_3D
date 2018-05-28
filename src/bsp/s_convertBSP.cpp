@@ -32,7 +32,7 @@ bool bspIsDoorTexture(int whichTextureID)
 {
 	for (int i = 0; i != numOfDoors; i++)
 		{
-			if (whichTextureID == doorModels[i].textureID)
+			if ((uint)whichTextureID == doorModels[i].textureID)
 				return true;
 		}
 

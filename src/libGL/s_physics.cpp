@@ -435,7 +435,7 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 
 			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 1.0f, 0.0f, 0.0f ) );
 
-			rigidBody->setUserIndex ( phy_addCollisionObject(COL_OBJECT_BSP, 0) );
+			doorModels[whichDoor].rigidBody->setUserIndex ( phy_addCollisionObject(COL_OBJECT_BSP, 0) );
 
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
 

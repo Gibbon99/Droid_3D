@@ -60,6 +60,7 @@ bool io_startFileSystem()
 		{
 			io_logToFile ( "ERROR: Failed to set write path [ %s ]", PHYSFS_getErrorByCode ( PHYSFS_getLastErrorCode() ) );
 			io_logToFile ( "INFO: The directory [ data ] holding all the data files is not present. Check the installation." );
+			printf ( "INFO: The directory [ data ] holding all the data files is not present. Check the installation.\n" );
 			fileSystemReady = false;
 			return false;
 		}

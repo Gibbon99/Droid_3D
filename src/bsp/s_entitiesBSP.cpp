@@ -82,7 +82,6 @@ bool bsp_setupEntities()
 	char *result = NULL;
 	bool useTokenValue = false;
 	g_numEntityKeys = 0;
-	char tempStr[128];
 
 	for ( j = 0; j != numOfEntities; j++ )
 		{
@@ -199,7 +198,7 @@ bool bsp_setupEntities()
 int bsp_getNumEntities ( string whichEntity )
 //-------------------------------------------------------------------------------
 {
-	int i, entCount;
+	unsigned int i, entCount;
 
 	entCount = 0;
 
@@ -218,7 +217,7 @@ int bsp_getNumEntities ( string whichEntity )
 void bsp_resetEntitySearchFlag()
 //-------------------------------------------------------------------------------
 {
-	int i;
+	unsigned int i;
 
 	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
@@ -232,7 +231,7 @@ void bsp_resetEntitySearchFlag()
 int bsp_getEntitySetID ( string entityStr, bool checkAll )
 //-------------------------------------------------------------------------------
 {
-	int i;
+	unsigned int i;
 
 	for ( i = 0; i != g_numEntityKeys / 2; i++ )
 		{
@@ -267,7 +266,7 @@ int bsp_getEntitySetID ( string entityStr, bool checkAll )
 int bsp_findEntityInfo ( string entityStr, string entityKey, glm::vec3 *entityValue, bool swapValues, int whichSetID, int valueType )
 //-------------------------------------------------------------------------------
 {
-	int i;
+	unsigned int i;
 	int entitySetID = 0;
 	float tempSwap;
 
@@ -319,8 +318,8 @@ int bsp_findEntityInfo ( string entityStr, string entityKey, glm::vec3 *entityVa
 									break;
 
 								case VAR_TYPE_TEXT:	// NOT working
-									sscanf ( entityList[i].tokenValue, "%s", entityKey.c_str() );
-									strcpy(entityList[i].tokenValue, entityKey.c_str());
+//									sscanf ( entityList[i].tokenValue, "%s", entityKey.c_str() );
+//									strcpy(entityList[i].tokenValue, entityKey.c_str());
 									return 1;
 									break;
 								}
@@ -338,10 +337,8 @@ int bsp_placeCameraAtEntity ( string param1 )
 // TODO (dberry#1#): Handle missing entity
 {
 	glm::vec3	originCoords;
-	float    temp;
 
 	if (param1.length() < 1)
-//	if ( strlen ( param1 ) < 1 )
 		{
 			con_print ( CON_INFO, true, "Usage: findent <str>" );
 			return -1;

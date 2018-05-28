@@ -17,4 +17,6 @@ void xfree ( void * mem_ref );
 
 void sys_reportMemLeak ( std::string fileName );
 
+bool sys_checkMemLeak( std::string fileName );
+
 #endif

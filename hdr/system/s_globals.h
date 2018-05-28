@@ -55,5 +55,7 @@ extern bool 			verbose;                // Additional logging
 
 extern char				fontFileName[];       // Max size for font filename
 
+extern bool				g_memLeakLastRun;		// Was there a memory last time we ran
+
 // Change game mode
 void changeMode ( int newMode );

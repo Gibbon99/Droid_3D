@@ -102,15 +102,6 @@ void con_createConsoleScreen ()
 //-----------------------------------------------------------------------------
 {
 	_conLine	conTempLine;
-	float       conStartY = 0.0f;
-
-	conStartY = winHeight - ( conFontSize * 2 );
-
-	for ( int i = 0; i != ( winHeight / conFontSize ) - 2; i++ )
-		{
-//			ttf_setFontColor ( conLines[i].conLineColor.red, conLines[i].conLineColor.green, conLines[i].conLineColor.blue, conLines[i].conLineColor.alpha );
-//			ttf_addText ( FONT_SMALL, 0.0f, ( conStartY - ( ( i * conFontSize ) + conFontSize ) ), "%s", conLines[i].conLine.c_str() );
-		}
 
 	conTempLine.conLine = conCurrentLine.conLine;
 
@@ -120,19 +111,6 @@ void con_createConsoleScreen ()
 		conTempLine.conLine += " ";
 
 	con_setColor(0.8f, 0.8f, 0.8f, 0.8f);
-//	ttf_addText ( FONT_SMALL, 0.0f, ( GLfloat ) ( winHeight - ( conFontSize * 1 ) ), "%s", conTempLine.conLine.c_str() );
-
-	/*
-		if (true == updateNow)
-			{
-				//
-				// Render all text in VBO memory
-				gl_set2DMode();
-				ttf_displayText ( FONT_SMALL );
-
-				lib_swapBuffers();
-			}
-			 * */
 }
 
 
