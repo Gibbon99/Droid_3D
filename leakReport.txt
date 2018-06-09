@@ -1,0 +1,4 @@
+Memory Leak Summary
+-----------------------------------
+leak total:0,max used size:806372,once max:786488
+
