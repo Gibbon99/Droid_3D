@@ -14,22 +14,23 @@
 
 typedef struct		// Changes need to be relfect in shaders.cpp as well - fields must match
 {
-	GLint           programID;
-	GLint	        inVertsID;
-	GLint           inNormalsID;
-	GLint		    inTextureCoordsID;
-	GLint		    inTextureCoordsID_1;
-	GLint		    inColorID;	    		// used for colorkey, fade value
-	GLint           inColorID_2;    		// used for holding secondary color info
-	GLint           inTextureUnit;  		// which primary texture is bound
-	GLint           inTextureUnit_1;  		// which secondary texture is bound
-	GLint           viewProjectionMat;
-	GLint           modelMat;
-	GLint			screenSizeID;
-//        GLint           MVPLocation;
+	GLuint           programID;
+	GLuint	        inVertsID;
+	GLuint           inNormalsID;
+	GLuint		    inTextureCoordsID;
+	GLuint		    inTextureCoordsID_1;
+	GLuint		    inColorID;	    		// used for colorkey, fade value
+	GLuint           inColorID_2;    		// used for holding secondary color info
+	GLuint           inTextureUnit;  		// which primary texture is bound
+	GLuint           inTextureUnit_1;  		// which secondary texture is bound
+	GLuint           viewProjectionMat;
+	GLuint           modelMat;
+	GLuint			screenSizeID;
+
 	bool            linkedOK;
 	char            vertFileName[MAX_STRING_SIZE];
 	char            fragFileName[MAX_STRING_SIZE];
+	char            geomFileName[MAX_STRING_SIZE];
 } _shaderProgram;
 
 extern _shaderProgram         shaderProgram[];
@@ -50,6 +51,7 @@ enum
 	SHADER_POINT_LIGHT,
 //	SHADER_RENDER_BSP,
 //	SHADER_DEF_RENDER,
+	SHADER_BILLBOARD,
 	NUM_SHADERS
 };
 
@@ -60,8 +62,8 @@ void gl_getGLSLError ( GLint object, int objectType );
 bool gl_loadCompileShaders ( int programObject );
 
 // Get the location of a string variable from the shaders
-bool gl_getAttribVariable ( int whichShader, char *strVariable, char *shaderText, GLint *varLocation );
-bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderText, GLint *varLocation );
+bool gl_getAttribVariable ( int whichShader, char *strVariable, char *shaderText, GLuint *varLocation );
+bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderText, GLuint *varLocation );
 
 // Set the value of a vec3 variable in a shader - VEC3 version
 bool gl_setUniformVariable3f ( int location, float v1, float v2, float v3 );

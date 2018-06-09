@@ -225,7 +225,7 @@ void fnt_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ..
 	for (i = 0; i != strlen(textLine); i++)
 		{
 			texture_glyph_t		*glyph;
-			float				offset_y;
+			float				offset_y = 0.0f;
 
 			for (j = 0; j < embeddedFontData.glyphs_count; ++j)
 				{
@@ -281,7 +281,7 @@ void fnt_printText(glm::vec2 position, glm::vec4 lineColor, const char *text, ..
 	//
 	// Bind the vertex info
 	GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, fnt_g_vertVBO_ID ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( _fnt_vertex ) *fnt_vertex.size(), &fnt_vertex[0].position, GL_DYNAMIC_DRAW ) );
+	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( _fnt_vertex ) * fnt_vertex.size(), &fnt_vertex[0].position, GL_DYNAMIC_DRAW ) );
 	GL_CHECK ( glVertexAttribPointer ( fnt_inPosition_ID, 2, GL_FLOAT, GL_FALSE, sizeof(_fnt_vertex), (GLvoid *)offsetof(_fnt_vertex, position) ) );
 	GL_CHECK ( glEnableVertexAttribArray ( fnt_inPosition_ID ) );
 	//

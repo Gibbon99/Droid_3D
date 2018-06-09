@@ -25,11 +25,12 @@ typedef struct
 } _textureNames;
 
 extern vector<_Texture>		texturesLoaded;
-extern _textureNames		ttextureNames[];
+extern _textureNames		textureNames[];
 
 enum
 {
 	TEX_WHITE_SQUARE,
+	TEX_FLARE,
 	NUM_TEXTURES
 };
 

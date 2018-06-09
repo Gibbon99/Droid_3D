@@ -202,7 +202,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_main.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_globals.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_render.cpp
-)
+        src/openGL/s_particles.cpp hdr/openGL/s_particles.h)
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 

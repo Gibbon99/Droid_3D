@@ -14,4 +14,3 @@ void main(void)
 
     outColor = vec4(col, col, col, 1.0);
 }
-

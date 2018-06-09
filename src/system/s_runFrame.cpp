@@ -12,6 +12,7 @@
 
 #include "s_camera3.h"
 #include "s_physicsCollision.h"
+#include "s_particles.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -52,7 +53,8 @@ void sys_gameTickRun ( float interpolate )
 			bsp_checkPlayerVsTrigger();
 			bspProcessAllDoorMovements ( interpolate );
 			phy_doCollisionDetection();
-			
+
+			par_processParticles(interpolate);
 			break;
 
 		default:

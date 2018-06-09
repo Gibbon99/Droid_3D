@@ -35,6 +35,7 @@ vector<_Texture>		texturesLoaded;
 _textureNames		textureNames[] =  	// holds all the information about a texture
 {
 	{"white_square"},
+	{"flare"},
 };
 
 //-----------------------------------------------------------------------------
@@ -88,7 +89,11 @@ int loadImageFile ( char *fileName, int bspIndex )
 		return -1;
 
 	if ( -1 == io_getFileIntoMemory ( fileName, ( char * ) imageBuffer ) )
+	{
+		if (imageBuffer)
+			free(imageBuffer);
 		return -1;
+	}
 
 	tempTexture.imageData = stbi_load_from_memory ( imageBuffer, imageLength, &tempTexture.width, &tempTexture.height, &tempTexture.bpp, 0 );
 
@@ -114,7 +119,7 @@ int loadImageFile ( char *fileName, int bspIndex )
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 //
 // GL_SRGB is here instead of GL_RGB to change gamma corrected textures back to linear color space
-// TODO (dberry#1#): Put in paramter for textures/shaders not doing gamma correction
+// TODO (dberry#1#): Put in parameter for textures/shaders not doing gamma correction
 //
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, tempTexture.width, tempTexture.height, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTexture.imageData );
 	free ( imageBuffer );

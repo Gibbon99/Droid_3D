@@ -29,6 +29,7 @@
 #include "s_fontUtil.h"
 #include "s_signedFont.h"
 #include "s_camera3.h"
+#include "s_particles.h"
 
 bool        drawWireframe = false;
 bool        showGBuffers = false;
@@ -158,6 +159,8 @@ void sys_displayScreen ( float interpolate )
 
 				gam_drawBullets ( SHADER_GEOMETRY_PASS );
 
+				par_renderParticles();
+
 				if ( true == g_debugLightPos )
 					{
 						for ( int i = 0; i != numOfLights; i++ )
@@ -186,6 +189,8 @@ void sys_displayScreen ( float interpolate )
 
 						lt_renderPointLights ( SHADER_POINT_LIGHT );
 					}
+
+
 
 //			TwDraw();
 		}

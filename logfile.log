@@ -17,8 +17,8 @@ Packfile: [ SLB ] : [ I-War / Independence War Slab file ]
 Packfile: [ ISO ] : [ ISO9660 image file ]
 Packfile: [ VDF ] : [ Gothic I/II engine format ]
 Console : -----------------------------------------------------------------------
-Console : Vertex shader compiled ok - [ depthMap.vert ]
-Console : Fragment shader compiled ok - [ depthMap.frag ]
+Console : Shader compiled ok - [ depthMap.vert ]
+Console : Shader compiled ok - [ depthMap.frag ]
 Console : INFO: Shaders linked ok - [ depthMap.frag ]
 Console : Attribute location [ 0 ] : [ depthMap.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ depthMap.frag ] - [ inNormal ]
@@ -31,8 +31,8 @@ Console : --> Error getting uniform location [ depthMap.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ depthMap.frag ] - [ depthMap.vert ] - ID [ 3 ]
 Console : -----------------------------------------------------------------------
-Console : Vertex shader compiled ok - [ ttfFont.vert ]
-Console : Fragment shader compiled ok - [ ttfFont.frag ]
+Console : Shader compiled ok - [ ttfFont.vert ]
+Console : Shader compiled ok - [ ttfFont.frag ]
 Console : INFO: Shaders linked ok - [ ttfFont.frag ]
 Console : Attribute location [ 0 ] : [ ttfFont.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ ttfFont.frag ] - [ inNormal ]
@@ -46,8 +46,8 @@ Console : Attribute location [ 2 ] : [ ttfFont.frag ] - [ fontColor ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ ttfFont.frag ] - [ ttfFont.vert ] - ID [ 6 ]
 Console : -----------------------------------------------------------------------
-Console : Vertex shader compiled ok - [ justColor.vert ]
-Console : Fragment shader compiled ok - [ justColor.frag ]
+Console : Shader compiled ok - [ justColor.vert ]
+Console : Shader compiled ok - [ justColor.frag ]
 Console : INFO: Shaders linked ok - [ justColor.frag ]
 Console : Attribute location [ 0 ] : [ justColor.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ justColor.frag ] - [ inNormal ]
@@ -60,8 +60,8 @@ Console : Uniform location [ 0 ] : [ justColor.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ justColor.frag ] - [ justColor.vert ] - ID [ 9 ]
 Console : -----------------------------------------------------------------------
-Console : Vertex shader compiled ok - [ physicsDebug.vert ]
-Console : Fragment shader compiled ok - [ physicsDebug.frag ]
+Console : Shader compiled ok - [ physicsDebug.vert ]
+Console : Shader compiled ok - [ physicsDebug.frag ]
 Console : INFO: Shaders linked ok - [ physicsDebug.frag ]
 Console : Attribute location [ 0 ] : [ physicsDebug.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ physicsDebug.frag ] - [ inNormal ]
@@ -75,8 +75,8 @@ Console : Attribute location [ 1 ] : [ physicsDebug.frag ] - [ debugColor ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ physicsDebug.frag ] - [ physicsDebug.vert ] - ID [ 12 ]
 Console : -----------------------------------------------------------------------
-Console : Vertex shader compiled ok - [ geometry_pass.vert ]
-Console : Fragment shader compiled ok - [ geometry_pass.frag ]
+Console : Shader compiled ok - [ geometry_pass.vert ]
+Console : Shader compiled ok - [ geometry_pass.frag ]
 Console : INFO: Shaders linked ok - [ geometry_pass.frag ]
 Console : Attribute location [ 0 ] : [ geometry_pass.frag ] - [ inPosition ]
 Console : Attribute location [ 1 ] : [ geometry_pass.frag ] - [ inNormal ]
@@ -89,8 +89,8 @@ Console : Uniform location [ 1 ] : [ geometry_pass.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ geometry_pass.frag ] - [ geometry_pass.vert ] - ID [ 15 ]
 Console : -----------------------------------------------------------------------
-Console : Vertex shader compiled ok - [ lightPass.vert ]
-Console : Fragment shader compiled ok - [ lightPass.frag ]
+Console : Shader compiled ok - [ lightPass.vert ]
+Console : Shader compiled ok - [ lightPass.frag ]
 Console : INFO: Shaders linked ok - [ lightPass.frag ]
 Console : Attribute location [ 0 ] : [ lightPass.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ lightPass.frag ] - [ inNormal ]
@@ -103,8 +103,8 @@ Console : --> Error getting uniform location [ lightPass.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ lightPass.frag ] - [ lightPass.vert ] - ID [ 18 ]
 Console : -----------------------------------------------------------------------
-Console : Vertex shader compiled ok - [ pointLight.vert ]
-Console : Fragment shader compiled ok - [ pointLight.frag ]
+Console : Shader compiled ok - [ pointLight.vert ]
+Console : Shader compiled ok - [ pointLight.frag ]
 Console : INFO: Shaders linked ok - [ pointLight.frag ]
 Console : Attribute location [ 0 ] : [ pointLight.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ pointLight.frag ] - [ inNormal ]
@@ -116,10 +116,25 @@ Console : Uniform location [ 5 ] : [ pointLight.frag ] - [ u_viewProjectionMat ]
 Console : --> Error getting uniform location [ pointLight.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ pointLight.frag ] - [ pointLight.vert ] - ID [ 21 ]
+Console : -----------------------------------------------------------------------
+Console : Shader compiled ok - [ billboard.vert ]
+Console : Shader compiled ok - [ billboard.frag ]
+Console : Shader compiled ok - [ billboard.geom ]
+Console : INFO: Shaders linked ok - [ billboard.frag ]
+Console : Attribute location [ 0 ] : [ billboard.frag ] - [ inPosition ]
+Console : --> Error getting attribute location [ billboard.frag ] - [ inNormal ]
+Console : --> Error getting attribute location [ billboard.frag ] - [ inTextureCoords ]
+Console : --> Error getting attribute location [ billboard.frag ] - [ inTextureCoords1 ]
+Console : Uniform location [ 1 ] : [ billboard.frag ] - [ inTexture0 ]
+Console : --> Error getting uniform location [ billboard.frag ] - [ inTexture1 ]
+Console : Uniform location [ 2 ] : [ billboard.frag ] - [ u_viewProjectionMat ]
+Console : --> Error getting uniform location [ billboard.frag ] - [ u_modelMat ]
+Console : -----------------------------------------------------------------------
+Console : Compiled shader [ billboard.frag ] - [ billboard.vert ] - ID [ 25 ]
 GLFW header version: 3.2.1
 GLFW library version: 3.2.1
 GLFW library version string: "3.2.1 X11 GLX EGL clock_gettime /dev/js Xf86vm shared"
-OpenGL context version string: "4.3.0 NVIDIA 390.48"
+OpenGL context version string: "4.3.0 NVIDIA 390.59"
 OpenGL context version parsed by GLFW: 4.3.0
 OpenGL context flags (0x00000000):
 OpenGL context flags parsed by GLFW:
@@ -169,9 +184,9 @@ Console : Number of functions in script [ 3 ]
 Console : Font [ Digital.ttf ] is available for use.
 Console : Font [ oldDigital.ttf ] is available for use.
 Console : Font [ President.ttf ] is available for use.
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1103464832 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1103464832 ]
-Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ 1103466688 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1474938672 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1474938672 ]
+Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -1474936816 ]
 Console : Err: Failed to get function ID for [ bool ttf_initLibrary() ].
 Console : Physics system started...
 Console : Forward rendering framebuffer created...
@@ -271,6 +286,9 @@ Console : Model [ 4 ] : Texture ID [ 16 ]
 ERROR: Filesystem can't open file [ white_square.bmp ]
 Console : Model [ 5 ] : Texture ID [ 17 ]
 ERROR: Filesystem can't open file [ white_square.bmp ]
+ERROR: Filesystem can't open file [ flare.bmp ]
+ERROR: Filesystem can't open file [ flare.jpg ]
+ERROR: Filesystem can't open file [ flare.tga ]
 ERROR: Filesystem can't open file [ textures/Metals/METL081.bmp ]
 ERROR: Filesystem can't open file [ textures/Metals/METL010.bmp ]
 ERROR: Filesystem can't open file [ textures/Metals/METL038.bmp ]

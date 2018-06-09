@@ -1,3 +1,4 @@
+
 #include "s_timing.h"
 #include "s_shutdown.h"
 #include "s_window.h"
@@ -17,6 +18,7 @@
 #include "s_loadBsp.h"
 #include "s_objects.h"
 #include "s_signedFont.h"
+#include "s_particles.h"
 
 void runThread()
 {
@@ -95,6 +97,7 @@ bool initAll()
 	util_executeScriptFunction ( "scr_setGameVariables", "" );
 	util_executeScriptFunction ( "scr_addAllScriptCommands", "" );
 
+	par_initParticleSystem();
 
 /*
 	//
@@ -154,6 +157,8 @@ bool initAll()
 	obj_addSomeObjects();
 
 //	bul_setPlayerPosition(cam_getPosition(), glm::vec3(0.0, 0.0, 0.0));
+
+	par_newParticle(PARTICLE_TYPE_HEAL, glm::vec3{0, -48, 0}, 0);
 
 	return true;
 }

@@ -153,3 +153,17 @@ extern int __gl_error_code;
 #define COL_OBJECT_PLAYER	1
 #define COL_OBJECT_MESH		2
 #define COL_OBJECT_BULLET	3
+
+//-----------------------------------------------------------------------------
+//
+// Different types of particles and how many to render
+//
+//-----------------------------------------------------------------------------
+
+#define MAX_NUM_PARTICLE_MEMBERS	    500
+
+#define PARTICLE_TYPE_SMOKE     0
+#define PARTICLE_TYPE_SPARK     1
+#define PARTICLE_TYPE_HEAL      2
+#define PARTICLE_TYPE_EXPLODE   3
+

@@ -1,3 +1,4 @@
+#include <hdr/openGL/s_shaders.h>
 #include "s_globals.h"
 #include "s_shaders.h"
 #include "io_fileSystem.h"
@@ -5,30 +6,35 @@
 #include "s_shadowMap.h"
 
 /*
-        GLuint      programID;
-        GLint		inVertsID;
-        GLint		inTextureCoordsID;
-        GLint		inColorID;	        // used for colorkey, fade value
-        GLint       inTextureUnit;      // which texture is bound
-        GLint       projMatrixLocation;
-        GLint       modelMatrixLocation;
-        bool        linkedOK;
-        char        vertFileName[MAX_STRING_SIZE];
-        char        fragFileName[MAX_STRING_SIZE];
+GLuint           programID;
+	GLuint	        inVertsID;
+	GLuint           inNormalsID;
+	GLuint		    inTextureCoordsID;
+	GLuint		    inTextureCoordsID_1;
+	GLuint		    inColorID;	    		// used for colorkey, fade value
+	GLuint           inColorID_2;    		// used for holding secondary color info
+	GLuint           inTextureUnit;  		// which primary texture is bound
+	GLuint           inTextureUnit_1;  		// which secondary texture is bound
+	GLuint           viewProjectionMat;
+	GLuint           modelMat;
+	GLuint			screenSizeID;
+
+	bool            linkedOK;
+	char            vertFileName[MAX_STRING_SIZE];
+	char            fragFileName[MAX_STRING_SIZE];
+	char            geomFileName[MAX_STRING_SIZE];
 */
 
 _shaderProgram                shaderProgram[] =             // holds all the information about shader program
 {
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "depthMap.vert",        "depthMap.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "ttfFont.vert",         "ttfFont.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "justColor.vert",       "justColor.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag"},
-//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "shadowMap.vert",       "shadowMap.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",   "geometry_pass.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "lightPass.vert",       "lightPass.frag"},
-	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointLight.vert",      "pointLight.frag"},
-//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "renderBSP.vert",       "renderBSP.frag"},
-//	{-1,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "deferredRendering.vert",       "deferredRendering.frag"},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "depthMap.vert",        "depthMap.frag",      ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "ttfFont.vert",         "ttfFont.frag",       ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "justColor.vert",       "justColor.frag",     ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag",  ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",   "geometry_pass.frag", ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "lightPass.vert",       "lightPass.frag",     ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointLight.vert",      "pointLight.frag",    ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "billboard.vert",       "billboard.frag",     "billboard.geom"},
 };
 
 //-----------------------------------------------------------------------------
@@ -43,7 +49,7 @@ char *gl_getShaderName ( int whichShader )
 //-----------------------------------------------------------------------------
 //
 // Get the location of a string variable from the shaders - UNIFORM variables
-bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderText, GLint *varLocation )
+bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderText, GLuint *varLocation )
 //-----------------------------------------------------------------------------
 {
 	GLint   tempLocation;
@@ -70,7 +76,7 @@ bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderTex
 //-----------------------------------------------------------------------------
 //
 // Get the location of a string variable from the shaders - ATTRIBUTE variables
-bool gl_getAttribVariable ( int whichShader, char *strVariable, char *shaderText, GLint *varLocation )
+bool gl_getAttribVariable ( int whichShader, char *strVariable, char *shaderText, GLuint *varLocation )
 //-----------------------------------------------------------------------------
 {
 	GLint   tempLocation;
@@ -241,119 +247,134 @@ bool gl_setShaderVars ( int whichShader )
 
 	return true;
 }
+//-----------------------------------------------------------------------------
+//
+// Load the shader from the text file into memory and compile
+// Return shaderObject ID as param
+bool gl_loadIntoMemory(string fileName, GLuint *returnObject_ID, int shaderType)
+//-----------------------------------------------------------------------------
+{
+	GLint   compiled;
+	GLint fileLength;
+	GLuint shaderObject_ID;
+	char *sourceText = NULL;
 
+	fileLength = io_getFileSize ( (char *)fileName.c_str());
+	if (fileLength == -1)
+		return false;
+
+	sourceText = (char *) malloc (sizeof (char) * (fileLength + 1));
+	if ( nullptr == sourceText)
+		return false;
+
+	if (-1 == io_getFileIntoMemory ((char*)fileName.c_str(), sourceText))
+	{
+		free(sourceText);
+		return false;
+	}
+	//
+	// Make sure it's null terminated   // Need fileLength + 1 ??
+	sourceText[fileLength] = '\0';
+
+	switch (shaderType)
+	{
+		case GL_VERTEX_SHADER:
+			shaderObject_ID = glCreateShader(GL_VERTEX_SHADER);
+			break;
+
+		case GL_FRAGMENT_SHADER:
+			shaderObject_ID = glCreateShader(GL_FRAGMENT_SHADER);
+			break;
+
+		case GL_GEOMETRY_SHADER:
+			shaderObject_ID = glCreateShader(GL_GEOMETRY_SHADER);
+			break;
+		default:
+			con_print(CON_ERROR, true, "Invalid shader type passed.");
+			return false;
+			break;
+	}
+	if (shaderObject_ID == 0)
+	{
+		con_print(CON_ERROR, true, "Error: Failed to create shader ID.");
+		return false;
+	}
+
+	glShaderSource ( shaderObject_ID, 1, (const GLchar**)&sourceText, nullptr) ;
+
+	glCompileShader ( shaderObject_ID ) ;
+	//
+	// Check it compiled ok
+	glGetShaderiv ( shaderObject_ID, GL_COMPILE_STATUS, &compiled );
+
+	if ( compiled )
+		con_print ( CON_TEXT, true, "Shader compiled ok - [ %s ]", fileName.c_str() );
+	else
+	{
+		con_print ( CON_TEXT, true, "Shader compile failed [ %s]", fileName.c_str() );
+		gl_getGLSLError ( shaderObject_ID, GLSL_SHADER );
+		return false;
+	}
+
+	free(sourceText);
+	*returnObject_ID = shaderObject_ID;
+
+	return true;
+}
 //-----------------------------------------------------------------------------
 //
 // Load and compile shaders
 bool gl_loadCompileShaders ( int programObject )
 //-----------------------------------------------------------------------------
 {
-	GLint   compiled;
-	GLint   linked;
-	GLint   *vertFile = NULL;
-	GLint   vertFileLength;
-
-	GLint  *fragFile = NULL;
-	GLint   fragFileLength;
-
-	GLuint       vertexShaderObject, fragmentShaderObject;
+	GLint       linked;
+	GLuint       vertexShaderObject, fragmentShaderObject, geometryShaderObject;
 
 	con_print ( CON_TEXT, true, "-----------------------------------------------------------------------" );
 
-	vertFileLength = io_getFileSize ( ( char * ) shaderProgram[programObject].vertFileName );
-
-	if ( -1 == vertFileLength )
+	//
+	// Load the shaders and set their object ID
+	if ( !gl_loadIntoMemory(shaderProgram[programObject].vertFileName, &vertexShaderObject, GL_VERTEX_SHADER) ||
+	   !gl_loadIntoMemory(shaderProgram[programObject].fragFileName, &fragmentShaderObject, GL_FRAGMENT_SHADER))
+	{
+		con_print(CON_ERROR, true, "Error loading and compiling shader.");
 		return false;
+	}
+	if (strlen(shaderProgram[programObject].geomFileName) > 1)
 
-	vertFile = ( GLint * ) malloc ( sizeof ( char ) * vertFileLength );
-
-	if ( NULL == vertFile )
-		return false;
-
-	if ( -1 == io_getFileIntoMemory ( ( char * ) shaderProgram[programObject].vertFileName, ( char * ) vertFile ) )
-		return false;
-
-	fragFileLength = io_getFileSize ( ( char * ) shaderProgram[programObject].fragFileName );
-
-	if ( -1 == fragFileLength )
-		return false;
-
-	fragFile = ( GLint * ) malloc ( sizeof ( char ) * fragFileLength );
-
-	if ( NULL == fragFile )
-		return false;
-
-	if ( -1 == io_getFileIntoMemory ( ( char * ) shaderProgram[programObject].fragFileName, ( char * ) fragFile ) )
-		return false;
-
-	vertexShaderObject = glCreateShader ( GL_VERTEX_SHADER );
-	fragmentShaderObject = glCreateShader ( GL_FRAGMENT_SHADER );
-
-	if ( ( 0 == vertexShaderObject ) || ( 0 == fragmentShaderObject ) )
+		if (!gl_loadIntoMemory(shaderProgram[programObject].geomFileName, &geometryShaderObject, GL_GEOMETRY_SHADER))
 		{
-			printf ( "Error creating shader objects.\n" );
+			con_print(CON_ERROR, true, "Error loading and compiling Geometry shader.");
 			return false;
 		}
-
-	// Do a quick switch so we can do a double pointer below
-	const char *szVShader = ( char * ) vertFile;
-	// Attach the shader to the shaderObject
-	GL_CHECK ( glShaderSource ( vertexShaderObject, 1, ( const GLchar ** ) &szVShader, &vertFileLength ) );
 	//
-	// Do a quick switch so we can do a double pointer below
-	const char *szFShader = ( char * ) fragFile;
-	// Attach the shader to the shaderObject
-	GL_CHECK ( glShaderSource ( fragmentShaderObject, 1, ( const GLchar ** ) &szFShader, &fragFileLength ) );
-	//
-	// now compile the shader sourcde
-	GL_CHECK ( glCompileShader ( vertexShaderObject ) );
-	//
-	// Check it compiled ok
-	glGetShaderiv ( vertexShaderObject, GL_COMPILE_STATUS, &compiled );
-
-	if ( true == compiled )
-		con_print ( CON_TEXT, true, "Vertex shader compiled ok - [ %s ]", shaderProgram[programObject].vertFileName );
-
-	else
-		{
-			con_print ( CON_TEXT, true, "Vertex shader compile failed [ %s]", shaderProgram[programObject].vertFileName );
-			gl_getGLSLError ( vertexShaderObject, GLSL_SHADER );
-			return false;
-		}
-
-	glCompileShader ( fragmentShaderObject );
-	glGetShaderiv ( fragmentShaderObject, GL_COMPILE_STATUS, &compiled );
-
-	if ( true == compiled )
-		con_print ( CON_TEXT, true, "Fragment shader compiled ok - [ %s ]", shaderProgram[programObject].fragFileName );
-
-	else
-		{
-			con_print ( CON_TEXT, true, "Fragment shader compile failed [ %s ]", shaderProgram[programObject].fragFileName );
-			gl_getGLSLError ( fragmentShaderObject, GLSL_SHADER );
-			return false;
-		}
-
+	// Create the program ID
 	shaderProgram[programObject].programID = glCreateProgram();
-
+	//
+	// Attach the object ID to the program ID ready for compiling
 	GL_CHECK ( glAttachShader ( shaderProgram[programObject].programID, vertexShaderObject ) );
 	GL_CHECK ( glAttachShader ( shaderProgram[programObject].programID, fragmentShaderObject ) );
 
+	if (strlen(shaderProgram[programObject].geomFileName) > 1)
+	{
+		GL_CHECK ( glAttachShader (shaderProgram[programObject].programID, geometryShaderObject ) );
+	}
+	//
+	// Link the shaders
 	GL_CHECK ( glLinkProgram ( shaderProgram[programObject].programID ) );
-
+	//
+	// Get the status
 	GL_CHECK ( glGetProgramiv ( shaderProgram[programObject].programID, GL_LINK_STATUS, &linked ) );
 
-	if ( true == linked )
+	if ( linked )   // true
 		{
 			con_print ( CON_TEXT, true, "INFO: Shaders linked ok - [ %s ]", shaderProgram[programObject].fragFileName );
 			shaderProgram[programObject].linkedOK = true;
-
 		}
-
 	else
 		{
 			con_print ( CON_TEXT, true, "ERROR: Shaders failed to link - [ %s ]", shaderProgram[programObject].fragFileName );
-			gl_getGLSLError ( vertexShaderObject, GLSL_PROGRAM );
+			gl_getGLSLError ( shaderProgram[programObject].programID, GLSL_PROGRAM );
 			return false;
 		}
 
@@ -363,10 +384,6 @@ bool gl_loadCompileShaders ( int programObject )
 	//
 	// Setup variables for this shader
 	gl_setShaderVars ( programObject );
-	//
-	// Free memory
-	free ( vertFile );
-	free ( fragFile );
 
 	con_print ( CON_TEXT, true, "-----------------------------------------------------------------------" );
 
