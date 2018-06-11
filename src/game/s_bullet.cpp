@@ -1,3 +1,4 @@
+#include "s_particles.h"
 #include "s_globals.h"
 #include "s_assimp.h"
 #include "s_shaders.h"
@@ -57,21 +58,25 @@ void gam_processBulletMovement ( GLfloat interpolate )
 void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 //----------------------------------------------------------------
 {
-	for ( int i = 0; i != MAX_NUM_BULLETS; i++ )
+	glm::vec3 newDirection;
+
+
+	for ( uint i = 0; i != MAX_NUM_BULLETS; i++ )
 		{
-			if ( false == bullet[i].active )
+			if ( !bullet[i].active )
 				{
 					numActiveBullets++;
 					bullet[i].active = true;
 					bullet[i].speed = speed;
 					bullet[i].direction = direction;
-					bullet[i].position = position + (direction * 5.0f);		// Put in front of players rigid body - need to add forward velocity as well
+					bullet[i].position = position + (direction * 7.0f);		// Put in front of players rigid body - need to add forward velocity as well
 					bullet[i].whichMesh = MODEL_CRATE;
-					bullet[i].meshScaleFactor = 5.0f;
+					bullet[i].meshScaleFactor = 2.0f;
 
+					bullet[i].particleIndex = par_newParticle(PARTICLE_TYPE_BULLET_1, bullet[i].position, i);
 					bullet[i].lightIndex = bsp_addNewLight ( glm::vec3 ( 55.0f, 10.0f, 5.0f ), LIGHT_POINT, LIGHT_POINT );
 					bullet[i].collisionIndex = phy_addCollisionObject(COL_OBJECT_BULLET, i);					
-					bullet[i].physicsIndex = bul_addPhysicsObject(bullet[i].collisionIndex, MODEL_CRATE, bullet[i].meshScaleFactor, PHYSICS_OBJECT_BOX, 1.0f, position);
+					bullet[i].physicsIndex = bul_addPhysicsObject(bullet[i].collisionIndex, MODEL_CRATE, bullet[i].meshScaleFactor, PHYSICS_OBJECT_BOX, 1.0f, bullet[i].position );
 					
 					bul_applyMovement(bullet[i].physicsIndex, bullet[i].speed, bullet[i].direction);
 
@@ -87,8 +92,20 @@ void gam_removeBullet (int bulletIndex )
 //----------------------------------------------------------------
 {
 	bullet[bulletIndex].active = false;
+	if (bullet[bulletIndex].particleIndex != -1)
+		par_removeEmitter(bullet[bulletIndex].particleIndex);
+
 	bsp_removeLight(bullet[bulletIndex].lightIndex);
 	phy_removeCollisionObject( bullet[bulletIndex].collisionIndex );
 	bul_removePhysicsObject( bullet[bulletIndex].physicsIndex );
 	numActiveBullets--;
+}
+
+//----------------------------------------------------------------
+//
+// Get the bullets current position by index
+glm::vec3 gam_getBulletPosition(uint bulletIndex)
+//----------------------------------------------------------------
+{
+	return phy_getObjectPosition(bullet[bulletIndex].physicsIndex);
 }

@@ -1,4 +1,6 @@
-#include <hdr/openGL/s_shaders.h>
+
+#include "s_entitiesBSP.h"
+#include "s_bullet.h"
 #include "s_openGLWrap.h"
 #include "io_textures.h"
 #include "s_globals.h"
@@ -9,13 +11,36 @@
 // Pass in position and type to start a new emitter
 // Types - Smoke, spark, healing, explosion
 
-#define NUM_PARTICLES_START 5
+#define NUM_PARTICLES_START 15
 
 std::vector<_particleEmitter> particleEmitter;
-unsigned int m_currVB;
-unsigned int m_currTFB;
+std::vector<_particleTexture> particleTexture;
 float cosTable[360];
 float sinTable[360];
+int numOfParticles;
+
+//----------------------------------------------------------------------------
+//
+// Call this function from the script to populate the texture names
+void par_addParticleTexture(uint particleType, string fileName)
+//----------------------------------------------------------------------------
+{
+	_particleTexture    tempParticleTexture;
+
+	if (particleType > PARTICLE_TYPE_NUMBER)
+	{
+		con_print(CON_ERROR, true, "Attempted to add invalid particle texture type. Must be less than [ %i ]", PARTICLE_TYPE_NUMBER);
+		return;
+	}
+	tempParticleTexture.fileName = fileName;
+	tempParticleTexture.texID = utilLoadTexture ( fileName.c_str(), -1);
+	if (tempParticleTexture.texID == -1)
+	{
+		con_print(CON_ERROR, true, "Unable to load particle texture file [ %s ]", fileName.c_str());
+		return;
+	}
+	particleTexture.push_back(tempParticleTexture);
+}
 
 //----------------------------------------------------------------------------
 //
@@ -35,6 +60,24 @@ void par_computeLookupTable()
 
 //----------------------------------------------------------------------------
 //
+// Populate the particle system with the ones defined in the level
+void par_startStaticParticles()
+//----------------------------------------------------------------------------
+{
+	for ( int i = 0; i != numOfParticles; i++ )
+	{
+		if ( bsp_findEntityInfo ("healing_particles", "origin", &particleEmitter[i].position, true, particleEmitter[i].entitySetID,
+		                         VAR_TYPE_VEC3) < 0 )
+		{
+			con_print (CON_ERROR, true, "Error looking for particle position value - not found. [ %i ]", i);
+		}
+		par_newParticle(PARTICLE_TYPE_HEAL, particleEmitter[i].position, 0);
+	}
+}
+
+
+//----------------------------------------------------------------------------
+//
 // Setup a number of particles ready to use
 void par_initParticleSystem()
 //----------------------------------------------------------------------------
@@ -44,12 +87,17 @@ void par_initParticleSystem()
 
 	par_computeLookupTable();
 
+	numOfParticles = bsp_getNumEntities ( "healing_particles" );
+	//
+	// check numofParticles against NUM_PARTICLES_START
+	//
+
 	for (int i = 0; i != NUM_PARTICLES_START; i++)
 	{
 		tempParticle.inUse = false;
 		tempParticle.position = glm::vec3{0,0,0};
-		tempParticle.texID = 0;
 		tempParticle.type = 0;
+		tempParticle.entitySetID =  bsp_getEntitySetID ( "healing_particles", true );
 
 		for (int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++)
 		{
@@ -58,17 +106,42 @@ void par_initParticleSystem()
 			tempParticleMember.fadeOnDone = PARTICLE_FADE_ON;
 			tempParticleMember.lifetimeLeft = 0.0f;
 			tempParticleMember.velocity = glm::vec3{0,0,0};
+			tempParticleMember.sizeValue = 3.0f;
 
 			tempParticle.particleMember.push_back(tempParticleMember);
 		}
 		particleEmitter.push_back(tempParticle);
 	}
+	//
+	// Load the textures for each particle type
+	util_executeScriptFunction ( "scr_loadParticleTextures", "" );
+	par_startStaticParticles();
+}
+
+
+
+//----------------------------------------------------------------------------
+//
+// Get a random position for a new particle in bullet_1
+glm::vec3 par_getRandomPositionBullet_1 (const glm::vec3 startPosition)
+//----------------------------------------------------------------------------
+{
+	float posX, posY;
+
+	float radius = 2.0f;    // TODO: Make configurable from script
+	int angle;
+
+	angle = rand() % 360;
+	posY = sinTable[angle] * radius;
+	posX = cosTable[angle] * radius;
+
+	return glm::vec3{posX, posY, 0};
 }
 
 //----------------------------------------------------------------------------
 //
 // Get a random position for a starting particle member
-glm::vec3 par_getRandomPosition(glm::vec3 startPosition)
+glm::vec3 par_getRandomPositionHeal ( const glm::vec3 startPosition )
 //----------------------------------------------------------------------------
 {
 	float posX, posY, posZ;
@@ -96,10 +169,11 @@ void par_renderParticles()
 {
 	wrapglEnable ( GL_BLEND );
 	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) );
+//	GL_CHECK ( glBlendFunc ( GL_ONE, GL_ONE_MINUS_SRC_ALPHA ) );
 
 	for (uint i = 0; i != particleEmitter.size(); i++)
 	{
-		if (particleEmitter[i].inUse == true)
+		if ( particleEmitter[i].inUse == true )
 			par_renderBillBoard (i);
 	}
 
@@ -111,45 +185,100 @@ void par_renderParticles()
 void par_processParticles(float timeDelta)
 //----------------------------------------------------------------------------
 {
-	for (uint i = 0; i != particleEmitter.size(); i++)
+	for ( uint i = 0; i != particleEmitter.size (); i++ )
 	{
-		if (particleEmitter[i].inUse == true)
+		if ( particleEmitter[i].inUse )
 		{
-			for ( int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++ )
+			switch ( particleEmitter[i].type )
 			{
-				switch (particleEmitter[i].particleMember[j].fadeOnDone)
-				{
-					case PARTICLE_FADE_ON:
-						particleEmitter[i].particleMember[j].alphaValue += (1.0f * timeDelta);
-						if ( particleEmitter[i].particleMember[j].alphaValue > 1.0f )
+				case PARTICLE_TYPE_HEAL:
+					for ( int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++ )
+					{
+						particleEmitter[i].particleMember[j].position +=
+								particleEmitter[i].particleMember[j].velocity * (1.0f * timeDelta);
+
+						switch ( particleEmitter[i].particleMember[j].fadeOnDone )
 						{
-							particleEmitter[i].particleMember[j].alphaValue = 1.0f;
-							particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_DONE;
-						}
-						break;
+							case PARTICLE_FADE_ON:
+								particleEmitter[i].particleMember[j].alphaValue += (1.0f * timeDelta);
+								if ( particleEmitter[i].particleMember[j].alphaValue > 1.0f )
+								{
+									particleEmitter[i].particleMember[j].alphaValue = 1.0f;
+									particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_DONE;
+								}
+								break;
 
-					case PARTICLE_FADE_DONE:
-						particleEmitter[i].particleMember[j].lifetimeLeft -= (1.0f * timeDelta);
-						if ( particleEmitter[i].particleMember[j].lifetimeLeft < 1.0f) {
-							particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
-						}
+							case PARTICLE_FADE_DONE:
+								particleEmitter[i].particleMember[j].lifetimeLeft -= (1.0f * timeDelta);
+								if ( particleEmitter[i].particleMember[j].lifetimeLeft < 1.0f )
+								{
+									particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
+								}
 
+								if ( particleEmitter[i].particleMember[j].lifetimeLeft < 0.0f )
+								{
+									particleEmitter[i].particleMember[j].lifetimeLeft = rand () % 10 + 5;
+									particleEmitter[i].particleMember[j].position =
+											particleEmitter[i].position +
+											par_getRandomPositionHeal (glm::vec3{0, 16, 0});
+									particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
+									particleEmitter[i].particleMember[j].alphaValue = 0.0f;
+									particleEmitter[i].particleMember[j].sizeValue = (rand () % 3) + 1;
+								}
+								break;
+
+							default:
+								break;
+						}
+					}
+					break;
+
+				case PARTICLE_TYPE_BULLET_1:
+					particleEmitter[i].position = gam_getBulletPosition (particleEmitter[i].followIndex);
+
+					for ( int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++ )
+					{
 						if ( particleEmitter[i].particleMember[j].lifetimeLeft < 0.0f )
 						{
-							particleEmitter[i].particleMember[j].lifetimeLeft = rand () % 10 + 5;
-							particleEmitter[i].particleMember[j].position = particleEmitter[i].position + par_getRandomPosition (glm::vec3{0, 16, 0});
+							particleEmitter[i].spawnCounter++;
+							if (particleEmitter[i].spawnCounter > 5)
+							{
+								particleEmitter[i].spawnCounter = 0;
+								return;
+							}
+							particleEmitter[i].particleMember[j].lifetimeLeft = (rand () % 1) + 2;
+							particleEmitter[i].particleMember[j].position = particleEmitter[i].position +
+							                                                par_getRandomPositionBullet_1 (
+									                                                particleEmitter[i].position);
 							particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
-							particleEmitter[i].particleMember[j].alphaValue = 0.0f;
+							particleEmitter[i].particleMember[j].alphaValue = 1.0f;
+							particleEmitter[i].particleMember[j].sizeValue = (rand () % 3) + 1;
 						}
-						break;
 
-					default:
-						break;
-				}
-				particleEmitter[i].particleMember[j].position += particleEmitter[i].particleMember[j].velocity * (1.0f * timeDelta);
+						particleEmitter[i].particleMember[j].lifetimeLeft -= (2.0f * timeDelta);
+						particleEmitter[i].particleMember[j].position += particleEmitter[i].particleMember[j].velocity;
+
+						if ( particleEmitter[i].particleMember[j].lifetimeLeft < 1.0f )
+							particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
+
+					}
+				default:
+					break;
 			}
 		}
 	}
+}
+
+
+//----------------------------------------------------------------------------
+//
+// Remove an emitter from use
+void par_removeEmitter(int emitterIndex)
+//----------------------------------------------------------------------------
+{
+	particleEmitter[emitterIndex].inUse = false;
+
+	con_print(CON_INFO, true, "Removed particle emitter [ %i ]", emitterIndex);
 }
 
 //----------------------------------------------------------------------------
@@ -158,7 +287,7 @@ void par_processParticles(float timeDelta)
 //
 // Pass in what sort of particle, it's starting position, fixed or moving dependant
 // on followIndex - more than 0 means attach to a moving object, otherwise fixed
-void par_newParticle(uint type, const glm::vec3 &position, int followIndex)
+int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 //----------------------------------------------------------------------------
 {
 	switch (type)
@@ -169,21 +298,22 @@ void par_newParticle(uint type, const glm::vec3 &position, int followIndex)
 		case PARTICLE_TYPE_HEAL:
 			for (uint i = 0; i != particleEmitter.size(); i++)
 			{
-				if (false == particleEmitter[i].inUse)
+				if ( !particleEmitter[i].inUse )
 				{
 					particleEmitter[i].inUse = true;
 					particleEmitter[i].position = position;
 					particleEmitter[i].type = type;
-					particleEmitter[i].texID = 0;
 					for (int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++)
 					{
-						particleEmitter[i].particleMember[j].position = particleEmitter[i].position + par_getRandomPosition(position);
+						particleEmitter[i].particleMember[j].position = particleEmitter[i].position +
+								par_getRandomPositionHeal (position);
 						particleEmitter[i].particleMember[j].velocity = glm::vec3{0, 9.4, 0};
 						particleEmitter[i].particleMember[j].lifetimeLeft = (rand() % 5) + 3;
 						particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
 						particleEmitter[i].particleMember[j].alphaValue = 0.0f;
+						particleEmitter[i].particleMember[j].sizeValue = 2.0f;
 					}
-					return;
+					return i;
 				}
 			}
 			break;
@@ -192,6 +322,32 @@ void par_newParticle(uint type, const glm::vec3 &position, int followIndex)
 			break;
 
 		case PARTICLE_TYPE_EXPLODE:
+			break;
+
+		case PARTICLE_TYPE_BULLET_1:
+			for (uint i = 0; i != particleEmitter.size(); i++)
+			{
+				if ( !particleEmitter[i].inUse )
+				{
+					con_print(CON_INFO, true, "Adding new emitter [ %i ] - followindex [ %i ]", i, followIndex);
+					particleEmitter[i].inUse = true;
+					particleEmitter[i].position = position;
+					particleEmitter[i].type = type;
+					particleEmitter[i].followIndex = followIndex;
+					particleEmitter[i].spawnCounter = 0;
+					for (int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++)
+					{
+						particleEmitter[i].particleMember[j].position = glm::vec3{0,0,0}; //particleEmitter[i].position + par_getRandomPositionBullet_1 (position);
+						particleEmitter[i].particleMember[j].velocity = glm::vec3{0, -0.1, 0};
+						particleEmitter[i].particleMember[j].lifetimeLeft = -1.0f;
+						particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
+						particleEmitter[i].particleMember[j].alphaValue = 1.0f;
+						particleEmitter[i].particleMember[j].sizeValue = 3.0f;
+					}
+					return i;
+				}
+			}
+			return -1;  // no free slots
 			break;
 
 		default:
@@ -205,6 +361,7 @@ void par_newParticle(uint type, const glm::vec3 &position, int followIndex)
 void par_renderBillBoard(const uint whichEmitter)
 //----------------------------------------------------------------------------
 {
+	static GLint sizeValue_ID = 0;
 	static GLint alphaValue_ID = 0;
 	static GLint viewProj_ID = 0;
 	static GLint cameraPos_ID = 0;
@@ -222,6 +379,7 @@ void par_renderBillBoard(const uint whichEmitter)
 
 		glGenBuffers(1, &billBoard_VB);
 
+		sizeValue_ID = glGetAttribLocation (shaderProgram[SHADER_BILLBOARD].programID, "sizeValue_in" );
 		alphaValue_ID = glGetAttribLocation ( shaderProgram[SHADER_BILLBOARD].programID, "alphaValue_in" );
 		viewProj_ID = glGetUniformLocation ( shaderProgram[SHADER_BILLBOARD].programID, "u_viewProjectionMat" );
 		cameraPos_ID = glGetUniformLocation ( shaderProgram[SHADER_BILLBOARD].programID, "gCameraPos" );
@@ -237,7 +395,7 @@ void par_renderBillBoard(const uint whichEmitter)
 	GL_ASSERT ( glUniform3fv ( cameraPos_ID, 1, glm::value_ptr ( cam3_getCameraPosition () ) ) );
 	//
 	// Bind texture if it's not already bound as current texture
-	wrapglBindTexture ( GL_TEXTURE0, texturesLoaded[TEX_FLARE].texID );
+	wrapglBindTexture ( GL_TEXTURE0, particleTexture[particleEmitter[whichEmitter].type].texID );
 	GL_CHECK ( glUniform1i ( shaderProgram[SHADER_BILLBOARD].inTextureUnit, 0 ) );
 	//
 	// Bind the generated buffer
@@ -249,6 +407,9 @@ void par_renderBillBoard(const uint whichEmitter)
 
 	GL_CHECK ( glVertexAttribPointer(alphaValue_ID, 1, GL_FLOAT, GL_FALSE, sizeof(_particleMember), (GLvoid *)offsetof(_particleMember, alphaValue)));
 	GL_CHECK ( glEnableVertexAttribArray(alphaValue_ID));
+
+	GL_CHECK ( glVertexAttribPointer(sizeValue_ID, 1, GL_FLOAT, GL_FALSE, sizeof(_particleMember), (GLvoid *)offsetof(_particleMember, sizeValue)));
+	GL_CHECK ( glEnableVertexAttribArray(sizeValue_ID));
 
 	glDrawArrays(GL_POINTS, 0, MAX_NUM_PARTICLE_MEMBERS);
 

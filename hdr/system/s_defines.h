@@ -162,8 +162,13 @@ extern int __gl_error_code;
 
 #define MAX_NUM_PARTICLE_MEMBERS	    500
 
+			//
+			// Also need to add to script as const
+			//
 #define PARTICLE_TYPE_SMOKE     0
 #define PARTICLE_TYPE_SPARK     1
 #define PARTICLE_TYPE_HEAL      2
 #define PARTICLE_TYPE_EXPLODE   3
+#define PARTICLE_TYPE_BULLET_1  4
+#define PARTICLE_TYPE_NUMBER    5       // How many different types
 

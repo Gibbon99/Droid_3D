@@ -17,6 +17,11 @@ const int	MODEL_SPHERE = 4;
 const int	MODEL_CONE = 5;
 const int   MODEL_BSP = 6;
 
+const int PARTICLE_TYPE_SMOKE = 0;
+const int PARTICLE_TYPE_SPARK = 1;
+const int PARTICLE_TYPE_HEAL = 2;
+const int PARTICLE_TYPE_EXPLODE = 3;
+const int PARTICLE_TYPE_BULLET_1 = 4;
 
 //-----------------------------------------------------------------------------
 //
@@ -119,6 +124,19 @@ void as_loadAllModels()
 	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj");
 	ass_loadModel ( MODEL_CONE,			"data/models/cone.dae");
 	ass_loadModel ( MODEL_FEMADROID,	"data/models/house.3ds");
+}
+
+//-----------------------------------------------------------------------------
+//
+// Load the textures used in the particle system
+void as_loadParticleTexture()
+//-----------------------------------------------------------------------------
+{
+    par_addParticleTexture(PARTICLE_TYPE_SMOKE, "par_smoke");
+    par_addParticleTexture(PARTICLE_TYPE_SPARK, "par_smoke");
+    par_addParticleTexture(PARTICLE_TYPE_HEAL, "par_smoke");
+    par_addParticleTexture(PARTICLE_TYPE_EXPLODE, "par_smoke");
+	par_addParticleTexture(PARTICLE_TYPE_BULLET_1, "flare");
 }
 
 //-----------------------------------------------------------------------------

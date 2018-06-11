@@ -14,6 +14,7 @@ typedef struct
 	int				lightIndex;
 	int				physicsIndex;
 	int				collisionIndex;
+	int             particleIndex;
 	int				whichMesh;
 	float			meshScaleFactor;
 } _bullet;
@@ -33,3 +34,6 @@ void gam_drawBullets ( int whichShader );
 
 // Remove a bullet from the World
 void gam_removeBullet (int bulletIndex );
+
+// Get the bullets current position by index
+glm::vec3 gam_getBulletPosition(uint bulletIndex);

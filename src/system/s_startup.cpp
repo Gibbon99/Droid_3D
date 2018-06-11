@@ -77,9 +77,6 @@ bool initAll()
 				}
 		}
 
-
-
-
 	lib_getVersion();
 
 	if ( false == util_startScriptEngine() )
@@ -97,17 +94,8 @@ bool initAll()
 	util_executeScriptFunction ( "scr_setGameVariables", "" );
 	util_executeScriptFunction ( "scr_addAllScriptCommands", "" );
 
-	par_initParticleSystem();
 
-/*
-	//
-	// TTF Library
-	if ( false == ttf_initLibrary ( fontSizeSmall, 0 ) )
-		{
-			io_logToFile ( "Unable to start TTF Library. Missing file?" );
-			sys_shutdownToSystem();
-		}
-*/
+
 	if ( true == bul_startPhysics() )
 		{
 			con_print ( CON_INFO, true, "Physics system started..." );
@@ -129,11 +117,10 @@ bool initAll()
 			gl_stopDefRender();
 			con_print ( CON_ERROR, true, "Forward rendering framebuffer FAILED." );
 			sysErrorFatal ( __FILE__, __LINE__, "Forward rendering framebuffer failed." );
-//            sys_shutdownToSystem();
 		}
 
 	bsp_loadBSP ( "cube.bsp", true );
-
+	par_initParticleSystem();
 	//
 	// Load Models
 	util_executeScriptFunction ( "scr_loadAllModels", "" );
@@ -155,10 +142,6 @@ bool initAll()
 	gl_registerDebugCallback();
 
 	obj_addSomeObjects();
-
-//	bul_setPlayerPosition(cam_getPosition(), glm::vec3(0.0, 0.0, 0.0));
-
-	par_newParticle(PARTICLE_TYPE_HEAL, glm::vec3{0, -48, 0}, 0);
 
 	return true;
 }

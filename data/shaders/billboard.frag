@@ -13,7 +13,9 @@ void main()
 
 	FragColor.a = alphaValue_frag;
 
-//	if (FragColor.r == 0 && FragColor.g == 0 && FragColor.b == 0) {
-//		discard;
-//	}
+	if (FragColor.rgb == vec3(1.0, 0.0, 1.0))
+		discard;
+
+	if (FragColor.r < 0.2 && FragColor.g < 0.2 && FragColor.b < 0.2)
+		discard;
 }

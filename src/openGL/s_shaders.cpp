@@ -368,12 +368,12 @@ bool gl_loadCompileShaders ( int programObject )
 
 	if ( linked )   // true
 		{
-			con_print ( CON_TEXT, true, "INFO: Shaders linked ok - [ %s ]", shaderProgram[programObject].fragFileName );
+			con_print ( CON_TEXT, true, "INFO: Shader linked ok - [ %s ]", shaderProgram[programObject].fragFileName );
 			shaderProgram[programObject].linkedOK = true;
 		}
 	else
 		{
-			con_print ( CON_TEXT, true, "ERROR: Shaders failed to link - [ %s ]", shaderProgram[programObject].fragFileName );
+			con_print ( CON_TEXT, true, "ERROR: Shader failed to link - [ %s ]", shaderProgram[programObject].fragFileName );
 			gl_getGLSLError ( shaderProgram[programObject].programID, GLSL_PROGRAM );
 			return false;
 		}

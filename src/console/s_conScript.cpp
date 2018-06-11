@@ -1,4 +1,5 @@
 
+#include "s_particles.h"
 #include "s_globals.h"
 #include "io_fileSystem.h"
 #include "s_window.h"
@@ -75,14 +76,14 @@ _hostScriptFunctions hostScriptFunctions[] =
 
 	{"void sys_addScriptCommand(string &in, string &in, string &in, bool setParam)", ( void * ) &con_addScriptCommand},
 
-	{"void conPushCommand_AS(string &in)",                  ( void * ) con_pushScriptCommand},
-	{"bool startPackFile(string &in, string &in)",          ( void * ) io_startFileSystem},
-	{"bool startLogFile(string &in)",                       ( void * ) io_startLogFile},
-	{"void lib_resizeWindow(int newWidth, int newHeight)",  ( void * ) lib_resizeWindow},
-	{"bool ass_loadModel(int whichModel, string &in)", ( void * ) ass_loadModel},
-	
+	{"void conPushCommand_AS(string &in)",                              (void * ) con_pushScriptCommand},
+	{"bool startPackFile(string &in, string &in)",                      (void * ) io_startFileSystem},
+	{"bool startLogFile(string &in)",                                   (void * ) io_startLogFile},
+	{"void lib_resizeWindow(int newWidth, int newHeight)",              (void * ) lib_resizeWindow},
+	{"bool ass_loadModel(int whichModel, string &in)",                  (void * ) ass_loadModel},
 	{"void sdf_addFontInfo(uint whichFont, string &in, uint fontSize)", (void * ) sdf_addFontInfo},
-	{"bool sdf_initFontSystem()",	 ( void * ) sdf_initFontSystem},
+	{"bool sdf_initFontSystem()",	                                    (void * ) sdf_initFontSystem},
+	{"void par_addParticleTexture(uint particleType, string &in)",      (void * ) par_addParticleTexture},
 	{"",							NULL},
 };
 
@@ -108,6 +109,7 @@ _scriptFunctionName     scriptFunctionName[] =
 	{0, false, "void as_addAllScriptCommands()",		"scr_addAllScriptCommands",		NULL},
 	{0, false, "void as_setGameVariables()",			"scr_setGameVariables",         NULL},
 	{0, false, "void as_loadAllModels()",				"scr_loadAllModels",			NULL},
+	{0, false, "void as_loadParticleTexture()",         "scr_loadParticleTextures",     NULL},
 	{0, false, "",						"",				NULL},
 	{0, false, "",						"",				NULL},
 	{0, false, "",						"",				NULL},

@@ -43,7 +43,7 @@ unsigned int faceIndexShadow[] =
 
 //-----------------------------------------------------------------------------
 //
-// Render all the ligth spheres into the GBuffer
+// Render all the light spheres into the GBuffer
 void lt_renderPointLights ( int whichShader )
 //-----------------------------------------------------------------------------
 {

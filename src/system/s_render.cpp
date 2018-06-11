@@ -200,6 +200,11 @@ void sys_displayScreen ( float interpolate )
 	gl_set2DMode();
 	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", 
 				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+
+	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_LARGE) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
+	            cam3_Front.x, cam3_Front.y, cam3_Front.z );
+
+
 	#if defined DEBUG
 	if (g_memLeakLastRun == true)
 		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "MEM LEAK - DEBUG"), winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "MEM LEAK - DEBUG" );

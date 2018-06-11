@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <hdr/glm/glm.hpp>
+#include "s_globals.h"
 
 #define PI 3.14159265358979323846
 #define PARTICLE_FADE_ON    1
@@ -10,6 +11,7 @@
 struct _particleMember {
 	glm::vec3           position;
 	float               alphaValue;
+	float               sizeValue;
 	uint                fadeOnDone;
 	glm::vec3           velocity;
 	float               lifetimeLeft;
@@ -18,13 +20,19 @@ struct _particleMember {
 struct _particleEmitter {
 	bool        inUse;
 	uint        type;
+	uint        followIndex;
+	uint        spawnCounter;
+	int         entitySetID;
 	glm::vec3   position;
-	uint        texID;
-	GLuint      m_particleBuffer[2];
-	GLuint      m_transformFeedback[2];
 	std::vector<_particleMember> particleMember;
 };
 
+struct _particleTexture {
+	GLint           texID;
+	std::string     fileName;
+};
+
+extern std::vector<_particleTexture> particleTexture;
 extern std::vector<_particleEmitter> particleEmitter;
 
 // Setup a number of particles ready to use
@@ -40,7 +48,13 @@ void par_processParticles(float timeDelta);
 //
 // Pass in what sort of particle, it's starting position, fixed or moving dependant
 // on followIndex - more than 0 means attach to a moving object, otherwise fixed
-void par_newParticle(uint type, const glm::vec3 &position, int followIndex);
+int par_newParticle(uint type, const glm::vec3 &position, uint followIndex);
 
 // Render the particles
 void par_renderParticles();
+
+// Call this function from the script to populate the texture names
+void par_addParticleTexture(uint particleType, string fileName);
+
+// Remove an emitter from use
+void par_removeEmitter(int emitterIndex);
