@@ -6,7 +6,7 @@
 #include "s_camera.h"
 #include "s_movement.h"
 #include "s_maths.h"
-#include "s_keyboard.h"
+#include "io_keyboard.h"
 #include "s_assimp.h"
 
 bool    verboseLogging = false;

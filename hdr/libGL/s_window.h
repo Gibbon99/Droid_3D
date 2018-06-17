@@ -1,7 +1,12 @@
 #pragma once
 
+#include "s_globals.h"
+
+extern ALLEGRO_DISPLAY*        al_mainWindow;;
+
 // Switch locking mouse to middle of the screen
 extern bool         g_lockMouse;
+
 
 // Swap buffers for displaying screen
 void lib_swapBuffers();
@@ -19,7 +24,7 @@ bool lib_getVersion();
 void lib_getMousePos ( double *posX, double *posY );
 
 // Set the mouse position
-void lib_setMousePos ( double newPosX, double newPosY );
+void lib_setMousePos ( int newPosX, int newPosY );
 
 // Resize the current displayed window
 void lib_resizeWindow ( int newWidth, int newHeight );

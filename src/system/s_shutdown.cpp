@@ -20,7 +20,6 @@ void sys_shutdownToSystem()
 	gl_freeShadowMap();
 	gl_stopDefRender();
 	lib_destroyWindow();
-	glfwTerminate();
 	io_freeTextureArray();
 	bsp_freeMem();
 	bul_stopPhysics();

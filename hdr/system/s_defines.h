@@ -93,6 +93,7 @@ extern int __gl_error_code;
 
 #define MODE_CONSOLE        1
 #define MODE_GAME           2
+#define MODE_PAUSE          3
 
 #define PHYSICS_OBJECT_BOX      0
 #define PHYSICS_OBJECT_BSP		1
@@ -161,6 +162,7 @@ extern int __gl_error_code;
 //-----------------------------------------------------------------------------
 
 #define MAX_NUM_PARTICLE_MEMBERS	    500
+#define MAX_NUM_SPARK_MEMBERS           40
 
 			//
 			// Also need to add to script as const

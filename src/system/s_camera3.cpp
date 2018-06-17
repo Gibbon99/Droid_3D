@@ -1,5 +1,5 @@
 #include "s_globals.h"
-#include "s_keyboard.h"
+#include "io_keyboard.h"
 #include "s_window.h"
 
 // Default camera values

@@ -1,7 +1,7 @@
 #include "s_globals.h"
 #include "s_fontUtil.h"
 #include "s_openGL.h"
-#include "s_loadImage.h"
+#include "io_loadImage.h"
 #include "io_fileSystem.h"
 #include "s_bmpFont.h"
 #include "s_window.h"

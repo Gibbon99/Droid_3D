@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include <physfs.h>
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_acodec.h>
+#include <allegro5/allegro_audio.h>
 
 #include "s_leakDetector.h"
 #include "../glload/gl_3_2.h"
 #include "../glload/gl_load.h"
-
-#define GLFW_INCLUDE_NONE 1
-#include <GLFW/glfw3.h>
 
 // Include GLM
 #include "../glm/glm.hpp"
@@ -46,10 +46,6 @@ extern int				currentMode;
 
 extern int				winWidth;
 extern int				winHeight;
-
-extern double			freelookMouseX;
-extern double			freelookMouseY;
-extern float			mouseSpeed;
 
 extern bool 			verbose;                // Additional logging
 

@@ -1,3 +1,4 @@
+#include "s_events.h"
 #include "s_globals.h"
 #include "s_console.h"
 #include "s_maths.h"
@@ -13,6 +14,7 @@
 #include "s_camera3.h"
 #include "s_physicsCollision.h"
 #include "s_particles.h"
+#include "io_mouse.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -22,16 +24,21 @@ void sys_gameTickRun ( float interpolate )
 {
 	glm::vec3   vel;
 
-	glfwPollEvents();
-
 	switch ( currentMode )
 		{
+		case MODE_PAUSE:
+			evt_handleEvents();
+			break;
+
 		case MODE_CONSOLE:
+			evt_handleEvents();
 			con_processBackspaceKey ( interpolate );
 			con_processCursor ( interpolate );
 			break;
 
 		case MODE_GAME:
+			evt_handleEvents();
+			lib_getMouseState (&freelookMouseX, &freelookMouseY);
 
 			cam3_processMouseMovement ( freelookMouseX, freelookMouseY, true );
 			cam3_processMovementKeys ( interpolate );
@@ -43,7 +50,6 @@ void sys_gameTickRun ( float interpolate )
 
 			vel = bul_returnCameraPosition();
 			bul_setPlayerPosition(cam3_Position, glm::vec3(0,0,0));
-//			con_print(CON_INFO, true, "vel [ %3.3f %3.3f %3.3f ]", vel.x, vel.y, vel.z);
 
 			cam3_Position = vel;
 			

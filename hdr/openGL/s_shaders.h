@@ -14,17 +14,17 @@
 
 typedef struct		// Changes need to be relfect in shaders.cpp as well - fields must match
 {
-	GLuint           programID;
+	GLuint          programID;
 	GLuint	        inVertsID;
-	GLuint           inNormalsID;
+	GLuint          inNormalsID;
 	GLuint		    inTextureCoordsID;
 	GLuint		    inTextureCoordsID_1;
 	GLuint		    inColorID;	    		// used for colorkey, fade value
-	GLuint           inColorID_2;    		// used for holding secondary color info
-	GLuint           inTextureUnit;  		// which primary texture is bound
-	GLuint           inTextureUnit_1;  		// which secondary texture is bound
-	GLuint           viewProjectionMat;
-	GLuint           modelMat;
+	GLuint          inColorID_2;    		// used for holding secondary color info
+	GLuint          inTextureUnit;  		// which primary texture is bound
+	GLuint          inTextureUnit_1;  		// which secondary texture is bound
+	GLuint          viewProjectionMat;
+	GLuint          modelMat;
 	GLuint			screenSizeID;
 
 	bool            linkedOK;
@@ -45,12 +45,9 @@ enum
 	SHADER_TTF_FONT,
 	SHADER_COLOR,
 	SHADER_PHYSIC_DEBUG,
-//	SHADER_SHADOWMAP,
 	SHADER_GEOMETRY_PASS,
 	SHADER_DIR_LIGHT,
 	SHADER_POINT_LIGHT,
-//	SHADER_RENDER_BSP,
-//	SHADER_DEF_RENDER,
 	SHADER_BILLBOARD,
 	NUM_SHADERS
 };

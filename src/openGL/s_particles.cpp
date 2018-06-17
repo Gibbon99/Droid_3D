@@ -1,4 +1,5 @@
 
+#include <hdr/game/s_bullet.h>
 #include "s_entitiesBSP.h"
 #include "s_bullet.h"
 #include "s_openGLWrap.h"
@@ -118,7 +119,22 @@ void par_initParticleSystem()
 	par_startStaticParticles();
 }
 
+//----------------------------------------------------------------------------
+//
+// Get random vector number
+float par_getRandomVectorNumber(float compareDirection)
+//----------------------------------------------------------------------------
+{
+	float newDirection;
 
+	newDirection = rand() %1000;
+	newDirection = newDirection / 1000.0f;
+
+	if (compareDirection > 0.0)
+		newDirection = -newDirection;
+
+	return newDirection;
+}
 
 //----------------------------------------------------------------------------
 //
@@ -244,7 +260,7 @@ void par_processParticles(float timeDelta)
 							if (particleEmitter[i].spawnCounter > 5)
 							{
 								particleEmitter[i].spawnCounter = 0;
-								return;
+								break;
 							}
 							particleEmitter[i].particleMember[j].lifetimeLeft = (rand () % 1) + 2;
 							particleEmitter[i].particleMember[j].position = particleEmitter[i].position +
@@ -262,6 +278,32 @@ void par_processParticles(float timeDelta)
 							particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
 
 					}
+					break;
+
+				case PARTICLE_TYPE_SPARK:
+					for ( int j = 0; j != MAX_NUM_SPARK_MEMBERS; j++ )
+					{
+						if (particleEmitter[i].spawnCounter <= 0)
+						{
+							particleEmitter[i].inUse = false;
+						}
+
+						if (particleEmitter[i].particleMember[j].lifetimeLeft >= 0.0f)
+						{
+							particleEmitter[i].particleMember[j].position += particleEmitter[i].particleMember[j].velocity * (8.0f * timeDelta);
+
+							particleEmitter[i].particleMember[j].lifetimeLeft -= (4.0f * timeDelta);
+							if (particleEmitter[i].particleMember[j].lifetimeLeft  < 1.0f)
+								particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
+
+							if (particleEmitter[i].particleMember[j].lifetimeLeft <= 0.0f)
+							{
+								particleEmitter[i].spawnCounter--;
+							}
+						}
+					}
+					break;
+
 				default:
 					break;
 			}
@@ -319,6 +361,33 @@ int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 			break;
 
 		case PARTICLE_TYPE_SPARK:
+
+			for (uint i = 0; i != particleEmitter.size(); i++)
+			{
+				if (!particleEmitter[i].inUse)
+				{
+					con_print(CON_INFO, true, "Adding new spark particle [ %i ] followIndex [ %i ]", i, followIndex);
+					particleEmitter[i].inUse = true;
+					particleEmitter[i].position = position;
+					particleEmitter[i].type = type;
+					particleEmitter[i].spawnCounter = MAX_NUM_SPARK_MEMBERS;
+					{
+						for (int j = 0; j != MAX_NUM_SPARK_MEMBERS; j++)
+						{
+							particleEmitter[i].particleMember[j].velocity = bullet[followIndex].direction;
+							particleEmitter[i].particleMember[j].velocity.x = par_getRandomVectorNumber(particleEmitter[i].particleMember[j].velocity.x);
+							particleEmitter[i].particleMember[j].velocity.y = par_getRandomVectorNumber(particleEmitter[i].particleMember[j].velocity.y);
+							particleEmitter[i].particleMember[j].velocity.z = par_getRandomVectorNumber(particleEmitter[i].particleMember[j].velocity.z);
+							particleEmitter[i].particleMember[j].position = position;
+							particleEmitter[i].particleMember[j].lifetimeLeft = (rand() % 2) + 1;
+							particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_DONE;
+							particleEmitter[i].particleMember[j].alphaValue = 1.0f;
+							particleEmitter[i].particleMember[j].sizeValue = 2.0f;
+						}
+					}
+					return i;
+				}
+			}
 			break;
 
 		case PARTICLE_TYPE_EXPLODE:
@@ -353,6 +422,7 @@ int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 		default:
 			break;
 	}
+	return -1;  // Keep the compiler happy
 }
 
 //----------------------------------------------------------------------------

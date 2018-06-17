@@ -1,6 +1,6 @@
 #include "s_globals.h"
 #include "s_openGL.h"
-#include "s_keyboard.h"
+#include "io_keyboard.h"
 #include "s_window.h"
 #include "s_movement.h"
 #include "s_camera.h"

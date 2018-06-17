@@ -9,7 +9,6 @@
 #include "s_ttfFont.h"
 #include "s_conScript.h"
 #include "s_camera.h"
-#include "s_antBar.h"
 #include "s_physics.h"
 #include "s_shadowMap.h"
 #include "io_textures.h"
@@ -50,7 +49,11 @@ bool initAll()
 	sys_initTimingVars();
 
 	if ( false == lib_openWindow() )
+	{
+		io_logToFile("Error: Error with starting windowing system.");
 		sys_shutdownToSystem();
+	}
+
 
 	if ( ogl_LOAD_FAILED == ogl_LoadFunctions() )
 		{
@@ -136,8 +139,6 @@ bool initAll()
 		{
 			con_print ( CON_ERROR, true, "Error loading one or more textures." );
 		}
-
-	lib_initAntBar();
 
 	gl_registerDebugCallback();
 

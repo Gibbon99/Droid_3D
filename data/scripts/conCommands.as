@@ -37,12 +37,6 @@ void as_setGameVariables()
 	//
 	// Change window size and set new global variables
 	lib_resizeWindow ( winWidth,winHeight );
-	//
-	// Debug AntBar GUI
-	antBarWidth = 550;
-	antBarHeight = 200;
-	antPosX = winWidth - ( antBarWidth + 2 );
-	antPosY = 2;
 
 	sdf_addFontInfo(0, "Digital.ttf", 		24);
 	sdf_addFontInfo(1, "oldDigital.ttf", 	28);

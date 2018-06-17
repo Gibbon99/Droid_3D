@@ -1,9 +1,9 @@
+#include "s_events.h"
 #include "s_globals.h"
 #include "s_console.h"
-#include "s_camera.h"
+//#include "s_camera.h"
 #include "s_render.h"
 #include "io_textures.h"
-#include "s_shadowMap.h"
 #include "s_window.h"
 #include "s_entitiesBSP.h"
 
@@ -20,26 +20,29 @@ bool		keyDoorRightDown = false;
 //-----------------------------------------------------------------------------
 //
 // Read a unicode character
-void io_readCharCallback ( GLFWwindow* window, unsigned int character )
+void io_readChar ( int character )
 //-----------------------------------------------------------------------------
 {
-	switch ( currentMode )
+	if ( conCurrentCharCount < MAX_STRING_SIZE - 1 )
 		{
-		case MODE_CONSOLE:
-			if ( conCurrentCharCount < MAX_STRING_SIZE - 1 )
+			if ( character >= 32 )
 				{
-					if ( character >= 32 )
-						{
-							conCurrentLine.conLine += character;
-							conCurrentCharCount++;
-						}
+					conCurrentLine.conLine += (char)character;
+					conCurrentCharCount++;
 				}
-
-			break;
-
-		default:
-			break;
 		}
+}
+
+//-----------------------------------------------------------------------------
+//
+// Only read the key to unpause the game
+void io_readPauseModeKey(int key, int action)
+//-----------------------------------------------------------------------------
+{
+	if (key == ALLEGRO_KEY_P)
+	{
+		evt_sendEvent (USER_EVENT_MODE_PAUSE, 0);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -48,61 +51,55 @@ void io_readCharCallback ( GLFWwindow* window, unsigned int character )
 void io_readGameSpecialKeys ( int key, int action )
 //-----------------------------------------------------------------------------
 {
-	if ( GLFW_PRESS == action )
+	if ( ALLEGRO_EVENT_KEY_DOWN == action )
 		{
 			switch ( key )
 				{
-				case GLFW_KEY_GRAVE_ACCENT:
+				case ALLEGRO_KEY_TILDE:
 					changeMode ( MODE_CONSOLE );
 					conCurrentCharCount = 0;
 					break;
 
-				case GLFW_KEY_W:
+				case ALLEGRO_KEY_W:
 					keyForwardDown = true;
 					break;
 
-				case GLFW_KEY_S:
+				case ALLEGRO_KEY_S:
 					keyBackwardDown = true;
 					break;
 
-				case GLFW_KEY_A:
+				case ALLEGRO_KEY_A:
 					keyLeftDown = true;
 					break;
 
-				case GLFW_KEY_D:
+				case ALLEGRO_KEY_D:
 					keyRightDown = true;
 					break;
 
-				case GLFW_KEY_UP:
+				case ALLEGRO_KEY_UP:
 					keyUpDown = true;
 					break;
 
-				case GLFW_KEY_DOWN:
+				case ALLEGRO_KEY_DOWN:
 					keyDownDown = true;
 					break;
 					
-				case GLFW_KEY_LEFT:
-					keyDoorLeftDown = true;
-					break;
-					
-				case GLFW_KEY_RIGHT:
-					keyDoorRightDown = true;
-					break;
-
-				case GLFW_KEY_F11:
+				case ALLEGRO_KEY_F11:
 					g_lockMouse = !g_lockMouse;
 					break;
 
-				case GLFW_KEY_R:
+				case ALLEGRO_KEY_R:
 					bsp_placeCameraAtEntity ( "info_player_start" );
 					break;
 
-				case GLFW_KEY_F12:
+				case ALLEGRO_KEY_F12:
 					io_saveScreenToFile();
 					break;
 
-				case GLFW_KEY_SPACE:
-					animateLight = !animateLight;
+				case ALLEGRO_KEY_P:
+					con_print(CON_INFO, true, "Pressed the P key");
+
+					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0);
 					break;
 
 				default:
@@ -110,39 +107,39 @@ void io_readGameSpecialKeys ( int key, int action )
 				}
 		}
 
-	if ( GLFW_RELEASE == action )
+	if ( ALLEGRO_EVENT_KEY_UP == action )
 		{
 			switch ( key )
 				{
-				case GLFW_KEY_W:
+				case ALLEGRO_KEY_W:
 					keyForwardDown = false;
 					break;
 
-				case GLFW_KEY_S:
+				case ALLEGRO_KEY_S:
 					keyBackwardDown = false;
 					break;
 
-				case GLFW_KEY_A:
+				case ALLEGRO_KEY_A:
 					keyLeftDown = false;
 					break;
 
-				case GLFW_KEY_D:
+				case ALLEGRO_KEY_D:
 					keyRightDown = false;
 					break;
 
-				case GLFW_KEY_UP:
+				case ALLEGRO_KEY_UP:
 					keyUpDown = false;
 					break;
 
-				case GLFW_KEY_DOWN:
+				case ALLEGRO_KEY_DOWN:
 					keyDownDown = false;
 					break;
 					
-				case GLFW_KEY_LEFT:
+				case ALLEGRO_KEY_LEFT:
 					keyDoorLeftDown = false;
 					break;
 					
-				case GLFW_KEY_RIGHT:
+				case ALLEGRO_KEY_RIGHT:
 					keyDoorRightDown = false;
 					break;					
 				}
@@ -157,27 +154,27 @@ void io_readConsoleSpecialKeys ( int key, int action )
 {
 	//
 	// Check all the other keys, including the backspace key being pressed down
-	if ( action == GLFW_PRESS )
+	if ( ALLEGRO_EVENT_KEY_DOWN == action)
 		{
 			switch ( key )
 				{
-				case GLFW_KEY_GRAVE_ACCENT:
+				case ALLEGRO_KEY_TILDE:
 					changeMode ( MODE_GAME );
 					break;
 
-				case GLFW_KEY_BACKSPACE:
+				case ALLEGRO_KEY_BACKSPACE:
 					conBackSpaceDown = 1;
 					break;
 
-				case GLFW_KEY_ENTER:
+				case ALLEGRO_KEY_ENTER:
 					con_processCommand ( conCurrentLine.conLine );
 					break;
 
-				case GLFW_KEY_TAB:
+				case ALLEGRO_KEY_TAB:
 					con_completeCommand ( conCurrentLine.conLine );
 					break;
 
-				case GLFW_KEY_UP:
+				case ALLEGRO_KEY_UP:
 					con_popHistoryCommand();
 
 					//
@@ -187,7 +184,7 @@ void io_readConsoleSpecialKeys ( int key, int action )
 
 					break;
 
-				case GLFW_KEY_DOWN:
+				case ALLEGRO_KEY_DOWN:
 
 					//
 					// Get the next command if we need it
@@ -202,11 +199,11 @@ void io_readConsoleSpecialKeys ( int key, int action )
 				}
 		}
 
-	if ( action == GLFW_RELEASE )
+	if ( ALLEGRO_EVENT_KEY_UP == action)
 		{
 			switch ( key )
 				{
-				case GLFW_KEY_BACKSPACE:
+				case ALLEGRO_KEY_BACKSPACE:
 					conBackSpaceDown = 0;
 					break;
 
@@ -214,4 +211,33 @@ void io_readConsoleSpecialKeys ( int key, int action )
 					break;
 				}
 		}
+}
+
+//-----------------------------------------------------------------------------
+//
+// Handle a keyboard event
+void io_handleKeyboardEvent ( ALLEGRO_EVENT event )
+//-----------------------------------------------------------------------------
+{
+	if ( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && event.type == ALLEGRO_EVENT_KEY_DOWN )
+		quitProgram = true;
+
+	switch (currentMode)
+	{
+		case MODE_CONSOLE:
+			io_readChar(event.keyboard.unichar);
+			io_readConsoleSpecialKeys (event.keyboard.keycode, event.type);
+			break;
+
+		case MODE_GAME:
+			io_readGameSpecialKeys (event.keyboard.keycode, event.type);
+			break;
+
+		case MODE_PAUSE:
+			io_readPauseModeKey(event.keyboard.keycode, event.type);
+			break;
+
+		default:
+			break;
+	}
 }

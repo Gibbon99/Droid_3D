@@ -13,7 +13,6 @@
 #include "s_camera.h"
 #include "s_openGLWrap.h"
 #include "s_physics.h"
-#include "s_antBar.h"
 #include "s_shadowMap.h"
 #include "io_textures.h"
 #include "s_assimp.h"
@@ -43,8 +42,6 @@ void sys_renderModels ( int whichShader )
 	//
 	// Reset counter
 	numSkippedModels = 0;
-
-
 }
 
 //-----------------------------------------------------------------------------
@@ -98,22 +95,7 @@ void sys_displayScreen ( float interpolate )
 				PROFILE ( "Frame" );
 
 				gl_set2DMode();
-
-				// Draw GUI
-				{
-					PROFILE ( "GUI" );
-					char        antParams[32];
-					sprintf ( antParams, "Frame size='%i %i'", antBarWidth, antBarHeight );
-					TwDefine ( antParams ); // resize bar
-
-					sprintf ( antParams, "Frame position='%i %i'", antPosX, antPosY );
-					TwDefine ( antParams ); // position bar
-//				TwDraw();
-				}
-
-				gl_set2DMode();
 				con_showConsole();
-//				sdf_addText(FONT_SMALL,  glm::vec2{50.0f, 80.0f},  glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Font Size [ %3.3f ]", sdf_getTextWidth(FONT_SMALL, "%s", "This is to test width."));
 
 //#define SHOW_PROFILE_STATS 1
 
@@ -143,8 +125,7 @@ void sys_displayScreen ( float interpolate )
 			break;
 
 			case MODE_GAME:
-				lib_setMouseCursor ( false );
-
+			case MODE_PAUSE:
 				sys_renderToFBO();
 
 				bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
@@ -189,10 +170,6 @@ void sys_displayScreen ( float interpolate )
 
 						lt_renderPointLights ( SHADER_POINT_LIGHT );
 					}
-
-
-
-//			TwDraw();
 		}
 
 	//

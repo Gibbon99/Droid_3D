@@ -1,7 +1,7 @@
 #include "s_globals.h"
 #include "io_textures.h"
 #include "s_openGL.h"
-#include "s_loadImage.h"
+#include "io_loadImage.h"
 #include "io_fileSystem.h"
 #include "s_openGLWrap.h"
 #include "FreeImage.h"

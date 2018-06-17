@@ -4,7 +4,7 @@
 #include <hdr/glm/glm.hpp>
 #include "s_globals.h"
 
-#define PI 3.14159265358979323846
+//#define PI 3.14159265358979323846
 #define PARTICLE_FADE_ON    1
 #define PARTICLE_FADE_DONE  2
 
@@ -21,7 +21,7 @@ struct _particleEmitter {
 	bool        inUse;
 	uint        type;
 	uint        followIndex;
-	uint        spawnCounter;
+	int         spawnCounter;
 	int         entitySetID;
 	glm::vec3   position;
 	std::vector<_particleMember> particleMember;

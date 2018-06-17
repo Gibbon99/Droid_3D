@@ -6,7 +6,7 @@
 #include "s_shaders.h"
 #include "s_timing.h"
 #include "s_convertBSP.h"
-#include "s_keyboard.h"
+#include "io_keyboard.h"
 #include "s_camera3.h"
 
 int					numOfDoors;

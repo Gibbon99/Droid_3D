@@ -1,5 +1,7 @@
 #pragma once
 
+#include "s_globals.h"
+
 // Camera Attributes
 extern glm::vec3 cam3_Position;
 extern glm::vec3 cam3_Front;

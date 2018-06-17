@@ -177,8 +177,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/script/as_callfunc_ppc.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_assimp.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_physics.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_antBar.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/game/s_objects.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/game/s_objects.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_vsProfileLib.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/io/io_fileSystem.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/script/as_scriptengine.cpp
@@ -202,7 +201,9 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_main.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_globals.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_render.cpp
-        src/openGL/s_particles.cpp hdr/openGL/s_particles.h)
+    ${CMAKE_CURRENT_LIST_DIR}/src/openGL/s_particles.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/system/s_events.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp)
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 
@@ -228,21 +229,24 @@ add_executable(Droid_3D ${RC_SRCS} ${CXX_SRCS} ${C_SRCS})
 target_link_libraries(Droid_3D ${LINK_OPTIONS})
 
 target_link_libraries(Droid_3D
-    glfw
-    GL
-    GLU
-    glload
-    rt
-    pthread
-    freetype
-    AntTweakBar
-    X11
-    GLEW
-    BulletDynamics
-    BulletCollision
-    LinearMath
-    assimp
-    freeimage
+        GL
+        GLU
+        glload
+        rt
+        pthread
+        freetype
+        X11
+        GLEW
+        BulletDynamics
+        BulletCollision
+        LinearMath
+        assimp
+        freeimage
+        allegro_main
+        allegro_dialog
+        allegro_audio
+        allegro_acodec
+        allegro
 )
 
 

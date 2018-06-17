@@ -1,18 +1,17 @@
 
 #include "s_globals.h"
 #include "s_movement.h"
-#include "s_antBar.h"
 #include "s_fontUtil.h"
 #include "s_ttfFont.h"
 #include "s_physics.h"
 #include "s_render.h"
 #include "s_collideBSP.h"
-#include "s_window.h"
 #include "s_shaderLights.h"
 #include "s_assimp.h"
 #include "s_bullet.h"
 #include "s_physicsDebug.h"
 #include "s_doorsBSP.h"
+#include "io_mouse.h"
 
 _hostScriptFunctions hostVariables[] =
 {
@@ -21,10 +20,6 @@ _hostScriptFunctions hostVariables[] =
 	{"int winHeight",                       &winHeight},
 	{"int currentMode",                     &currentMode},
 	{"float mouseSpeed",                    &mouseSpeed},
-	{"int antBarWidth",                     &antBarWidth},
-	{"int antBarHeight",                    &antBarHeight},
-	{"int antPosX",                         &antPosX},
-	{"int antPosY",                         &antPosY},
 	{"float gravityX",                      &gravityX},
 	{"float gravityY",                      &gravityY},
 	{"float gravityZ",                      &gravityZ},

@@ -58,9 +58,6 @@ void gam_processBulletMovement ( GLfloat interpolate )
 void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 //----------------------------------------------------------------
 {
-	glm::vec3 newDirection;
-
-
 	for ( uint i = 0; i != MAX_NUM_BULLETS; i++ )
 		{
 			if ( !bullet[i].active )
@@ -69,6 +66,7 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 					bullet[i].active = true;
 					bullet[i].speed = speed;
 					bullet[i].direction = direction;
+
 					bullet[i].position = position + (direction * 7.0f);		// Put in front of players rigid body - need to add forward velocity as well
 					bullet[i].whichMesh = MODEL_CRATE;
 					bullet[i].meshScaleFactor = 2.0f;
@@ -91,6 +89,8 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 void gam_removeBullet (int bulletIndex )
 //----------------------------------------------------------------
 {
+	con_print(CON_INFO, true, "Removing bullet [ %i ]", bulletIndex);
+
 	bullet[bulletIndex].active = false;
 	if (bullet[bulletIndex].particleIndex != -1)
 		par_removeEmitter(bullet[bulletIndex].particleIndex);

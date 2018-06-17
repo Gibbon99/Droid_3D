@@ -10,10 +10,6 @@ int         currentMode = MODE_CONSOLE;
 int         winWidth = 800;							// Set from startup script
 int         winHeight = 600;						// Set from startup script
 
-double      freelookMouseX = 0.0;
-double      freelookMouseY = 0.0;
-float       mouseSpeed = 0.001f;
-
 bool        verbose = false;
 
 bool        cameraLockedToPhysics = false;

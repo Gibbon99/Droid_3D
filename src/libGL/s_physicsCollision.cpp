@@ -1,3 +1,5 @@
+#include "s_bullet.h"
+#include "s_particles.h"
 #include "s_globals.h"
 #include "s_physics.h"
 #include "s_physicsCollision.h"
@@ -75,21 +77,17 @@ void phy_doCollisionDetection()
 
 	for (int i=0; i<numManifolds; i++)
 		{
-			//2
 			btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
 
-			//3
 			int numContacts = contactManifold->getNumContacts();
 
 			if (numContacts > 0)
 				{
-					//5
 					const btCollisionObject* obA = contactManifold->getBody0();
 					const btCollisionObject* obB = contactManifold->getBody1();
 
-					//6
-					int pnA = (int)obA->getUserIndex();
-					int pnB = (int)obB->getUserIndex();
+					auto pnA = (int)obA->getUserIndex();
+					auto pnB = (int)obB->getUserIndex();
 
 //					if ((pnA > 0) || ( pnB > 0))
 //						con_print(CON_INFO, true, "numContacts [ %i ] A [ %i ] B [ %i ]", numContacts, pnA, pnB );
@@ -108,9 +106,10 @@ void phy_doCollisionDetection()
 								if (collisionObjects[pnB].objectSource == COL_OBJECT_BULLET)
 									{
 //							con_print(CON_INFO, true, "Bullet hit BSP [ %i ]", collisionObjects[pnB].objectIndex);
+										par_newParticle(PARTICLE_TYPE_SPARK, gam_getBulletPosition(collisionObjects[pnB].objectIndex), collisionObjects[pnB].objectIndex);
 										gam_removeBullet ( collisionObjects[pnB].objectIndex );
+										return;
 									}
-
 								break;
 						}
 				}

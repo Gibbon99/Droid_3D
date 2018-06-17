@@ -1,9 +1,10 @@
+#include <hdr/system/s_events.h>
 #include "s_globals.h"
 #include "s_startup.h"
 #include "s_render.h"
 #include "s_runFrame.h"
 #include "s_timing.h"
-
+#include "io_mouse.h"
 #include "s_defRender.h"
 
 
@@ -20,12 +21,12 @@ int main ( int argc, char *argv[] )
 	static double	lastFrameTime = 0.0;
 	static double	cyclesLeftOver = 0.0;
 
-	if ( false == initAll() )
+	if ( !initAll())
 		sys_shutdownToSystem();
 
 	while ( !quitProgram )
 		{
-			currentTime = glfwGetTime();
+			currentTime = al_get_time();
 			updateIterations = ((currentTime - lastFrameTime) + cyclesLeftOver);
 
 			if (updateIterations > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL))
@@ -45,11 +46,11 @@ int main ( int argc, char *argv[] )
 			cyclesLeftOver = updateIterations;
 			lastFrameTime = currentTime;
 
-			frameTimeStart = glfwGetTime();
+			frameTimeStart = al_get_time();
 			//
 			// Draw the scene only once
 			sys_displayScreen ( UPDATE_INTERVAL );
-			frameTimeTaken = glfwGetTime() - frameTimeStart;
+			frameTimeTaken = al_get_time() - frameTimeStart;
 
 			sys_CalculateFrameRate ( currentTime );
 		}
@@ -107,5 +108,33 @@ int main ( int argc, char *argv[] )
 void changeMode ( int newMode )
 //-----------------------------------------------------------------------------
 {
+	static int previousMode = -1;
+
+	if (-1 == newMode)
+	{
+		currentMode = previousMode;
+		return;
+	}
+
+	previousMode = currentMode;
+
+	if (newMode == MODE_PAUSE)
+	{
+		currentMode = MODE_PAUSE;
+		return;
+	}
+
+	if (newMode == MODE_GAME)
+	{
+		io_grabMouse ();
+		lib_setMouseCursor (false);
+	}
+
+	if (newMode == MODE_CONSOLE)
+	{
+		io_releaseMouse ();
+		lib_setMouseCursor (true);
+	}
+
 	currentMode = newMode;
 }

@@ -57,14 +57,15 @@ void lt_renderPointLights ( int whichShader )
 	//
 	GL_CHECK ( glDisable ( GL_DEPTH_TEST ) );
 	GL_CHECK ( glEnable ( GL_BLEND ) );
-	GL_CHECK ( glBlendFunc ( GL_ONE, GL_ONE ) );
+//	GL_CHECK ( glBlendFunc ( GL_ONE, GL_ONE ) );
+	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE ) );
 
 	// We render only the inner faces of the light sphere.
 	// In other words, we render the back-faces and not the front-faces of the sphere.
 	// If we render the front-faces, the lighting of the light sphere disappears if
 	// we are inside the sphere, which is weird. But by rendering the back-faces instead,
 	// we solve this problem.
-	GL_CHECK ( glFrontFace ( GL_CW ) );
+//	GL_CHECK ( glFrontFace ( GL_CW ) );
 
 	for ( int i = 0; i < numOfLights + MAX_NUM_BULLETS; i++ )
 		{
