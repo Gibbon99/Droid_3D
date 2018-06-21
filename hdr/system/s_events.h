@@ -3,6 +3,7 @@
 #define USER_EVENT_MOUSE_BUTTON_DOWN    0x0
 #define USER_EVENT_MOUSE_BUTTON_UP      0x1
 #define USER_EVENT_MODE_PAUSE           0x2
+#define USER_EVENT_AUDIO                0x3
 
 // Main event routine - handle all the events coming in and
 // farm them to the correct routine

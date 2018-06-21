@@ -203,7 +203,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_render.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/openGL/s_particles.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_events.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp src/system/s_audio.cpp hdr/system/s_audio.h)
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 

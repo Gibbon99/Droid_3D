@@ -97,8 +97,7 @@ void io_readGameSpecialKeys ( int key, int action )
 					break;
 
 				case ALLEGRO_KEY_P:
-					con_print(CON_INFO, true, "Pressed the P key");
-
+					con_print(CON_INFO, true, "Pressed the P key - action is DOWN");
 					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0);
 					break;
 

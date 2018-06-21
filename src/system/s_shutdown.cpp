@@ -9,6 +9,8 @@
 #include "s_loadBsp.h"
 #include "s_shaderLights.h"
 #include "s_leakDetector.h"
+#include "s_events.h"
+#include "s_audio.h"
 
 //-----------------------------------------------------------------------------
 //
@@ -16,6 +18,7 @@
 void sys_shutdownToSystem()
 //-----------------------------------------------------------------------------
 {
+	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_ALL);
 	bsp_freeLightArray();
 	gl_freeShadowMap();
 	gl_stopDefRender();
@@ -23,6 +26,7 @@ void sys_shutdownToSystem()
 	io_freeTextureArray();
 	bsp_freeMem();
 	bul_stopPhysics();
+	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_THREAD);
 	io_closeLogFile();
 	sys_reportMemLeak ( "leakReport.txt" );
 //	exit(EXIT_SUCCESS);

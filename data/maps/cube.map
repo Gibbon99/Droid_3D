@@ -288,6 +288,7 @@
 // entity 3
 {
 "classname" "light"
+"origin" "0.000000 0.000000 -36.000000"
 }
 // entity 4
 {

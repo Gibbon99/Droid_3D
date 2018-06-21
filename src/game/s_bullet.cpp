@@ -1,3 +1,5 @@
+#include <hdr/system/s_events.h>
+#include <hdr/system/s_audio.h>
 #include "s_particles.h"
 #include "s_globals.h"
 #include "s_assimp.h"
@@ -90,6 +92,8 @@ void gam_removeBullet (int bulletIndex )
 //----------------------------------------------------------------
 {
 	con_print(CON_INFO, true, "Removing bullet [ %i ]", bulletIndex);
+
+	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE);
 
 	bullet[bulletIndex].active = false;
 	if (bullet[bulletIndex].particleIndex != -1)

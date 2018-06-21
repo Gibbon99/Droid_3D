@@ -183,9 +183,12 @@ glm::vec3 par_getRandomPositionHeal ( const glm::vec3 startPosition )
 void par_renderParticles()
 //----------------------------------------------------------------------------
 {
-	wrapglEnable ( GL_BLEND );
-	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) );
-//	GL_CHECK ( glBlendFunc ( GL_ONE, GL_ONE_MINUS_SRC_ALPHA ) );
+
+//	wrapglEnable ( GL_BLEND );
+//	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) );
+	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE ) );
+
+//	GL_CHECK ( glBlendFunc ( GL_ONE, GL_ONE ) );
 
 	for (uint i = 0; i != particleEmitter.size(); i++)
 	{

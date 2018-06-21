@@ -5,6 +5,7 @@
 #include "s_events.h"
 #include "s_window.h"
 #include "io_mouse.h"
+#include "s_audio.h"
 
 #define MY_EVENT_TYPE   ALLEGRO_GET_EVENT_TYPE('P','A','R','A')
 
@@ -74,6 +75,8 @@ void evt_sendEvent(int eventType, int eventData1)
 void evt_handleUserEvents(ALLEGRO_EVENT event)
 //------------------------------------------------------------------------
 {
+	static double previousTimeStamp = -1;
+
 	switch (event.user.data1)
 	{
 		case USER_EVENT_MOUSE_BUTTON_DOWN:
@@ -83,7 +86,18 @@ void evt_handleUserEvents(ALLEGRO_EVENT event)
 
 		case USER_EVENT_MODE_PAUSE:
 
-			con_print(CON_INFO, true, "Got event to PAUSE");
+			if ( -1 == previousTimeStamp)
+			{
+				previousTimeStamp = event.user.timestamp;
+				return;
+			}
+
+			if ((event.user.timestamp - previousTimeStamp) < 2.0)
+				return;
+
+			previousTimeStamp = event.user.timestamp;
+
+			con_print(CON_INFO, true, "Got event to PAUSE. Timestamp [ %3.3f ]", event.user.timestamp);
 
 			if (MODE_PAUSE == currentMode)
 				changeMode (-1);
@@ -91,11 +105,15 @@ void evt_handleUserEvents(ALLEGRO_EVENT event)
 				changeMode (MODE_PAUSE);
 			break;
 
+		case USER_EVENT_AUDIO:
+			aud_handleAudioUserEvent(event);
+			break;
+
 		default:
 			break;
 	}
 
-	con_print(CON_INFO, true, "User event data [ %i ]", event.user.data1);
+//	con_print(CON_INFO, true, "User event data [ %i ]", event.user.data1);
 }
 
 //------------------------------------------------------------------------
@@ -141,18 +159,12 @@ void evt_handleEvents()
 		case ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN:
 		case ALLEGRO_EVENT_JOYSTICK_BUTTON_UP:
 		case ALLEGRO_EVENT_JOYSTICK_CONFIGURATION:
-
-			printf("Got a Joystick event\n");
-
 			evt_handleJoystickEvents(event);
 			break;
 
 		case ALLEGRO_EVENT_KEY_DOWN:
 		case ALLEGRO_EVENT_KEY_UP:
 		case ALLEGRO_EVENT_KEY_CHAR:
-
-			printf("Got a keyboard event\n");
-
 			io_handleKeyboardEvent(event);
 			break;
 
@@ -160,13 +172,9 @@ void evt_handleEvents()
 		case ALLEGRO_EVENT_TOUCH_END:
 		case ALLEGRO_EVENT_TOUCH_MOVE:
 		case ALLEGRO_EVENT_TOUCH_CANCEL:
-
-			printf("Got a touch event\n");
 			break;
 
 		case ALLEGRO_EVENT_TIMER:
-
-			printf("Got a timer event\n");
 			break;
 
 		case ALLEGRO_EVENT_DISPLAY_EXPOSE:
@@ -181,16 +189,10 @@ void evt_handleEvents()
 		case ALLEGRO_EVENT_DISPLAY_RESUME_DRAWING:
 		case ALLEGRO_EVENT_DISPLAY_CONNECTED:
 		case ALLEGRO_EVENT_DISPLAY_DISCONNECTED:
-
-			printf("Got a display event\n");
-
 			evt_handleDisplayEvents(event);
 			break;
 
 		case MY_EVENT_TYPE:
-
-			con_print (CON_INFO, true, "Got a user generated event\n");
-
 			evt_handleUserEvents (event);
 		break;
 

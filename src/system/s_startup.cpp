@@ -18,6 +18,8 @@
 #include "s_objects.h"
 #include "s_signedFont.h"
 #include "s_particles.h"
+#include "s_events.h"
+#include "s_audio.h"
 
 void runThread()
 {
@@ -143,6 +145,8 @@ bool initAll()
 	gl_registerDebugCallback();
 
 	obj_addSomeObjects();
+
+	evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE);
 
 	return true;
 }

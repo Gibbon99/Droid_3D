@@ -11,24 +11,6 @@
 #include "s_entitiesBSP.h"
 #include "s_shaderLights.h"
 
-GLuint	m_diffuseID;
-GLuint	m_positionID;
-GLuint	m_normalsID;
-GLuint  m_camPositionID;
-GLuint  m_lightPositionID;
-GLuint  m_mvMatrix;
-GLuint  m_normalMatrix;
-GLuint  m_tShadowMapID;
-GLuint	m_DepthMapID;
-
-GLuint  m_PositionShadowMap;
-
-// light sphere geometry:
-GLuint lightSpherePositionVbo;
-GLuint lightSphereIndexVbo;
-GLuint lightSphereIndexCount;
-GLuint lightSphereVAO;
-
 glm::vec3   cubeVerts[8];
 
 unsigned int faceIndexShadow[] =
