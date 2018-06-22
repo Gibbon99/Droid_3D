@@ -146,7 +146,7 @@ bool initAll()
 
 	obj_addSomeObjects();
 
-	evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE);
+	evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
 
 	return true;
 }

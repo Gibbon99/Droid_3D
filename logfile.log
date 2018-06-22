@@ -24,9 +24,9 @@ Console : Attribute location [ 0 ] : [ depthMap.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ depthMap.frag ] - [ inNormal ]
 Console : Attribute location [ 1 ] : [ depthMap.frag ] - [ inTextureCoords ]
 Console : --> Error getting attribute location [ depthMap.frag ] - [ inTextureCoords1 ]
-Console : Uniform location [ 0 ] : [ depthMap.frag ] - [ inTexture0 ]
+Console : Uniform location [ 1 ] : [ depthMap.frag ] - [ inTexture0 ]
 Console : --> Error getting uniform location [ depthMap.frag ] - [ inTexture1 ]
-Console : Uniform location [ 1 ] : [ depthMap.frag ] - [ u_viewProjectionMat ]
+Console : Uniform location [ 0 ] : [ depthMap.frag ] - [ u_viewProjectionMat ]
 Console : --> Error getting uniform location [ depthMap.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ depthMap.frag ] - [ depthMap.vert ] - ID [ 3 ]
@@ -55,8 +55,8 @@ Console : --> Error getting attribute location [ justColor.frag ] - [ inTextureC
 Console : --> Error getting attribute location [ justColor.frag ] - [ inTextureCoords1 ]
 Console : --> Error getting uniform location [ justColor.frag ] - [ inTexture0 ]
 Console : --> Error getting uniform location [ justColor.frag ] - [ inTexture1 ]
-Console : Uniform location [ 1 ] : [ justColor.frag ] - [ u_viewProjectionMat ]
-Console : Uniform location [ 0 ] : [ justColor.frag ] - [ u_modelMat ]
+Console : Uniform location [ 0 ] : [ justColor.frag ] - [ u_viewProjectionMat ]
+Console : Uniform location [ 1 ] : [ justColor.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ justColor.frag ] - [ justColor.vert ] - ID [ 9 ]
 Console : -----------------------------------------------------------------------
@@ -67,9 +67,9 @@ Console : Attribute location [ 0 ] : [ physicsDebug.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ physicsDebug.frag ] - [ inNormal ]
 Console : Attribute location [ 2 ] : [ physicsDebug.frag ] - [ inTextureCoords ]
 Console : --> Error getting attribute location [ physicsDebug.frag ] - [ inTextureCoords1 ]
-Console : Uniform location [ 0 ] : [ physicsDebug.frag ] - [ inTexture0 ]
+Console : Uniform location [ 2 ] : [ physicsDebug.frag ] - [ inTexture0 ]
 Console : --> Error getting uniform location [ physicsDebug.frag ] - [ inTexture1 ]
-Console : Uniform location [ 2 ] : [ physicsDebug.frag ] - [ u_viewProjectionMat ]
+Console : Uniform location [ 0 ] : [ physicsDebug.frag ] - [ u_viewProjectionMat ]
 Console : Uniform location [ 1 ] : [ physicsDebug.frag ] - [ u_modelMat ]
 Console : Attribute location [ 1 ] : [ physicsDebug.frag ] - [ debugColor ]
 Console : -----------------------------------------------------------------------
@@ -82,9 +82,9 @@ Console : Attribute location [ 0 ] : [ geometry_pass.frag ] - [ inPosition ]
 Console : Attribute location [ 1 ] : [ geometry_pass.frag ] - [ inNormal ]
 Console : Attribute location [ 2 ] : [ geometry_pass.frag ] - [ inTextureCoords ]
 Console : --> Error getting attribute location [ geometry_pass.frag ] - [ inTextureCoords1 ]
-Console : Uniform location [ 0 ] : [ geometry_pass.frag ] - [ inTexture0 ]
+Console : Uniform location [ 2 ] : [ geometry_pass.frag ] - [ inTexture0 ]
 Console : --> Error getting uniform location [ geometry_pass.frag ] - [ inTexture1 ]
-Console : Uniform location [ 2 ] : [ geometry_pass.frag ] - [ u_viewProjectionMat ]
+Console : Uniform location [ 0 ] : [ geometry_pass.frag ] - [ u_viewProjectionMat ]
 Console : Uniform location [ 1 ] : [ geometry_pass.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ geometry_pass.frag ] - [ geometry_pass.vert ] - ID [ 15 ]
@@ -112,7 +112,7 @@ Console : --> Error getting attribute location [ pointLight.frag ] - [ inTexture
 Console : --> Error getting attribute location [ pointLight.frag ] - [ inTextureCoords1 ]
 Console : --> Error getting uniform location [ pointLight.frag ] - [ inTexture0 ]
 Console : --> Error getting uniform location [ pointLight.frag ] - [ inTexture1 ]
-Console : Uniform location [ 5 ] : [ pointLight.frag ] - [ u_viewProjectionMat ]
+Console : Uniform location [ 0 ] : [ pointLight.frag ] - [ u_viewProjectionMat ]
 Console : --> Error getting uniform location [ pointLight.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ pointLight.frag ] - [ pointLight.vert ] - ID [ 21 ]
@@ -125,21 +125,19 @@ Console : Attribute location [ 0 ] : [ billboard.frag ] - [ inPosition ]
 Console : --> Error getting attribute location [ billboard.frag ] - [ inNormal ]
 Console : --> Error getting attribute location [ billboard.frag ] - [ inTextureCoords ]
 Console : --> Error getting attribute location [ billboard.frag ] - [ inTextureCoords1 ]
-Console : Uniform location [ 1 ] : [ billboard.frag ] - [ inTexture0 ]
+Console : Uniform location [ 2 ] : [ billboard.frag ] - [ inTexture0 ]
 Console : --> Error getting uniform location [ billboard.frag ] - [ inTexture1 ]
-Console : Uniform location [ 2 ] : [ billboard.frag ] - [ u_viewProjectionMat ]
+Console : Uniform location [ 0 ] : [ billboard.frag ] - [ u_viewProjectionMat ]
 Console : --> Error getting uniform location [ billboard.frag ] - [ u_modelMat ]
 Console : -----------------------------------------------------------------------
 Console : Compiled shader [ billboard.frag ] - [ billboard.vert ] - ID [ 25 ]
-Allegro Version: 5.2.2.1
+Allegro Version: 5.2.4.1
 
-CPUs: 8 RAM: 32126
+CPUs: 8 RAM: 7859
 
-Video Adapters : 2
+Video Adapters : 1
 
-Monitor [ 0 ] Location [ 0 2560 0 1440 ]
-
-Monitor [ 1 ] Location [ 2560 5120 0 1440 ]
+Monitor [ 0 ] Location [ 0 1920 0 1080 ]
 
 Console : Script: Call type [ asCALL_CDECL ]
 Console : Script: Registered variable - [ bool quitProgram ]
@@ -176,9 +174,9 @@ Console : Number of functions in script [ 4 ]
 Console : Font [ Digital.ttf ] is available for use.
 Console : Font [ oldDigital.ttf ] is available for use.
 Console : Font [ President.ttf ] is available for use.
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1702860640 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1702860640 ]
-Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -1702858784 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1086818224 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1086818224 ]
+Console : FuncID for script function [ bool as_conCommandOpenGLVer() ] is [ -1086816320 ]
 Console : Err: Failed to get function ID for [ bool ttf_initLibrary() ].
 Console : Physics system started...
 Console : Forward rendering framebuffer created...
@@ -316,13 +314,38 @@ Console : ERROR: File not found or not supported - [ noshader ]
 ERROR: Filesystem can't open file [ textures/Metals/METL004.bmp ]
 Texture loading complete.
 Console : Loaded textures.
+Console : Got AUDIO_EVENT [ 0 ]
+
+Console : Audio engine started.
+Console : Sound started: 5.2.4 Release: 1
+Console : ID [ 4 ]
+Console : source [ Shader compiler ]
+Console : type [ Other ]
+Console : severity [ Notification ]
+Console : debug call [ FS SIMD16 shader: 2 inst, 0 loops, 0 cycles, 0:0 spills:fills, Promoted 0 constants, compacted 32 to 32 bytes. ]
 Console : INFO: Shaders linked ok - [ Embedded font Shader. ]
-Console : Pressed the P key
-Console : Got a user generated event
+Console : Pressed the P key - action is DOWN
+Console : Pressed the P key - action is DOWN
+Console : Got event to PAUSE. Timestamp [ 5.581 ]
+Console : Got event to PAUSE. Timestamp [ 12.125 ]
+Console : Adding new emitter [ 2 ] - followindex [ 0 ]
+Console : Pressed the P key - action is DOWN
+Console : Pressed the P key - action is DOWN
+Console : Adding new spark particle [ 3 ] followIndex [ 0 ]
+Console : Removing bullet [ 0 ]
+Console : Removed particle emitter [ 2 ]
+Console : Got event to PAUSE. Timestamp [ 15.097 ]
+Console : Got AUDIO_EVENT [ 2 ]
 
-Console : Got event to PAUSE
-Console : User event data [ 2 ]
-Console : Got a user generated event
+Console : Play a sound file [ 66 ] Vol [ 45 ]
+Console : Got event to PAUSE. Timestamp [ 17.344 ]
+Console : Pressed the P key - action is DOWN
+Console : Pressed the P key - action is DOWN
+Console : Pressed the P key - action is DOWN
+Console : Got event to PAUSE. Timestamp [ 19.493 ]
+Console : Got event to PAUSE. Timestamp [ 21.941 ]
+Log file closed:
+Unknown	Unknown
+-----------------------------------------------------------------------------
 
-Console : Got event to PAUSE
-Console : User event data [ 2 ]
+

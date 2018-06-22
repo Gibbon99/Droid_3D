@@ -78,7 +78,7 @@ void lib_getMouseState ( int *posX, int *posY )
 		if ( !mouseButton1Down )
 		{
 			mouseButton1Down = true;
-			evt_sendEvent(USER_EVENT_MOUSE_BUTTON_DOWN, 1);
+			evt_sendEvent(USER_EVENT_MOUSE_BUTTON_DOWN, 0, 1, 0, 0, "");
 		}
 	}
 	else
@@ -86,7 +86,7 @@ void lib_getMouseState ( int *posX, int *posY )
 		if (mouseButton1Down)
 		{
 			mouseButton1Down = false;
-			evt_sendEvent (USER_EVENT_MOUSE_BUTTON_UP, 1);
+			evt_sendEvent (USER_EVENT_MOUSE_BUTTON_UP, 0, 1, 0, 0, "");
 		}
 	}
 	//
@@ -97,7 +97,7 @@ void lib_getMouseState ( int *posX, int *posY )
 		if ( !mouseButton2Down )
 		{
 			mouseButton2Down = true;
-			evt_sendEvent(USER_EVENT_MOUSE_BUTTON_DOWN, 2);
+			evt_sendEvent(USER_EVENT_MOUSE_BUTTON_DOWN, 0, 2, 0, 0, "");
 		}
 	}
 	else
@@ -105,7 +105,7 @@ void lib_getMouseState ( int *posX, int *posY )
 		if (mouseButton2Down)
 		{
 			mouseButton2Down = false;
-			evt_sendEvent (USER_EVENT_MOUSE_BUTTON_UP, 2);
+			evt_sendEvent (USER_EVENT_MOUSE_BUTTON_UP, 0, 2, 0, 0, "");
 		}
 	}
 }

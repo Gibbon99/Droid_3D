@@ -41,7 +41,7 @@ void io_readPauseModeKey(int key, int action)
 {
 	if (key == ALLEGRO_KEY_P)
 	{
-		evt_sendEvent (USER_EVENT_MODE_PAUSE, 0);
+		evt_sendEvent (USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
 	}
 }
 
@@ -98,7 +98,7 @@ void io_readGameSpecialKeys ( int key, int action )
 
 				case ALLEGRO_KEY_P:
 					con_print(CON_INFO, true, "Pressed the P key - action is DOWN");
-					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0);
+					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
 					break;
 
 				default:

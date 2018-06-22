@@ -3,11 +3,12 @@
 #include "io_keyboard.h"
 #include "s_globals.h"
 #include "s_events.h"
+#include <utility>
 #include "s_window.h"
 #include "io_mouse.h"
 #include "s_audio.h"
 
-#define MY_EVENT_TYPE   ALLEGRO_GET_EVENT_TYPE('P','A','R','A')
+#define MY_EVENT_TYPE            ALLEGRO_GET_EVENT_TYPE('P','A','R','A')
 
 ALLEGRO_EVENT_QUEUE*    eventQueue;
 ALLEGRO_EVENT_SOURCE    userEventSource;
@@ -54,33 +55,61 @@ bool evt_registerUserEventSetup()
 	//
 	al_init_user_event_source(&userEventSource);
 	al_register_event_source (eventQueue, &userEventSource);
-	userEvent.type = MY_EVENT_TYPE;
 	return true;
 }
 
 //------------------------------------------------------------------------
 //
-// Create a custom event to be sent
-void evt_sendEvent(int eventType, int eventData1)
+// Called when it's time to free the custom event - reference count is 0
+static void my_event_dtor(ALLEGRO_USER_EVENT *event)
 //------------------------------------------------------------------------
 {
-	userEvent.user.data1 = eventType;
-	userEvent.user.data2 = eventData1;
-	al_emit_user_event (&userEventSource, &userEvent, NULL);
+	delete((CUSTOM_EVENT *)event->data1);
+}
+
+//------------------------------------------------------------------------
+//
+// Create new custom event and populate with the required data
+static CUSTOM_EVENT *new_event(int type, int action, double timeStamp, int data1, int data2, int data3, string textString)
+//------------------------------------------------------------------------
+{
+	auto *event = new CUSTOM_EVENT;
+
+	event->type =       type;
+	event->action =     action;
+	event->text =       std::move (textString);
+	event->timeStamp =  timeStamp;
+	event->data1 =      data1;
+	event->data2 =      data2;
+	event->data3 =      data3;
+    return event;
+}
+
+//------------------------------------------------------------------------
+//
+// Create a custom event to be sent
+void evt_sendEvent(int type, int action, int data1, int data2, int data3, string textString)
+//------------------------------------------------------------------------
+{
+	userEvent.user.type = MY_EVENT_TYPE;
+	userEvent.user.data1 = (intptr_t)new_event(type, action, userEvent.user.timestamp, data1, data2, data3,
+	                                            std::move (textString));
+	al_emit_user_event(&userEventSource, &userEvent, my_event_dtor);
 }
 
 //------------------------------------------------------------------------
 //
 // Handle USER events
-void evt_handleUserEvents(ALLEGRO_EVENT event)
+void evt_handleUserEvents(CUSTOM_EVENT *event)
 //------------------------------------------------------------------------
 {
 	static double previousTimeStamp = -1;
 
-	switch (event.user.data1)
+	switch (event->type)
 	{
 		case USER_EVENT_MOUSE_BUTTON_DOWN:
-			if (event.user.data2 == 1)  // First mouse button
+
+			if (event->data1 == 1)  // First mouse button
 				gam_createBullet (cam3_Front, cam3_Position, bullet_1_speed);
 			break;
 
@@ -88,16 +117,16 @@ void evt_handleUserEvents(ALLEGRO_EVENT event)
 
 			if ( -1 == previousTimeStamp)
 			{
-				previousTimeStamp = event.user.timestamp;
+				previousTimeStamp = event->timeStamp;
 				return;
 			}
 
-			if ((event.user.timestamp - previousTimeStamp) < 2.0)
+			if ((event->timeStamp - previousTimeStamp) < 2.0)
 				return;
 
-			previousTimeStamp = event.user.timestamp;
+			previousTimeStamp = event->timeStamp;
 
-			con_print(CON_INFO, true, "Got event to PAUSE. Timestamp [ %3.3f ]", event.user.timestamp);
+			con_print(CON_INFO, true, "Got event to PAUSE. Timestamp [ %3.3f ]", event->timeStamp);
 
 			if (MODE_PAUSE == currentMode)
 				changeMode (-1);
@@ -112,8 +141,6 @@ void evt_handleUserEvents(ALLEGRO_EVENT event)
 		default:
 			break;
 	}
-
-//	con_print(CON_INFO, true, "User event data [ %i ]", event.user.data1);
 }
 
 //------------------------------------------------------------------------
@@ -142,6 +169,7 @@ void evt_handleEvents()
 //------------------------------------------------------------------------
 {
 	ALLEGRO_EVENT   event;
+	CUSTOM_EVENT    *my_event;
 
 	if ( !al_get_next_event(eventQueue, &event))
 	{
@@ -193,11 +221,12 @@ void evt_handleEvents()
 			break;
 
 		case MY_EVENT_TYPE:
-			evt_handleUserEvents (event);
+			my_event = (CUSTOM_EVENT *)event.user.data1;
+			evt_handleUserEvents (my_event);
+			al_unref_user_event(&event.user);
 		break;
 
 		default:
 			break;
-
 	}
 }

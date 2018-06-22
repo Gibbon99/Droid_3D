@@ -93,7 +93,7 @@ void gam_removeBullet (int bulletIndex )
 {
 	con_print(CON_INFO, true, "Removing bullet [ %i ]", bulletIndex);
 
-	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE);
+ 	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, 66, 45, 0, "" );
 
 	bullet[bulletIndex].active = false;
 	if (bullet[bulletIndex].particleIndex != -1)
