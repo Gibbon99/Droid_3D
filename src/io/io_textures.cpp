@@ -1,3 +1,4 @@
+#include "SOIL.h"
 #include "s_globals.h"
 #include "io_textures.h"
 #include "s_openGL.h"
@@ -71,7 +72,7 @@ int loadImageFile ( char *fileName, int bspIndex )
 {
 	_Texture	tempTexture;
 
-	stbi_uc     *imageBuffer;
+	stbi_uc     *imageBuffer = nullptr;
 	int         imageLength;
 
 	//
@@ -85,45 +86,29 @@ int loadImageFile ( char *fileName, int bspIndex )
 
 	imageBuffer = ( stbi_uc * ) malloc ( sizeof ( char ) * imageLength );
 
-	if ( NULL == imageBuffer )
+	if ( nullptr == imageBuffer )
 		return -1;
 
 	if ( -1 == io_getFileIntoMemory ( fileName, ( char * ) imageBuffer ) )
 	{
-		if (imageBuffer)
+		if (imageBuffer != nullptr)
 			free(imageBuffer);
 		return -1;
 	}
 
-	tempTexture.imageData = stbi_load_from_memory ( imageBuffer, imageLength, &tempTexture.width, &tempTexture.height, &tempTexture.bpp, 0 );
-
-	if ( !tempTexture.imageData )
-		{
-			tempTexture.loaded = false;
-			return -1;
-		}
+	tempTexture.texID = SOIL_load_OGL_texture_from_memory ( imageBuffer, imageLength, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_TEXTURE_REPEATS );
+	if (tempTexture.texID == 0) // failed to load texture
+	{
+		tempTexture.loaded = false;
+		if (imageBuffer != nullptr)
+			free(imageBuffer);
+		return -1;
+	}
 
 	tempTexture.loaded = true;
-
 	tempTexture.bspTexID = bspIndex;
-	//
-	// Create an OpenGL texture for the image
-	GL_CHECK ( glGenTextures ( 1, &tempTexture.texID ) );
 
-	wrapglBindTexture ( GL_TEXTURE0, tempTexture.texID );
-	// Set texture parameters
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-//
-// GL_SRGB is here instead of GL_RGB to change gamma corrected textures back to linear color space
-// TODO (dberry#1#): Put in parameter for textures/shaders not doing gamma correction
-//
-	glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, tempTexture.width, tempTexture.height, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTexture.imageData );
 	free ( imageBuffer );
-	// Free imagedata as well?
 
 	texturesLoaded.push_back ( tempTexture );
 
@@ -166,7 +151,6 @@ GLint utilLoadTexture ( const char *fileName, int bspIndex )
 							return returnTexID;
 						}
 				}
-
 			else
 				{
 					// Filename doesn't have an extension on it

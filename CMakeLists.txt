@@ -48,7 +48,7 @@ include_directories(
     /usr/local/include/bullet/LinearMath
     /usr/include/freetype2
     hdr/libGL/freetype-gl
-
+    hdr/libGL/soil
 )
 
 
@@ -56,7 +56,7 @@ include_directories(
 add_definitions(-pg)
 add_definitions(-g)
 add_definitions(-O0)
-add_definitions(-fpermissive)
+#add_definitions(-fpermissive)
 add_definitions(-Wall)
 add_definitions(
     -DDEBUG
@@ -106,6 +106,10 @@ set ( C_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/physfs/physfs_archiver_grp.c
     ${CMAKE_CURRENT_LIST_DIR}/src/physfs/physfs_archiver_7z.c
     ${CMAKE_CURRENT_LIST_DIR}/src/physfs/physfs_archiver_dir.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/libGL/soil/image_DXT.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/libGL/soil/image_helper.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/libGL/soil/stb_image_aug.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/libGL/soil/SOIL.c
 )
 
 # Define the CXX sources
@@ -160,7 +164,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/script/as_callfunc_sh4.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/script/as_scriptbuilder.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/physfs/physfs_platform_winrt.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/io/io_loadImage.cpp
+#    ${CMAKE_CURRENT_LIST_DIR}/src/io/io_loadImage.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/physfs/physfs_platform_haiku.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/bsp/s_varsBSP.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/bsp/s_loadBsp.cpp
@@ -177,7 +181,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/script/as_callfunc_ppc.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_assimp.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_physics.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/game/s_objects.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/game/s_objects.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_vsProfileLib.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/io/io_fileSystem.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/script/as_scriptengine.cpp
@@ -203,7 +207,8 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_render.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/openGL/s_particles.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_events.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp src/system/s_audio.cpp hdr/system/s_audio.h)
+    ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/system/s_audio.cpp data/scripts/commonDefines.h)
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 
@@ -246,6 +251,7 @@ target_link_libraries(Droid_3D
         allegro_dialog
         allegro_audio
         allegro_acodec
+        allegro_physfs
         allegro
 )
 

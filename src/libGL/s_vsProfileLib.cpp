@@ -329,9 +329,11 @@ VSProfileLib::DumpLevels ( int l, int p, pTime calls )
 			if ( ( p == -1 ) || ( sec->parent == p ) )
 				{
 
-					sprintf ( s,"%#*s%s", l * LEVEL_INDENT," ",sec->name.c_str() );
+//					sprintf ( s,"%#*s%s", l * LEVEL_INDENT," ",sec->name.c_str() );
+				sprintf ( s,"%*s%s", l * LEVEL_INDENT," ",sec->name.c_str() );
 
-					if ( sec->profileGL )
+
+				if ( sec->profileGL )
 						sprintf ( s2,"%-*s %5.0f %8.2f %8.2f %8.2f\n",
 						          sDisp + sTotalLevels * LEVEL_INDENT + 2,
 						          s,

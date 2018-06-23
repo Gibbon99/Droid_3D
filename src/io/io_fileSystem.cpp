@@ -64,7 +64,6 @@ bool io_startFileSystem()
 			fileSystemReady = false;
 			return false;
 		}
-
 	//
 	// Set base directory
 	if ( 0 == PHYSFS_mount ( "data", "/", 1 ) )
@@ -73,7 +72,6 @@ bool io_startFileSystem()
 			fileSystemReady = false;
 			return false;
 		}
-
 	//
 	// Add directory for loading scripts - move to archive file
 	if ( 0 == PHYSFS_mount ( "data//scripts","/", 1 ) )
@@ -82,7 +80,6 @@ bool io_startFileSystem()
 			fileSystemReady = false;
 			return false;
 		}
-
 	//
 	// Add directory for loading shaders - move to archive file
 	if ( 0 == PHYSFS_mount ( "data//shaders", "/", 1 ) )
@@ -91,7 +88,6 @@ bool io_startFileSystem()
 			fileSystemReady = false;
 			return false;
 		}
-
 	//
 	// Add directory for loading textures - move to archive file
 	if ( 0 == PHYSFS_mount ( "data//textures", "/", 1 ) )
@@ -100,7 +96,6 @@ bool io_startFileSystem()
 			fileSystemReady = false;
 			return false;
 		}
-
 	//
 	// Add directory for loading old levels for tile information
 	if ( 0 == PHYSFS_mount ( "data//maps", "/", 1 ) )
@@ -109,7 +104,6 @@ bool io_startFileSystem()
 			fileSystemReady = false;
 			return false;
 		}
-
 	//
 	// Add archive file
 	if ( 0 == PHYSFS_mount ( "data//data.zip", "/", 1 ) )
@@ -118,7 +112,6 @@ bool io_startFileSystem()
 			fileSystemReady = false;
 			return false;
 		}
-
 	//
 	// What compression types are available
 	io_getArchivers();

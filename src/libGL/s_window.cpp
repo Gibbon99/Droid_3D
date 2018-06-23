@@ -70,7 +70,7 @@ bool lib_openWindow()
 
 	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL_3_0 | ALLEGRO_OPENGL_FORWARD_COMPATIBLE );
 
-	al_set_new_display_option (ALLEGRO_OPENGL_MAJOR_VERSION, 4, ALLEGRO_SUGGEST);
+	al_set_new_display_option (ALLEGRO_OPENGL_MAJOR_VERSION, 3, ALLEGRO_SUGGEST);
 	al_set_new_display_option (ALLEGRO_OPENGL_MINOR_VERSION, 3, ALLEGRO_SUGGEST);
 
 	al_mainWindow = al_create_display(winWidth, winHeight);

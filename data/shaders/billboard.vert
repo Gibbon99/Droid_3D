@@ -1,8 +1,10 @@
 #version 330
 
-layout (location = 0) in vec3 inPosition;
-layout (location = 1) in float alphaValue_in;
-layout (location = 2) in float sizeValue_in;
+uniform sampler2D   inTexture0;
+
+in vec3 inPosition;
+in float alphaValue_in;
+in float sizeValue_in;
 
 out float alphaValue_geom;
 out float sizeValue_geom;

@@ -140,7 +140,7 @@ void sys_displayScreen ( float interpolate )
 
 				gam_drawBullets ( SHADER_GEOMETRY_PASS );
 
-				par_renderParticles();
+
 
 				if ( true == g_debugLightPos )
 					{
@@ -150,6 +150,8 @@ void sys_displayScreen ( float interpolate )
 								drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
 							}
 					}
+
+				par_renderParticles();
 
 				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 				glUseProgram ( 0 );

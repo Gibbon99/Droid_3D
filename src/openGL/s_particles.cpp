@@ -183,12 +183,11 @@ glm::vec3 par_getRandomPositionHeal ( const glm::vec3 startPosition )
 void par_renderParticles()
 //----------------------------------------------------------------------------
 {
+	wrapglEnable ( GL_BLEND );
 
-//	wrapglEnable ( GL_BLEND );
-//	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) );
-	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE ) );
+	GL_CHECK ( glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ) );
 
-//	GL_CHECK ( glBlendFunc ( GL_ONE, GL_ONE ) );
+//	GL_CHECK (glBlendFunc (blendOne, blendTwo));
 
 	for (uint i = 0; i != particleEmitter.size(); i++)
 	{
@@ -401,7 +400,6 @@ int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 			{
 				if ( !particleEmitter[i].inUse )
 				{
-					con_print(CON_INFO, true, "Adding new emitter [ %i ] - followindex [ %i ]", i, followIndex);
 					particleEmitter[i].inUse = true;
 					particleEmitter[i].position = position;
 					particleEmitter[i].type = type;
@@ -410,7 +408,7 @@ int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 					for (int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++)
 					{
 						particleEmitter[i].particleMember[j].position = glm::vec3{0,0,0}; //particleEmitter[i].position + par_getRandomPositionBullet_1 (position);
-						particleEmitter[i].particleMember[j].velocity = glm::vec3{0, -0.1, 0};
+						particleEmitter[i].particleMember[j].velocity = glm::vec3{0, 0.2, 0};
 						particleEmitter[i].particleMember[j].lifetimeLeft = -1.0f;
 						particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
 						particleEmitter[i].particleMember[j].alphaValue = 1.0f;
@@ -444,7 +442,7 @@ void par_renderBillBoard(const uint whichEmitter)
 	static uint billBoard_VAO_ID = 0;
 	glm::vec3   billBoardPos;
 
-	if (false == initDone)
+	if ( !initDone )
 	{
 		glUseProgram(shaderProgram[SHADER_BILLBOARD].programID);
 
@@ -469,6 +467,7 @@ void par_renderBillBoard(const uint whichEmitter)
 	//
 	// Bind texture if it's not already bound as current texture
 	wrapglBindTexture ( GL_TEXTURE0, particleTexture[particleEmitter[whichEmitter].type].texID );
+
 	GL_CHECK ( glUniform1i ( shaderProgram[SHADER_BILLBOARD].inTextureUnit, 0 ) );
 	//
 	// Bind the generated buffer

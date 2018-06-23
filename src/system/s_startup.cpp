@@ -99,8 +99,6 @@ bool initAll()
 	util_executeScriptFunction ( "scr_setGameVariables", "" );
 	util_executeScriptFunction ( "scr_addAllScriptCommands", "" );
 
-
-
 	if ( true == bul_startPhysics() )
 		{
 			con_print ( CON_INFO, true, "Physics system started..." );
@@ -147,6 +145,12 @@ bool initAll()
 	obj_addSomeObjects();
 
 	evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
+
+	blendIndexOne = 0;
+	blendIndexTwo = 0;
+
+	blendOne = blends[blendIndexOne];
+	blendTwo = blends[blendIndexTwo];
 
 	return true;
 }

@@ -110,7 +110,11 @@ void evt_handleUserEvents(CUSTOM_EVENT *event)
 		case USER_EVENT_MOUSE_BUTTON_DOWN:
 
 			if (event->data1 == 1)  // First mouse button
+			{
 				gam_createBullet (cam3_Front, cam3_Position, bullet_1_speed);
+				aud_playSound ( SND_LASER, AUDIO_PAN_CENTER, ALLEGRO_PLAYMODE_ONCE);
+				//evt_sendEvent(USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_LASER, AUDIO_PAN_CENTER, ALLEGRO_PLAYMODE_ONCE, "");
+			}
 			break;
 
 		case USER_EVENT_MODE_PAUSE:

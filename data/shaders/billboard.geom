@@ -1,5 +1,7 @@
 #version 330
 
+uniform sampler2D   inTexture0;
+
 layout (points) in;
 layout (triangle_strip) out;
 layout (triangle_strip, max_vertices = 4) out;

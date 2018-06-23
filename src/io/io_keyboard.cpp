@@ -1,7 +1,7 @@
 #include "s_events.h"
 #include "s_globals.h"
 #include "s_console.h"
-//#include "s_camera.h"
+#include "s_audio.h"
 #include "s_render.h"
 #include "io_textures.h"
 #include "s_window.h"
@@ -101,6 +101,41 @@ void io_readGameSpecialKeys ( int key, int action )
 					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
 					break;
 
+					case ALLEGRO_KEY_Q:
+					blendIndexOne++;
+					if (blendIndexOne > 8)
+					{
+						blendIndexOne = 0;
+						blendIndexTwo++;
+						if (blendIndexTwo > 8)
+						{
+						con_print(CON_INFO, true, "Tried all blending modes");
+						blendIndexTwo = 0;
+						}
+					}
+
+					blendOne = blends[blendIndexOne];
+					blendTwo = blends[blendIndexTwo];
+
+						con_print(CON_INFO, true, "Blend one now [ %i ]", blendOne);
+					break;
+
+					case ALLEGRO_KEY_E:
+						blendIndexTwo++;
+						if (blendIndexTwo > 8)
+							blendIndexTwo = 0;
+
+						blendTwo = blends[blendIndexTwo];
+
+						con_print(CON_INFO, true, "Blend two now [ %i ]", blendTwo);
+						break;
+
+					case ALLEGRO_KEY_L:
+						evt_sendEvent (USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_GREEN_ALERT, AUDIO_PAN_CENTER, ALLEGRO_PLAYMODE_LOOP, "");
+						break;
+
+					case ALLEGRO_KEY_O:
+						evt_sendEvent (USER_EVENT_AUDIO, AUDIO_STOP_SAMPLE, SND_GREEN_ALERT, 0, 0, "" );
 				default:
 					break;
 				}

@@ -55,3 +55,7 @@ extern bool				g_memLeakLastRun;		// Was there a memory last time we ran
 
 // Change game mode
 void changeMode ( int newMode );
+
+extern int blendOne, blendTwo;
+extern int blendIndexOne, blendIndexTwo;
+extern int blends [];
