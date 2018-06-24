@@ -2,11 +2,16 @@
 
 #include <string>
 
-#define USER_EVENT_MOUSE_BUTTON_DOWN    0x0
-#define USER_EVENT_MOUSE_BUTTON_UP      0x1
-#define USER_EVENT_MODE_PAUSE           0x2
-#define USER_EVENT_AUDIO                0x3
-#define USER_EVENT_CONSOLE              0x4
+#define USER_EVENT_MOUSE_BUTTON_DOWN    0x00
+#define USER_EVENT_MOUSE_BUTTON_UP      0x01
+#define USER_EVENT_MODE_PAUSE           0x02
+#define USER_EVENT_AUDIO                0x03
+#define USER_EVENT_CONSOLE              0x04
+#define USER_EVENT_TIMER                0x05
+#define EVENT_TIMER_START               0x06
+#define EVENT_TIMER_CONSOLE_CURSOR      0x07
+#define START_CONSOLE_CURSOR            0x08
+#define STOP_CONSOLE_CURSOR             0x09
 
 typedef struct
 {

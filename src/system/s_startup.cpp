@@ -21,23 +21,18 @@
 #include "s_events.h"
 #include "s_audio.h"
 
-void runThread()
-{
-	lib_swapBuffers();
-}
-
 //-----------------------------------------------------------------------------
 //
 // Init all variables and systems here
 bool initAll()
 //-----------------------------------------------------------------------------
 {
-	if ( false == io_startLogFile ( "logfile.log" ) )
+	if ( !io_startLogFile ("logfile.log" ))
 		sys_shutdownToSystem();
 
 	con_initConsole();
 	
-	if (true == sys_checkMemLeak( "leakReport.txt" ))
+	if ( sys_checkMemLeak("leakReport.txt" ))
 	{
 		con_print(CON_INFO, true, "No memory leak from last run.");
 		g_memLeakLastRun = false;
@@ -50,28 +45,27 @@ bool initAll()
 
 	sys_initTimingVars();
 
-	if ( false == lib_openWindow() )
+	if ( !lib_openWindow())
 	{
 		io_logToFile("Error: Error with starting windowing system.");
 		sys_shutdownToSystem();
 	}
 
-
 	if ( ogl_LOAD_FAILED == ogl_LoadFunctions() )
-		{
-			io_logToFile ( "Error: Failed to load openGL functions.\n" );
-			sys_shutdownToSystem();
-		}
+	{
+		io_logToFile ( "Error: Failed to load openGL functions.\n" );
+		sys_shutdownToSystem();
+	}
 
 //-------------------------- CONSOLE IS RUNNING AFTER HERE ---------------------------
 
 	// Start the packfile system
-	if ( false == io_startFileSystem() )
+	if ( !io_startFileSystem())
 		sys_shutdownToSystem();
 
 	for ( int i = 0; i != NUM_SHADERS; i++ )
 		{
-			if ( false == gl_loadCompileShaders ( i ) )
+			if ( !gl_loadCompileShaders (i ))
 				{
 					con_print ( CON_TEXT, true, "ERROR: Compile error with shader [ %s ]", shaderProgram[i].fragFileName );
 					return false;
@@ -84,7 +78,7 @@ bool initAll()
 
 	lib_getVersion();
 
-	if ( false == util_startScriptEngine() )
+	if ( !util_startScriptEngine())
 		{
 			printf ( "Error: Unable to start scripting engine.\n" );
 			//sys_errorFatal("sys_runOnce()", __LINE__, "Unable to start the scripting engine.\n");
@@ -99,22 +93,16 @@ bool initAll()
 	util_executeScriptFunction ( "scr_setGameVariables", "" );
 	util_executeScriptFunction ( "scr_addAllScriptCommands", "" );
 
-	if ( true == bul_startPhysics() )
-		{
+	if ( bul_startPhysics())
 			con_print ( CON_INFO, true, "Physics system started..." );
-		}
-
 	else
 		{
 			con_print ( CON_ERROR, true, "Physics system failed to start." );
 			sysErrorFatal ( __FILE__, __LINE__, "Physics system failed." );
 		}
 
-	if ( true == gl_initDefRender ( winWidth, winHeight ) )
-		{
+	if ( gl_initDefRender (winWidth, winHeight ))
 			con_print ( CON_INFO, true, "Forward rendering framebuffer created..." );
-		}
-
 	else
 		{
 			gl_stopDefRender();
@@ -136,13 +124,14 @@ bool initAll()
 
 	gl_registerDebugCallback();
 
-//	printf("After registerDebugCallback\n");
-
 	obj_addSomeObjects();
-
+	//
+	// Start Audio Engine and associated thread
 	evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
+	//
+	// Start the timer to animate the console cursor
+	evt_sendEvent (USER_EVENT_TIMER, EVENT_TIMER_CONSOLE_CURSOR, START_CONSOLE_CURSOR, 0, 0, "");
 
-//	printf("After starting sound engine\n");
 	blendIndexOne = 0;
 	blendIndexTwo = 0;
 

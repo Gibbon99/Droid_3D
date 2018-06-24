@@ -1,13 +1,10 @@
 #include "s_events.h"
 #include "s_globals.h"
 #include "s_console.h"
-#include "s_maths.h"
 #include "s_movement.h"
 #include "s_camera.h"
-#include "s_shaderLights.h"
 
 #include "s_physics.h"
-#include "s_shadowMap.h"
 #include "s_bullet.h"
 #include "s_doorsBSP.h"
 
@@ -24,23 +21,20 @@ void sys_gameTickRun ( float interpolate )
 {
 	glm::vec3   vel;
 
+	evt_handleEvents();
+
 	switch ( currentMode )
 		{
 		case MODE_PAUSE:
-			evt_handleEvents();
 			break;
 
 		case MODE_CONSOLE:
-			evt_handleEvents();
-			con_processBackspaceKey ( interpolate );
-			con_processCursor ( interpolate );
 			break;
 
 		case MODE_GAME:
-			evt_handleEvents();
 			lib_getMouseState (&freelookMouseX, &freelookMouseY);
 
-			cam3_processMouseMovement ( freelookMouseX, freelookMouseY, true );
+			cam3_processMouseMovement ( freelookMouseX, freelookMouseY, GL_TRUE );
 			cam3_processMovementKeys ( interpolate );
 			
 			// Return the direction vector and turn this into velocity for physics

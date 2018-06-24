@@ -136,6 +136,8 @@ void io_readGameSpecialKeys ( int key, int action )
 
 					case ALLEGRO_KEY_O:
 						evt_sendEvent (USER_EVENT_AUDIO, AUDIO_STOP_SAMPLE, SND_GREEN_ALERT, 0, 0, "" );
+						break;
+
 				default:
 					break;
 				}
@@ -175,7 +177,10 @@ void io_readGameSpecialKeys ( int key, int action )
 					
 				case ALLEGRO_KEY_RIGHT:
 					keyDoorRightDown = false;
-					break;					
+					break;
+
+				default:
+					break;
 				}
 		}
 }
@@ -197,7 +202,8 @@ void io_readConsoleSpecialKeys ( int key, int action )
 					break;
 
 				case ALLEGRO_KEY_BACKSPACE:
-					conBackSpaceDown = 1;
+					con_processBackspaceKey ( 0.0 );
+//					conBackSpaceDown = 1;
 					break;
 
 				case ALLEGRO_KEY_ENTER:

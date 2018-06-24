@@ -4,6 +4,7 @@
 #include "s_globals.h"
 #include "s_events.h"
 #include <utility>
+#include <hdr/system/s_events.h>
 #include "s_window.h"
 #include "io_mouse.h"
 #include "s_audio.h"
@@ -14,6 +15,26 @@
 ALLEGRO_EVENT_QUEUE*    eventQueue;
 ALLEGRO_EVENT_SOURCE    userEventSource;
 ALLEGRO_EVENT           userEvent;
+//------------------------------------------------------------------------
+//
+// Handle a user generated Timer event
+void evt_processUserTimerEvent(CUSTOM_EVENT *event)
+//------------------------------------------------------------------------
+{
+	switch (event->action)
+	{
+		case EVENT_TIMER_CONSOLE_CURSOR:
+			if (event->data1 == START_CONSOLE_CURSOR)
+				al_start_timer(cursorFlashTimer);
+
+			if (event->data1 == STOP_CONSOLE_CURSOR)
+				al_stop_timer (cursorFlashTimer);
+		break;
+
+		default:
+			break;
+	}
+}
 
 //------------------------------------------------------------------------
 //
@@ -50,6 +71,8 @@ bool evt_registerUserEventSetup()
 		return false;
 	}
 */
+	cursorFlashTimer = al_create_timer(1.0 / 2);
+	al_register_event_source (eventQueue, al_get_timer_event_source (cursorFlashTimer));
 	al_register_event_source (eventQueue, al_get_display_event_source (al_mainWindow));
 	//
 	// Setup for user generated events
@@ -146,6 +169,12 @@ void evt_handleUserEvents(CUSTOM_EVENT *event)
 		case USER_EVENT_CONSOLE:
 			printf("Got a USER CONSOLE event\n");
 			con_handleConsoleUserEvent (event);
+			break;
+
+		case USER_EVENT_TIMER:
+			evt_processUserTimerEvent (event);
+			break;
+
 		default:
 			break;
 	}
@@ -167,6 +196,17 @@ void evt_handleJoystickEvents(ALLEGRO_EVENT event)
 //------------------------------------------------------------------------
 {
 
+}
+//------------------------------------------------------------------------
+//
+// Handle ALLEGRO timer events
+void evt_handleTimerEvents(ALLEGRO_EVENT event)
+//------------------------------------------------------------------------
+{
+	if ( event.timer.source == cursorFlashTimer )
+	{
+		con_processCursor ();
+	}
 }
 
 //------------------------------------------------------------------------
@@ -212,6 +252,7 @@ void evt_handleEvents()
 			break;
 
 		case ALLEGRO_EVENT_TIMER:
+			evt_handleTimerEvents(event);
 			break;
 
 		case ALLEGRO_EVENT_DISPLAY_EXPOSE:

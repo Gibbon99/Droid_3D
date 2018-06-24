@@ -94,6 +94,8 @@ extern bool			conCursorIsOn;
 
 extern GLuint		conHistoryPtr;			// Which history command are we at
 
+extern ALLEGRO_TIMER               *cursorFlashTimer;
+
 // Show the console
 void con_showConsole();
 
@@ -122,7 +124,7 @@ bool con_addCommand ( string command, string usage, ExternFunc functionPtr );
 void con_processBackspaceKey ( float frameInterval );
 
 // Process the cursor
-void con_processCursor ( float frameInterval );
+void con_processCursor ( );
 
 // Add a valid command to the history buffer
 void con_addHistoryCommand ( string command );

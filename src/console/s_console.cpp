@@ -36,6 +36,7 @@ int				conNumInHistory = 0;
 vector<CUSTOM_EVENT>        consoleEventQueue;
 ALLEGRO_THREAD              *consoleThread;
 ALLEGRO_MUTEX               *consoleQueueMutex;
+ALLEGRO_TIMER               *cursorFlashTimer;
 
 //-----------------------------------------------------------------------------
 //
@@ -166,7 +167,7 @@ static void *consoleThreadFunc(ALLEGRO_THREAD *thr, void *arg)
 				}
 
 				con_incLine ( consoleEventQueue[i].text );
-
+				al_rest(0);
 //				printf("In queue [ %s ]\n", consoleEventQueue[i].text.c_str()); // This stops program from crashing
 
 				consoleEventQueue.erase (consoleEventQueue.begin () + i);   // Remove the event from the queue
@@ -302,18 +303,10 @@ void con_completeCommand ( string lookFor )
 //-----------------------------------------------------------------------------
 //
 // Process the cursor
-void con_processCursor ( float frameInterval )
+void con_processCursor ( )
 //-----------------------------------------------------------------------------
 {
-	static float conCursorCount = 0.0f;
-
-	conCursorCount += ( GLfloat ) ( 180.0f * frameInterval );
-
-	if ( conCursorCount > CON_CURSOR_MAX_COUNT )
-		{
-			conCursorCount = 0.0f;
-			conCursorIsOn =! conCursorIsOn;
-		}
+	conCursorIsOn =! conCursorIsOn;
 }
 
 //-----------------------------------------------------------------------------
@@ -324,25 +317,11 @@ void con_processBackspaceKey ( float frameInterval )
 {
 	_conLine	conTempLine;
 
-	//
-	// Process the backspace key as it repeats
-	if ( 1 == conBackSpaceDown )
-		{
-			conBackSpaceDelay += 30.0f * frameInterval;
+	if ( conCurrentCharCount > 0 )
+		conCurrentCharCount--;
 
-			if ( conBackSpaceDelay > 1.0f )
-				{
-					if ( conCurrentCharCount > 0 )
-						conCurrentCharCount--;
-
-					conBackSpaceDelay = 0.0f;
-
-					conTempLine.conLine = conCurrentLine.conLine.substr ( 0, conCurrentCharCount );
-					conCurrentLine.conLine = conTempLine.conLine;
-
-					conBackSpaceDown = 0;
-				}
-		}
+	conTempLine.conLine = conCurrentLine.conLine.substr ( 0, conCurrentCharCount  );
+	conCurrentLine.conLine = conTempLine.conLine;
 }
 
 //-----------------------------------------------------------------------------
