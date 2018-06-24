@@ -2,8 +2,11 @@
 
 #include "s_globals.h"
 #include "s_openGL.h"
+#include "s_events.h"
 
 #include <vector>
+
+#define CONSOLE_ADD_LINE        0x00
 
 #define CON_COMMAND_HOST		1
 #define CON_COMMAND_SCRIPT		2
@@ -149,6 +152,12 @@ void sys_scriptPrintStr ( std::string *msgText, std::string *msgParam );
 
 // Execute a function from the script
 bool util_executeScriptFunction ( string functionName, string funcParam );
+
+// Add a new audio event to the queue for processing
+void con_addNewEvent( CUSTOM_EVENT *event);
+
+// Handle a console user event
+void con_handleConsoleUserEvent ( CUSTOM_EVENT *event );
 
 //-----------------------------------------------------------------------------
 //

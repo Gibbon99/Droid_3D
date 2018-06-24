@@ -69,7 +69,7 @@ void aud_loadSoundSamples()
 	for ( int i = 0; i != NUM_SOUNDS; i++ )
 	{
 		sound[i].sample = al_load_sample (sound[i].fileName);
-		if ( nullptrptr == sound[i].sample )
+		if ( nullptr == sound[i].sample )
 		{
 			con_print (CON_ERROR, true, "Error: Failed to load sample [ %s ]", sound[i].fileName);
 			sound[i].loadedOk = false;
@@ -276,7 +276,7 @@ static void *audioThreadFunc(ALLEGRO_THREAD *thr, void *arg)
 		}
 		al_unlock_mutex (audioQueueMutex);
 	}
-	return nullptrptr;
+	return nullptr;
 }
 
 //----------------------------------------------------------------
@@ -297,7 +297,7 @@ bool aud_startAudioThread()
 //----------------------------------------------------------------
 {
 	audioQueueMutex = al_create_mutex ();
-	audioThread = al_create_thread (audioThreadFunc, nullptrptr);
+	audioThread = al_create_thread (audioThreadFunc, nullptr);
 	al_start_thread(audioThread);
 	return true;        // Check thread error codes
 }
@@ -308,7 +308,9 @@ bool aud_startAudioThread()
 void aud_addNewEvent( CUSTOM_EVENT *event)
 //----------------------------------------------------------------
 {
-	audioEventQueue.push_back(*event);
+	al_lock_mutex(audioQueueMutex);
+		audioEventQueue.push_back(*event);
+	al_unlock_mutex(audioQueueMutex);
 }
 
 //----------------------------------------------------------------
@@ -339,7 +341,7 @@ bool aud_setupAudioEngine()
 	}
 
 	multiSounds = ( _multiSounds * ) al_malloc ( sizeof ( _multiSounds ) * as_numMultiSamples );
-	if ( nullptrptr == multiSounds )
+	if ( multiSounds == nullptr )
 	{
 		con_print ( CON_ERROR, true, "ERROR: Failed to get memory to hold multiSamples." );
 		audioAvailable = false;

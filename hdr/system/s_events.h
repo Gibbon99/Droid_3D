@@ -6,6 +6,7 @@
 #define USER_EVENT_MOUSE_BUTTON_UP      0x1
 #define USER_EVENT_MODE_PAUSE           0x2
 #define USER_EVENT_AUDIO                0x3
+#define USER_EVENT_CONSOLE              0x4
 
 typedef struct
 {

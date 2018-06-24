@@ -7,6 +7,7 @@
 #include "s_window.h"
 #include "io_mouse.h"
 #include "s_audio.h"
+#include "s_console.h"
 
 #define MY_EVENT_TYPE            ALLEGRO_GET_EVENT_TYPE('P','A','R','A')
 
@@ -142,6 +143,9 @@ void evt_handleUserEvents(CUSTOM_EVENT *event)
 			aud_handleAudioUserEvent(event);
 			break;
 
+		case USER_EVENT_CONSOLE:
+			printf("Got a USER CONSOLE event\n");
+			con_handleConsoleUserEvent (event);
 		default:
 			break;
 	}
@@ -180,11 +184,12 @@ void evt_handleEvents()
 		printf("No events in queue\n");
 		return;     // no events in the queue
 	}
+	/*
 	else
 	{
 		printf("Got an event in the queue....\n");
 	}
-
+*/
 	switch (event.type)
 	{
 		case ALLEGRO_EVENT_JOYSTICK_AXIS:
@@ -225,6 +230,7 @@ void evt_handleEvents()
 			break;
 
 		case MY_EVENT_TYPE:
+			printf("Got a USER EVENT in queue\n");
 			my_event = (CUSTOM_EVENT *)event.user.data1;
 			evt_handleUserEvents (my_event);
 			al_unref_user_event(&event.user);

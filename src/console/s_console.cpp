@@ -5,14 +5,14 @@
 #include "s_fontUtil.h"
 #include "s_physicsCollision.h"
 
-#include <stdarg.h>
+#include <cstdarg>
 #include <sstream>
 #include <iostream>
+#include <utility>
+#include <hdr/system/s_events.h>
+#include "s_events.h"
 
-bool         	consoleIsReady;
 bool			conCursorIsOn;
-
-int             conFontSize;
 
 _conLine		conLines[NUM_CON_LINES];
 _conLine		conPrevCommands[NUM_MAX_CON_COMMANDS];
@@ -33,6 +33,10 @@ float			conBackSpaceDelay;
 
 int				conNumInHistory = 0;
 
+vector<CUSTOM_EVENT>        consoleEventQueue;
+ALLEGRO_THREAD              *consoleThread;
+ALLEGRO_MUTEX               *consoleQueueMutex;
+
 //-----------------------------------------------------------------------------
 //
 // Add all the host based console commands here
@@ -52,6 +56,23 @@ void con_addConsoleCommands()
 //	conAddCommand("scDo",		"Execute script function",		(ExternFunc)conScriptExecute);
 }
 
+//----------------------------------------------------------------
+//
+// Handle a console user event
+void con_handleConsoleUserEvent ( CUSTOM_EVENT *event )
+//----------------------------------------------------------------
+{
+	switch ( event->action )
+	{
+		case CONSOLE_ADD_LINE:
+			con_addNewEvent(event);
+			break;
+
+		default:
+			break;
+	}
+}
+
 //-----------------------------------------------------------------------------
 //
 // Show the console
@@ -63,9 +84,11 @@ void con_showConsole()
 	float 			currentY;
 	glm::vec4		lineColor;
 	glm::vec2		linePosition;
-	int loopCount = (winHeight / EMBEDDED_FONT_HEIGHT);
+	auto loopCount = (int)(winHeight / EMBEDDED_FONT_HEIGHT);
 	_conLine		conTempLine;
-	
+
+	al_lock_mutex (consoleQueueMutex);  // Wait until thread is not updating console contents
+
 	currentY = EMBEDDED_FONT_HEIGHT;
 
 	for ( int i = 0; i != loopCount; i++ )
@@ -84,7 +107,7 @@ void con_showConsole()
 		
 	conTempLine.conLine = conCurrentLine.conLine;
 
-	if ( true == conCursorIsOn )
+	if ( conCursorIsOn )
 		conTempLine.conLine += "<";	//TODO: Check timing and animation
 	else
 		conTempLine.conLine += " ";
@@ -93,27 +116,90 @@ void con_showConsole()
 	linePosition.y = 0.0f;
 	
 	fnt_printText(linePosition, lineColor, "%s", conTempLine.conLine.c_str() );
+
+	al_unlock_mutex (consoleQueueMutex);
 }
 
 //-----------------------------------------------------------------------------
 //
-// Draw the console screen
-void con_createConsoleScreen ()
+// Add a new line to the console - move all the others up
+// 0 is the new line added
+//
+// Called from CONSOLE THREAD
+//
+void con_incLine ( string newLine )
 //-----------------------------------------------------------------------------
 {
-	_conLine	conTempLine;
+	int i;
 
-	conTempLine.conLine = conCurrentLine.conLine;
+	for ( i = NUM_CON_LINES - 1; i != 0; i-- )
+	{
+		conLines[i].conLine = conLines[i - 1].conLine;
+		conLines[i].conLineColor = conLines[i - 1].conLineColor;
+	}
 
-	if ( true == conCursorIsOn )
-		conTempLine.conLine += "_";
-	else
-		conTempLine.conLine += " ";
-
-	con_setColor(0.8f, 0.8f, 0.8f, 0.8f);
+	conLines[0].conLine = std::move (newLine);
+	conLines[0].conLineColor = currentConLineColor;
 }
 
+//----------------------------------------------------------------
+//
+// Console thread function
+static void *consoleThreadFunc(ALLEGRO_THREAD *thr, void *arg)
+//----------------------------------------------------------------
+{
+	while ( !al_get_thread_should_stop (thr))
+	{
+		al_lock_mutex (consoleQueueMutex);
 
+		if ( !consoleEventQueue.empty ())
+		{
+			//
+			// Process the events
+			//
+			for ( uint i = 0; i < consoleEventQueue.size (); i++ )
+			{
+				if ( al_get_thread_should_stop (thr)) // Check if the thread should stop
+				{
+					al_unlock_mutex (consoleQueueMutex);
+					break;
+				}
+
+				con_incLine ( consoleEventQueue[i].text );
+
+//				printf("In queue [ %s ]\n", consoleEventQueue[i].text.c_str()); // This stops program from crashing
+
+				consoleEventQueue.erase (consoleEventQueue.begin () + i);   // Remove the event from the queue
+			}
+		}
+		al_unlock_mutex (consoleQueueMutex);
+	}
+	return nullptr;
+}
+
+//----------------------------------------------------------------
+//
+// Add a new console event to the queue for processing
+void con_addNewEvent( CUSTOM_EVENT *event)
+//----------------------------------------------------------------
+{
+	al_lock_mutex (consoleQueueMutex);
+		consoleEventQueue.push_back(*event);
+	al_unlock_mutex (consoleQueueMutex);
+}
+
+//----------------------------------------------------------------
+//
+// Setup the console thread - it reads events from the consoleEventQueue
+// and removes them for processing
+bool con_startConsoleThread()
+//----------------------------------------------------------------
+{
+	consoleQueueMutex = al_create_mutex ();
+	consoleThread = al_create_thread (consoleThreadFunc, nullptr);
+	al_start_thread(consoleThread);
+	return true;        // Check thread error codes
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -149,8 +235,9 @@ void con_initConsole()
 	conCurrentCharCount = 0;
 
 	con_addConsoleCommands();
-}
 
+	con_startConsoleThread();
+}
 
 //-----------------------------------------------------------------------------
 //
@@ -161,9 +248,9 @@ void con_addScriptCommand ( string command, string usage, string funcPtr, bool s
 	_conCommand			tempConCommand;
 
 	tempConCommand.type =		CON_COMMAND_SCRIPT;
-	tempConCommand.command = 	command;
-	tempConCommand.usage = 		usage;
-	tempConCommand.scriptFunc = funcPtr;
+	tempConCommand.command = 	std::move(command);
+	tempConCommand.usage =      std::move (usage);
+	tempConCommand.scriptFunc = std::move(funcPtr);
 
 	conCommands.push_back ( tempConCommand );
 	sys_addScriptConsoleFunction ( conCommands.back().command, conCommands.back().scriptFunc, setParam );
@@ -207,7 +294,7 @@ void con_completeCommand ( string lookFor )
 					con_print ( false, true, "[ %s ]", conCommands[i].command.c_str() );
 					conCurrentLine.conLine = "";
 					conCurrentLine.conLine = conCommands[i].command;
-					conCurrentCharCount = conCommands[i].command.length();
+					conCurrentCharCount = (int)conCommands[i].command.length();
 				}
 		}
 }
@@ -265,7 +352,7 @@ void con_popHistoryCommand()
 //-----------------------------------------------------------------------------
 {
 	conCurrentLine.conLine = conPrevCommands[conHistoryPtr].conLine;
-	conCurrentCharCount = conPrevCommands[conHistoryPtr].conLine.length();
+	conCurrentCharCount = (int)conPrevCommands[conHistoryPtr].conLine.length();
 }
 
 //-----------------------------------------------------------------------------
@@ -284,7 +371,7 @@ void con_addHistoryCommand ( string command )
 			conPrevCommands[i].conLine = conPrevCommands[i - 1].conLine;
 		}
 
-	conPrevCommands[0].conLine = command;
+	conPrevCommands[0].conLine = std::move (command);
 	conHistoryPtr = 0;
 }
 
@@ -322,25 +409,6 @@ bool con_addCommand ( string command, string usage, ExternFunc functionPtr )
 
 //-----------------------------------------------------------------------------
 //
-// Add a new line to the console - move all the others up
-// 0 is the new line added
-void con_incLine ( string newLine )
-//-----------------------------------------------------------------------------
-{
-	int i;
-
-	for ( i = NUM_CON_LINES - 1; i != 0; i-- )
-		{
-			conLines[i].conLine = conLines[i - 1].conLine;
-			conLines[i].conLineColor = conLines[i - 1].conLineColor;
-		}
-
-	conLines[0].conLine = newLine;
-	conLines[0].conLineColor = currentConLineColor;
-}
-
-//-----------------------------------------------------------------------------
-//
 // Add a line to the console
 // Pass in type to change the color
 void con_print ( int type, bool fileLog, const char *printText, ... )
@@ -362,7 +430,7 @@ void con_print ( int type, bool fileLog, const char *printText, ... )
 	vsprintf ( conText, printText, args );
 	va_end ( args );
 
-	if ( true == fileLog )
+	if ( fileLog )
 		io_logToFile ( "Console : %s", conText );
 
 	switch ( type )
@@ -386,7 +454,7 @@ void con_print ( int type, bool fileLog, const char *printText, ... )
 				break;
 		}
 
-	con_incLine ( conText );
+		evt_sendEvent(USER_EVENT_CONSOLE, CONSOLE_ADD_LINE, 0, 0, 0, conText);
 }
 
 //-----------------------------------------------------------------------------
@@ -404,7 +472,7 @@ void con_processCommand ( string comLine )
 	string				param2;
 	bool    			conMatchFound = false;
 
-	if (comLine.size() == 0)
+	if ( comLine.empty ())
 		return;
 
 	//
@@ -462,7 +530,7 @@ void con_processCommand ( string comLine )
 				}
 		}
 
-	if ( false == conMatchFound )
+	if ( !conMatchFound )
 		con_print ( false, true, "Command [ %s ] not found.", comLine.c_str() );
 
 	//
@@ -470,61 +538,6 @@ void con_processCommand ( string comLine )
 	conCurrentLine.conLine = "";
 
 	conCurrentCharCount = 0;
-}
-
-//-----------------------------------------------------------------------------
-//
-// Add a line to the console and update the display
-void con_printUpdate ( int type, bool fileLog, const char *printText, ... )
-//-----------------------------------------------------------------------------
-{
-	va_list		args;
-	char		conText[MAX_STRING_SIZE];
-
-	if ( false == consoleIsReady )
-		return;
-
-	//
-	// check and make sure we don't overflow our string buffer
-	//
-	if ( strlen ( printText ) >= MAX_STRING_SIZE - 5 )
-		sysErrorNormal ( __FILE__, __LINE__, "String passed to logfile too long", ( MAX_STRING_SIZE - 1 ), strlen ( printText ) - ( MAX_STRING_SIZE - 1 ) );
-
-	//
-	// get out the passed in parameters
-	//
-	va_start ( args, printText );
-	vsprintf ( conText, printText, args );
-	va_end ( args );
-
-	con_incLine ( conText );
-
-	if ( true == fileLog )
-		io_logToFile ( "%s", conText );
-
-	switch ( type )
-		{
-			case CON_NOCHANGE:
-				break;
-
-			case CON_TEXT:
-				con_setColor ( 1.0f, 1.0f, 1.0f, 1.0f );
-				break;
-
-			case CON_INFO:
-				con_setColor ( 1.0f, 1.f, 0.0f, 1.0f );
-				break;
-
-			case CON_ERROR:
-				con_setColor ( 1.0f, 0.0f, 0.0f, 0.0f );
-				break;
-
-			default:
-				break;
-		}
-
-	if ( currentMode == MODE_CONSOLE )
-		con_createConsoleScreen ( );
 }
 
 //-----------------------------------------------------------------------------

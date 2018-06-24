@@ -129,23 +129,20 @@ bool initAll()
 	util_executeScriptFunction ( "scr_loadAllModels", "" );
 	ass_loadModelTextures();
 
-	if ( true == io_loadAllTextures() )
-		{
-			con_print ( CON_INFO, true, "Loaded textures." );
-
-		}
-
+	if ( io_loadAllTextures())
+		con_print ( CON_INFO, true, "Loaded textures." );
 	else
-		{
-			con_print ( CON_ERROR, true, "Error loading one or more textures." );
-		}
+		con_print ( CON_ERROR, true, "Error loading one or more textures." );
 
 	gl_registerDebugCallback();
+
+//	printf("After registerDebugCallback\n");
 
 	obj_addSomeObjects();
 
 	evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
 
+//	printf("After starting sound engine\n");
 	blendIndexOne = 0;
 	blendIndexTwo = 0;
 
