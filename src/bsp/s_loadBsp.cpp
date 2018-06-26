@@ -256,8 +256,10 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			temp = m_pVerts[i].vNormal.y;
 			m_pVerts[i].vNormal.y = m_pVerts[i].vNormal.z;
 			m_pVerts[i].vNormal.z = -temp;
+
 			// Negate the V texture coordinate because it is upside down otherwise...
-//		m_pVerts[i].vTextureCoord.y *= -1;
+//			m_pVerts[i].vTextureCoord.y *= -1;
+//			m_pVerts[i].vLightmapCoord.y *= -1;
 		}
 
 	PHYSFS_seek ( filePtr, lumps[kMeshVerts].offset );
@@ -298,7 +300,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	for ( i = 0; i < m_numOfLightmaps ; i++ )
 		{
 			// Read in the RGB data for each lightmap
-			PHYSFS_readBytes ( filePtr, &pLightmaps[i], sizeof ( tBSPLightmap ) * 1);
+			PHYSFS_readBytes ( filePtr, &pLightmaps[i].imageBits, sizeof ( tBSPLightmap ) * 1);
 
 			// Create a texture map for each lightmap that is read in.  The lightmaps
 			// are always 128 by 128.

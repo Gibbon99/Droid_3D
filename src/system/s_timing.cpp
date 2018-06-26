@@ -1,10 +1,8 @@
 #include "s_globals.h"
 
-double          nextGameTick;		// How long did it take to draw the frame
 double          frameTimeTakenPrint, frameTimeTaken;
 double          frameTimeTakenMin, frameTimeTakenAvg, frameTimeTakenMax, frameTimeTakenCount, frameTimeTakenTotal;
-int             ticksPerSecond, maxFrameSkip, thinkFpsPrint, fpsPrint;
-float           skipTicks;
+int             thinkFpsPrint, fpsPrint;
 
 //-----------------------------------------------------------------------------
 //
@@ -17,13 +15,7 @@ void sys_initTimingVars()
 	frameTimeTakenMin = 1000;
 	frameTimeTakenMax = 0;
 	frameTimeTakenAvg = 0;
-
-	ticksPerSecond = 60;
-	skipTicks = ( 1000.0f / ticksPerSecond ) * 0.001f;;
-	maxFrameSkip = 2;
-	nextGameTick = 0;
 }
-
 
 //-----------------------------------------------------------------------------
 //

@@ -91,10 +91,6 @@ extern int __gl_error_code;
 #define RET_FALSE(n, v) {strcpy(returnStr,n);io_logToFile(n, v); return false;}
 #define RET_TRUE(n, v)  {strcpy(returnStr,n);io_logToFile(n, v); return true;}
 
-#define MODE_CONSOLE        1
-#define MODE_GAME           2
-#define MODE_PAUSE          3
-
 #define PHYSICS_OBJECT_BOX      0
 #define PHYSICS_OBJECT_BSP		1
 

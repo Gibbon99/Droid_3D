@@ -53,3 +53,11 @@ void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, in
 
 // OpenGL Debug - Register callback
 void gl_registerDebugCallback();
+
+// Print out all the GLSL error messages
+void gl_displayErrors();
+
+// Create a checkboard pattern texture
+// From: https://stackoverflow.com/questions/3569261/multiple-textures-in-glsl-only-one-works
+/* adapted from the red book */
+GLuint gl_makeCheckTex(int textureSize);

@@ -18,6 +18,7 @@
 void sys_shutdownToSystem()
 //-----------------------------------------------------------------------------
 {
+	gl_displayErrors();
 	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_ALL, 0, 0, 0, "");
 	bsp_freeLightArray();
 	gl_freeShadowMap();
@@ -26,6 +27,7 @@ void sys_shutdownToSystem()
 	io_freeTextureArray();
 	bsp_freeMem();
 	bul_stopPhysics();
+	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_ENGINE, 0, 0, 0, "");
 	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_THREAD, 0, 0, 0, "");
 	io_closeLogFile();
 	sys_reportMemLeak ( "leakReport.txt" );

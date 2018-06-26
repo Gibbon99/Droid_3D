@@ -10,6 +10,21 @@
 #include "s_maths.h"
 #include "s_camera.h"
 
+#include <map>
+
+typedef struct
+{
+	int counter{};
+	int errorID{};
+	string  source;
+	string  type;
+	string  severity;
+	string  message;
+} _errorMessage;
+
+std::map <int, _errorMessage> shaderErrorsMap;
+std::map <int, _errorMessage>::iterator it;
+
 glm::mat4       projMatrix;
 glm::mat4       modelMatrix;
 glm::mat4       viewMatrix;
@@ -98,25 +113,60 @@ std::string getStringForSeverity ( GLenum severity )
 
 //--------------------------------------------------------------------------------------------
 //
+// Print out all the GLSL error messages
+void gl_displayErrors()
+//--------------------------------------------------------------------------------------------
+{
+	con_print(CON_INFO, true, "---------------------------------------------------");
+	for (it = shaderErrorsMap.begin(); it != shaderErrorsMap.end(); it++)
+	{
+		con_print(CON_INFO, true, "Error count [ %i ]", it->second.counter);
+		con_print(CON_INFO, true, "Error ID [ %i ]", it->first);
+		con_print(CON_INFO, true, "Source [ %s ]", it->second.source.c_str());
+		con_print(CON_INFO, true, "Type [ %s ]", it->second.type.c_str());
+		con_print(CON_INFO, true, "Severity [ %s ]", it->second.severity.c_str());
+		con_print(CON_INFO, true, "Message [ %s ]", it->second.message.c_str());
+		con_print(CON_INFO, true, "---------------------------------------------------");
+		con_print(CON_INFO, true, "");
+	}
+}
+//--------------------------------------------------------------------------------------------
+//
 // OpenGL Debug Callback
 void gl_DebugCallback ( GLenum source, GLenum type, GLenum id, GLenum severity,
                         GLsizei length, const GLchar *msg, const void *data )
 //--------------------------------------------------------------------------------------------
 {
-	
 	if (false == g_debugOpenGL)
-		return;	
-	
-	if ( ( 131185 == id ) || ( 131204 == id ) )
 		return;
 
-	con_print ( CON_ERROR, true, "ID [ %i ]", id );
-	con_print ( CON_ERROR, true, "source [ %s ]", 		getStringForSource ( source ).c_str() );
-	con_print ( CON_ERROR, true, "type [ %s ]", 		getStringForType ( type ).c_str() );
-	con_print ( CON_ERROR, true, "severity [ %s ]", 	getStringForSeverity ( severity ).c_str() );
-	con_print ( CON_ERROR, true, "debug call [ %s ]", 	msg );
+	it = shaderErrorsMap.find(id);
+	if (it != shaderErrorsMap.end())
+	{
+		it->second.counter++;
+	}
+	else
+	{
+		_errorMessage    errMessage;
 
+		errMessage.counter = 1;
+		errMessage.source = getStringForSource (source);
+		errMessage.type = getStringForType (type);
+		errMessage.severity = getStringForSeverity (severity);
+		errMessage.message = msg;
+
+		shaderErrorsMap.insert ( std::make_pair( id, errMessage) );
+
+		con_print (CON_ERROR, true, "ID [ %i ]", id);
+		con_print (CON_ERROR, true, "source [ %s ]", getStringForSource (source).c_str ());
+		con_print (CON_ERROR, true, "type [ %s ]", getStringForType (type).c_str ());
+		con_print (CON_ERROR, true, "severity [ %s ]", getStringForSeverity (severity).c_str ());
+		con_print (CON_ERROR, true, "debug call [ %s ]", msg);
+	}
 }
+
+//--------------------------------------------------------------------------------------------
+//
 
 //--------------------------------------------------------------------------------------------
 //
@@ -252,4 +302,38 @@ void gl_set3DMode()
 //-----------------------------------------------------------------------------
 {
 	projMatrix = glm::perspective ( 60.0f, ( float ) winWidth / ( float ) winHeight, 0.01f, 1000.0f ); // *** These values are also in the depthMap.frag
+}
+
+//-----------------------------------------------------------------------------
+//
+// Create a checkboard pattern texture
+// From: https://stackoverflow.com/questions/3569261/multiple-textures-in-glsl-only-one-works
+/* adapted from the red book */
+GLuint gl_makeCheckTex(int textureSize)
+//-----------------------------------------------------------------------------
+{
+	GLubyte image[textureSize][textureSize][4]; // RGBA storage
+
+	for (int i = 0; i < textureSize; i++)
+	{
+		for (int j = 0; j < textureSize; j++)
+		{
+			int c = ((((i & 0x8) == 0) ^ ((j & 0x8)) == 0))*255;
+			image[i][j][0]  = (GLubyte)c;
+			image[i][j][1]  = (GLubyte)c;
+			image[i][j][2]  = (GLubyte)c;
+			image[i][j][3]  = (GLubyte)255;
+		}
+	}
+
+	GLuint texName;
+	glGenTextures(1, &texName);
+	glBindTexture(GL_TEXTURE_2D, texName);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureSize, textureSize, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+
+	return texName;
 }

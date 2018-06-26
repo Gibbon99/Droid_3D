@@ -670,7 +670,7 @@ texture_font_get_glyph( texture_font_t * self,
 {
     texture_glyph_t *glyph;
 
-    assert( self );
+//    assert( self );
     assert( self->filename );
     assert( self->atlas );
 

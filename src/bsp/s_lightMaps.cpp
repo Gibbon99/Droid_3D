@@ -1,3 +1,5 @@
+#include <hdr/libGL/soil/SOIL.h>
+#include <FreeImage.h>
 #include "s_varsBSP.h"
 #include "s_openGLWrap.h"
 //------------------------------------------------------------
@@ -48,6 +50,16 @@ void bsp_changeGamma ( byte *pImage, int size, float factor )
 void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int width, int height )
 //------------------------------------------------------------
 {
+	bsp_changeGamma ( pImageBits, width*height*3, 300.0); //g_Gamma );
+
+	// Convert to FreeImage format & save to file
+	FIBITMAP* image = FreeImage_ConvertFromRawBits ( pImageBits, 128, 128, 3*128, 3, 0x00FF00, 0xFF0000, 0x0000FF, false );
+	FreeImage_Save ( FIF_PNG, image, "lightmap.png", 0 );
+
+	// Free resources
+	FreeImage_Unload ( image );
+
+
 	// Generate a texture with the associative texture ID stored in the array
 	GL_CHECK ( glGenTextures ( 1, &texture ) );
 
@@ -58,26 +70,27 @@ void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int wi
 	wrapglBindTexture ( GL_TEXTURE0, texture );
 
 	// Change the lightmap gamma values by our desired gamma
-	bsp_changeGamma ( pImageBits, width*height*3, g_Gamma );
+//	bsp_changeGamma ( pImageBits, width*height*3, g_Gamma );
 
 	//Assign the mip map levels
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+//	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+//	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 
-	glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+//	glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR );
+//	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 
 	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits ) );
+
+//	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits ) );
 
 	glBindTexture ( GL_TEXTURE_2D, 0 );
 
 	con_print ( CON_INFO, true, "Lightmap ID [ %i ] created.", texture );
-
-
 //
 // GL_SRGB is here instead of GL_RGB to change gamma corrected textures back to linear color space
 // TODO (dberry#1#): Put in paramter for textures/shaders not doing gamma correction
 //
 //    glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, texturesLoaded[whichTexture].width, texturesLoaded[whichTexture].height, 0, GL_RGB, GL_UNSIGNED_BYTE, texturesLoaded[whichTexture].imageData );
+
 
 }

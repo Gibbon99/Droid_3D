@@ -1,3 +1,4 @@
+#include "data/scripts/commonDefines.h"
 
 const int	CON_COMMAND	= 1;
 const int	CON_USAGE	= 2;
@@ -50,9 +51,10 @@ void as_setGameVariables()
 
 	materialShininess = 140.0f;
 	globalAmbient = 0.3;
-	globalGammaFactor = 0.2;
+	globalGammaFactor = 2.6;
 	//
 	// Echo OpenGL debug callback to console and file or not
+	// Stores up errors and displays in logfile at program end
 	g_debugOpenGL = true;
 	//
 	// Show the triggers for doors
@@ -69,6 +71,18 @@ void as_setGameVariables()
 	//
 	// Bullet travels at this speed
 	bullet_1_speed = 200.0f;
+	//
+	// Use the sound system or not
+    as_useSound = true;
+	//
+	// How many simultaneous sounds at once
+    as_numMultiSamples = 16;
+	//
+	// How many sounds slots to reserve
+    as_numAudioSamples = 16;
+	//
+	// Set volume level - 0 to 100
+    aud_setAudioGain(10);
 }
 
 //-----------------------------------------------------------------------------
@@ -77,31 +91,8 @@ void as_setGameVariables()
 bool as_conCommandQuit()
 //-----------------------------------------------------------------------------
 {
-	quitProgram = true;
-
-	return true;
-}
-
-//-----------------------------------------------------------------------------
-//
-// Script console command - exit program
-bool as_conCommandExit()
-//-----------------------------------------------------------------------------
-{
-	quitProgram = true;
-
-	return true;
-}
-
-//-----------------------------------------------------------------------------
-//
-// Script console command - show openGL version information
-bool as_conCommandOpenGLVer()
-//-----------------------------------------------------------------------------
-{
-//	printConStr_AS("Vendor",	glGetString_AS(GL_VENDOR));
-//	conPrintStr("Renderer", "test"); //glGetString_AS(GL_RENDERER));
-//	conPrintStr("Version",	"test"); //glGetString_AS(GL_VERSION));
+	sys_changeMode(MODE_SHUTDOWN);
+	//quitProgram = true;
 
 	return true;
 }
@@ -142,6 +133,4 @@ void as_addAllScriptCommands()
 
 	sys_addScriptCommand ( "quit", 			"Quit the program", 		"bool as_conCommandQuit()", 		false );
 	sys_addScriptCommand ( "exit", 			"Quit the program", 		"bool as_conCommandQuit()", 		false );
-	sys_addScriptCommand ( "glVersion", 	"Show openGL version", 		"bool as_conCommandOpenGLVer()", 	false );
-	sys_addScriptCommand ( "loadFont", 		"loadFont size index", 		"bool ttf_initLibrary()", 			false );
 }

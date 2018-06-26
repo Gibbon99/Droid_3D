@@ -128,7 +128,10 @@ void sys_displayScreen ( float interpolate )
 			case MODE_PAUSE:
 				sys_renderToFBO();
 
-				bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
+				if (true == g_renderLightMaps)
+					bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
+				else
+					bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS );
 
 				if ( true == g_debugPhysics )
 					bul_drawDebugWorld();
@@ -136,11 +139,11 @@ void sys_displayScreen ( float interpolate )
 				if ( true == g_debugDoorTriggers )
 					bspDrawAllDoorTriggerZones();
 
-				obj_renderAllObjects ( SHADER_GEOMETRY_PASS );
+				obj_renderAllObjects ( SHADER_MODEL_PASS );
 
-				gam_drawBullets ( SHADER_GEOMETRY_PASS );
+				gam_drawBullets ( SHADER_MODEL_PASS );
 
-
+				par_renderParticles();
 
 				if ( true == g_debugLightPos )
 					{
@@ -151,14 +154,14 @@ void sys_displayScreen ( float interpolate )
 							}
 					}
 
-				par_renderParticles();
 
+/*
 				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 				glUseProgram ( 0 );
 
 				if ( true == showGBuffers )
 					gl_showGBuffers();
-
+*/
 				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 				glUseProgram ( 0 );
 

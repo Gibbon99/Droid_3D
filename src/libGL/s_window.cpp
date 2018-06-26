@@ -33,15 +33,15 @@ bool lib_getVersion()
 	int al_revision = (version >> 8) & 255;
 	int al_release = version & 255;
 
-	io_logToFile("Allegro Version: %i.%i.%i.%i\n", al_major, al_minor, al_revision, al_release);
-	io_logToFile("CPUs: %i RAM: %i\n", al_get_cpu_count (), al_get_ram_size ());
-	io_logToFile("Video Adapters : %i\n", al_get_num_video_adapters());
+	io_logToFile("Allegro Version: %i.%i.%i.%i", al_major, al_minor, al_revision, al_release);
+	io_logToFile("CPUs: %i RAM: %i", al_get_cpu_count (), al_get_ram_size ());
+	io_logToFile("Video Adapters : %i", al_get_num_video_adapters());
 
 	ALLEGRO_MONITOR_INFO    monitorInfo;
 	for (int i = 0; i != al_get_num_video_adapters(); i++)
 	{
 		al_get_monitor_info(i, &monitorInfo);
-		io_logToFile("Monitor [ %i ] Location [ %i %i %i %i ]\n", i, monitorInfo.x1, monitorInfo.x2, monitorInfo.y1, monitorInfo.y2);
+		io_logToFile("Monitor [ %i ] Location [ %i %i %i %i ]", i, monitorInfo.x1, monitorInfo.x2, monitorInfo.y1, monitorInfo.y2);
 	}
 
 	return true;

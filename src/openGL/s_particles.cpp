@@ -197,6 +197,7 @@ void par_renderParticles()
 
 	wrapglDisable( GL_BLEND );
 }
+
 //----------------------------------------------------------------------------
 //
 // Animate the particles

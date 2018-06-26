@@ -1,4 +1,5 @@
 
+#include <hdr/system/s_audio.h>
 #include "s_particles.h"
 #include "s_globals.h"
 #include "io_fileSystem.h"
@@ -84,6 +85,8 @@ _hostScriptFunctions hostScriptFunctions[] =
 	{"void sdf_addFontInfo(uint whichFont, string &in, uint fontSize)", (void * ) sdf_addFontInfo},
 	{"bool sdf_initFontSystem()",	                                    (void * ) sdf_initFontSystem},
 	{"void par_addParticleTexture(uint particleType, string &in)",      (void * ) par_addParticleTexture},
+	{"void sys_changeMode(int newMode)",                                (void * ) changeMode},
+	{"void aud_setAudioGain(int newLevel)",                             (void * ) aud_setAudioGain},
 	{"",							NULL},
 };
 

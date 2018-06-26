@@ -25,6 +25,11 @@ void sys_gameTickRun ( float interpolate )
 
 	switch ( currentMode )
 		{
+		case MODE_SHUTDOWN:
+			sys_shutdownToSystem();
+			quitProgram = true;
+			break;
+
 		case MODE_PAUSE:
 			break;
 

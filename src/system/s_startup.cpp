@@ -127,7 +127,8 @@ bool initAll()
 	obj_addSomeObjects();
 	//
 	// Start Audio Engine and associated thread
-	evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
+	if (as_useSound)
+		evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
 	//
 	// Start the timer to animate the console cursor
 	evt_sendEvent (USER_EVENT_TIMER, EVENT_TIMER_CONSOLE_CURSOR, START_CONSOLE_CURSOR, 0, 0, "");

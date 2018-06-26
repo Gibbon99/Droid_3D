@@ -25,6 +25,7 @@
 using namespace glm;
 
 #include "s_defines.h"
+#include "../../data/scripts/commonDefines.h"
 
 using namespace std;
 

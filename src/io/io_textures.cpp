@@ -24,6 +24,7 @@ _fileTypes	fileTypes[] =
 #define NUM_SUPPORTED_FILES 4
 
 vector<_Texture>		texturesLoaded;
+GLuint                  checkerBoardTexture;
 
 //-----------------------------------------------------------------------------
 //
@@ -37,6 +38,7 @@ _textureNames		textureNames[] =  	// holds all the information about a texture
 {
 	{"white_square"},
 	{"flare"},
+	{"lightmap"},
 };
 
 //-----------------------------------------------------------------------------
@@ -145,7 +147,7 @@ GLint utilLoadTexture ( const char *fileName, int bspIndex )
 
 					if ( returnTexID != -1 )
 						{
-							if ( true == verbose )
+							//if ( true == verbose )
 								con_print ( CON_TEXT, true, "Loaded texture [ %s ] - ID [ %i ]", fileName, returnTexID );
 
 							return returnTexID;
@@ -162,7 +164,7 @@ GLint utilLoadTexture ( const char *fileName, int bspIndex )
 
 					if ( returnTexID != -1 )
 						{
-							if ( true == verbose )
+							//if ( true == verbose )
 								con_print ( CON_TEXT, true, "Loaded texture [ %s ] - ID [ %i ]", tempFileName, returnTexID );
 
 							return returnTexID;
@@ -199,6 +201,9 @@ bool io_loadAllTextures()
 		{
 			utilLoadTexture ( m_pTextures[i].strName, i );
 		}
+
+	checkerBoardTexture = gl_makeCheckTex(256);
+	con_print(CON_INFO, true, "Checkboard texture ID [ %i ]", checkerBoardTexture);
 
 	RET_TRUE ( "Texture loading complete.", true );
 }

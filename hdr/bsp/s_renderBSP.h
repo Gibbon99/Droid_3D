@@ -5,11 +5,13 @@
 typedef struct
 {
 	glm::vec3   position;
-	glm::vec2   texCoords;
 	glm::vec3   normals;
+	glm::vec2   texCoords;
+	glm::vec2   texCoordsLightmap;
 } _myVertex;
 
-extern int				g_texturesChanges;
+//extern int				g_texturesChanges;
+extern bool             g_renderLightMaps;
 extern int				g_vertIndexCounter;
 extern int				g_numVertexPerFrame;
 

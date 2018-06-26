@@ -260,7 +260,8 @@ void io_handleKeyboardEvent ( ALLEGRO_EVENT event )
 //-----------------------------------------------------------------------------
 {
 	if ( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && event.type == ALLEGRO_EVENT_KEY_DOWN )
-		quitProgram = true;
+		changeMode (MODE_SHUTDOWN);
+//		quitProgram = true;
 
 	switch (currentMode)
 	{

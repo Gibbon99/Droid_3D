@@ -31,10 +31,12 @@ enum
 {
 	TEX_WHITE_SQUARE,
 	TEX_FLARE,
+	TEX_LIGHTMAP,
 	NUM_TEXTURES
 };
 
 extern int m_numOfTextures;		// The number of texture maps
+extern GLuint                   checkerBoardTexture;
 
 // Load all the textures
 bool io_loadAllTextures();

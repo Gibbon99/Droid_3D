@@ -8,9 +8,14 @@
 #include "s_doorsBSP.h"
 #include "s_shaderLights.h"
 #include <vector>
+#include <hdr/bsp/s_renderBSP.h>
+#include <hdr/openGL/s_shaders.h>
+#include <hdr/io/io_textures.h>
 
 #define FACE_RENDER		0
 #define FACE_ADD		1
+
+bool            g_renderLightMaps = true;
 
 GLuint          elementArrayID;
 
@@ -36,22 +41,22 @@ void bsp_debugBSPData ( tBSPFace *ptrFace, int index )
 	static bool debugDone = false;
 
 	if ( false == debugDone )
+	{
+		con_print ( CON_INFO, true, "Num verts mesh verts [ %i ] Num, Triangles [ %i ]", ptrFace->numMeshVerts, ptrFace->numMeshVerts / 3 );
+
+		for ( int i = 0; i != ptrFace->numMeshVerts; i++ )
 		{
-			con_print ( CON_INFO, true, "Num verts mesh verts [ %i ] Num, Triangles [ %i ]", ptrFace->numMeshVerts, ptrFace->numMeshVerts / 3 );
-
-			for ( int i = 0; i != ptrFace->numMeshVerts; i++ )
-				{
-					con_print ( CON_INFO, true, "Face meshVertIndex [ %i ] meshVertIndex [ %i ]", ptrFace->startMeshVertIndex + i, m_pMeshIndex[ptrFace->startMeshVertIndex + i] );
-					con_print ( CON_INFO, true, "VertexPos [ %i ] [ %3.3f %3.3f %3.3f ]", m_pMeshIndex[ptrFace->startMeshVertIndex + i],
-					            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.x,
-					            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.y,
-					            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.z );
-				}
-
-			con_print ( CON_INFO, true, "Vertex information from our array - comparision" );
-
-			debugDone = true;
+			con_print ( CON_INFO, true, "Face meshVertIndex [ %i ] meshVertIndex [ %i ]", ptrFace->startMeshVertIndex + i, m_pMeshIndex[ptrFace->startMeshVertIndex + i] );
+			con_print ( CON_INFO, true, "VertexPos [ %i ] [ %3.3f %3.3f %3.3f ]", m_pMeshIndex[ptrFace->startMeshVertIndex + i],
+			            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.x,
+			            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.y,
+			            m_pVerts[m_pMeshIndex[ptrFace->startMeshVertIndex + i]].vPosition.z );
 		}
+
+		con_print ( CON_INFO, true, "Vertex information from our array - comparision" );
+
+		debugDone = true;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -62,35 +67,51 @@ void bsp_prepareFaceRender(int whichShader)
 {
 	int stride = sizeof ( _myVertex ); // BSP Vertex, not float[3]
 
+	glUseProgram(shaderProgram[whichShader].programID);
+
 	GL_CHECK ( glBindVertexArray ( bspVAO ) );
 	//
 	// Bind data buffer holding all the vertices
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
 
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_GEOMETRY_PASS].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[SHADER_GEOMETRY_PASS].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
 
 	// Position
-	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inVertsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[SHADER_GEOMETRY_PASS].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
 
 	// Normals
-	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inNormalsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[SHADER_GEOMETRY_PASS].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
 
 	// Texture coords
-	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inTextureCoordsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[SHADER_GEOMETRY_PASS].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoords ) ) ) );
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoords ) ) ) );
+
+	// Texture coords for lightmap
+	if (true == g_renderLightMaps)
+	{
+		// Texture coords
+		GL_ASSERT (glEnableVertexAttribArray (shaderProgram[whichShader].inTextureCoordsID_1));
+		GL_ASSERT (glVertexAttribPointer (shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, GL_FALSE,
+		                                  stride, (const GLvoid *) (offsetof (_myVertex, texCoordsLightmap))));
+	}
 
 	//
 	// Enable attribute to hold vertex information
-	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inVertsID ) );
-	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inNormalsID ) );
-	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_GEOMETRY_PASS].inTextureCoordsID ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+
+	if (true == g_renderLightMaps)
+	{
+		GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID_1) );
+	}
 
 	g_facesForFrame.clear();
 	g_currentFrameVertexIndex.clear();
-	g_texturesChanges = 0;
+//	g_texturesChanges = 0;
 	g_vertIndexCounter = 0;
 	g_numVertexPerFrame = 0;
 }
@@ -129,25 +150,28 @@ void bsp_renderAllFaces()
 	previousTexture = ptrFace->textureID;
 
 	for (i = 0; i != g_facesForFrame.size(); i++)
-		{
-			ptrFace = &m_pFaces[g_facesForFrame[i]];
+	{
+		ptrFace = &m_pFaces[g_facesForFrame[i]];
 
-			if (previousTexture == ptrFace->textureID)
-				{
-					bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
-					ptrFace = &m_pFaces[g_facesForFrame[i]];
-					previousTexture = ptrFace->textureID;
-				}
-			else
-				{
-					bsp_renderFace(-1, FACE_RENDER, previousTexture);
-					bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
-					ptrFace = &m_pFaces[g_facesForFrame[i]];
-					previousTexture = ptrFace->textureID;
-				}
+		if (previousTexture == ptrFace->textureID)
+		{
+			bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
+			ptrFace = &m_pFaces[g_facesForFrame[i]];
+			previousTexture = ptrFace->textureID;
 		}
+		else
+		{
+			bsp_renderFace(-1, FACE_RENDER, previousTexture);
+			bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
+			ptrFace = &m_pFaces[g_facesForFrame[i]];
+			previousTexture = ptrFace->textureID;
+		}
+	}
 
 	bsp_renderFace(-1, FACE_RENDER, previousTexture);
+
+	wrapglBindTexture ( GL_TEXTURE0, 0);
+	wrapglBindTexture ( GL_TEXTURE1, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -174,12 +198,12 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 	indexes.reserve ( ptrFace->numMeshVerts );
 
 	for ( int i = 0; i != ptrFace->numMeshVerts; i++ )
-		{
-			indexes[i] = m_pMeshIndex[ptrFace->startMeshVertIndex + i];
+	{
+		indexes[i] = m_pMeshIndex[ptrFace->startMeshVertIndex + i];
 
-			g_currentFrameVertexIndex.push_back (ptrFace->startVertIndex + indexes[i]);
-			g_numVertexPerFrame++;
-		}
+		g_currentFrameVertexIndex.push_back (ptrFace->startVertIndex + indexes[i]);
+		g_numVertexPerFrame++;
+	}
 
 	g_vertIndexCounter++;
 }
@@ -194,27 +218,34 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture )
 	tBSPFace			*ptrFace;
 
 	switch (whichAction)
-		{
-			case FACE_ADD:
-				ptrFace = &m_pFaces[whichFace];
+	{
+		case FACE_ADD:
+			ptrFace = &m_pFaces[whichFace];
 
-				bsp_createVextexIndexArray ( ptrFace );
-				break;
+			bsp_createVextexIndexArray ( ptrFace );
+			break;
 
-			case FACE_RENDER:
-				//
-				// Upload vertex indexes
-				wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(whichTexture));
-				GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
+		case FACE_RENDER:
+			//
+			// Upload vertex indexes
+			wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(whichTexture));
 
-				GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
-				
-				GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
-				g_currentFrameVertexIndex.clear();
-				break;
-				
-				gl_getAllGLErrors ( glGetError(), __FILE__, __LINE__ );
-		}
+			if (true == g_renderLightMaps)
+			{
+				wrapglBindTexture (GL_TEXTURE1, checkerBoardTexture); //texturesLoaded[TEX_LIGHTMAP].texID);
+			}
+
+			GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
+
+			GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
+
+			GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
+			g_currentFrameVertexIndex.clear();
+			break;
+
+		default:
+			break;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -226,13 +257,16 @@ void bsp_uploadLevelVertex()
 	_myVertex		tempVertex;
 
 	for (int i = 0; i != m_numOfVerts; i++)
-		{
-			tempVertex.position = m_pVerts[i].vPosition;
-			tempVertex.texCoords = m_pVerts[i].vTextureCoord;
-			tempVertex.normals = m_pVerts[i].vNormal;
+	{
+		tempVertex.position = m_pVerts[i].vPosition;
+		tempVertex.texCoords = m_pVerts[i].vTextureCoord;
+		tempVertex.normals = m_pVerts[i].vNormal;
 
-			g_levelDataVertex.push_back(tempVertex);
-		}
+		if (true == g_renderLightMaps)
+			tempVertex.texCoordsLightmap = m_pVerts[i].vLightmapCoord;
+
+		g_levelDataVertex.push_back(tempVertex);
+	}
 
 	con_print(CON_INFO, true, "Upload vertices to GPU. Size [ %i bytes ]", g_levelDataVertex.size() * sizeof ( _myVertex ));
 
@@ -260,30 +294,30 @@ int bsp_findLeaf ( const glm::vec3 &vPos )
 
 	// Continue looping until we find a negative index
 	while ( i >= 0 )
+	{
+		const tBSPNode&  node = m_pNodes[i];
+		const tBSPPlane& plane = m_pPlanes[node.plane];
+
+		// Use the Plane Equation (Ax + by + Cz + D = 0) to find if the
+		// camera is in front of or behind the current splitter plane.
+		distance =	plane.vNormal.x * vPos.x +
+		              plane.vNormal.y * vPos.y +
+		              plane.vNormal.z * vPos.z - plane.d;
+
+		// If the camera is in front of the plane
+		if ( distance >= 0 )
 		{
-			const tBSPNode&  node = m_pNodes[i];
-			const tBSPPlane& plane = m_pPlanes[node.plane];
-
-			// Use the Plane Equation (Ax + by + Cz + D = 0) to find if the
-			// camera is in front of or behind the current splitter plane.
-			distance =	plane.vNormal.x * vPos.x +
-			            plane.vNormal.y * vPos.y +
-			            plane.vNormal.z * vPos.z - plane.d;
-
-			// If the camera is in front of the plane
-			if ( distance >= 0 )
-				{
-					// Assign the current node to the node in front of itself
-					i = node.front;
-				}
+			// Assign the current node to the node in front of itself
+			i = node.front;
+		}
 
 			// Else if the camera is behind the plane
-			else
-				{
-					// Assign the current node to the node behind itself
-					i = node.back;
-				}
+		else
+		{
+			// Assign the current node to the node behind itself
+			i = node.back;
 		}
+	}
 
 	// Return the leaf index (same thing as saying:  return -(i + 1)).
 	return ~i;  // Binary operation
@@ -332,31 +366,31 @@ void bsp_renderLeaf ( int iLeaf, bool CheckFrustum )
 
 	// Loop through and render all of the faces in this leaf
 	while ( faceCount-- )
+	{
+		// Grab the current face index from our leaf faces array
+		int faceIndex = m_pLeafFaces[pLeaf->leafface + faceCount];
+
+		if ( m_pFaces[faceIndex].type != FACE_POLYGON )
 		{
-			// Grab the current face index from our leaf faces array
-			int faceIndex = m_pLeafFaces[pLeaf->leafface + faceCount];
-
-			if ( m_pFaces[faceIndex].type != FACE_POLYGON )
-				{
-					//
-					// TODO: Do patches?
-					//
-					continue;
-				}
-
-			// Since many faces are duplicated in other leafs, we need to
-			// make sure this face already hasn't been drawn.
-			if ( !m_FacesDrawn.On ( faceIndex ) )
-				{
-					// Set this face as drawn and render it
-					m_FacesDrawn.Set ( faceIndex );
-					bsp_addFaceToArray(faceIndex);
-					g_numFacesDrawn++;
-				}
-
-			else
-				g_numFacesNotDrawn++;
+			//
+			// TODO: Do patches?
+			//
+			continue;
 		}
+
+		// Since many faces are duplicated in other leafs, we need to
+		// make sure this face already hasn't been drawn.
+		if ( !m_FacesDrawn.On ( faceIndex ) )
+		{
+			// Set this face as drawn and render it
+			m_FacesDrawn.Set ( faceIndex );
+			bsp_addFaceToArray(faceIndex);
+			g_numFacesDrawn++;
+		}
+
+		else
+			g_numFacesNotDrawn++;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -373,29 +407,29 @@ void bsp_renderTree ( int Node, bool CheckFrustum )
 	// won't check this node against the frustum because we know we are COMPLETE_IN the
 	// frustum
 	if ( CheckFrustum )
+	{
+		// CheckFrustum = true so our node parent was intersecting the frustum and so
+		// he have to continue checking this one
+		switch ( sys_boxInFrustum ( ( float ) pNode->min.x, ( float ) pNode->min.y, ( float ) pNode->min.z, ( float ) pNode->max.x, ( float ) pNode->max.y, ( float ) pNode->max.z ) )
 		{
-			// CheckFrustum = true so our node parent was intersecting the frustum and so
-			// he have to continue checking this one
-			switch ( sys_boxInFrustum ( ( float ) pNode->min.x, ( float ) pNode->min.y, ( float ) pNode->min.z, ( float ) pNode->max.x, ( float ) pNode->max.y, ( float ) pNode->max.z ) )
-				{
-					case COMPLETE_OUT:
-						g_numLeafsNotDrawng++;
-						return;
+			case COMPLETE_OUT:
+				g_numLeafsNotDrawng++;
+				return;
 
-					// if this one is complete_out, stop analysing this branch
-					// all leaf that come from this node are also complete_out
+				// if this one is complete_out, stop analysing this branch
+				// all leaf that come from this node are also complete_out
 
-					case COMPLETE_IN:
-						CheckFrustum = false;
-						g_numLeafsDrawn++;
-						break;
-						// if we are complete_in, Set CheckFrustum to false to not
-						// check frustum on any of my childs, CheckFrustum will be used
-						// to call my children
+			case COMPLETE_IN:
+				CheckFrustum = false;
+				g_numLeafsDrawn++;
+				break;
+				// if we are complete_in, Set CheckFrustum to false to not
+				// check frustum on any of my childs, CheckFrustum will be used
+				// to call my children
 
-						// if intersecting continue as usual, test all my children against the frustum
-				}
+				// if intersecting continue as usual, test all my children against the frustum
 		}
+	}
 
 	// a node is an structure that hold a partition plane, all leafs are split in two
 	// groups: FRONT and BACK. plane is the partition plane for this node
@@ -405,28 +439,28 @@ void bsp_renderTree ( int Node, bool CheckFrustum )
 
 	// If the camera position is in front the plane
 	if ( ( plane->vNormal.x * g_cameraPosition.x + plane->vNormal.y * g_cameraPosition.y + plane->vNormal.z * g_cameraPosition.z -  plane->d  > 0 ) )
-		{
-			if ( pNode->front>=0 )  bsp_renderTree ( pNode->front, CheckFrustum );
+	{
+		if ( pNode->front>=0 )  bsp_renderTree ( pNode->front, CheckFrustum );
 
-			else bsp_renderLeaf ( ~pNode->front, CheckFrustum );
+		else bsp_renderLeaf ( ~pNode->front, CheckFrustum );
 
-			// now that we render or leaf and nodes that are in front of the plane,
-			// go with the BACK ones
-			if ( pNode->back>=0 ) bsp_renderTree ( pNode->back, CheckFrustum );
+		// now that we render or leaf and nodes that are in front of the plane,
+		// go with the BACK ones
+		if ( pNode->back>=0 ) bsp_renderTree ( pNode->back, CheckFrustum );
 
-			else bsp_renderLeaf ( ~pNode->back, CheckFrustum );
-		}// else if is CameraPostion is back of the partition plane, draw back to front
+		else bsp_renderLeaf ( ~pNode->back, CheckFrustum );
+	}// else if is CameraPostion is back of the partition plane, draw back to front
 
 	else
-		{
-			if ( pNode->back>=0 ) bsp_renderTree ( pNode->back, CheckFrustum );
+	{
+		if ( pNode->back>=0 ) bsp_renderTree ( pNode->back, CheckFrustum );
 
-			else bsp_renderLeaf ( ~pNode->back, CheckFrustum );
+		else bsp_renderLeaf ( ~pNode->back, CheckFrustum );
 
-			if ( pNode->front>=0 )  bsp_renderTree ( pNode->front, CheckFrustum );
+		if ( pNode->front>=0 )  bsp_renderTree ( pNode->front, CheckFrustum );
 
-			else bsp_renderLeaf ( ~pNode->front, CheckFrustum );
-		}
+		else bsp_renderLeaf ( ~pNode->front, CheckFrustum );
+	}
 }
 
 //-----------------------------------------------------------------------------

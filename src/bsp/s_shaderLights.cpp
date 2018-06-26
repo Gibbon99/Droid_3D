@@ -165,6 +165,9 @@ void bsp_setLightArrayData()
 				case EFFECT_FLICKER:
 					allLights[i].flickerColorOn = allLights[i].color;
 					break;
+
+					default:
+						break;
 				}
 
 		}
@@ -207,6 +210,9 @@ int bsp_processLightEffect ( float interpolate )
 								}
 						}
 					break;
+
+					default:
+						break;
 				}
 		}
 	return 0;

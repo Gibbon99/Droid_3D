@@ -1,4 +1,5 @@
 
+#include "s_audio.h"
 #include "s_globals.h"
 #include "s_movement.h"
 #include "s_fontUtil.h"
@@ -34,6 +35,11 @@ _hostScriptFunctions hostVariables[] =
 	{"bool g_debugPhysics",					&g_debugPhysics},
 	{"bool g_debugDoorTriggers",			&g_debugDoorTriggers},
 	{"bool g_debugOpenGL",					&g_debugOpenGL},
+	{"bool as_useSound",                    &as_useSound},
+	{"int as_numMultiSamples",              &as_numMultiSamples},
+	{"int as_numAudioSamples",              &as_numAudioSamples},
+	{"int as_audioVolume",                  &as_audioVolume},
+	{"bool g_renderLightMaps",              &g_renderLightMaps},
 	{"",							        NULL},
 };
 

@@ -1,10 +1,17 @@
-
 //
 // Defines for sound
 //
 const float AUDIO_PAN_CENTER = 0.0f;
 const float AUDIO_PAN_LEFT = -1.0f;
 const float AUDIO_PAN_RIGHT = 1.0f;
+
+//
+//		Defines for Game Modes
+
+const int MODE_CONSOLE        = 1;
+const int MODE_GAME           = 2;
+const int MODE_PAUSE          = 3;
+const int MODE_SHUTDOWN       = 4;
 
 enum mySounds
 {

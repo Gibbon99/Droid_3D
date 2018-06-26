@@ -42,7 +42,10 @@ void ass_loadModelTextures()
 			int j = 0;	// Only load first material
 //			for ( int j = 0; j != meshModels[i].numMaterials; j++ )
 			{
-				meshModels[i].mesh[j].textureID = utilLoadTexture ( meshModels[i].materialName[j].C_Str(), -1 );
+				if (meshModels[i].materialName[j].C_Str() == "white_square")    // TODO: Fix this up to match properly
+					meshModels[i].mesh[j].textureID = checkerBoardTexture;
+				else
+					meshModels[i].mesh[j].textureID = utilLoadTexture ( meshModels[i].materialName[j].C_Str(), -1 );
 				con_print ( CON_INFO, true, "Model [ %i ] : Texture ID [ %i ]", i, meshModels[i].mesh[j].textureID );
 			}
 		}
@@ -103,7 +106,7 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 
 			else
 				{
-					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+					wrapglBindTexture ( GL_TEXTURE0, checkerBoardTexture); //[whichModel].mesh[whichMesh].textureID );
 //					glBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
 					GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
 				}

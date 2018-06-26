@@ -186,7 +186,19 @@ void evt_handleUserEvents(CUSTOM_EVENT *event)
 void evt_handleDisplayEvents(ALLEGRO_EVENT event)
 //------------------------------------------------------------------------
 {
+	switch (event.display.type)
+	{
+		case ALLEGRO_EVENT_DISPLAY_CLOSE:
+			changeMode(MODE_SHUTDOWN);
+			break;
 
+		case ALLEGRO_EVENT_DISPLAY_LOST:
+			changeMode(MODE_PAUSE);
+			break;
+
+		default:
+			break;
+	}
 }
 
 //------------------------------------------------------------------------

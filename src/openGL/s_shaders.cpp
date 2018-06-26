@@ -32,6 +32,7 @@ _shaderProgram                shaderProgram[] =             // holds all the inf
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "justColor.vert",       "justColor.frag",     ""},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag",  ""},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",   "geometry_pass.frag", ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",   "model_pass.frag", ""},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "lightPass.vert",       "lightPass.frag",     ""},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointLight.vert",      "pointLight.frag",    ""},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "billboard.vert",       "billboard.frag",     "billboard.geom"},
