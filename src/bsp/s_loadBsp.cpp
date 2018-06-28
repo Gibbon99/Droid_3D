@@ -258,7 +258,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			m_pVerts[i].vNormal.z = -temp;
 
 			// Negate the V texture coordinate because it is upside down otherwise...
-//			m_pVerts[i].vTextureCoord.y *= -1;
+			m_pVerts[i].vTextureCoord.y *= -1;
 //			m_pVerts[i].vLightmapCoord.y *= -1;
 		}
 

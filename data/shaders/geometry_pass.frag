@@ -7,7 +7,7 @@ in vec2 TexCoord1;
 
 layout (location=0) out vec3 WorldPosOut;
 layout (location=1) out vec3 NormalOut;
-layout (location=2) out vec3 DiffuseOut;
+layout (location=2) out vec4 DiffuseOut;
 
 uniform sampler2D inTexture0;
 uniform sampler2D inTexture1;
@@ -22,7 +22,12 @@ void main()
 	NormalOut       = normalize(Normal0);
     //
     // Diffuse - texture image
-	DiffuseOut.xyz      = texture2D(inTexture1, TexCoord1).xyz * texture2D(inTexture0, TexCoord0).xyz;
+    vec4 ambientColor = texture2D(inTexture1, TexCoord1);
+
+	if ((ambientColor.r < 0.2) || (ambientColor.g < 0.2) || (ambientColor.b < 0.2))
+    	ambientColor = vec4(0.2, 0.2, 0.2, 0.5);
+
+	DiffuseOut      = (texture2D(inTexture0, TexCoord0) * (texture2D(inTexture1, TexCoord1)) + ambientColor);
 //	DiffuseOut      = texture2D(inTexture0, TexCoord0).xyz;
 
 }

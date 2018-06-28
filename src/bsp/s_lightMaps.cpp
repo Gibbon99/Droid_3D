@@ -70,14 +70,14 @@ void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int wi
 	wrapglBindTexture ( GL_TEXTURE0, texture );
 
 	// Change the lightmap gamma values by our desired gamma
-//	bsp_changeGamma ( pImageBits, width*height*3, g_Gamma );
+	bsp_changeGamma ( pImageBits, width*height*3, 1.0f); //g_Gamma );
 
 	//Assign the mip map levels
-//	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-//	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 
-//	glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR );
-//	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+	glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 
 	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits ) );
 

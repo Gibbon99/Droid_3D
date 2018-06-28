@@ -11,7 +11,7 @@ typedef struct
 } _myVertex;
 
 //extern int				g_texturesChanges;
-extern bool             g_renderLightMaps;
+extern bool             g_renderTextures;
 extern int				g_vertIndexCounter;
 extern int				g_numVertexPerFrame;
 
@@ -25,7 +25,7 @@ void bsp_uploadLevelVertex();
 void bsp_createVextexIndexArray ( tBSPFace *ptrFace );
 
 // Actually draw the BSP face
-void bsp_renderFace ( int whichFace, int whichAction, int whichTexture );
+void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whichShader );
 
 // Add the index for the face into vector array
 void bsp_addFaceToArray(int whichFace );

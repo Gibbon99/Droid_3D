@@ -30,7 +30,7 @@ extern _textureNames		textureNames[];
 enum
 {
 	TEX_WHITE_SQUARE,
-	TEX_FLARE,
+//	TEX_FLARE,
 	TEX_LIGHTMAP,
 	NUM_TEXTURES
 };

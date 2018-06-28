@@ -39,7 +39,7 @@ _hostScriptFunctions hostVariables[] =
 	{"int as_numMultiSamples",              &as_numMultiSamples},
 	{"int as_numAudioSamples",              &as_numAudioSamples},
 	{"int as_audioVolume",                  &as_audioVolume},
-	{"bool g_renderLightMaps",              &g_renderLightMaps},
+	{"bool g_renderTextures",              &g_renderTextures},
 	{"",							        NULL},
 };
 

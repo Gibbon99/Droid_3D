@@ -15,7 +15,7 @@
 #define FACE_RENDER		0
 #define FACE_ADD		1
 
-bool            g_renderLightMaps = true;
+bool            g_renderTextures = true;
 
 GLuint          elementArrayID;
 
@@ -23,7 +23,7 @@ glm::vec3       g_cameraPosition;
 int             g_currentCameraCluster;
 
 int             g_vertIndexCounter = 0;
-int				g_texturesChanges = 0;
+//int				g_texturesChanges = 0;
 int				g_numVertexPerFrame = 0;
 
 GLuint			bspVAO, bspVBO;
@@ -87,15 +87,16 @@ void bsp_prepareFaceRender(int whichShader)
 
 	// Texture coords
 	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoords ) ) ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE,
+	                                    stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
 
-	// Texture coords for lightmap
-	if (true == g_renderLightMaps)
+	// Texture coords for normal texture
+	if (true == g_renderTextures)
 	{
 		// Texture coords
 		GL_ASSERT (glEnableVertexAttribArray (shaderProgram[whichShader].inTextureCoordsID_1));
 		GL_ASSERT (glVertexAttribPointer (shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, GL_FALSE,
-		                                  stride, (const GLvoid *) (offsetof (_myVertex, texCoordsLightmap))));
+		                                  stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
 	}
 
 	//
@@ -104,7 +105,7 @@ void bsp_prepareFaceRender(int whichShader)
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
 
-	if (true == g_renderLightMaps)
+	if (true == g_renderTextures)
 	{
 		GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID_1) );
 	}
@@ -136,7 +137,7 @@ bool bsp_sortFacesCallback(int lhs, int rhs)
 // Go through the vector face indexes and render the face - including door models
 //
 // Sort the faces based on textureID
-void bsp_renderAllFaces()
+void bsp_renderAllFaces(int whichShader)
 //-----------------------------------------------------------------------------
 
 {
@@ -144,7 +145,8 @@ void bsp_renderAllFaces()
 	static int 				previousTexture = 9999;
 	unsigned int 			i = 0;
 
-	std::sort(g_facesForFrame.begin(), g_facesForFrame.end(), bsp_sortFacesCallback);
+	if (true == g_renderTextures)
+		std::sort(g_facesForFrame.begin(), g_facesForFrame.end(), bsp_sortFacesCallback);
 
 	ptrFace = &m_pFaces[g_facesForFrame[0]];
 	previousTexture = ptrFace->textureID;
@@ -155,23 +157,23 @@ void bsp_renderAllFaces()
 
 		if (previousTexture == ptrFace->textureID)
 		{
-			bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
+			bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture, whichShader);
 			ptrFace = &m_pFaces[g_facesForFrame[i]];
 			previousTexture = ptrFace->textureID;
 		}
 		else
 		{
-			bsp_renderFace(-1, FACE_RENDER, previousTexture);
-			bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture);
+			bsp_renderFace(-1, FACE_RENDER, previousTexture, whichShader);
+			bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture, whichShader);
 			ptrFace = &m_pFaces[g_facesForFrame[i]];
 			previousTexture = ptrFace->textureID;
 		}
 	}
 
-	bsp_renderFace(-1, FACE_RENDER, previousTexture);
+	bsp_renderFace(-1, FACE_RENDER, previousTexture, whichShader);
 
 	wrapglBindTexture ( GL_TEXTURE0, 0);
-	wrapglBindTexture ( GL_TEXTURE1, 0);
+	wrapglBindTexture ( GL_TEXTURE1, 1);
 }
 
 //-----------------------------------------------------------------------------
@@ -211,7 +213,7 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 //-----------------------------------------------------------------------------
 //
 // Actually draw the BSP face
-void bsp_renderFace ( int whichFace, int whichAction, int whichTexture )
+void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whichShader )
 //-----------------------------------------------------------------------------
 
 {
@@ -228,11 +230,14 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture )
 		case FACE_RENDER:
 			//
 			// Upload vertex indexes
-			wrapglBindTexture ( GL_TEXTURE0, io_getGLTexID(whichTexture));
+			ptrFace = &m_pFaces[whichFace];
+			wrapglBindTexture (GL_TEXTURE0, m_lightmaps[ptrFace->lightmapID]);
+			glUniform1i(shaderProgram[whichShader].inTextureUnit, 0);
 
-			if (true == g_renderLightMaps)
+			if (true == g_renderTextures)
 			{
-				wrapglBindTexture (GL_TEXTURE1, checkerBoardTexture); //texturesLoaded[TEX_LIGHTMAP].texID);
+				wrapglBindTexture (GL_TEXTURE1, io_getGLTexID(whichTexture));
+				glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1);
 			}
 
 			GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
@@ -258,12 +263,19 @@ void bsp_uploadLevelVertex()
 
 	for (int i = 0; i != m_numOfVerts; i++)
 	{
-		tempVertex.position = m_pVerts[i].vPosition;
-		tempVertex.texCoords = m_pVerts[i].vTextureCoord;
-		tempVertex.normals = m_pVerts[i].vNormal;
-
-		if (true == g_renderLightMaps)
+		if (false == g_renderTextures)
+		{
+			tempVertex.position = m_pVerts[i].vPosition;
 			tempVertex.texCoordsLightmap = m_pVerts[i].vLightmapCoord;
+			tempVertex.normals = m_pVerts[i].vNormal;
+		}
+		else
+		{
+			tempVertex.position = m_pVerts[i].vPosition;
+			tempVertex.texCoords = m_pVerts[i].vTextureCoord;
+			tempVertex.normals = m_pVerts[i].vNormal;
+			tempVertex.texCoordsLightmap = m_pVerts[i].vLightmapCoord;
+		}
 
 		g_levelDataVertex.push_back(tempVertex);
 	}
@@ -497,7 +509,7 @@ void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
 
 	bsp_drawAllDoors();	// Call before renderAllFaces ?
 
-	bsp_renderAllFaces();
+	bsp_renderAllFaces(whichShader);
 
 	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, 0 );

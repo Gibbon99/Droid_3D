@@ -128,7 +128,7 @@ void sys_displayScreen ( float interpolate )
 			case MODE_PAUSE:
 				sys_renderToFBO();
 
-				if (true == g_renderLightMaps)
+				if (true == g_renderTextures)
 					bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
 				else
 					bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS );

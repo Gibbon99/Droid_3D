@@ -37,7 +37,7 @@ GLuint                  checkerBoardTexture;
 _textureNames		textureNames[] =  	// holds all the information about a texture
 {
 	{"white_square"},
-	{"flare"},
+//	{"flare"},
 	{"lightmap"},
 };
 
