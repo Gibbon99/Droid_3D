@@ -1,3 +1,4 @@
+#include <hdr/openGL/s_openGLWrap.h>
 #include "s_varsBSP.h"
 #include "s_entitiesBSP.h"
 #include "s_doorsBSP.h"
@@ -294,7 +295,9 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 	GL_CHECK ( glBindVertexArray ( vao ) );
 
 	// Create buffers for the vertex data
-	GL_ASSERT ( glGenBuffers ( 2, buffers ) );
+	//GL_ASSERT ( glGenBuffers ( 2, buffers ) );
+	buffers[0] = wrapglGenBuffers(1, __func__);
+	buffers[1] = wrapglGenBuffers(1, __func__);
 
 	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
 

@@ -352,11 +352,11 @@ int ld_hex_printout ( char *out_buf,const char *buf,
 /*
  * writes all info of the unallocated memory into a file
  */
-void sys_reportMemLeak ( std::string fileName )
+void sys_reportMemLeak ( const char *fileName )
 {
 	MEM_LEAK * leak_info;
 
-	FILE * fp_write = fopen ( fileName.c_str(), "wt" );
+	FILE * fp_write = fopen ( fileName, "wt" );
 	char info[1024];
 	int print_size;
 	if ( fp_write != NULL )
@@ -396,12 +396,12 @@ void sys_reportMemLeak ( std::string fileName )
 //----------------------------------------------------------------
 //
 // Check memLeak file from last run and see if there is a leak or not
-bool sys_checkMemLeak( std::string fileName )
+bool sys_checkMemLeak( const char *fileName )
 //----------------------------------------------------------------
 {
 	std::ifstream	inFile;
 	
-	inFile.open(fileName.c_str());
+	inFile.open(fileName);
 	std::stringstream strStream;
 	strStream << inFile.rdbuf();
 	

@@ -141,7 +141,8 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 			glBindVertexArray ( lineVAO );
 			//
 			// Use Vertices
-			glGenBuffers ( 1, &lineVBO );
+			//glGenBuffers ( 1, &lineVBO );
+			lineVBO = wrapglGenBuffers(1, __func__);
 			glBindBuffer ( GL_ARRAY_BUFFER, lineVBO );
 			glBufferData ( GL_ARRAY_BUFFER, vertices.size() * sizeof ( GLfloat ), &vertices[0], GL_STATIC_DRAW );
 			glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID );
@@ -149,7 +150,8 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 
 			//
 			// Line Color
-			glGenBuffers ( 1, &lineColorsVBO );
+			//glGenBuffers ( 1, &lineColorsVBO );
+			lineColorsVBO = wrapglGenBuffers(1, __func__);
 			glBindBuffer ( GL_ARRAY_BUFFER, lineColorsVBO );
 			glBufferData ( GL_ARRAY_BUFFER, color.size() * sizeof ( GLfloat ), &color[0], GL_STATIC_DRAW );
 			glEnableVertexAttribArray ( shaderProgram[whichShader].inColorID );
@@ -157,7 +159,8 @@ void bul_drawDebugLines ( vector<GLDebugDrawer::LINE> & lines )
 
 			//
 			// Use Texture coordinate information
-			glGenBuffers ( 1, &lineTexCoordsVBO );
+			//glGenBuffers ( 1, &lineTexCoordsVBO );
+			lineTexCoordsVBO = wrapglGenBuffers(1, __func__);
 			glBindBuffer ( GL_ARRAY_BUFFER, lineTexCoordsVBO );
 			glBufferData ( GL_ARRAY_BUFFER, texCoords.size() * sizeof ( GLfloat ), &texCoords[0], GL_STATIC_DRAW );
 			glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID );

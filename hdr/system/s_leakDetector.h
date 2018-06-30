@@ -1,7 +1,6 @@
-#ifndef  LEAK_DETECTOR_H
-#define  LEAK_DETECTOR_H
+#pragma once
 
-#include <string>
+//#include <string>
 
 void * xrealloc ( void *str,int size,const char *file,unsigned int line );
 void * xmalloc ( unsigned int size, const char * file, unsigned int line );
@@ -15,8 +14,6 @@ void xfree ( void * mem_ref );
 #define  calloc(elements, size)		xcalloc(elements, size, __FILE__, __LINE__)
 #define  free(mem_ref)				xfree(mem_ref)
 
-void sys_reportMemLeak ( std::string fileName );
+void sys_reportMemLeak ( const char *fileName );
 
-bool sys_checkMemLeak( std::string fileName );
-
-#endif
+bool sys_checkMemLeak( const char *fileName );

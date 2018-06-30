@@ -54,6 +54,7 @@ void con_addConsoleCommands()
 	con_addCommand ( "showCounters",	"Show openGL wrap counters",   ( ExternFunc ) wrapShowCounters );
 	con_addCommand ( "debugColObjects",	"Show collision objects",		( ExternFunc ) phy_debugShowCollisionData );
 	con_addCommand ( "showGLErrors",    "Show OpenGL errors",           (ExternFunc ) gl_displayErrors );
+	con_addCommand ( "showGLBuffers",   "Show genBuffers and text",     ( ExternFunc ) wrapShowBufferInfo);
 	
 //	conAddCommand("scDo",		"Execute script function",		(ExternFunc)conScriptExecute);
 }

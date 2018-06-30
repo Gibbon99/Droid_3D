@@ -137,9 +137,11 @@ bool sdf_initFontSystem()
 							// Setup the Vertex Array Object that will have the VBO's associated to it
 							GL_ASSERT ( glGenVertexArrays ( 1, &font[i].glyphVAO_ID ) );
 
-							GL_ASSERT ( glGenBuffers ( 1, &font[i].index_ID ) );
+							//GL_ASSERT ( glGenBuffers ( 1, &font[i].index_ID ) );
+							font[i].index_ID = wrapglGenBuffers(1, __func__);
 
-							GL_ASSERT ( glGenBuffers ( 1, &font[i].vertexVBO_ID) );
+							//GL_ASSERT ( glGenBuffers ( 1, &font[i].vertexVBO_ID) );
+							font[i].vertexVBO_ID = wrapglGenBuffers(1, __func__);
 						}
 
 					if (filePointer)

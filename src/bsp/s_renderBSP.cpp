@@ -172,8 +172,8 @@ void bsp_renderAllFaces(int whichShader)
 
 	bsp_renderFace(-1, FACE_RENDER, previousTexture, whichShader);
 
-	wrapglBindTexture ( GL_TEXTURE0, 0);
-	wrapglBindTexture ( GL_TEXTURE1, 1);
+//	wrapglBindTexture ( GL_TEXTURE0, 0);
+//	wrapglBindTexture ( GL_TEXTURE1, 1);
 }
 
 //-----------------------------------------------------------------------------
@@ -231,7 +231,10 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 			//
 			// Upload vertex indexes
 			ptrFace = &m_pFaces[whichFace];
-			wrapglBindTexture (GL_TEXTURE0, m_lightmaps[ptrFace->lightmapID]);
+			wrapglBindTexture (GL_TEXTURE0, m_lightmaps[0]);
+
+			printf("TExture ID [ %i ]\n", ptrFace->lightmapID);
+
 			glUniform1i(shaderProgram[whichShader].inTextureUnit, 0);
 
 			if (true == g_renderTextures)
@@ -287,12 +290,14 @@ void bsp_uploadLevelVertex()
 	GL_CHECK ( glGenVertexArrays ( 1, &bspVAO ) );
 	GL_CHECK ( glBindVertexArray ( bspVAO ) );
 
-	GL_CHECK ( glGenBuffers (1, &bspVBO) );
+//	GL_CHECK ( glGenBuffers (1, &bspVBO) );
+	bspVBO = wrapglGenBuffers(1, __func__);
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
 	GL_CHECK ( glBufferData (GL_ARRAY_BUFFER, m_numOfVerts * sizeof ( _myVertex ), &g_levelDataVertex[0], GL_DYNAMIC_DRAW ) );
 	//
 	// Generate indexArray ID - indexes into currently visible faces in current frame
-	GL_CHECK ( glGenBuffers ( 1, &elementArrayID ) );
+//	GL_CHECK ( glGenBuffers ( 1, &elementArrayID ) );
+	elementArrayID = wrapglGenBuffers(1, __func__);
 }
 
 //-----------------------------------------------------------------------------

@@ -101,7 +101,10 @@ void lt_renderFullscreenQuad ( int whichShader )
 			GL_CHECK ( glBindVertexArray ( vao ) );
 
 			// Create buffers for the vertex data
-			GL_ASSERT ( glGenBuffers ( 2, buffers ) );
+//			GL_ASSERT ( glGenBuffers ( 2, buffers ) );
+
+			buffers[0] = wrapglGenBuffers(1, __func__);
+			buffers[1] = wrapglGenBuffers(1, __func__);
 
 			GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
@@ -182,7 +185,8 @@ void lt_renderDepthQuad ( int whichShader )
 			GL_ASSERT ( glGenVertexArrays ( 1, &vaoQuadDepthMap ) );
 			GL_CHECK ( glBindVertexArray ( vaoQuadDepthMap ) );
 
-			GL_ASSERT ( glGenBuffers ( 1, &vboQuadDepthMap ) );
+//			GL_ASSERT ( glGenBuffers ( 1, &vboQuadDepthMap ) );
+			vboQuadDepthMap = wrapglGenBuffers(1, __func__);
 			//
 			// Use Vertices
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, vboQuadDepthMap ) );
@@ -191,7 +195,8 @@ void lt_renderDepthQuad ( int whichShader )
 			GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, 0 ) );
 
-			GL_ASSERT ( glGenBuffers ( 1, &vboQuadTexDepthMap ) );
+//			GL_ASSERT ( glGenBuffers ( 1, &vboQuadTexDepthMap ) );
+			vboQuadTexDepthMap = wrapglGenBuffers(1, __func__);
 			//
 			// Use texture coords
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, vboQuadTexDepthMap ) );
@@ -296,7 +301,9 @@ void drawLightPos ( int whichShader, glm::vec3 position )
 			GL_CHECK ( glBindVertexArray ( vao ) );
 			//
 			// create buffers for our vertex data
-			GL_ASSERT ( glGenBuffers ( 2, buffers ) );
+			//GL_ASSERT ( glGenBuffers ( 2, buffers ) );
+			buffers[0] = wrapglGenBuffers(1, __func__);
+			buffers[1] = wrapglGenBuffers(1, __func__);
 
 			GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
 			//

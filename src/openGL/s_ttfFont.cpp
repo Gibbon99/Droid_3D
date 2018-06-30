@@ -209,9 +209,12 @@ void ttf_startText()
 			GL_ASSERT ( glGenVertexArrays ( 1, &g_glyphVAO_ID ) );
 			//
 			// Bind the vertex info
-			GL_ASSERT ( glGenBuffers ( 1, &g_vertVBO_ID ) );
-			GL_ASSERT ( glGenBuffers ( 1, &g_texVBO_ID ) );
-			GL_ASSERT ( glGenBuffers ( 1, &g_colVBO_ID ) );
+//			GL_ASSERT ( glGenBuffers ( 1, &g_vertVBO_ID ) );
+			g_vertVBO_ID = wrapglGenBuffers(1, __func__);
+//			GL_ASSERT ( glGenBuffers ( 1, &g_texVBO_ID ) );
+			g_texVBO_ID = wrapglGenBuffers(1, __func__);
+//			GL_ASSERT ( glGenBuffers ( 1, &g_colVBO_ID ) );
+			g_colVBO_ID = wrapglGenBuffers(1, __func__);
 			
 			printf("Done setting TTF memory\n");
 

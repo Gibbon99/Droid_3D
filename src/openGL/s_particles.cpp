@@ -449,7 +449,8 @@ void par_renderBillBoard(const uint whichEmitter)
 
 		glGenVertexArrays (1, &billBoard_VAO_ID);
 
-		glGenBuffers(1, &billBoard_VB);
+		//glGenBuffers(1, &billBoard_VB);
+		billBoard_VB = wrapglGenBuffers(1, __func__);
 
 		sizeValue_ID = glGetAttribLocation (shaderProgram[SHADER_BILLBOARD].programID, "sizeValue_in" );
 		alphaValue_ID = glGetAttribLocation ( shaderProgram[SHADER_BILLBOARD].programID, "alphaValue_in" );

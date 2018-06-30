@@ -11,6 +11,7 @@
 #include "s_camera.h"
 
 #include <map>
+#include <hdr/openGL/s_openGLWrap.h>
 
 typedef struct
 {
@@ -196,7 +197,8 @@ void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, in
 	if (false == initDone )
 		{
 			GL_ASSERT ( glGenVertexArrays 	( 1, &lineVAO ) );
-			GL_ASSERT ( glGenBuffers 		( 1, &lineVBO ) );
+			//GL_ASSERT ( glGenBuffers 		( 1, &lineVBO ) );
+			lineVBO = wrapglGenBuffers(1, __func__);
 			initDone = true;
 		}
 

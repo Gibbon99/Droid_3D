@@ -1,5 +1,9 @@
 
 #include "s_openGLWrap.h"
+#include <map>
+
+std::map <int, string> glBuffersMap;
+std::map <int, string>::iterator it;
 
 //----------------------------------------------------------------------------
 //
@@ -30,6 +34,36 @@ int     wrapCountglDisableDepthChanges = 0;
 bool    wrap_GL_BLEND_enabled = false;
 bool    wrap_GL_DEPTH_TEST_enabled = false;
 bool    wrap_GL_CULL_FACE_enabled = false;
+
+//----------------------------------------------------------------------------
+//
+// Display all the buffer IDs generated and their text
+void wrapShowBufferInfo()
+//----------------------------------------------------------------------------
+{
+	con_print (CON_INFO, true, "---------------Buffer IDs---------------------");
+	for ( it = glBuffersMap.begin (); it != glBuffersMap.end (); it++ )
+	{
+		con_print (CON_INFO, true, "Buffer [ %i ] Text [ %s ]", it->first, it->second.c_str());
+	}
+}
+
+//----------------------------------------------------------------------------
+//
+// Wrap the call to generate a buffer ID
+// so we can print out some text with it
+uint wrapglGenBuffers(int numBuffers, const string bufferText)
+//----------------------------------------------------------------------------
+{
+	GLuint			bufferID;
+
+	glGenBuffers(numBuffers, &bufferID);
+	//
+	// Add the generated buffer ID and the text to a STD::MAP
+	glBuffersMap.insert (std::make_pair( bufferID, bufferText));
+
+	return bufferID;
+}
 
 //----------------------------------------------------------------------------
 //

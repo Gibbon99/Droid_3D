@@ -328,7 +328,8 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 			con_print ( CON_INFO, true, "Min [ %3.3f %3.3f %3.3f ]", meshModels[whichModel].mesh[whichMesh].boundingBox.minSize.x, meshModels[whichModel].mesh[whichMesh].boundingBox.minSize.y, meshModels[whichModel].mesh[whichMesh].boundingBox.minSize.z );
 			con_print ( CON_INFO, true, "Max [ %3.3f %3.3f %3.3f ]", meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize.x, meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize.y, meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize.z );
 
-			GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
+			//GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
+			meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] = wrapglGenBuffers(1, __func__);
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, 3 * mesh->mNumVertices * sizeof ( GLfloat ), vertices, GL_STATIC_DRAW ) );
 
@@ -347,7 +348,8 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 					texCoords[i * 2 + 1] = mesh->mTextureCoords[0][i].y;
 				}
 
-			GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
+			//GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
+			meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] = wrapglGenBuffers(1, __func__);
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, 2 * mesh->mNumVertices * sizeof ( GLfloat ), texCoords, GL_STATIC_DRAW ) );
 
@@ -369,7 +371,8 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 					normals[i * 3 + 2] = mesh->mNormals[i].z;
 				}
 
-			GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
+			//GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
+			meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] = wrapglGenBuffers(1, __func__);
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, 3 * mesh->mNumVertices * sizeof ( GLfloat ), normals, GL_STATIC_DRAW ) );
 
@@ -388,7 +391,8 @@ void ass_uploadMesh ( aiMesh *mesh, int whichModel, int whichMesh )
 					indices[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
 				}
 
-			GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[INDEX_BUFFER] ) );
+			//GL_CHECK ( glGenBuffers ( 1, &meshModels[whichModel].mesh[whichMesh].vbo[INDEX_BUFFER] ) );
+			meshModels[whichModel].mesh[whichMesh].vbo[INDEX_BUFFER] = wrapglGenBuffers(1, __func__);
 			GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[INDEX_BUFFER] ) );
 			GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, 3 * mesh->mNumFaces * sizeof ( GLuint ), indices, GL_STATIC_DRAW ) );
 
