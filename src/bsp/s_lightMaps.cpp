@@ -58,6 +58,7 @@ void bsp_changeGamma ( byte *pImage, int size, float factor )
 void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int width, int height )
 //------------------------------------------------------------
 {
+	/*
 	bsp_changeGamma ( pImageBits, width*height*3, 300.0); //g_Gamma );
 
 	// Convert to FreeImage format & save to file
@@ -66,7 +67,7 @@ void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int wi
 
 	// Free resources
 	FreeImage_Unload ( image );
-
+*/
 
 	// Generate a texture with the associative texture ID stored in the array
 	GL_CHECK ( glGenTextures ( 1, &texture ) );
@@ -87,7 +88,7 @@ void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int wi
 	glTexParameteri ( GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR );
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 
-	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits ) );
+	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits ) );
 
 //	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits ) );
 

@@ -285,6 +285,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			m_pFaces[i].vNormal.y = m_pFaces[i].vNormal.z;
 			m_pFaces[i].vNormal.z = -temp;
 
+//			con_print(CON_INFO, true, "Face [ %i ] lightmapID [ %i ]", i, m_pFaces[i].lightmapID);
 //			con_print(CON_INFO, true, "Face [ %i ] effects [ %i ]", i, m_pFaces[i].effect);
 		}
 

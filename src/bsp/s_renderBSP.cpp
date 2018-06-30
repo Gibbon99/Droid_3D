@@ -145,6 +145,7 @@ void bsp_renderAllFaces(int whichShader)
 	static int 				previousTexture = 9999;
 	unsigned int 			i = 0;
 
+
 	if (true == g_renderTextures)
 		std::sort(g_facesForFrame.begin(), g_facesForFrame.end(), bsp_sortFacesCallback);
 
@@ -163,14 +164,14 @@ void bsp_renderAllFaces(int whichShader)
 		}
 		else
 		{
-			bsp_renderFace(-1, FACE_RENDER, previousTexture, whichShader);
+			bsp_renderFace(g_facesForFrame[i], FACE_RENDER, previousTexture, whichShader);
 			bsp_renderFace(g_facesForFrame[i], FACE_ADD, previousTexture, whichShader);
 			ptrFace = &m_pFaces[g_facesForFrame[i]];
 			previousTexture = ptrFace->textureID;
 		}
 	}
 
-	bsp_renderFace(-1, FACE_RENDER, previousTexture, whichShader);
+	bsp_renderFace(g_facesForFrame[i], FACE_RENDER, previousTexture, whichShader);
 
 //	wrapglBindTexture ( GL_TEXTURE0, 0);
 //	wrapglBindTexture ( GL_TEXTURE1, 1);
@@ -231,9 +232,10 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 			//
 			// Upload vertex indexes
 			ptrFace = &m_pFaces[whichFace];
-			wrapglBindTexture (GL_TEXTURE0, m_lightmaps[0]);
-
-			printf("TExture ID [ %i ]\n", ptrFace->lightmapID);
+			if (ptrFace->lightmapID > m_numOfLightmaps)
+				wrapglBindTexture (GL_TEXTURE0, m_lightmaps[0]);
+			else
+				wrapglBindTexture (GL_TEXTURE0, m_lightmaps[ptrFace->lightmapID]);
 
 			glUniform1i(shaderProgram[whichShader].inTextureUnit, 0);
 
