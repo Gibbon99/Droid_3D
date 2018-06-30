@@ -21,13 +21,8 @@ void main()
     // Normals for the model
 	NormalOut       = normalize(Normal0);
     //
-    // Diffuse - texture image
-    vec4 ambientColor = texture2D(inTexture1, TexCoord1);
+    // Ambient light level
+	vec4 ambientColor = vec4(0.2, 0.2, 0.2, 1.0);
 
-	if ((ambientColor.r < 0.2) || (ambientColor.g < 0.2) || (ambientColor.b < 0.2))
-    	ambientColor = vec4(0.2, 0.2, 0.2, 0.5);
-
-	DiffuseOut      = (texture2D(inTexture0, TexCoord0) * (texture2D(inTexture1, TexCoord1)) + ambientColor);
-//	DiffuseOut      = texture2D(inTexture0, TexCoord0).xyz;
-
+	DiffuseOut      = (texture2D(inTexture0, TexCoord0) + ambientColor)  * texture2D(inTexture1, TexCoord1);
 }

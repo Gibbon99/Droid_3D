@@ -199,11 +199,11 @@ void io_readConsoleSpecialKeys ( int key, int action )
 				{
 				case ALLEGRO_KEY_TILDE:
 					changeMode ( MODE_GAME );
+					conCurrentCharCount = 0;
 					break;
 
 				case ALLEGRO_KEY_BACKSPACE:
 					con_processBackspaceKey ( 0.0 );
-//					conBackSpaceDown = 1;
 					break;
 
 				case ALLEGRO_KEY_ENTER:
@@ -261,7 +261,6 @@ void io_handleKeyboardEvent ( ALLEGRO_EVENT event )
 {
 	if ( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && event.type == ALLEGRO_EVENT_KEY_DOWN )
 		changeMode (MODE_SHUTDOWN);
-//		quitProgram = true;
 
 	switch (currentMode)
 	{

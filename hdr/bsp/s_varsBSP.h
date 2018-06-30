@@ -82,6 +82,22 @@ struct tBSPLightmap
 	byte imageBits[128][128][3];   // The RGB data in a 128x128 image
 };
 
+// The lightvols lump stores a uniform grid of lighting information used to illuminate non-map objects.
+// There are a total of length / sizeof(lightvol) records in the lump, where length is the size of the lump itself,
+// as specified in the lump directory.
+//
+// Lightvols make up a 3D grid whose dimensions are:
+//
+//    nx = floor(models[0].maxs[0] / 64) - ceil(models[0].mins[0] / 64) + 1
+//    ny = floor(models[0].maxs[1] / 64) - ceil(models[0].mins[1] / 64) + 1
+//    nz = floor(models[0].maxs[2] / 128) - ceil(models[0].mins[2] / 128) + 1
+
+struct tBSPLightVols
+{
+	byte ambient[3];             // Ambient color component. RGB.
+	byte directional[3];         // Directional color component. RGB.
+	byte dir[2];                 // Direction to light. 0=phi, 1=theta.
+};
 
 // This stores a node in the BSP tree
 struct tBSPNode
@@ -281,10 +297,10 @@ extern vector<_sortedFaces>	sortedFaces;
 
 extern CBitset			m_FacesDrawn;		// The bitset for the faces that have/haven't been drawn
 
-
 extern int m_numOfVerts;			// The number of verts in the bsp
 extern int m_numOfFaces;			// The number of faces in the bsp
 extern int m_numOfTextures;		    // The number of texture maps
+extern int m_numOfLightVolumes;     // The number of light volumes
 extern int m_numOfLightmaps;		// The number of light maps
 extern int m_numOfMeshIndexes;      // Number of indexes into mesh data
 
@@ -316,6 +332,7 @@ extern tBSPModel		*m_pModels;
 extern char				*m_pEntities;				// Pointer to entity string
 extern tBSPEntity		*m_pEntitiesStruct;			// Hold each of the entities
 
+extern tBSPLightVols     *m_pLightVols;              // Pointer to the light volumes information
 extern float            g_Gamma;                    // How much to lighten lightmaps by
 extern unsigned int	    m_lightmaps[MAX_TEXTURES];	        // The lightmap texture array
 extern int              m_numOfModels;			        // Number of models

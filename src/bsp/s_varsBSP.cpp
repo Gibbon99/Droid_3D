@@ -2,9 +2,10 @@
 
 int m_numOfVerts;			// The number of verts in the bsp
 int m_numOfFaces;			// The number of faces in the bsp
-int m_numOfTextures;		    // The number of texture maps
+int m_numOfTextures;		// The number of texture maps
 int m_numOfLightmaps;		// The number of light maps
-int m_numOfMeshIndexes;      // Number of indexes into mesh data
+int m_numOfLightVolumes;    // Number of light volumes for the level
+int m_numOfMeshIndexes;     // Number of indexes into mesh data
 
 int m_numOfNodes;
 int m_numOfLeafs;
@@ -24,6 +25,7 @@ tBSPLeaf		*m_pLeafs;
 tBSPPlane		*m_pPlanes;
 int				*m_pLeafFaces;
 tBSPVisData		 m_clusters;
+tBSPLightVols   *m_pLightVols;
 
 tBSPTexture		*m_pTextures;
 int				*m_pLeafBrushes;           // The index into the brush array
@@ -37,6 +39,7 @@ tBSPEntity		*m_pEntitiesStruct;			// Hold each of the entities
 CBitset			m_FacesDrawn;				// The bitset for the faces that have/haven't been drawn
 
 float            g_Gamma = 0.3f;                    // How much to lighten lightmaps by
+
 unsigned int	 m_lightmaps[MAX_TEXTURES];	        // The lightmap texture array
 int              m_numOfModels;			        // Number of models
 int              sortCurrentFaceCount;       // Counter for sorting faces

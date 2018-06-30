@@ -2,6 +2,9 @@
 #include <FreeImage.h>
 #include "s_varsBSP.h"
 #include "s_openGLWrap.h"
+
+// Brighten the lightmap with component = component * 255 / 63
+
 //------------------------------------------------------------
 //
 // This manually changes the gamma of an image
@@ -19,10 +22,15 @@ void bsp_changeGamma ( byte *pImage, int size, float factor )
 			g = ( float ) pImage[1];
 			b = ( float ) pImage[2];
 
+			r = (r * 255) / 63;
+			g = (g * 255) / 63;
+			b = (b * 255) / 63;
+
+
 			// Multiply the factor by the RGB values, while keeping it to a 255 ratio
-			r = r * factor / 255.0f;
-			g = g * factor / 255.0f;
-			b = b * factor / 255.0f;
+			//r = r * factor / 255.0f;
+			//g = g * factor / 255.0f;
+			//b = b * factor / 255.0f;
 
 			// Check if the the values went past the highest value
 			if ( r > 1.0f && ( temp = ( 1.0f/r ) ) < scale ) scale=temp;
@@ -93,4 +101,38 @@ void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int wi
 //    glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, texturesLoaded[whichTexture].width, texturesLoaded[whichTexture].height, 0, GL_RGB, GL_UNSIGNED_BYTE, texturesLoaded[whichTexture].imageData );
 
 
+}
+
+//---------------------------------------------------------------------------
+//
+// Work out the position for each light volume on the grid
+void bsp_setupLightVolumeData()
+//---------------------------------------------------------------------------
+{
+
+	// Light volumes are arranged from left to right, back to front and bottom to top
+
+	float lightVolumes_X, lightVolumes_Y, lightVolumes_Z;
+
+	lightVolumes_X = floor(m_pModels[0].max[0] / 64) - ceil(m_pModels[0].min[0] / 64) + 1;
+	lightVolumes_Y = floor(m_pModels[0].max[1] / 64) - ceil(m_pModels[0].min[1] / 64) + 1;
+	lightVolumes_Z = floor(m_pModels[0].max[2] / 128) - ceil(m_pModels[0].min[2] / 128) + 1;
+
+	con_print(CON_INFO, true, "Level dimensions Max : [ %4.2f %4.2f %4.2f ] Min : [ %4.2f %4.2f %4.2f ]",
+	          m_pModels[0].max.x, m_pModels[0].max.y, m_pModels[0].max.z,
+	          m_pModels[0].min.x, m_pModels[0].min.y, m_pModels[0].min.z);
+
+/*
+	for (int j = 0; j != m_numOfLightVolumes; j++)
+	{
+		con_print(CON_INFO, true, "Volume [ %i ] Ambient [ %x %x %x ] Directional [ %x %x %x ] Dir [ %x %x %x ]",
+		          j, m_pLightVols[j].ambient[0], m_pLightVols[j].ambient[1], m_pLightVols[j].ambient[2],
+		          m_pLightVols[j].directional[0], m_pLightVols[j].directional[1], m_pLightVols[j].directional[2],
+		          m_pLightVols[j].dir[0], m_pLightVols[j].dir[1], m_pLightVols[j].dir[2]);
+
+	}
+*/
+
+	con_print(CON_INFO, true, "Dimensions [ %4.2f %4.2f %4.2f ]",
+	          lightVolumes_X, lightVolumes_Y, lightVolumes_Z);
 }

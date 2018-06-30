@@ -29,6 +29,7 @@ void bsp_initBSP()
 	m_numOfFaces     = 0;
 	m_numOfTextures  = 0;
 	m_numOfLightmaps = 0;
+	m_numOfLightVolumes = 0;
 	m_numOfMeshIndexes = 0;
 
 	m_numOfNodes	 = 0;
@@ -57,7 +58,7 @@ void bsp_initBSP()
 	m_pLeafBrushes  = NULL;
 	m_pBrushes      = NULL;
 	m_pBrushSides   = NULL;
-
+	m_pLightVols    = NULL;
 	m_pModels       = NULL;
 	m_pEntities     = NULL;
 	m_pEntitiesStruct   = NULL;
@@ -78,79 +79,84 @@ void bsp_freeMem()
 	if ( m_pVerts )
 		delete [] m_pVerts;
 
-	m_pVerts = NULL;
+	m_pVerts = nullptr;
 
 	// If we still have valid memory for our faces, free them
 	if ( m_pFaces )
 		delete [] m_pFaces;
 
-	m_pFaces = NULL;
+	m_pFaces = nullptr;
 
 	// If we still have valid memory for our nodes, free them
 	if ( m_pNodes )
 		delete [] m_pNodes;
 
-	m_pNodes = NULL;
+	m_pNodes = nullptr;
 
 	// If we still have valid memory for our leafs, free them
 	if ( m_pLeafs )
 		delete [] m_pLeafs;
 
-	m_pLeafs = NULL;
+	m_pLeafs = nullptr;
 
 	// If we still have valid memory for our leaf faces, free them
 	if ( m_pLeafFaces )
 		delete [] m_pLeafFaces;
 
-	m_pLeafFaces = NULL;
+	m_pLeafFaces = nullptr;
 
 	if ( m_pLeafBrushes )
 
 		delete [] m_pLeafBrushes;
 
-	m_pLeafBrushes = NULL;
+	m_pLeafBrushes = nullptr;
 
 	if ( m_pBrushes )
 		delete [] m_pBrushes;
 
-	m_pBrushes = NULL;
+	m_pBrushes = nullptr;
 
 	if ( m_pBrushSides )
 		delete [] m_pBrushSides;
 
-	m_pBrushSides = NULL;
+	m_pBrushSides = nullptr;
 
 	// If we still have valid memory for our planes, free them
 	if ( m_pPlanes )
 		delete [] m_pPlanes;
 
-	m_pPlanes = NULL;
+	m_pPlanes = nullptr;
 
 	if ( m_pModels )
 		delete [] m_pModels;
 
-	m_pModels = NULL;
+	m_pModels = nullptr;
 
 	// If we still have valid memory for our clusters, free them
 	if ( m_clusters.pBitsets )
 		delete [] m_clusters.pBitsets;
 
-	m_clusters.pBitsets = NULL;
+	m_clusters.pBitsets = nullptr;
 
 	if ( m_pTextures )
 		delete [] m_pTextures;
 
-	m_pTextures = NULL;
+	m_pTextures = nullptr;
+
+	if ( m_pLightVols )
+		delete [] m_pLightVols;
+
+	m_pLightVols = nullptr;
 
 	if ( m_pEntities )
 		free(m_pEntities);
 
-	m_pEntities = NULL;
+	m_pEntities = nullptr;
 
 	if ( m_pEntitiesStruct )
 		free (m_pEntitiesStruct);
 
-	m_pEntitiesStruct = NULL;
+	m_pEntitiesStruct = nullptr;
 
 	m_FacesDrawn.FreeMem();
 
@@ -170,7 +176,7 @@ void bsp_freeMem()
 bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 //------------------------------------------------------------
 {
-	PHYSFS_file		*filePtr = NULL;
+	PHYSFS_file		*filePtr = nullptr;
 
 	int i = 0;
 
@@ -179,7 +185,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	//
 	// Check if the .bsp file could be opened
-	if ( ( filePtr = PHYSFS_openRead ( strFileName ) ) == NULL )
+	if ( ( filePtr = PHYSFS_openRead ( strFileName ) ) == nullptr )
 		{
 			// Display an error message and quit if the file can't be found.
 			con_print ( CON_ERROR, true, "Couldn't find BSP file to load [ %s ]", strFileName );
@@ -311,6 +317,14 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	// Delete the image bits because we are already done with them
 	delete [] pLightmaps;
+
+
+	m_numOfLightVolumes = lumps[kLightVolumes].length / sizeof (tBSPLightVols);
+	m_pLightVols = new tBSPLightVols [m_numOfLightVolumes];
+
+	// Seek to the position in the file that stores the light volume information
+	PHYSFS_seek ( filePtr, lumps[kLightVolumes].offset );
+	PHYSFS_readBytes (filePtr, m_pLightVols, sizeof (tBSPLightVols) * m_numOfLightVolumes );
 
 	// In this function we read from a bunch of new lumps.  These include
 	// the BSP nodes, the leafs, the leaf faces, BSP splitter planes and
@@ -463,11 +477,11 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	// Setup the entities into searchable string array
 
-	if ( true == verboseOutput )
+	if ( verboseOutput )
 		{
 			con_print ( CON_INFO, true, "Info for loaded BSP file [ %s ]", strFileName );
 			con_print ( CON_INFO, true, "numVerts [ %i ] numFaces [ %i ] numTextures [ %i ] numLightmaps [ %i ]", m_numOfVerts, m_numOfFaces, m_numOfTextures, m_numOfLightmaps );
-			con_print ( CON_INFO, true, "numMeshIndexes [ %i ] nodes [ %i ] leafs [ %i ] leafFaces [ %i ] planes [ %i ]", m_numOfMeshIndexes, m_numOfNodes, m_numOfLeafs, m_numOfLeafFaces, m_numOfPlanes );
+			con_print ( CON_INFO, true, "numLightVolumes [ %i ] numMeshIndexes [ %i ] nodes [ %i ] leafs [ %i ] leafFaces [ %i ] planes [ %i ]", m_numOfLightVolumes, m_numOfNodes, m_numOfLeafs, m_numOfLeafFaces, m_numOfPlanes );
 			con_print ( CON_INFO, true, "leafBrushes [ %i ] brushes [ %i ] brushSides [ %i ]", m_numOfLeafBrushes, m_numOfBrushes, m_numOfBrushSides );
 			con_print ( CON_INFO, true, "---------------------------------------------------------------" );
 		}
@@ -478,6 +492,8 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 		printf ( "Couldn't find player start\n" );
 
 	bsp_setLightArrayData();
+
+	bsp_setupLightVolumeData();
 
 	printf ( "Num doors [ %i ]\n", bsp_findNumOfDoors() );
 

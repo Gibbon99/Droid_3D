@@ -191,8 +191,8 @@ Console : Number of functions in script [ 4 ]
 Console : Font [ Digital.ttf ] is available for use.
 Console : Font [ oldDigital.ttf ] is available for use.
 Console : Font [ President.ttf ] is available for use.
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1251695152 ]
-Console : FuncID for script function [ bool as_conCommandQuit() ] is [ -1251695152 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1847599136 ]
+Console : FuncID for script function [ bool as_conCommandQuit() ] is [ 1847599136 ]
 Console : Physics system started...
 Console : Forward rendering framebuffer created...
 Console : BSP [ IBSP. ] Version [ 46 ]
@@ -208,7 +208,7 @@ Console : Texture [ 8 ] - [ textures/Metals/METL004 ] flag [ 1 ]
 Console : Lightmap ID [ 11 ] created.
 Console : Info for loaded BSP file [ cube.bsp ]
 Console : numVerts [ 327 ] numFaces [ 64 ] numTextures [ 9 ] numLightmaps [ 1 ]
-Console : numMeshIndexes [ 210 ] nodes [ 103 ] leafs [ 108 ] leafFaces [ 289 ] planes [ 136 ]
+Console : numLightVolumes [ 140 ] numMeshIndexes [ 103 ] nodes [ 108 ] leafs [ 289 ] leafFaces [ 136 ] planes [ 1848088640 ]
 Console : leafBrushes [ 117 ] brushes [ 30 ] brushSides [ 194 ]
 Console : ---------------------------------------------------------------
 Console : Found [ 13 ] entities.
@@ -216,6 +216,8 @@ Console : Number of keys in Entities [ 13 ]
 Console : numEntityKeys = [ 88 ]
 Console : origin [ 0.00 ] [ -32.00 ] [ 56.00 ]
 Console : Number of lights [ 6 ]
+Console : Level dimensions Max : [ 440.00 64.00 -392.00 ] Min : [ -456.00 -66.66 240.00 ]
+Console : Dimensions [ 14.00 3.00 -5.00 ]
 Console : Door [ 0 ] ptrModel [ 1 ]
 Console : Door [ 1 ] ptrModel [ 2 ]
 Console : Door [ 2 ] ptrModel [ 3 ]
@@ -345,7 +347,7 @@ Console : Loaded texture [ textures/Metals/METL004.jpg ] - ID [ 32 ]
 Console : Checkboard texture ID [ 33 ]
 Texture loading complete.
 Console : Loaded textures.
-Console : ID [ 4 ]
+Console : ID [ 7 ]
 Console : source [ Shader compiler ]
 Console : type [ Other ]
 Console : severity [ Notification ]
@@ -385,3 +387,20 @@ Console : Loaded sample [ redAlert.wav ]
 Console : Loaded sample [ transfer1.wav ]
 Console : Loaded sample [ transferStart.wav ]
 Console : Loaded sample [ door.wav ]
+Console : Adding new spark particle [ 3 ] followIndex [ 0 ]
+Console : Removing bullet [ 0 ]
+Console : Removed particle emitter [ 2 ]
+Console : ---------------------------------------------------
+Console : Error count [ 1 ]
+Console : Error ID [ 7 ]
+Console : Source [ Shader compiler ]
+Console : Type [ Other ]
+Console : Severity [ Notification ]
+Console : Message [ FS SIMD16 shader: 2 inst, 0 loops, 0 cycles, 0:0 spills:fills, Promoted 0 constants, compacted 32 to 32 bytes. ]
+Console : ---------------------------------------------------
+Console : 
+Log file closed:
+Unknown	Unknown
+-----------------------------------------------------------------------------
+
+
