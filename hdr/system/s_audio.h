@@ -40,7 +40,7 @@ struct _multiSounds
 	ALLEGRO_SAMPLE_INSTANCE	*instance;
 };
 
-extern _multiSounds	*multiSounds;
+extern vector<_multiSounds>	multiSounds;
 
 // Handle an audio user event
 void aud_handleAudioUserEvent(CUSTOM_EVENT *event);

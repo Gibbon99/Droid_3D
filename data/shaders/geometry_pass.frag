@@ -22,7 +22,7 @@ void main()
 	NormalOut       = normalize(Normal0);
     //
     // Ambient light level
-	vec4 ambientColor = vec4(0.2, 0.2, 0.2, 1.0);
+	vec4 ambientColor = vec4(0.02, 0.02, 0.02, 1.0);
 
 	DiffuseOut.rgb      = (texture2D(inTexture0, TexCoord0).rgb + ambientColor.rgb)  * texture2D(inTexture1, TexCoord1).rgb;
 }

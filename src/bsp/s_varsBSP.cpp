@@ -51,7 +51,6 @@ int              g_numFacesNotDrawn;		// Faces not drawn this frame
 int              g_numLeafsDrawn;			// Leafs drawn this frame
 int              g_numLeafsNotDrawng;		// Leafs skipped this frame
 
-//_sortedFaces	*sortedFaces;
-vector<_sortedFaces>	sortedFaces;
+//vector<_sortedFaces>	sortedFaces;
 
-_entity         *entityList;
+vector<_entity>         entityList;

@@ -30,6 +30,7 @@ _hostScriptFunctions hostVariables[] =
 	{"bool g_debugBoundingBox",             &g_debugBoundingBox},
 	{"float globalAmbient",                 &globalAmbient},
 	{"float globalGammaFactor",             &globalGammaFactor},
+	{"float g_Gamma",                       &g_Gamma},
 	{"float materialShininess",             &materialShininess},
 	{"float bullet_1_speed",                &bullet_1_speed},
 	{"bool g_debugPhysics",					&g_debugPhysics},
@@ -39,8 +40,8 @@ _hostScriptFunctions hostVariables[] =
 	{"int as_numMultiSamples",              &as_numMultiSamples},
 	{"int as_numAudioSamples",              &as_numAudioSamples},
 	{"int as_audioVolume",                  &as_audioVolume},
-	{"bool g_renderTextures",              &g_renderTextures},
-	{"",							        NULL},
+	{"bool g_renderTextures",               &g_renderTextures},
+	{"",                                    nullptr},
 };
 
 

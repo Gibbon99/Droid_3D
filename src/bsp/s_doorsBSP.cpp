@@ -1,4 +1,5 @@
 #include <hdr/openGL/s_openGLWrap.h>
+#include <hdr/bsp/s_doorsBSP.h>
 #include "s_varsBSP.h"
 #include "s_entitiesBSP.h"
 #include "s_doorsBSP.h"
@@ -172,23 +173,11 @@ int bsp_findNumOfDoors()
 			con_print ( CON_INFO, true, "Door [ %i ] numVerts [ %i ]", i, doorModels[i].numVerts );
 			//
 			// Get memory to hold and remember the original vertex positions for the door
-			doorModels[i].originalVertPos = ( glm::vec3 * ) malloc ( vertCounter * sizeof ( glm::vec3 ) );
-
-			if ( NULL == doorModels[i].originalVertPos )
-				{
-					con_print ( CON_ERROR, true, "Error: Memory allocation error in bsp_findNumDoors" );
-					sys_shutdownToSystem();
-				}
+			doorModels[i].originalVertPos.reserve(vertCounter);
 
 			//
 			// Get memory to hold the index pointer for the source verts
-			doorModels[i].sourceIndexPos = ( int * ) malloc ( vertCounter * sizeof ( int ) );
-
-			if ( NULL == doorModels[i].sourceIndexPos )
-				{
-					con_print ( CON_ERROR, true, "Error: Memory allocation error in bsp_findNumDoors" );
-					sys_shutdownToSystem();	//TODO: Free memory or use vectors
-				}
+			doorModels[i].sourceIndexPos.reserve(vertCounter);
 
 			//
 			// Now copy the original verts into originalVertPos
@@ -247,11 +236,7 @@ int bsp_findNumOfDoors()
 void bsp_freeDoorMemory()
 //-----------------------------------------------------------------------------
 {
-	for ( int i = 0; i != numOfDoors; i++ )
-		{
-			free ( doorModels[i].originalVertPos );
-			free ( doorModels[i].sourceIndexPos );
-		}
+	doorModels.clear();
 }
 
 //-----------------------------------------------------------------------------

@@ -37,14 +37,14 @@ _sounds sound[] = { { nullptr, "collosion1.wav", false },
                     { nullptr, "door.wav", false }
 };
 
-int                 as_audioVolume;
-int                 as_numAudioSamples;         // Set from script
-bool		        as_useSound;                // Set from script
-int                 as_numMultiSamples ;        // Set from script
-bool                pauseSound = false;
-bool                audioAvailable = false;
-float               volumeLevel = 1.0f;
-_multiSounds*       multiSounds;
+int                     as_audioVolume;
+int                     as_numAudioSamples;         // Set from script
+bool		            as_useSound;                // Set from script
+int                     as_numMultiSamples ;        // Set from script
+bool                    pauseSound = false;
+bool                    audioAvailable = false;
+float                   volumeLevel = 1.0f;
+vector<_multiSounds>	multiSounds;
 
 vector<CUSTOM_EVENT>        audioEventQueue;
 ALLEGRO_THREAD              *audioThread;
@@ -205,7 +205,7 @@ void aud_releaseSound()
 	for ( int i = 0; i != NUM_SOUNDS; i++ )
 		al_destroy_sample_instance ( sound[i].instance );
 
-	al_free ( multiSounds );
+	multiSounds.clear();
 
 	al_uninstall_audio();
 }
@@ -371,13 +371,7 @@ bool aud_setupAudioEngine()
 		return false;
 	}
 
-	multiSounds = ( _multiSounds * ) al_malloc ( sizeof ( _multiSounds ) * as_numMultiSamples );
-	if ( multiSounds == nullptr )
-	{
-		con_print ( CON_ERROR, true, "ERROR: Failed to get memory to hold multiSamples." );
-		audioAvailable = false;
-		return false;   // TOTO Free memory
-	}
+	multiSounds.reserve (as_numMultiSamples);
 
 	con_print(CON_INFO, true, "Audio engine started.");
 

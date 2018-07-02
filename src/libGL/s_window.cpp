@@ -18,7 +18,7 @@ void lib_swapBuffers()
 void lib_destroyWindow()
 //-----------------------------------------------------------------------------
 {
-	al_destroy_display ( al_mainWindow);
+	//al_destroy_display ( al_mainWindow);
 }
 
 //-----------------------------------------------------------------------------

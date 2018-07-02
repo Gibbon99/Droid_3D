@@ -2,24 +2,17 @@
 
 #include "s_globals.h"
 
-#define MAX_TEXTURES	1000				// The maximum amount of textures to load
-
-// This is the number that is associated with a face that is of type "polygon"
-#define FACE_POLYGON	1
-
+#define MAX_TEXTURES	100				// The maximum amount of textures to load
+#define FACE_POLYGON	1               // ID for face type
 #define BSPCONTENTS_SOLID 1
-
 #define MAX_ENTITY_SIZE	512					// Max size for a entity string
-
 #define byte unsigned char
-
 
 // This is our integer vector structure
 struct tVector3i
 {
 	int x, y, z;				// The x y and z position of our integer vector
 };
-
 
 // This is our BSP header structure
 struct tBSPHeader
@@ -28,14 +21,12 @@ struct tBSPHeader
 	int version;				// This should be 0x2e for Quake 3 files
 };
 
-
 // This is our BSP lump structure
 struct tBSPLump
 {
 	int offset;					// The offset into the file for the start of this lump
 	int length;					// The length in bytes for this lump
 };
-
 
 // This is our BSP vertex structure
 struct tBSPVertex
@@ -46,7 +37,6 @@ struct tBSPVertex
 	glm::vec3 vNormal;			    // (x, y, z) normal vector
 	byte color[4];				    // RGBA color for the vertex
 };
-
 
 // This is our BSP face structure
 struct tBSPFace
@@ -66,7 +56,6 @@ struct tBSPFace
 	glm::vec3 vNormal;			// The face normal.
 	int size[2];				// The bezier patch dimensions.
 };
-
 
 // This is our BSP texture structure
 struct tBSPTexture
@@ -138,9 +127,6 @@ struct tBSPVisData
 };
 
 //	The brushes store information about a convex volume, which are defined by the brush sides.
-//	Brushes are used for collision detection.  This allows the level editor to decide what is
-//	collidable and what can be walked through, such as trees, bushes or certain corners.
-
 struct tBSPBrush
 {
 	int brushSide;           // The starting brush side for the brush
@@ -148,10 +134,7 @@ struct tBSPBrush
 	int textureID;           // The texture index for the brush
 };
 
-
 //The brush sides lump stores information about the brush bounding surface.
-//To calculate the number of brush sides, just divide the lumps
-//length by sizeof(tBSPBrushSides).
 struct tBSPBrushSide
 {
 	int plane;		// The plane index
@@ -159,7 +142,6 @@ struct tBSPBrushSide
 };
 
 // A structure to hold all the individual entities into their full string value
-
 struct tBSPEntity
 {
 	GLboolean	checked;
@@ -199,13 +181,9 @@ enum eLumps
 	kMaxLumps					// A constant to store the number of lumps
 };
 
-
 // This is our bitset class for storing which face has already been drawn.
-// The bitset functionality isn't really taken advantage of in this version
-// since we aren't rendering by leafs and nodes.
 class CBitset
 {
-
 public:
 
 	// Initialize all the data members
@@ -281,20 +259,6 @@ private:
 	int m_size;
 };
 
-//-----------------------------------------------------------------------------
-//
-// Used to sort faces according to textureID
-//
-//-----------------------------------------------------------------------------
-
-typedef struct
-{
-	int				faceID;
-	int				textureID;
-} _sortedFaces;
-
-extern vector<_sortedFaces>	sortedFaces;
-
 extern CBitset			m_FacesDrawn;		// The bitset for the faces that have/haven't been drawn
 
 extern int m_numOfVerts;			// The number of verts in the bsp
@@ -324,36 +288,30 @@ extern int				*m_pLeafFaces;
 extern tBSPVisData		m_clusters;
 
 extern tBSPTexture		*m_pTextures;
-extern int				*m_pLeafBrushes;           // The index into the brush array
+extern int				*m_pLeafBrushes;                // The index into the brush array
 extern tBSPBrush		*m_pBrushes;
 extern tBSPBrushSide	*m_pBrushSides;
 
 extern tBSPModel		*m_pModels;
-extern char				*m_pEntities;				// Pointer to entity string
-extern tBSPEntity		*m_pEntitiesStruct;			// Hold each of the entities
+extern char				*m_pEntities;				    // Pointer to entity string
+extern tBSPEntity		*m_pEntitiesStruct;			    // Holds each of the entities
 
-extern tBSPLightVols     *m_pLightVols;              // Pointer to the light volumes information
-extern float            g_Gamma;                    // How much to lighten lightmaps by
-extern unsigned int	    m_lightmaps[MAX_TEXTURES];	        // The lightmap texture array
+extern tBSPLightVols     *m_pLightVols;                 // Pointer to the light volumes information
+extern float            g_Gamma;                        // How much to lighten lightmaps by
+extern unsigned int	    m_lightmaps[MAX_TEXTURES];      // The lightmap texture array
 extern int              m_numOfModels;			        // Number of models
-
-extern CBitset			m_FacesDrawn;				// The bitset for the faces that have/haven't been drawn
-
-extern int              sortCurrentFaceCount;       // Counter for sorting faces
 
 extern float            m_Frustum[6][4];
 
 extern int              g_numFacesDrawn;			// Faces drawn this frame
-extern int              g_numFacesNotDrawn;		// Faces not drawn this frame
+extern int              g_numFacesNotDrawn;		    // Faces not drawn this frame
 extern int              g_numLeafsDrawn;			// Leafs drawn this frame
 extern int              g_numLeafsNotDrawng;		// Leafs skipped this frame
 
-extern GLuint			bspVAO, bspVBO;			// Handle to the BSP info stored on the GPU
-
+extern GLuint			bspVAO, bspVBO;			    // Handle to the BSP info stored on the GPU
 
 //
 // struct array to hold each token from entity string
-
 #define MAX_ENTITY_STRING_SIZE  64
 #define NUM_TOKEN_KEYS          25
 
@@ -362,10 +320,10 @@ extern      uint     g_numEntities;
 
 typedef struct
 {
-	int     setID;  // associate each token together
+	int     setID;      // associate each token together
 	bool    checked;    // have we checked this key yet
 	char    tokenName   [MAX_ENTITY_STRING_SIZE];
 	char    tokenValue  [MAX_ENTITY_STRING_SIZE];
 } _entity;
 
-extern _entity  *entityList;
+extern vector<_entity> entityList;

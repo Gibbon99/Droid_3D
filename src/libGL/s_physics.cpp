@@ -361,8 +361,9 @@ bool bul_startPhysics()
 bool bul_stopPhysics()
 //------------------------------------------------------------
 {
+	return true;
 	// Free memory allocated
-	delete dynamicsWorld;
+	delete dynamicsWorld;   // TODO: Crashing here on exit
 	delete solver;
 	delete dispatcher;
 	delete collisionConfiguration;
@@ -435,7 +436,7 @@ void bul_addPhysicsBSP ( float scalePhysicsBy, bool isEntity, int whichDoor, btA
 
 			doorModels[whichDoor].rigidBody->setAngularFactor ( btVector3 ( 1.0f, 0.0f, 0.0f ) );
 
-			doorModels[whichDoor].rigidBody->setUserIndex ( phy_addCollisionObject(COL_OBJECT_BSP, 0) );
+			doorModels[whichDoor].rigidBody->setUserIndex ( phy_addCollisionObject(COL_OBJECT_DOOR, 0) );
 
 			dynamicsWorld->addRigidBody ( doorModels[whichDoor].rigidBody );
 

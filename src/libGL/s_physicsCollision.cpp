@@ -102,6 +102,7 @@ void phy_doCollisionDetection()
 					switch (collisionObjects[pnA].objectSource)
 						{
 							case COL_OBJECT_BSP:
+							case COL_OBJECT_DOOR:
 
 								if (collisionObjects[pnB].objectSource == COL_OBJECT_BULLET)
 									{

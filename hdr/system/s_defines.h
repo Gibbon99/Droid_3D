@@ -150,6 +150,7 @@ extern int __gl_error_code;
 #define COL_OBJECT_PLAYER	1
 #define COL_OBJECT_MESH		2
 #define COL_OBJECT_BULLET	3
+#define COL_OBJECT_DOOR     4
 
 //-----------------------------------------------------------------------------
 //

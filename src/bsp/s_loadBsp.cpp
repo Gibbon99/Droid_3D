@@ -148,25 +148,17 @@ void bsp_freeMem()
 
 	m_pLightVols = nullptr;
 
-	if ( m_pEntities )
+	if ( m_pEntities != nullptr)
 		free(m_pEntities);
 
 	m_pEntities = nullptr;
 
-	if ( m_pEntitiesStruct )
+	if ( m_pEntitiesStruct != nullptr)
 		free (m_pEntitiesStruct);
 
 	m_pEntitiesStruct = nullptr;
 
 	m_FacesDrawn.FreeMem();
-
-	if (entityList)
-		free(entityList);
-		
-//	if ( sortedFaces )
-//		free ( sortedFaces );
-
-	bsp_freeDoorMemory();
 }
 
 
@@ -317,7 +309,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 		}
 
 	// Delete the image bits because we are already done with them
-	delete [] pLightmaps;
+//	delete [] pLightmaps;
 
 
 	m_numOfLightVolumes = lumps[kLightVolumes].length / sizeof (tBSPLightVols);

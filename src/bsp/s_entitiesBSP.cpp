@@ -126,17 +126,8 @@ bool bsp_setupEntities()
 	int tokenCounter = 0;
 	int tokenGroup = 0;
 	//
-	// Now malloc memory and assign values to array
-	//
-	entityList = ( _entity * ) malloc ( sizeof ( _entity ) * g_numEntityKeys );
-
-	if ( NULL == entityList )
-		{
-			sysErrorFatal ( __FILE__, __LINE__, "Memory error for entityList. Exiting" );
-		}
-
-	if ( true == verbose )
-		con_print ( CON_INFO, true, "Got memory for token list." );
+	// Now get  memory and assign values to array
+	entityList.reserve (g_numEntityKeys);
 
 	tokenCounter = 0;
 

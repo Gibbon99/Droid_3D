@@ -126,15 +126,21 @@ void changeMode ( int newMode )
 
 	if (newMode == MODE_GAME)
 	{
-		io_grabMouse ();
-		lib_setMouseCursor (false);
+		if (true == g_lockMouse)
+		{
+			io_grabMouse ();
+			lib_setMouseCursor (false);
+		}
 		evt_sendEvent (USER_EVENT_TIMER, EVENT_TIMER_CONSOLE_CURSOR, STOP_CONSOLE_CURSOR, 0, 0, "");
 	}
 
 	if (newMode == MODE_CONSOLE)
 	{
-		io_releaseMouse ();
-		lib_setMouseCursor (true);
+		if (true == g_lockMouse)
+		{
+			io_releaseMouse ();
+			lib_setMouseCursor (true);
+		}
 		evt_sendEvent (USER_EVENT_TIMER, EVENT_TIMER_CONSOLE_CURSOR, START_CONSOLE_CURSOR, 0, 0, "");
 	}
 

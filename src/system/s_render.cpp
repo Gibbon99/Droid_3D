@@ -153,8 +153,6 @@ void sys_displayScreen ( float interpolate )
 								drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
 							}
 					}
-
-
 /*
 				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 				glUseProgram ( 0 );
@@ -185,7 +183,13 @@ void sys_displayScreen ( float interpolate )
 
 	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_LARGE) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
 	            cam3_Front.x, cam3_Front.y, cam3_Front.z );
+/*
+	printf("About to print recticle\n");
 
+	sdf_addText (FONT_SMALL, glm::vec2{(winWidth / 2) - (sdf_getTextWidth (FONT_SMALL, "%s", "+")), (winHeight / 2) - sdf_getTextHeight (FONT_SMALL)}, glm::vec4{0.4f, 0.4f, 0.4f, 0.4f}, "%s", "--");
+
+	printf("AFter recticle\n");
+*/
 
 	#if defined DEBUG
 	if (g_memLeakLastRun == true)

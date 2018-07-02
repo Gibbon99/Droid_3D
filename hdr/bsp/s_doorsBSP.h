@@ -48,8 +48,10 @@ typedef struct
 	GLfloat				startLocation;		// 
 	GLfloat				currentOffset;		// Where are we at the moment - Use the coords as an offset
 	_triggerZone		trigger;			// Area defining door trigger area
-	glm::vec3			*originalVertPos;   // Used to record original starting position for moving doors verts around
-	int					*sourceIndexPos;    // What's the index that this vert came from in m_pVerts
+	//glm::vec3			*originalVertPos;   // Used to record original starting position for moving doors verts around
+	vector<glm::vec3>	originalVertPos;   // Used to record original starting position for moving doors verts around
+	//int					*sourceIndexPos;    // What's the index that this vert came from in m_pVerts
+	vector<int>			sourceIndexPos;    // What's the index that this vert came from in m_pVerts
 	
 	btConvexHullShape*		shape = NULL;
 	btDefaultMotionState*	motionShape = NULL;

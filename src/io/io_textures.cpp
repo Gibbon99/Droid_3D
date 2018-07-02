@@ -38,7 +38,7 @@ _textureNames		textureNames[] =  	// holds all the information about a texture
 {
 	{"white_square"},
 //	{"flare"},
-	{"lightmap"},
+//	{"lightmap"},
 };
 
 //-----------------------------------------------------------------------------
@@ -191,6 +191,8 @@ void io_freeTextureArray()
 bool io_loadAllTextures()
 //-----------------------------------------------------------------------------
 {
+
+	glPixelStorei ( GL_UNPACK_ALIGNMENT, 1 );   // This needs to be here to stop the textures appearing wrong
 
 	for ( int i = 0; i != NUM_TEXTURES; i++ )
 		{

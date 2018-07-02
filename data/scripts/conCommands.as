@@ -36,6 +36,9 @@ void as_setGameVariables()
 	// Freelook mouse speed
 	mouseSpeed = 0.01f;
 	//
+	// Constrain the mouse to window size
+    g_lockMouse = false;
+	//
 	// Change window size and set new global variables
 	lib_resizeWindow ( winWidth,winHeight );
 
@@ -52,6 +55,7 @@ void as_setGameVariables()
 	materialShininess = 140.0f;
 	globalAmbient = 0.3;
 	globalGammaFactor = 2.6;
+    g_Gamma = 0.0f;
 	//
 	// Echo OpenGL debug callback to console and file or not
 	// Stores up errors and displays in logfile at program end
@@ -130,7 +134,6 @@ void as_loadParticleTexture()
 void as_addAllScriptCommands()
 //-----------------------------------------------------------------------------
 {
-
 	sys_addScriptCommand ( "quit", 			"Quit the program", 		"bool as_conCommandQuit()", 		false );
 	sys_addScriptCommand ( "exit", 			"Quit the program", 		"bool as_conCommandQuit()", 		false );
 }

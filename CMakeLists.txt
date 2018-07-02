@@ -32,7 +32,6 @@ set(WORKSPACE_PATH "${CMAKE_CURRENT_LIST_DIR}/..")
 
 include_directories(
     .
-    .
     hdr/system
     hdr/bsp
     hdr/console
@@ -208,7 +207,8 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/openGL/s_particles.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_events.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/system/s_audio.cpp data/scripts/commonDefines.h)
+    ${CMAKE_CURRENT_LIST_DIR}/src/system/s_audio.cpp data/scripts/commonDefines.h
+        )
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 

@@ -5,6 +5,8 @@
 #include "s_events.h"
 #include <utility>
 #include <hdr/system/s_events.h>
+#include <hdr/bsp/s_lightMaps.h>
+#include <hdr/glload/gl_all.h>
 #include "s_window.h"
 #include "io_mouse.h"
 #include "s_audio.h"
@@ -167,7 +169,7 @@ void evt_handleUserEvents(CUSTOM_EVENT *event)
 			break;
 
 		case USER_EVENT_CONSOLE:
-			printf("Got a USER CONSOLE event\n");
+//			printf("Got a USER CONSOLE event\n");
 			con_handleConsoleUserEvent (event);
 			break;
 

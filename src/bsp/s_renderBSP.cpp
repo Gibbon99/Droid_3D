@@ -139,14 +139,12 @@ bool bsp_sortFacesCallback(int lhs, int rhs)
 // Sort the faces based on textureID
 void bsp_renderAllFaces(int whichShader)
 //-----------------------------------------------------------------------------
-
 {
 	tBSPFace				*ptrFace;
 	static int 				previousTexture = 9999;
 	unsigned int 			i = 0;
 
-
-	if (true == g_renderTextures)
+	if ( g_renderTextures )
 		std::sort(g_facesForFrame.begin(), g_facesForFrame.end(), bsp_sortFacesCallback);
 
 	ptrFace = &m_pFaces[g_facesForFrame[0]];
@@ -170,11 +168,9 @@ void bsp_renderAllFaces(int whichShader)
 			previousTexture = ptrFace->textureID;
 		}
 	}
-
-	bsp_renderFace(g_facesForFrame[i], FACE_RENDER, previousTexture, whichShader);
-
-//	wrapglBindTexture ( GL_TEXTURE0, 0);
-//	wrapglBindTexture ( GL_TEXTURE1, 1);
+	//
+	// Render last face from the previous FACE_ADD
+	bsp_renderFace(g_facesForFrame[g_facesForFrame.size() - 1], FACE_RENDER, previousTexture, whichShader);
 }
 
 //-----------------------------------------------------------------------------
@@ -216,9 +212,23 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 // Actually draw the BSP face
 void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whichShader )
 //-----------------------------------------------------------------------------
-
 {
+	static int          errorCount = 0;
+	static int          errorCountLightmap = 0;
 	tBSPFace			*ptrFace;
+
+	//
+	// Quit if we start accessing faces using an invalid index ( whichFace )
+	if (whichFace > m_numOfFaces)
+	{
+		errorCount++;
+		con_print(CON_INFO, true, "Invalid face index [ %i ] passed > [ %i ]", whichFace, m_numOfFaces);
+		if (errorCount > 10)
+		{
+			con_print(CON_ERROR, true, "Memory or level corruption while indexing faces. Exiting.");
+			changeMode (MODE_SHUTDOWN);
+		}
+	}
 
 	switch (whichAction)
 	{
@@ -232,8 +242,21 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 			//
 			// Upload vertex indexes
 			ptrFace = &m_pFaces[whichFace];
+			//
+			// Quit if we start accessing memory outside the lightMap array size
 			if (ptrFace->lightmapID > m_numOfLightmaps)
+			{
 				wrapglBindTexture (GL_TEXTURE0, m_lightmaps[0]);
+
+				errorCountLightmap++;
+				if (errorCountLightmap > 5)
+				{
+					con_print(CON_ERROR, true, "Memory or level corruption while indexing lightmap array. Exiting.");
+					changeMode (MODE_SHUTDOWN);
+				}
+			}
+			else if (ptrFace->lightmapID < 0)   // No lightmap for this face?
+				wrapglBindTexture (GL_TEXTURE0, io_getGLTexID(whichTexture));
 			else
 				wrapglBindTexture (GL_TEXTURE0, m_lightmaps[ptrFace->lightmapID]);
 
@@ -490,7 +513,6 @@ void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
 {
 	glm::vec3		drawAtModel;
 
-	sortCurrentFaceCount = 0;
 	g_numFacesDrawn = 0;
 	g_numFacesNotDrawn = 0;
 
