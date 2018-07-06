@@ -242,6 +242,10 @@ bool gl_setShaderVars ( int whichShader )
 			case SHADER_POINT_LIGHT:
 				break;
 
+			case SHADER_MODEL_PASS:
+//				gl_getAttribVariable ( whichShader, ( char * ) "color", gl_getShaderName ( whichShader ), &shaderProgram[whichShader].inColorID );
+				break;
+
 			default:
 				break;
 		}

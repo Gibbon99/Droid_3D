@@ -19,6 +19,20 @@ void bsp_uploadVertices()
 
 //------------------------------------------------------------
 //
+// Swap the Z and Y values so Y is up
+glm::vec3 bsp_swapValues(glm::vec3 sourceValue)
+//------------------------------------------------------------
+{
+	float temp;
+
+	temp = sourceValue.y;
+	sourceValue.y = sourceValue.z;
+	sourceValue.z = temp;
+
+	return sourceValue;
+}
+//------------------------------------------------------------
+//
 // Setup initial values for BSP structures
 void bsp_initBSP()
 //------------------------------------------------------------
@@ -92,7 +106,7 @@ void bsp_freeMem()
 		delete [] m_pNodes;
 
 	m_pNodes = nullptr;
-
+//------------------------------------------------------------
 	// If we still have valid memory for our leafs, free them
 	if ( m_pLeafs )
 		delete [] m_pLeafs;
@@ -235,8 +249,6 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 // TODO (dberry#1#): Causes crash writing text to logfile - too long and overwrites memory
 
 //	con_print(CON_INFO, true, "Entities [ %s ]", m_pEntities);
-
-
 	// Seek to the position in the file that stores the vertex information
 	PHYSFS_seek ( filePtr, lumps[kVertices].offset );
 
@@ -246,15 +258,22 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			// Read in the current vertex
 			PHYSFS_readBytes ( filePtr, &m_pVerts[i], sizeof ( tBSPVertex ) * 1);
 
-			// Swap the y and z values, and negate the new z so Y is up.
+			m_pVerts[i].vPosition = bsp_swapValues (m_pVerts[i].vPosition);
+			float temp;
+
+/*			// Swap the y and z values, and negate the new z so Y is up.
 			float temp = m_pVerts[i].vPosition.y;
 			m_pVerts[i].vPosition.y = m_pVerts[i].vPosition.z;
-			m_pVerts[i].vPosition.z = -temp;
-
+//			m_pVerts[i].vPosition.z = -temp;
+			m_pVerts[i].vPosition.z = temp;
+*/
+			m_pVerts[i].vNormal = bsp_swapValues (m_pVerts[i].vNormal);
+			/*
 			temp = m_pVerts[i].vNormal.y;
 			m_pVerts[i].vNormal.y = m_pVerts[i].vNormal.z;
-			m_pVerts[i].vNormal.z = -temp;
-
+			//m_pVerts[i].vNormal.z = -temp;
+			m_pVerts[i].vNormal.z = temp;
+*/
 			// Negate the V texture coordinate because it is upside down otherwise...
 			m_pVerts[i].vTextureCoord.y *= -1;
 //			m_pVerts[i].vLightmapCoord.y *= -1;
@@ -273,10 +292,14 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Swap normals for each face
 	for ( i = 0; i < m_numOfFaces; i++ )
 		{
+			m_pFaces[i].vNormal = bsp_swapValues (m_pFaces[i].vNormal);
+
+			/*
 			float temp = m_pFaces[i].vNormal.y;
 			m_pFaces[i].vNormal.y = m_pFaces[i].vNormal.z;
-			m_pFaces[i].vNormal.z = -temp;
-
+			//m_pFaces[i].vNormal.z = -temp;
+			m_pFaces[i].vNormal.z = temp;
+*/
 //			con_print(CON_INFO, true, "Face [ %i ] lightmapID [ %i ]", i, m_pFaces[i].lightmapID);
 //			con_print(CON_INFO, true, "Face [ %i ] effects [ %i ]", i, m_pFaces[i].effect);
 		}
@@ -311,7 +334,6 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Delete the image bits because we are already done with them
 //	delete [] pLightmaps;
 
-
 	m_numOfLightVolumes = lumps[kLightVolumes].length / sizeof (tBSPLightVols);
 	m_pLightVols = new tBSPLightVols [m_numOfLightVolumes];
 
@@ -336,11 +358,13 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			// Swap the y and z values, and negate the new z so Y is up.
 			int temp = m_pNodes[i].max.y;
 			m_pNodes[i].max.y = m_pNodes[i].max.z;
-			m_pNodes[i].max.z = -temp;
+//			m_pNodes[i].max.z = -temp;
+			m_pNodes[i].max.z = temp;
 
 			temp = m_pNodes[i].min.y;
 			m_pNodes[i].min.y = m_pNodes[i].min.z;
-			m_pNodes[i].min.z = -temp;
+			//m_pNodes[i].min.z = -temp;
+			m_pNodes[i].min.z = temp;
 		}
 
 	// Store the number of leafs and allocate the memory to hold them
@@ -358,12 +382,14 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			// Swap the min y and z values, then negate the new Z
 			int temp = m_pLeafs[i].min.y;
 			m_pLeafs[i].min.y = m_pLeafs[i].min.z;
-			m_pLeafs[i].min.z = -temp;
+			//m_pLeafs[i].min.z = -temp;
+			m_pLeafs[i].min.z = temp;
 
 			// Swap the max y and z values, then negate the new Z
 			temp = m_pLeafs[i].max.y;
 			m_pLeafs[i].max.y = m_pLeafs[i].max.z;
-			m_pLeafs[i].max.z = -temp;
+			//m_pLeafs[i].max.z = -temp;
+			m_pLeafs[i].max.z = temp;
 		}
 
 	// Store the number of leaf faces and allocate the memory for them
@@ -385,9 +411,13 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Go through every plane and convert it's normal to the Y-axis being up
 	for ( i = 0; i < m_numOfPlanes; i++ )
 		{
+			m_pPlanes[i].vNormal = bsp_swapValues (m_pPlanes[i].vNormal);
+			/*
 			float temp = m_pPlanes[i].vNormal.y;
 			m_pPlanes[i].vNormal.y = m_pPlanes[i].vNormal.z;
-			m_pPlanes[i].vNormal.z = -temp;
+//			m_pPlanes[i].vNormal.z = -temp;
+			m_pPlanes[i].vNormal.z = temp;
+			 */
 		}
 
 	// Seek to the position in the file that holds the visibility lump
@@ -428,15 +458,22 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Now we need to convert all the bounding boxes to OpenGL - Y axis up
 	for ( i = 0; i < m_numOfModels; i++ )
 		{
+
+			m_pModels[i].min = bsp_swapValues (m_pModels[i].min);
+			/*
 			// Swap the min y and z values, then negate the new Z
 			float temp = m_pModels[i].min.y;
 			m_pModels[i].min.y = m_pModels[i].min.z;
-			m_pModels[i].min.z = -temp;
+			//m_pModels[i].min.z = -temp;
+			m_pModels[i].min.z = temp;
 
 			// Swap the max y and z values, then negate the new Z
 			temp = m_pModels[i].max.y;
 			m_pModels[i].max.y = m_pModels[i].max.z;
-			m_pModels[i].max.z = -temp;
+			//m_pModels[i].max.z = -temp;
+			m_pModels[i].max.z = temp;
+			 */
+			m_pModels[i].max = bsp_swapValues (m_pModels[i].max);
 		}
 
 	// Read in the brushes

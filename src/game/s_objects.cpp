@@ -1,3 +1,5 @@
+#include "s_objects.h"
+#include "s_lightMaps.h"
 #include "s_globals.h"
 #include "s_physics.h"
 #include "s_objects.h"
@@ -56,13 +58,12 @@ void obj_renderAllObjects(int whichShader)
 	for (unsigned int i = 0; i != gameObject.size(); i++)
 		{
 			if (true == gameObject[i].usesPhysics)
-				ass_renderMeshMat4 (gameObject[i].meshType, whichShader, phy_bulletToGlmMatrix ( gameObject[i].physicsPtr ), gameObject[i].scaleBy, gameObject[i].lightColor );
-
+				ass_renderMeshMat4 (gameObject[i].meshType, whichShader, phy_bulletToGlmMatrix ( gameObject[i].physicsPtr ), gameObject[i].scaleBy, bsp_getAmbientColor(phy_getObjectPosition ( gameObject[i].physicsPtr )) );
 			else
-				ass_renderMeshVec3Position (gameObject[i].meshType, whichShader, gameObject[i].position, gameObject[i].scaleBy, gameObject[i].lightColor );
+				ass_renderMeshVec3Position (gameObject[i].meshType, whichShader, gameObject[i].position, gameObject[i].scaleBy, bsp_getAmbientColor(gameObject[i].position) );
 		}
-}
 
+}
 
 //----------------------------------------------------------
 //

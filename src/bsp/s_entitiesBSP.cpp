@@ -349,7 +349,6 @@ int bsp_placeCameraAtEntity ( string param1 )
 		{
 //			if ( true == verbose )
 				con_print ( CON_INFO, true, "origin [ %4.2f ] [ %4.2f ] [ %4.2f ]", originCoords.x, originCoords.y, originCoords.z );
-
 //
 // TODO: Get orientation of player_info_start
 //
@@ -357,7 +356,7 @@ int bsp_placeCameraAtEntity ( string param1 )
 
 			// Init the camera with known values
 			cam3_initCamera ( originCoords );
-			bul_setPlayerPosition(originCoords, rotation);
+			bul_setPlayerPosition(originCoords, originCoords);
 			return 1;
 		}
 

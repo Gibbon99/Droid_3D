@@ -13,8 +13,13 @@ out vec2 TexCoord0;
 out vec3 Normal0;
 out vec3 WorldPos0;
 
+uniform vec3 ambientColor;
+out vec3 uLightColor;
+
 void main()
 {
+	uLightColor		= ambientColor;
+
 	TexCoord1		= inTextureCoords1;
 
 	TexCoord0		= inTextureCoords;

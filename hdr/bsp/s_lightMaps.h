@@ -9,3 +9,10 @@ void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int wi
 
 // Work out the position for each light volume on the grid
 void bsp_setupLightVolumeData();
+
+// Show the locations of the light volumes
+void bsp_showLightVolPositions(int whichShader);
+
+// Get the ambient light color from the light volume array
+// Pass in world location - return ambient color
+glm::vec3 bsp_getAmbientColor(glm::vec3 position);

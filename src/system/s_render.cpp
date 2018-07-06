@@ -1,4 +1,5 @@
 #include <AntTweakBar.h>
+#include <hdr/bsp/s_lightMaps.h>
 #include "s_globals.h"
 #include "s_vsProfileLib.h"
 #include "s_fontUtil.h"
@@ -141,6 +142,8 @@ void sys_displayScreen ( float interpolate )
 
 				obj_renderAllObjects ( SHADER_MODEL_PASS );
 
+				bsp_showLightVolPositions ( SHADER_MODEL_PASS );
+
 				gam_drawBullets ( SHADER_MODEL_PASS );
 
 				par_renderParticles();
@@ -178,11 +181,18 @@ void sys_displayScreen ( float interpolate )
 	//
 	// Render all text in VBO memory
 	gl_set2DMode();
-	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]", 
+	sdf_addText(FONT_LARGE, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]",
 				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
 
-	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_LARGE) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
+	sdf_addText(FONT_LARGE, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_LARGE) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
 	            cam3_Front.x, cam3_Front.y, cam3_Front.z );
+
+
+	glm::vec3 ambientColor = bsp_getAmbientColor(cam3_getCameraPosition () );
+
+	sdf_addText (FONT_LARGE, glm::vec2{2.0f, winHeight - sdf_getTextHeight (FONT_LARGE) * 3}, glm::vec4{bsp_getAmbientColor(cam3_getCameraPosition ()), 1.0f}, "R [ %3.3f ] G [ %3.3f ] B [ %3.3f ]",
+	             ambientColor.r, ambientColor.g, ambientColor.b);
+
 /*
 	printf("About to print recticle\n");
 

@@ -79,7 +79,6 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 					return;
 				}
 
-
 			GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].mesh[whichMesh].vao_ID ) );
 			GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
@@ -109,6 +108,7 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 					wrapglBindTexture ( GL_TEXTURE0, checkerBoardTexture); //[whichModel].mesh[whichMesh].textureID );
 //					glBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
 					GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
+					GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "ambientColor" ), 1, glm::value_ptr ( lightColor ) ) );
 				}
 
 			//
@@ -211,6 +211,7 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 				{
 					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
 					GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
+					GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "ambientColor" ), 1, glm::value_ptr ( lightColor ) ) );
 				}				
 
 			//

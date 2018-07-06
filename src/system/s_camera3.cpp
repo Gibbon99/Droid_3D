@@ -100,8 +100,8 @@ void cam3_initCamera ( glm::vec3 location )
 	cam3_Yaw = 0.0f;
 	cam3_Pitch = 0.0f;
 	
-	cam3_MouseSensitivity = 0.15f;
-	cam3_MovementSpeed = 0.002f;
+	cam3_MouseSensitivity = 0.25f;
+	cam3_MovementSpeed = 3.2f;
 
 	cam3_updateCameraVectors();
 }
@@ -124,7 +124,10 @@ void cam3_CreateViewMatrix(glm::vec3 newPosition)
 void cam3_processMovementKeys ( float interpolate )
 //-------------------------------------------------------------------------------
 {
-	float velocity = cam3_MovementSpeed * interpolate;
+	float velocity = 0.0f;
+
+//	if ((keyForwardDown) || (keyBackwardDown) || (keyLeftDown) || (keyRightDown))
+		velocity = cam3_MovementSpeed * interpolate;
 
 	cam3_WantedPosition = cam3_Position;
 

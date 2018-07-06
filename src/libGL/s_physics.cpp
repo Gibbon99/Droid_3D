@@ -266,6 +266,8 @@ void setLookDirection(const btVector3& newLook)
 void bul_setPlayerPosition ( glm::vec3 position, glm::vec3 orientation )
 //------------------------------------------------------------
 {
+	static bool once = true;
+
 	btTransform		newTransform;
 
 	btVector3 		lookDirection;
@@ -279,7 +281,13 @@ void bul_setPlayerPosition ( glm::vec3 position, glm::vec3 orientation )
 	newTransform.setOrigin ( btVector3 ( position.x, position.y, position.z ) );
 //	setLookDirection(orientation);
 
-//	playerRigidBody->setWorldTransform ( newTransform );	// This causes NAN's and crashes in debug mode
+	//
+	// Only run once on startup
+	if (once)
+	{
+		playerRigidBody->setWorldTransform (newTransform);    // This causes NAN's and crashes in debug mode
+		once = false;
+	}
 	playerMotionState->setWorldTransform ( newTransform );
 	/*
 		void LimbBt::reposition(btVector3 position,btVector3 orientation) {

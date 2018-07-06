@@ -3,14 +3,13 @@
 in vec3 WorldPos0;
 in vec3 Normal0;
 in vec2 TexCoord0;
-//in vec2 TexCoord1;
+in vec3 uLightColor;
 
-layout (location=0) out vec3 WorldPosOut;
-layout (location=1) out vec3 NormalOut;
-layout (location=2) out vec4 DiffuseOut;
+out vec3 WorldPosOut;
+out vec3 NormalOut;
+out vec4 DiffuseOut;
 
 uniform sampler2D inTexture0;
-//uniform sampler2D inTexture1;
 
 void main()
 {
@@ -23,6 +22,10 @@ void main()
 	//
 	// Diffuse - texture image
 //	DiffuseOut.xyz      = texture2D(inTexture1, TexCoord1).xyz * texture2D(inTexture0, TexCoord0).xyz;
-	DiffuseOut      = texture2D(inTexture0, TexCoord0);
 
+//	vec3 tempLight = uLightColor * 10;
+
+	DiffuseOut      = texture2D(inTexture0, TexCoord0) * vec4(uLightColor.rgb, 0.5f);
+
+//	DiffuseOut.rgb = uLightColor.rgb;
 }
