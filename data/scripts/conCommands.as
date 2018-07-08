@@ -51,10 +51,12 @@ void as_setGameVariables()
 	gravityX = 0.0f;
 	gravityY = -8.0f;
 	gravityZ = 0.0f;
+	//
+	// Render the BSP faces or not
+    g_renderBSP = true;
 
-	materialShininess = 140.0f;
-	globalAmbient = 0.3;
-	globalGammaFactor = 2.6;
+    doorSpeed = 10.f;
+
     g_Gamma = 0.0f;
 	//
 	// Echo OpenGL debug callback to console and file or not
@@ -72,6 +74,9 @@ void as_setGameVariables()
 	//
 	// Show Bounding boxes around models
 	g_debugBoundingBox = true;
+	//
+	// Show the position of the light Volumes
+    g_debugVolLights = true;
 	//
 	// Bullet travels at this speed
 	bullet_1_speed = 200.0f;

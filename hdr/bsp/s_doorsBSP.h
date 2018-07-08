@@ -68,6 +68,7 @@ extern int					numOfDoors;
 extern int					numOfDoorsDrawn;
 extern int					numOfDoorsNotDrawn;
 extern bool					g_debugDoorTriggers;
+extern float                doorSpeed;
 
 // Get the number of doors in the level
 int bsp_findNumOfDoors();
@@ -77,16 +78,16 @@ int bsp_findNumOfDoors();
 void bsp_drawAllDoors();
 
 // Show the door trigger area
-void bspDrawAllDoorTriggerZones();
+void bsp_drawAllDoorTriggerZones ();
 
 // Check for player vs door trigger collision
 bool bsp_checkPlayerVsTrigger();
 
 // Process the movements of all doors
-void bspProcessAllDoorMovements ( float interpolate );
+void bsp_processAllDoorMovements ( float interpolate );
 
 // Free door memory
 void bsp_freeDoorMemory();
 
 // Upload door vertex information to the GPU
-void bspUploadDoorVertex();
+void bsp_uploadDoorVertex ();

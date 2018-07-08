@@ -15,6 +15,7 @@ int					numOfDoors;
 int					numOfDoorsDrawn = 0;
 int					numOfDoorsNotDrawn = 0;
 bool				g_debugDoorTriggers;
+float               doorSpeed;
 
 vector<_doorModel>	doorModels;
 
@@ -69,13 +70,9 @@ int bsp_findNumOfDoors()
 		{
 			bsp_findEntityInfo ( "func_door", tempKey, &tempValue, false, doorModels[i].setID, VAR_TYPE_INT );
 			{
-//				con_print ( CON_INFO, true, "Door model [ %s ]", tempKey.c_str() );
-//				tempKey[0] = ' ';
-//				doorModels[index].ptrModel = atoi ( tempKey.c_str() );
 				doorModels[index].ptrModel = (int) tempValue.x;
-				con_print ( CON_INFO, true, "Door [ %i ] ptrModel [ %i ]", index, doorModels[index].ptrModel );
+				con_print ( CON_INFO, true, "Door [ %i ] ptrModel [ %i ]", index, doorModels[index].ptrModel);
 				index++;
-				//strcpy ( tempKey, "model" );
 				tempKey = "model";
 			}
 		}
@@ -112,32 +109,32 @@ int bsp_findNumOfDoors()
 
 					switch ( doorModels[i].angle )
 						{
-							case 270:
+							case 180:
 							case 360:
 								doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x;
 								doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
 								doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z - ( TRIGGER_AREA / 2 );
 
 								doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x;
-								doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].max.y;
 								doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z + ( TRIGGER_AREA / 2 );
 
 								doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.z;
-								doorModels[i].travelDistance = m_pModels[doorModels[i].ptrModel].max.x - m_pModels[doorModels[i].ptrModel].min.x;
+								doorModels[i].travelDistance = fabs(m_pModels[doorModels[i].ptrModel].max.x - m_pModels[doorModels[i].ptrModel].min.x);
 								break;
 
 							case 90:
-							case 180:
+							case 270:
 								doorModels[i].trigger.min.x = m_pModels[doorModels[i].ptrModel].min.x - ( TRIGGER_AREA / 2 );
 								doorModels[i].trigger.min.z = m_pModels[doorModels[i].ptrModel].min.z;
 								doorModels[i].trigger.min.y = m_pModels[doorModels[i].ptrModel].min.y;
 
 								doorModels[i].trigger.max.x = m_pModels[doorModels[i].ptrModel].max.x + ( TRIGGER_AREA / 2 );
 								doorModels[i].trigger.max.z = m_pModels[doorModels[i].ptrModel].max.z;
-								doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].min.y;
+								doorModels[i].trigger.max.y = m_pModels[doorModels[i].ptrModel].max.y;
 
-								doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.x;
-								doorModels[i].travelDistance = m_pModels[doorModels[i].ptrModel].min.z - m_pModels[doorModels[i].ptrModel].max.z;
+								doorModels[i].startLocation = m_pModels[doorModels[i].ptrModel].min.z;
+								doorModels[i].travelDistance = fabs(m_pModels[doorModels[i].ptrModel].min.z - m_pModels[doorModels[i].ptrModel].max.z);
 								break;
 
 							case -1:
@@ -242,21 +239,32 @@ void bsp_freeDoorMemory()
 //-----------------------------------------------------------------------------
 //
 // Show the door trigger area
-void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
+void bsp_drawDoorTriggerZone ( int whichModel, int whichShader )
 //-----------------------------------------------------------------------------
 {
 #define Y_OFFSET		0.1f
 
 	glm::vec3   			vertsTrigger[4];
-	GLuint					vao;
-	GLuint					buffers[2];
+	static GLuint					vao_ID;
+	static GLuint					buffers[2];
 	int                     faceCount = 2;
+	static bool         initDone = false;
 
 	unsigned int vertsTriggerIndex[] =
 	{
 		0,1,2,2,3,0,
 	};
 
+if (!initDone)
+{
+	// create the VAO
+	GL_ASSERT (glGenVertexArrays (1, &vao_ID));
+	GL_CHECK (glBindVertexArray (vao_ID));
+
+	// Create buffers for the vertex data
+	//GL_ASSERT ( glGenBuffers ( 2, buffers ) );
+	buffers[0] = wrapglGenBuffers (1, __func__);
+	buffers[1] = wrapglGenBuffers (1, __func__);
 
 	// First point
 	vertsTrigger[0].x = doorModels[whichModel].trigger.min.x;
@@ -275,41 +283,34 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 	vertsTrigger[3].y = doorModels[whichModel].trigger.min.y + Y_OFFSET;
 	vertsTrigger[3].z = doorModels[whichModel].trigger.max.z;
 
-	// create the VAO
-	GL_ASSERT ( glGenVertexArrays ( 1, &vao ) );
-	GL_CHECK ( glBindVertexArray ( vao ) );
-
-	// Create buffers for the vertex data
-	//GL_ASSERT ( glGenBuffers ( 2, buffers ) );
-	buffers[0] = wrapglGenBuffers(1, __func__);
-	buffers[1] = wrapglGenBuffers(1, __func__);
-
-	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
+	GL_CHECK (glUseProgram (shaderProgram[whichShader].programID));
 
 	// Vertex coordinates buffer
-	GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, buffers[0] ) );
-	GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( vertsTrigger ), vertsTrigger, GL_STATIC_DRAW ) );
-	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
-	GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) ) );
+	GL_ASSERT (glBindBuffer (GL_ARRAY_BUFFER, buffers[0]));
+	GL_CHECK (glBufferData (GL_ARRAY_BUFFER, sizeof (vertsTrigger), vertsTrigger, GL_STATIC_DRAW));
+	GL_CHECK (glEnableVertexAttribArray (shaderProgram[whichShader].inVertsID));
+	GL_CHECK (glVertexAttribPointer (shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET (0)));
 
 	// Index buffer
-	GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, buffers[1] ) );
-	GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, sizeof ( vertsTriggerIndex ), vertsTriggerIndex, GL_STATIC_DRAW ) );
+	GL_CHECK (glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, buffers[1]));
+	GL_CHECK (glBufferData (GL_ELEMENT_ARRAY_BUFFER, sizeof (vertsTriggerIndex), vertsTriggerIndex, GL_STATIC_DRAW));
 
 	// Unbind the VAO
-	glBindVertexArray ( 0 );
+	glBindVertexArray (0);
 
+	initDone = false;
+}
 
 	// Now render it
 	gl_set3DMode();
 	modelMatrix = glm::mat4();
 
+	GL_CHECK ( glBindVertexArray ( vao_ID ) );
+
 	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
 
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
 	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-
-	GL_CHECK ( glBindVertexArray ( vao ) );
 	//
 	// Enable attribute to hold vertex information
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
@@ -319,19 +320,19 @@ void bspDrawDoorTriggerZone ( int whichModel, int whichShader )
 	glUseProgram ( 0 );
 	glBindVertexArray ( 0 );
 
-	glDeleteBuffers( 2, buffers );
-	glDeleteVertexArrays(1, &vao);
+//	glDeleteBuffers( 2, buffers );
+//	glDeleteVertexArrays(1, &vao);
 }
 
 //------------------------------------------------------------------
 //
 // Show the door trigger area
-void bspDrawAllDoorTriggerZones()
+void bsp_drawAllDoorTriggerZones ()
 //------------------------------------------------------------------
 {
 	for ( int i = 0; i != numOfDoors; i++ )
 		{
-			bspDrawDoorTriggerZone ( i, SHADER_COLOR );
+			bsp_drawDoorTriggerZone (i, SHADER_COLOR);
 		}
 }
 
@@ -360,6 +361,8 @@ void bsp_drawAllDoors()
 						for ( int j = 0; j != m_pModels[doorModels[i].ptrModel].numSurfaces; j++ )
 							{
 								bsp_addFaceToArray ( m_pModels[doorModels[i].ptrModel].firstSurface + j );
+
+//								con_print(CON_INFO, true, "Door [ %i ] lightmapID [ %i ]", m_pFaces[m_pModels[doorModels[i].ptrModel].firstSurface ].lightmapID);
 							}
 
 						break;
@@ -370,15 +373,15 @@ void bsp_drawAllDoors()
 //-------------------------------------------------------------------------------
 //
 // Check for collision between door bounding box and point
-int bspCheckPointDoorCollision ( glm::vec3 objectPos, int whichDoor )
+int bsp_checkPointDoorCollision ( glm::vec3 objectPos, int whichDoor )
 //-------------------------------------------------------------------------------
 {
 	switch (doorModels[whichDoor].angle)
 		{
-			case 270:
+			case 180:
 			case 360:
-				if ( objectPos.x > doorModels[whichDoor].trigger.min.x )
-					if ( objectPos.x < doorModels[whichDoor].trigger.max.x )
+				if ( objectPos.x < doorModels[whichDoor].trigger.min.x )
+					if ( objectPos.x > doorModels[whichDoor].trigger.max.x )
 						if ( objectPos.z > doorModels[whichDoor].trigger.min.z )
 							if ( objectPos.z < doorModels[whichDoor].trigger.max.z )
 								return whichDoor;
@@ -386,11 +389,11 @@ int bspCheckPointDoorCollision ( glm::vec3 objectPos, int whichDoor )
 				break;
 
 			case 90:
-			case 180:
+			case 270:
 				if ( objectPos.x > doorModels[whichDoor].trigger.min.x )
 					if ( objectPos.x < doorModels[whichDoor].trigger.max.x )
-						if ( objectPos.z < doorModels[whichDoor].trigger.min.z )
-							if ( objectPos.z > doorModels[whichDoor].trigger.max.z )
+						if ( objectPos.z > doorModels[whichDoor].trigger.min.z )
+							if ( objectPos.z < doorModels[whichDoor].trigger.max.z )
 								return whichDoor;
 
 				break;
@@ -401,7 +404,7 @@ int bspCheckPointDoorCollision ( glm::vec3 objectPos, int whichDoor )
 //-------------------------------------------------------------------------------
 //
 // Move a door model
-void bspStartModelMoveDoor ( int whichDoor, int direction )
+void bsp_startModelMoveDoor ( int whichDoor, int direction )
 //-------------------------------------------------------------------------------
 {
 	if ( ( doorModels[whichDoor].currentState == DOOR_STATE_OPEN ) ||
@@ -423,13 +426,14 @@ bool bsp_checkPlayerVsTrigger()
 				{
 					case COMPLETE_IN:
 					case INTERSECT:
-						if ( bspCheckPointDoorCollision ( cam3_Position, i ) > -1 )
+						if ( bsp_checkPointDoorCollision (cam3_Position, i) > -1 )
 							{
-								bspStartModelMoveDoor ( i, DOOR_STATE_OPENING );
+								bsp_startModelMoveDoor (i, DOOR_STATE_OPENING);
+
+								printf ("Inside door trigger\n");
 							}
 				}
 		}
-
 	return true;
 }
 
@@ -437,7 +441,7 @@ bool bsp_checkPlayerVsTrigger()
 //-------------------------------------------------------------------------------
 //
 // Process the movements of a door
-void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
+void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
 //-------------------------------------------------------------------------------
 {
 	switch ( doorModels[whichDoor].currentState )
@@ -456,24 +460,20 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 						doorModels[whichDoor].pause = 5.0f;
 						doorModels[whichDoor].currentState = DOOR_STATE_CLOSING;
 					}
-
 				break;
 
 			case DOOR_STATE_OPENING:
-
 				if ( doorModels[whichDoor].currentOffset > doorModels[whichDoor].travelDistance - DOOR_LIP )
 					{
 						doorModels[whichDoor].currentOffset = doorModels[whichDoor].travelDistance - DOOR_LIP;
 						doorModels[whichDoor].currentState = DOOR_STATE_OPEN;
 						doorModels[whichDoor].minMaxMove = doorModels[whichDoor].currentOffset;
 					}
-
 				else
 					{
 						doorModels[whichDoor].currentOffset += DOOR_SPEED * interpolate;
 						doorModels[whichDoor].minMaxMove += DOOR_SPEED * interpolate;    // same as offset ??
 					}
-
 				break;
 
 			case DOOR_STATE_CLOSING:
@@ -483,14 +483,12 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 						doorModels[whichDoor].currentOffset -= DOOR_SPEED * interpolate;
 						doorModels[whichDoor].minMaxMove = 0 - ( doorModels[whichDoor].minMaxMove - ( DOOR_SPEED * interpolate ) );		// Get negative move
 					}
-
 				else
 					{
 						doorModels[whichDoor].currentOffset = 0.0f;
 						doorModels[whichDoor].currentState = DOOR_STATE_CLOSED;
 						doorModels[whichDoor].minMaxMove = 0.0f;
 					}
-
 				break;
 		}
 }
@@ -498,7 +496,7 @@ void bspProcessSingleDoorMovement ( int whichDoor, float interpolate )
 //-------------------------------------------------------------------------------
 //
 // Move the physics convex hull along with the door model
-void bspMoveDoorPhysics(int whichDoor, int doorAngle)
+void bsp_moveDoorPhysics ( int whichDoor, int doorAngle )
 //-------------------------------------------------------------------------------
 {
 
@@ -515,11 +513,11 @@ void bspMoveDoorPhysics(int whichDoor, int doorAngle)
 				location.setZ(location.z() + doorModels[whichDoor].currentOffset);
 				break;
 
-			case 180:
+			case 270:
 				location.setZ(location.z() - doorModels[whichDoor].currentOffset);
 				break;
 
-			case 270:
+			case 180:
 				location.setX(location.x() - doorModels[whichDoor].currentOffset);
 				break;
 
@@ -537,7 +535,7 @@ void bspMoveDoorPhysics(int whichDoor, int doorAngle)
 //-------------------------------------------------------------------------------
 //
 // Upload door vertex information to the GPU
-void bspUploadDoorVertex()
+void bsp_uploadDoorVertex ()
 //-------------------------------------------------------------------------------
 {
 	GLintptr		offset;
@@ -558,7 +556,7 @@ void bspUploadDoorVertex()
 //-------------------------------------------------------------------------------
 //
 // Process the movements of all doors
-void bspProcessAllDoorMovements ( float interpolate )
+void bsp_processAllDoorMovements ( float interpolate )
 //-------------------------------------------------------------------------------
 {
 	int         whichModel;
@@ -570,9 +568,9 @@ void bspProcessAllDoorMovements ( float interpolate )
 
 	for ( int k = 0; k != numOfDoors; k++ )
 		{
-			bspProcessSingleDoorMovement ( k, interpolate );
+			bsp_processSingleDoorMovement (k, interpolate);
 
-			bspMoveDoorPhysics(k, doorModels[k].angle);
+			bsp_moveDoorPhysics (k, doorModels[k].angle);
 
 			whichModel = doorModels[k].ptrModel;
 			whichDoor = k;
@@ -591,11 +589,11 @@ void bspProcessAllDoorMovements ( float interpolate )
 										doorModels[whichDoor].vertexInfo[j].position.z = doorModels[whichDoor].originalVertPos[j].z + doorModels[whichDoor].currentOffset;
 										break;
 
-									case 180:
+									case 270:
 										doorModels[whichDoor].vertexInfo[j].position.z = doorModels[whichDoor].originalVertPos[j].z - doorModels[whichDoor].currentOffset;
 										break;
 
-									case 270:
+									case 180:
 										doorModels[whichDoor].vertexInfo[j].position.x = doorModels[whichDoor].originalVertPos[j].x - doorModels[whichDoor].currentOffset;
 										break;
 
@@ -627,12 +625,12 @@ void bspProcessAllDoorMovements ( float interpolate )
 						doorModels[k].max.z = doorModels[k].maxOriginal.z + doorModels[whichDoor].currentOffset;
 						break;
 
-					case 180:	// Working
+					case 270:	// Working
 						doorModels[k].min.z = doorModels[k].minOriginal.z - doorModels[whichDoor].currentOffset;
 						doorModels[k].max.z = doorModels[k].maxOriginal.z - doorModels[whichDoor].currentOffset;
 						break;
 
-					case 270:
+					case 180:
 						doorModels[k].min.x = doorModels[k].minOriginal.x - doorModels[whichDoor].currentOffset;
 						doorModels[k].max.x = doorModels[k].maxOriginal.x - doorModels[whichDoor].currentOffset;
 						break;
@@ -658,3 +656,5 @@ void bspProcessAllDoorMovements ( float interpolate )
 				}
 		}
 }
+
+#pragma clang diagnostic pop

@@ -1,9 +1,14 @@
-#include <hdr/libGL/soil/SOIL.h>
-#include <FreeImage.h>
+//#include <hdr/libGL/soil/SOIL.h>
+//#include <FreeImage.h>
+#include "s_lightMaps.h"
 #include "s_varsBSP.h"
 #include "s_openGLWrap.h"
 
-int g_lightmapShift = 5;
+int      g_lightmapShift = 5;
+bool     g_debugVolLights = false;
+int     lightVolIndex;
+int     lightXPos;
+int     lightZPos;
 
 typedef struct
 {
@@ -13,9 +18,9 @@ typedef struct
 
 vector<_lightVol>       lightVol;
 
-float                   lightVolumes_X = 0.0f;
-float                   lightVolumes_Y = 0.0f;
-float                   lightVolumes_Z = 0.0f;
+int                   lightVolumes_X = 0;
+int                   lightVolumes_Y = 0;
+int                   lightVolumes_Z = 0;
 
 //------------------------------------------------------------
 //
@@ -119,11 +124,6 @@ void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int wi
 		glBindTexture (GL_TEXTURE_2D, 0);
 
 		con_print (CON_INFO, true, "Lightmap ID [ %i ] created.", texture);
-//
-// GL_SRGB is here instead of GL_RGB to change gamma corrected textures back to linear color space
-// TODO (dberry#1#): Put in paramter for textures/shaders not doing gamma correction
-//
-//    glTexImage2D ( GL_TEXTURE_2D, 0, GL_SRGB, texturesLoaded[whichTexture].width, texturesLoaded[whichTexture].height, 0, GL_RGB, GL_UNSIGNED_BYTE, texturesLoaded[whichTexture].imageData );
 }
 
 //---------------------------------------------------------------------------
@@ -133,57 +133,65 @@ void bsp_setupLightVolumeData()
 //---------------------------------------------------------------------------
 {
 	// Light volumes are arranged from left to right, back to front and bottom to top
-	float xPosition, yPosition, zPosition;
+	float           xPosition, yPosition, zPosition;
+	glm::vec3       tempColor;
+	int             counter = 0;
 
-	lightVol.reserve(m_numOfLightVolumes);
+	lightVol.reserve((unsigned long)m_numOfLightVolumes);
 
-	lightVolumes_X = ((abs(m_pModels[0].min.x) + abs(m_pModels[0].max.x)) / 64) + 1;
-	lightVolumes_Y = ((abs(m_pModels[0].min.y) + abs(m_pModels[0].max.y)) / 128) + 1;
-	lightVolumes_Z = ((abs(m_pModels[0].min.z) + abs(m_pModels[0].max.z)) / 64) + 1;
+	lightVolumes_X = (int)((abs(m_pModels[0].min.x) + abs(m_pModels[0].max.x)) / LIGHT_VOL_WIDTH) + 1;
+	lightVolumes_Y = (int)((abs(m_pModels[0].min.y) + abs(m_pModels[0].max.y)) / LIGHT_VOL_HEIGHT) + 1;
+	lightVolumes_Z = (int)((abs(m_pModels[0].min.z) + abs(m_pModels[0].max.z)) / LIGHT_VOL_DEPTH) + 1;
 
-	con_print(CON_INFO, true, "Level dimensions Max : [ %4.2f %4.2f %4.2f ] Min : [ %4.2f %4.2f %4.2f ]",
-	          m_pModels[0].max.x, m_pModels[0].max.y, m_pModels[0].max.z,
-	          m_pModels[0].min.x, m_pModels[0].min.y, m_pModels[0].min.z);
+	con_print(CON_INFO, true, "Level dimensions Min : [ %4.2f %4.2f %4.2f ] Max : [ %4.2f %4.2f %4.2f ]",
+	          m_pModels[0].min.x, m_pModels[0].min.y, m_pModels[0].min.z,
+	          m_pModels[0].max.x, m_pModels[0].max.y, m_pModels[0].max.z );
 
-	con_print(CON_INFO, true, "across X [ %2.3f ] height [ %2.2f ] depth [ %2.2f ]", lightVolumes_X, lightVolumes_Y, lightVolumes_Z);
-
-	int counter = 0;
+	con_print(CON_INFO, true, "LightVol Across X [ %2.3f ] Height [ %2.2f ] Depth [ %2.2f ]", lightVolumes_X, lightVolumes_Y, lightVolumes_Z);
 
 	xPosition = 0.0f;
 	yPosition = 0.0f;
 	zPosition = 0.0f;
-
+	//
+	// Go through the light volume array and work out the markers grid position
 	for (counter = 0; counter != m_numOfLightVolumes; counter++)
 	{
-		lightVol[counter].lightVolPosition.x = ((xPosition++ * 64.0f)  + (64.0f / 2.0f))   + (m_pModels[0].min.x - 64);
-		lightVol[counter].lightVolPosition.y = ((yPosition * 128.0f) + (128.0f / 2.0f))  + m_pModels[0].min.y;
-		lightVol[counter].lightVolPosition.z = ((zPosition * 64.0f)  + (64.0f / 2.0f))   + m_pModels[0].min.z;
+//		lightVol[counter].lightVolPosition.x = (m_pModels[0].min.x) - ((xPosition++ * LIGHT_VOL_WIDTH) - LIGHT_VOL_WIDTH / 2.0f);
+//		lightVol[counter].lightVolPosition.y = ((yPosition * LIGHT_VOL_HEIGHT) + LIGHT_VOL_HEIGHT / 2.0f) + m_pModels[0].min.y;
+//		lightVol[counter].lightVolPosition.z = (m_pModels[0].min.z) + ((zPosition * LIGHT_VOL_DEPTH) - LIGHT_VOL_DEPTH / 2.0f);
 
+		lightVol[counter].lightVolPosition.x = -((xPosition++ * LIGHT_VOL_WIDTH) - (LIGHT_VOL_WIDTH / 2.0f));
+		lightVol[counter].lightVolPosition.y = (yPosition * LIGHT_VOL_HEIGHT) + (LIGHT_VOL_HEIGHT / 2.0f);
+		lightVol[counter].lightVolPosition.z = (zPosition * LIGHT_VOL_DEPTH) - (LIGHT_VOL_DEPTH / 2.0f);
+
+		//
+		// Next row
 		if (xPosition == lightVolumes_X)
 		{
 			xPosition = 0;
 			zPosition++;
 		}
-
+		//
+		// Next layer - bottom to top
 		if (zPosition == lightVolumes_Z)
 		{
 			xPosition = 0;
 			zPosition = 0;
 			yPosition++;
 		}
-
-		glm::vec3 tempColor;
-
+		//
+		// Make the color brighter
 		tempColor = bsplightVolGamma(glm::vec3{m_pLightVols[counter].ambient[0], m_pLightVols[counter].ambient[1], m_pLightVols[counter].ambient[2]});
-
+		//
+		// Scale to openGL range
 		lightVol[counter].lightVolAmbientColor.r = (byte)tempColor.r / 255.0f;
 		lightVol[counter].lightVolAmbientColor.g = (byte)tempColor.g / 255.0f;
 		lightVol[counter].lightVolAmbientColor.b = (byte)tempColor.b / 255.0f;
 
-		/*
+/*
 		con_print(CON_INFO, true, "[ %i ] - lightPos [ %3.2f %3.2f %3.2f ] Ambient [ %2.3f %2.3f %2.3f ]", counter, lightVol[counter].lightVolPosition.x, lightVol[counter].lightVolPosition.y, lightVol[counter].lightVolPosition.z,
         lightVol[counter].lightVolAmbientColor.r, lightVol[counter].lightVolAmbientColor.g, lightVol[counter].lightVolAmbientColor.b);
-		*/
+*/
 	}
 }
 
@@ -202,7 +210,7 @@ void bsp_showLightVolPositions(int whichShader)
 //------------------------------------------------------------------------------------------
 //
 // Get the ambient light color from the light volume array
-// Pass in world location - return ambient color
+// Pass in world location - return ambient color based on location in light volume grid
 glm::vec3 bsp_getAmbientColor(glm::vec3 position)
 //------------------------------------------------------------------------------------------
 {
@@ -211,11 +219,35 @@ glm::vec3 bsp_getAmbientColor(glm::vec3 position)
 	float yAcross;
 	float index;
 
-	xAcross = (abs (m_pModels[0].min.x) + position.x) / 64;
-	yAcross = (abs (m_pModels[0].min.y) + position.y) / 128;
-	zAcross = (abs (m_pModels[0].min.z) + position.z) / 64;
+	lightXPos = abs(position.x) / 64;
+	lightZPos = position.z / 64;
 
-	index = (((int) zAcross * lightVolumes_X) + (int) xAcross) + ((int)yAcross * (lightVolumes_X * lightVolumes_Z));
+	lightXPos++;
+	lightZPos++;
 
-	return lightVol[index].lightVolAmbientColor;
+	xAcross = ((abs (m_pModels[0].min.x) + position.x) / LIGHT_VOL_WIDTH);
+	yAcross = ((abs (m_pModels[0].min.y) + position.y) / LIGHT_VOL_HEIGHT);
+	zAcross = ((abs (m_pModels[0].min.z) + position.z) / LIGHT_VOL_DEPTH);
+
+//	xAcross = abs (position.x) / LIGHT_VOL_WIDTH;
+//	yAcross = abs (position.y) / LIGHT_VOL_HEIGHT;
+//	zAcross = abs (position.z) / LIGHT_VOL_DEPTH;
+
+	index = (lightZPos * lightVolumes_X) + lightXPos;
+
+	lightVolIndex = (int)index;
+
+	//index = (((int) zAcross * lightVolumes_X) + (int) xAcross) + ((int)yAcross * (lightVolumes_X * lightVolumes_Z));
+
+//	return lightVol[(int)index + LIGHT_VOL_SLIP_COUNT].lightVolAmbientColor;
+	return lightVol[(int)index].lightVolAmbientColor;
 }
+/*
+gridx = (x - models[0].mins[0]) / 64;
+gridy = (y - models[0].mins[1]) / 64;
+gridz = (z - models[0].mins[2]) / 128 + 0.5f;
+
+ I access the light volume at:
+
+gridz * num_lightvols_y * num_lightvols_x + gridy * num_lightvols_x + gridx
+ */

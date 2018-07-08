@@ -71,10 +71,10 @@ void obj_renderAllObjects(int whichShader)
 void obj_addSomeObjects()
 //----------------------------------------------------------
 {
-	obj_addObject( glm::vec3 ( 10.0, 10.0, 50.0 ), 	MODEL_FEMADROID, 	true, 8.7f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 50.0, 10.0, 100.0 ), MODEL_TANK, 		true, 0.3f, glm::vec3() );
+	obj_addObject( glm::vec3 ( -223.0, 20.0, 175.0 ), 	MODEL_FEMADROID, 	true, 8.7f, glm::vec3() );
+	obj_addObject( glm::vec3 ( -192.0, 20.0, 340.0 ),   MODEL_TANK, 		true, 0.3f, glm::vec3() );
 
-	obj_addObject( glm::vec3 ( 80.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 5.0f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 95.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 7.0f, glm::vec3() );
-	obj_addObject( glm::vec3 ( 130.0, 5.0, 10.0 ), 	MODEL_CRATE, 		true, 10.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( -109.0, 32.0, 348.0 ), 	MODEL_CRATE, 		true, 5.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( -100.0, 40.0, 252.0 ), 	MODEL_CRATE, 		true, 7.0f, glm::vec3() );
+	obj_addObject( glm::vec3 ( -100.0, 50.0, 210.0 ), 	MODEL_CRATE, 		true, 10.0f, glm::vec3() );
 }

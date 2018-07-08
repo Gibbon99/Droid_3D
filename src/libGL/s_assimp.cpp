@@ -467,7 +467,7 @@ bool ass_loadModel ( int whichModel, std::string fileName )
 	meshModels[whichModel].materialName.reserve ( meshModels[whichModel].numMaterials );
 	meshModels[whichModel].mesh.reserve ( meshModels[whichModel].numMeshes );
 
-	con_print ( CON_INFO, true, "Mesh [ %i ] : [ %s ] numMeshes [ %i ] numMaterials [ %i ]", whichModel, fileName.c_str(), meshModels[whichModel].numMeshes, meshModels[whichModel].numMaterials );
+//	con_print ( CON_INFO, true, "Mesh [ %i ] : [ %s ] numMeshes [ %i ] numMaterials [ %i ]", whichModel, fileName.c_str(), meshModels[whichModel].numMeshes, meshModels[whichModel].numMaterials );
 
 	for ( unsigned int i = 0; i < scene->mNumMeshes; ++i )
 		{
@@ -480,7 +480,7 @@ bool ass_loadModel ( int whichModel, std::string fileName )
 			meshModels[whichModel].mesh[i].materialIndex = scene->mMeshes[i]->mMaterialIndex;
 			meshModels[whichModel].mesh[i].numFaces = scene->mMeshes[i]->mNumFaces;
 			meshModels[whichModel].mesh[i].numVertices = scene->mMeshes[i]->mNumVertices;
-			con_print ( CON_INFO, true, "Mesh [ %i ] : Material Index [ %i ] numFaces [ %i ] numVertices [ %i ]", i, meshModels[whichModel].mesh[i].materialIndex, meshModels[whichModel].mesh[i].numFaces, meshModels[whichModel].mesh[i].numVertices );
+//			con_print ( CON_INFO, true, "Mesh [ %i ] : Material Index [ %i ] numFaces [ %i ] numVertices [ %i ]", i, meshModels[whichModel].mesh[i].materialIndex, meshModels[whichModel].mesh[i].numFaces, meshModels[whichModel].mesh[i].numVertices );
 		}
 
 	ass_getMaterials ( scene, whichModel );

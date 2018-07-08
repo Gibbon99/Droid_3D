@@ -1,4 +1,4 @@
-
+#include "s_lightMaps.h"
 #include "s_audio.h"
 #include "s_globals.h"
 #include "s_movement.h"
@@ -28,10 +28,7 @@ _hostScriptFunctions hostVariables[] =
 	{"bool g_lockMouse",                    &g_lockMouse},
 	{"bool g_debugLightPos",                &g_debugLightPos},
 	{"bool g_debugBoundingBox",             &g_debugBoundingBox},
-	{"float globalAmbient",                 &globalAmbient},
-	{"float globalGammaFactor",             &globalGammaFactor},
 	{"float g_Gamma",                       &g_Gamma},
-	{"float materialShininess",             &materialShininess},
 	{"float bullet_1_speed",                &bullet_1_speed},
 	{"bool g_debugPhysics",					&g_debugPhysics},
 	{"bool g_debugDoorTriggers",			&g_debugDoorTriggers},
@@ -41,9 +38,11 @@ _hostScriptFunctions hostVariables[] =
 	{"int as_numAudioSamples",              &as_numAudioSamples},
 	{"int as_audioVolume",                  &as_audioVolume},
 	{"bool g_renderTextures",               &g_renderTextures},
+	{"bool g_debugVolLights",               &g_debugVolLights},
+	{"bool g_renderBSP",                    &g_renderBSP},
+	{"float doorSpeed",                     &doorSpeed},
 	{"",                                    nullptr},
 };
-
 
 //-----------------------------------------------------------------------------
 //

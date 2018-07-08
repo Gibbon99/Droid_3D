@@ -24,7 +24,7 @@ extern float               bullet_1_speed;
 extern int                 numActiveBullets;
 
 // Process a bullets movement
-void gam_processBulletMovement ( GLfloat interpolate );
+void gam_processBulletMovement ( );
 
 // Create new bullet
 void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed );

@@ -29,6 +29,8 @@ glm::vec3 bsp_swapValues(glm::vec3 sourceValue)
 	sourceValue.y = sourceValue.z;
 	sourceValue.z = temp;
 
+	sourceValue.x = -sourceValue.x;
+
 	return sourceValue;
 }
 //------------------------------------------------------------
@@ -239,7 +241,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	m_pEntities = ( char * ) malloc ( lumps[kEntities].length );
 
-	if ( NULL == m_pEntities )
+	if ( nullptr == m_pEntities )
 		RET_FALSE ( "Out of memory error", true );
 
 	// Get the string containing all the entities
@@ -259,21 +261,8 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			PHYSFS_readBytes ( filePtr, &m_pVerts[i], sizeof ( tBSPVertex ) * 1);
 
 			m_pVerts[i].vPosition = bsp_swapValues (m_pVerts[i].vPosition);
-			float temp;
-
-/*			// Swap the y and z values, and negate the new z so Y is up.
-			float temp = m_pVerts[i].vPosition.y;
-			m_pVerts[i].vPosition.y = m_pVerts[i].vPosition.z;
-//			m_pVerts[i].vPosition.z = -temp;
-			m_pVerts[i].vPosition.z = temp;
-*/
 			m_pVerts[i].vNormal = bsp_swapValues (m_pVerts[i].vNormal);
-			/*
-			temp = m_pVerts[i].vNormal.y;
-			m_pVerts[i].vNormal.y = m_pVerts[i].vNormal.z;
-			//m_pVerts[i].vNormal.z = -temp;
-			m_pVerts[i].vNormal.z = temp;
-*/
+
 			// Negate the V texture coordinate because it is upside down otherwise...
 			m_pVerts[i].vTextureCoord.y *= -1;
 //			m_pVerts[i].vLightmapCoord.y *= -1;
@@ -294,12 +283,6 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 		{
 			m_pFaces[i].vNormal = bsp_swapValues (m_pFaces[i].vNormal);
 
-			/*
-			float temp = m_pFaces[i].vNormal.y;
-			m_pFaces[i].vNormal.y = m_pFaces[i].vNormal.z;
-			//m_pFaces[i].vNormal.z = -temp;
-			m_pFaces[i].vNormal.z = temp;
-*/
 //			con_print(CON_INFO, true, "Face [ %i ] lightmapID [ %i ]", i, m_pFaces[i].lightmapID);
 //			con_print(CON_INFO, true, "Face [ %i ] effects [ %i ]", i, m_pFaces[i].effect);
 		}
@@ -358,13 +341,13 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			// Swap the y and z values, and negate the new z so Y is up.
 			int temp = m_pNodes[i].max.y;
 			m_pNodes[i].max.y = m_pNodes[i].max.z;
-//			m_pNodes[i].max.z = -temp;
 			m_pNodes[i].max.z = temp;
+			m_pNodes[i].max.x = -m_pNodes[i].max.x;
 
 			temp = m_pNodes[i].min.y;
 			m_pNodes[i].min.y = m_pNodes[i].min.z;
-			//m_pNodes[i].min.z = -temp;
 			m_pNodes[i].min.z = temp;
+			m_pNodes[i].min.x = -m_pNodes[i].min.x;
 		}
 
 	// Store the number of leafs and allocate the memory to hold them
@@ -382,14 +365,14 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			// Swap the min y and z values, then negate the new Z
 			int temp = m_pLeafs[i].min.y;
 			m_pLeafs[i].min.y = m_pLeafs[i].min.z;
-			//m_pLeafs[i].min.z = -temp;
 			m_pLeafs[i].min.z = temp;
+			m_pLeafs[i].min.x = -m_pLeafs[i].min.x;
 
 			// Swap the max y and z values, then negate the new Z
 			temp = m_pLeafs[i].max.y;
 			m_pLeafs[i].max.y = m_pLeafs[i].max.z;
-			//m_pLeafs[i].max.z = -temp;
 			m_pLeafs[i].max.z = temp;
+			m_pLeafs[i].max.x = -m_pLeafs[i].max.x;
 		}
 
 	// Store the number of leaf faces and allocate the memory for them
@@ -412,12 +395,6 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	for ( i = 0; i < m_numOfPlanes; i++ )
 		{
 			m_pPlanes[i].vNormal = bsp_swapValues (m_pPlanes[i].vNormal);
-			/*
-			float temp = m_pPlanes[i].vNormal.y;
-			m_pPlanes[i].vNormal.y = m_pPlanes[i].vNormal.z;
-//			m_pPlanes[i].vNormal.z = -temp;
-			m_pPlanes[i].vNormal.z = temp;
-			 */
 		}
 
 	// Seek to the position in the file that holds the visibility lump
@@ -440,7 +417,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 
 	// Otherwise, we don't have any visibility data (prevents a crash)
 	else
-		m_clusters.pBitsets = NULL;
+		m_clusters.pBitsets = nullptr;
 
 	// Read in index to leaf brushes
 	m_numOfLeafBrushes = lumps[kLeafBrushes].length / sizeof ( int );
@@ -458,21 +435,7 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Now we need to convert all the bounding boxes to OpenGL - Y axis up
 	for ( i = 0; i < m_numOfModels; i++ )
 		{
-
 			m_pModels[i].min = bsp_swapValues (m_pModels[i].min);
-			/*
-			// Swap the min y and z values, then negate the new Z
-			float temp = m_pModels[i].min.y;
-			m_pModels[i].min.y = m_pModels[i].min.z;
-			//m_pModels[i].min.z = -temp;
-			m_pModels[i].min.z = temp;
-
-			// Swap the max y and z values, then negate the new Z
-			temp = m_pModels[i].max.y;
-			m_pModels[i].max.y = m_pModels[i].max.z;
-			//m_pModels[i].max.z = -temp;
-			m_pModels[i].max.z = temp;
-			 */
 			m_pModels[i].max = bsp_swapValues (m_pModels[i].max);
 		}
 
@@ -495,17 +458,9 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 	// Here we allocate enough bits to store all the faces for our bitset
 	m_FacesDrawn.Resize ( m_numOfFaces );
 
-/*
-	if ( sortedFaces )
-		free ( sortedFaces );
-
-	sortedFaces = ( _sortedFaces * ) malloc ( m_numOfFaces * sizeof ( _sortedFaces ) );
-
-	if ( NULL == sortedFaces )
-		sysErrorFatal ( __FILE__, __LINE__, "Memory allocation error. Sorted face array." );
-*/
-
+	//
 	// Setup the entities into searchable string array
+	bsp_setupEntities();
 
 	if ( verboseOutput )
 		{
@@ -515,8 +470,6 @@ bool bsp_loadBSP ( const char *strFileName, bool verboseOutput )
 			con_print ( CON_INFO, true, "leafBrushes [ %i ] brushes [ %i ] brushSides [ %i ]", m_numOfLeafBrushes, m_numOfBrushes, m_numOfBrushSides );
 			con_print ( CON_INFO, true, "---------------------------------------------------------------" );
 		}
-
-	bsp_setupEntities();
 
 	if ( -1 == bsp_placeCameraAtEntity ("info_player_start" ) )
 		printf ( "Couldn't find player start\n" );

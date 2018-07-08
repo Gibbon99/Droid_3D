@@ -54,9 +54,9 @@ void sys_gameTickRun ( float interpolate )
 			
 			cam3_CreateViewMatrix(cam3_Position);
 
-			gam_processBulletMovement ( interpolate );
+			gam_processBulletMovement ( );
 			bsp_checkPlayerVsTrigger();
-			bspProcessAllDoorMovements ( interpolate );
+				bsp_processAllDoorMovements (interpolate);
 			phy_doCollisionDetection();
 
 			par_processParticles(interpolate);

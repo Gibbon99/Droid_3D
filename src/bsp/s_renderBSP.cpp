@@ -534,9 +534,9 @@ void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
 	// Start adding faces to faceArray from the tree from the Root (Node 0 ) and start checking the frustum (true)
 	bsp_renderTree ( 0, true );
 
-	bspUploadDoorVertex();
+	bsp_uploadDoorVertex ();
 
-	bsp_drawAllDoors();	// Call before renderAllFaces ?
+	bsp_drawAllDoors();
 
 	bsp_renderAllFaces(whichShader);
 

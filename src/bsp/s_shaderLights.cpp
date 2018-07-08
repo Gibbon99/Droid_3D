@@ -8,13 +8,9 @@
 
 vector<_myLights>   allLights;
 int                 numOfLights = -1;
-float               materialShininess = 5.0f;
 
 float               globalAmbient;
 float               globalGammaFactor;
-
-uint                globalAmbientID;
-uint                globalGammaFactorID;
 
 bool                g_debugLightPos = true;
 
@@ -39,11 +35,6 @@ int bsp_findNumOfLights()
 	//
 	// Save value for use later on
 	numOfLights = bsp_getNumEntities ( "myLight" );
-
-	con_print(CON_INFO, true, "Number of lights [ %i ]", numOfLights);
-
-	if ( numOfLights == 0 )
-		return 0;
 
 	//
 	// Get memory to hold light information
@@ -77,88 +68,95 @@ void bsp_setLightArrayData()
 	if ( numOfLights == -1 )
 		bsp_findNumOfLights();
 
-	if ( numOfLights == 0 )
-		return;
-
-	for ( int i = 0; i < numOfLights + MAX_NUM_BULLETS; i++ )  	// Need to assign shader uniform for all possible lights
+	if (numOfLights > 0)
+	{
+		for ( int i = 0; i < numOfLights + MAX_NUM_BULLETS; i++ )    // Need to assign shader uniform for all possible lights
 		{
 			//
 			// Type of light
-			if ( bsp_findEntityInfo ( "myLight", "type", &tempVar, false, allLights[i].entitySetID, VAR_TYPE_FLOAT ) < 0 )
-				{
-					con_print ( CON_ERROR, true, "Error looking for light entity type value - not found. [ %i ]", i );
-				}
+			if ( bsp_findEntityInfo ("myLight", "type", &tempVar, false, allLights[i].entitySetID, VAR_TYPE_FLOAT) < 0 )
+			{
+				con_print (CON_ERROR, true, "Error looking for light entity type value - not found. [ %i ]", i);
+			}
 			else
-				{
-					allLights[i].active = true;
-				}
+			{
+				allLights[i].active = true;
+			}
 
 			allLights[i].type = tempVar.x;
 
 			//
 			// Effct of light
-			if ( bsp_findEntityInfo ( "myLight", "effect", &tempVar, false, allLights[i].entitySetID, VAR_TYPE_FLOAT ) < 0 )
-				{
-					con_print ( CON_ERROR, true, "Error looking for light entity effect value - not found. [ %i ]", i );
-				}
+			if ( bsp_findEntityInfo ("myLight", "effect", &tempVar, false, allLights[i].entitySetID, VAR_TYPE_FLOAT) < 0 )
+			{
+				con_print (CON_ERROR, true, "Error looking for light entity effect value - not found. [ %i ]", i);
+			}
 
 			allLights[i].effect = tempVar.x;
 
 			//
 			// Get the lights position
-			if ( bsp_findEntityInfo ( "myLight", "origin", &allLights[i].position, true, allLights[i].entitySetID, VAR_TYPE_VEC3 ) < 0 )
-				{
-					con_print ( CON_ERROR, true, "Error looking for light entity position value - not found. [ %i ]", i );
-				}
+			if ( bsp_findEntityInfo ("myLight", "origin", &allLights[i].position, true, allLights[i].entitySetID,
+			                         VAR_TYPE_VEC3) < 0 )
+			{
+				con_print (CON_ERROR, true, "Error looking for light entity position value - not found. [ %i ]", i);
+			}
 
 			//
 			// Lights color
-			if ( bsp_findEntityInfo ( "myLight", "myColor", &allLights[i].color, false, allLights[i].entitySetID, VAR_TYPE_VEC3 ) < 0 )
-				{
+			if ( bsp_findEntityInfo ("myLight", "myColor", &allLights[i].color, false, allLights[i].entitySetID,
+			                         VAR_TYPE_VEC3) < 0 )
+			{
 
-					allLights[i].color.r /= 255;
-					allLights[i].color.g /= 255;
-					allLights[i].color.b /= 255;
+				allLights[i].color.r /= 255;
+				allLights[i].color.g /= 255;
+				allLights[i].color.b /= 255;
 
-					con_print ( CON_ERROR, true, "Error looking for light entity color value - not found. [ %i ]", i );
-				}
+				con_print (CON_ERROR, true, "Error looking for light entity color value - not found. [ %i ]", i);
+			}
 
 			//
 			// Lights attenuation - brightness and reach
-			if ( bsp_findEntityInfo ( "myLight", "attenuation", &tempVar, false, allLights[i].entitySetID, VAR_TYPE_FLOAT ) < 0 )
-				{
-					con_print ( CON_ERROR, true, "Error looking for light entity attenuation value - not found. [ %i ]", i );
-				}
+			if ( bsp_findEntityInfo ("myLight", "attenuation", &tempVar, false, allLights[i].entitySetID,
+			                         VAR_TYPE_FLOAT) < 0 )
+			{
+				con_print (CON_ERROR, true, "Error looking for light entity attenuation value - not found. [ %i ]", i);
+			}
 
 			allLights[i].attenuation = tempVar.x;
 
 			//
 			// Lights ambientcoefficient
-			if ( bsp_findEntityInfo ( "myLight", "ambientCoefficient", &tempVar, false, allLights[i].entitySetID, VAR_TYPE_FLOAT ) < 0 )
-				{
-					con_print ( CON_ERROR, true, "Error looking for light entity ambientCoefficient value - not found. [ %i ]", i );
-				}
+			if ( bsp_findEntityInfo ("myLight", "ambientCoefficient", &tempVar, false, allLights[i].entitySetID,
+			                         VAR_TYPE_FLOAT) < 0 )
+			{
+				con_print (CON_ERROR, true,
+				           "Error looking for light entity ambientCoefficient value - not found. [ %i ]", i);
+			}
 
 			allLights[i].ambientCoefficient = tempVar.x;
 
 			//
 			// Angle of the end of the cone
-			if ( bsp_findEntityInfo ( "myLight", "coneAngle", &tempVar, false, allLights[i].entitySetID, VAR_TYPE_FLOAT ) < 0 )
-				{
-					con_print ( CON_ERROR, true, "Error looking for light entity coneAngle value - not found. [ %i ]", i );
-				}
+			if ( bsp_findEntityInfo ("myLight", "coneAngle", &tempVar, false, allLights[i].entitySetID,
+			                         VAR_TYPE_FLOAT) < 0 )
+			{
+				con_print (CON_ERROR, true, "Error looking for light entity coneAngle value - not found. [ %i ]", i);
+			}
 
 			allLights[i].coneAngle = tempVar.x;
 
 			//
 			// Lights direction vector for cone to point
-			if ( bsp_findEntityInfo ( "myLight", "coneDirection", &allLights[i].coneDirection, false, allLights[i].entitySetID, VAR_TYPE_VEC3 ) < 0 )
-				{
-					con_print ( CON_ERROR, true, "Error looking for light entity coneDirection value - not found. [ %i ]", i );
-				}
+			if ( bsp_findEntityInfo ("myLight", "coneDirection", &allLights[i].coneDirection, false,
+			                         allLights[i].entitySetID, VAR_TYPE_VEC3) < 0 )
+			{
+				con_print (CON_ERROR, true, "Error looking for light entity coneDirection value - not found. [ %i ]",
+				           i);
+			}
 
 			switch ( allLights[i].effect )
-				{
+			{
 				case EFFECT_NONE:
 					break;
 
@@ -166,11 +164,13 @@ void bsp_setLightArrayData()
 					allLights[i].flickerColorOn = allLights[i].color;
 					break;
 
-					default:
-						break;
-				}
+				default:
+					break;
+			}
 
 		}
+	}
+
 	for ( int i = numOfLights; i < numOfLights + MAX_NUM_BULLETS; i++ )
 		{
 			allLights[i].active = false;
@@ -226,9 +226,6 @@ int bsp_processLightEffect ( float interpolate )
 int bsp_addNewLight ( glm::vec3 color, int effect, int type )
 //-------------------------------------------------------------------------------
 {
-	if (numOfLights == 0)
-		return -1;
-		
 	for ( int i = numOfLights; i != numOfLights + MAX_NUM_BULLETS; i++ )
 		{
 			if ( false == allLights[i].active )
@@ -251,5 +248,4 @@ void bsp_removeLight( int lightIndex )
 //-------------------------------------------------------------------------------
 {
 	allLights[lightIndex].active = false;
-	// TODO - decrement numOfLights?
 }

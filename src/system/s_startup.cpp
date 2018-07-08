@@ -110,7 +110,7 @@ bool initAll()
 			sysErrorFatal ( __FILE__, __LINE__, "Forward rendering framebuffer failed." );
 		}
 
-	bsp_loadBSP ( "cube.bsp", true );
+	bsp_loadBSP ( "volTest.bsp", true );
 	par_initParticleSystem();
 	//
 	// Load Models

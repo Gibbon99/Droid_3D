@@ -1,3 +1,4 @@
+#include "s_loadBsp.h"
 #include "s_camera.h"
 #include "s_varsBSP.h"
 #include "s_physics.h"
@@ -98,9 +99,7 @@ bool bsp_setupEntities()
 								{
 									useTokenValue = true;
 									g_numEntityKeys++;
-
 								}
-
 							else
 								{
 									useTokenValue = false;
@@ -150,7 +149,6 @@ bool bsp_setupEntities()
 //										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenName [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenName);
 
 									useTokenValue = true;
-
 								}
 							else
 								{
@@ -293,9 +291,12 @@ int bsp_findEntityInfo ( string entityStr, string entityKey, glm::vec3 *entityVa
 
 									if ( true == swapValues )
 										{
+											// Swap the Z and Y values so Y is up
+//											entityValue = bsp_swapValues (entityValue);
 											tempSwap = entityValue->y;
 											entityValue->y = entityValue->z;
-											entityValue->z = -tempSwap;
+											entityValue->z = tempSwap;
+											entityValue->x = -entityValue->x;
 										}
 
 									return 1;

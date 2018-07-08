@@ -38,12 +38,7 @@ typedef struct
 extern vector<_myLights> allLights;
 
 extern int                  numOfLights;
-extern float                globalAmbient;
-extern float                globalGammaFactor;
-
 extern bool                 g_debugLightPos;
-
-extern float   materialShininess;
 
 // Free memory used by lights - when changing level
 void bsp_freeLightArray();

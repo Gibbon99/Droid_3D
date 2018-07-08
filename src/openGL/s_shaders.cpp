@@ -46,6 +46,7 @@ char *gl_getShaderName ( int whichShader )
 {
 	return shaderProgram[whichShader].fragFileName;
 }
+//#define VERBOSE_SHADERS 1
 
 //-----------------------------------------------------------------------------
 //
@@ -57,6 +58,7 @@ bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderTex
 
 	tempLocation = glGetUniformLocation ( shaderProgram[whichShader].programID, strVariable );
 
+#ifdef VERBOSE_SHADERS
 	if ( -1 == tempLocation )
 		{
 			con_print ( CON_ERROR, true, "--> Error getting uniform location [ %s ] - [ %s ]", shaderText, strVariable );
@@ -66,7 +68,7 @@ bool gl_getUniformVariable ( int whichShader, char *strVariable, char *shaderTex
 
 	else
 		con_print ( CON_INFO, true, "Uniform location [ %i ] : [ %s ] - [ %s ]", tempLocation, shaderText, strVariable );
-
+#endif
 	//
 	// Assign value to location passed in
 	*varLocation = tempLocation;
@@ -84,6 +86,7 @@ bool gl_getAttribVariable ( int whichShader, char *strVariable, char *shaderText
 
 	tempLocation = glGetAttribLocation ( shaderProgram[whichShader].programID, strVariable );
 
+#ifdef VERBOSE_SHADERS
 	if ( -1 == tempLocation )
 		{
 			con_print ( CON_ERROR, true, "--> Error getting attribute location [ %s ] - [ %s ]", shaderText, strVariable );
@@ -93,6 +96,7 @@ bool gl_getAttribVariable ( int whichShader, char *strVariable, char *shaderText
 
 	else
 		con_print ( CON_INFO, true, "Attribute location [ %i ] : [ %s ] - [ %s ]", tempLocation, shaderText, strVariable );
+#endif
 
 	//
 	// Assign value to location passed in

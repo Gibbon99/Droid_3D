@@ -1,11 +1,7 @@
 #pragma once
 
-extern bool         drawWireframe;
 extern bool         showGBuffers;
-
-extern     glm::mat4 shadowMat;
-extern     glm::mat4 shadowViewMat;
-extern     glm::mat4 shadowProjMat;
+extern bool         g_renderBSP;
 
 // Draw everything to the screen
 void sys_displayScreen ( float interpolate );

@@ -31,8 +31,8 @@
 #include "s_camera3.h"
 #include "s_particles.h"
 
-bool        drawWireframe = false;
 bool        showGBuffers = false;
+bool        g_renderBSP = true;
 
 //-----------------------------------------------------------------------------
 //
@@ -129,31 +129,35 @@ void sys_displayScreen ( float interpolate )
 			case MODE_PAUSE:
 				sys_renderToFBO();
 
-				if (true == g_renderTextures)
-					bsp_renderLevel ( cam3_getCameraPosition(), SHADER_GEOMETRY_PASS );
-				else
-					bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS );
+				if ( g_renderBSP )
+				{
+					if ( g_renderTextures )
+						bsp_renderLevel (cam3_getCameraPosition (), SHADER_GEOMETRY_PASS);
+					else
+						bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS);
+				}
 
-				if ( true == g_debugPhysics )
+				if ( g_debugPhysics )
 					bul_drawDebugWorld();
 
-				if ( true == g_debugDoorTriggers )
-					bspDrawAllDoorTriggerZones();
+				if ( g_debugDoorTriggers )
+					bsp_drawAllDoorTriggerZones ();
+
+				if ( g_debugVolLights )
+					bsp_showLightVolPositions ( SHADER_MODEL_PASS );
 
 				obj_renderAllObjects ( SHADER_MODEL_PASS );
-
-				bsp_showLightVolPositions ( SHADER_MODEL_PASS );
 
 				gam_drawBullets ( SHADER_MODEL_PASS );
 
 				par_renderParticles();
 
-				if ( true == g_debugLightPos )
+				if ( g_debugLightPos )
 					{
-						for ( int i = 0; i != numOfLights; i++ )
+						for ( int i = 0; i != numOfLights + MAX_NUM_BULLETS; i++ )
 							{
-								drawLightPos ( SHADER_COLOR, allLights[i].position );
-								drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
+								//drawLightPos ( SHADER_COLOR, allLights[i].position );
+//								drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
 							}
 					}
 /*
@@ -190,8 +194,8 @@ void sys_displayScreen ( float interpolate )
 
 	glm::vec3 ambientColor = bsp_getAmbientColor(cam3_getCameraPosition () );
 
-	sdf_addText (FONT_LARGE, glm::vec2{2.0f, winHeight - sdf_getTextHeight (FONT_LARGE) * 3}, glm::vec4{bsp_getAmbientColor(cam3_getCameraPosition ()), 1.0f}, "R [ %3.3f ] G [ %3.3f ] B [ %3.3f ]",
-	             ambientColor.r, ambientColor.g, ambientColor.b);
+	sdf_addText (FONT_LARGE, glm::vec2{2.0f, winHeight - sdf_getTextHeight (FONT_LARGE) * 3}, glm::vec4{bsp_getAmbientColor(cam3_getCameraPosition ()), 1.0f}, "index [ %i ]  X [ %i ] Z [ %i ] R [ %3.3f ] G [ %3.3f ] B [ %3.3f ]",
+	             lightVolIndex, lightXPos, lightZPos,  ambientColor.r, ambientColor.g, ambientColor.b);
 
 /*
 	printf("About to print recticle\n");
@@ -201,11 +205,13 @@ void sys_displayScreen ( float interpolate )
 	printf("AFter recticle\n");
 */
 
-	#if defined DEBUG
+	#ifdef DEBUG
+
 	if (g_memLeakLastRun == true)
-		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "MEM LEAK - DEBUG"), winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "MEM LEAK - DEBUG" );
+		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "MEM LEAK - DEBUG"), sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "MEM LEAK - DEBUG" );
 	else
-		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "DEBUG"), winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "DEBUG" );
+		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "DEBUG"), sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "DEBUG" );
+
 	#endif
 	
 	sdf_displayText();

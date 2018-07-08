@@ -13,7 +13,7 @@
 
 glm::vec3   cubeVerts[8];
 
-unsigned int faceIndexShadow[] =
+unsigned int faceIndex[] =
 {
 	0,1,2,0,2,3,
 	4,5,6,4,6,7,
@@ -29,9 +29,6 @@ unsigned int faceIndexShadow[] =
 void lt_renderPointLights ( int whichShader )
 //-----------------------------------------------------------------------------
 {
-	if (0 == numOfLights)
-		return;
-		
 	//
 	// Next, we render all the point light soures.
 	// We will be doing our own depth testing in frag shader, so disable depth testing.
@@ -47,6 +44,7 @@ void lt_renderPointLights ( int whichShader )
 	// If we render the front-faces, the lighting of the light sphere disappears if
 	// we are inside the sphere, which is weird. But by rendering the back-faces instead,
 	// we solve this problem.
+
 //	GL_CHECK ( glFrontFace ( GL_CW ) );
 
 	for ( int i = 0; i < numOfLights + MAX_NUM_BULLETS; i++ )
@@ -94,7 +92,7 @@ void lt_renderFullscreenQuad ( int whichShader )
 		0.0, 1.0,
 	};
 
-	if ( false == initDone )
+	if ( !initDone )
 		{
 			// create the VAO
 			GL_ASSERT ( glGenVertexArrays ( 1, &vao ) );
@@ -176,7 +174,7 @@ void lt_renderDepthQuad ( int whichShader )
 	static bool initDone = false;
 	static GLuint vboQuadDepthMap, vboQuadTexDepthMap, vaoQuadDepthMap;
 
-	if ( false == initDone )
+	if ( !initDone )
 		{
 			//
 			// Enable the shader program
@@ -315,7 +313,7 @@ void drawLightPos ( int whichShader, glm::vec3 position )
 			//
 			//index buffer
 			GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, buffers[1] ) );
-			GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, sizeof ( faceIndexShadow ), faceIndexShadow, GL_STATIC_DRAW ) );
+			GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, sizeof ( faceIndex ), faceIndex, GL_STATIC_DRAW ) );
 			//
 			// unbind the VAO
 			glBindVertexArray ( 0 );
