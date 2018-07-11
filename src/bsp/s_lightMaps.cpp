@@ -9,6 +9,7 @@ bool     g_debugVolLights = false;
 int     lightVolIndex;
 int     lightXPos;
 int     lightZPos;
+int     lightYPos;
 
 typedef struct
 {
@@ -209,45 +210,88 @@ void bsp_showLightVolPositions(int whichShader)
 
 //------------------------------------------------------------------------------------------
 //
+// Get the index of the closest other grid position - not the current one
+int bsp_getNextVolLightIndex(int nextIndex, const glm::vec3 &currentPosition)
+//------------------------------------------------------------------------------------------
+{
+	int     lowestIndex = nextIndex;
+	float   lowestDistance = 99999.0f;
+	float   leftDistance, rightDistance, upDistance, downDistance;
+
+	upDistance = glm::distance(lightVol[nextIndex + lightVolumes_X].lightVolPosition, currentPosition);
+	if (upDistance < lowestDistance)
+	{
+		lowestDistance = upDistance;
+		lowestIndex = nextIndex + lightVolumes_X;
+	}
+
+	rightDistance = glm::distance(lightVol[nextIndex + 1].lightVolPosition, currentPosition);
+	if (rightDistance < lowestDistance)
+	{
+		lowestDistance = rightDistance;
+		lowestIndex = nextIndex + 1;
+	}
+
+	leftDistance = glm::distance(lightVol[nextIndex - 1].lightVolPosition, currentPosition);
+	if (leftDistance < lowestDistance)
+	{
+		lowestDistance = leftDistance;
+		lowestIndex = nextIndex - 1;
+	}
+
+	downDistance = glm::distance(lightVol[nextIndex - lightVolumes_X].lightVolPosition, currentPosition);
+	if (downDistance < lowestDistance)
+	{
+		lowestDistance = downDistance;
+		lowestIndex = nextIndex - lightVolumes_X;
+	}
+
+	return lowestIndex;
+}
+
+//------------------------------------------------------------------------------------------
+//
 // Get the ambient light color from the light volume array
 // Pass in world location - return ambient color based on location in light volume grid
 glm::vec3 bsp_getAmbientColor(glm::vec3 position)
 //------------------------------------------------------------------------------------------
 {
-	float xAcross;
-	float zAcross;
-	float yAcross;
-	float index;
+	int  index;
+	int lowestIndex;
 
-	lightXPos = abs(position.x) / 64;
-	lightZPos = position.z / 64;
+	float closestDistance, nextDistance;
+	float closestPercent, nextPercent;
+
+	glm::vec3       newColor;
+
+	lightXPos = abs(position.x) / lightVolumes_X;
+	lightZPos = position.z / lightVolumes_Z;
+	lightYPos = position.y / lightVolumes_Y;
 
 	lightXPos++;
 	lightZPos++;
 
-	xAcross = ((abs (m_pModels[0].min.x) + position.x) / LIGHT_VOL_WIDTH);
-	yAcross = ((abs (m_pModels[0].min.y) + position.y) / LIGHT_VOL_HEIGHT);
-	zAcross = ((abs (m_pModels[0].min.z) + position.z) / LIGHT_VOL_DEPTH);
+	index = (lightZPos * lightVolumes_X) + lightXPos;   // TODO: Add height as well ( + (z * x) * ( y  * lightYPos ) )
 
-//	xAcross = abs (position.x) / LIGHT_VOL_WIDTH;
-//	yAcross = abs (position.y) / LIGHT_VOL_HEIGHT;
-//	zAcross = abs (position.z) / LIGHT_VOL_DEPTH;
+	lowestIndex = bsp_getNextVolLightIndex(index, position);
 
-	index = (lightZPos * lightVolumes_X) + lightXPos;
+	closestDistance = glm::distance(lightVol[index].lightVolPosition, position);
+	nextDistance = glm::distance(lightVol[lowestIndex].lightVolPosition, position);
+
+	closestDistance = 64 - closestDistance;
+	nextDistance = 64 - nextDistance;
+
+	if (closestDistance < 1.0f)
+		closestDistance = 1.0f;
+	if (nextDistance < 1.0f)
+		nextDistance = 1.0f;
+
+	closestPercent = closestDistance / LIGHT_VOL_WIDTH;
+	nextPercent = nextDistance / LIGHT_VOL_WIDTH;
+
+	newColor = (lightVol[index].lightVolAmbientColor * closestPercent) + (lightVol[lowestIndex].lightVolAmbientColor * nextPercent);
 
 	lightVolIndex = (int)index;
 
-	//index = (((int) zAcross * lightVolumes_X) + (int) xAcross) + ((int)yAcross * (lightVolumes_X * lightVolumes_Z));
-
-//	return lightVol[(int)index + LIGHT_VOL_SLIP_COUNT].lightVolAmbientColor;
-	return lightVol[(int)index].lightVolAmbientColor;
+	return newColor;
 }
-/*
-gridx = (x - models[0].mins[0]) / 64;
-gridy = (y - models[0].mins[1]) / 64;
-gridz = (z - models[0].mins[2]) / 128 + 0.5f;
-
- I access the light volume at:
-
-gridz * num_lightvols_y * num_lightvols_x + gridy * num_lightvols_x + gridx
- */
