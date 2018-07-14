@@ -1,3 +1,4 @@
+#include <hdr/bsp/s_varsBSP.h>
 #include "s_loadBsp.h"
 #include "s_camera.h"
 #include "s_varsBSP.h"
@@ -145,8 +146,8 @@ bool bsp_setupEntities()
 								{
 									strcpy ( entityList[tokenCounter].tokenName, result );
 
-//									if (true == verbose)
-//										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenName [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenName);
+									if (true == verbose)
+										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenName [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenName);
 
 									useTokenValue = true;
 								}
@@ -154,8 +155,8 @@ bool bsp_setupEntities()
 								{
 									strcpy ( entityList[tokenCounter].tokenValue, result );
 
-//									if (true == verbose)
-//										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenValue [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenValue);
+									if (true == verbose)
+										con_print (CON_INFO, true, "[ %i ] Found [ %i ] tokenValue [ %s ]", tokenCounter, entityList[tokenCounter].setID, entityList[tokenCounter].tokenValue);
 
 									useTokenValue = false;
 									tokenCounter++;
@@ -175,7 +176,7 @@ bool bsp_setupEntities()
 		{
 			for ( i = 0; i != g_numEntityKeys / 2; i++ )
 				{
-//					con_print (CON_INFO, true, "Token [ %i ] Name [ %s ] Value [ %s ]", entityList[i].setID, entityList[i].tokenName, entityList[i].tokenValue);
+					con_print (CON_INFO, true, "Token [ %i ] Name [ %s ] Value [ %s ]", entityList[i].setID, entityList[i].tokenName, entityList[i].tokenValue);
 				}
 		}
 	return true;
@@ -284,6 +285,7 @@ int bsp_findEntityInfo ( string entityStr, string entityKey, glm::vec3 *entityVa
 								{
 								case VAR_TYPE_FLOAT:
 									sscanf ( entityList[i].tokenValue,"%f",&entityValue->x );
+									return 1;
 									break;
 
 								case VAR_TYPE_VEC3:
@@ -318,7 +320,7 @@ int bsp_findEntityInfo ( string entityStr, string entityKey, glm::vec3 *entityVa
 						}
 				}
 		}
-	return 0;
+	return -1;
 }
 
 // ---------------------------------------------------------------------------

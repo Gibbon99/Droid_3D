@@ -70,13 +70,13 @@ void as_setGameVariables()
 	g_debugPhysics = false;
 	//
 	// Show position of lights in map
-	g_debugLightPos = false;
+	g_debugLightPos = true;
 	//
 	// Show Bounding boxes around models
 	g_debugBoundingBox = true;
 	//
 	// Show the position of the light Volumes
-    g_debugVolLights = true;
+    g_debugVolLights = false;
 	//
 	// Bullet travels at this speed
 	bullet_1_speed = 200.0f;
@@ -115,7 +115,7 @@ void as_loadAllModels()
 	ass_loadModel ( MODEL_CRATE, 		"data/models/Crate1.3ds");
 	ass_loadModel ( MODEL_TANK, 		"data/models/triax_tracks.md2");
 	ass_loadModel ( MODEL_TANK_WHEELS, 	"data/models/triax_wheels.md2");
-	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere2.obj");
+	ass_loadModel ( MODEL_SPHERE,		"data/models/sphere3.obj");
 	ass_loadModel ( MODEL_CONE,			"data/models/cone.dae");
 	ass_loadModel ( MODEL_FEMADROID,	"data/models/house.3ds");
 }

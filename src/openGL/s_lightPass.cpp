@@ -52,6 +52,9 @@ void lt_renderPointLights ( int whichShader )
 			if ( allLights[i].active == true )
 				{
 					ass_renderMeshVec3Position ( MODEL_SPHERE,  whichShader, allLights[i].position, allLights[i].attenuation * 100, allLights[i].color );
+
+					if (g_debugLightPos)
+						ass_renderMeshVec3Position ( MODEL_CRATE,  whichShader, allLights[i].position, 5.0f, glm::vec3{1.0f, 1.0f, 1.0f});
 				}
 		}
 

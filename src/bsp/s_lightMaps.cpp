@@ -1,15 +1,9 @@
-//#include <hdr/libGL/soil/SOIL.h>
-//#include <FreeImage.h>
 #include "s_lightMaps.h"
 #include "s_varsBSP.h"
 #include "s_openGLWrap.h"
 
 int      g_lightmapShift = 5;
-bool     g_debugVolLights = false;
 int     lightVolIndex;
-int     lightXPos;
-int     lightZPos;
-int     lightYPos;
 
 typedef struct
 {
@@ -19,6 +13,13 @@ typedef struct
 
 vector<_lightVol>       lightVol;
 
+bool                  g_debugVolLights = false;
+
+int                   lightXPos = 0;
+int                   lightZPos = 0;
+int                   lightYPos = 0;
+//
+// How many lightmaps positions for each dimension
 int                   lightVolumes_X = 0;
 int                   lightVolumes_Y = 0;
 int                   lightVolumes_Z = 0;
@@ -26,7 +27,7 @@ int                   lightVolumes_Z = 0;
 //------------------------------------------------------------
 //
 // Brighten the light volume colors
-glm::vec3 bsplightVolGamma(glm::vec3 inColor)
+glm::vec3 bsp_lightVolGamma ( glm::vec3 inColor )
 //------------------------------------------------------------
 {
 	glm::vec3   outColor;
@@ -62,8 +63,8 @@ glm::vec3 bsplightVolGamma(glm::vec3 inColor)
 
 //------------------------------------------------------------
 //
-// Brighten the lightmap texture ( Gamme )
-void bsp_lightmapGamma( byte *pImageBits, int width, int height )
+// Brighten the lightmap texture ( Gamma )
+void bsp_lightMapGamma ( byte *pImageBits, int width, int height )
 //------------------------------------------------------------
 {
 	for(int j=0; j<width*height; ++j)
@@ -103,28 +104,28 @@ void bsp_lightmapGamma( byte *pImageBits, int width, int height )
 void bsp_createLightmapTexture ( unsigned int &texture, byte *pImageBits, int width, int height )
 //------------------------------------------------------------
 {
-		bsp_lightmapGamma ( pImageBits, width, height );
+	bsp_lightMapGamma (pImageBits, width, height);
 
-		// Generate a texture with the associative texture ID stored in the array
-		GL_CHECK (glGenTextures (1, &texture));
+	// Generate a texture with the associative texture ID stored in the array
+	GL_CHECK (glGenTextures (1, &texture));
 
-		// Bind the texture to the texture arrays index and init the texture
-		wrapglBindTexture ( GL_TEXTURE0, texture );
+	// Bind the texture to the texture arrays index and init the texture
+	wrapglBindTexture ( GL_TEXTURE0, texture );
 
-		// This sets the alignment requirements for the start of each pixel row in memory.
-		glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+	// This sets the alignment requirements for the start of each pixel row in memory.
+	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		GL_ASSERT (glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits));
+	GL_ASSERT (glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pImageBits));
 
-		glBindTexture (GL_TEXTURE_2D, 0);
+	glBindTexture (GL_TEXTURE_2D, 0);
 
-		con_print (CON_INFO, true, "Lightmap ID [ %i ] created.", texture);
+	con_print (CON_INFO, true, "Lightmap ID [ %i ] created.", texture);
 }
 
 //---------------------------------------------------------------------------
@@ -136,7 +137,6 @@ void bsp_setupLightVolumeData()
 	// Light volumes are arranged from left to right, back to front and bottom to top
 	float           xPosition, yPosition, zPosition;
 	glm::vec3       tempColor;
-	int             counter = 0;
 
 	lightVol.reserve((unsigned long)m_numOfLightVolumes);
 
@@ -148,22 +148,18 @@ void bsp_setupLightVolumeData()
 	          m_pModels[0].min.x, m_pModels[0].min.y, m_pModels[0].min.z,
 	          m_pModels[0].max.x, m_pModels[0].max.y, m_pModels[0].max.z );
 
-	con_print(CON_INFO, true, "LightVol Across X [ %2.3f ] Height [ %2.2f ] Depth [ %2.2f ]", lightVolumes_X, lightVolumes_Y, lightVolumes_Z);
+	con_print(CON_INFO, true, "LightVol Across X [ %i ] Height [ %i ] Depth [ %i ]", lightVolumes_X, lightVolumes_Y, lightVolumes_Z);
 
 	xPosition = 0.0f;
 	yPosition = 0.0f;
 	zPosition = 0.0f;
 	//
 	// Go through the light volume array and work out the markers grid position
-	for (counter = 0; counter != m_numOfLightVolumes; counter++)
+	for (int counter = 0; counter != m_numOfLightVolumes; counter++)
 	{
-//		lightVol[counter].lightVolPosition.x = (m_pModels[0].min.x) - ((xPosition++ * LIGHT_VOL_WIDTH) - LIGHT_VOL_WIDTH / 2.0f);
-//		lightVol[counter].lightVolPosition.y = ((yPosition * LIGHT_VOL_HEIGHT) + LIGHT_VOL_HEIGHT / 2.0f) + m_pModels[0].min.y;
-//		lightVol[counter].lightVolPosition.z = (m_pModels[0].min.z) + ((zPosition * LIGHT_VOL_DEPTH) - LIGHT_VOL_DEPTH / 2.0f);
-
 		lightVol[counter].lightVolPosition.x = -((xPosition++ * LIGHT_VOL_WIDTH) - (LIGHT_VOL_WIDTH / 2.0f));
-		lightVol[counter].lightVolPosition.y = (yPosition * LIGHT_VOL_HEIGHT) + (LIGHT_VOL_HEIGHT / 2.0f);
-		lightVol[counter].lightVolPosition.z = (zPosition * LIGHT_VOL_DEPTH) - (LIGHT_VOL_DEPTH / 2.0f);
+		lightVol[counter].lightVolPosition.y =   (yPosition * LIGHT_VOL_HEIGHT) + (LIGHT_VOL_HEIGHT / 2.0f);
+		lightVol[counter].lightVolPosition.z =   (zPosition * LIGHT_VOL_DEPTH) - (LIGHT_VOL_DEPTH / 2.0f);
 
 		//
 		// Next row
@@ -182,7 +178,7 @@ void bsp_setupLightVolumeData()
 		}
 		//
 		// Make the color brighter
-		tempColor = bsplightVolGamma(glm::vec3{m_pLightVols[counter].ambient[0], m_pLightVols[counter].ambient[1], m_pLightVols[counter].ambient[2]});
+		tempColor = bsp_lightVolGamma (glm::vec3{m_pLightVols[counter].ambient[0], m_pLightVols[counter].ambient[1], m_pLightVols[counter].ambient[2] } );
 		//
 		// Scale to openGL range
 		lightVol[counter].lightVolAmbientColor.r = (byte)tempColor.r / 255.0f;
@@ -264,9 +260,9 @@ glm::vec3 bsp_getAmbientColor(glm::vec3 position)
 
 	glm::vec3       newColor;
 
-	lightXPos = abs(position.x) / lightVolumes_X;
-	lightZPos = position.z / lightVolumes_Z;
-	lightYPos = position.y / lightVolumes_Y;
+	lightXPos = abs((int)position.x) / lightVolumes_X;
+	lightYPos = (int)position.y / lightVolumes_Y;
+	lightZPos = (int)position.z / lightVolumes_Z;
 
 	lightXPos++;
 	lightZPos++;

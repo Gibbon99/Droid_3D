@@ -93,6 +93,8 @@ void par_initParticleSystem()
 	// check numofParticles against NUM_PARTICLES_START
 	//
 
+con_print(CON_INFO, true, "Num of particles [ %i ]", numOfParticles);
+
 	for (int i = 0; i != NUM_PARTICLES_START; i++)
 	{
 		tempParticle.inUse = false;
@@ -323,7 +325,7 @@ void par_removeEmitter(int emitterIndex)
 {
 	particleEmitter[emitterIndex].inUse = false;
 
-	con_print(CON_INFO, true, "Removed particle emitter [ %i ]", emitterIndex);
+//	con_print(CON_INFO, true, "Removed particle emitter [ %i ]", emitterIndex);
 }
 
 //----------------------------------------------------------------------------
@@ -350,8 +352,7 @@ int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 					particleEmitter[i].type = type;
 					for (int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++)
 					{
-						particleEmitter[i].particleMember[j].position = particleEmitter[i].position +
-								par_getRandomPositionHeal (position);
+						particleEmitter[i].particleMember[j].position = particleEmitter[i].position + par_getRandomPositionHeal (position);
 						particleEmitter[i].particleMember[j].velocity = glm::vec3{0, 9.4, 0};
 						particleEmitter[i].particleMember[j].lifetimeLeft = (rand() % 5) + 3;
 						particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
@@ -364,7 +365,6 @@ int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 			break;
 
 		case PARTICLE_TYPE_SPARK:
-
 			for (uint i = 0; i != particleEmitter.size(); i++)
 			{
 				if (!particleEmitter[i].inUse)

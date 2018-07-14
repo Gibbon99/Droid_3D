@@ -153,23 +153,22 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 {
 #define FRUSTUM_PADDING 50.0f
 
+	static bool disabledWarning = false;
+
 	glm::vec4       minSize;
 	glm::vec4       maxSize;
 	glm::mat4		scaleMatrix;
 
-	if ( false == meshModels[whichModel].loaded )
+	if ( !meshModels[whichModel].loaded )
 		return;
 
 	for (int whichMesh = 0; whichMesh != meshModels[whichModel].numMeshes; whichMesh++)
 		{
-
 			scaleMatrix = glm::mat4();
 			modelMatrix = glm::mat4();
-
 			//
 			// Adjust the size and position of the mesh
 			scaleMatrix = glm::translate ( glm::mat4(), pos );
-
 			scaleMatrix = glm::scale ( scaleMatrix, glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
 			//
 			// Translate model bounding box for testing against frustrum
@@ -188,7 +187,7 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 
 			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
 			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( scaleMatrix ) ) );
-			GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( scaleMatrix ) ) ) ) );
+//			GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( scaleMatrix ) ) ) ) );
 
 			if ( MODEL_SPHERE == whichModel )
 				{
@@ -207,6 +206,7 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 					GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "uDiffuseTex" ), 2 ) );
 					wrapglBindTexture ( GL_TEXTURE0 + 2, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE] );
 				}
+
 			if ( MODEL_CRATE == whichModel)
 				{
 					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
@@ -220,6 +220,13 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
 			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 
+			if (!disabledWarning)
+			{
+				con_print(CON_INFO, true, "WARNING: Normals and textures disabled for drawing models [ %s ]", __func__);
+				disabledWarning = true;
+			}
+
+			/*
 			if ( meshModels[whichModel].hasNormals == true )
 				{
 					//
@@ -228,6 +235,7 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 					GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
 					GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 				}
+
 
 			if ( meshModels[whichModel].hasTextures == true )
 				{
@@ -239,7 +247,7 @@ void ass_renderMeshVec3Position ( int whichModel, int whichShader, glm::vec3 pos
 
 					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
 				}
-
+*/
 			GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL ) );
 		}
 

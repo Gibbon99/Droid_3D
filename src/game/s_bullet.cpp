@@ -44,10 +44,12 @@ void gam_processBulletMovement ()
 	for ( int i = 0; i != MAX_NUM_BULLETS; i++ )
 		{
 			if ( bullet[i].active )
+			{
+				if ( bullet[i].lightIndex != -1 )
 				{
-					if ( bullet[i].lightIndex != -1 )
-						allLights[bullet[i].lightIndex].position = phy_getObjectPosition(bullet[i].physicsIndex);
+					allLights[bullet[i].lightIndex].position = phy_getObjectPosition (bullet[i].physicsIndex);
 				}
+			}
 		}
 }
 

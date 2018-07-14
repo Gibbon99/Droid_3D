@@ -320,8 +320,8 @@ if (!initDone)
 	glUseProgram ( 0 );
 	glBindVertexArray ( 0 );
 
-//	glDeleteBuffers( 2, buffers );
-//	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers( 2, buffers );
+	glDeleteVertexArrays(1, &vao_ID);
 }
 
 //------------------------------------------------------------------

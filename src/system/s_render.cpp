@@ -152,49 +152,35 @@ void sys_displayScreen ( float interpolate )
 
 				par_renderParticles();
 
-				if ( g_debugLightPos )
-					{
-						for ( int i = 0; i != numOfLights + MAX_NUM_BULLETS; i++ )
-							{
-								//drawLightPos ( SHADER_COLOR, allLights[i].position );
-//								drawDebugLine ( allLights[i].position, gl_lightDir(), allLights[i].position, DRAW_LINE, 1000, true, 1.0f );
-							}
-					}
-/*
-				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
-				glUseProgram ( 0 );
+				lt_renderPointLights ( SHADER_MODEL_PASS );
 
-				if ( true == showGBuffers )
+				if ( showGBuffers )
 					gl_showGBuffers();
-*/
-				glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
-				glUseProgram ( 0 );
+				else
+				{
+					glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
+					glUseProgram ( 0 );
 
-				wrapglEnable ( GL_DEPTH_TEST );
-				wrapglDisable ( GL_CULL_FACE );
+					gl_bindForReading();
+					lt_renderFullscreenQuad ( SHADER_DIR_LIGHT );
 
-				if ( false == showGBuffers )
-					{
-						gl_bindForReading();
-						lt_renderFullscreenQuad ( SHADER_DIR_LIGHT );
-
-						lt_renderPointLights ( SHADER_POINT_LIGHT );
-					}
+					lt_renderPointLights ( SHADER_POINT_LIGHT );
+				}
 		}
 
 	//
 	// Render all text in VBO memory
 	gl_set2DMode();
-	sdf_addText(FONT_LARGE, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]",
+	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_SMALL)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]",
 				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
 
-	sdf_addText(FONT_LARGE, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_LARGE) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
+	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_SMALL) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
 	            cam3_Front.x, cam3_Front.y, cam3_Front.z );
 
 
 	glm::vec3 ambientColor = bsp_getAmbientColor(cam3_getCameraPosition () );
 
-	sdf_addText (FONT_LARGE, glm::vec2{2.0f, winHeight - sdf_getTextHeight (FONT_LARGE) * 3}, glm::vec4{bsp_getAmbientColor(cam3_getCameraPosition ()), 1.0f}, "index [ %i ]  X [ %i ] Z [ %i ] R [ %3.3f ] G [ %3.3f ] B [ %3.3f ]",
+	sdf_addText (FONT_MEDIUM, glm::vec2{2.0f, winHeight - sdf_getTextHeight (FONT_MEDIUM) * 3}, glm::vec4{bsp_getAmbientColor(cam3_getCameraPosition ()), 1.0f}, "index [ %i ]  X [ %i ] Z [ %i ] R [ %3.3f ] G [ %3.3f ] B [ %3.3f ]",
 	             lightVolIndex, lightXPos, lightZPos,  ambientColor.r, ambientColor.g, ambientColor.b);
 
 /*
@@ -208,9 +194,9 @@ void sys_displayScreen ( float interpolate )
 	#ifdef DEBUG
 
 	if (g_memLeakLastRun == true)
-		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "MEM LEAK - DEBUG"), sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "MEM LEAK - DEBUG" );
+		sdf_addText(FONT_MEDIUM, glm::vec2{winWidth - sdf_getTextWidth(FONT_MEDIUM, "%s", "MEM LEAK - DEBUG"), sdf_getTextHeight(FONT_MEDIUM)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "MEM LEAK - DEBUG" );
 	else
-		sdf_addText(FONT_LARGE, glm::vec2{winWidth - sdf_getTextWidth(FONT_LARGE, "%s", "DEBUG"), sdf_getTextHeight(FONT_LARGE)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "DEBUG" );
+		sdf_addText(FONT_MEDIUM, glm::vec2{winWidth - sdf_getTextWidth(FONT_MEDIUM, "%s", "DEBUG"), sdf_getTextHeight(FONT_MEDIUM)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "DEBUG" );
 
 	#endif
 	
