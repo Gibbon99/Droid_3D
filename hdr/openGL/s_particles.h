@@ -39,7 +39,7 @@ extern std::vector<_particleEmitter> particleEmitter;
 void par_initParticleSystem ();
 
 // Render a billboard texture at passed in position
-void par_renderBillBoard(const uint whichEmitter);
+void par_renderBillBoard(uint whichEmitter);
 
 // Animate the particles
 void par_processParticles(float timeDelta);

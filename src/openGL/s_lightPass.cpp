@@ -30,9 +30,9 @@ void lt_renderPointLights ( int whichShader )
 //-----------------------------------------------------------------------------
 {
 	//
-	// Next, we render all the point light soures.
+	// Next, we render all the point light sources.
 	// We will be doing our own depth testing in frag shader, so disable depth testing.
-	// Enable alpha blending. So that the rendered point lights are added to the framebuffer.
+	// Enable alpha blending. So that the rendered point lights are added to the frame buffer.
 	//
 	GL_CHECK ( glDisable ( GL_DEPTH_TEST ) );
 	GL_CHECK ( glEnable ( GL_BLEND ) );
@@ -49,7 +49,7 @@ void lt_renderPointLights ( int whichShader )
 
 	for ( int i = 0; i < numOfLights + MAX_NUM_BULLETS; i++ )
 		{
-			if ( allLights[i].active == true )
+			if ( allLights[i].active )
 				{
 					ass_renderMeshVec3Position ( MODEL_SPHERE,  whichShader, allLights[i].position, allLights[i].attenuation * 100, allLights[i].color );
 
@@ -102,8 +102,6 @@ void lt_renderFullscreenQuad ( int whichShader )
 			GL_CHECK ( glBindVertexArray ( vao ) );
 
 			// Create buffers for the vertex data
-//			GL_ASSERT ( glGenBuffers ( 2, buffers ) );
-
 			buffers[0] = wrapglGenBuffers(1, __func__);
 			buffers[1] = wrapglGenBuffers(1, __func__);
 
@@ -142,7 +140,7 @@ void lt_renderFullscreenQuad ( int whichShader )
 
 	GL_CHECK ( glUniform3f ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), cam3_Position.x, cam3_Position.y, cam3_Position.z ) );
 
-	GL_CHECK ( glBindVertexArray ( vao ) );
+	GL_CHECK ( glBindVertexArray ( vao  ) );
 	//
 	// Enable attribute to hold vertex information
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
@@ -161,9 +159,9 @@ void lt_renderDepthQuad ( int whichShader )
 	GLfloat quadVertsDepthMap[] =
 	{
 		0.0,        0.0,
-		float(winWidth / 2),   0.0,
-		float(winWidth / 2),   float(winHeight / 2),
-		0.0,        float(winHeight / 2),
+		winWidth / 2.0f,     0.0,
+		winWidth / 2.0f,    winHeight / 2.0f,
+		0.0,                winHeight / 2.0f,
 	};
 
 	GLfloat quadTexCoordsDepthMap[] =
@@ -186,7 +184,6 @@ void lt_renderDepthQuad ( int whichShader )
 			GL_ASSERT ( glGenVertexArrays ( 1, &vaoQuadDepthMap ) );
 			GL_CHECK ( glBindVertexArray ( vaoQuadDepthMap ) );
 
-//			GL_ASSERT ( glGenBuffers ( 1, &vboQuadDepthMap ) );
 			vboQuadDepthMap = wrapglGenBuffers(1, __func__);
 			//
 			// Use Vertices
@@ -196,7 +193,6 @@ void lt_renderDepthQuad ( int whichShader )
 			GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 			GL_CHECK ( glBindBuffer ( GL_ARRAY_BUFFER, 0 ) );
 
-//			GL_ASSERT ( glGenBuffers ( 1, &vboQuadTexDepthMap ) );
 			vboQuadTexDepthMap = wrapglGenBuffers(1, __func__);
 			//
 			// Use texture coords
@@ -324,8 +320,6 @@ void drawLightPos ( int whichShader, glm::vec3 position )
 			initDone = true;
 		}
 
-//	gl_set3DMode();
-//	cam_look(camPosition, camDirection);
 	modelMatrix = glm::mat4();
 
 	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );

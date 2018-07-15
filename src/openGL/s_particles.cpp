@@ -268,9 +268,7 @@ void par_processParticles(float timeDelta)
 								break;
 							}
 							particleEmitter[i].particleMember[j].lifetimeLeft = (rand () % 1) + 2;
-							particleEmitter[i].particleMember[j].position = particleEmitter[i].position +
-							                                                par_getRandomPositionBullet_1 (
-									                                                particleEmitter[i].position);
+							particleEmitter[i].particleMember[j].position = particleEmitter[i].position + par_getRandomPositionBullet_1 ( particleEmitter[i].position);
 							particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
 							particleEmitter[i].particleMember[j].alphaValue = 1.0f;
 							particleEmitter[i].particleMember[j].sizeValue = (rand () % 3) + 1;
@@ -281,7 +279,6 @@ void par_processParticles(float timeDelta)
 
 						if ( particleEmitter[i].particleMember[j].lifetimeLeft < 1.0f )
 							particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
-
 					}
 					break;
 

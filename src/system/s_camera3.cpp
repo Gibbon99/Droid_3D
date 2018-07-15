@@ -59,6 +59,9 @@ glm::vec3 cam3_getVelocity()
 	{
 		velocityVector = cam3_Position - cam3_WantedPosition;
 		velocityVector = glm::normalize(velocityVector);
+
+		velocityVector *= 25.0f;    // TODO: make this configurable - player movement speed
+
 		velocityVector.y = 0.0f;	// Lock movement to the X/Z plane
 		return velocityVector;
 	}
@@ -101,7 +104,7 @@ void cam3_initCamera ( glm::vec3 location )
 	cam3_Pitch = 0.0f;
 	
 	cam3_MouseSensitivity = 0.25f;
-	cam3_MovementSpeed = 3.2f;
+	cam3_MovementSpeed = 30.2f;
 
 	cam3_updateCameraVectors();
 }
@@ -128,6 +131,10 @@ void cam3_processMovementKeys ( float interpolate )
 
 //	if ((keyForwardDown) || (keyBackwardDown) || (keyLeftDown) || (keyRightDown))
 		velocity = cam3_MovementSpeed * interpolate;
+
+		velocity = 10.0f;
+
+		printf("Velocity [ %4.4f ]\n", velocity);
 
 	cam3_WantedPosition = cam3_Position;
 

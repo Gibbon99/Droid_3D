@@ -152,8 +152,6 @@ void sys_displayScreen ( float interpolate )
 
 				par_renderParticles();
 
-				lt_renderPointLights ( SHADER_MODEL_PASS );
-
 				if ( showGBuffers )
 					gl_showGBuffers();
 				else
@@ -177,12 +175,6 @@ void sys_displayScreen ( float interpolate )
 	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_SMALL) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
 	            cam3_Front.x, cam3_Front.y, cam3_Front.z );
 
-
-	glm::vec3 ambientColor = bsp_getAmbientColor(cam3_getCameraPosition () );
-
-	sdf_addText (FONT_MEDIUM, glm::vec2{2.0f, winHeight - sdf_getTextHeight (FONT_MEDIUM) * 3}, glm::vec4{bsp_getAmbientColor(cam3_getCameraPosition ()), 1.0f}, "index [ %i ]  X [ %i ] Z [ %i ] R [ %3.3f ] G [ %3.3f ] B [ %3.3f ]",
-	             lightVolIndex, lightXPos, lightZPos,  ambientColor.r, ambientColor.g, ambientColor.b);
-
 /*
 	printf("About to print recticle\n");
 
@@ -193,7 +185,7 @@ void sys_displayScreen ( float interpolate )
 
 	#ifdef DEBUG
 
-	if (g_memLeakLastRun == true)
+	if ( g_memLeakLastRun )
 		sdf_addText(FONT_MEDIUM, glm::vec2{winWidth - sdf_getTextWidth(FONT_MEDIUM, "%s", "MEM LEAK - DEBUG"), sdf_getTextHeight(FONT_MEDIUM)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "MEM LEAK - DEBUG" );
 	else
 		sdf_addText(FONT_MEDIUM, glm::vec2{winWidth - sdf_getTextWidth(FONT_MEDIUM, "%s", "DEBUG"), sdf_getTextHeight(FONT_MEDIUM)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "DEBUG" );

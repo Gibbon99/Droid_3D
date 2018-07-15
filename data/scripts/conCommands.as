@@ -34,7 +34,7 @@ void as_setGameVariables()
 	winHeight = 600;
 	//
 	// Freelook mouse speed
-	mouseSpeed = 0.01f;
+	mouseSpeed = 0.51f;
 	//
 	// Constrain the mouse to window size
     g_lockMouse = false;
@@ -49,15 +49,15 @@ void as_setGameVariables()
 	sdf_initFontSystem();
 	
 	gravityX = 0.0f;
-	gravityY = -8.0f;
+	gravityY = -16.0f;
 	gravityZ = 0.0f;
 	//
 	// Render the BSP faces or not
     g_renderBSP = true;
 
-    doorSpeed = 10.f;
+    doorSpeed = 70.f;
 
-    g_Gamma = 0.0f;
+    g_Gamma = 5.0f;
 	//
 	// Echo OpenGL debug callback to console and file or not
 	// Stores up errors and displays in logfile at program end
@@ -70,13 +70,13 @@ void as_setGameVariables()
 	g_debugPhysics = false;
 	//
 	// Show position of lights in map
-	g_debugLightPos = true;
+	g_debugLightPos = false;
 	//
 	// Show Bounding boxes around models
 	g_debugBoundingBox = true;
 	//
 	// Show the position of the light Volumes
-    g_debugVolLights = false;
+    g_debugVolLights = true;
 	//
 	// Bullet travels at this speed
 	bullet_1_speed = 200.0f;

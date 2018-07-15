@@ -2,9 +2,6 @@
 #include "s_varsBSP.h"
 #include "s_openGLWrap.h"
 
-int      g_lightmapShift = 5;
-int     lightVolIndex;
-
 typedef struct
 {
 	glm::vec3           lightVolPosition;
@@ -19,7 +16,7 @@ int                   lightXPos = 0;
 int                   lightZPos = 0;
 int                   lightYPos = 0;
 //
-// How many lightmaps positions for each dimension
+// How many light volume positions for each dimension
 int                   lightVolumes_X = 0;
 int                   lightVolumes_Y = 0;
 int                   lightVolumes_Z = 0;
@@ -37,9 +34,9 @@ glm::vec3 bsp_lightVolGamma ( glm::vec3 inColor )
 	g = inColor.g;
 	b = inColor.b;
 
-	r *= (g_Gamma + g_lightmapShift) / 255.0f;
-	g *= (g_Gamma + g_lightmapShift) / 255.0f;
-	b *= (g_Gamma + g_lightmapShift) / 255.0f;
+	r *= g_Gamma / 255.0f;
+	g *= g_Gamma / 255.0f;
+	b *= g_Gamma / 255.0f;
 
 	//find the value to scale back up
 	float scale=1.0f;
@@ -74,9 +71,9 @@ void bsp_lightMapGamma ( byte *pImageBits, int width, int height )
 		g=pImageBits[j*3+1];
 		b=pImageBits[j*3+2];
 
-		r *= (g_Gamma + g_lightmapShift) / 255.0f;
-		g *= (g_Gamma + g_lightmapShift) / 255.0f;
-		b *= (g_Gamma + g_lightmapShift) / 255.0f;
+		r *= g_Gamma / 255.0f;
+		g *= g_Gamma / 255.0f;
+		b *= g_Gamma / 255.0f;
 
 		//find the value to scale back up
 		float scale=1.0f;
@@ -144,11 +141,16 @@ void bsp_setupLightVolumeData()
 	lightVolumes_Y = (int)((abs(m_pModels[0].min.y) + abs(m_pModels[0].max.y)) / LIGHT_VOL_HEIGHT) + 1;
 	lightVolumes_Z = (int)((abs(m_pModels[0].min.z) + abs(m_pModels[0].max.z)) / LIGHT_VOL_DEPTH) + 1;
 
+	con_print(CON_INFO, true, "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+	con_print(CON_INFO, true, "Number of volume lights [ %i ]", m_numOfLightVolumes);
+
 	con_print(CON_INFO, true, "Level dimensions Min : [ %4.2f %4.2f %4.2f ] Max : [ %4.2f %4.2f %4.2f ]",
 	          m_pModels[0].min.x, m_pModels[0].min.y, m_pModels[0].min.z,
 	          m_pModels[0].max.x, m_pModels[0].max.y, m_pModels[0].max.z );
 
 	con_print(CON_INFO, true, "LightVol Across X [ %i ] Height [ %i ] Depth [ %i ]", lightVolumes_X, lightVolumes_Y, lightVolumes_Z);
+
+	con_print(CON_INFO, true, "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
 
 	xPosition = 0.0f;
 	yPosition = 0.0f;
@@ -252,30 +254,32 @@ int bsp_getNextVolLightIndex(int nextIndex, const glm::vec3 &currentPosition)
 glm::vec3 bsp_getAmbientColor(glm::vec3 position)
 //------------------------------------------------------------------------------------------
 {
-	int  index;
-	int lowestIndex;
+	int             index;
+	int             lowestIndex;
 
-	float closestDistance, nextDistance;
-	float closestPercent, nextPercent;
+	float           closestDistance, nextDistance;
+	float           closestPercent, nextPercent;
 
 	glm::vec3       newColor;
 
-	lightXPos = abs((int)position.x) / lightVolumes_X;
-	lightYPos = (int)position.y / lightVolumes_Y;
-	lightZPos = (int)position.z / lightVolumes_Z;
+	lightXPos = abs((int)position.x) / (int)LIGHT_VOL_WIDTH;
+	lightYPos = (int)position.y / (int)LIGHT_VOL_HEIGHT;
+	lightZPos = (int)position.z / (int)LIGHT_VOL_DEPTH;
 
 	lightXPos++;
 	lightZPos++;
 
 	index = (lightZPos * lightVolumes_X) + lightXPos;   // TODO: Add height as well ( + (z * x) * ( y  * lightYPos ) )
-
+	//
+	// Find the nearest lightmap volume that isn't the current one
 	lowestIndex = bsp_getNextVolLightIndex(index, position);
 
 	closestDistance = glm::distance(lightVol[index].lightVolPosition, position);
 	nextDistance = glm::distance(lightVol[lowestIndex].lightVolPosition, position);
-
-	closestDistance = 64 - closestDistance;
-	nextDistance = 64 - nextDistance;
+	//
+	// Reverse it so we can get it as a percentage
+	closestDistance = LIGHT_VOL_WIDTH - closestDistance;
+	nextDistance = LIGHT_VOL_WIDTH - nextDistance;
 
 	if (closestDistance < 1.0f)
 		closestDistance = 1.0f;
@@ -284,10 +288,10 @@ glm::vec3 bsp_getAmbientColor(glm::vec3 position)
 
 	closestPercent = closestDistance / LIGHT_VOL_WIDTH;
 	nextPercent = nextDistance / LIGHT_VOL_WIDTH;
-
-	newColor = (lightVol[index].lightVolAmbientColor * closestPercent) + (lightVol[lowestIndex].lightVolAmbientColor * nextPercent);
-
-	lightVolIndex = (int)index;
+	//
+	// Get the color of the nearest light volume by percentage ( distance away ) then
+	// ramp up the new color
+	newColor = bsp_lightVolGamma((lightVol[index].lightVolAmbientColor * closestPercent) + (lightVol[lowestIndex].lightVolAmbientColor * nextPercent));
 
 	return newColor;
 }

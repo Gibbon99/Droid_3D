@@ -74,7 +74,7 @@ void limitPlayerVelocityCallback ( btDynamicsWorld *world, btScalar timeStep )
 	btVector3 velocity = playerRigidBody->getLinearVelocity();
 	btScalar speed = velocity.length();
 
-	if ( speed > playerMaxSpeed )
+	if ( speed > playerMaxSpeed )   // TODO: Make maximum speed configurable
 		{
 			velocity *= playerMaxSpeed / speed;
 			playerRigidBody->setLinearVelocity ( velocity );
@@ -141,7 +141,7 @@ void bul_processPhysics ( btScalar physicsTime )
 //
 // Set gravity to current values in gravity variables
 //
-// Not sure this works without recalulating inertia of objects
+// Not sure this works without recalculating inertia of objects
 bool bul_setGravity()
 //------------------------------------------------------------
 {
