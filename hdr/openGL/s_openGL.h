@@ -61,3 +61,6 @@ void gl_displayErrors();
 // From: https://stackoverflow.com/questions/3569261/multiple-textures-in-glsl-only-one-works
 /* adapted from the red book */
 GLuint gl_makeCheckTex(int textureSize);
+
+// Draw a 2D quad
+void gl_draw2DQuad(glm::vec2 position, glm::vec2 quadSize, int whichShader, GLuint whichTexture, bool showDepthMap);

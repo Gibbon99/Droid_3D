@@ -1,252 +1,196 @@
+#include <hdr/openGL/s_shaders.h>
+#include <hdr/system/s_camera3.h>
 #include "s_globals.h"
-#include "s_camera.h"
-#include "s_shaders.h"
-#include "s_openGLWrap.h"
-#include "s_lightPass.h"
-#include "s_defRender.h"
+#include "s_renderBSP.h"
 
-#include "s_ttfFont.h"  //testing only
+unsigned int g_shadowWidth;
+unsigned int g_shadowHeight;
 
-GLuint          id_FBO          = 0;
-GLuint          id_shadowMap    = 0;
+static unsigned int        depthMapFBO;
+static unsigned int        depthCubemap;
 
-GLuint          id_shadowMapPositions = 0;
+std::vector<glm::mat4> g_shadowTransforms;
 
-glm::vec3       lightPos        ( 40.0, 70.0, 10.02 );
-glm::vec3       lightRotatePoint ( 40.0, 30.0, 10.01 );
-glm::vec3       lightDir ( 0.0, -0.01, 0.0 );
-
-glm::mat4       lightRotateMatrix;
-
-bool            animateLight = true;
-
-
+float near_plane = 1.0f;
+float far_plane = 25.0f;
 
 //-----------------------------------------------------------------------------
 //
-// Return the texture ID of the shadowDepthMap
-GLuint gl_getShadowMapTextureID()
+// Get the Texture ID for the depth map
+int shd_getDepthTextureID()
 //-----------------------------------------------------------------------------
 {
-	return id_shadowMap;
+	printf ("Cube map ID [ %i ]\n", depthCubemap);
+	return depthCubemap;
 }
 
 //-----------------------------------------------------------------------------
 //
-// Return the texture ID of the shadowMap positions
-GLuint gl_getShadowMapPositionsID()
+// Init the shadow cubemap and texture
+bool shd_initShadowMap(unsigned int shadowWidth, unsigned int shadowHeight)
 //-----------------------------------------------------------------------------
 {
-	return id_shadowMapPositions;
-}
+	int textureSize = 1024;
 
-//-----------------------------------------------------------------------------
-//
-// Move the light in a circle
-void shadowMoveLight ( float interpolate )
-//-----------------------------------------------------------------------------
-{
-#define PI 3.14159265
+	GLubyte image[textureSize][textureSize][4]; // RGBA storage
 
-	static float delayCount = 0;
-	static int angleCounter;
-
-	if ( false == animateLight )
-		return;
-
-	delayCount += 10.0f * interpolate;
-
-	if ( delayCount > 1.0f )
+	for (int i = 0; i < textureSize; i++)
+	{
+		for (int j = 0; j < textureSize; j++)
 		{
-			delayCount = 0.0f;
-
-			angleCounter++;
-
-			if ( angleCounter > 359 )
-				angleCounter = 1;   // Setting to 0 causes GLM to error and crash
-
-			lightRotateMatrix = glm::rotate ( glm::mat4 ( 1.0 ), ( float ) angleCounter, glm::vec3 ( 0.0f,1.0f,0.0f ) ) * glm::translate ( glm::mat4 ( 1.0 ), glm::vec3 ( lightRotatePoint ) );
-			//
-			// Extract the world position from matrix values
-			lightPos = glm::vec3 ( lightRotateMatrix[3] );
+			int c = ((((i & 0x8) == 0) ^ ((j & 0x8)) == 0))*255;
+			image[i][j][0]  = (GLubyte)c;
+			image[i][j][1]  = (GLubyte)c;
+			image[i][j][2]  = (GLubyte)c;
+			image[i][j][3]  = (GLubyte)255;
 		}
+	}
 
-	lightDir = glm::normalize ( lightPos - glm::vec3 ( lightRotatePoint ) );
+	g_shadowWidth = shadowWidth;
+	g_shadowHeight = shadowHeight;
 
-//    lightDir = vec3(0.0,1,0);
-}
+	glGenFramebuffers(1, &depthMapFBO);
+	glGenTextures(1, &depthCubemap);
 
-//-----------------------------------------------------------------------------
-//
-// Adjust light position
-void gl_moveLightPos ( glm::vec3 moveVector )
-//-----------------------------------------------------------------------------
-{
-	lightRotatePoint += moveVector;
-}
-
-//-----------------------------------------------------------------------------
-//
-// Return lightPosition
-glm::vec3 gl_lightPos()
-//-----------------------------------------------------------------------------
-{
-	return lightPos;
-}
-
-//-----------------------------------------------------------------------------
-//
-// Return lightDirection
-glm::vec3 gl_lightDir()
-//-----------------------------------------------------------------------------
-{
-	return lightDir;
-}
-
-//-----------------------------------------------------------------------------
-//
-// Delete buffers and allocated textures
-void gl_freeShadowMap()
-//-----------------------------------------------------------------------------
-{
-	if ( id_FBO != 0 )
-		{
-			glDeleteFramebuffers ( 1, &id_FBO );
-		}
-
-	if ( id_shadowMap != 0 )
-		{
-			glDeleteTextures ( 1, &id_shadowMap );
-		}
-}
-
-//-----------------------------------------------------------------------------
-//
-// Setup the frame buffer and create texture
-bool gl_initShadowMap ( unsigned int WindowWidth, unsigned int WindowHeight )
-//-----------------------------------------------------------------------------
-{
+	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 	//
-	// Create the FBO
-	GL_CHECK ( glGenFramebuffers ( 1, &id_FBO ) );
-	GL_CHECK ( glBindFramebuffer ( GL_FRAMEBUFFER, id_FBO ) );
-	//
-	// Create depthTexture - uses GL_DEPTH instead of RGB color
-	GL_CHECK ( glGenTextures ( 1, &id_shadowMap ) );
-	GL_CHECK ( glBindTexture ( GL_TEXTURE_2D, id_shadowMap ) );
-	//
-	// Create Depth map texture
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	// Create the six sides of the cube map
+	for (unsigned int i = 0; i < 6; ++i)
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, g_shadowWidth, g_shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, image);
 
-	GL_CHECK ( glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) );
-	GL_CHECK ( glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) );
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-	GL_CHECK ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, WindowWidth, WindowHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0 ) );
-	//
-	// Attach the depth texture to the FBO
-	GL_CHECK ( glFramebufferTexture2D ( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, id_shadowMap, 0 ) );
-	//
-	// Create the gbuffer to hold the positions for next pass
-	GL_ASSERT ( glGenTextures ( 1, &id_shadowMapPositions ) );
-
-	GL_ASSERT ( glActiveTexture ( GL_TEXTURE_2D ) );
-	GL_ASSERT ( glBindTexture ( GL_TEXTURE_2D, id_shadowMapPositions ) );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-// TODO (dberry#1#): May need to change paramaters to reflect actual window size, not shadowmap size
-
-	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA16F, WindowWidth, WindowHeight, 0, GL_RGB, GL_FLOAT, NULL ) );
-	//
-	// Attach the textures to the framebuffer
-	GL_ASSERT ( glFramebufferTexture2D   ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id_shadowMapPositions, 0 ) );
-
-	GLenum DrawBuffers[] = { GL_COLOR_ATTACHMENT0};
-
-	GL_CHECK ( glDrawBuffers ( 1, DrawBuffers ) );
-
-	GLenum Status = glCheckFramebufferStatus ( GL_FRAMEBUFFER );
-
-	if ( Status != GL_FRAMEBUFFER_COMPLETE )
-		{
-			switch ( Status )
-				{
-				case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-					printf ( "Not all framebuffer attachment points are framebuffer attachment complete. This means that at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached.\n" );
-					break;
-
-				case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
-					printf ( "Not all attached images have the same width and height.\n" );
-					break;
-
-				case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-					printf ( "No images are attached to the framebuffer.\n" );
-					break;
-
-				case GL_FRAMEBUFFER_UNSUPPORTED:
-					printf ( "The combination of internal formats of the attached images violates an implementation-dependent set of restrictions.\n" );
-					break;
-				}
-
-			con_print ( CON_ERROR, true, "Error: Failed to create shadowDepth Map - status [ 0x%x ]", Status );
-			//
-			// restore default FBO
-			glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
-			return false;
-		}
-
-	// restore default FBO
-	glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
-
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	return true;
 }
 
 //-----------------------------------------------------------------------------
 //
-// Make the shadowmap framebuffer the one for writing too
-void gl_bindWriteShadowMap()
+// 0. create depth cubemap transformation matrices
+void shd_shadowMapDepthStartRender(glm::vec3 lightPos, int whichShader)
 //-----------------------------------------------------------------------------
 {
-	GL_CHECK ( glBindFramebuffer ( GL_DRAW_FRAMEBUFFER, id_FBO ) );
+	int stride = sizeof ( _myVertex ); // BSP Vertex, not float[3]
+
+	glEnable(GL_DEPTH_TEST);
+//	glEnable(GL_CULL_FACE);
+
+	GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO) );
+	GL_ASSERT( glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0) );
+//	GL_ASSERT( glDrawBuffer(GL_NONE) );
+//	GL_ASSERT( glReadBuffer(GL_NONE) );
+
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+glActiveTexture(GL_TEXTURE0);
+glBindTexture(GL_TEXTURE_2D, 0);
+
+	GL_ASSERT( glUseProgram(shaderProgram[whichShader].programID) );
+
+	GL_CHECK ( glBindVertexArray ( bspVAO ) );
+	//
+	// Bind data buffer holding all the vertices
+	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
+
+	glm::mat4 shadowProj = glm::perspective (glm::radians (90.0f), (float) g_shadowWidth / (float) g_shadowHeight, near_plane,far_plane);
+
+	g_shadowTransforms.push_back(shadowProj*glm::lookAt(lightPos, lightPos+ glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+	g_shadowTransforms.push_back(shadowProj*glm::lookAt(lightPos, lightPos+ glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+	g_shadowTransforms.push_back(shadowProj*glm::lookAt(lightPos, lightPos+ glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+	g_shadowTransforms.push_back(shadowProj*glm::lookAt(lightPos, lightPos+ glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
+	g_shadowTransforms.push_back(shadowProj*glm::lookAt(lightPos, lightPos+ glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+	g_shadowTransforms.push_back(shadowProj*glm::lookAt(lightPos, lightPos+ glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+
+	// 1. render scene to depth cubemap
+	// --------------------------------
+	glViewport(0, 0, g_shadowWidth, g_shadowHeight);
+
+	GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "shadowMatrices[0]"), 1, false, glm::value_ptr (g_shadowTransforms[0])));
+	GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "shadowMatrices[1]"), 1, false, glm::value_ptr (g_shadowTransforms[1])));
+	GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "shadowMatrices[2]"), 1, false, glm::value_ptr (g_shadowTransforms[2])));
+	GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "shadowMatrices[3]"), 1, false, glm::value_ptr (g_shadowTransforms[3])));
+	GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "shadowMatrices[4]"), 1, false, glm::value_ptr (g_shadowTransforms[4])));
+	GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "shadowMatrices[5]"), 1, false, glm::value_ptr (g_shadowTransforms[5])));
+
+	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( glm::mat4() ) ) );
+
+	GL_ASSERT ( glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID) );
+	GL_ASSERT ( glVertexAttribPointer (shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, offsetof (_myVertex, position)) );
+
+	GL_ASSERT ( glUniform1f  ( glGetUniformLocation ( shaderProgram[whichShader].programID, "far_plane" ), far_plane ) );
+	GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "lightPos" ), 1, glm::value_ptr ( lightPos ) ) );
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+
+//	g_facesForFrame.clear();
+//	g_currentFrameVertexIndex.clear();
+//	g_texturesChanges = 0;
+//	g_vertIndexCounter = 0;
+//	g_numVertexPerFrame = 0;
 }
 
 //-----------------------------------------------------------------------------
 //
-// Bind the shadowmap texture
-void gl_bindReadShadowMap()
+// Render the level as normal
+void shd_shadowRenderNormal(int whichShader, glm::vec3 lightPos)
 //-----------------------------------------------------------------------------
 {
-	GL_CHECK ( glBindFramebuffer ( GL_READ_FRAMEBUFFER, id_FBO ) );
-}
+	int stride = sizeof ( _myVertex ); // BSP Vertex, not float[3]
 
-//-----------------------------------------------------------------------------
-//
-// Return to rendering from the default display buffer
-void gl_unbindWriteShadowMap()
-//-----------------------------------------------------------------------------
-{
-	GL_ASSERT ( glBindFramebuffer ( GL_FRAMEBUFFER, 0 ) );
-}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-//-----------------------------------------------------------------------------
-//
-// Finished with the creation of the depth texture
-// Return Matrixes to normal camera view
-// Return to normal display buffer
-void gl_stopShadowMap()
-//-----------------------------------------------------------------------------
-{
-	gl_unbindWriteShadowMap();
-}
+	glViewport(0, 0, winWidth, winHeight);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//-----------------------------------------------------------------------------
-//
-// Bind framebuffer for writing
-// Set matrix to light position
-void gl_startShadowMap()
-//-----------------------------------------------------------------------------
-{
-	gl_bindWriteShadowMap();
+	gl_set3DMode();
+	glUseProgram(shaderProgram[whichShader].programID);
+
+	//
+	// Bind data buffer holding all the vertices
+	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
+
+	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "projection" ), 1, false, glm::value_ptr ( projMatrix ) ) );
+	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "view" ), 1, false, glm::value_ptr ( viewMatrix ) ) );
+	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "model" ), 1, false, glm::value_ptr ( glm::mat4() ) ) );
+	GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "lightPos" ), 1, glm::value_ptr ( lightPos ) ) );
+	GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "viewPos" ), 1, glm::value_ptr ( cam3_getCameraPosition () ) ) );
+	GL_ASSERT ( glUniform1i  ( glGetUniformLocation ( shaderProgram[whichShader].programID, "shadows" ), 1 ) );
+	GL_ASSERT ( glUniform1f  ( glGetUniformLocation ( shaderProgram[whichShader].programID, "far_plane" ), far_plane ) );
+
+	GL_ASSERT ( glEnableVertexAttribArray(shaderProgram[whichShader].inVertsID) );
+	GL_ASSERT ( glVertexAttribPointer (shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, offsetof (_myVertex, position)) );
+
+	// Normals
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
+
+	// Texture coords
+	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
+
+	// Texture coords for texture
+	if (true == g_renderTextures)
+	{
+		// Texture coords
+		GL_ASSERT (glEnableVertexAttribArray (shaderProgram[whichShader].inTextureCoordsID_1));
+		GL_ASSERT (glVertexAttribPointer (shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
+	}
+
+	if (true == g_renderTextures)
+	{
+		GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID_1) );
+	}
+
+	g_facesForFrame.clear();
+	g_currentFrameVertexIndex.clear();
+//	g_texturesChanges = 0;
+	g_vertIndexCounter = 0;
+	g_numVertexPerFrame = 0;
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 }

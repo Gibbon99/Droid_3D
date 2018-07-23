@@ -1,5 +1,6 @@
 #include <AntTweakBar.h>
 #include <hdr/bsp/s_lightMaps.h>
+#include <hdr/bsp/s_shaderLights.h>
 #include "s_globals.h"
 #include "s_vsProfileLib.h"
 #include "s_fontUtil.h"
@@ -127,15 +128,44 @@ void sys_displayScreen ( float interpolate )
 
 			case MODE_GAME:
 			case MODE_PAUSE:
+
+				/*
+				shd_shadowMapDepthStartRender(cam3_getCameraPosition (), SHADER_DEPTH_SHADOWMAP);  // Create depth map from light viewpoint
+				bsp_renderLevel (cam3_getCameraPosition (), SHADER_DEPTH_SHADOWMAP);
+
+
+				shd_shadowRenderNormal(SHADER_SHADOWMAP, cam3_getCameraPosition ());
+				bsp_renderLevel (cam3_getCameraPosition (), SHADER_SHADOWMAP);
+*/
+
+
 				sys_renderToFBO();
 
 				if ( g_renderBSP )
 				{
 					if ( g_renderTextures )
+					{
+						bsp_prepareFaceRender (SHADER_GEOMETRY_PASS);
 						bsp_renderLevel (cam3_getCameraPosition (), SHADER_GEOMETRY_PASS);
+					}
 					else
+					{
+						bsp_prepareFaceRender (SHADER_MODEL_PASS);
 						bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS);
+					}
 				}
+
+//				bsp_renderLevel(cam3_getCameraPosition (), SHADER_DEPTH_SHADOWMAP);
+
+//				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+				// 2. render scene as normal
+//				shd_shadowRenderNormal(SHADER_SHADOWMAP, allLights[0].position);
+//				bsp_renderLevel(cam3_getCameraPosition (), SHADER_MODEL_PASS);
+
+//				lt_renderDepthQuad ( SHADER_DEPTHMAP );
+
+
 
 				if ( g_debugPhysics )
 					bul_drawDebugWorld();
@@ -148,13 +178,13 @@ void sys_displayScreen ( float interpolate )
 
 				obj_renderAllObjects ( SHADER_MODEL_PASS );
 
+				lt_renderPointLights ( SHADER_MODEL_PASS );
+
 				gam_drawBullets ( SHADER_MODEL_PASS );
 
 				par_renderParticles();
 
-				if ( showGBuffers )
-					gl_showGBuffers();
-				else
+				if ( !showGBuffers )
 				{
 					glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
 					glUseProgram ( 0 );
@@ -164,6 +194,7 @@ void sys_displayScreen ( float interpolate )
 
 					lt_renderPointLights ( SHADER_POINT_LIGHT );
 				}
+
 		}
 
 	//
@@ -191,8 +222,14 @@ void sys_displayScreen ( float interpolate )
 		sdf_addText(FONT_MEDIUM, glm::vec2{winWidth - sdf_getTextWidth(FONT_MEDIUM, "%s", "DEBUG"), sdf_getTextHeight(FONT_MEDIUM)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "%s", "DEBUG" );
 
 	#endif
-	
+
 	sdf_displayText();
+
+//	gl_draw2DQuad(glm::vec2{winWidth / 2.0f, 0.0}, glm::vec2{winWidth / 2.0f, winHeight / 2.0f}, SHADER_QUAD_2D, shd_getDepthTextureID(), true);
+
+
+	if ( showGBuffers )
+		gl_showGBuffers();
 
 	lib_swapBuffers();
 }

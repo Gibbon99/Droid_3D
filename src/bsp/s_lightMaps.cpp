@@ -159,9 +159,9 @@ void bsp_setupLightVolumeData()
 	// Go through the light volume array and work out the markers grid position
 	for (int counter = 0; counter != m_numOfLightVolumes; counter++)
 	{
-		lightVol[counter].lightVolPosition.x = -((xPosition++ * LIGHT_VOL_WIDTH) - (LIGHT_VOL_WIDTH / 2.0f));
-		lightVol[counter].lightVolPosition.y =   (yPosition * LIGHT_VOL_HEIGHT) + (LIGHT_VOL_HEIGHT / 2.0f);
-		lightVol[counter].lightVolPosition.z =   (zPosition * LIGHT_VOL_DEPTH) - (LIGHT_VOL_DEPTH / 2.0f);
+		lightVol[counter].lightVolPosition.x = -(xPosition++ * LIGHT_VOL_WIDTH); // + (LIGHT_VOL_WIDTH * 2);
+		lightVol[counter].lightVolPosition.y =   (yPosition * LIGHT_VOL_HEIGHT); // + (LIGHT_VOL_HEIGHT / 2.0f);
+		lightVol[counter].lightVolPosition.z =   (zPosition * LIGHT_VOL_DEPTH); // - (LIGHT_VOL_DEPTH / 2);
 
 		//
 		// Next row

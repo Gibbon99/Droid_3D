@@ -1,4 +1,3 @@
-
 #include "s_timing.h"
 #include "s_shutdown.h"
 #include "s_window.h"
@@ -20,6 +19,21 @@
 #include "s_particles.h"
 #include "s_events.h"
 #include "s_audio.h"
+#include "glad.h"
+
+//#define GLAD_DEBUG 1
+
+#ifdef GLAD_DEBUG
+
+typedef void (* GLADcallback)(const char *name, void *funcptr, int len_args, ...);
+//
+// Sets a callback which will be called before every function call to a function loaded by glad.
+void pre_gl_call(const char *name, void *funcptr, int len_args, ...)
+	{
+   // printf("Calling: %s (%d arguments)\n", name, len_args);
+	}
+
+#endif
 
 //-----------------------------------------------------------------------------
 //
@@ -51,10 +65,25 @@ bool initAll()
 		sys_shutdownToSystem();
 	}
 
-	if ( ogl_LOAD_FAILED == ogl_LoadFunctions() )
+	if (!gladLoadGL ())
 	{
-		io_logToFile ( "Error: Failed to load openGL functions.\n" );
-		sys_shutdownToSystem();
+		con_print(CON_ERROR, true, "Failed to initialize GLAD");
+		return false;
+	}
+
+#ifdef GLAD_DEBUG
+	// before every opengl call call pre_gl_call
+    glad_set_pre_callback(pre_gl_call);
+    // don't use the callback for glClear
+    // (glClear could be replaced with your own function)
+    //glad_debug_glClear = glad_glClear;
+#endif
+
+	con_print(CON_INFO, true, "OpenGL version [ %d.%d ]", GLVersion.major, GLVersion.minor);
+	if (GLVersion.major < 2)
+	{
+		con_print(CON_ERROR, true, "Error: Your system doesn't support OpenGL >= 2.");
+		return false;
 	}
 
 //-------------------------- CONSOLE IS RUNNING AFTER HERE ---------------------------
@@ -138,6 +167,9 @@ bool initAll()
 
 	blendOne = blends[blendIndexOne];
 	blendTwo = blends[blendIndexTwo];
+
+
+	shd_initShadowMap(1024, 1024);
 
 	return true;
 }

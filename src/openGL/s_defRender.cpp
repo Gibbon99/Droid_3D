@@ -1,3 +1,4 @@
+#include <hdr/libGL/s_signedFont.h>
 #include "s_globals.h"
 #include "s_camera.h"
 #include "s_shaders.h"
@@ -85,7 +86,7 @@ bool gl_initDefRender ( int screenWidth, int screenHeight )
 	// Create the textures for position, normal and color
 	gl_createGBufTex ( GL_TEXTURE0, GL_RGBA32F,  	id_textures[GBUFFER_TEXTURE_TYPE_POSITION], screenWidth, screenHeight, GL_RGBA ); // Position
 	gl_createGBufTex ( GL_TEXTURE1, GL_RGBA16F,  	id_textures[GBUFFER_TEXTURE_TYPE_NORMAL],   screenWidth, screenHeight, GL_RGBA ); // Normal
-	gl_createGBufTex ( GL_TEXTURE2, GL_RGBA8, 	id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],  screenWidth, screenHeight, GL_RGBA ); // Color
+	gl_createGBufTex ( GL_TEXTURE2, GL_RGBA8, 	    id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE],  screenWidth, screenHeight, GL_RGBA ); // Color
 	//
 	// Create depthTexture - uses GL_DEPTH instead of RGB color
 	GL_ASSERT ( glBindTexture ( GL_TEXTURE_2D, id_depthTexture ) );
@@ -100,7 +101,7 @@ bool gl_initDefRender ( int screenWidth, int screenHeight )
 	GL_ASSERT ( glFramebufferTexture2D   ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], 0 ) );
 	GL_ASSERT ( glFramebufferTexture2D   ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL], 0 ) );
 	GL_ASSERT ( glFramebufferTexture2D   ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE], 0 ) );
-	GL_ASSERT ( glFramebufferRenderbuffer ( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,  GL_RENDERBUFFER, id_depthTexture ) );
+	GL_ASSERT ( glFramebufferRenderbuffer ( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, id_depthTexture ) );
 
 	GLenum DrawBuffers[] = { GL_COLOR_ATTACHMENT0,
 	                         GL_COLOR_ATTACHMENT1,
@@ -118,11 +119,11 @@ bool gl_initDefRender ( int screenWidth, int screenHeight )
 				case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
 					printf ( "Not all framebuffer attachment points are framebuffer attachment complete. This means that at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached.\n" );
 					break;
-
-				case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+/*
+				case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
 					printf ( "Not all attached images have the same width and height.\n" );
 					break;
-
+*/
 				case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
 					printf ( "No images are attached to the framebuffer.\n" );
 					break;
@@ -181,35 +182,26 @@ void gl_stopDefRender()
 void gl_showGBuffers()
 //-----------------------------------------------------------------------------
 {
-	gl_bindForReading();
-
 	GLint halfWidth = winWidth / 2.0f;
 	GLint halfHeight = winHeight / 2.0f;
 
-//	ttf_setFontColor ( 1.0, 1.0, 1.0, 1.0 );
-
 	//
 	// Bottom left
-	GL_ASSERT ( gl_setReadBuffer ( GBUFFER_TEXTURE_TYPE_DIFFUSE ) );
-	GL_ASSERT ( glBlitFramebuffer ( 0, 0, winWidth, winHeight, 0, 0, halfWidth, halfHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR ) );
-//	ttf_addText ( FONT_SMALL, 0.0f, winHeight - 40, "DIFFUSE" );
+	gl_draw2DQuad(glm::vec2{0.0, 0.0}, glm::vec2{halfWidth, halfHeight}, SHADER_QUAD_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE], false);
+	sdf_addText(FONT_SMALL, glm::vec2{0.0f, 0.0}, glm::vec4{1.0f, 1.0f, 1.0f, 0.5f}, "%s", "DIFFUSE");
 	//
 	// Top Left
-	GL_ASSERT ( gl_setReadBuffer ( GBUFFER_TEXTURE_TYPE_POSITION ) );
-	GL_ASSERT ( glBlitFramebuffer ( 0, 0, winWidth, winHeight, 0, halfHeight, halfWidth, winHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR ) );
-//	ttf_addText ( FONT_SMALL, 0.0f, 5.0f, "POSITION" );
+	gl_draw2DQuad(glm::vec2{0.0, halfHeight}, glm::vec2{halfWidth, halfHeight}, SHADER_QUAD_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], false);
+	sdf_addText(FONT_SMALL, glm::vec2{0.0f, halfHeight}, glm::vec4{1.0f, 1.0f, 1.0f, 0.5f}, "%s", "POSITION");
 	//
 	// Top right
-	GL_ASSERT ( gl_setReadBuffer ( GBUFFER_TEXTURE_TYPE_NORMAL ) );
-	GL_ASSERT ( glBlitFramebuffer ( 0, 0, winWidth, winHeight, halfWidth, halfHeight, winWidth, winHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR ) );
-//	ttf_addText ( FONT_SMALL, halfWidth, 5.0f, "NORMALS" );
+	gl_draw2DQuad(glm::vec2{halfWidth, halfHeight}, glm::vec2{halfWidth, halfHeight}, SHADER_QUAD_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL], false);
+	sdf_addText(FONT_SMALL, glm::vec2{halfWidth, halfHeight}, glm::vec4{1.0f, 1.0f, 1.0f, 0.5f}, "%s", "NORMAL");
 	//
 	// Bottom right
-	lt_renderDepthQuad ( SHADER_DEPTHMAP );
-//	ttf_setFontColor ( 1.0, 1.0, 0.0, 1.0 );
-//	ttf_addText ( FONT_SMALL, halfWidth, winHeight - 40.0f, "DEPTH" );
+	gl_draw2DQuad(glm::vec2{halfWidth, 0.0}, glm::vec2{halfWidth, halfHeight}, SHADER_QUAD_2D, gl_returnDepthTexID(), true);
+	sdf_addText(FONT_SMALL, glm::vec2{halfWidth, 0.0}, glm::vec4{1.0f, 1.0f, 1.0f, 0.5f}, "%s", "DEPTH");
 }
-
 
 //-----------------------------------------------------------------------------
 //
@@ -498,7 +490,6 @@ void printFramebufferInfo()
 					if ( objectType == GL_TEXTURE )
 						{
 							con_print ( CON_INFO, true, "GL_TEXTURE [ %s ]", getTextureParameters ( objectId ).c_str() );
-
 						}
 
 					else if ( objectType == GL_RENDERBUFFER )

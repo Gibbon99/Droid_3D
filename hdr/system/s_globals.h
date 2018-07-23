@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <physfs.h>
@@ -9,8 +10,7 @@
 #include <allegro5/allegro_audio.h>
 
 #include "s_leakDetector.h"
-#include "../glload/gl_3_2.h"
-#include "../glload/gl_load.h"
+#include "glad/glad.h"
 
 // Include GLM
 #include "../glm/glm.hpp"

@@ -1,5 +1,6 @@
 #include "s_events.h"
 #include "s_globals.h"
+#include <allegro5/allegro_opengl.h>
 
 ALLEGRO_DISPLAY*        al_mainWindow;
 
@@ -68,10 +69,10 @@ bool lib_openWindow()
 	if (!al_install_system (ALLEGRO_VERSION_INT, nullptr)) // NOLINT
 		return false;
 
-	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL_3_0 | ALLEGRO_OPENGL_FORWARD_COMPATIBLE );
+	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL | ALLEGRO_OPENGL_FORWARD_COMPATIBLE);
 
-	al_set_new_display_option (ALLEGRO_OPENGL_MAJOR_VERSION, 3, ALLEGRO_SUGGEST);
-	al_set_new_display_option (ALLEGRO_OPENGL_MINOR_VERSION, 3, ALLEGRO_SUGGEST);
+	al_set_new_display_option (ALLEGRO_OPENGL_MAJOR_VERSION, 4, ALLEGRO_REQUIRE);
+	al_set_new_display_option (ALLEGRO_OPENGL_MINOR_VERSION, 4, ALLEGRO_REQUIRE);
 
 	al_mainWindow = al_create_display(winWidth, winHeight);
 	if ( nullptr == al_mainWindow)
@@ -79,6 +80,9 @@ bool lib_openWindow()
 		io_logToFile("Allegro error : Unable to start display.");
 		return false;
 	}
+
+	al_set_current_opengl_context(al_mainWindow);
+	con_print(CON_INFO, true, "OpenGL [ %i ]\n", al_get_opengl_version());
 
 	if ( !al_install_mouse())
 	{

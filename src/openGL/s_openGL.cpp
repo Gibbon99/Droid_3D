@@ -56,7 +56,7 @@ std::string getStringForType ( GLenum type )
 			return "Performance issue";
 		case GL_DEBUG_TYPE_MARKER:
 			return "Stream annotation";
-		case GL_DEBUG_TYPE_OTHER_ARB:
+		case GL_DEBUG_TYPE_OTHER:
 			return "Other";
 		default:
 			assert ( false );
@@ -168,15 +168,12 @@ void gl_DebugCallback ( GLenum source, GLenum type, GLenum id, GLenum severity,
 
 //--------------------------------------------------------------------------------------------
 //
-
-//--------------------------------------------------------------------------------------------
-//
 // OpenGL Debug - Register callback
 void gl_registerDebugCallback()
 //--------------------------------------------------------------------------------------------
 {
 	glEnable ( GL_DEBUG_OUTPUT );
-	glDebugMessageCallback ( gl_DebugCallback, NULL );
+	glDebugMessageCallback ( gl_DebugCallback, nullptr);
 	glDebugMessageControl ( GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE );
 }
 
@@ -285,7 +282,6 @@ void gl_getAllGLErrors ( int errorNum, const char *calledFrom, int line )
 		}
 }
 
-
 //-----------------------------------------------------------------------------
 //
 // Set OpenGL to 2d orthographic mode
@@ -299,7 +295,7 @@ void gl_set2DMode()
 
 //-----------------------------------------------------------------------------
 //
-// Set matrix to 3d perspective modee
+// Set matrix to 3d perspective mode
 void gl_set3DMode()
 //-----------------------------------------------------------------------------
 {
@@ -338,4 +334,90 @@ GLuint gl_makeCheckTex(int textureSize)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureSize, textureSize, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
 	return texName;
+}
+
+//-----------------------------------------------------------------------------
+//
+// Draw a 2D quad
+void gl_draw2DQuad(glm::vec2 position, glm::vec2 quadSize, int whichShader, GLuint whichTexture, bool showDepthMap)
+//-----------------------------------------------------------------------------
+{
+	glm::vec2			quadVerts[4];
+	static GLuint		vao = 0;
+	static GLuint		buffers[2];
+	static bool			initDone = false;
+
+	quadVerts[0].x = position.x;
+	quadVerts[0].y = position.y;
+
+	quadVerts[1].x = position.x;
+	quadVerts[1].y = position.y + quadSize.y;
+
+	quadVerts[2].x = position.x + quadSize.x;
+	quadVerts[2].y = position.y + quadSize.y;
+
+	quadVerts[3].x = position.x + quadSize.x;
+	quadVerts[3].y = position.y;
+
+	GLfloat quadTexCoords[] =
+			{
+					0.0, 0.0,
+					0.0, 1.0,
+					1.0, 1.0,
+					1.0, 0.0,
+			};
+
+	if ( !initDone )
+	{
+		// create the VAO
+		GL_ASSERT ( glGenVertexArrays ( 1, &vao ) );
+		GL_CHECK ( glBindVertexArray ( vao ) );
+
+		// Create buffers for the vertex data
+		buffers[0] = wrapglGenBuffers(1, __func__);
+		buffers[1] = wrapglGenBuffers(1, __func__);
+
+		GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
+
+		// Vertex coordinates buffer
+		GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, buffers[0] ) );
+		GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( quadVerts ), quadVerts, GL_DYNAMIC_DRAW ) );
+		GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+		GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) ) );
+
+		// Texture coordinates buffer
+		GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, buffers[1] ) );
+		GL_CHECK ( glBufferData ( GL_ARRAY_BUFFER, sizeof ( quadTexCoords ), quadTexCoords, GL_DYNAMIC_DRAW ) );
+		GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+		GL_CHECK ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET ( 0 ) ) );
+
+		initDone = false;
+	}
+
+	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
+	//
+	// Bind texture if it's not already bound as current texture
+	GL_CHECK ( glActiveTexture ( GL_TEXTURE0 ) );
+
+	if (false == showDepthMap)
+		GL_CHECK ( glBindTexture ( GL_TEXTURE_2D, whichTexture ) );
+	else
+		GL_CHECK ( glBindTexture ( GL_TEXTURE_CUBE_MAP, whichTexture ) );
+
+	GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
+
+	GL_CHECK ( glUniform2f ( shaderProgram[whichShader].screenSizeID, (float)winWidth / 2, (float)winHeight / 2));
+
+	GL_CHECK ( glUniform1i  ( glGetUniformLocation ( shaderProgram[whichShader].programID, "showDepthMap" ), showDepthMap ) );
+
+	GL_CHECK ( glBindVertexArray ( vao  ) );
+	//
+	// Enable attribute to hold vertex information
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+
+	GL_CHECK ( glDrawArrays ( GL_TRIANGLE_FAN, 0, 4 ) );
+
+	glDeleteBuffers(2, buffers);
+	glDeleteVertexArrays(1, &vao);
 }

@@ -1,43 +1,13 @@
 #pragma once
 
-extern bool            animateLight;
+// Init the shadow cubemap and texture
+bool shd_initShadowMap(unsigned int shadowWidth, unsigned int shadowHeight);
 
-void gl_freeShadowMap();
+// 0. create depth cubemap transformation matrices
+void shd_shadowMapDepthStartRender(glm::vec3 lightPos, int whichShader);
 
-bool gl_initShadowMap ( unsigned int WindowWidth, unsigned int WindowHeight );
+// Render the level as normal
+void shd_shadowRenderNormal(int whichShader, glm::vec3 lightPos);
 
-void gl_bindWriteShadowMap();
-
-void gl_bindReadShadowMap();
-
-void gl_unbindWriteShadowMap();
-
-void gl_startShadowMap();
-
-void gl_stopShadowMap();
-
-void gl_debugShadowMap();
-
-glm::vec3 gl_lightPos();
-glm::vec3 gl_lightDir();
-
-// Adjust light position
-void gl_moveLightPos ( glm::vec3 moveVector );
-
-// Draw position of the light
-//void drawLightPos(int whichShader);
-
-// Move the light in a circle
-void shadowMoveLight ( float interpolate );
-
-// Return the texture ID of the shadowDepthMap
-GLuint gl_getShadowMapTextureID();
-
-// Return the texture ID of the shadowMap positions
-GLuint gl_getShadowMapPositionsID();
-
-// Setup GLSL variables for lighting
-void gl_getShadowMapVariables ( int whichShader );
-
-// Setup GLSL variables for lighting
-void gl_setShadowMapVars ( int whichShader, glm::mat4 v_matrixPass );
+// Get the Texture ID for the depth map
+int shd_getDepthTextureID();

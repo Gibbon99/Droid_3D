@@ -20,9 +20,10 @@
 
 #include "s_vsProfileLib.h"
 
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <ctime>
 #include <stdio.h>
+#include <hdr/libGL/glad/glad.h>
 
 
 // Declare static variables

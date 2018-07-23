@@ -27,15 +27,18 @@ GLuint           programID;
 
 _shaderProgram                shaderProgram[] =             // holds all the information about shader program
 {
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "depthMap.vert",        "depthMap.frag",      ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "ttfFont.vert",         "ttfFont.frag",       ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "justColor.vert",       "justColor.frag",     ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "physicsDebug.vert",    "physicsDebug.frag",  ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",   "geometry_pass.frag", ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",   "model_pass.frag", ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "lightPass.vert",       "lightPass.frag",     ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointLight.vert",      "pointLight.frag",    ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "billboard.vert",       "billboard.frag",     "billboard.geom"},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "depthMap.vert",          "depthMap.frag",        ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "ttfFont.vert",           "ttfFont.frag",         ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "justColor.vert",         "justColor.frag",       ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "physicsDebug.vert",      "physicsDebug.frag",    ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",     "geometry_pass.frag",   ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "geometry_pass.vert",     "model_pass.frag",      ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "lightPass.vert",         "lightPass.frag",       ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointLight.vert",        "pointLight.frag",      ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "billboard.vert",         "billboard.frag",       "billboard.geom"},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointShadows.vert",      "pointShadows.frag",     ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointShadowsDepth.vert", "pointShadowsDepth.frag",     "pointShadowsDepth.geom"},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "quad2D.vert",            "quad2D.frag",          ""},
 };
 
 //-----------------------------------------------------------------------------
@@ -46,7 +49,7 @@ char *gl_getShaderName ( int whichShader )
 {
 	return shaderProgram[whichShader].fragFileName;
 }
-//#define VERBOSE_SHADERS 1
+#define VERBOSE_SHADERS 1
 
 //-----------------------------------------------------------------------------
 //

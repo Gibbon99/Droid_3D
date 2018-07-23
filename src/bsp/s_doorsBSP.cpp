@@ -656,5 +656,3 @@ void bsp_processAllDoorMovements ( float interpolate )
 				}
 		}
 }
-
-#pragma clang diagnostic pop

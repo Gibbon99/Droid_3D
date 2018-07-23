@@ -15,6 +15,12 @@ extern bool             g_renderTextures;
 extern int				g_vertIndexCounter;
 extern int				g_numVertexPerFrame;
 
+extern vector<unsigned int>				g_currentFrameVertexIndex;
+extern vector<int>						g_facesForFrame;
+
+// Prepare to render faces
+void bsp_prepareFaceRender(int whichShader);
+
 //	Goes through all of the faces and draws them if the type is FACE_POLYGON
 void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader );
 

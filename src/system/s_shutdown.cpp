@@ -21,7 +21,7 @@ void sys_shutdownToSystem()
 	gl_displayErrors();
 	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_ALL, 0, 0, 0, "");
 	bsp_freeLightArray();
-	gl_freeShadowMap();
+//	gl_freeShadowMap();
 	gl_stopDefRender();
 	lib_destroyWindow();
 	io_freeTextureArray();

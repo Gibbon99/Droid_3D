@@ -151,7 +151,6 @@ bool sdf_initFontSystem()
 					vertIndex[i].clear();
 				}
 		}
-
 	fontInitDone = true;
 	return true;
 }

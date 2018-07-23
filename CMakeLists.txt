@@ -48,6 +48,8 @@ include_directories(
     /usr/include/freetype2
     hdr/libGL/freetype-gl
     hdr/libGL/soil
+    hdr/libGL/glad
+    hdr/libGL/KHR
 )
 
 
@@ -109,6 +111,7 @@ set ( C_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/soil/image_helper.c
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/soil/stb_image_aug.c
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/soil/SOIL.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/libGL/glad.c
 )
 
 # Define the CXX sources
@@ -241,7 +244,7 @@ target_link_libraries(Droid_3D
         pthread
         freetype
         X11
-        GLEW
+        dl
         BulletDynamics
         BulletCollision
         LinearMath

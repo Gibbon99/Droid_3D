@@ -40,10 +40,9 @@ extern int __gl_error_code;
 
 
 // Error macro.
-#define GP_ERROR(...) do \
+#define GL_ERROR(...) do \
 		{ \
 			printf("%s -- ", __current__func__); \
-			printf(__VA_ARGS__); \
 			printf("\n"); \
 		} while (0)
 

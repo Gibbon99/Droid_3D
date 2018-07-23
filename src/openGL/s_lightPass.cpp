@@ -155,13 +155,12 @@ void lt_renderFullscreenQuad ( int whichShader )
 void lt_renderDepthQuad ( int whichShader )
 //-----------------------------------------------------------------------------
 {
-
 	GLfloat quadVertsDepthMap[] =
 	{
 		0.0,        0.0,
-		winWidth / 2.0f,     0.0,
-		winWidth / 2.0f,    winHeight / 2.0f,
-		0.0,                winHeight / 2.0f,
+		winWidth,     0.0,
+		winWidth,    winHeight,
+		0.0,         winHeight,
 	};
 
 	GLfloat quadTexCoordsDepthMap[] =
@@ -211,7 +210,7 @@ void lt_renderDepthQuad ( int whichShader )
 	// Draw in ortho mode
 	gl_set2DMode();
 
-	modelMatrix = glm::translate ( glm::mat4(), glm::vec3 ( winWidth / 2, winHeight / 2, 1.0 ) );
+	modelMatrix = glm::translate ( glm::mat4(), glm::vec3 ( 0.0, 0.0, 1.0 ) );
 	glm::mat4   mvpMatrix = projMatrix * modelMatrix;
 
 	//
@@ -219,7 +218,8 @@ void lt_renderDepthQuad ( int whichShader )
 	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
 	//
 	// Bind texture if it's not already bound as current texture
-	wrapglBindTexture ( GL_TEXTURE0, gl_returnDepthTexID() );
+//	wrapglBindTexture ( GL_TEXTURE0, gl_returnDepthTexID() );
+	wrapglBindTexture ( GL_TEXTURE0, shd_getDepthTextureID() );
 
 	GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
 	//
