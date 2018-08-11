@@ -234,7 +234,7 @@ void evt_handleEvents()
 
 	if ( !al_get_next_event(eventQueue, &event))
 	{
-		printf("No events in queue\n");
+		//printf("No events in queue\n");
 		return;     // no events in the queue
 	}
 	/*
@@ -284,7 +284,7 @@ void evt_handleEvents()
 			break;
 
 		case MY_EVENT_TYPE:
-			printf("Got a USER EVENT in queue\n");
+			//printf("Got a USER EVENT in queue\n");
 			my_event = (CUSTOM_EVENT *)event.user.data1;
 			evt_handleUserEvents (my_event);
 			al_unref_user_event(&event.user);

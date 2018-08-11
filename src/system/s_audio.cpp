@@ -190,7 +190,6 @@ void aud_stopAllSounds()
 	}
 }
 
-
 //-------------------------------------------------------------------------
 //
 // Release the sound systems and samples
@@ -240,7 +239,6 @@ bool aud_playSound ( int whichSound, float pan, ALLEGRO_PLAYMODE loop )
 
 	return true;
 }
-
 
 //-------------------------------------------------------------------------
 //

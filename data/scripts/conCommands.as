@@ -34,7 +34,7 @@ void as_setGameVariables()
 	winHeight = 600;
 	//
 	// Freelook mouse speed
-	mouseSpeed = 0.51f;
+	mouseSpeed = 0.11f;
 	//
 	// Constrain the mouse to window size
     g_lockMouse = false;

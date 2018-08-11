@@ -22,7 +22,7 @@ void cam3_processMouseMovement ( float xoffset, float yoffset, GLboolean constra
 void cam3_processMovementKeys ( float interpolate );
 
 // Create the view matrix
-void cam3_CreateViewMatrix(glm::vec3 newPosition);
+void cam3_createViewMatrix ( glm::vec3 newPosition );
 
 // Init the camera with known values
 void cam3_initCamera ( glm::vec3 location );

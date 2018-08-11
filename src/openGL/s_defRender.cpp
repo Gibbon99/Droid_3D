@@ -60,7 +60,7 @@ void gl_createGBufTex ( GLenum texUnit, GLenum internalFormat, GLuint &texid, GL
 	wrapglBindTexture ( texUnit, texid );
 
 //    GL_ASSERT(glBindTexture(GL_TEXTURE_2D, texid));
-	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, NULL ) );
+	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_FLOAT, nullptr) );
 
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
@@ -90,7 +90,7 @@ bool gl_initDefRender ( int screenWidth, int screenHeight )
 	//
 	// Create depthTexture - uses GL_DEPTH instead of RGB color
 	GL_ASSERT ( glBindTexture ( GL_TEXTURE_2D, id_depthTexture ) );
-	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, screenWidth, screenHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL ) );
+	GL_ASSERT ( glTexImage2D ( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, screenWidth, screenHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr) );
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
@@ -101,7 +101,7 @@ bool gl_initDefRender ( int screenWidth, int screenHeight )
 	GL_ASSERT ( glFramebufferTexture2D   ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_POSITION], 0 ) );
 	GL_ASSERT ( glFramebufferTexture2D   ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_NORMAL], 0 ) );
 	GL_ASSERT ( glFramebufferTexture2D   ( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, id_textures[GBUFFER_TEXTURE_TYPE_DIFFUSE], 0 ) );
-	GL_ASSERT ( glFramebufferRenderbuffer ( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, id_depthTexture ) );
+//	GL_ASSERT ( glFramebufferRenderbuffer ( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, id_depthTexture ) );
 
 	GLenum DrawBuffers[] = { GL_COLOR_ATTACHMENT0,
 	                         GL_COLOR_ATTACHMENT1,

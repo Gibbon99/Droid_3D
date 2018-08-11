@@ -1,13 +1,25 @@
 #pragma once
 
-// Init the shadow cubemap and texture
-bool shd_initShadowMap(unsigned int shadowWidth, unsigned int shadowHeight);
+#include "s_globals.h"
 
-// 0. create depth cubemap transformation matrices
-void shd_shadowMapDepthStartRender(glm::vec3 lightPos, int whichShader);
+extern glm::vec3 g_lightPosition;
 
-// Render the level as normal
-void shd_shadowRenderNormal(int whichShader, glm::vec3 lightPos);
+// Setup up the FBO and cubemap
+// Return status  of framebuffer binding operation
+bool shd_shadowMapInit(unsigned int shadowWidth, unsigned int shadowHeight);
 
-// Get the Texture ID for the depth map
-int shd_getDepthTextureID();
+// Clean up the Shadowmap
+void shd_exitShadowMap();   // TODO: Call from exit
+
+void SetLightWorldPos(const glm::vec3& Pos);
+
+// Render the level to the depth cubemap textures
+void shd_prepareDepthRender(glm::vec3 lightPos);
+
+// Render the level to the depth cubemap textures
+void shd_shadowMapPass(int whichShader, glm::vec3 lightPos);
+
+// Get the texture ID for the depth map to debug
+GLuint shd_getDepthTextureID();
+
+void renderCube(int whichShader);

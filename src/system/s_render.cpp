@@ -1,6 +1,6 @@
-#include <AntTweakBar.h>
-#include <hdr/bsp/s_lightMaps.h>
-#include <hdr/bsp/s_shaderLights.h>
+#include <hdr/openGL/s_shadowLighting.h>
+#include "s_lightMaps.h"
+#include "s_shaderLights.h"
 #include "s_globals.h"
 #include "s_vsProfileLib.h"
 #include "s_fontUtil.h"
@@ -35,16 +35,8 @@
 bool        showGBuffers = false;
 bool        g_renderBSP = true;
 
-//-----------------------------------------------------------------------------
-//
-// Render all the models - pass in shader to use
-void sys_renderModels ( int whichShader )
-//-----------------------------------------------------------------------------
-{
-	//
-	// Reset counter
-	numSkippedModels = 0;
-}
+PointLight m_pointLight;
+
 
 //-----------------------------------------------------------------------------
 //
@@ -52,12 +44,13 @@ void sys_renderModels ( int whichShader )
 void sys_renderToFBO()
 //-----------------------------------------------------------------------------
 {
-	glDepthMask ( true );
+//	glDepthMask ( true );
 	glClearDepth ( 1.0f );
+	glViewport(0, 0, winWidth, winHeight);
 	//
 	// Enable depth test
 	wrapglEnable ( GL_DEPTH_TEST );
-	glDepthFunc ( GL_LEQUAL );
+//	glDepthFunc ( GL_LEQUAL );
 
 	//
 	// Disable blending
@@ -69,11 +62,6 @@ void sys_renderToFBO()
 	gl_bindForWriting();
 
 	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-	GL_CHECK ( glUseProgram ( shaderProgram[SHADER_GEOMETRY_PASS].programID ) );
-
-	GL_CHECK ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[SHADER_GEOMETRY_PASS].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-
 }
 
 //-----------------------------------------------------------------------------
@@ -83,6 +71,7 @@ void sys_displayScreen ( float interpolate )
 //-----------------------------------------------------------------------------
 {
 //    char profileText[64];
+
 
 	glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 	glViewport ( 0, 0, winWidth, winHeight );
@@ -129,43 +118,33 @@ void sys_displayScreen ( float interpolate )
 			case MODE_GAME:
 			case MODE_PAUSE:
 
-				/*
-				shd_shadowMapDepthStartRender(cam3_getCameraPosition (), SHADER_DEPTH_SHADOWMAP);  // Create depth map from light viewpoint
-				bsp_renderLevel (cam3_getCameraPosition (), SHADER_DEPTH_SHADOWMAP);
+				// Draw BSP level into Depth Map
+//				bsp_prepareFaceRender (SHADER_SHADOW_MAP);
+//				bsp_renderLevel ( g_lightPosition, SHADER_SHADOW_MAP, false );    // Just prepare geometry information
+
+				shd_shadowMapPass(SHADER_SHADOW_MAP, g_lightPosition);
 
 
-				shd_shadowRenderNormal(SHADER_SHADOWMAP, cam3_getCameraPosition ());
-				bsp_renderLevel (cam3_getCameraPosition (), SHADER_SHADOWMAP);
-*/
-
-
+/*
 				sys_renderToFBO();
+
+				gl_set3DMode ();    // Reset projMatrix
+				cam3_createViewMatrix(cam3_getCameraPosition ());   // Reset viewMatrix
+				sys_calculateFrustum();     // Used for culling BSP leafs
 
 				if ( g_renderBSP )
 				{
 					if ( g_renderTextures )
 					{
 						bsp_prepareFaceRender (SHADER_GEOMETRY_PASS);
-						bsp_renderLevel (cam3_getCameraPosition (), SHADER_GEOMETRY_PASS);
+//						bsp_renderLevel (cam3_getCameraPosition (), SHADER_GEOMETRY_PASS, true);
 					}
 					else
 					{
 						bsp_prepareFaceRender (SHADER_MODEL_PASS);
-						bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS);
+						bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS, true);
 					}
 				}
-
-//				bsp_renderLevel(cam3_getCameraPosition (), SHADER_DEPTH_SHADOWMAP);
-
-//				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-				// 2. render scene as normal
-//				shd_shadowRenderNormal(SHADER_SHADOWMAP, allLights[0].position);
-//				bsp_renderLevel(cam3_getCameraPosition (), SHADER_MODEL_PASS);
-
-//				lt_renderDepthQuad ( SHADER_DEPTHMAP );
-
-
 
 				if ( g_debugPhysics )
 					bul_drawDebugWorld();
@@ -195,7 +174,15 @@ void sys_displayScreen ( float interpolate )
 					lt_renderPointLights ( SHADER_POINT_LIGHT );
 				}
 
+				GL_CHECK ( glBindFramebuffer ( GL_DRAW_FRAMEBUFFER, 0 ) );
+				*/
+		break;
+
+		default:
+			break;
 		}
+
+
 
 	//
 	// Render all text in VBO memory
@@ -205,14 +192,6 @@ void sys_displayScreen ( float interpolate )
 
 	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_SMALL) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
 	            cam3_Front.x, cam3_Front.y, cam3_Front.z );
-
-/*
-	printf("About to print recticle\n");
-
-	sdf_addText (FONT_SMALL, glm::vec2{(winWidth / 2) - (sdf_getTextWidth (FONT_SMALL, "%s", "+")), (winHeight / 2) - sdf_getTextHeight (FONT_SMALL)}, glm::vec4{0.4f, 0.4f, 0.4f, 0.4f}, "%s", "--");
-
-	printf("AFter recticle\n");
-*/
 
 	#ifdef DEBUG
 
@@ -225,9 +204,7 @@ void sys_displayScreen ( float interpolate )
 
 	sdf_displayText();
 
-//	gl_draw2DQuad(glm::vec2{winWidth / 2.0f, 0.0}, glm::vec2{winWidth / 2.0f, winHeight / 2.0f}, SHADER_QUAD_2D, shd_getDepthTextureID(), true);
-
-
+//	gl_draw2DQuad(glm::vec2{winWidth / 2.0f, 0.0}, glm::vec2{winWidth / 2.0f, winHeight / 2.0f}, SHADER_QUAD_2D, gl_returnDepthTexID(), true);
 	if ( showGBuffers )
 		gl_showGBuffers();
 

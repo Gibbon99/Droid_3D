@@ -36,9 +36,9 @@ _shaderProgram                shaderProgram[] =             // holds all the inf
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "lightPass.vert",         "lightPass.frag",       ""},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointLight.vert",        "pointLight.frag",      ""},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "billboard.vert",         "billboard.frag",       "billboard.geom"},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointShadows.vert",      "pointShadows.frag",     ""},
-	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "pointShadowsDepth.vert", "pointShadowsDepth.frag",     "pointShadowsDepth.geom"},
 	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "quad2D.vert",            "quad2D.frag",          ""},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "shadowMap.vert",         "shadowMap.frag",       "shadowMap.geom"},
+	{0,    0, 0, 0, 0,  0,  0,  0,  0,  0, 0,  0, false,  "shadowLighting.vert",    "shadowLighting.frag",  ""},
 };
 
 //-----------------------------------------------------------------------------

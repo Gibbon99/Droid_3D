@@ -11,7 +11,6 @@
 #include <hdr/bsp/s_renderBSP.h>
 #include <hdr/openGL/s_shaders.h>
 #include <hdr/io/io_textures.h>
-#include <hdr/openGL/s_shadowMap.h>
 
 #define FACE_RENDER		0
 #define FACE_ADD		1
@@ -75,32 +74,42 @@ void bsp_prepareFaceRender(int whichShader)
 	// Bind data buffer holding all the vertices
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
 
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-	GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
-
-	// Position
-	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
-
-	// Normals
-	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
-
-	// Texture coords
-	GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
-	GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
-
-	// Texture coords for normal texture
-	if (true == g_renderTextures)
+	switch (whichShader)
 	{
-		// Texture coords
-		GL_ASSERT (glEnableVertexAttribArray (shaderProgram[whichShader].inTextureCoordsID_1));
-		GL_ASSERT (glVertexAttribPointer (shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
-	}
+		case SHADER_SHADOW_MAP:
+			// Position
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
+			break;
 
-	if (true == g_renderTextures)
-	{
-		GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID_1) );
+		case SHADER_GEOMETRY_PASS:
+		case SHADER_MODEL_PASS:
+			GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+			GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
+
+			// Position
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
+
+			// Normals
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
+
+			// Texture coords for lightmap
+			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
+			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
+
+			// Texture coords for diffuse texture
+			if ( g_renderTextures )
+			{
+				// Texture coords
+				GL_ASSERT (glEnableVertexAttribArray (shaderProgram[whichShader].inTextureCoordsID_1));
+				GL_ASSERT (glVertexAttribPointer (shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
+			}
+			break;
+
+		default:
+			break;
 	}
 
 	g_facesForFrame.clear();
@@ -187,11 +196,11 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 	_myVertex           tempVertex;
 
 	indexes.clear();
-	indexes.reserve ( ptrFace->numMeshVerts );
+	indexes.reserve (static_cast<unsigned long>(ptrFace->numMeshVerts));
 
 	for ( GLuint i = 0; i != ptrFace->numMeshVerts; i++ )
 	{
-		indexes[i] = m_pMeshIndex[ptrFace->startMeshVertIndex + i];
+		indexes[i] = static_cast<unsigned int>(m_pMeshIndex[ptrFace->startMeshVertIndex + i]);
 
 		g_currentFrameVertexIndex.push_back (ptrFace->startVertIndex + indexes[i]);
 		g_numVertexPerFrame++;
@@ -226,76 +235,74 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 	switch (whichAction)
 	{
 		case FACE_ADD:
+		{
 			ptrFace = &m_pFaces[whichFace];
-			bsp_createVextexIndexArray ( ptrFace );
-			break;
+			bsp_createVextexIndexArray (ptrFace);
+		}
+		break;
 
 		case FACE_RENDER:
+		{
 			switch (whichShader)
 			{
 				case SHADER_GEOMETRY_PASS:
 				case SHADER_MODEL_PASS:
-				case SHADER_SHADOWMAP:
+				{
 					//
-					// Upload vertex indexes
+					// Get a pointer to the current face
 					ptrFace = &m_pFaces[whichFace];
 					//
 					// Quit if we start accessing memory outside the lightMap array size
-					if (ptrFace->lightmapID > m_numOfLightmaps)
+					if ( ptrFace->lightmapID > m_numOfLightmaps )
 					{
 						wrapglBindTexture (GL_TEXTURE0, m_lightmaps[0]);
 
 						errorCountLightmap++;
-						if (errorCountLightmap > 5)
+						if ( errorCountLightmap > 5 )
 						{
-							con_print(CON_ERROR, true, "Memory or level corruption while indexing lightmap array. Exiting.");
+							con_print (CON_ERROR, true, "Memory or level corruption while indexing lightmap array. Exiting.");
 							changeMode (MODE_SHUTDOWN);
 						}
 					}
-					else if (ptrFace->lightmapID < 0)   // No lightmap for this face?
-						wrapglBindTexture (GL_TEXTURE0, io_getGLTexID(whichTexture));
+					else if ( ptrFace->lightmapID < 0 )   // No lightmap for this face?
+						wrapglBindTexture (GL_TEXTURE0, io_getGLTexID (whichTexture));
 					else
 						wrapglBindTexture (GL_TEXTURE0, m_lightmaps[ptrFace->lightmapID]);
 
-					glUniform1i(shaderProgram[whichShader].inTextureUnit, 0);
+					glUniform1i (shaderProgram[whichShader].inTextureUnit, 0);
 
 					if ( g_renderTextures )
 					{
-						wrapglBindTexture (GL_TEXTURE1, io_getGLTexID(whichTexture));
-						glUniform1i(shaderProgram[whichShader].inTextureUnit_1, 1);
+						wrapglBindTexture (GL_TEXTURE1, io_getGLTexID (whichTexture));
+						glUniform1i (shaderProgram[whichShader].inTextureUnit_1, 1);
 					}
 
-					GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
+					GL_CHECK (glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, elementArrayID));
 
-					GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
+					GL_CHECK (glBufferData (GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size () * sizeof (unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
 
-					GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
-					g_currentFrameVertexIndex.clear();
-					break;
+					GL_ASSERT (glDrawElements (GL_TRIANGLES, g_currentFrameVertexIndex.size (), GL_UNSIGNED_INT, 0));
+					g_currentFrameVertexIndex.clear ();
+				}
+				break;
 
-				case SHADER_DEPTH_SHADOWMAP:
+				case SHADER_SHADOW_MAP:
+				{
+					GL_CHECK (glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, elementArrayID));
 
-//					glActiveTexture(GL_TEXTURE0);
-//					glBindTexture(GL_TEXTURE_CUBE_MAP, shd_getDepthTextureID ());
-//					glUniform1i(shaderProgram[whichShader].inTextureUnit, 0);
+					GL_CHECK (glBufferData (GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size () * sizeof (unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
 
-					GL_CHECK ( glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, elementArrayID ) );
-
-					GL_CHECK ( glBufferData ( GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size() * sizeof(unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
-
-					printf("Vertex index size [ %i ]\n", g_currentFrameVertexIndex.size());
-
-					GL_ASSERT ( glDrawElements ( GL_TRIANGLES, g_currentFrameVertexIndex.size(), GL_UNSIGNED_INT, 0));
-					g_currentFrameVertexIndex.clear();
-					break;
+					GL_ASSERT (glDrawElements (GL_TRIANGLES, g_currentFrameVertexIndex.size (), GL_UNSIGNED_INT, 0));
+					g_currentFrameVertexIndex.clear ();
+				}
+				break;
 
 				default:
 					break;
 			}
-			break;
-
-		default:
-			break;
+		}
+	default:
+		break;
 	}
 }
 
@@ -473,23 +480,22 @@ void bsp_renderTree ( int Node, bool CheckFrustum )
 			case COMPLETE_OUT:
 				g_numLeafsNotDrawng++;
 				return;
-
-				// if this one is complete_out, stop analysing this branch
-				// all leaf that come from this node are also complete_out
+				// If this one is complete_out, stop analysing this branch
+				// all leafs that come from this node are also complete_out
 
 			case COMPLETE_IN:
 				CheckFrustum = false;
 				g_numLeafsDrawn++;
 				break;
 				// if we are complete_in, Set CheckFrustum to false to not
-				// check frustum on any of my childs, CheckFrustum will be used
+				// check frustum on any of the child nodes, CheckFrustum will be used
 				// to call my children
 
 				// if intersecting continue as usual, test all my children against the frustum
 		}
 	}
 
-	// a node is an structure that hold a partition plane, all leafs are split in two
+	// A node is an structure that hold a partition plane, all leafs are split in two
 	// groups: FRONT and BACK. plane is the partition plane for this node
 	const tBSPPlane* plane = &m_pPlanes[ pNode->plane ];
 
@@ -523,8 +529,9 @@ void bsp_renderTree ( int Node, bool CheckFrustum )
 
 //-----------------------------------------------------------------------------
 //
-//	Goes through all of the faces and draws them if the type is FACE_POLYGON
-void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
+// Goes through all of the faces and draws them if doRender is true
+// Otherise it prepares the face indees and uploads the door vertices
+void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader, bool doRender )
 //-----------------------------------------------------------------------------
 {
 	glm::vec3		drawAtModel;
@@ -550,9 +557,10 @@ void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader )
 
 	bsp_uploadDoorVertex ();
 
-	bsp_drawAllDoors();
+	bsp_addDoorFaces ();
 
-	bsp_renderAllFaces(whichShader);
+	if (doRender)
+		bsp_renderAllFaces(whichShader);
 
 	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, 0 );

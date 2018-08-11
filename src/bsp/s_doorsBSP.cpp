@@ -340,7 +340,7 @@ void bsp_drawAllDoorTriggerZones ()
 //
 // Draw all the door models
 // First check if they are visible in the frustum or not
-void bsp_drawAllDoors()
+void bsp_addDoorFaces ()
 //------------------------------------------------------------------
 {
 	numOfDoorsDrawn = 0;

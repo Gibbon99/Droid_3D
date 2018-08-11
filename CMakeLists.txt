@@ -178,8 +178,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/game/s_bullet.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/console/s_comOpenGLInfo.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/openGL/s_defRender.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/openGL/s_shadowMap.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_physicsDebug.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_physicsDebug.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/script/as_callfunc_ppc.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_assimp.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/libGL/s_physics.cpp
@@ -211,7 +210,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_events.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_audio.cpp data/scripts/commonDefines.h
-        )
+        src/openGL/s_shadowMap.cpp src/openGL/s_shadowLighting.cpp hdr/openGL/s_shadowLighting.h)
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 

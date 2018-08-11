@@ -170,3 +170,4 @@ extern int __gl_error_code;
 #define PARTICLE_TYPE_BULLET_1  4
 #define PARTICLE_TYPE_NUMBER    5       // How many different types
 
+#define INVALID_UNIFORM_LOCATION 0xffffffff

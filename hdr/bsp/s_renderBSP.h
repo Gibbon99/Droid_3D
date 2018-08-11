@@ -22,7 +22,7 @@ extern vector<int>						g_facesForFrame;
 void bsp_prepareFaceRender(int whichShader);
 
 //	Goes through all of the faces and draws them if the type is FACE_POLYGON
-void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader );
+void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader, bool doRender );
 
 // Upload all the vertex data in our own structure used to render the level
 void bsp_uploadLevelVertex();
@@ -35,3 +35,8 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 
 // Add the index for the face into vector array
 void bsp_addFaceToArray(int whichFace );
+
+// Go through the vector face indexes and render the face - including door models
+//
+// Sort the faces based on textureID
+void bsp_renderAllFaces(int whichShader);

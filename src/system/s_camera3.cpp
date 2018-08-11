@@ -112,7 +112,7 @@ void cam3_initCamera ( glm::vec3 location )
 //-------------------------------------------------------------------------------
 //
 // Create the view matrix
-void cam3_CreateViewMatrix(glm::vec3 newPosition)
+void cam3_createViewMatrix ( glm::vec3 newPosition )
 //-------------------------------------------------------------------------------
 {
 	if (isnan(newPosition.x))
@@ -130,11 +130,9 @@ void cam3_processMovementKeys ( float interpolate )
 	float velocity = 0.0f;
 
 //	if ((keyForwardDown) || (keyBackwardDown) || (keyLeftDown) || (keyRightDown))
-		velocity = cam3_MovementSpeed * interpolate;
+	velocity = cam3_MovementSpeed * interpolate;
 
-		velocity = 10.0f;
-
-		printf("Velocity [ %4.4f ]\n", velocity);
+	velocity = 0.30f;
 
 	cam3_WantedPosition = cam3_Position;
 

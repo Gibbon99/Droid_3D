@@ -402,7 +402,8 @@ void gl_draw2DQuad(glm::vec2 position, glm::vec2 quadSize, int whichShader, GLui
 	if (false == showDepthMap)
 		GL_CHECK ( glBindTexture ( GL_TEXTURE_2D, whichTexture ) );
 	else
-		GL_CHECK ( glBindTexture ( GL_TEXTURE_CUBE_MAP, whichTexture ) );
+		GL_CHECK ( glBindTexture ( GL_TEXTURE_2D, whichTexture ) );
+//		GL_CHECK ( glBindTexture ( GL_TEXTURE_CUBE_MAP, whichTexture ) );
 
 	GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
 

@@ -1,3 +1,4 @@
+#include <hdr/system/s_camera3.h>
 #include "s_timing.h"
 #include "s_shutdown.h"
 #include "s_window.h"
@@ -168,8 +169,14 @@ bool initAll()
 	blendOne = blends[blendIndexOne];
 	blendTwo = blends[blendIndexTwo];
 
+	if (!shd_shadowMapInit(1024, 1024))
+	{
+		con_print(CON_ERROR, true, "Error: Could not start shadow map buffers.");
+		sys_shutdownToSystem ();
+	}
 
-	shd_initShadowMap(1024, 1024);
+	cam3_initCamera ( glm::vec3{0.0f, 0.0f, 3.0f} );
+	bul_setPlayerPosition(glm::vec3{0.0f, 0.0f, 3.0f}, glm::vec3{0.0f, 0.0f, 0.0f});
 
 	return true;
 }

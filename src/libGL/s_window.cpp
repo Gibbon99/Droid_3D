@@ -69,7 +69,7 @@ bool lib_openWindow()
 	if (!al_install_system (ALLEGRO_VERSION_INT, nullptr)) // NOLINT
 		return false;
 
-	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL | ALLEGRO_OPENGL_FORWARD_COMPATIBLE);
+	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL | ALLEGRO_OPENGL_FORWARD_COMPATIBLE );
 
 	al_set_new_display_option (ALLEGRO_OPENGL_MAJOR_VERSION, 4, ALLEGRO_REQUIRE);
 	al_set_new_display_option (ALLEGRO_OPENGL_MINOR_VERSION, 4, ALLEGRO_REQUIRE);
@@ -81,7 +81,7 @@ bool lib_openWindow()
 		return false;
 	}
 
-	al_set_current_opengl_context(al_mainWindow);
+//	al_set_current_opengl_context(al_mainWindow);
 	con_print(CON_INFO, true, "OpenGL [ %i ]\n", al_get_opengl_version());
 
 	if ( !al_install_mouse())

@@ -218,8 +218,7 @@ void lt_renderDepthQuad ( int whichShader )
 	GL_CHECK ( glUseProgram ( shaderProgram[whichShader].programID ) );
 	//
 	// Bind texture if it's not already bound as current texture
-//	wrapglBindTexture ( GL_TEXTURE0, gl_returnDepthTexID() );
-	wrapglBindTexture ( GL_TEXTURE0, shd_getDepthTextureID() );
+	wrapglBindTexture ( GL_TEXTURE0, gl_returnDepthTexID() );
 
 	GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
 	//
