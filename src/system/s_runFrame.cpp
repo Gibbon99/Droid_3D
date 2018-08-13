@@ -45,19 +45,19 @@ void sys_gameTickRun ( float interpolate )
 			// Return the direction vector and turn this into velocity for physics
 			bul_setCameraVelocity(cam3_getVelocity());
 
-//			bul_processPhysics ( 60.0f );
+			bul_processPhysics ( 60.0f );
 
-//			vel = bul_returnCameraPosition();
-//			bul_setPlayerPosition(cam3_Position, glm::vec3(0,0,0));
+			vel = bul_returnCameraPosition();
+			bul_setPlayerPosition(cam3_Position, glm::vec3(0,0,0));
 
-//			cam3_Position = vel;
+			cam3_Position = vel;
 			
-			//cam3_createViewMatrix(cam3_Position);
+			cam3_createViewMatrix(cam3_Position);
 
 			gam_processBulletMovement ( );
 			bsp_checkPlayerVsTrigger();
-				bsp_processAllDoorMovements (interpolate);
-//			phy_doCollisionDetection();
+			bsp_processAllDoorMovements (interpolate);
+			phy_doCollisionDetection();
 
 			par_processParticles(interpolate);
 			break;

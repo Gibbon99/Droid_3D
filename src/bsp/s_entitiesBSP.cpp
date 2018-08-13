@@ -355,10 +355,6 @@ int bsp_placeCameraAtEntity ( string param1 )
 //
 // TODO: Get orientation of player_info_start
 //
-			glm::vec3 rotation (0.0f, 0.0f, 0.0f);
-
-			originCoords = glm::vec3{0.0, 0.0, 0.0};
-
 			// Init the camera with known values
 			cam3_initCamera ( originCoords );
 			bul_setPlayerPosition(originCoords, originCoords);

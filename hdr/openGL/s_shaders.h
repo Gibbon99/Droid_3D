@@ -77,3 +77,6 @@ bool gl_setUniformVariable ( int location, int setTo );
 
 // Return string indicating which shader is passed
 char *gl_getShaderName ( int whichShader );
+
+// Set the value of a shader uniform or attribute
+GLint shaderGetLocation ( int whichShader, string keyName );

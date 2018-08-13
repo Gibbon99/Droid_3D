@@ -45,8 +45,8 @@ void sys_renderToFBO()
 //-----------------------------------------------------------------------------
 {
 //	glDepthMask ( true );
-	glClearDepth ( 1.0f );
-	glViewport(0, 0, winWidth, winHeight);
+//	glClearDepth ( 1.0f );
+//	glViewport(0, 0, winWidth, winHeight);
 	//
 	// Enable depth test
 	wrapglEnable ( GL_DEPTH_TEST );
@@ -57,7 +57,7 @@ void sys_renderToFBO()
 	wrapglDisable ( GL_BLEND );
 	wrapglDisable ( GL_CULL_FACE );
 
-	gl_set3DMode();
+	cam3_createProjMatrix ();
 
 	gl_bindForWriting();
 
@@ -118,31 +118,41 @@ void sys_displayScreen ( float interpolate )
 			case MODE_GAME:
 			case MODE_PAUSE:
 
-				// Draw BSP level into Depth Map
-//				bsp_prepareFaceRender (SHADER_SHADOW_MAP);
-//				bsp_renderLevel ( g_lightPosition, SHADER_SHADOW_MAP, false );    // Just prepare geometry information
+				// Draw BSP level into Depth Map ready for shadow mapping
 
-				shd_shadowMapPass(SHADER_SHADOW_MAP, g_lightPosition);
-
+				shd_shadowMapPass(SHADER_SHADOW_MAP);
 
 /*
 				sys_renderToFBO();
 
-				gl_set3DMode ();    // Reset projMatrix
+				cam3_createProjMatrix ();    // Reset projMatrix
 				cam3_createViewMatrix(cam3_getCameraPosition ());   // Reset viewMatrix
-				sys_calculateFrustum();     // Used for culling BSP leafs
 
 				if ( g_renderBSP )
 				{
 					if ( g_renderTextures )
 					{
-						bsp_prepareFaceRender (SHADER_GEOMETRY_PASS);
-//						bsp_renderLevel (cam3_getCameraPosition (), SHADER_GEOMETRY_PASS, true);
+						glUseProgram(shaderProgram[SHADER_GEOMETRY_PASS].programID);
+
+						GL_CHECK ( glUniformMatrix4fv ( shaderGetLocation (SHADER_GEOMETRY_PASS, "u_viewProjectionMat"), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+						GL_CHECK ( glUniformMatrix4fv ( shaderGetLocation (SHADER_GEOMETRY_PASS, "u_modelMat"), 1, false, glm::value_ptr ( modelMatrix ) ) );
+
+						bsp_bindLevelData ();
+						bsp_renderLevel (cam3_getCameraPosition (), SHADER_GEOMETRY_PASS, true);
+
+						glUseProgram(0);
 					}
 					else
 					{
-						bsp_prepareFaceRender (SHADER_MODEL_PASS);
+						glUseProgram(shaderProgram[SHADER_MODEL_PASS].programID);
+
+						GL_CHECK ( glUniformMatrix4fv ( shaderGetLocation (SHADER_MODEL_PASS, "u_viewProjectionMat"), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
+						GL_CHECK ( glUniformMatrix4fv ( shaderGetLocation (SHADER_MODEL_PASS, "u_modelMat"), 1, false, glm::value_ptr ( modelMatrix ) ) );
+
+						bsp_bindLevelData ();
 						bsp_renderLevel (cam3_getCameraPosition (), SHADER_MODEL_PASS, true);
+
+						glUseProgram(0);
 					}
 				}
 
@@ -175,15 +185,12 @@ void sys_displayScreen ( float interpolate )
 				}
 
 				GL_CHECK ( glBindFramebuffer ( GL_DRAW_FRAMEBUFFER, 0 ) );
-				*/
+*/
 		break;
 
 		default:
 			break;
 		}
-
-
-
 	//
 	// Render all text in VBO memory
 	gl_set2DMode();

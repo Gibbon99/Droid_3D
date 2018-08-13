@@ -302,7 +302,7 @@ if (!initDone)
 }
 
 	// Now render it
-	gl_set3DMode();
+	cam3_createProjMatrix ();
 	modelMatrix = glm::mat4();
 
 	GL_CHECK ( glBindVertexArray ( vao_ID ) );

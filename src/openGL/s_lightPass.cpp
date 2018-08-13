@@ -238,7 +238,7 @@ void lt_renderDepthQuad ( int whichShader )
 	glBindVertexArray ( 0 );
 	glUseProgram ( 0 );
 
-	gl_set3DMode();
+	cam3_createProjMatrix ();
 }
 
 

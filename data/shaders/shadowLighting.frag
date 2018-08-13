@@ -12,8 +12,9 @@ uniform samplerCube depthMap;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
+uniform vec3 lightColor;
 
-uniform float far_plane;
+uniform float far_planeTwo;
 uniform bool shadows;
 
 
@@ -63,15 +64,16 @@ float shadow              = 0.0;
 float bias                = 0.15;
 int samples               = 20;
 float viewDistance        = length(viewPos - fragPos);
-float diskRadius          = (1.0 + (viewDistance / far_plane)) / 25.0;
-for(int i = 0; i < samples; ++i)
-{
-float closestDepth    = texture(depthMap, fragToLight + gridSamplingDisk[i] * diskRadius).r;
-closestDepth          *= far_plane;   // undo mapping [0;1]
-if(currentDepth - bias > closestDepth)
-shadow            += 1.0;
-}
-shadow                    /= float(samples);
+float diskRadius          = (1.0 + (viewDistance / far_planeTwo)) / 25.0;
+
+	for ( int i = 0; i < samples; ++i )
+	{
+		float closestDepth    = texture(depthMap, fragToLight + gridSamplingDisk[i] * diskRadius).r;
+		closestDepth          *= far_planeTwo;   // undo mapping [0;1]
+		if (currentDepth - bias > closestDepth)
+			shadow            += 1.0;
+	}
+	shadow                    /= float(samples);
 
 // display closestDepth as debug (to visualize depth cubemap)
 // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);
@@ -83,7 +85,7 @@ void main()
 {
 	vec3 color                = texture(diffuseTexture, fs_in.TexCoords).rgb;
 	vec3 normal               = normalize(fs_in.Normal);
-	vec3 lightColor           = vec3(0.7);
+//	vec3 lightColor           = vec3(0.7, 0.0, 0.0);
 	// ambient
 	vec3 ambient              = 0.1 * color;
 	// diffuse
@@ -98,7 +100,8 @@ void main()
 	spec                      = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
 	vec3 specular             = spec * lightColor;
 	// calculate shadow
-	float shadow              = shadows ? ShadowCalculation(fs_in.FragPos) : 0.0;
+//	float shadow              = shadows ? ShadowCalculation(fs_in.FragPos) : 0.0;
+	float shadow              = ShadowCalculation(fs_in.FragPos);
 	vec3 lighting             = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;
 
 	FragColor                 = vec4(lighting, 1.0);

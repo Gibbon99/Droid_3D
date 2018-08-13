@@ -45,9 +45,6 @@ bool gl_loadFontTexture ( const char *fontFilename );
 // Set OpenGL to 2d orthographic mode
 void gl_set2DMode();
 
-// Set matrix to 3d perspective mode
-void gl_set3DMode();
-
 // Draw a debug line to see the picking ray
 void drawDebugLine ( glm::vec3 startPoint, glm::vec3 endPoint, glm::vec3 pos, int drawType, float length, bool reinit, float scaleBy );
 

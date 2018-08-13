@@ -19,7 +19,7 @@ extern vector<unsigned int>				g_currentFrameVertexIndex;
 extern vector<int>						g_facesForFrame;
 
 // Prepare to render faces
-void bsp_prepareFaceRender(int whichShader);
+void bsp_bindLevelData ();
 
 //	Goes through all of the faces and draws them if the type is FACE_POLYGON
 void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader, bool doRender );

@@ -109,6 +109,15 @@ void cam3_initCamera ( glm::vec3 location )
 	cam3_updateCameraVectors();
 }
 
+//-----------------------------------------------------------------------------
+//
+// Set matrix to 3d perspective mode
+void cam3_createProjMatrix ()
+//-----------------------------------------------------------------------------
+{
+	projMatrix = glm::perspective ( 60.0f, ( float ) winWidth / ( float ) winHeight, 0.01f, 1000.0f ); // *** These values are also in the depthMap.frag
+}
+
 //-------------------------------------------------------------------------------
 //
 // Create the view matrix

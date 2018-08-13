@@ -295,15 +295,6 @@ void gl_set2DMode()
 
 //-----------------------------------------------------------------------------
 //
-// Set matrix to 3d perspective mode
-void gl_set3DMode()
-//-----------------------------------------------------------------------------
-{
-	projMatrix = glm::perspective ( 60.0f, ( float ) winWidth / ( float ) winHeight, 0.01f, 1000.0f ); // *** These values are also in the depthMap.frag
-}
-
-//-----------------------------------------------------------------------------
-//
 // Create a checkboard pattern texture
 // From: https://stackoverflow.com/questions/3569261/multiple-textures-in-glsl-only-one-works
 /* adapted from the red book */

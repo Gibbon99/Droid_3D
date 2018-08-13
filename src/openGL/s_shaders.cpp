@@ -4,6 +4,7 @@
 #include "io_fileSystem.h"
 #include "s_lightPass.h"
 #include "s_shadowMap.h"
+#include <map>
 
 /*
 GLuint           programID;
@@ -24,6 +25,15 @@ GLuint           programID;
 	char            fragFileName[MAX_STRING_SIZE];
 	char            geomFileName[MAX_STRING_SIZE];
 */
+typedef struct
+{
+	GLint       locationID;
+	int         refCount;
+	bool        isFound;
+} _shaderVarType;
+
+std::map<string, _shaderVarType> shaderValues;
+std::map<string, _shaderVarType>::iterator shaderItr;
 
 _shaderProgram                shaderProgram[] =             // holds all the information about shader program
 {
@@ -400,4 +410,69 @@ bool gl_loadCompileShaders ( int programObject )
 	con_print ( CON_TEXT, true, "-----------------------------------------------------------------------" );
 
 	return true;
+}
+
+//GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "shadows" ), 1 ) );
+
+//glUniform1i(shaderGetLocation(whichShader,"shadows"), 1);
+
+//-----------------------------------------------------------------------------
+//
+// Set the value of a shader uniform or attribute
+//
+// If variable is not found, still record, but mark has invalid - count how many
+// times it is called.
+GLint shaderGetLocation ( int whichShader, string keyName )
+//-----------------------------------------------------------------------------
+{
+	string u_keyName;
+	GLint keyLocation = 0;
+	_shaderVarType      varInfoType;
+
+	u_keyName = to_string (whichShader) + keyName;
+
+	shaderItr = shaderValues.find(u_keyName);
+	if (shaderItr == shaderValues.end())   // Key doesn't exist
+	{
+		con_print(CON_INFO, true, "Key [ %s ] doesn't exist in map.", u_keyName.c_str());
+
+		keyLocation = glGetUniformLocation (shaderProgram[whichShader].programID, keyName.c_str());
+		if (keyLocation == 0)
+		{
+			con_print(CON_INFO, true, "keyName wasn't found in shader using getUniformLocation [ %s - %i ]", keyName.c_str(), whichShader);
+			keyLocation = glGetAttribLocation (shaderProgram[whichShader].programID, keyName.c_str ());
+		}
+
+		if (keyLocation == -1)
+		{
+			con_print(CON_ERROR, true, "Shader [ %i ] Value [ %s ] does not exist.", whichShader, keyName.c_str());
+			varInfoType.locationID = keyLocation;
+			varInfoType.refCount = 0;
+			varInfoType.isFound = false;
+			shaderValues.insert(std::pair<string, _shaderVarType>(u_keyName, varInfoType));
+			return 0;
+		}
+//		con_print(CON_INFO, true, "Caching value for [ %s - %i ]. Shader [ %i ]", keyName.c_str(), keyLocation, whichShader);
+
+		varInfoType.locationID = keyLocation;
+		varInfoType.refCount = 0;
+		varInfoType.isFound = true;
+
+		shaderValues.insert(std::pair<string, _shaderVarType>(u_keyName, varInfoType));
+		return keyLocation;
+	}
+	else
+	{
+		if (shaderItr->second.isFound)
+		{
+			shaderItr->second.refCount++;
+//		con_print(CON_INFO, true, "Got key [ %s ] from map. refCount [ %i ]", keyName.c_str(), shaderItr->second.refCount);
+			return shaderItr->second.locationID;
+		}
+		else
+		{
+			shaderItr->second.refCount++;
+			return -1;  // Count how many times it was called, and not found
+		}
+	}
 }

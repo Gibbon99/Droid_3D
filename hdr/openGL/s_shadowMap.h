@@ -2,7 +2,7 @@
 
 #include "s_globals.h"
 
-extern glm::vec3 g_lightPosition;
+extern glm::vec3 g_lightPosition[];
 
 // Setup up the FBO and cubemap
 // Return status  of framebuffer binding operation
@@ -17,7 +17,7 @@ void SetLightWorldPos(const glm::vec3& Pos);
 void shd_prepareDepthRender(glm::vec3 lightPos);
 
 // Render the level to the depth cubemap textures
-void shd_shadowMapPass(int whichShader, glm::vec3 lightPos);
+void shd_shadowMapPass(int whichShader);
 
 // Get the texture ID for the depth map to debug
 GLuint shd_getDepthTextureID();

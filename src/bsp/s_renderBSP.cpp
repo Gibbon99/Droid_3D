@@ -61,60 +61,19 @@ void bsp_debugBSPData ( tBSPFace *ptrFace, int index )
 
 //-----------------------------------------------------------------------------
 //
-// Prepare to render faces
-void bsp_prepareFaceRender(int whichShader)
+// Prepare to render faces - called each frame
+//
+// Clear the vectors and bind the data buffers
+void bsp_bindLevelData()
 //-----------------------------------------------------------------------------
 {
-	int stride = sizeof ( _myVertex ); // BSP Vertex, not float[3]
-
-	glUseProgram(shaderProgram[whichShader].programID);
-
 	GL_CHECK ( glBindVertexArray ( bspVAO ) );
 	//
 	// Bind data buffer holding all the vertices
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
 
-	switch (whichShader)
-	{
-		case SHADER_SHADOW_MAP:
-			// Position
-			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
-			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
-			break;
-
-		case SHADER_GEOMETRY_PASS:
-		case SHADER_MODEL_PASS:
-			GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].viewProjectionMat, 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-			GL_CHECK ( glUniformMatrix4fv ( shaderProgram[whichShader].modelMat, 1, false, glm::value_ptr ( modelMatrix ) ) );
-
-			// Position
-			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
-			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
-
-			// Normals
-			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
-			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
-
-			// Texture coords for lightmap
-			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
-			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
-
-			// Texture coords for diffuse texture
-			if ( g_renderTextures )
-			{
-				// Texture coords
-				GL_ASSERT (glEnableVertexAttribArray (shaderProgram[whichShader].inTextureCoordsID_1));
-				GL_ASSERT (glVertexAttribPointer (shaderProgram[whichShader].inTextureCoordsID_1, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
-			}
-			break;
-
-		default:
-			break;
-	}
-
 	g_facesForFrame.clear();
 	g_currentFrameVertexIndex.clear();
-//	g_texturesChanges = 0;
 	g_vertIndexCounter = 0;
 	g_numVertexPerFrame = 0;
 }
@@ -287,6 +246,7 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 				break;
 
 				case SHADER_SHADOW_MAP:
+				case SHADER_SHADOW_LIGHTING:
 				{
 					GL_CHECK (glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, elementArrayID));
 
@@ -313,6 +273,7 @@ void bsp_uploadLevelVertex()
 //-----------------------------------------------------------------------------
 {
 	_myVertex		tempVertex;
+	int stride = sizeof ( _myVertex ); // BSP Vertex, not float[3]
 
 	for (int i = 0; i != m_numOfVerts; i++)
 	{
@@ -343,9 +304,33 @@ void bsp_uploadLevelVertex()
 	bspVBO = wrapglGenBuffers(1, __func__);
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
 	GL_CHECK ( glBufferData (GL_ARRAY_BUFFER, m_numOfVerts * sizeof ( _myVertex ), &g_levelDataVertex[0], GL_DYNAMIC_DRAW ) );
+
+	// Position
+	GL_ASSERT ( glEnableVertexAttribArray ( 0) );
+	GL_ASSERT ( glVertexAttribPointer ( 0, 3, GL_FLOAT, GL_FALSE, stride, ( offsetof ( _myVertex, position ) ) ) );
+
+	// Normals
+	GL_ASSERT ( glEnableVertexAttribArray ( 1 ) );
+	GL_ASSERT ( glVertexAttribPointer ( 1, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
+
+	// Texture coords for lightmap
+	GL_ASSERT ( glEnableVertexAttribArray ( 2 ) );
+	GL_ASSERT ( glVertexAttribPointer ( 2, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
+
+	// Texture coords for diffuse texture
+	if ( g_renderTextures )
+	{
+		// Texture coords
+		GL_ASSERT (glEnableVertexAttribArray (3));
+		GL_ASSERT (glVertexAttribPointer (3, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
+	}
+
 	//
 	// Generate indexArray ID - indexes into currently visible faces in current frame
 	elementArrayID = wrapglGenBuffers(1, __func__);
+
+	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, 0 ));
+	GL_CHECK ( glBindVertexArray(0) );
 }
 
 //-----------------------------------------------------------------------------

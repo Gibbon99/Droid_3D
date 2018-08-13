@@ -21,6 +21,9 @@ void cam3_processMouseMovement ( float xoffset, float yoffset, GLboolean constra
 // Process movement keys
 void cam3_processMovementKeys ( float interpolate );
 
+// Set matrix to 3d perspective mode
+void cam3_createProjMatrix ();
+
 // Create the view matrix
 void cam3_createViewMatrix ( glm::vec3 newPosition );
 

@@ -16,10 +16,12 @@ float far_plane = 2500.0f;
 
 std::vector<glm::mat4> shadowTransforms;
 
-GLuint depthMapFBO;
-GLuint depthCubemap;
+#define NUM_LIGHT_CASTERS   1
 
-glm::vec3 g_lightPosition;
+GLuint depthMapFBO;
+GLuint depthCubemap[NUM_LIGHT_CASTERS];
+
+glm::vec3 g_lightPosition[NUM_LIGHT_CASTERS];
 
 
 // renderCube() renders a 1x1 3D cube in NDC.
@@ -103,15 +105,12 @@ void renderCube(int whichShader)
 	glBindVertexArray(0);
 }
 
-
-
 //-----------------------------------------------------------------------------------
 //
 // Render the test cube scene
 void shd_renderScene(int whichShader)
 //-----------------------------------------------------------------------------------
 {
-
 	// room cube
 	glm::mat4 model;
 
@@ -156,16 +155,6 @@ void shd_renderScene(int whichShader)
 	renderCube (whichShader);
 }
 
-
-//-----------------------------------------------------------------------------------
-//
-// Get the texture ID for the depth map to debug
-GLuint shd_getDepthTextureID()
-//-----------------------------------------------------------------------------------
-{
-	return depthCubemap;
-}
-
 //-----------------------------------------------------------------------------------
 //
 // Setup up the FBO and depth cubemap
@@ -179,56 +168,61 @@ bool shd_shadowMapInit(unsigned int shadowWidth, unsigned int shadowHeight)
 	glGenFramebuffers(1, &depthMapFBO);
 	//
 	// create depth cubemap texture
-	glGenTextures(1, &depthCubemap);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+	glGenTextures(NUM_LIGHT_CASTERS, depthCubemap);
 
-	for (unsigned int i = 0; i < 6; ++i)
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, g_shadowWidth, g_shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	//
-	// attach depth texture as FBO's depth buffer
-	//
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-
-	GLenum Status = glCheckFramebufferStatus (GL_FRAMEBUFFER);
-
-	if ( Status != GL_FRAMEBUFFER_COMPLETE )
+	for (int i = 0; i != NUM_LIGHT_CASTERS; i++)
 	{
-		switch ( Status )
-		{
-			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-				con_print ( CON_ERROR, true, "Not all framebuffer attachment points are framebuffer attachment complete. This means that at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached." );
-				break;
+		glBindTexture (GL_TEXTURE_CUBE_MAP, depthCubemap[i]);
 
-			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-				con_print ( CON_ERROR, true, "No images are attached to the framebuffer." );
-				break;
+		for ( unsigned int j = 0; j < 6; ++j )
+			glTexImage2D (GL_TEXTURE_CUBE_MAP_POSITIVE_X + j, 0, GL_DEPTH_COMPONENT, g_shadowWidth, g_shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 
-			case GL_FRAMEBUFFER_UNSUPPORTED:
-				con_print ( CON_ERROR, true, "The combination of internal formats of the attached images violates an implementation-dependent set of restrictions." );
-				break;
-		}
-		con_print ( CON_ERROR, true, "Error: Failed to create GBuffers - status [ 0x%x ]", Status );
+		glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
 		//
-		// restore default FBO
-		glBindFramebuffer ( GL_FRAMEBUFFER, 0 );
-		return false;
+		// attach depth texture as FBO's depth buffer
+		//
+		glBindFramebuffer (GL_FRAMEBUFFER, depthMapFBO);
+		glFramebufferTexture (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap[i], 0);
+
+		GLenum Status = glCheckFramebufferStatus (GL_FRAMEBUFFER);
+
+		if ( Status != GL_FRAMEBUFFER_COMPLETE )
+		{
+			switch ( Status )
+			{
+				case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+					con_print (CON_ERROR, true, "Not all framebuffer attachment points are framebuffer attachment complete. This means that at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached.");
+					break;
+
+				case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+					con_print (CON_ERROR, true, "No images are attached to the framebuffer.");
+					break;
+
+				case GL_FRAMEBUFFER_UNSUPPORTED:
+					con_print (CON_ERROR, true, "The combination of internal formats of the attached images violates an implementation-dependent set of restrictions.");
+					break;
+
+				default:
+					con_print(CON_ERROR, true, "Unknown error binding framebuffer - status [ 0x%x ]", Status);
+					break;
+			}
+			//
+			// restore default FBO
+			glBindFramebuffer (GL_FRAMEBUFFER, 0);
+			return false;
+		}
 	}
 
 	glBindFramebuffer (GL_FRAMEBUFFER, 0);
 
 	con_print (CON_INFO, true, "Shadowmap framebuffer created ok.");
 
-//	g_lightPosition = glm::vec3{-160.0f, 68.0f, 216.0f};
-	g_lightPosition = glm::vec3{0.0f, 0.5f, 0.0f};
+	g_lightPosition[0] = glm::vec3{-160.0f, 48.0f, 216.0f};
 
 	return true;
 }
@@ -244,9 +238,9 @@ void shd_exitShadowMap()
         glDeleteFramebuffers(1, &depthMapFBO);
     }
 
-    if (depthCubemap != 0)
+    if (depthCubemap[0] != 0)
     {
-        glDeleteTextures(1, &depthCubemap);
+        glDeleteTextures(NUM_LIGHT_CASTERS, depthCubemap);
     }
 }
 
@@ -271,41 +265,62 @@ void shd_prepareDepthRender(glm::vec3 lightPos)
 
 //-----------------------------------------------------------------------------------
 // Render the level to the depth cubemap textures
-void shd_shadowMapPass(int whichShader, glm::vec3 lightPos)
+void shd_shadowMapPass(int whichShader)
 //-----------------------------------------------------------------------------------
 {
-	g_lightPosition.z = sin(al_get_time() * 0.5) * 3.0;
+	int startIndex = 0;
 
-	shd_prepareDepthRender (g_lightPosition);
+	int i;
+
+	bsp_bindLevelData ();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+//	glDrawBuffer(GL_NONE);  // Disable writes to the color buffer
+//	glReadBuffer(GL_NONE);  // Disable reads from the color buffer
 
 	glViewport (0, 0, g_shadowWidth, g_shadowHeight);
 	glBindFramebuffer (GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
-	glClear (GL_DEPTH_BUFFER_BIT);
-
-	// Disable writes to the color buffer
-	glDrawBuffer(GL_NONE);
-	// Disable reads from the color buffer
-	glReadBuffer(GL_NONE);
-
 	glUseProgram(shaderProgram[whichShader].programID);
 
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "shadowMatrices[0]" ), 1, false, glm::value_ptr ( shadowTransforms[0] ) ) );
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "shadowMatrices[1]" ), 1, false, glm::value_ptr ( shadowTransforms[1] ) ) );
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "shadowMatrices[2]" ), 1, false, glm::value_ptr ( shadowTransforms[2] ) ) );
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "shadowMatrices[3]" ), 1, false, glm::value_ptr ( shadowTransforms[3] ) ) );
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "shadowMatrices[4]" ), 1, false, glm::value_ptr ( shadowTransforms[4] ) ) );
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "shadowMatrices[5]" ), 1, false, glm::value_ptr ( shadowTransforms[5] ) ) );
+	int returnValue;
 
-	GL_ASSERT ( glUniform1f  ( glGetUniformLocation ( shaderProgram[whichShader].programID, "far_plane" ), far_plane ) );
-	GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "lightPos" ), 1, glm::value_ptr ( g_lightPosition ) ) );
+	returnValue = glGetUniformLocation ( shaderProgram[whichShader].programID, "farPlane" );
+	GL_ASSERT ( glUniform1f  ( returnValue, far_plane ) );
 
-	shd_renderScene (whichShader);
+	//--------------------- loop here -----------------
+
+	for (i = startIndex; i != NUM_LIGHT_CASTERS; i++)
+	{
+		g_lightPosition[i].x += 0.001f * al_get_time();
+
+		glFramebufferTexture (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap[i], 0);
+		glClear (GL_DEPTH_BUFFER_BIT);
+		shd_prepareDepthRender (g_lightPosition[i]);
+
+		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[0]"), 1, false, glm::value_ptr (shadowTransforms[0])));
+		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[1]"), 1, false, glm::value_ptr (shadowTransforms[1])));
+		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[2]"), 1, false, glm::value_ptr (shadowTransforms[2])));
+		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[3]"), 1, false, glm::value_ptr (shadowTransforms[3])));
+		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[4]"), 1, false, glm::value_ptr (shadowTransforms[4])));
+		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[5]"), 1, false, glm::value_ptr (shadowTransforms[5])));
+
+		GL_ASSERT (glUniform3fv (shaderGetLocation (whichShader, "lightPos"), 1, glm::value_ptr (g_lightPosition[i])));
+
+		GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "reverse_normals" ), 0 ) );
+
+		glm::mat4 model;
+		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "model"), 1, false, glm::value_ptr (model)));
+
+		bsp_renderLevel ( g_lightPosition[i], whichShader, true );
+
+		shadowTransforms.clear ();
+	}
 	glUseProgram(0);
-//	glDrawBuffer(GL_FRONT);
+	glBindFramebuffer (GL_FRAMEBUFFER, 0);
+	glDisable(GL_CULL_FACE);
+
+
 
 	// 2. render scene as normal
 	// -------------------------
@@ -314,33 +329,46 @@ void shd_shadowMapPass(int whichShader, glm::vec3 lightPos)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glUseProgram(shaderProgram[SHADER_SHADOW_LIGHTING].programID);
-	gl_set3DMode ();
+	cam3_createProjMatrix ();
 	cam3_createViewMatrix (cam3_Position);
 
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "projection" ), 1, false, glm::value_ptr ( projMatrix ) ) );
-	GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "view" ), 1, false, glm::value_ptr ( viewMatrix ) ) );
+	GL_ASSERT ( glUniformMatrix4fv ( shaderGetLocation (SHADER_SHADOW_LIGHTING, "projection" ), 1, false, glm::value_ptr ( projMatrix ) ) );
+	GL_ASSERT ( glUniformMatrix4fv ( shaderGetLocation (SHADER_SHADOW_LIGHTING, "view" ), 1, false, glm::value_ptr ( viewMatrix ) ) );
 
-	// set lighting uniforms
-	GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "lightPos" ), 1, glm::value_ptr ( g_lightPosition ) ) );
-	GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "viewPos" ), 1, glm::value_ptr ( glm::vec3{0.0, 0.0, 3.0} ) ) );
-	GL_CHECK ( glUniform1f ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "far_plane" ), far_plane ) );
-	GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "diffuseTexture" ), 0 ) );
-	GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "depthMap" ), 1 ) );
-	GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "shadows" ), 1 ) );
+	GL_ASSERT ( glUniform1f  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "far_planeTwo"), far_plane ) );
 
+	GL_ASSERT ( glUniform1i  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "shadows"), 1 ) );
+	GL_ASSERT ( glUniform3fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "viewPos"), 1, glm::value_ptr (cam3_getCameraPosition ())));
+	//
+	// Set the texture units
+	GL_ASSERT ( glUniform1i  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "diffuseTexture"), 0 ) );   // which texture unit
+	GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "depthMap" ), 1 ) );   // Shader type is cubeMap - funny value returned
+	//
+	// Bind texture ID to shader texture unit
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, checkerBoardTexture);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 
-	shd_renderScene (SHADER_SHADOW_LIGHTING);
+	bsp_bindLevelData ();
 
-	/*
-	sys_calculateFrustum();
-	bsp_prepareFaceRender (whichShader);
-	bsp_renderLevel ( m_pointLight.Position, whichShader, true );
-*/
-	shadowTransforms.clear();
+	for (i = startIndex; i != NUM_LIGHT_CASTERS; i++)
+	{
+		// set lighting uniforms
+		GL_ASSERT (glUniform3fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "lightPos"), 1, glm::value_ptr (g_lightPosition[i])));
+		GL_ASSERT (glUniform3fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "lightColor"), 1, glm::value_ptr (glm::vec3{1.0, 1.0, 0.4})));
+
+		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "model"), 1, false, glm::value_ptr (glm::mat4())));
+
+		glActiveTexture (GL_TEXTURE1);
+		glBindTexture (GL_TEXTURE_CUBE_MAP, depthCubemap[i]);
+
+		bsp_renderLevel ( cam3_getCameraPosition (), SHADER_SHADOW_LIGHTING, true );
+
+		glm::mat4 model = glm::mat4 ();
+		model = glm::translate (model, glm::vec3 (g_lightPosition[i].x, g_lightPosition[i].y, g_lightPosition[i].z));
+		model = glm::scale (model, glm::vec3 (4.0f));
+		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "model"), 1, false, glm::value_ptr (model)));
+		renderCube (SHADER_SHADOW_LIGHTING);
+	}
 
 	glBindFramebuffer (GL_FRAMEBUFFER, 0);
 	glUseProgram(0);
