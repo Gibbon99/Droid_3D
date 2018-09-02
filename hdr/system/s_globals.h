@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <physfs.h>
@@ -8,6 +7,7 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_audio.h>
+#include <AntTweakBar.h>
 
 #include "s_leakDetector.h"
 #include "glad/glad.h"
@@ -53,6 +53,8 @@ extern bool 			verbose;                // Additional logging
 extern char				fontFileName[];       // Max size for font filename
 
 extern bool				g_memLeakLastRun;		// Was there a memory last time we ran
+
+extern TwBar            *tweakBar;
 
 // Change game mode
 void changeMode ( int newMode );

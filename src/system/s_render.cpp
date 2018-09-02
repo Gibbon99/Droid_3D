@@ -215,5 +215,6 @@ void sys_displayScreen ( float interpolate )
 	if ( showGBuffers )
 		gl_showGBuffers();
 
+	TwDraw();
 	lib_swapBuffers();
 }

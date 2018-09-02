@@ -5,6 +5,8 @@
 #include <hdr/system/s_maths.h>
 #include <hdr/io/io_textures.h>
 #include <hdr/openGL/s_openGLWrap.h>
+#include <hdr/game/s_objects.h>
+#include <hdr/bsp/s_shaderLights.h>
 #include "s_shaders.h"
 #include "s_globals.h"
 
@@ -12,16 +14,29 @@ int 	g_shadowWidth;
 int     g_shadowHeight;
 
 float near_plane = 1.0f;
-float far_plane = 2500.0f;
+float far_plane = 100.0f;
 
 std::vector<glm::mat4> shadowTransforms;
 
-#define NUM_LIGHT_CASTERS   1
+#define NUM_LIGHT_CASTERS   5
 
 GLuint depthMapFBO;
 GLuint depthCubemap[NUM_LIGHT_CASTERS];
 
-glm::vec3 g_lightPosition[NUM_LIGHT_CASTERS];
+typedef struct
+{
+	glm::vec3   position;           // 0, 1, 2
+	float       size;               // Pad to 3
+	glm::vec3   color;
+} _lightInfo;
+
+_lightInfo lightInfo[NUM_LIGHT_CASTERS];
+
+GLuint uboBlock_ID;
+
+float lightConstant = 0.5f;
+float lightLinear = 0.05f;
+float lightQuadratic = 0.0004f; //0.0032f;     // Light casting size - lower is bigger
 
 
 // renderCube() renders a 1x1 3D cube in NDC.
@@ -222,7 +237,14 @@ bool shd_shadowMapInit(unsigned int shadowWidth, unsigned int shadowHeight)
 
 	con_print (CON_INFO, true, "Shadowmap framebuffer created ok.");
 
-	g_lightPosition[0] = glm::vec3{-160.0f, 48.0f, 216.0f};
+	//
+	// Uniform block for light data array
+	uboBlock_ID = wrapglGenBuffers(1, __func__);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboBlock_ID);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(_lightInfo) * NUM_LIGHT_CASTERS, (void *)&lightInfo[0].position, GL_STATIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboBlock_ID, 0, sizeof(_lightInfo));
 
 	return true;
 }
@@ -268,14 +290,13 @@ void shd_prepareDepthRender(glm::vec3 lightPos)
 void shd_shadowMapPass(int whichShader)
 //-----------------------------------------------------------------------------------
 {
-	int startIndex = 0;
-
 	int i;
 
 	bsp_bindLevelData ();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 //	glDrawBuffer(GL_NONE);  // Disable writes to the color buffer
 //	glReadBuffer(GL_NONE);  // Disable reads from the color buffer
 
@@ -290,13 +311,13 @@ void shd_shadowMapPass(int whichShader)
 
 	//--------------------- loop here -----------------
 
-	for (i = startIndex; i != NUM_LIGHT_CASTERS; i++)
+	for (i = 0; i != NUM_LIGHT_CASTERS; i++)
 	{
-		g_lightPosition[i].x += 0.001f * al_get_time();
+		allLights[i].position.z += sin(al_get_time()) * 0.5f; //0.001f * al_get_time();
 
 		glFramebufferTexture (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap[i], 0);
 		glClear (GL_DEPTH_BUFFER_BIT);
-		shd_prepareDepthRender (g_lightPosition[i]);
+		shd_prepareDepthRender (allLights[i].position);
 
 		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[0]"), 1, false, glm::value_ptr (shadowTransforms[0])));
 		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[1]"), 1, false, glm::value_ptr (shadowTransforms[1])));
@@ -305,14 +326,13 @@ void shd_shadowMapPass(int whichShader)
 		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[4]"), 1, false, glm::value_ptr (shadowTransforms[4])));
 		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (whichShader, "shadowMatrices[5]"), 1, false, glm::value_ptr (shadowTransforms[5])));
 
-		GL_ASSERT (glUniform3fv (shaderGetLocation (whichShader, "lightPos"), 1, glm::value_ptr (g_lightPosition[i])));
+		GL_ASSERT (glUniform3fv (shaderGetLocation (whichShader, "lightPos"), 1, glm::value_ptr (allLights[i].position)));
 
-		GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[whichShader].programID, "reverse_normals" ), 0 ) );
+		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "model"), 1, false, glm::value_ptr (glm::mat4())));
 
-		glm::mat4 model;
-		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[whichShader].programID, "model"), 1, false, glm::value_ptr (model)));
+		bsp_renderLevel ( allLights[i].position, whichShader, true );
 
-		bsp_renderLevel ( g_lightPosition[i], whichShader, true );
+		obj_renderAllObjects(whichShader);
 
 		shadowTransforms.clear ();
 	}
@@ -337,12 +357,15 @@ void shd_shadowMapPass(int whichShader)
 
 	GL_ASSERT ( glUniform1f  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "far_planeTwo"), far_plane ) );
 
-	GL_ASSERT ( glUniform1i  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "shadows"), 1 ) );
+	GL_ASSERT ( glUniform1f  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "shadowLevel"), 0.9f ) );
 	GL_ASSERT ( glUniform3fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "viewPos"), 1, glm::value_ptr (cam3_getCameraPosition ())));
 	//
 	// Set the texture units
 	GL_ASSERT ( glUniform1i  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "diffuseTexture"), 0 ) );   // which texture unit
 	GL_CHECK ( glUniform1i ( glGetUniformLocation ( shaderProgram[SHADER_SHADOW_LIGHTING].programID, "depthMap" ), 1 ) );   // Shader type is cubeMap - funny value returned
+
+	GL_ASSERT ( glUniform1i  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "loopCount"), NUM_LIGHT_CASTERS ) );   // which texture unit
+
 	//
 	// Bind texture ID to shader texture unit
 	glActiveTexture(GL_TEXTURE0);
@@ -350,21 +373,46 @@ void shd_shadowMapPass(int whichShader)
 
 	bsp_bindLevelData ();
 
-	for (i = startIndex; i != NUM_LIGHT_CASTERS; i++)
+
+	GLuint lightInfoBlockIndex = glGetUniformBlockIndex(shaderProgram[SHADER_SHADOW_LIGHTING].programID, "lightDataBlock");
+	GL_ASSERT ( glUniformBlockBinding(shaderProgram[SHADER_SHADOW_LIGHTING].programID, lightInfoBlockIndex, 0) );
+	GL_ASSERT ( glBindBuffer(GL_UNIFORM_BUFFER, uboBlock_ID) );
+	GL_ASSERT ( glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(_lightInfo) * NUM_LIGHT_CASTERS, (void *)&lightInfo[0].position) );
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	for (int k = 0; k != NUM_LIGHT_CASTERS; k++)
 	{
-		// set lighting uniforms
-		GL_ASSERT (glUniform3fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "lightPos"), 1, glm::value_ptr (g_lightPosition[i])));
-		GL_ASSERT (glUniform3fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "lightColor"), 1, glm::value_ptr (glm::vec3{1.0, 1.0, 0.4})));
+		lightInfo[k].position = allLights[k].position;
+		lightInfo[k].size = 0.0003f;
+		lightInfo[k].color.r = 0.0f; //allLights[k].color.r / 255;
+		lightInfo[k].color.g = 1.0f; //allLights[k].color.g / 255;
+		lightInfo[k].color.b = 0.0f; //allLights[k].color.b / 255;
 
-		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "model"), 1, false, glm::value_ptr (glm::mat4())));
+		printf("[ %i ] Color [ %3.3f %3.3f %3.3f ]\n", k, lightInfo[k].color.r, lightInfo[k].color.g, lightInfo[k].color.b);
+	}
 
+	glBindBuffer(GL_UNIFORM_BUFFER, uboBlock_ID);
+	GLvoid *p = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+	memcpy(p, &lightInfo[0].position, sizeof(_lightInfo) * NUM_LIGHT_CASTERS);
+	glUnmapBuffer(GL_UNIFORM_BUFFER);
+
+	for (i = 0; i != NUM_LIGHT_CASTERS; i++)
+	{
 		glActiveTexture (GL_TEXTURE1);
 		glBindTexture (GL_TEXTURE_CUBE_MAP, depthCubemap[i]);
 
+		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "model"), 1, false, glm::value_ptr (glm::mat4())));
+
+		GL_ASSERT ( glUniform1f  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "lightConstant"), lightConstant ) );
+		GL_ASSERT ( glUniform1f  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "lightLinear"), lightLinear ) );
+		GL_ASSERT ( glUniform1f  (shaderGetLocation (SHADER_SHADOW_LIGHTING, "lightQuadratic"), lightQuadratic ) );
+
 		bsp_renderLevel ( cam3_getCameraPosition (), SHADER_SHADOW_LIGHTING, true );
 
+		obj_renderAllObjects(SHADER_SHADOW_LIGHTING);
+
 		glm::mat4 model = glm::mat4 ();
-		model = glm::translate (model, glm::vec3 (g_lightPosition[i].x, g_lightPosition[i].y, g_lightPosition[i].z));
+		model = glm::translate (model, glm::vec3 (lightInfo[i].position.x, lightInfo[i].position.y, lightInfo[i].position.z));
 		model = glm::scale (model, glm::vec3 (4.0f));
 		GL_ASSERT (glUniformMatrix4fv (shaderGetLocation (SHADER_SHADOW_LIGHTING, "model"), 1, false, glm::value_ptr (model)));
 		renderCube (SHADER_SHADOW_LIGHTING);

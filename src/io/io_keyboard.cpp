@@ -51,6 +51,33 @@ void io_readPauseModeKey(int key, int action)
 void io_readGameSpecialKeys ( int key, int action )
 //-----------------------------------------------------------------------------
 {
+	switch (key)
+	{
+		case ALLEGRO_KEY_Q:
+			TwKeyPressed('q', TW_KMOD_NONE);
+			break;
+
+		case ALLEGRO_KEY_E:
+			TwKeyPressed('e', TW_KMOD_NONE);
+			break;
+
+		case ALLEGRO_KEY_L:
+			TwKeyPressed('l', TW_KMOD_NONE);
+			break;
+
+		case ALLEGRO_KEY_K:
+			TwKeyPressed('k', TW_KMOD_NONE);
+			break;
+
+		case ALLEGRO_KEY_C:
+			TwKeyPressed('c', TW_KMOD_NONE);
+			break;
+
+		case ALLEGRO_KEY_V:
+			TwKeyPressed('v', TW_KMOD_NONE);
+			break;
+	}
+
 	if ( ALLEGRO_EVENT_KEY_DOWN == action )
 		{
 			switch ( key )
@@ -100,43 +127,6 @@ void io_readGameSpecialKeys ( int key, int action )
 					con_print(CON_INFO, true, "Pressed the P key - action is DOWN");
 					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
 					break;
-
-					case ALLEGRO_KEY_Q:
-					blendIndexOne++;
-					if (blendIndexOne > 8)
-					{
-						blendIndexOne = 0;
-						blendIndexTwo++;
-						if (blendIndexTwo > 8)
-						{
-						con_print(CON_INFO, true, "Tried all blending modes");
-						blendIndexTwo = 0;
-						}
-					}
-
-					blendOne = blends[blendIndexOne];
-					blendTwo = blends[blendIndexTwo];
-
-						con_print(CON_INFO, true, "Blend one now [ %i ]", blendOne);
-					break;
-
-					case ALLEGRO_KEY_E:
-						blendIndexTwo++;
-						if (blendIndexTwo > 8)
-							blendIndexTwo = 0;
-
-						blendTwo = blends[blendIndexTwo];
-
-						con_print(CON_INFO, true, "Blend two now [ %i ]", blendTwo);
-						break;
-
-					case ALLEGRO_KEY_L:
-						evt_sendEvent (USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_GREEN_ALERT, AUDIO_PAN_CENTER, ALLEGRO_PLAYMODE_LOOP, "");
-						break;
-
-					case ALLEGRO_KEY_O:
-						evt_sendEvent (USER_EVENT_AUDIO, AUDIO_STOP_SAMPLE, SND_GREEN_ALERT, 0, 0, "" );
-						break;
 
 				default:
 					break;

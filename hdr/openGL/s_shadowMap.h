@@ -4,6 +4,10 @@
 
 extern glm::vec3 g_lightPosition[];
 
+extern float lightConstant;
+extern float lightLinear;
+extern float lightQuadratic; //0.0032f;     // Light casting size - lower is bigger
+
 // Setup up the FBO and cubemap
 // Return status  of framebuffer binding operation
 bool shd_shadowMapInit(unsigned int shadowWidth, unsigned int shadowHeight);

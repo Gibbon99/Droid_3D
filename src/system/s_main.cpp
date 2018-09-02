@@ -7,6 +7,7 @@
 #include "io_mouse.h"
 #include "s_defRender.h"
 
+TwBar            *tweakBar;
 
 #define MAXIMUM_FRAME_RATE 60
 #define MINIMUM_FRAME_RATE 15

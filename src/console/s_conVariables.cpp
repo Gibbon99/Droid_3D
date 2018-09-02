@@ -13,6 +13,7 @@
 #include "s_physicsDebug.h"
 #include "s_doorsBSP.h"
 #include "io_mouse.h"
+#include "s_shadowMap.h"
 
 _hostScriptFunctions hostVariables[] =
 {
@@ -41,6 +42,10 @@ _hostScriptFunctions hostVariables[] =
 	{"bool g_debugVolLights",               &g_debugVolLights},
 	{"bool g_renderBSP",                    &g_renderBSP},
 	{"float doorSpeed",                     &doorSpeed},
+
+	{"float lightConstant",                     &lightConstant},
+	{"float lightLinear",                     &lightLinear},
+	{"float lightQuadratic",                     &lightQuadratic},
 	{"",                                    nullptr},
 };
 

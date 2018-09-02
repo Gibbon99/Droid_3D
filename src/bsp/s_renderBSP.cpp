@@ -248,6 +248,9 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 				case SHADER_SHADOW_MAP:
 				case SHADER_SHADOW_LIGHTING:
 				{
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, io_getGLTexID (whichTexture));
+
 					GL_CHECK (glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, elementArrayID));
 
 					GL_CHECK (glBufferData (GL_ELEMENT_ARRAY_BUFFER, g_currentFrameVertexIndex.size () * sizeof (unsigned int), &g_currentFrameVertexIndex[0], GL_DYNAMIC_DRAW));
@@ -314,15 +317,15 @@ void bsp_uploadLevelVertex()
 	GL_ASSERT ( glVertexAttribPointer ( 1, 3, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, normals ) ) ) );
 
 	// Texture coords for lightmap
-	GL_ASSERT ( glEnableVertexAttribArray ( 2 ) );
-	GL_ASSERT ( glVertexAttribPointer ( 2, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
+//	GL_ASSERT ( glEnableVertexAttribArray ( 2 ) );
+//	GL_ASSERT ( glVertexAttribPointer ( 2, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *)( offsetof ( _myVertex, texCoordsLightmap ) ) ) );
 
 	// Texture coords for diffuse texture
-	if ( g_renderTextures )
+//	if ( g_renderTextures )
 	{
 		// Texture coords
-		GL_ASSERT (glEnableVertexAttribArray (3));
-		GL_ASSERT (glVertexAttribPointer (3, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
+		GL_ASSERT (glEnableVertexAttribArray (2));
+		GL_ASSERT (glVertexAttribPointer (2, 2, GL_FLOAT, GL_FALSE, stride, (const GLvoid *) (offsetof (_myVertex, texCoords))));
 	}
 
 	//
@@ -515,7 +518,7 @@ void bsp_renderTree ( int Node, bool CheckFrustum )
 //-----------------------------------------------------------------------------
 //
 // Goes through all of the faces and draws them if doRender is true
-// Otherise it prepares the face indees and uploads the door vertices
+// Otherise it prepares the face indexes and uploads the door vertices
 void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader, bool doRender )
 //-----------------------------------------------------------------------------
 {
@@ -542,11 +545,12 @@ void bsp_renderLevel ( const glm::vec3 &vPos, int whichShader, bool doRender )
 
 	bsp_uploadDoorVertex ();
 
-	bsp_addDoorFaces ();
+	bsp_addDoorFaces ();    //bind the buffer for vertex - not UNIFORM
 
 	if (doRender)
 		bsp_renderAllFaces(whichShader);
 
 	glBindBuffer ( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer ( GL_ELEMENT_ARRAY_BUFFER, 0 );
+	glBindVertexArray ( 0 );
 }

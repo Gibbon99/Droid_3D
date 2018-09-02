@@ -66,25 +66,19 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 	for (int whichMesh = 0; whichMesh != meshModels[whichModel].numMeshes; whichMesh++)
 		{
 			physicsMatrix = glm::scale ( physicsMatrix, glm::vec3 ( scaleBy, scaleBy, scaleBy ) );
-
 			//
 			// Translate model bounding box for testing against frustrum
 			minSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.minSize, 1.0 );
 			maxSize = physicsMatrix * glm::vec4 ( meshModels[whichModel].mesh[whichMesh].boundingBox.maxSize, 1.0 );
 
-			if ( COMPLETE_OUT == sys_boxInFrustum ( minSize.x, minSize.y, minSize.z,
-			                                        maxSize.x, maxSize.y, maxSize.z ) )
+			if ( COMPLETE_OUT == sys_boxInFrustum ( minSize.x, minSize.y, minSize.z, maxSize.x, maxSize.y, maxSize.z ) )
 				{
 					numSkippedModels++;
 					return;
 				}
 
 			GL_ASSERT ( glBindVertexArray ( meshModels[whichModel].mesh[whichMesh].vao_ID ) );
-			GL_ASSERT ( glUseProgram ( shaderProgram[whichShader].programID ) );
-
-			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_viewProjectionMat" ), 1, false, glm::value_ptr ( projMatrix * viewMatrix ) ) );
-			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_modelMat" ), 1, false, glm::value_ptr ( physicsMatrix ) ) );
-//			GL_ASSERT ( glUniformMatrix3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "u_normalMatrix" ), 1, false, glm::value_ptr ( glm::inverseTranspose ( glm::mat3 ( physicsMatrix ) ) ) ) );
+			GL_ASSERT ( glUniformMatrix4fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "model" ), 1, false, glm::value_ptr ( physicsMatrix ) ) );
 
 			if ( MODEL_SPHERE == whichModel )
 				{
@@ -105,41 +99,43 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 
 			else
 				{
-					wrapglBindTexture ( GL_TEXTURE0, checkerBoardTexture); //[whichModel].mesh[whichMesh].textureID );
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, checkerBoardTexture);
+
+//					wrapglBindTexture ( GL_TEXTURE0, checkerBoardTexture); //[whichModel].mesh[whichMesh].textureID );
 //					glBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
-					GL_CHECK ( glUniform1i ( shaderProgram[whichShader].inTextureUnit, 0 ) );
 					GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "ambientColor" ), 1, glm::value_ptr ( lightColor ) ) );
 				}
 
 			//
 			// Always use vertex information
 			GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[VERTEX_BUFFER] ) );
-			GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inVertsID ) );
-			GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inVertsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+			GL_ASSERT ( glEnableVertexAttribArray ( 0) );
+			GL_ASSERT ( glVertexAttribPointer ( 0, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 
-			if ( meshModels[whichModel].hasNormals == true )
+			if ( meshModels[whichModel].hasNormals )
 				{
 					//
 					// Use Normal information
 					GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[NORMAL_BUFFER] ) );
-					GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inNormalsID ) );
-					GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inNormalsID, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+					GL_ASSERT ( glEnableVertexAttribArray ( 1) );
+					GL_ASSERT ( glVertexAttribPointer ( 1, 3, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 				}
 
-			if ( meshModels[whichModel].hasTextures == true )
+			if ( meshModels[whichModel].hasTextures )
 				{
 					//
 					// Use Texture coordinate information
 					GL_ASSERT ( glBindBuffer ( GL_ARRAY_BUFFER, meshModels[whichModel].mesh[whichMesh].vbo[TEXCOORD_BUFFER] ) );
-					GL_ASSERT ( glEnableVertexAttribArray ( shaderProgram[whichShader].inTextureCoordsID ) );
-					GL_ASSERT ( glVertexAttribPointer ( shaderProgram[whichShader].inTextureCoordsID, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
+					GL_ASSERT ( glEnableVertexAttribArray ( 2 ) );
+					GL_ASSERT ( glVertexAttribPointer ( 2, 2, GL_FLOAT, false, 0, BUFFER_OFFSET ( 0 ) ) );
 				}
 
-			GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, NULL ) );
+			GL_ASSERT ( glDrawElements ( GL_TRIANGLES, meshModels[whichModel].mesh[whichMesh].elementCount, GL_UNSIGNED_INT, nullptr) );
 		}
 
 	glBindVertexArray ( 0 );
-	glUseProgram ( 0 );
+//	glUseProgram ( 0 );
 }
 
 //-----------------------------------------------------------------------------

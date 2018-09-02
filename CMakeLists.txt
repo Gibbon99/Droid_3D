@@ -255,6 +255,8 @@ target_link_libraries(Droid_3D
         allegro_acodec
         allegro_physfs
         allegro
+        unwind
+        AntTweakBar
 )
 
 

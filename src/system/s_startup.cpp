@@ -176,5 +176,13 @@ bool initAll()
 		sys_shutdownToSystem ();
 	}
 
+	TwInit(TW_OPENGL_CORE, NULL);
+	TwWindowSize(winWidth, winHeight);
+
+	tweakBar = TwNewBar("TweakBar");
+	TwAddVarRW(tweakBar, "lightLinear", TW_TYPE_FLOAT, &lightLinear, " min=-5.0 max=5.0f step=0.01 keyIncr=k keyDecr=l");
+	TwAddVarRW(tweakBar, "lightConstant", TW_TYPE_FLOAT, &lightConstant, "min=-5.0 max=5.0f step=0.01 keyIncr=c keyDecr=v");
+	TwAddVarRW(tweakBar, "lightQuadratic", TW_TYPE_FLOAT, &lightQuadratic, "min=-5.0 max=5.0f step=0.01 keyIncr=q keyDecr=e");
+
 	return true;
 }

@@ -543,6 +543,8 @@ void bsp_uploadDoorVertex ()
 
 	size = sizeof(_myVertex);
 
+	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));    // Rebind the vertex buffer for the BSP - not the uniform object buffer
+
 	for (int i = 0; i != numOfDoors; i++)
 		{
 			for (int j = 0; j != doorModels[i].numVerts; j++)
