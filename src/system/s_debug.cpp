@@ -1,6 +1,3 @@
-#define UNW_LOCAL_ONLY
-#include <libunwind.h>
-
 #include "s_globals.h"
 #include "s_bmpFont.h"
 #include "s_ttfFont.h"
@@ -13,27 +10,6 @@
 #include "s_assimp.h"
 
 bool    verboseLogging = false;
-
-//------------------------------------------------------------------
-//
-// Print the call stack up to this point
-void debug_printCallStack()
-//------------------------------------------------------------------
-{
-
-
-	unw_cursor_t cursor; unw_context_t uc;
-	unw_word_t ip, sp;
-
-	unw_getcontext(&uc);
-	unw_init_local(&cursor, &uc);
-	while (unw_step(&cursor) > 0)
-	{
-		unw_get_reg(&cursor, UNW_REG_IP, &ip);
-		unw_get_reg(&cursor, UNW_REG_SP, &sp);
-		printf ("ip = %lx, sp = %lx\n", (long) ip, (long) sp);
-	}
-}
 
 //------------------------------------------------------------------
 //
@@ -117,6 +93,4 @@ void debug_showBoundingBox ( _boundingBox debugBox, glm::vec3 position, GLfloat 
 	endPoint = debugBox.maxSize;
 	endPoint.y = debugBox.minSize.y;
 	drawDebugLine ( startPoint, endPoint, position, DRAW_LINE, 1000, true, scaleby );
-
-
 }

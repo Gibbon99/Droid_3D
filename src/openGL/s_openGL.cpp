@@ -163,8 +163,6 @@ void gl_DebugCallback ( GLenum source, GLenum type, GLenum id, GLenum severity,
 		con_print (CON_ERROR, true, "type [ %s ]", getStringForType (type).c_str ());
 		con_print (CON_ERROR, true, "severity [ %s ]", getStringForSeverity (severity).c_str ());
 		con_print (CON_ERROR, true, "debug call [ %s ]", msg);
-
-		debug_printCallStack();
 	}
 }
 
