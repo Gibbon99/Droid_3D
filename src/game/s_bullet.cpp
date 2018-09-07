@@ -56,6 +56,9 @@ void gam_processBulletMovement ()
 //----------------------------------------------------------------
 //
 // Create new bullet
+//
+// This gets called from mouse thread - so just create the instance into the array
+// and process the array from the main thread
 void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 //----------------------------------------------------------------
 {

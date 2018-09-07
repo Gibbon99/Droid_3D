@@ -119,9 +119,11 @@ void sys_displayScreen ( float interpolate )
 			case MODE_PAUSE:
 
 				// Draw BSP level into Depth Map ready for shadow mapping
-
 				shd_shadowMapPass(SHADER_SHADOW_MAP);
 
+				gam_drawBullets ( SHADER_MODEL_PASS );
+
+				par_renderParticles();
 /*
 				sys_renderToFBO();
 
@@ -194,10 +196,10 @@ void sys_displayScreen ( float interpolate )
 	//
 	// Render all text in VBO memory
 	gl_set2DMode();
-	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_SMALL)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %3.3f ] Max [ %3.3f ]",
-				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint, frameTimeTakenPrint, frameTimeTakenMax );
+	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_SMALL)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %lf ] Max [ %3.3f ]",
+				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint, frameTimeTaken / 1000.0f, frameTimeTakenMax );
 
-	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_SMALL) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamFront [ %3.3f %3.3f %3.3f ]",
+	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_SMALL) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Interpolate [ %4.3f ] CamFront [ %3.3f %3.3f %3.3f ]",interpolate,
 	            cam3_Front.x, cam3_Front.y, cam3_Front.z );
 
 	#ifdef DEBUG

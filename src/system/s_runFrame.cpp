@@ -26,7 +26,6 @@ void sys_gameTickRun ( float interpolate )
 	switch ( currentMode )
 		{
 		case MODE_SHUTDOWN:
-			sys_shutdownToSystem();
 			quitProgram = true;
 			break;
 
@@ -37,8 +36,6 @@ void sys_gameTickRun ( float interpolate )
 			break;
 
 		case MODE_GAME:
-			lib_getMouseState (&freelookMouseX, &freelookMouseY);
-
 			cam3_processMouseMovement ( freelookMouseX, freelookMouseY, GL_TRUE );
 			cam3_processMovementKeys ( interpolate );
 			

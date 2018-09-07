@@ -1,4 +1,5 @@
 #include <hdr/system/s_events.h>
+#include <hdr/system/s_audio.h>
 #include "s_bullet.h"
 #include "s_globals.h"
 #include "io_mouse.h"
@@ -12,13 +13,57 @@ float			    mouseSpeed;
 bool                mouseButton1Down = false;
 bool                mouseButton2Down = false;
 
+//----------------------------------------------------------------
+//
+// Handle a mouse user event - called by thread
+int io_processMouseUserEvent ( void *ptr )
+//----------------------------------------------------------------
+{
+	_myEventData tempEventData;
+
+	while ( runThreads )
+	{
+		SDL_Delay(THREAD_DELAY_MS);
+
+		if ( !mouseEventQueue.empty ())   // stuff in the queue to process
+		{
+			if ( SDL_LockMutex (mouseMutex) == 0 )
+			{
+				tempEventData = mouseEventQueue.front();
+				mouseEventQueue.pop();
+				SDL_UnlockMutex (mouseMutex);
+			}
+
+			switch ( tempEventData.eventAction )
+			{
+				case USER_EVENT_MOUSE_MOTION:
+					lib_handleMouseMotion (tempEventData.data1, tempEventData.data2);
+				break;
+
+				case USER_EVENT_MOUSE_BUTTON_DOWN:
+					lib_handleMouseButton (tempEventData.data1, USER_EVENT_MOUSE_BUTTON_DOWN);
+					break;
+
+				case USER_EVENT_MOUSE_BUTTON_UP:
+					lib_handleMouseButton (tempEventData.data1, USER_EVENT_MOUSE_BUTTON_UP);
+					break;
+
+				default:
+					break;
+			}
+		}
+	}
+	printf("MOUSE thread stopped.\n");
+	return 0;
+}
+
 //-----------------------------------------------------------------------------
 //
 // Grab the mouse
 void io_grabMouse()
 //-----------------------------------------------------------------------------
 {
-	al_grab_mouse (al_mainWindow);
+	SDL_CaptureMouse(SDL_TRUE);
 }
 
 //-----------------------------------------------------------------------------
@@ -27,7 +72,7 @@ void io_grabMouse()
 void io_releaseMouse()
 //-----------------------------------------------------------------------------
 {
-	al_ungrab_mouse ();
+	SDL_CaptureMouse(SDL_FALSE);
 }
 
 //-----------------------------------------------------------------------------
@@ -36,7 +81,7 @@ void io_releaseMouse()
 void lib_setMousePos ( int newPosX, int newPosY )
 //-----------------------------------------------------------------------------
 {
-	al_set_mouse_xy (al_mainWindow, newPosX, newPosY);
+	SDL_WarpMouseInWindow(mainWindow, newPosX, newPosY);
 
 	freelookMouseX = 0;
 	freelookMouseY = 0;
@@ -48,64 +93,72 @@ void lib_setMouseCursor ( bool showMouse )
 //-----------------------------------------------------------------------------
 {
 	if ( showMouse )
-		al_show_mouse_cursor (al_mainWindow);
+		SDL_ShowCursor(SDL_ENABLE);
 	else
-		al_hide_mouse_cursor (al_mainWindow);
+		SDL_ShowCursor(SDL_DISABLE);
+}
+
+//-----------------------------------------------------------------------------
+//
+// Handle a mouse button press
+void lib_handleMouseButton(int whichButton, int buttonState)
+//-----------------------------------------------------------------------------
+{
+	if ( whichButton & SDL_BUTTON(SDL_BUTTON_LEFT)) // Button One
+	{
+		switch (buttonState)
+		{
+			case USER_EVENT_MOUSE_BUTTON_UP:
+				mouseButton1Down = false;
+				break;
+
+			case USER_EVENT_MOUSE_BUTTON_DOWN:
+				mouseButton1Down = true;
+				// TODO: Make this an event otherwise it runs in this thread context
+				//gam_createBullet (cam3_Front, cam3_Position, bullet_1_speed);
+				evt_sendEvent (USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_LASER, 1, 0, "");
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	if ( whichButton & SDL_BUTTON(SDL_BUTTON_RIGHT))    // Check Second mouse button
+	{
+		switch ( buttonState )
+		{
+			case USER_EVENT_MOUSE_BUTTON_UP:
+				mouseButton2Down = false;
+				break;
+
+			case USER_EVENT_MOUSE_BUTTON_DOWN:
+				mouseButton2Down = true;
+				break;
+
+			default:
+				break;
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
 //
 // Get the mouse position
-void lib_getMouseState ( int *posX, int *posY )
+void lib_handleMouseMotion ( int posX, int posY )
 //-----------------------------------------------------------------------------
 {
-	ALLEGRO_MOUSE_STATE     mouseState;
-	int                     tmpPosX, tmpPosY;
+	int     tmpPosX, tmpPosY;
 
-	al_get_mouse_state (&mouseState);
+	tmpPosX = (winWidth / 2) - posX;
+	tmpPosY = (winHeight / 2) - posY;
 
-	tmpPosX = (winWidth / 2) - mouseState.x;
-	tmpPosY = (winHeight / 2) - mouseState.y;
-
-	*posX = tmpPosX;
-	*posY = tmpPosY;
-	//
-	// Check the state of the first mouse button
-	// If it's pressed, fire off a user event to register the press
-	//
-	if ( al_mouse_button_down (&mouseState, 1) )
+	if ( SDL_LockMutex (mouseMotionMutex) == 0 )
 	{
-		if ( !mouseButton1Down )
-		{
-			mouseButton1Down = true;
-			evt_sendEvent(USER_EVENT_MOUSE_BUTTON_DOWN, 0, 1, 0, 0, "");
-		}
+		freelookMouseX = tmpPosX;
+		freelookMouseY = tmpPosY;
+		SDL_UnlockMutex (mouseMotionMutex);
 	}
 	else
-	{
-		if (mouseButton1Down)
-		{
-			mouseButton1Down = false;
-			evt_sendEvent (USER_EVENT_MOUSE_BUTTON_UP, 0, 1, 0, 0, "");
-		}
-	}
-	//
-	// Check Second mouse button
-	//
-	if ( al_mouse_button_down (&mouseState, 2) )
-	{
-		if ( !mouseButton2Down )
-		{
-			mouseButton2Down = true;
-			evt_sendEvent(USER_EVENT_MOUSE_BUTTON_DOWN, 0, 2, 0, 0, "");
-		}
-	}
-	else
-	{
-		if (mouseButton2Down)
-		{
-			mouseButton2Down = false;
-			evt_sendEvent (USER_EVENT_MOUSE_BUTTON_UP, 0, 2, 0, 0, "");
-		}
-	}
+		return;     // Could not get lock
 }

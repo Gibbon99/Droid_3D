@@ -244,10 +244,10 @@ void bsp_drawDoorTriggerZone ( int whichModel, int whichShader )
 {
 #define Y_OFFSET		0.1f
 
-	glm::vec3   			vertsTrigger[4];
-	static GLuint					vao_ID;
-	static GLuint					buffers[2];
-	int                     faceCount = 2;
+	glm::vec3   		vertsTrigger[4];
+	static GLuint		vao_ID;
+	static GLuint		buffers[2];
+	int                 faceCount = 2;
 	static bool         initDone = false;
 
 	unsigned int vertsTriggerIndex[] =

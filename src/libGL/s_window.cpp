@@ -2,7 +2,8 @@
 #include "s_globals.h"
 #include <allegro5/allegro_opengl.h>
 
-ALLEGRO_DISPLAY*        al_mainWindow;
+SDL_Window              *mainWindow;
+SDL_GLContext           mainContext;    // Our opengl context handle
 
 //-----------------------------------------------------------------------------
 //
@@ -10,7 +11,7 @@ ALLEGRO_DISPLAY*        al_mainWindow;
 void lib_swapBuffers()
 //-----------------------------------------------------------------------------
 {
-	al_flip_display ();
+	SDL_GL_SwapWindow(mainWindow);;
 }
 
 //-----------------------------------------------------------------------------
@@ -19,7 +20,7 @@ void lib_swapBuffers()
 void lib_destroyWindow()
 //-----------------------------------------------------------------------------
 {
-	//al_destroy_display ( al_mainWindow);
+	SDL_DestroyWindow(mainWindow);
 }
 
 //-----------------------------------------------------------------------------
@@ -28,22 +29,14 @@ void lib_destroyWindow()
 bool lib_getVersion()
 //-----------------------------------------------------------------------------
 {
-	uint32_t version = al_get_allegro_version();
-	int al_major = version >> 24;
-	int al_minor = (version >> 16) & 255;
-	int al_revision = (version >> 8) & 255;
-	int al_release = version & 255;
+	SDL_version compiled;
+	SDL_version linked;
 
-	io_logToFile("Allegro Version: %i.%i.%i.%i", al_major, al_minor, al_revision, al_release);
-	io_logToFile("CPUs: %i RAM: %i", al_get_cpu_count (), al_get_ram_size ());
-	io_logToFile("Video Adapters : %i", al_get_num_video_adapters());
+	SDL_VERSION(&compiled);
+	SDL_GetVersion(&linked);
 
-	ALLEGRO_MONITOR_INFO    monitorInfo;
-	for (int i = 0; i != al_get_num_video_adapters(); i++)
-	{
-		al_get_monitor_info(i, &monitorInfo);
-		io_logToFile("Monitor [ %i ] Location [ %i %i %i %i ]", i, monitorInfo.x1, monitorInfo.x2, monitorInfo.y1, monitorInfo.y2);
-	}
+	con_print(CON_INFO, true, "Compiled against SDL version [ %d.%d.%d ]", compiled.major, compiled.minor, compiled.patch);
+	con_print(CON_INFO, true, "Linked against SDL version [ %d.%d.%d ]", linked.major, linked.minor, linked.patch);
 
 	return true;
 }
@@ -54,7 +47,8 @@ bool lib_getVersion()
 void lib_resizeWindow ( int newWidth, int newHeight )
 //-----------------------------------------------------------------------------
 {
-	al_resize_display(al_mainWindow, newWidth, newHeight);
+//	al_resize_display(al_mainWindow, newWidth, newHeight);
+	// TODO: Make this work for SDL2
 
 	winWidth = newWidth;
 	winHeight = newHeight;
@@ -66,37 +60,66 @@ void lib_resizeWindow ( int newWidth, int newHeight )
 bool lib_openWindow()
 //-----------------------------------------------------------------------------
 {
-	if (!al_install_system (ALLEGRO_VERSION_INT, nullptr)) // NOLINT
+	int     numVideoDrivers = 0;
+
+	// Initialize SDL
+	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) < 0)
 		return false;
 
-	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL | ALLEGRO_OPENGL_FORWARD_COMPATIBLE );
+	// Set the OpenGL version.
+	// SDL_GL_CONTEXT_CORE gives us only the newer version, deprecated functions are disabled
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-	al_set_new_display_option (ALLEGRO_OPENGL_MAJOR_VERSION, 4, ALLEGRO_REQUIRE);
-	al_set_new_display_option (ALLEGRO_OPENGL_MINOR_VERSION, 4, ALLEGRO_REQUIRE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
-	al_mainWindow = al_create_display(winWidth, winHeight);
-	if ( nullptr == al_mainWindow)
+	// Turn on double buffering with a 24bit Z buffer.
+	// May need to change this to 16 or 32
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	SDL_GL_SetSwapInterval(1);  // Make VSYNC set from script 1 = on
+
+	numVideoDrivers = SDL_GetNumVideoDrivers();
+
+	for (int i = 0; i != numVideoDrivers; i++)
 	{
-		io_logToFile("Allegro error : Unable to start display.");
+		con_print(CON_INFO, true, "Video driver [ %i ] - [ %s ]", i, SDL_GetVideoDriver(i));
+	}
+
+	con_print(CON_INFO, true, "Num video displays [ %i ]", SDL_GetNumVideoDisplays());
+
+	// Create the window centered at resolution
+	mainWindow = SDL_CreateWindow("Droid3d", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			winWidth, winHeight, SDL_WINDOW_OPENGL);
+
+	// Was the window created ok
+	if (!mainWindow)
+	{
+		con_print(CON_ERROR, true, "Unable to create window : [ %s ]", SDL_GetError ());
 		return false;
 	}
 
-//	al_set_current_opengl_context(al_mainWindow);
-	con_print(CON_INFO, true, "OpenGL [ %i ]\n", al_get_opengl_version());
-
-	if ( !al_install_mouse())
+	// Create the opengl context and attach it to the window
+	mainContext = SDL_GL_CreateContext(mainWindow);
+	if (nullptr == mainContext)
 	{
-		al_show_native_message_box (al_mainWindow, "Error", "Error", "Failed to start mouse driver", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+		con_print(CON_ERROR, true, "Unable to create OpenGL context : [ %s ]", SDL_GetError ());
 		return false;
 	}
 
-	if ( !al_install_keyboard ())
+	if (SDL_GL_MakeCurrent(mainWindow, mainContext) < 0)
 	{
-		al_show_native_message_box (al_mainWindow, "Error", "Error", "Failed to start keyboard driver", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+		con_print(CON_ERROR, true, "Context error [ %s ]", SDL_GetError ());
 		return false;
 	}
 
-	printf("Requested opengl [ 4.3 ] - got [ %i.%i ]\n", al_get_display_option (al_mainWindow, ALLEGRO_OPENGL_MAJOR_VERSION),	al_get_display_option (al_mainWindow, ALLEGRO_OPENGL_MINOR_VERSION));
+	int value = 0;
+
+	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &value);
+	con_print(CON_INFO, true, "SDL_GL_CONTEXT_MAJOR_VERSION : %i ", value);
+
+	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &value);
+	con_print(CON_INFO, true, "SDL_GL_CONTEXT_MINOR_VERSION: %i ", value);
 
 	if (!evt_registerUserEventSetup())
 		return false;

@@ -161,14 +161,25 @@ void cam3_processMovementKeys ( float interpolate )
 //-------------------------------------------------------------------------------
 //
 // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-void cam3_processMouseMovement ( float xoffset, float yoffset, GLboolean constrainPitch = true )
+void cam3_processMouseMovement ( int xoffset, int yoffset, GLboolean constrainPitch = true )
 //-------------------------------------------------------------------------------
 {
-	xoffset *= cam3_MouseSensitivity;
-	yoffset *= cam3_MouseSensitivity;
+	float mouseX, mouseY;
 
-	cam3_Yaw   += -xoffset;
-	cam3_Pitch += yoffset;
+	if ( SDL_LockMutex (mouseMotionMutex) == 0 )
+	{
+		mouseX = xoffset;
+		mouseY = yoffset;
+		SDL_UnlockMutex (mouseMotionMutex);
+	}
+	else
+		return; // Could not get lock
+
+	mouseX *= cam3_MouseSensitivity;
+	mouseY *= cam3_MouseSensitivity;
+
+	cam3_Yaw   += -mouseX;
+	cam3_Pitch += mouseY;
 
 	// Make sure that when pitch is out of bounds, screen doesn't get flipped
 	if ( constrainPitch )

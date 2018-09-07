@@ -249,13 +249,8 @@ target_link_libraries(Droid_3D
         LinearMath
         assimp
         freeimage
-        allegro_main
-        allegro_dialog
-        allegro_audio
-        allegro_acodec
-        allegro_physfs
-        allegro
-        unwind
+        SDL2
+        SDL2_mixer
         AntTweakBar
 )
 

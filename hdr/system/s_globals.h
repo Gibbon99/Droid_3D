@@ -3,10 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <physfs.h>
-#include <allegro5/allegro5.h>
-#include <allegro5/allegro_native_dialog.h>
-#include <allegro5/allegro_acodec.h>
-#include <allegro5/allegro_audio.h>
+// SDL2 Headers
+#include <SDL2/SDL.h>
 #include <AntTweakBar.h>
 
 #include "s_leakDetector.h"

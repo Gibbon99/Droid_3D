@@ -5,6 +5,9 @@ extern int			        freelookMouseX;
 extern int			        freelookMouseY;
 extern float			    mouseSpeed;
 
+// Handle a mouse user event - called by thread
+int io_processMouseUserEvent ( void *ptr );
+
 // Set the mouse position
 void lib_setMousePos ( int newPosX, int newPosY );
 
@@ -12,10 +15,10 @@ void lib_setMousePos ( int newPosX, int newPosY );
 void lib_setMouseCursor ( bool showMouse );
 
 // Get the mouse position
-void lib_getMouseState ( int *posX, int *posY );
+void lib_handleMouseMotion ( int posX, int posY );
 
-// Entry to handle all mouse events
-void io_handleMouseEvents(ALLEGRO_EVENT event);
+// Handle a mouse button press
+void lib_handleMouseButton(int whichButton, int buttonState);
 
 // Release the mouse
 void io_releaseMouse();

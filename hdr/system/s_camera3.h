@@ -16,7 +16,7 @@ extern float cam3_MovementSpeed;
 extern float cam3_MouseSensitivity;
 
 // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-void cam3_processMouseMovement ( float xoffset, float yoffset, GLboolean constrainPitch = true );
+void cam3_processMouseMovement ( int xoffset, int yoffset, GLboolean constrainPitch = true );
 
 // Process movement keys
 void cam3_processMovementKeys ( float interpolate );

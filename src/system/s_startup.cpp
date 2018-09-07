@@ -80,7 +80,7 @@ bool initAll()
     //glad_debug_glClear = glad_glClear;
 #endif
 
-	con_print(CON_INFO, true, "OpenGL version [ %d.%d ]", GLVersion.major, GLVersion.minor);
+	con_print(CON_INFO, true, "OpenGL system version [ %d.%d ]", GLVersion.major, GLVersion.minor);
 	if (GLVersion.major < 2)
 	{
 		con_print(CON_ERROR, true, "Error: Your system doesn't support OpenGL >= 2.");
@@ -159,9 +159,6 @@ bool initAll()
 	// Start Audio Engine and associated thread
 	if (as_useSound)
 		evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
-	//
-	// Start the timer to animate the console cursor
-	evt_sendEvent (USER_EVENT_TIMER, EVENT_TIMER_CONSOLE_CURSOR, START_CONSOLE_CURSOR, 0, 0, "");
 
 	blendIndexOne = 0;
 	blendIndexTwo = 0;
@@ -183,6 +180,8 @@ bool initAll()
 	TwAddVarRW(tweakBar, "lightLinear", TW_TYPE_FLOAT, &lightLinear, " min=-5.0 max=5.0f step=0.01 keyIncr=k keyDecr=l");
 	TwAddVarRW(tweakBar, "lightConstant", TW_TYPE_FLOAT, &lightConstant, "min=-5.0 max=5.0f step=0.01 keyIncr=c keyDecr=v");
 	TwAddVarRW(tweakBar, "lightQuadratic", TW_TYPE_FLOAT, &lightQuadratic, "min=-5.0 max=5.0f step=0.01 keyIncr=q keyDecr=e");
+	TwAddVarRW(tweakBar, "FPS", TW_TYPE_INT32, &fpsPrint, "");
 
+	currentMode = MODE_CONSOLE;
 	return true;
 }

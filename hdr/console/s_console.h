@@ -89,24 +89,19 @@ extern _glColor     currentConLineColor;
 
 extern bool			conCursorIsOn;
 
-//extern float		conStartY;
-//extern float		conBackSpaceDelay;
-
 extern GLuint		conHistoryPtr;			// Which history command are we at
-
-extern ALLEGRO_TIMER               *cursorFlashTimer;
 
 // Show the console
 void con_showConsole();
 
 // Draw the console screen
-void con_createConsoleScreen ();
+//void con_createConsoleScreen ();
 
 // Add a line to the console
 void con_print ( int type, bool fileLog, const char *printText, ... );
 
 // Add a line to the console and update the display
-void con_printUpdate ( int type, bool fileLog, const char *printText, ... );
+//void con_printUpdate ( int type, bool fileLog, const char *printText, ... );
 
 // Init the console
 void con_initConsole();
@@ -136,7 +131,7 @@ void con_popHistoryCommand();
 void con_completeCommand ( string lookFor );
 
 // Release the memory for the script file
-void con_scriptShutdown();
+//void con_scriptShutdown();
 
 // Set the current color for printing lines to the console
 void con_setColor ( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha );
@@ -155,11 +150,13 @@ void sys_scriptPrintStr ( std::string *msgText, std::string *msgParam );
 // Execute a function from the script
 bool util_executeScriptFunction ( string functionName, string funcParam );
 
-// Add a new audio event to the queue for processing
-void con_addNewEvent( CUSTOM_EVENT *event);
-
 // Handle a console user event
-void con_handleConsoleUserEvent ( CUSTOM_EVENT *event );
+int con_processConsoleUserEvent ( void *ptr );
+
+// Add a new line to the console - move all the others up
+// 0 is the new line added
+//
+void con_incLine ( string newLine );
 
 //-----------------------------------------------------------------------------
 //

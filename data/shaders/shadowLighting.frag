@@ -127,7 +127,7 @@ void main()
 	vec3 result;
 	float shadow;
 
-	for (int i = 0; i != 5; i++)
+	for (int i = 0; i != 1; i++)
 	{
 		result += CalcPointLight(i, norm, fs_in.FragPos, -viewDir);
 
@@ -151,6 +151,8 @@ void main()
 		finalColor = (ambient + (1.0 - shadow)) * (attenuation * diffuseColor * colorTotal);
 
 		FragColor += vec4 (finalColor, 1.0);
+
+		FragColor = vec4(diffuseColor,1.0);
 
 //		FragColor = vec4(result * (1.0 - shadow), 1.0);
 	}

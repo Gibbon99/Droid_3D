@@ -13,7 +13,7 @@ extern bool		keyDoorLeftDown;
 extern bool		keyDoorRightDown;
 
 // Handle a keyboard event
-void io_handleKeyboardEvent ( ALLEGRO_EVENT event );
+void io_handleKeyboardEvent ( SDL_Event event );
 
 // Read a unicode character
 void io_readChar ( int character );

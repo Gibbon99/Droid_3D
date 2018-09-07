@@ -20,14 +20,14 @@ bool		keyDoorRightDown = false;
 //-----------------------------------------------------------------------------
 //
 // Read a unicode character
-void io_readChar ( int character )
+void io_readChar ( char *character )
 //-----------------------------------------------------------------------------
 {
 	if ( conCurrentCharCount < MAX_STRING_SIZE - 1 )
 		{
 			if ( character >= 32 )
 				{
-					conCurrentLine.conLine += (char)character;
+					conCurrentLine.conLine += character[0];
 					conCurrentCharCount++;
 				}
 		}
@@ -36,10 +36,10 @@ void io_readChar ( int character )
 //-----------------------------------------------------------------------------
 //
 // Only read the key to unpause the game
-void io_readPauseModeKey(int key, int action)
+void io_readPauseModeKey(SDL_Keycode key, int action)
 //-----------------------------------------------------------------------------
 {
-	if (key == ALLEGRO_KEY_P)
+	if ((action == SDL_KEYDOWN) && (key == SDLK_p))
 	{
 		evt_sendEvent (USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
 	}
@@ -48,82 +48,86 @@ void io_readPauseModeKey(int key, int action)
 //-----------------------------------------------------------------------------
 //
 // Read and process keys for main game
-void io_readGameSpecialKeys ( int key, int action )
+void io_readGameSpecialKeys ( SDL_Keycode key, int action )
 //-----------------------------------------------------------------------------
 {
 	switch (key)
 	{
-		case ALLEGRO_KEY_Q:
+		case SDLK_q:
 			TwKeyPressed('q', TW_KMOD_NONE);
 			break;
 
-		case ALLEGRO_KEY_E:
+		case SDLK_e:
 			TwKeyPressed('e', TW_KMOD_NONE);
 			break;
 
-		case ALLEGRO_KEY_L:
+		case SDLK_l:
 			TwKeyPressed('l', TW_KMOD_NONE);
 			break;
 
-		case ALLEGRO_KEY_K:
+		case SDLK_k:
 			TwKeyPressed('k', TW_KMOD_NONE);
 			break;
 
-		case ALLEGRO_KEY_C:
+		case SDLK_c:
 			TwKeyPressed('c', TW_KMOD_NONE);
 			break;
 
-		case ALLEGRO_KEY_V:
+		case SDLK_v:
 			TwKeyPressed('v', TW_KMOD_NONE);
+			break;
+
+		default:
+//			printf("Unknown key pressed.\n");
 			break;
 	}
 
-	if ( ALLEGRO_EVENT_KEY_DOWN == action )
+	if ( SDL_KEYDOWN == action )
 		{
 			switch ( key )
 				{
-				case ALLEGRO_KEY_TILDE:
+				case SDLK_BACKQUOTE:
 					changeMode ( MODE_CONSOLE );
 					conCurrentCharCount = 0;
 					break;
 
-				case ALLEGRO_KEY_W:
+				case SDLK_w:
 					keyForwardDown = true;
 					break;
 
-				case ALLEGRO_KEY_S:
+				case SDLK_s:
 					keyBackwardDown = true;
 					break;
 
-				case ALLEGRO_KEY_A:
+				case SDLK_a:
 					keyLeftDown = true;
 					break;
 
-				case ALLEGRO_KEY_D:
+				case SDLK_d:
 					keyRightDown = true;
 					break;
 
-				case ALLEGRO_KEY_UP:
+				case SDLK_UP:
 					keyUpDown = true;
 					break;
 
-				case ALLEGRO_KEY_DOWN:
+				case SDLK_DOWN:
 					keyDownDown = true;
 					break;
 					
-				case ALLEGRO_KEY_F11:
+				case SDLK_F11:
 					g_lockMouse = !g_lockMouse;
 					break;
 
-				case ALLEGRO_KEY_R:
+				case SDLK_r:
 					bsp_placeCameraAtEntity ( "info_player_start" );
 					break;
 
-				case ALLEGRO_KEY_F12:
+				case SDLK_F12:
 					io_saveScreenToFile();
 					break;
 
-				case ALLEGRO_KEY_P:
+				case SDLK_p:
 					con_print(CON_INFO, true, "Pressed the P key - action is DOWN");
 					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
 					break;
@@ -133,39 +137,39 @@ void io_readGameSpecialKeys ( int key, int action )
 				}
 		}
 
-	if ( ALLEGRO_EVENT_KEY_UP == action )
+	if ( SDL_KEYUP == action )
 		{
 			switch ( key )
 				{
-				case ALLEGRO_KEY_W:
+				case SDLK_w:
 					keyForwardDown = false;
 					break;
 
-				case ALLEGRO_KEY_S:
+				case SDLK_s:
 					keyBackwardDown = false;
 					break;
 
-				case ALLEGRO_KEY_A:
+				case SDLK_a:
 					keyLeftDown = false;
 					break;
 
-				case ALLEGRO_KEY_D:
+				case SDLK_d:
 					keyRightDown = false;
 					break;
 
-				case ALLEGRO_KEY_UP:
+				case SDLK_UP:
 					keyUpDown = false;
 					break;
 
-				case ALLEGRO_KEY_DOWN:
+				case SDLK_DOWN:
 					keyDownDown = false;
 					break;
 					
-				case ALLEGRO_KEY_LEFT:
+				case SDLK_LEFT:
 					keyDoorLeftDown = false;
 					break;
 					
-				case ALLEGRO_KEY_RIGHT:
+				case SDLK_RIGHT:
 					keyDoorRightDown = false;
 					break;
 
@@ -178,44 +182,42 @@ void io_readGameSpecialKeys ( int key, int action )
 //-----------------------------------------------------------------------------
 //
 // Read and process the console keyboard
-void io_readConsoleSpecialKeys ( int key, int action )
+void io_readConsoleSpecialKeys ( SDL_Keycode key, int action )
 //-----------------------------------------------------------------------------
 {
 	//
 	// Check all the other keys, including the backspace key being pressed down
-	if ( ALLEGRO_EVENT_KEY_DOWN == action)
+	if ( SDL_KEYDOWN == action)
 		{
 			switch ( key )
 				{
-				case ALLEGRO_KEY_TILDE:
+				case SDLK_BACKQUOTE:
 					changeMode ( MODE_GAME );
 					conCurrentCharCount = 0;
+					SDL_StopTextInput();
 					break;
 
-				case ALLEGRO_KEY_BACKSPACE:
+				case SDLK_BACKSPACE:
 					con_processBackspaceKey ( 0.0 );
 					break;
 
-				case ALLEGRO_KEY_ENTER:
+				case SDLK_RETURN:
 					con_processCommand ( conCurrentLine.conLine );
 					break;
 
-				case ALLEGRO_KEY_TAB:
+				case SDLK_TAB:
 					con_completeCommand ( conCurrentLine.conLine );
 					break;
 
-				case ALLEGRO_KEY_UP:
+				case SDLK_UP:
 					con_popHistoryCommand();
-
 					//
 					// Get the next command if we need it
 					if ( conHistoryPtr != NUM_MAX_CON_COMMANDS )
 						conHistoryPtr++;
-
 					break;
 
-				case ALLEGRO_KEY_DOWN:
-
+				case SDLK_DOWN:
 					//
 					// Get the next command if we need it
 					if ( conHistoryPtr > 0 )
@@ -229,11 +231,11 @@ void io_readConsoleSpecialKeys ( int key, int action )
 				}
 		}
 
-	if ( ALLEGRO_EVENT_KEY_UP == action)
+	if ( SDL_KEYUP == action)
 		{
 			switch ( key )
 				{
-				case ALLEGRO_KEY_BACKSPACE:
+				case SDLK_BACKSPACE:
 					conBackSpaceDown = 0;
 					break;
 
@@ -246,25 +248,27 @@ void io_readConsoleSpecialKeys ( int key, int action )
 //-----------------------------------------------------------------------------
 //
 // Handle a keyboard event
-void io_handleKeyboardEvent ( ALLEGRO_EVENT event )
+void io_handleKeyboardEvent ( SDL_Event event )
 //-----------------------------------------------------------------------------
 {
-	if ( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && event.type == ALLEGRO_EVENT_KEY_DOWN )
+	if ( event.key.keysym.sym == SDLK_ESCAPE && event.type == SDL_KEYDOWN )
 		changeMode (MODE_SHUTDOWN);
 
 	switch (currentMode)
 	{
 		case MODE_CONSOLE:
-			io_readChar(event.keyboard.unichar);
-			io_readConsoleSpecialKeys (event.keyboard.keycode, event.type);
+			if (event.type == SDL_TEXTINPUT)
+				io_readChar(event.text.text);
+			else
+				io_readConsoleSpecialKeys (event.key.keysym.sym, event.type);
 			break;
 
 		case MODE_GAME:
-			io_readGameSpecialKeys (event.keyboard.keycode, event.type);
+			io_readGameSpecialKeys (event.key.keysym.sym, event.type);
 			break;
 
 		case MODE_PAUSE:
-			io_readPauseModeKey(event.keyboard.keycode, event.type);
+			io_readPauseModeKey(event.key.keysym.sym, event.type);
 			break;
 
 		default:

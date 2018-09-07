@@ -4,6 +4,9 @@ double          frameTimeTakenPrint, frameTimeTaken;
 double          frameTimeTakenMin, frameTimeTakenAvg, frameTimeTakenMax, frameTimeTakenCount, frameTimeTakenTotal;
 int             thinkFpsPrint, fpsPrint;
 
+int              ticksPerSecond, maxFrameSkip;
+float            skipTicks;
+double           nextGameTick;
 //-----------------------------------------------------------------------------
 //
 // Init timing variables
@@ -20,16 +23,16 @@ void sys_initTimingVars()
 //-----------------------------------------------------------------------------
 //
 // Calculate the frame rate for the capped portion
-void sys_CalculateThinkFrameRate ( double timeValue )
+void sys_CalculateThinkFrameRate ( Uint32 timeValue )
 //-----------------------------------------------------------------------------
 {
 	static int	       thinkFps = 0;
-	static double	   thinkTick1 = 0.0f;
-	static double	   thinkTick2 = 0.0f;
+	static float	   thinkTick1 = 0.0f;
+	static float	   thinkTick2 = 0.0f;
 	static float	   thinkDelayCounter = 0.0f;
 	static float	   thinkInterval = 0.0f;
 
-	thinkTick2 = timeValue;
+	thinkTick2 = timeValue / 1000.0f;
 
 	thinkInterval += ( ( thinkTick2 - thinkTick1 ) - thinkInterval ) * 0.1f;
 
@@ -50,7 +53,7 @@ void sys_CalculateThinkFrameRate ( double timeValue )
 //-----------------------------------------------------------------------------
 //
 // This function calculates the overall frame rate and time taken to draw a frame
-void sys_CalculateFrameRate ( double timeValue )
+void sys_CalculateFrameRate ( Uint32 timeValue )
 //-----------------------------------------------------------------------------
 {
 	static int	    fps = 0;	// Remove global fps variable
@@ -59,7 +62,7 @@ void sys_CalculateFrameRate ( double timeValue )
 	static float	tickDelayCounter = 0.0f;
 	static float	renderInterval = 0.0f;
 
-	renderTick2 = timeValue;
+	renderTick2 = timeValue / 1000.0f;
 
 	renderInterval += ( ( renderTick2 - renderTick1 ) - renderInterval ) * 0.1f;
 
@@ -85,7 +88,7 @@ void sys_CalculateFrameRate ( double timeValue )
 			tickDelayCounter = 0.0f;
 			fpsPrint = fps;     // Value to display
 			fps = 0;
-			frameTimeTakenPrint = frameTimeTaken;			
+			frameTimeTakenPrint = frameTimeTaken / 1000.0f; // convert to milliseconds?
 //            sysAddAverageToGraph(frameTimeTakenPrint);
 		}
 }

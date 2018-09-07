@@ -18,19 +18,21 @@
 void sys_shutdownToSystem()
 //-----------------------------------------------------------------------------
 {
-	gl_displayErrors();
 	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_ALL, 0, 0, 0, "");
 	bsp_freeLightArray();
 //	gl_freeShadowMap();
 	gl_stopDefRender();
-	lib_destroyWindow();
 	io_freeTextureArray();
 	bsp_freeMem();
 	bul_stopPhysics();
 	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_ENGINE, 0, 0, 0, "");
-	evt_sendEvent(USER_EVENT_AUDIO, AUDIO_STOP_THREAD, 0, 0, 0, "");
+	lib_destroyWindow();
+	gl_displayErrors();
 	io_closeLogFile();
 	sys_reportMemLeak ( "leakReport.txt" );
+	runThreads = false;
+	SDL_Delay(1000);
+	evt_shutdownMutex();
 //	exit(EXIT_SUCCESS);
 }
 
@@ -72,6 +74,8 @@ void sysErrorFatal ( const char *sourcefile, int sourceline, const char *text, .
 
 	if ( strlen ( textBuffer ) > MAX_STRING_SIZE - 1 )
 		strcpy ( textBuffer, "The string passed to ErrorFatal is too long." );
+
+	// TODO: Fix overflow
 
 	sprintf ( tempBuffer, "File: [ %s ] Line: [ %i ] - %s", sourcefile, sourceline, textBuffer );
 #if defined(WIN32)

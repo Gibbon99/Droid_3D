@@ -33,11 +33,6 @@ float			conBackSpaceDelay;
 
 int				conNumInHistory = 0;
 
-vector<CUSTOM_EVENT>        consoleEventQueue;
-ALLEGRO_THREAD              *consoleThread;
-ALLEGRO_MUTEX               *consoleQueueMutex;
-ALLEGRO_TIMER               *cursorFlashTimer;
-
 //-----------------------------------------------------------------------------
 //
 // Add all the host based console commands here
@@ -61,19 +56,38 @@ void con_addConsoleCommands()
 
 //----------------------------------------------------------------
 //
-// Handle a console user event
-void con_handleConsoleUserEvent ( CUSTOM_EVENT *event )
+// Handle a console user event - called by thread
+int con_processConsoleUserEvent ( void *ptr )
 //----------------------------------------------------------------
 {
-	switch ( event->action )
-	{
-		case CONSOLE_ADD_LINE:
-			con_addNewEvent(event);
-			break;
+	_myEventData tempEventData;
 
-		default:
-			break;
+	while ( runThreads )
+	{
+		SDL_Delay(THREAD_DELAY_MS);
+
+		if ( !consoleEventQueue.empty ())   // stuff in the queue to process
+		{
+			if ( SDL_LockMutex (consoleMutex) == 0 )
+			{
+				tempEventData = consoleEventQueue.front();
+				consoleEventQueue.pop ();
+				SDL_UnlockMutex (consoleMutex);
+			}
+
+			switch ( tempEventData.eventAction )
+			{
+				case CONSOLE_ADD_LINE:
+					con_incLine (tempEventData.eventString);
+					break;
+
+				default:
+					break;
+			}
+		}
 	}
+	printf("CONSOLE thread stopped.\n");
+	return 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -90,11 +104,11 @@ void con_showConsole()
 	auto loopCount = (int)(winHeight / EMBEDDED_FONT_HEIGHT);
 	_conLine		conTempLine;
 
-	al_lock_mutex (consoleQueueMutex);  // Wait until thread is not updating console contents
+	if (SDL_LockMutex (consoleMutex) == 0)  // Wait until thread is not updating console contents
+	{
+		currentY = EMBEDDED_FONT_HEIGHT;
 
-	currentY = EMBEDDED_FONT_HEIGHT;
-
-	for ( int i = 0; i != loopCount; i++ )
+		for ( int i = 0; i != loopCount; i++ )
 		{
 			lineColor.r = conLines[i].conLineColor.red;
 			lineColor.g = conLines[i].conLineColor.green;
@@ -105,30 +119,31 @@ void con_showConsole()
 			linePosition.y = currentY;
 			currentY = currentY + (EMBEDDED_FONT_HEIGHT);
 
-			fnt_printText(linePosition, lineColor, "%s", conLines[i].conLine.c_str() );
+			fnt_printText (linePosition, lineColor, "%s", conLines[i].conLine.c_str ());
 		}
-		
-	conTempLine.conLine = conCurrentLine.conLine;
 
-	if ( conCursorIsOn )
-		conTempLine.conLine += "<";	//TODO: Check timing and animation
+		conTempLine.conLine = conCurrentLine.conLine;
+
+		if ( conCursorIsOn )
+			conTempLine.conLine += "<";    //TODO: Check timing and animation
+		else
+			conTempLine.conLine += " ";
+
+		linePosition.x = 1.0f;
+		linePosition.y = 0.0f;
+
+		fnt_printText (linePosition, lineColor, "%s", conTempLine.conLine.c_str ());
+
+		SDL_UnlockMutex (consoleMutex);
+	}
 	else
-		conTempLine.conLine += " ";
-		
-	linePosition.x = 1.0f;
-	linePosition.y = 0.0f;
-	
-	fnt_printText(linePosition, lineColor, "%s", conTempLine.conLine.c_str() );
-
-	al_unlock_mutex (consoleQueueMutex);
+		return;     // Can't get lock
 }
 
 //-----------------------------------------------------------------------------
 //
 // Add a new line to the console - move all the others up
 // 0 is the new line added
-//
-// Called from CONSOLE THREAD
 //
 void con_incLine ( string newLine )
 //-----------------------------------------------------------------------------
@@ -143,65 +158,6 @@ void con_incLine ( string newLine )
 
 	conLines[0].conLine = std::move (newLine);
 	conLines[0].conLineColor = currentConLineColor;
-}
-
-//----------------------------------------------------------------
-//
-// Console thread function
-static void *consoleThreadFunc(ALLEGRO_THREAD *thr, void *arg)
-//----------------------------------------------------------------
-{
-	while ( !al_get_thread_should_stop (thr))
-	{
-		al_lock_mutex (consoleQueueMutex);
-
-		if ( !consoleEventQueue.empty ())
-		{
-			//
-			// Process the events
-			//
-			for ( uint i = 0; i < consoleEventQueue.size (); i++ )
-			{
-				if ( al_get_thread_should_stop (thr)) // Check if the thread should stop
-				{
-					al_unlock_mutex (consoleQueueMutex);
-					break;
-				}
-
-				con_incLine ( consoleEventQueue[i].text );
-				al_rest(0);
-//				printf("In queue [ %s ]\n", consoleEventQueue[i].text.c_str()); // This stops program from crashing
-
-				consoleEventQueue.erase (consoleEventQueue.begin () + i);   // Remove the event from the queue
-			}
-		}
-		al_unlock_mutex (consoleQueueMutex);
-	}
-	return nullptr;
-}
-
-//----------------------------------------------------------------
-//
-// Add a new console event to the queue for processing
-void con_addNewEvent( CUSTOM_EVENT *event)
-//----------------------------------------------------------------
-{
-	al_lock_mutex (consoleQueueMutex);
-		consoleEventQueue.push_back(*event);
-	al_unlock_mutex (consoleQueueMutex);
-}
-
-//----------------------------------------------------------------
-//
-// Setup the console thread - it reads events from the consoleEventQueue
-// and removes them for processing
-bool con_startConsoleThread()
-//----------------------------------------------------------------
-{
-	consoleQueueMutex = al_create_mutex ();
-	consoleThread = al_create_thread (consoleThreadFunc, nullptr);
-	al_start_thread(consoleThread);
-	return true;        // Check thread error codes
 }
 
 //-----------------------------------------------------------------------------
@@ -238,8 +194,6 @@ void con_initConsole()
 	conCurrentCharCount = 0;
 
 	con_addConsoleCommands();
-
-	con_startConsoleThread();
 }
 
 //-----------------------------------------------------------------------------

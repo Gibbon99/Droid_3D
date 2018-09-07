@@ -10,9 +10,9 @@
 //
 //-----------------------------------------------------------------------------
 
-#define DOOR_SPEED	10.0f
+#define DOOR_SPEED  10.0f
 #define DOOR_LIP	2.0f
-#define PAUSE_DELAY	5.0f
+#define PAUSE_DELAY	2.0f
 
 #define DOOR_STATE_CLOSED	0
 #define DOOR_STATE_CLOSING	1

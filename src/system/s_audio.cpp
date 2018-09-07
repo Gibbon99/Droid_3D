@@ -2,6 +2,7 @@
 #include "s_globals.h"
 #include "s_audio.h"
 #include <allegro5/allegro_physfs.h>
+#include <hdr/io/io_fileSystem.h>
 
 _sounds sound[] = { { nullptr, "collosion1.wav", false },
                     { nullptr, "endTransmission1.wav", false },
@@ -44,11 +45,6 @@ int                     as_numMultiSamples ;        // Set from script
 bool                    pauseSound = false;
 bool                    audioAvailable = false;
 float                   volumeLevel = 1.0f;
-vector<_multiSounds>	multiSounds;
-
-vector<CUSTOM_EVENT>        audioEventQueue;
-ALLEGRO_THREAD              *audioThread;
-ALLEGRO_MUTEX               *audioQueueMutex;
 
 //-------------------------------------------------------------------------
 //
@@ -56,34 +52,42 @@ ALLEGRO_MUTEX               *audioQueueMutex;
 void aud_loadSoundSamples()
 //-------------------------------------------------------------------------
 {
+	int*        soundfileMemory = nullptr;
+	int         soundfileSize = -1;
+	SDL_RWops   *filePtr;
+
 	if (( !audioAvailable ) || (!as_useSound))
 		return;
-	//
-	// Allow PHYSFS reading from this current thread
-	//
-	al_set_physfs_file_interface();
 
 	for ( int i = 0; i != NUM_SOUNDS; i++ )
 	{
-		sound[i].sample = al_load_sample (sound[i].fileName);
-		if ( nullptr == sound[i].sample )
+		soundfileSize = io_getFileSize ( sound[i].fileName );
+
+		soundfileMemory = malloc(sizeof(int) * soundfileSize);
+		if (soundfileMemory == nullptr)
+		{
+			con_print(CON_ERROR, true, "Audio error: Could not get memory to load sound file [ %s [", sound[i].fileName);
+			return;
+		}
+		io_getFileIntoMemory ( sound[i].fileName, soundfileMemory );
+
+		filePtr = SDL_RWFromMem(soundfileMemory, soundfileSize);
+
+		sound[i].sample = Mix_LoadWAV_RW  (filePtr, 0);
+
+		free(soundfileMemory);
+
+		if ( !sound[i].sample )
 		{
 			con_print (CON_ERROR, true, "Error: Failed to load sample [ %s ]", sound[i].fileName);
+			con_print (CON_ERROR, true, "Error: [ %s ]", Mix_GetError());
 			sound[i].loadedOk = false;
 		}
 		else
 		{
 			con_print (CON_ERROR, true, "Loaded sample [ %s ]", sound[i].fileName);
 			sound[i].loadedOk = true;
-			sound[i].instance = al_create_sample_instance (sound[i].sample);
-			al_attach_sample_instance_to_mixer (sound[i].instance, al_get_default_mixer ());
-			al_set_sample_instance_gain (sound[i].instance, volumeLevel);
 		}
-	}
-
-	for ( int i = 0; i != as_numMultiSamples; i++ )
-	{
-		multiSounds[i].instance = al_create_sample_instance (sound[0].sample);
 	}
 }
 
@@ -108,41 +112,10 @@ void aud_setAudioGain(int newLevel)
 	if (newLevel < 0)
 		newLevel = 0;
 
-	if (newLevel > 100)
-		newLevel = 100;
+	if (newLevel > MIX_MAX_VOLUME)
+		newLevel = MIX_MAX_VOLUME;
 
 	as_audioVolume = newLevel;
-}
-
-//-------------------------------------------------------------------------
-//
-// Tried to play an already playing sample - create a new instance and play it
-//
-// Check the current number of multiSamples and if one is not playing, use this slot
-// to create the new instance and start it playing
-void aud_playMultiSample ( int whichSound, float pan, ALLEGRO_PLAYMODE loop )
-//-------------------------------------------------------------------------
-{
-	for ( int indexCount = 0; indexCount != as_numMultiSamples; indexCount++ )
-	{
-		con_print(CON_INFO, true, "Looking for multi slot [ %i ]", indexCount);
-
-		if ( false == al_get_sample_instance_playing ( multiSounds[indexCount].instance ) )
-		{
-			// Get new instance
-			multiSounds[indexCount].instance = al_create_sample_instance ( sound[whichSound].sample );
-			al_set_sample_instance_gain ( multiSounds[indexCount].instance, volumeLevel );
-
-			al_attach_sample_instance_to_mixer ( multiSounds[indexCount].instance, al_get_default_mixer() );
-
-			al_set_sample_instance_pan ( multiSounds[indexCount].instance, pan );
-			al_set_sample_instance_playmode ( multiSounds[indexCount].instance, loop );
-			al_set_sample_instance_gain ( multiSounds[indexCount].instance, as_audioVolume / 100.0f);
-			al_play_sample_instance ( multiSounds[indexCount].instance );
-			return;
-		}
-	}
-	con_print ( CON_INFO, true, "WARN: Need to increase as_numMultiSamples. Script setting is to low. Currently [ %i ]", as_numMultiSamples );
 }
 
 //-------------------------------------------------------------------------
@@ -154,10 +127,7 @@ bool aud_isSoundPlaying ( int whichSound )
 	if (( !audioAvailable ) || ( !as_useSound ))
 		return false;
 
-	if ( nullptr == sound[whichSound].instance )
-		return false;
-
-	return al_get_sample_instance_playing ( sound[whichSound].instance );
+	return static_cast<bool>(Mix_Playing(sound[whichSound].channel));
 }
 
 //-------------------------------------------------------------------------
@@ -169,7 +139,7 @@ void aud_stopSound ( int whichSound )
 	if (( !audioAvailable ) || ( !as_useSound ))
 		return;
 
-	al_stop_sample_instance ( sound[whichSound].instance );
+	Mix_HaltChannel(sound[whichSound].channel);
 }
 
 //-------------------------------------------------------------------------
@@ -181,13 +151,7 @@ void aud_stopAllSounds()
 	if (( !audioAvailable ) || ( !as_useSound ))
 		return;
 
-	for ( int i = 0; i != NUM_SOUNDS; i++ )
-		al_stop_sample_instance ( sound[i].instance );
-
-	for ( int indexCount = 0; indexCount != as_numMultiSamples; indexCount++ )
-	{
-		al_stop_sample_instance ( multiSounds[indexCount].instance );
-	}
+	Mix_HaltChannel(-1);    // stop all channels playing
 }
 
 //-------------------------------------------------------------------------
@@ -201,18 +165,13 @@ void aud_releaseSound()
 
 	aud_stopAllSounds();
 
-	for ( int i = 0; i != NUM_SOUNDS; i++ )
-		al_destroy_sample_instance ( sound[i].instance );
-
-	multiSounds.clear();
-
-	al_uninstall_audio();
+	Mix_CloseAudio();
 }
 
 //-------------------------------------------------------------------------
 //
 // Play a sample
-bool aud_playSound ( int whichSound, float pan, ALLEGRO_PLAYMODE loop )
+bool aud_playSound ( int whichSound, float pan, int loops )
 //-------------------------------------------------------------------------
 {
 	if (( !audioAvailable) || (pauseSound) || (!as_useSound ))
@@ -221,29 +180,22 @@ bool aud_playSound ( int whichSound, float pan, ALLEGRO_PLAYMODE loop )
 	if ( !sound[whichSound].loadedOk )
 		return false;
 
-	if ( aud_isSoundPlaying (whichSound ))
+	sound[whichSound].channel = Mix_PlayChannel(-1, sound[whichSound].sample, loops);
+
+	// pan channel 1 halfway to the left
+	if(!Mix_SetPanning(sound[whichSound].channel, 255, 127))
 	{
-		aud_playMultiSample ( whichSound, pan, loop );
-
-		con_print(CON_INFO, true, "Sound is already playing - make it multi.");
-
-		return true;
+		printf("Mix_SetPanning: %s\n", Mix_GetError());
+		// no panning, is it ok?
 	}
-
-	al_set_sample_instance_pan ( sound[whichSound].instance, pan );
-	al_set_sample_instance_playmode ( sound[whichSound].instance, loop );
-	al_set_sample_instance_gain ( sound[whichSound].instance, as_audioVolume / 100.0f);
-	//
-	// ALLEGRO_SAMPLE_ID in place of nullptr for sample ID
-	al_play_sample_instance ( sound[whichSound].instance );
 
 	return true;
 }
 
 //-------------------------------------------------------------------------
 //
-// Set volume (gain) for a sample - needs to be already playing
-void aud_setVolume ( int whichSound, float volLevel )
+// Set volume (gain) for a sample
+void aud_setVolume ( int whichSound, int volLevel )
 //-------------------------------------------------------------------------
 {
 	if (( !audioAvailable ) || ( !as_useSound ))
@@ -252,91 +204,7 @@ void aud_setVolume ( int whichSound, float volLevel )
 	if ( !aud_isSoundPlaying (whichSound ))
 		return;
 
-	if ( !al_set_sample_instance_gain (sound[whichSound].instance, volLevel ))
-	{
-		printf ( "Couldn't set sample gain\n" );
-	}
-}
-
-//----------------------------------------------------------------
-//
-// Audio thread function
-static void *audioThreadFunc(ALLEGRO_THREAD *thr, void *arg)
-//----------------------------------------------------------------
-{
-	while ( !al_get_thread_should_stop (thr))
-	{
-		al_lock_mutex (audioQueueMutex);
-
-		if ( !audioEventQueue.empty ())
-		{
-			//
-			// Process the events
-			//
-			for ( uint i = 0; i < audioEventQueue.size (); i++ )
-			{
-				if ( al_get_thread_should_stop (thr)) // Check if the thread should stop
-				{
-					al_unlock_mutex (audioQueueMutex);
-					break;
-				}
-
-				aud_processAudioEvent(audioEventQueue[i]);
-
-				audioEventQueue.erase (audioEventQueue.begin () + i);   // Remove the event from the queue
-			}
-		}
-		al_unlock_mutex (audioQueueMutex);
-	}
-	return nullptr;
-}
-
-//----------------------------------------------------------------
-//
-// Stop the audio thread
-void aud_stopAudioThread()
-//----------------------------------------------------------------
-{
-	al_destroy_thread (audioThread);
-	printf("Audio thread destroyed.\n");        // TODO: Not called because we are not processing events on shutdown
-}
-
-//----------------------------------------------------------------
-//
-// Setup the audio thread - it reads events from the audioEventQueue
-// and removes them for processing
-bool aud_startAudioThread()
-//----------------------------------------------------------------
-{
-	 audioQueueMutex = al_create_mutex ();
-	 if (nullptr == audioQueueMutex)
-	 {
-		audioAvailable = false;
-		as_useSound = false;
-		return false;
-	}
-
-	audioThread = al_create_thread (audioThreadFunc, nullptr);
-	if ( audioThread == nullptr )
-	{
-		audioAvailable = false;
-		as_useSound = false;
-		return false;
-	}
-
-	al_start_thread(audioThread);
-	return true;        // Check thread error codes
-}
-
-//----------------------------------------------------------------
-//
-// Add a new audio event to the queue for processing
-void aud_addNewEvent( CUSTOM_EVENT *event)
-//----------------------------------------------------------------
-{
-	al_lock_mutex(audioQueueMutex);
-		audioEventQueue.push_back(*event);
-	al_unlock_mutex(audioQueueMutex);
+	Mix_VolumeChunk(sound[whichSound].sample, volLevel);
 }
 
 //----------------------------------------------------------------
@@ -348,40 +216,33 @@ bool aud_setupAudioEngine()
 	if ( !as_useSound )
 		return false;
 
-	if (!al_install_audio())
+	// open 44.1KHz, signed 16bit, system byte order,
+//      stereo audio, using 1024 byte chunks
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
 	{
 		audioAvailable = false;
 		con_print(CON_ERROR, true, "Error installing the audio system. Sound is NOT available.");
+		con_print(CON_ERROR, true, "Audio error [ %s ]", Mix_GetError());
 		return false;
 	}
 
-	if (!al_reserve_samples(as_numAudioSamples))
-	{
-		audioAvailable = false;
-		con_print(CON_ERROR, true, "Error getting required number of audio samples. Sound is NOT available.");
-		return false;
-	}
-
-	if (!al_init_acodec_addon())
-	{
-		audioAvailable = false;
-		con_print(CON_ERROR, true, "Error starting codec loading. Sound is NOT available.");
-		return false;
-	}
-
-	multiSounds.reserve (as_numMultiSamples);
+	Mix_AllocateChannels(as_numAudioSamples);
 
 	con_print(CON_INFO, true, "Audio engine started.");
 
-	uint32_t version = al_get_allegro_acodec_version();
-	int major = version >> 24;
-	int minor = ( version >> 16 ) & 255;
-	int revision = ( version >> 8 ) & 255;
-	int release = version & 255;
+	SDL_version compile_version;
+	const SDL_version *link_version = Mix_Linked_Version();
+	SDL_MIXER_VERSION(&compile_version);
 
-	con_print (CON_INFO, true, "Sound started: %i.%i.%i Release: %i", major, minor, revision, release );
+	con_print (CON_INFO, true, "Compiled with SDL_mixer version [ %d.%d.%d ]",
+	       compile_version.major,
+	       compile_version.minor,
+	       compile_version.patch);
 
-	aud_startAudioThread();
+	con_print (CON_INFO, true, "Running with SDL_mixer version [ %d.%d.%d ]",
+	       link_version->major,
+	       link_version->minor,
+	       link_version->patch);
 
 	audioAvailable = true;
 	pauseSound = false;     // Start in playing mode
@@ -391,73 +252,65 @@ bool aud_setupAudioEngine()
 
 //----------------------------------------------------------------
 //
-// Handle an audio user event
-void aud_handleAudioUserEvent(CUSTOM_EVENT *event)
+// Handle an audio user event - called from Audio Thread
+int aud_processAudioEventQueue(void *ptr)
 //----------------------------------------------------------------
 {
-	switch (event->action)
+	_myEventData tempEventData;
+
+	while ( runThreads )
 	{
-		case AUDIO_INIT_ENGINE:
-			aud_setupAudioEngine();
-			evt_sendEvent (USER_EVENT_AUDIO, AUDIO_LOAD_ALL, 0, 0, 0, "");
-			break;
+		SDL_Delay(THREAD_DELAY_MS);
 
-		case AUDIO_STOP_THREAD:
-			aud_stopAudioThread ();
-			break;
+		if ( !audioEventQueue.empty ())   // stuff in the queue to process
+		{
+			if ( SDL_LockMutex (audioMutex) == 0 )
+			{
+				tempEventData = audioEventQueue.front();
+				audioEventQueue.pop();
+				SDL_UnlockMutex (audioMutex);
+			}
 
-		case AUDIO_STOP_ENGINE:
-			aud_releaseSound ();
-			break;
+			switch ( tempEventData.eventAction )
+			{
+				case AUDIO_INIT_ENGINE:
+					aud_setupAudioEngine ();
+					evt_sendEvent (USER_EVENT_AUDIO, AUDIO_LOAD_ALL, 0, 0, 0, "");
+					break;
 
-		case AUDIO_PLAY_SAMPLE:
-		case AUDIO_STOP_SAMPLE:
-		case AUDIO_STOP_ALL:
-		case AUDIO_SET_GAIN:
-		case AUDIO_PAUSE_STATE:
-		case AUDIO_LOAD_ALL:
-			aud_addNewEvent (event);
-			break;
+				case AUDIO_STOP_ENGINE:
+					aud_releaseSound ();
+					break;
 
-		default:
-			break;
+				case AUDIO_PLAY_SAMPLE:
+					aud_playSound (tempEventData.data1, tempEventData.data2, tempEventData.data3);
+					break;
+
+				case AUDIO_LOAD_ALL:
+					aud_loadSoundSamples ();
+					break;
+
+				case AUDIO_STOP_SAMPLE:
+					aud_stopSound (tempEventData.data1);
+					break;
+
+				case AUDIO_STOP_ALL:
+					aud_stopAllSounds ();
+					break;
+
+				case AUDIO_SET_GAIN:
+					aud_setVolume (tempEventData.data1, tempEventData.data2);
+					break;
+
+				case AUDIO_PAUSE_STATE:
+					aud_pauseSoundSystem (tempEventData.data1);
+					break;
+
+				default:
+					break;
+			}
+		}
 	}
-}
-
-//----------------------------------------------------------------
-//
-// Process the actual audio event - runs inside the AUDIO THREAD
-void aud_processAudioEvent(CUSTOM_EVENT event)
-//----------------------------------------------------------------
-{
-	switch (event.action)
-	{
-		case AUDIO_PLAY_SAMPLE:
-			aud_playSound ( event.data1, event.data2, (ALLEGRO_PLAYMODE)event.data3 );
-			con_print(CON_INFO, true, "Play a sound file [ %i ] Vol [ %i ]", event.data1, event.data2);
-			break;
-
-		case AUDIO_LOAD_ALL:
-			aud_loadSoundSamples ();
-			break;
-
-		case AUDIO_STOP_SAMPLE:
-			aud_stopSound ( event.data1 );
-			break;
-
-		case AUDIO_STOP_ALL:
-			aud_stopAllSounds();
-			break;
-
-		case AUDIO_SET_GAIN:
-			aud_setVolume ( event.data1, event.data2 );
-			break;
-
-		case AUDIO_PAUSE_STATE:
-			aud_pauseSoundSystem ( event.data1 );
-			break;
-
-		default:
-			break;
-	}
+	printf ("AUDIO thread stopped.\n");
+	return 0;
 }

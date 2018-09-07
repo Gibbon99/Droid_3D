@@ -157,7 +157,7 @@ void bsp_createVextexIndexArray ( tBSPFace *ptrFace )
 	indexes.clear();
 	indexes.reserve (static_cast<unsigned long>(ptrFace->numMeshVerts));
 
-	for ( GLuint i = 0; i != ptrFace->numMeshVerts; i++ )
+	for ( int i = 0; i != ptrFace->numMeshVerts; i++ )
 	{
 		indexes[i] = static_cast<unsigned int>(m_pMeshIndex[ptrFace->startMeshVertIndex + i]);
 
@@ -303,6 +303,8 @@ void bsp_uploadLevelVertex()
 	// Store model and all meshes in one VAO
 	GL_CHECK ( glGenVertexArrays ( 1, &bspVAO ) );
 	GL_CHECK ( glBindVertexArray ( bspVAO ) );
+
+	con_print(CON_INFO, true, "bspVAO is [ %i ]", bspVAO);
 
 	bspVBO = wrapglGenBuffers(1, __func__);
 	GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));

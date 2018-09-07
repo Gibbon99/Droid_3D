@@ -2,11 +2,11 @@
 
 #include "s_globals.h"
 
-extern ALLEGRO_DISPLAY*        al_mainWindow;;
+// Our SDL_Window ( just like with SDL2 wihout OpenGL)
+extern SDL_Window          *mainWindow;
 
 // Switch locking mouse to middle of the screen
 extern bool         g_lockMouse;
-
 
 // Swap buffers for displaying screen
 void lib_swapBuffers();

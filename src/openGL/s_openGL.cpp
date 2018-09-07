@@ -307,7 +307,7 @@ GLuint gl_makeCheckTex(int textureSize)
 	{
 		for (int j = 0; j < textureSize; j++)
 		{
-			int c = ((((i & 0x8) == 0) ^ ((j & 0x8)) == 0))*255;
+			int c = (((i & 0x8) == 0) ^ ((j & 0x8)) == 0) * 255;
 			image[i][j][0]  = (GLubyte)c;
 			image[i][j][1]  = (GLubyte)c;
 			image[i][j][2]  = (GLubyte)c;

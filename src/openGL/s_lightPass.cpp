@@ -158,9 +158,9 @@ void lt_renderDepthQuad ( int whichShader )
 	GLfloat quadVertsDepthMap[] =
 	{
 		0.0,        0.0,
-		winWidth,     0.0,
-		winWidth,    winHeight,
-		0.0,         winHeight,
+		(GLfloat)winWidth,     0.0,
+		(GLfloat)winWidth,    (GLfloat)winHeight,
+		0.0,         (GLfloat)winHeight,
 	};
 
 	GLfloat quadTexCoordsDepthMap[] =
