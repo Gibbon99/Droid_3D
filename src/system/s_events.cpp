@@ -42,7 +42,7 @@ Uint32 evt_cursorTimerCallback(Uint32 interval, void *param)
 {
 	con_processCursor ();
 
-	return 0;
+	return interval;
 }
 
 //------------------------------------------------------------------------
