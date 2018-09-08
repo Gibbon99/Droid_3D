@@ -96,14 +96,13 @@ void ass_renderMeshMat4 ( int whichModel, int whichShader, glm::mat4 physicsMatr
 
 					GL_CHECK ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "cameraPosition" ), 1, glm::value_ptr ( cam3_Position ) ) );
 				}
-
 			else
 				{
 					glActiveTexture(GL_TEXTURE0);
-					glBindTexture(GL_TEXTURE_2D, checkerBoardTexture);
+//					glBindTexture(GL_TEXTURE_2D, checkerBoardTexture);
 
-//					wrapglBindTexture ( GL_TEXTURE0, checkerBoardTexture); //[whichModel].mesh[whichMesh].textureID );
-//					glBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+//					wrapglBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
+					glBindTexture ( GL_TEXTURE0, meshModels[whichModel].mesh[whichMesh].textureID );
 					GL_ASSERT ( glUniform3fv ( glGetUniformLocation ( shaderProgram[whichShader].programID, "ambientColor" ), 1, glm::value_ptr ( lightColor ) ) );
 				}
 

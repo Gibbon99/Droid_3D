@@ -29,7 +29,7 @@ GLuint			conHistoryPtr;			// Which history command are we at
 _conLine		conCurrentLine;
 _conLine		conCurrentPrompt;
 
-float			conBackSpaceDelay;
+//float			conBackSpaceDelay;
 
 int				conNumInHistory = 0;
 
@@ -263,6 +263,8 @@ void con_processCursor ( )
 //-----------------------------------------------------------------------------
 {
 	conCursorIsOn =! conCursorIsOn;
+
+	printf("Swap cursor state\n");
 }
 
 //-----------------------------------------------------------------------------
@@ -389,7 +391,7 @@ void con_print ( int type, bool fileLog, const char *printText, ... )
 				break;
 		}
 
-		evt_sendEvent(USER_EVENT_CONSOLE, CONSOLE_ADD_LINE, 0, 0, 0, conText);
+		evt_sendEvent(USER_EVENT_CONSOLE, CONSOLE_ADD_LINE, 0, 0, 0, glm::vec3(), glm::vec3(), conText);
 }
 
 //-----------------------------------------------------------------------------

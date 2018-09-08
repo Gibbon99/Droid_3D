@@ -18,7 +18,7 @@ float far_plane = 100.0f;
 
 std::vector<glm::mat4> shadowTransforms;
 
-#define NUM_LIGHT_CASTERS   1
+#define NUM_LIGHT_CASTERS   2
 
 GLuint depthMapFBO;
 GLuint depthCubemap[NUM_LIGHT_CASTERS];
@@ -313,7 +313,7 @@ void shd_shadowMapPass(int whichShader)
 
 	for (i = 0; i != NUM_LIGHT_CASTERS; i++)
 	{
-//		allLights[i].position.z += sin((uint)SDL_GetTicks()) * 0.5f; //0.001f * al_get_time();
+		allLights[i].position.z += sin(SDL_GetTicks() * 0.5f); //0.001f * al_get_time();
 
 		glFramebufferTexture (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap[i], 0);
 		glClear (GL_DEPTH_BUFFER_BIT);
@@ -355,7 +355,7 @@ void shd_shadowMapPass(int whichShader)
 
 	GL_ASSERT ( glUniform1f  (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "far_planeTwo"), far_plane ) );
 
-	GL_ASSERT ( glUniform1f  (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "shadowLevel"), 0.9f ) );
+	GL_ASSERT ( glUniform1f  (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "shadowLevel"), 0.6f ) );
 	GL_ASSERT ( glUniform3fv (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "viewPos"), 1, glm::value_ptr (cam3_getCameraPosition ())));
 	//
 	// Set the texture units
@@ -386,7 +386,7 @@ void shd_shadowMapPass(int whichShader)
 	memcpy(p, &lightInfo[0].position, sizeof(_lightInfo) * NUM_LIGHT_CASTERS);
 	glUnmapBuffer(GL_UNIFORM_BUFFER);
 
-	bsp_bindLevelData ();
+
 
 	for (i = 0; i != NUM_LIGHT_CASTERS; i++)
 	{
@@ -394,14 +394,14 @@ void shd_shadowMapPass(int whichShader)
 		glBindTexture (GL_TEXTURE_CUBE_MAP, depthCubemap[i]);
 		//
 		// Bind texture ID to shader texture unit
-//		glActiveTexture(GL_TEXTURE0);
-//		glBindTexture(GL_TEXTURE_2D, checkerBoardTexture);
 
 		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "model"), 1, false, glm::value_ptr (glm::mat4())));
 
 		GL_ASSERT ( glUniform1f  (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "lightConstant"), lightConstant ) );
 		GL_ASSERT ( glUniform1f  (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "lightLinear"), lightLinear ) );
 		GL_ASSERT ( glUniform1f  (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "lightQuadratic"), lightQuadratic ) );
+
+		bsp_bindLevelData ();
 
 		bsp_renderLevel ( cam3_getCameraPosition(), SHADER_SHADOW_LIGHTING, true );
 
@@ -412,6 +412,7 @@ void shd_shadowMapPass(int whichShader)
 		model = glm::scale (model, glm::vec3 (4.0f));
 		GL_ASSERT (glUniformMatrix4fv (glGetUniformLocation (shaderProgram[SHADER_SHADOW_LIGHTING].programID, "model"), 1, false, glm::value_ptr (model)));
 		renderCube (SHADER_SHADOW_LIGHTING);
+
 	}
 
 	glBindFramebuffer (GL_FRAMEBUFFER, 0);

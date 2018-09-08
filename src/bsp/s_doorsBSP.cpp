@@ -16,6 +16,7 @@ int					numOfDoorsDrawn = 0;
 int					numOfDoorsNotDrawn = 0;
 bool				g_debugDoorTriggers;
 float               doorSpeed;
+float               doorDelay;
 
 vector<_doorModel>	doorModels;
 
@@ -453,7 +454,7 @@ void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
 
 			case DOOR_STATE_OPEN:
 				doorModels[whichDoor].minMaxMove = 0.0f;
-				doorModels[whichDoor].pause -= PAUSE_DELAY * interpolate;
+				doorModels[whichDoor].pause -= doorDelay * interpolate;
 
 				if ( doorModels[whichDoor].pause < 0.0f )
 					{
@@ -471,8 +472,8 @@ void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
 					}
 				else
 					{
-						doorModels[whichDoor].currentOffset += DOOR_SPEED * interpolate;
-						doorModels[whichDoor].minMaxMove += DOOR_SPEED * interpolate;    // same as offset ??
+						doorModels[whichDoor].currentOffset += doorSpeed * interpolate;
+						doorModels[whichDoor].minMaxMove += doorSpeed * interpolate;    // same as offset ??
 					}
 				break;
 
@@ -480,8 +481,8 @@ void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
 
 				if ( doorModels[whichDoor].currentOffset > 0.0f )
 					{
-						doorModels[whichDoor].currentOffset -= DOOR_SPEED * interpolate;
-						doorModels[whichDoor].minMaxMove = 0 - ( doorModels[whichDoor].minMaxMove - ( DOOR_SPEED * interpolate ) );		// Get negative move
+						doorModels[whichDoor].currentOffset -= doorSpeed * interpolate;
+						doorModels[whichDoor].minMaxMove = 0 - ( doorModels[whichDoor].minMaxMove - ( doorSpeed * interpolate ) );		// Get negative move
 					}
 				else
 					{

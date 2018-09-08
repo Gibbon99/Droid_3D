@@ -275,7 +275,7 @@ int aud_processAudioEventQueue(void *ptr)
 			{
 				case AUDIO_INIT_ENGINE:
 					aud_setupAudioEngine ();
-					evt_sendEvent (USER_EVENT_AUDIO, AUDIO_LOAD_ALL, 0, 0, 0, "");
+					evt_sendEvent (USER_EVENT_AUDIO, AUDIO_LOAD_ALL, 0, 0, 0, glm::vec3(), glm::vec3(), "");
 					break;
 
 				case AUDIO_STOP_ENGINE:

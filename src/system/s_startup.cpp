@@ -158,7 +158,7 @@ bool initAll()
 	//
 	// Start Audio Engine and associated thread
 	if (as_useSound)
-		evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, "");
+		evt_sendEvent (USER_EVENT_AUDIO, AUDIO_INIT_ENGINE, 0, 0, 0, glm::vec3(), glm::vec3(), "");
 
 	blendIndexOne = 0;
 	blendIndexTwo = 0;

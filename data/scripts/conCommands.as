@@ -34,7 +34,7 @@ void as_setGameVariables()
 	winHeight = 600;
 	//
 	// Freelook mouse speed
-	mouseSpeed = 0.11f;
+	mouseSpeed = 50.0f;
 	//
 	// Constrain the mouse to window size
     g_lockMouse = false;
@@ -55,7 +55,8 @@ void as_setGameVariables()
 	// Render the BSP faces or not
     g_renderBSP = true;
 
-    doorSpeed = 70.f;
+    doorSpeed = 10.0f;
+	doorDelay = 2.0f;	// In seconds
 
     g_Gamma = 5.0f;
 	//
@@ -64,7 +65,7 @@ void as_setGameVariables()
 	g_debugOpenGL = true;
 	//
 	// Show the triggers for doors
-	g_debugDoorTriggers = true;
+	g_debugDoorTriggers = false;
 	//
 	// Debug physics - show physic objects outlines
 	g_debugPhysics = false;

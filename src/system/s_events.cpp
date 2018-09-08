@@ -10,6 +10,7 @@
 #include "io_mouse.h"
 #include "s_audio.h"
 #include "s_console.h"
+#include "s_gameEvents.h"
 
 SDL_TimerID timerCursorFlash;
 
@@ -18,15 +19,18 @@ Uint32      myEventType;
 SDL_Thread *userEventConsoleThread;
 SDL_Thread *userEventAudioThread;
 SDL_Thread *userEventMouseThread;
+SDL_Thread *userEventGameThread;
 
 SDL_mutex *consoleMutex;
 SDL_mutex *audioMutex;
 SDL_mutex *mouseMutex;
 SDL_mutex *mouseMotionMutex;
+SDL_mutex *gameMutex;
 
 queue<_myEventData>    consoleEventQueue;
 queue<_myEventData>    audioEventQueue;
 queue<_myEventData>    mouseEventQueue;
+queue<_myEventData>    gameEventQueue;
 
 bool     runThreads = true;
 
@@ -51,6 +55,7 @@ void evt_shutdownMutex()
 	SDL_DestroyMutex (audioMutex);
 	SDL_DestroyMutex (mouseMutex);
 	SDL_DestroyMutex (mouseMotionMutex);
+	SDL_DestroyMutex (gameMutex);
 }
 
 //------------------------------------------------------------------------
@@ -59,7 +64,7 @@ void evt_shutdownMutex()
 bool evt_registerUserEventSetup()
 //------------------------------------------------------------------------
 {
-	myEventType = SDL_RegisterEvents (1);   // Register user event type
+//	myEventType = SDL_RegisterEvents (1);   // Register user event type
 
 	timerCursorFlash = SDL_AddTimer(500, evt_cursorTimerCallback, 0);   // Time in milliseconds
 
@@ -81,6 +86,13 @@ bool evt_registerUserEventSetup()
 	if ( nullptr == userEventMouseThread)
 	{
 		printf ("SDL_CreateThread - userEventConsoleThread - failed: %s\n", SDL_GetError () );
+		return false;
+	}
+
+	userEventGameThread = SDL_CreateThread(gam_processGameEventQueue, "userEventGameThread", (void *)NULL);
+	if (nullptr == userEventGameThread)
+	{
+		printf ("SDL_CreateThread = userEventGameThread = failed: %s\n", SDL_GetError() );
 		return false;
 	}
 
@@ -112,9 +124,17 @@ bool evt_registerUserEventSetup()
 		return false;
 	}
 
+	gameMutex = SDL_CreateMutex();
+	if (!gameMutex)
+	{
+		con_print(CON_ERROR, true, "Couldn't create mutex - gameMutex");
+		return false;
+	}
+
 	SDL_DetachThread(userEventConsoleThread);
 	SDL_DetachThread(userEventAudioThread);
 	SDL_DetachThread(userEventMouseThread);
+	SDL_DetachThread(userEventGameThread);
 
 	return true;
 }
@@ -122,7 +142,7 @@ bool evt_registerUserEventSetup()
 //------------------------------------------------------------------------
 //
 // Create a custom event to be sent
-void evt_sendEvent(int type, int action, int data1, int data2, int data3, string textString)
+void evt_sendEvent(int type, int action, int data1, int data2, int data3, glm::vec3 vec3_1, glm::vec3 vec3_2, string textString)
 //------------------------------------------------------------------------
 {
 	_myEventData       eventData;
@@ -132,6 +152,8 @@ void evt_sendEvent(int type, int action, int data1, int data2, int data3, string
 	eventData.data1 = data1;
 	eventData.data2 = data2;
 	eventData.data3 = data3;
+	eventData.vec3_1 = vec3_1;
+	eventData.vec3_2 = vec3_2;
 	eventData.eventString = std::move (textString);
 
 	switch (type)
@@ -160,50 +182,20 @@ void evt_sendEvent(int type, int action, int data1, int data2, int data3, string
 			}
 			break;
 
-		default:
-			break;
-
-	}
-}
-
-/*
-//------------------------------------------------------------------------
-//
-// Handle USER events
-void evt_handleUserEvents(void *ptr)
-//------------------------------------------------------------------------
-{
-	static double previousTimeStamp = -1;
-
-	switch (event->type)
-	{
-		case USER_EVENT_MODE_PAUSE:
-
-			if ( -1 == previousTimeStamp)
+		case USER_EVENT_GAME:
+			if (SDL_LockMutex (gameMutex) == 0)
 			{
-				previousTimeStamp = event->timeStamp;
-				return;
+				gameEventQueue.push(eventData);
+				SDL_UnlockMutex (gameMutex);
 			}
-
-			if ((event->timeStamp - previousTimeStamp) < 2.0)
-				return;
-
-			previousTimeStamp = event->timeStamp;
-
-			con_print(CON_INFO, true, "Got event to PAUSE. Timestamp [ %3.3f ]", event->timeStamp);
-
-			if (MODE_PAUSE == currentMode)
-				changeMode (-1);
-			else
-				changeMode (MODE_PAUSE);
 			break;
 
 		default:
 			break;
+
 	}
 }
 
- */
 //------------------------------------------------------------------------
 //
 // Handle DISPLAY events
@@ -317,15 +309,18 @@ void evt_handleEvents()
 		switch ( event.type )
 		{
 			case SDL_MOUSEMOTION:
-				evt_sendEvent(USER_EVENT_MOUSE, USER_EVENT_MOUSE_MOTION, event.motion.x, event.motion.y, event.motion.state, "");
+				evt_sendEvent(USER_EVENT_MOUSE, USER_EVENT_MOUSE_MOTION, event.motion.x, event.motion.y, event.motion.state, glm::vec3(), glm::vec3(), "");
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
-				evt_sendEvent(USER_EVENT_MOUSE, USER_EVENT_MOUSE_BUTTON_DOWN, event.motion.state, 0, 0, "");
+				if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT))
+					gam_createBullet (cam3_Front, cam3_Position, bullet_1_speed);
+
+				evt_sendEvent(USER_EVENT_MOUSE, USER_EVENT_MOUSE_BUTTON_DOWN, event.motion.state, 0, 0, glm::vec3(), glm::vec3(), "");
 				break;
 
 			case SDL_MOUSEBUTTONUP:
-				evt_sendEvent(USER_EVENT_MOUSE, USER_EVENT_MOUSE_BUTTON_UP, event.motion.state, 0, 0, "");
+				evt_sendEvent(USER_EVENT_MOUSE, USER_EVENT_MOUSE_BUTTON_UP, event.motion.state, 0, 0, glm::vec3(), glm::vec3(), "");
 				break;
 
 			case SDL_MOUSEWHEEL:

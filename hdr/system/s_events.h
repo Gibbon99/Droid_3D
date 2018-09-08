@@ -13,6 +13,7 @@
 #define USER_EVENT_MOUSE_BUTTON_UP      0x05
 #define USER_EVENT_MOUSE_WHEEL          0x06
 #define USER_EVENT_MOUSE_MOTION         0x07
+#define USER_EVENT_GAME                 0x08
 
 typedef struct
 {
@@ -21,17 +22,21 @@ typedef struct
 	int     data1;
 	int     data2;
 	int     data3;
+	glm::vec3   vec3_1;
+	glm::vec3   vec3_2;
 	std::string  eventString;
 } _myEventData;
 
 extern std::queue<_myEventData>    consoleEventQueue;
 extern std::queue<_myEventData>    audioEventQueue;
 extern std::queue<_myEventData>    mouseEventQueue;
+extern std::queue<_myEventData>    gameEventQueue;
 
 extern SDL_mutex *consoleMutex;
 extern SDL_mutex *audioMutex;
 extern SDL_mutex *mouseMutex;
 extern SDL_mutex *mouseMotionMutex;
+extern SDL_mutex *gameMutex;
 
 extern bool     runThreads;
 
@@ -48,4 +53,4 @@ void evt_shutdownMutex();
 bool evt_registerUserEventSetup();
 
 // Create a custom event to be sent
-void evt_sendEvent(int type, int action, int data1, int data2, int data3, std::string textString);
+void evt_sendEvent(int type, int action, int data1, int data2, int data3, glm::vec3 vec3_1, glm::vec3 vec3_2, std::string textString);

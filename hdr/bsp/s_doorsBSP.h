@@ -10,9 +10,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#define DOOR_SPEED  10.0f
 #define DOOR_LIP	2.0f
-#define PAUSE_DELAY	2.0f
 
 #define DOOR_STATE_CLOSED	0
 #define DOOR_STATE_CLOSING	1
@@ -69,6 +67,7 @@ extern int					numOfDoorsDrawn;
 extern int					numOfDoorsNotDrawn;
 extern bool					g_debugDoorTriggers;
 extern float                doorSpeed;
+extern float                doorDelay;
 
 // Get the number of doors in the level
 int bsp_findNumOfDoors();

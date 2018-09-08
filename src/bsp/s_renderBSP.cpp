@@ -248,6 +248,11 @@ void bsp_renderFace ( int whichFace, int whichAction, int whichTexture, int whic
 				case SHADER_SHADOW_MAP:
 				case SHADER_SHADOW_LIGHTING:
 				{
+					GL_CHECK ( glBindVertexArray ( bspVAO ) );
+					//
+					// Bind data buffer holding all the vertices
+					GL_CHECK ( glBindBuffer (GL_ARRAY_BUFFER, bspVBO ));
+
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, io_getGLTexID (whichTexture));
 

@@ -54,7 +54,7 @@ float ShadowCalculation(vec3 fragPos, int index)
 	float currentDepth        = length(fragToLight);
 	float shadow              = 0.0;
 	float bias                = 0.45;
-	int samples               = 20;
+	int samples               = 1;    //20
 	float viewDistance        = length(viewPos - fragPos);
 	float diskRadius          = (5.0 + (viewDistance / far_planeTwo)) / 5.0;
 
@@ -106,7 +106,7 @@ vec3 CalcPointLight(int index, vec3 normal, vec3 fragPos, vec3 viewDir)
 	else
 		ambient = vec3(texture(diffuseTexture, fs_in.TexCoords));
 */
-	ambient  = lightData[index].s_lightColor  * vec3(texture(diffuseTexture, fs_in.TexCoords));
+//	ambient  = lightData[index].s_lightColor  * vec3(texture(diffuseTexture, fs_in.TexCoords));
 
 	ambient  *= attenuation;
 	diffuse  *= attenuation;
@@ -125,14 +125,17 @@ void main()
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos);
 
 	vec3 result;
+	vec3 colorTotal;
 	float shadow;
+vec4 myFragColor;
 
-	for (int i = 0; i != 1; i++)
+	result = vec3(0,0,0);
+	colorTotal = vec3(0,0,0);
+	myFragColor = vec4(0,0,0,0);
+
+	for (int i = 0; i != 2; i++)
 	{
 		result += CalcPointLight(i, norm, fs_in.FragPos, -viewDir);
-
-		//shadow = ShadowCalculation (fs_in.FragPos, i);
-
 
 		vec3 diffuseColor = texture (diffuseTexture, fs_in.TexCoords).rgb;
 
@@ -144,16 +147,18 @@ void main()
 		float distance = length (lightData[i].s_lightPosition - fs_in.FragPos);
 		float attenuation = 1.0f / (lightConstant + lightLinear * distance + lightQuadratic * (distance * distance));
 
-		vec3 colorTotal;
 		colorTotal += lightData[i].s_lightColor;
 
 		vec3 finalColor;
 		finalColor = (ambient + (1.0 - shadow)) * (attenuation * diffuseColor * colorTotal);
 
-		FragColor += vec4 (finalColor, 1.0);
+//		myFragColor += vec4 (finalColor, 1.0);
 
-		FragColor = vec4(diffuseColor,1.0);
+		myFragColor = vec4 (result, 1.0); // Normal white light
+		myFragColor = vec4 (diffuseColor, 1.0); // Normal white light
 
-//		FragColor = vec4(result * (1.0 - shadow), 1.0);
+
+//		myFragColor += vec4(ambient + (result * (1.0 - shadow)), 1.0) * (vec4(lightData[i].s_lightColor, 1.0));
 	}
+	FragColor = myFragColor;
 }

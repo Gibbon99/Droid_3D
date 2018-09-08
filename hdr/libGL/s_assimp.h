@@ -50,7 +50,7 @@ typedef struct
 	int					numMaterials;
 	vector<_mesh>		mesh;
 	vector<aiString>	materialName;
-	btConvexHullShape*	physicsObject;		// Single physics object from multiple meshes in model
+	btConvexHullShape*	physicsObject = nullptr;		// Single physics object from multiple meshes in model
 } _meshModel;
 
 extern	_meshModel		meshModels[];

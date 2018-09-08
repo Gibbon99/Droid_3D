@@ -190,7 +190,7 @@ int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectTy
 {
 	_physicsObject		tempObject;
 
-	if ( false == physicsEngineStarted )
+	if ( !physicsEngineStarted )
 		{
 			con_print ( CON_ERROR, true, "Physics engine is not started. Attempting to add object failed." );
 			return false;
@@ -211,9 +211,14 @@ int bul_addPhysicsObject ( int index, int whichMesh, float scaleBy, int objectTy
 				tempObject.shape->setLocalScaling ( btVector3 ( scaleBy, scaleBy, scaleBy ) );
 				break;
 
+			default:
+				con_print(CON_ERROR, true, "ERROR: Attempting to create unknown physics object [ %s ]", __func__);
+				return -1;
+				break;
 		}
 
 	btVector3 fallInertia ( 1, 1, 1 );
+
 
 	tempObject.shape->calculateLocalInertia ( objectMass, fallInertia );
 	tempObject.motionState = new btDefaultMotionState ( btTransform ( btQuaternion ( 0, 0, 0, 1 ), btVector3 ( objectPosition.x, objectPosition.y, objectPosition.z ) ) );

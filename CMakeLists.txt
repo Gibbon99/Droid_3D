@@ -210,7 +210,7 @@ set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_events.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/io/io_mouse.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/system/s_audio.cpp data/scripts/commonDefines.h
-        src/openGL/s_shadowMap.cpp src/openGL/s_shadowLighting.cpp hdr/openGL/s_shadowLighting.h)
+        src/openGL/s_shadowMap.cpp src/openGL/s_shadowLighting.cpp hdr/openGL/s_shadowLighting.h src/game/s_gameEvents.cpp hdr/game/s_gameEvents.h)
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 

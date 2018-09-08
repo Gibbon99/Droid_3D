@@ -57,8 +57,9 @@ void gam_processBulletMovement ()
 //
 // Create new bullet
 //
-// This gets called from mouse thread - so just create the instance into the array
-// and process the array from the main thread
+// NOT Thread safe - crashes after random number created
+// Mouse Button 1 called from main thread to call this
+//
 void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 //----------------------------------------------------------------
 {
@@ -66,8 +67,6 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 		{
 			if ( !bullet[i].active )
 				{
-					numActiveBullets++;
-					bullet[i].active = true;
 					bullet[i].speed = speed;
 					bullet[i].direction = direction;
 
@@ -79,9 +78,19 @@ void gam_createBullet ( glm::vec3 direction, glm::vec3 position, GLfloat speed )
 					bullet[i].lightIndex = bsp_addNewLight ( glm::vec3 ( 100.0f, 0.0f, 0.0f ), LIGHT_POINT, LIGHT_POINT );
 
 					bullet[i].collisionIndex = phy_addCollisionObject(COL_OBJECT_BULLET, i);
+
 					bullet[i].physicsIndex = bul_addPhysicsObject(bullet[i].collisionIndex, MODEL_CRATE, bullet[i].meshScaleFactor, PHYSICS_OBJECT_BOX, 1.0f, bullet[i].position );
+					if (bullet[i].physicsIndex == -1)
+					{
+						con_print(CON_ERROR, true, "Error: Failed to get phyiscs object for bullet [ %i ]", i);
+						return;     // Don't create bullet on failure
+					}
 					
 					bul_applyMovement(bullet[i].physicsIndex, bullet[i].speed, bullet[i].direction);
+					bullet[i].active = true;
+					numActiveBullets++;
+
+					printf("Created new bullet [ %i ]\n", i);
 
 					return;
 				}

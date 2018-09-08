@@ -42,6 +42,7 @@ _hostScriptFunctions hostVariables[] =
 	{"bool g_debugVolLights",               &g_debugVolLights},
 	{"bool g_renderBSP",                    &g_renderBSP},
 	{"float doorSpeed",                     &doorSpeed},
+	{"float doorDelay",                     &doorDelay},
 
 	{"float lightConstant",                     &lightConstant},
 	{"float lightLinear",                     &lightLinear},

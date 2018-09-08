@@ -41,7 +41,7 @@ void io_readPauseModeKey(SDL_Keycode key, int action)
 {
 	if ((action == SDL_KEYDOWN) && (key == SDLK_p))
 	{
-		evt_sendEvent (USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
+		evt_sendEvent (USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, glm::vec3(), glm::vec3(), "");
 	}
 }
 
@@ -129,7 +129,7 @@ void io_readGameSpecialKeys ( SDL_Keycode key, int action )
 
 				case SDLK_p:
 					con_print(CON_INFO, true, "Pressed the P key - action is DOWN");
-					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, "");
+					evt_sendEvent(USER_EVENT_MODE_PAUSE, 0, 0, 0, 0, glm::vec3(), glm::vec3(), "");
 					break;
 
 				default:

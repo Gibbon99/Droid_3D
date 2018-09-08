@@ -83,8 +83,14 @@ void lib_setMousePos ( int newPosX, int newPosY )
 {
 	SDL_WarpMouseInWindow(mainWindow, newPosX, newPosY);
 
-	freelookMouseX = 0;
-	freelookMouseY = 0;
+	if ( SDL_LockMutex (mouseMotionMutex) == 0 )
+	{
+		freelookMouseX = 0;
+		freelookMouseY = 0;
+		SDL_UnlockMutex (mouseMotionMutex);
+	}
+	else
+		return;     // Could not get lock
 }
 
 //-----------------------------------------------------------------------------
@@ -114,9 +120,9 @@ void lib_handleMouseButton(int whichButton, int buttonState)
 
 			case USER_EVENT_MOUSE_BUTTON_DOWN:
 				mouseButton1Down = true;
-				// TODO: Make this an event otherwise it runs in this thread context
-				//gam_createBullet (cam3_Front, cam3_Position, bullet_1_speed);
-				evt_sendEvent (USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_LASER, 1, 0, "");
+
+//				evt_sendEvent (USER_EVENT_GAME, USER_EVENT_GAME_BULLET, bullet_1_speed, 0, 0, cam3_Front, cam3_Position, "");
+				evt_sendEvent (USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_LASER, 1, 0, glm::vec3(), glm::vec3(), "");
 				break;
 
 			default:
@@ -153,10 +159,12 @@ void lib_handleMouseMotion ( int posX, int posY )
 	tmpPosX = (winWidth / 2) - posX;
 	tmpPosY = (winHeight / 2) - posY;
 
+	double d = 1 - exp(log(0.5) * mouseSpeed * (1.0f / 60.0f));
+
 	if ( SDL_LockMutex (mouseMotionMutex) == 0 )
 	{
-		freelookMouseX = tmpPosX;
-		freelookMouseY = tmpPosY;
+		freelookMouseX += (tmpPosX - freelookMouseX) * d;
+		freelookMouseY += (tmpPosY - freelookMouseY) * d;
 		SDL_UnlockMutex (mouseMotionMutex);
 	}
 	else
