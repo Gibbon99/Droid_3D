@@ -77,7 +77,7 @@ bool lib_openWindow()
 	// May need to change this to 16 or 32
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	SDL_GL_SetSwapInterval(1);  // Make VSYNC set from script 1 = on
+	SDL_GL_SetSwapInterval(0);  // Make VSYNC set from script 1 = on
 
 	numVideoDrivers = SDL_GetNumVideoDrivers();
 

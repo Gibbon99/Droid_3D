@@ -442,7 +442,7 @@ bool bsp_checkPlayerVsTrigger()
 //-------------------------------------------------------------------------------
 //
 // Process the movements of a door
-void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
+void bsp_processSingleDoorMovement ( int whichDoor )
 //-------------------------------------------------------------------------------
 {
 	switch ( doorModels[whichDoor].currentState )
@@ -454,7 +454,7 @@ void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
 
 			case DOOR_STATE_OPEN:
 				doorModels[whichDoor].minMaxMove = 0.0f;
-				doorModels[whichDoor].pause -= doorDelay * interpolate;
+				doorModels[whichDoor].pause -= doorDelay;
 
 				if ( doorModels[whichDoor].pause < 0.0f )
 					{
@@ -472,8 +472,8 @@ void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
 					}
 				else
 					{
-						doorModels[whichDoor].currentOffset += doorSpeed * interpolate;
-						doorModels[whichDoor].minMaxMove += doorSpeed * interpolate;    // same as offset ??
+						doorModels[whichDoor].currentOffset += doorSpeed;
+						doorModels[whichDoor].minMaxMove += doorSpeed;    // same as offset ??
 					}
 				break;
 
@@ -481,8 +481,8 @@ void bsp_processSingleDoorMovement ( int whichDoor, float interpolate )
 
 				if ( doorModels[whichDoor].currentOffset > 0.0f )
 					{
-						doorModels[whichDoor].currentOffset -= doorSpeed * interpolate;
-						doorModels[whichDoor].minMaxMove = 0 - ( doorModels[whichDoor].minMaxMove - ( doorSpeed * interpolate ) );		// Get negative move
+						doorModels[whichDoor].currentOffset -= doorSpeed;
+						doorModels[whichDoor].minMaxMove = 0 - ( doorModels[whichDoor].minMaxMove - ( doorSpeed ) );		// Get negative move
 					}
 				else
 					{
@@ -559,7 +559,7 @@ void bsp_uploadDoorVertex ()
 //-------------------------------------------------------------------------------
 //
 // Process the movements of all doors
-void bsp_processAllDoorMovements ( float interpolate )
+void bsp_processAllDoorMovements ( )
 //-------------------------------------------------------------------------------
 {
 	int         whichModel;
@@ -571,7 +571,7 @@ void bsp_processAllDoorMovements ( float interpolate )
 
 	for ( int k = 0; k != numOfDoors; k++ )
 		{
-			bsp_processSingleDoorMovement (k, interpolate);
+			bsp_processSingleDoorMovement (k);
 
 			bsp_moveDoorPhysics (k, doorModels[k].angle);
 

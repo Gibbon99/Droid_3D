@@ -9,111 +9,52 @@
 
 TwBar            *tweakBar;
 
-#define MAXIMUM_FRAME_RATE 60.0f
-#define MINIMUM_FRAME_RATE 15.0f
-#define UPDATE_INTERVAL (1.0f / MAXIMUM_FRAME_RATE)
-#define MAX_CYCLES_PER_FRAME (MAXIMUM_FRAME_RATE / MINIMUM_FRAME_RATE)
-
-int main ( int argc, char *argv[] )
-{
-	Uint64			frameTimeStart, frameTimeTakenLast;
-	Uint32			currentTime;
-	double			updateIterations;
-	static double	lastFrameTime = 0.0;
-	static double	cyclesLeftOver = 0.0;
-
-	if ( !initAll())
-		sys_shutdownToSystem();
-
-	lastFrameTime = SDL_GetTicks ();
-	cyclesLeftOver = 0;
-	frameTimeStart = SDL_GetPerformanceCounter();
-
-	while ( !quitProgram )
-		{
-			currentTime = SDL_GetTicks();
-			updateIterations = ((currentTime - lastFrameTime) + cyclesLeftOver);
-
-			if (updateIterations > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL))
-				{
-					updateIterations = (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL);
-				}
-				
-			while (updateIterations > UPDATE_INTERVAL)
-				{
-					updateIterations -= UPDATE_INTERVAL;
-					//
-					// Update game state a variable number of times
-					sys_gameTickRun(UPDATE_INTERVAL ); 
-					sys_CalculateThinkFrameRate ( currentTime );
-				}
-
-			cyclesLeftOver = updateIterations;
-			lastFrameTime = currentTime;
-
-			frameTimeTakenLast = frameTimeStart;
-
-			frameTimeStart = SDL_GetPerformanceCounter();
-			sys_displayScreen ( UPDATE_INTERVAL );      			// Draw the scene only once
-			frameTimeTaken = ((frameTimeStart - frameTimeTakenLast)*1000 / (double)SDL_GetPerformanceFrequency() );
-
-			sys_CalculateFrameRate ( currentTime );
-
-		}
-		sys_shutdownToSystem();
-}
+const int TICKS_PER_SECOND = 30;
+const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
+const int MAX_FRAMESKIP = 5;
 
 
-/*
+int loops;
+float interpolation;
+
 //-----------------------------------------------------------------------------
 //
-// Main function - called first
-int main ( int argc, char *argv[] )
+// Run main loop
+//
+// Fixed update frames per second
+// Render as fast as possible
+int main (int argc, char *argv[] )
 //-----------------------------------------------------------------------------
 {
-	float       interpolation;
-	double      singleTimeValue, frameTimeStart;
-	int         loops;
+	if ( !initAll())
+		sys_shutdownToSystem ();
 
-	if ( false == initAll() )
-		sys_shutdownToSystem();
-
-	nextGameTick = SDL_GetTicks();
-
-	maxFrameSkip = 5;
-	skipTicks = 1.0f / 30.0f;
+	Uint32 next_game_tick = SDL_GetTicks();
 
 	while ( !quitProgram )
+	{
+		loops = 0;
+
+		evt_handleEvents();
+
+		while (SDL_GetTicks() > next_game_tick && loops < MAX_FRAMESKIP)
 		{
-			//
-			// This is the game logic - which runs at a fixed rate of TICKS_PER_SECOND per second
-			loops = 0;
-			singleTimeValue = SDL_GetTicks();
-
-			while ( singleTimeValue > nextGameTick && loops < maxFrameSkip )
-				{
-					sys_gameTickRun ( interpolation / 1000.0f);
-					nextGameTick += skipTicks;
-					loops++;
-					sys_CalculateThinkFrameRate ( singleTimeValue );
-				}
-
-			interpolation = float ( singleTimeValue + skipTicks - nextGameTick ) / float ( skipTicks );
-
-			//
-			// draw all to the screen
-			frameTimeStart = SDL_GetTicks();
-			sys_displayScreen ( interpolation );
-			frameTimeTaken = SDL_GetTicks() - frameTimeStart;
-
-			interpolation = 0.0f;
-
-			sys_CalculateFrameRate ( singleTimeValue );
+			sys_gameTickRun ();
+			next_game_tick += SKIP_TICKS;
+			loops++;
+			thinkFPS++;
 		}
+
+		interpolation = float( SDL_GetTicks() + SKIP_TICKS - next_game_tick ) / float( SKIP_TICKS );
+
+		sys_displayScreen ( interpolation );    // TODO: Interpolate movements
+
+		fps++;
+	}
 
 	sys_shutdownToSystem();
 }
-*/
+
 //-----------------------------------------------------------------------------
 //
 // Change game mode

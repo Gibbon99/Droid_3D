@@ -10,6 +10,7 @@
 
 struct _particleMember {
 	glm::vec3           position;
+	glm::vec3           viewPosition;
 	float               alphaValue;
 	float               sizeValue;
 	uint                fadeOnDone;
@@ -42,7 +43,7 @@ void par_initParticleSystem ();
 void par_renderBillBoard(uint whichEmitter);
 
 // Animate the particles
-void par_processParticles(float timeDelta);
+void par_processParticles();
 
 // Init the particle system
 //
@@ -51,7 +52,7 @@ void par_processParticles(float timeDelta);
 int par_newParticle(uint type, const glm::vec3 &position, uint followIndex);
 
 // Render the particles
-void par_renderParticles();
+void par_renderParticles(float interpolation);
 
 // Call this function from the script to populate the texture names
 void par_addParticleTexture(uint particleType, string fileName);

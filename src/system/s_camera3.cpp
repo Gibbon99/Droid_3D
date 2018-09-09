@@ -1,3 +1,4 @@
+#include <hdr/io/io_mouse.h>
 #include "s_globals.h"
 #include "io_keyboard.h"
 #include "s_window.h"
@@ -23,7 +24,7 @@ float			cam3_Pitch;
 
 // Camera options
 float			cam3_MovementSpeed;
-float			cam3_MouseSensitivity;
+float           mouseSensitivity;
 
 //-------------------------------------------------------------------------------
 //
@@ -103,7 +104,6 @@ void cam3_initCamera ( glm::vec3 location )
 	cam3_Yaw = 0.0f;
 	cam3_Pitch = 0.0f;
 	
-	cam3_MouseSensitivity = 0.25f;
 	cam3_MovementSpeed = 30.2f;
 
 	cam3_updateCameraVectors();
@@ -133,13 +133,13 @@ void cam3_createViewMatrix ( glm::vec3 newPosition )
 //-------------------------------------------------------------------------------
 //
 // Process movement keys
-void cam3_processMovementKeys ( float interpolate )
+void cam3_processMovementKeys ( )
 //-------------------------------------------------------------------------------
 {
 	float velocity = 0.0f;
 
 //	if ((keyForwardDown) || (keyBackwardDown) || (keyLeftDown) || (keyRightDown))
-	velocity = cam3_MovementSpeed * interpolate;
+	velocity = cam3_MovementSpeed;
 
 	velocity = 0.30f;
 
@@ -175,8 +175,8 @@ void cam3_processMouseMovement ( int xoffset, int yoffset, GLboolean constrainPi
 	else
 		return; // Could not get lock
 
-	mouseX *= cam3_MouseSensitivity;
-	mouseY *= cam3_MouseSensitivity;
+	mouseX *= mouseSensitivity;
+	mouseY *= mouseSensitivity;
 
 	cam3_Yaw   += -mouseX;
 	cam3_Pitch += mouseY;

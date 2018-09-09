@@ -1,4 +1,4 @@
 #pragma once
 
 // Process everything not drawing related
-void sys_gameTickRun ( float interpolate );
+void sys_gameTickRun ();

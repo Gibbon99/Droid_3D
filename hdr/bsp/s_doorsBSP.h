@@ -83,7 +83,7 @@ void bsp_drawAllDoorTriggerZones ();
 bool bsp_checkPlayerVsTrigger();
 
 // Process the movements of all doors
-void bsp_processAllDoorMovements ( float interpolate );
+void bsp_processAllDoorMovements ( );
 
 // Free door memory
 void bsp_freeDoorMemory();

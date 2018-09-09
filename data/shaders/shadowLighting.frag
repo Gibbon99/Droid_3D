@@ -154,11 +154,11 @@ vec4 myFragColor;
 
 //		myFragColor += vec4 (finalColor, 1.0);
 
-		myFragColor = vec4 (result, 1.0); // Normal white light
-		myFragColor = vec4 (diffuseColor, 1.0); // Normal white light
+//		myFragColor = vec4 (result, 1.0); // Normal white light
+//		myFragColor = vec4 (diffuseColor, 1.0); // Normal white light
 
 
-//		myFragColor += vec4(ambient + (result * (1.0 - shadow)), 1.0) * (vec4(lightData[i].s_lightColor, 1.0));
+		myFragColor += vec4(ambient + (result * (1.0 - shadow)), 1.0) * (vec4(lightData[i].s_lightColor, 1.0));
 	}
 	FragColor = myFragColor;
 }

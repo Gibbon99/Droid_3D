@@ -71,8 +71,6 @@ void sys_displayScreen ( float interpolate )
 //-----------------------------------------------------------------------------
 {
 //    char profileText[64];
-
-
 	glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 	glViewport ( 0, 0, winWidth, winHeight );
 	glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -123,7 +121,7 @@ void sys_displayScreen ( float interpolate )
 
 				gam_drawBullets ( SHADER_MODEL_PASS );
 
-				par_renderParticles();
+				par_renderParticles(interpolate);
 /*
 				sys_renderToFBO();
 
@@ -196,8 +194,8 @@ void sys_displayScreen ( float interpolate )
 	//
 	// Render all text in VBO memory
 	gl_set2DMode();
-	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_SMALL)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ] Frametime [ %lf ] Max [ %3.3f ]",
-				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint, frameTimeTaken / 1000.0f, frameTimeTakenMax );
+	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - sdf_getTextHeight(FONT_SMALL)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "CamPos [ %3.3f %3.3f %3.3f ] FPS [ %i ] ThinkFPS [ %i ]",
+				cam3_Position.x, cam3_Position.y, cam3_Position.z, fpsPrint, thinkFpsPrint );
 
 	sdf_addText(FONT_SMALL, glm::vec2{2.0f, winHeight - (sdf_getTextHeight(FONT_SMALL) * 2)}, glm::vec4{1.0f, 1.0f, 1.0f, 1.0f}, "Interpolate [ %4.3f ] CamFront [ %3.3f %3.3f %3.3f ]",interpolate,
 	            cam3_Front.x, cam3_Front.y, cam3_Front.z );

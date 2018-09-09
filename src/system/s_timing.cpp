@@ -1,94 +1,30 @@
 #include "s_globals.h"
 
-double          frameTimeTakenPrint, frameTimeTaken;
-double          frameTimeTakenMin, frameTimeTakenAvg, frameTimeTakenMax, frameTimeTakenCount, frameTimeTakenTotal;
-int             thinkFpsPrint, fpsPrint;
+int             thinkFpsPrint, fpsPrint, fps, thinkFPS;
 
-int              ticksPerSecond, maxFrameSkip;
-float            skipTicks;
-double           nextGameTick;
+SDL_TimerID     fpsTimerID;
+
 //-----------------------------------------------------------------------------
 //
-// Init timing variables
+// Callback to get the FPS
+static Uint32 SDLCALL fpsTimerCallback(Uint32 interval, void *param)
+//-----------------------------------------------------------------------------
+{
+	fpsPrint = fps;
+	fps = 0;
+	thinkFpsPrint = thinkFPS;
+	thinkFPS = 0;
+	return interval;
+}
+
+//-----------------------------------------------------------------------------
+//
+// Init timing variables and start Timer to get current FPS per second
 void sys_initTimingVars()
 //-----------------------------------------------------------------------------
 {
-	frameTimeTakenCount = 0;
-	frameTimeTakenTotal = 0;
-	frameTimeTakenMin = 1000;
-	frameTimeTakenMax = 0;
-	frameTimeTakenAvg = 0;
-}
+	fps = 0;
+	thinkFPS = 0;
 
-//-----------------------------------------------------------------------------
-//
-// Calculate the frame rate for the capped portion
-void sys_CalculateThinkFrameRate ( Uint32 timeValue )
-//-----------------------------------------------------------------------------
-{
-	static int	       thinkFps = 0;
-	static float	   thinkTick1 = 0.0f;
-	static float	   thinkTick2 = 0.0f;
-	static float	   thinkDelayCounter = 0.0f;
-	static float	   thinkInterval = 0.0f;
-
-	thinkTick2 = timeValue / 1000.0f;
-
-	thinkInterval += ( ( thinkTick2 - thinkTick1 ) - thinkInterval ) * 0.1f;
-
-	thinkTick1 = thinkTick2;
-
-	thinkFps++;
-
-	thinkDelayCounter += 1.0f * thinkInterval;
-
-	if ( thinkDelayCounter > 1.0f )
-		{
-			thinkDelayCounter = 0.0f;
-			thinkFpsPrint = thinkFps;
-			thinkFps = 0;
-		}
-}
-
-//-----------------------------------------------------------------------------
-//
-// This function calculates the overall frame rate and time taken to draw a frame
-void sys_CalculateFrameRate ( Uint32 timeValue )
-//-----------------------------------------------------------------------------
-{
-	static int	    fps = 0;	// Remove global fps variable
-	static double	renderTick1 = 0.0f;
-	static double	renderTick2 = 0.0f;
-	static float	tickDelayCounter = 0.0f;
-	static float	renderInterval = 0.0f;
-
-	renderTick2 = timeValue / 1000.0f;
-
-	renderInterval += ( ( renderTick2 - renderTick1 ) - renderInterval ) * 0.1f;
-
-	renderTick1 = renderTick2;
-
-// Increase the frame counter
-	fps++;
-	frameTimeTakenCount++;
-	frameTimeTakenTotal += frameTimeTaken;
-
-	if ( frameTimeTaken < frameTimeTakenMin )
-		frameTimeTakenMin = frameTimeTaken;
-
-	if ( frameTimeTaken > frameTimeTakenMax )
-		frameTimeTakenMax = frameTimeTaken;
-
-	frameTimeTakenAvg = frameTimeTakenTotal / frameTimeTakenCount;
-
-	tickDelayCounter += 1.0f * renderInterval;
-
-	if ( tickDelayCounter > 1.0f )
-		{
-			tickDelayCounter = 0.0f;
-			fpsPrint = fps;     // Value to display
-			fps = 0;
-			frameTimeTakenPrint = frameTimeTaken / 1000.0f; // convert to milliseconds?
-//            sysAddAverageToGraph(frameTimeTakenPrint);
-		}
+	fpsTimerID = SDL_AddTimer(1000, fpsTimerCallback, nullptr);     // Every one second
 }

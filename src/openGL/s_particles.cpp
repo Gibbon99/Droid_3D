@@ -182,7 +182,7 @@ glm::vec3 par_getRandomPositionHeal ( const glm::vec3 startPosition )
 //----------------------------------------------------------------------------
 //
 // Render the particles
-void par_renderParticles()
+void par_renderParticles(float interpolation)
 //----------------------------------------------------------------------------
 {
 	wrapglEnable ( GL_BLEND );
@@ -193,6 +193,15 @@ void par_renderParticles()
 
 	for (uint i = 0; i != particleEmitter.size(); i++)
 	{
+		switch ( particleEmitter[i].type )
+		{
+			case PARTICLE_TYPE_HEAL:
+				for ( int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++ )
+				{
+					particleEmitter[i].particleMember[j].viewPosition = particleEmitter[i].particleMember[j].position + (particleEmitter[i].particleMember[j].velocity * interpolation);
+				}
+		}
+
 		if ( particleEmitter[i].inUse == true )
 			par_renderBillBoard (i);
 	}
@@ -203,7 +212,7 @@ void par_renderParticles()
 //----------------------------------------------------------------------------
 //
 // Animate the particles
-void par_processParticles(float timeDelta)
+void par_processParticles()
 //----------------------------------------------------------------------------
 {
 	for ( uint i = 0; i != particleEmitter.size (); i++ )
@@ -215,13 +224,12 @@ void par_processParticles(float timeDelta)
 				case PARTICLE_TYPE_HEAL:
 					for ( int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++ )
 					{
-						particleEmitter[i].particleMember[j].position +=
-								particleEmitter[i].particleMember[j].velocity * (1.0f * timeDelta);
+						particleEmitter[i].particleMember[j].position += particleEmitter[i].particleMember[j].velocity;
 
 						switch ( particleEmitter[i].particleMember[j].fadeOnDone )
 						{
 							case PARTICLE_FADE_ON:
-								particleEmitter[i].particleMember[j].alphaValue += (1.0f * timeDelta);
+								particleEmitter[i].particleMember[j].alphaValue += 0.05f;
 								if ( particleEmitter[i].particleMember[j].alphaValue > 1.0f )
 								{
 									particleEmitter[i].particleMember[j].alphaValue = 1.0f;
@@ -230,7 +238,7 @@ void par_processParticles(float timeDelta)
 								break;
 
 							case PARTICLE_FADE_DONE:
-								particleEmitter[i].particleMember[j].lifetimeLeft -= (1.0f * timeDelta);
+								particleEmitter[i].particleMember[j].lifetimeLeft -= 0.05f;
 								if ( particleEmitter[i].particleMember[j].lifetimeLeft < 1.0f )
 								{
 									particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
@@ -239,9 +247,7 @@ void par_processParticles(float timeDelta)
 								if ( particleEmitter[i].particleMember[j].lifetimeLeft < 0.0f )
 								{
 									particleEmitter[i].particleMember[j].lifetimeLeft = rand () % 10 + 5;
-									particleEmitter[i].particleMember[j].position =
-											particleEmitter[i].position +
-											par_getRandomPositionHeal (glm::vec3{0, 16, 0});
+									particleEmitter[i].particleMember[j].position =	particleEmitter[i].position + par_getRandomPositionHeal (glm::vec3{0, 16, 0});
 									particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
 									particleEmitter[i].particleMember[j].alphaValue = 0.0f;
 									particleEmitter[i].particleMember[j].sizeValue = (rand () % 3) + 1;
@@ -274,7 +280,7 @@ void par_processParticles(float timeDelta)
 							particleEmitter[i].particleMember[j].sizeValue = (rand () % 3) + 1;
 						}
 
-						particleEmitter[i].particleMember[j].lifetimeLeft -= (2.0f * timeDelta);
+						particleEmitter[i].particleMember[j].lifetimeLeft -= 0.5f;
 						particleEmitter[i].particleMember[j].position += particleEmitter[i].particleMember[j].velocity;
 
 						if ( particleEmitter[i].particleMember[j].lifetimeLeft < 1.0f )
@@ -292,9 +298,9 @@ void par_processParticles(float timeDelta)
 
 						if (particleEmitter[i].particleMember[j].lifetimeLeft >= 0.0f)
 						{
-							particleEmitter[i].particleMember[j].position += particleEmitter[i].particleMember[j].velocity * (8.0f * timeDelta);
+							particleEmitter[i].particleMember[j].position += particleEmitter[i].particleMember[j].velocity * 0.5f;
 
-							particleEmitter[i].particleMember[j].lifetimeLeft -= (4.0f * timeDelta);
+							particleEmitter[i].particleMember[j].lifetimeLeft -= 0.5f;
 							if (particleEmitter[i].particleMember[j].lifetimeLeft  < 1.0f)
 								particleEmitter[i].particleMember[j].alphaValue = particleEmitter[i].particleMember[j].lifetimeLeft;
 
@@ -350,7 +356,7 @@ int par_newParticle(uint type, const glm::vec3 &position, uint followIndex)
 					for (int j = 0; j != MAX_NUM_PARTICLE_MEMBERS; j++)
 					{
 						particleEmitter[i].particleMember[j].position = particleEmitter[i].position + par_getRandomPositionHeal (position);
-						particleEmitter[i].particleMember[j].velocity = glm::vec3{0, 9.4, 0};
+						particleEmitter[i].particleMember[j].velocity = glm::vec3{0, 0.4, 0};
 						particleEmitter[i].particleMember[j].lifetimeLeft = (rand() % 5) + 3;
 						particleEmitter[i].particleMember[j].fadeOnDone = PARTICLE_FADE_ON;
 						particleEmitter[i].particleMember[j].alphaValue = 0.0f;
@@ -473,7 +479,8 @@ void par_renderBillBoard(const uint whichEmitter)
 	GL_CHECK ( glBindBuffer(GL_ARRAY_BUFFER, billBoard_VB) );
 	GL_CHECK ( glBufferData(GL_ARRAY_BUFFER, sizeof(_particleMember) * MAX_NUM_PARTICLE_MEMBERS, &particleEmitter[whichEmitter].particleMember[0].position, GL_DYNAMIC_DRAW) );
 
-	GL_CHECK ( glVertexAttribPointer(shaderProgram[SHADER_BILLBOARD].inVertsID, 3, GL_FLOAT, GL_FALSE, sizeof(_particleMember), (GLvoid *)offsetof(_particleMember, position)) );   // position
+//	GL_CHECK ( glVertexAttribPointer(shaderProgram[SHADER_BILLBOARD].inVertsID, 3, GL_FLOAT, GL_FALSE, sizeof(_particleMember), (GLvoid *)offsetof(_particleMember, position)) );   // position
+	GL_CHECK ( glVertexAttribPointer(shaderProgram[SHADER_BILLBOARD].inVertsID, 3, GL_FLOAT, GL_FALSE, sizeof(_particleMember), (GLvoid *)offsetof(_particleMember, viewPosition)) );   // position
 	GL_CHECK ( glEnableVertexAttribArray ( shaderProgram[SHADER_BILLBOARD].inVertsID ) );
 
 	GL_CHECK ( glVertexAttribPointer(alphaValue_ID, 1, GL_FLOAT, GL_FALSE, sizeof(_particleMember), (GLvoid *)offsetof(_particleMember, alphaValue)));

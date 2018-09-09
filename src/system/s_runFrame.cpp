@@ -16,12 +16,12 @@
 //-----------------------------------------------------------------------------
 //
 // Process everything not drawing related
-void sys_gameTickRun ( float interpolate )
+void sys_gameTickRun ()
 //-----------------------------------------------------------------------------
 {
 	glm::vec3   vel;
 
-	evt_handleEvents();
+//	evt_handleEvents();
 
 	switch ( currentMode )
 		{
@@ -37,7 +37,7 @@ void sys_gameTickRun ( float interpolate )
 
 		case MODE_GAME:
 			cam3_processMouseMovement ( freelookMouseX, freelookMouseY, GL_TRUE );
-			cam3_processMovementKeys ( interpolate );
+			cam3_processMovementKeys ( );
 			
 			// Return the direction vector and turn this into velocity for physics
 			bul_setCameraVelocity(cam3_getVelocity());
@@ -53,10 +53,10 @@ void sys_gameTickRun ( float interpolate )
 
 			gam_processBulletMovement ( );
 			bsp_checkPlayerVsTrigger();
-			bsp_processAllDoorMovements (interpolate);
+			bsp_processAllDoorMovements();
 			phy_doCollisionDetection();
 
-			par_processParticles(interpolate);
+			par_processParticles();
 			break;
 
 		default:

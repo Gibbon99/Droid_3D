@@ -35,6 +35,7 @@ void as_setGameVariables()
 	//
 	// Freelook mouse speed
 	mouseSpeed = 50.0f;
+	mouseSensitivity = 0.5f;
 	//
 	// Constrain the mouse to window size
     g_lockMouse = false;
@@ -55,7 +56,7 @@ void as_setGameVariables()
 	// Render the BSP faces or not
     g_renderBSP = true;
 
-    doorSpeed = 10.0f;
+    doorSpeed = 5.0f;
 	doorDelay = 2.0f;	// In seconds
 
     g_Gamma = 5.0f;

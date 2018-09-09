@@ -313,7 +313,7 @@ void shd_shadowMapPass(int whichShader)
 
 	for (i = 0; i != NUM_LIGHT_CASTERS; i++)
 	{
-		allLights[i].position.z += sin(SDL_GetTicks() * 0.5f); //0.001f * al_get_time();
+		allLights[i].position.z += sin(SDL_GetTicks() * 10.5f); //0.001f * al_get_time();
 
 		glFramebufferTexture (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap[i], 0);
 		glClear (GL_DEPTH_BUFFER_BIT);

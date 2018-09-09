@@ -1,3 +1,4 @@
+#include <hdr/system/s_camera3.h>
 #include "s_lightMaps.h"
 #include "s_audio.h"
 #include "s_globals.h"
@@ -22,6 +23,7 @@ _hostScriptFunctions hostVariables[] =
 	{"int winHeight",                       &winHeight},
 	{"int currentMode",                     &currentMode},
 	{"float mouseSpeed",                    &mouseSpeed},
+	{"float mouseSensitivity",              &mouseSensitivity},
 	{"float gravityX",                      &gravityX},
 	{"float gravityY",                      &gravityY},
 	{"float gravityZ",                      &gravityZ},
