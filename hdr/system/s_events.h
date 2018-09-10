@@ -14,6 +14,10 @@
 #define USER_EVENT_MOUSE_WHEEL          0x06
 #define USER_EVENT_MOUSE_MOTION         0x07
 #define USER_EVENT_GAME                 0x08
+#define USER_EVENT_GAME_TIMER           0x09
+#define USER_EVENT_GAME_TIMER_ON        0x10
+#define USER_EVENT_GAME_TIMER_OFF       0x11
+#define USER_EVENT_GAME_TIMER_CONSOLE   0x12
 
 typedef struct
 {
@@ -53,4 +57,7 @@ void evt_shutdownMutex();
 bool evt_registerUserEventSetup();
 
 // Create a custom event to be sent
-void evt_sendEvent(int type, int action, int data1, int data2, int data3, glm::vec3 vec3_1, glm::vec3 vec3_2, std::string textString);
+void evt_sendEvent(uint type, int action, int data1, int data2, int data3, const glm::vec3 vec3_1, const glm::vec3 vec3_2, string textString);
+
+// Change the state of the console timer cursor animation
+void evt_cursorChangeState(int newState);

@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-err58-cpp"
 #include "s_camera3.h"
 #include "s_bullet.h"
 #include "io_keyboard.h"
@@ -13,8 +15,6 @@
 #include "s_gameEvents.h"
 
 SDL_TimerID timerCursorFlash;
-
-Uint32      myEventType;
 
 SDL_Thread *userEventConsoleThread;
 SDL_Thread *userEventAudioThread;
@@ -32,7 +32,7 @@ queue<_myEventData>    audioEventQueue;
 queue<_myEventData>    mouseEventQueue;
 queue<_myEventData>    gameEventQueue;
 
-bool     runThreads = true;
+bool     runThreads = true;     // Master flag to control state of detached threads
 
 //------------------------------------------------------------------------
 //
@@ -47,15 +47,26 @@ Uint32 evt_cursorTimerCallback(Uint32 interval, void *param)
 
 //------------------------------------------------------------------------
 //
-// Shutdown mutex
-void evt_shutdownMutex()
+// Change the state of the console timer cursor animation
+void evt_cursorChangeState(int newState)
 //------------------------------------------------------------------------
 {
-	SDL_DestroyMutex (consoleMutex);
-	SDL_DestroyMutex (audioMutex);
-	SDL_DestroyMutex (mouseMutex);
-	SDL_DestroyMutex (mouseMotionMutex);
-	SDL_DestroyMutex (gameMutex);
+	switch (newState)
+	{
+		case USER_EVENT_GAME_TIMER_OFF:
+		{
+			SDL_RemoveTimer (timerCursorFlash);
+			timerCursorFlash = 0;
+			break;
+		}
+		case USER_EVENT_GAME_TIMER_ON:
+		{
+			timerCursorFlash = SDL_AddTimer (500, evt_cursorTimerCallback, nullptr);   // Time in milliseconds
+			break;
+		}
+		default:
+			break;
+	}
 }
 
 //------------------------------------------------------------------------
@@ -64,32 +75,30 @@ void evt_shutdownMutex()
 bool evt_registerUserEventSetup()
 //------------------------------------------------------------------------
 {
-//	myEventType = SDL_RegisterEvents (1);   // Register user event type
+	timerCursorFlash = SDL_AddTimer(500, evt_cursorTimerCallback, nullptr);   // Time in milliseconds
 
-	timerCursorFlash = SDL_AddTimer(500, evt_cursorTimerCallback, 0);   // Time in milliseconds
-
-	userEventConsoleThread = SDL_CreateThread(con_processConsoleUserEvent, "userEventConsoleThread", (void *)NULL);
+	userEventConsoleThread = SDL_CreateThread(con_processConsoleUserEvent, "userEventConsoleThread", (void *)nullptr);
 	if ( nullptr == userEventConsoleThread)
 	{
 		printf ("SDL_CreateThread - userEventConsoleThread - failed: %s\n", SDL_GetError () );
 		return false;
 	}
 
-	userEventAudioThread = SDL_CreateThread(aud_processAudioEventQueue, "userEventAudioThread", (void *)NULL);
+	userEventAudioThread = SDL_CreateThread(aud_processAudioEventQueue, "userEventAudioThread", (void *)nullptr);
 	if ( nullptr == userEventAudioThread)
 	{
 		printf ("SDL_CreateThread - userEventConsoleThread - failed: %s\n", SDL_GetError () );
 		return false;
 	}
 
-	userEventMouseThread = SDL_CreateThread(io_processMouseUserEvent, "userEventMouseThread", (void *)NULL);
+	userEventMouseThread = SDL_CreateThread(io_processMouseUserEvent, "userEventMouseThread", (void *)nullptr);
 	if ( nullptr == userEventMouseThread)
 	{
 		printf ("SDL_CreateThread - userEventConsoleThread - failed: %s\n", SDL_GetError () );
 		return false;
 	}
 
-	userEventGameThread = SDL_CreateThread(gam_processGameEventQueue, "userEventGameThread", (void *)NULL);
+	userEventGameThread = SDL_CreateThread(gam_processGameEventQueue, "userEventGameThread", (void *)nullptr);
 	if (nullptr == userEventGameThread)
 	{
 		printf ("SDL_CreateThread = userEventGameThread = failed: %s\n", SDL_GetError() );
@@ -141,8 +150,21 @@ bool evt_registerUserEventSetup()
 
 //------------------------------------------------------------------------
 //
+// Shutdown mutex
+void evt_shutdownMutex()
+//------------------------------------------------------------------------
+{
+	SDL_DestroyMutex (consoleMutex);
+	SDL_DestroyMutex (audioMutex);
+	SDL_DestroyMutex (mouseMutex);
+	SDL_DestroyMutex (mouseMotionMutex);
+	SDL_DestroyMutex (gameMutex);
+}
+
+//------------------------------------------------------------------------
+//
 // Create a custom event to be sent
-void evt_sendEvent(int type, int action, int data1, int data2, int data3, glm::vec3 vec3_1, glm::vec3 vec3_2, string textString)
+void evt_sendEvent(uint type, int action, int data1, int data2, int data3, const glm::vec3 vec3_1, const glm::vec3 vec3_2, string textString)
 //------------------------------------------------------------------------
 {
 	_myEventData       eventData;
@@ -313,8 +335,16 @@ void evt_handleEvents()
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
-				if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT))
-					gam_createBullet (cam3_Front, cam3_Position, bullet_1_speed);
+				switch (currentMode)
+				{
+					case MODE_GAME:
+						if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT))
+							gam_createBullet (cam3_Front, cam3_Position, bullet_1_speed);
+						break;
+
+					default:
+						break;
+				}
 
 				evt_sendEvent(USER_EVENT_MOUSE, USER_EVENT_MOUSE_BUTTON_DOWN, event.motion.state, 0, 0, glm::vec3(), glm::vec3(), "");
 				break;
@@ -362,3 +392,4 @@ void evt_handleEvents()
 		}
 	}
 }
+#pragma clang diagnostic pop

@@ -110,41 +110,51 @@ void lib_setMouseCursor ( bool showMouse )
 void lib_handleMouseButton(int whichButton, int buttonState)
 //-----------------------------------------------------------------------------
 {
-	if ( whichButton & SDL_BUTTON(SDL_BUTTON_LEFT)) // Button One
+	switch (currentMode)
 	{
-		switch (buttonState)
+		case MODE_GAME:
 		{
-			case USER_EVENT_MOUSE_BUTTON_UP:
-				mouseButton1Down = false;
-				break;
+			if ( whichButton & SDL_BUTTON(SDL_BUTTON_LEFT)) // Button One
+			{
+				switch ( buttonState )
+				{
+					case USER_EVENT_MOUSE_BUTTON_UP:
+						mouseButton1Down = false;
+						break;
 
-			case USER_EVENT_MOUSE_BUTTON_DOWN:
-				mouseButton1Down = true;
+					case USER_EVENT_MOUSE_BUTTON_DOWN:
+						mouseButton1Down = true;
 
 //				evt_sendEvent (USER_EVENT_GAME, USER_EVENT_GAME_BULLET, bullet_1_speed, 0, 0, cam3_Front, cam3_Position, "");
-				evt_sendEvent (USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_LASER, 1, 0, glm::vec3(), glm::vec3(), "");
-				break;
+						evt_sendEvent (USER_EVENT_AUDIO, AUDIO_PLAY_SAMPLE, SND_LASER, 1, 0, glm::vec3 (), glm::vec3 (), "");
+						break;
 
-			default:
-				break;
+					default:
+						break;
+				}
+			}
+
+			if ( whichButton & SDL_BUTTON(SDL_BUTTON_RIGHT))    // Check Second mouse button
+			{
+				switch ( buttonState )
+				{
+					case USER_EVENT_MOUSE_BUTTON_UP:
+						mouseButton2Down = false;
+						break;
+
+					case USER_EVENT_MOUSE_BUTTON_DOWN:
+						mouseButton2Down = true;
+						break;
+
+					default:
+						break;
+				}
+			}
 		}
-	}
+		break;
 
-	if ( whichButton & SDL_BUTTON(SDL_BUTTON_RIGHT))    // Check Second mouse button
-	{
-		switch ( buttonState )
-		{
-			case USER_EVENT_MOUSE_BUTTON_UP:
-				mouseButton2Down = false;
-				break;
-
-			case USER_EVENT_MOUSE_BUTTON_DOWN:
-				mouseButton2Down = true;
-				break;
-
-			default:
-				break;
-		}
+		default:
+			break;
 	}
 }
 

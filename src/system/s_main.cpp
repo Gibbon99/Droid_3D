@@ -84,7 +84,7 @@ void changeMode ( int newMode )
 			io_grabMouse ();
 			lib_setMouseCursor (false);
 		}
-//		evt_sendEvent (USER_EVENT_TIMER, EVENT_TIMER_CONSOLE_CURSOR, STOP_CONSOLE_CURSOR, 0, 0, "");
+		evt_sendEvent (USER_EVENT_GAME, USER_EVENT_GAME_TIMER, USER_EVENT_GAME_TIMER_CONSOLE, USER_EVENT_GAME_TIMER_OFF, 0, glm::vec3(), glm::vec3(), "");
 	}
 
 	if (newMode == MODE_CONSOLE)
@@ -96,7 +96,7 @@ void changeMode ( int newMode )
 			io_releaseMouse ();
 			lib_setMouseCursor (true);
 		}
-//		evt_sendEvent (USER_EVENT_TIMER, EVENT_TIMER_CONSOLE_CURSOR, START_CONSOLE_CURSOR, 0, 0, "");
+		evt_sendEvent (USER_EVENT_GAME, USER_EVENT_GAME_TIMER, USER_EVENT_GAME_TIMER_CONSOLE, USER_EVENT_GAME_TIMER_ON, 0, glm::vec3(), glm::vec3(), "");
 	}
 
 	currentMode = newMode;

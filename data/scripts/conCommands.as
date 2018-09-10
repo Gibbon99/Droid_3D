@@ -57,7 +57,7 @@ void as_setGameVariables()
     g_renderBSP = true;
 
     doorSpeed = 5.0f;
-	doorDelay = 2.0f;	// In seconds
+	doorDelay = 6.0f;	// In seconds
 
     g_Gamma = 5.0f;
 	//

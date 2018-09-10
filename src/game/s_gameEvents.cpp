@@ -26,7 +26,21 @@ int gam_processGameEventQueue ( void *ptr )
 
 			switch ( tempEventData.eventAction )
 			{
+				case USER_EVENT_GAME_TIMER:
+				{
+					switch (tempEventData.data1)
+					{
+						case USER_EVENT_GAME_TIMER_CONSOLE:
+						{
+							// Change the state of the console timer cursor animation
+							evt_cursorChangeState(tempEventData.data2);
+						}
+						break;
 
+						default:
+							break;
+					}
+				}
 				default:
 					break;
 			}
